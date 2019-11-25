@@ -1,0 +1,45 @@
+<% include ../partials/header %>
+
+<div class="container">
+	<header class="jumbotron">
+		<div class="container">
+			<h1>Welcome to BOON!</h1>
+			<p>View our BOON updates!</p>
+			<p><a class="btn-primary btn-lg" href="/articles/new" name="newArticle">Add a new article</a></p>
+		</div>
+		
+	</header>
+
+	<div class="row" style="display:flex; flex-wrap:wrap">
+		<div class="col-lg-12">
+			<h3>Check out our BOONews:</h3>
+		</div>
+	</div>
+	
+	<div class="row text-center disp-flex">
+		<%if (articles.length > 0){%>
+			<%articles.forEach(function(article){%>
+				<div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+					<div class="thumbnail">
+						<img src="<%=article.image%>" class="img-fluid">
+						<div>
+							Added by: <strong><%= article.author.username %></strong>
+						</div>
+						<div class="caption">
+							<h4><%= article.name %></h4>
+						</div>
+						<p>
+							<a href="/articles/<%= article._id %>" class="btn btn-primary">More info</a>
+						</p>
+					</div>
+				</div>
+			<%});%>
+		<%} else {%>
+			<p>Oops! Nothing here yet...</p>
+		<%}%>
+	</div>
+	
+</div>
+
+
+<% include ../partials/footer %>

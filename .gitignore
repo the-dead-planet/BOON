@@ -59,3 +59,9 @@ typings/
 
 # next.js build output
 .next
+
+# mongo temp
+mongo.txt
+
+# seeds data
+seeds.js

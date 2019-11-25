@@ -1,0 +1,38 @@
+{
+  "name": "boon",
+  "version": "1.0.0",
+  "description": "A platform for sharing cross team developments, product increments, ideas and roumours about team members.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kxkaro/BOON.git"
+  },
+  "author": "kxkaro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kxkaro/BOON/issues"
+  },
+  "homepage": "https://github.com/kxkaro/BOON#readme",
+  "dependencies": {
+    "@types/mongodb": "^3.3.11",
+    "body-parser": "^1.19.0",
+    "cat-me": "^1.0.3",
+    "connect-flash": "^0.1.1",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "express-sanitizer": "^1.0.5",
+    "express-session": "^1.17.0",
+    "faker": "^4.1.0",
+    "knock-knock-jokes": "^1.7.0",
+    "method-override": "^3.0.0",
+    "mongodb": "^3.3.4",
+    "mongoose": "^5.7.12",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "passport-local-mongoose": "^5.0.1",
+    "request": "^2.88.0"
+  }
+}
