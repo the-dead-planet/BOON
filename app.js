@@ -6,8 +6,8 @@ var express 			= require('express'),
 	passport 			= require('passport'),
 	LocalStrategy 		= require('passport-local'),
 	methodOverride 		= require('method-override'),
-	Comment 			= require('./models/comments'),
-	Article 			= require('./models/articles'),
+	Comment 			= require('./models/comment'),
+	Article 			= require('./models/article'),
 	User 				= require('./models/user'),
 	seedDB				= require('./seeds');
 
@@ -16,13 +16,15 @@ var commentsRoutes 		= require("./routes/comments"),
 	indexRoutes			= require("./routes/index");
 
 
-// seedDB(); // uncomment only to remove / populate seed dats
-
+// seedDB(); // this is not needed anumore, it was populating dummy data
+console.log(process.env.DATABASEURL);
 // mongoose.connect('mongodb://localhost:27017/boon', { 
-mongoose.connect(process.env.DATABASEURL, { 
+// mongoose.connect('mongodb+srv://globalUser:TestUser1234@somethingcluster-zo5fb.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost:27017/boon', { 
 	useNewUrlParser: true, 
 	useUnifiedTopology: true
 });
+
 
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -46,16 +48,16 @@ passport.deserializeUser(User.deserializeUser());
 app.use(function(req, res, next) {
 	res.locals.currentUser = req.user;
 	res.locals.success = req.flash("success");
-	res.locals.error = req.flash("error");
+	res.locals.error = req.flash("error"); 		// used in header partial
 	next();
 });
 
-// Reduce path lenghts
+// Reduce path length 
 app.use(indexRoutes);
 app.use("/articles/", articlesRoutes);
 app.use("/articles/:id/comments", commentsRoutes);
 
-// Server check
-app.listen(process.env.PORT || 3000, function() {
-    console.log("BOON server has started!");
-});
+
+app.listen(process.env.PORT || 3000, () => {
+    console.log("Boon server has started!");
+})

@@ -1,12 +1,20 @@
 var express = require('express');
-var router = express.Router({mergeParams: true});   // mergeParams is necessary to find the Id of a something when posting a new comment 
-var Article = require('../models/articles');
-var Comment = require('../models/comments');
+// mergeParams is necessary to find the Id of a article when posting a new comment 
+var router = express.Router({mergeParams: true});
+var Article = require('../models/article');
+var Comment = require('../models/comment');
 var User = require("../models/user");
 var middleware = require("../middleware");
 
-// NEW ROUTE
+
+// Nested routes for COMMENTS
+// NEW 		articles/:id/comments/new		GET
+// CREATE 	articles/:id/comments			POST
+// EDIT		articles/:id/comments/edit	POST / use PUT
+
 router.get("/new", middleware.isLoggedIn, function(req, res){
+	// find the article with provided :id and render a page
+	// var articleId = req.params.id;
 	Article.findById(req.params.id, function(err, article) {
 		if (err || !article) {
 			req.flash("error", "Sorry, this article does not exist!");
@@ -15,10 +23,14 @@ router.get("/new", middleware.isLoggedIn, function(req, res){
 			res.render("comments/new", {article: article});
 		}
 	});
+	
 });
 
-// POST ROUTE
+
+// Post comment and get back to the article page
 router.post("/", middleware.isLoggedIn, function(req, res){
+	// find the article with provided :id and render a page
+	// var articleId = req.params.id;
 	Article.findById(req.params.id, function(err, article) {
 		if (err || !article) {
 			req.flash("error", "Sorry, this article does not exist!");
@@ -29,28 +41,30 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 					req.flash("error", "Something went wrong");
 					console.log(err);
 				} else {
-                    // First save comment
+					// add username and id to comment
+					// user must be logged in (middleware isLoggedIn) - this is assured
 					comment.author.id = req.user._id;
 					comment.author.username = req.user.username;
+					// Save comment	
 					comment.save();
-                    
-                    // Then save the article to which the comment was added
+								
 					article.comments.push(comment);
 					article.save();
 					req.flash("success", "Comment added successfully");
 					res.redirect("/articles/" + article._id);
 				}
 			});
+			
 		}
 	});
+	
 });
 
-// EDIT ROUTE
 router.get("/:comment_id/edit", middleware.isLoggedIn, middleware.checkCommentOwnership, function(req,res) {
 	res.render("comments/edit", {
 		article_id: req.params.id,
-		comment: req.comment
-	});
+			comment: req.comment
+		});
 });
 
 // COMMENT UPDATE ROUTE

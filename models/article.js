@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 
+// Schema setup - later will be broken to separate files
 var articleSchema = new mongoose.Schema({
 	name: String,
 	price: String,
