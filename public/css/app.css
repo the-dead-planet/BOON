@@ -1,3 +1,39 @@
+.navbar-inverse {
+	background-color: #000;
+}
+
+.navbar-inverse a {
+	color: #FFF !important;
+}
+.navbar-inverse .navbar-nav > li > a:hover {
+	color: #e60091 !important;
+}
+
+.top {
+	padding-top: 50px;
+}
+
+.login-container {
+	z-index: 1;
+	position: relative;
+	text-align: center;
+	padding-top: 30vh;
+	color: #FFF;
+}
+
+.register-container {
+	z-index: 1;
+	position: relative;
+	text-align: center;
+	padding-top: 25vh;
+	color: #FFF;
+}
+
+.ui.selection.dropdown {
+    min-width: 13em;
+}
+
+
 .new-form {
 	width: 30%;
 	margin: 25px auto;
@@ -30,4 +66,11 @@
 
 #delete-form {
 	display: inline;
+}
+
+.bg-gradient {
+	/* background: rgb(128,0,170);
+	background: linear-gradient(90deg, rgba(128,0,170,1) 0%, rgba(190,14,14,1) 39%, rgba(0,65,255,1) 100%); */
+	background: rgb(128,0,170);
+	background: linear-gradient(90deg, rgba(128,0,170,1) 0%, rgba(217,30,30,1) 39%, rgba(63,0,255,1) 100%);
 }

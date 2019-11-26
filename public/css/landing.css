@@ -2,16 +2,27 @@ body {
 	background-color: #000;
 }
 
-#landing-header {
+.landing-header {
 	z-index: 1;
 	position: relative;
 	text-align: center;
 	padding-top: 40vh;
-}
-
-#landing-header h1 {
 	color: #FFF;
 }
+
+.landing-header span {
+	display: block;
+	line-height: 4rem;
+}
+
+.landing-header-main {
+	font-size: 1.2em;
+}
+
+.landing-sub-header {
+	font-size: 0.8em;
+}
+
 
 .slideshow {
 	position: fixed;
@@ -36,31 +47,31 @@ body {
 	background-repeat: no-repeat;  /* images wont repeat horiz or vert*/
 	opacity: 0;
 	z-index: 0;
-	animation: imageAnimation 50s linear infinite; /* linear - the same speed from beg to end*/
+	animation: imageAnimation 40s linear infinite; /* linear - the same speed from beg to end*/
 }
 
 .slideshow li:nth-child(1) {
-	background-image: url("http://atgbcentral.com/data/out/30/4150449-images-for-wallpaper.jpeg");
+	background-image: url('../images/BOON_bg_1.png');
 }
 
 .slideshow li:nth-child(2) {
-	background-image: url("https://i.ytimg.com/vi/gD4uACwPChA/maxresdefault.jpg");
-	animation-delay: 10s;
+	background-image: url("../images/BOON_bg_2.png");
+	animation-delay: 8s;
 }
 
 .slideshow li:nth-child(3) {
-	background-image: url("https://www.pond5.com/images/images_db/vlp/image-hero-poster.jpg");
-	animation-delay: 20s;
+	background-image: url("../images/BOON_bg_3.png");
+	animation-delay: 16s;
 }
 
 .slideshow li:nth-child(4) {
-	background-image: url("https://wallpaperbro.com/img/23945.jpg");
-	animation-delay: 30s;
+	background-image: url("../images/BOON_bg_4.png");
+	animation-delay: 24s;
 }
 
 .slideshow li:nth-child(5) {
-	background-image: url("https://www.wallsandmurals.com/content/images/thumbs/0029248_wp30177_900.jpeg");
-	animation-delay: 40s;
+	background-image: url("../images/BOON_bg_5.png");
+	animation-delay: 32s;
 }
 
 @keyframes imageAnimation {
@@ -77,6 +88,131 @@ body {
 	}
 	30% {
 		opacity: 0;
+	}
+}
+
+.btn-slideshow {
+	animation: buttonAnimation 40s linear infinite;
+}
+
+ .btn-slideshow:hover {
+	background-color: #FFF;
+ }
+
+@keyframes buttonAnimation {
+	0% {
+  		-webkit-box-shadow: 0px 0px 0px 2px purple inset !important;
+  		box-shadow: 0px 0px 0px 2px purple inset !important;
+		color: purple;
+	}
+	20% {
+  		-webkit-box-shadow: 0px 0px 0px 2px purple inset !important;
+  		box-shadow: 0px 0px 0px 2px purple inset !important;
+		color: purple;
+	}
+	30% {
+  		-webkit-box-shadow: 0px 0px 0px 2px #DB2828 inset !important;
+  		box-shadow: 0px 0px 0px 2px #DB2828 inset !important;
+		color: #DB2828;
+	}
+	40% {
+  		-webkit-box-shadow: 0px 0px 0px 2px #DB2828 inset !important;
+  		box-shadow: 0px 0px 0px 2px #DB2828 inset !important;
+		color: #DB2828;
+	}
+	50% {
+  		-webkit-box-shadow: 0px 0px 0px 2px yellow inset !important;
+  		box-shadow: 0px 0px 0px 2px yellow inset !important;
+		color: yellow;
+	}
+	60% {
+  		-webkit-box-shadow: 0px 0px 0px 2px yellow inset !important;
+  		box-shadow: 0px 0px 0px 2px yellow inset !important;
+		color: yellow;
+	}
+	70% {
+  		-webkit-box-shadow: 0px 0px 0px 2px green inset !important;
+  		box-shadow: 0px 0px 0px 2px green inset !important;
+		color: green;
+	}
+	80% {
+  		-webkit-box-shadow: 0px 0px 0px 2px green inset !important;
+  		box-shadow: 0px 0px 0px 2px green inset !important;
+		color: green;
+	}
+	90% {
+  		-webkit-box-shadow: 0px 0px 0px 2px blue inset !important;
+  		box-shadow: 0px 0px 0px 2px blue inset !important;
+		color: blue;
+	}
+	100% {
+  		-webkit-box-shadow: 0px 0px 0px 2px blue inset !important;
+  		box-shadow: 0px 0px 0px 2px blue inset !important;
+		color: blue;
+	}
+}
+
+
+@keyframes buttonAnimationHover {
+	0% {
+		-webkit-box-shadow: none !important;
+		box-shadow: none !important;
+		color: #FFF;
+		background-color: purple;
+	}
+	20% {
+		-webkit-box-shadow: none !important;
+		box-shadow: none !important;
+		color: #FFF;
+		background-color: purple;
+	}
+	30% {
+		-webkit-box-shadow: none !important;
+		box-shadow: none !important;
+		color: #FFF;
+		background-color: #DB2828;
+	}
+	40% {
+		-webkit-box-shadow: none !important;
+		box-shadow: none !important;
+		color: #FFF;
+		background-color: #DB2828;
+	}
+	50% {
+		-webkit-box-shadow: none !important;
+		box-shadow: none !important;
+		color: #FFF;
+		background-color: yellow;
+	}
+	60% {
+		-webkit-box-shadow: none !important;
+		box-shadow: none !important;
+		color: #FFF;
+		background-color: yellow;
+	}
+	70% {
+		-webkit-box-shadow: none !important;
+		box-shadow: none !important;
+		color: #FFF;
+		background-color: green;
+	}
+	80% {
+		-webkit-box-shadow: none !important;
+		box-shadow: none !important;
+		color: #FFF;
+		background-color: green;
+	}
+	90% {
+		-webkit-box-shadow: none !important;
+		box-shadow: none !important;
+		color: #FFF;
+		background-color: blue;
+	}
+	100% {
+		-webkit-box-shadow: none !important;
+		box-shadow: none !important;
+		color: #FFF;
+		background-color: blue;
 	}
 }
 
