@@ -5,7 +5,7 @@
 		<h1 class="tx-center">Edit Comment</h1>
 		
 		<div class="new-form">
-			<form action="/articles/<%= article_id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
+			<form action="/sprints/<%= sprint_id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
 				<div class="form-group">
 					<input class="form-control" type="text" name="comment[text]" value="<%= comment.text %>">
 				</div>
@@ -14,7 +14,7 @@
 				</div>
 			</form>
 			
-			<a href="/articles/<%= article_id %>" name="backToArticles">Go back</a>
+			<a href="/sprints/<%= sprint_id %>" name="backToSprints">Go back</a>
 		</div>
 	</div>
 </div>

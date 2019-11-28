@@ -2,6 +2,11 @@
 	background-color: #000;
 }
 
+.ui.inverted.segment, .ui.primary.inverted.segment {
+    background-color: #000;
+}
+
+
 .navbar-inverse a {
 	color: #FFF !important;
 }
@@ -11,6 +16,12 @@
 
 .top {
 	padding-top: 50px;
+}
+
+.bottom-right {
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
 }
 
 .login-container {
@@ -31,6 +42,15 @@
 
 .ui.selection.dropdown {
     min-width: 13em;
+}
+
+.ui.main.container {
+	padding-top: 5% !important;
+}
+
+.ui.items > .item > .content > .description,
+.ui.items > .item > .content > a.header {
+	color: #FFF;
 }
 
 

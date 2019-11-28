@@ -1,19 +1,23 @@
-var express 			= require('express'),
-	app 				= express(),
-	bodyParser 			= require('body-parser'),
-	mongoose 			= require('mongoose'),
-	flash 				= require('connect-flash'),
-	passport 			= require('passport'),
-	LocalStrategy 		= require('passport-local'),
-	methodOverride 		= require('method-override'),
-	Comment 			= require('./models/comment'),
-	Article 			= require('./models/article'),
-	User 				= require('./models/user'),
-	seedDB				= require('./seeds');
+var express 				= require('express'),
+	app 					= express(),
+	bodyParser 				= require('body-parser'),
+	mongoose 				= require('mongoose'),
+	flash 					= require('connect-flash'),
+	passport 				= require('passport'),
+	LocalStrategy 			= require('passport-local'),
+	methodOverride 			= require('method-override'),
+	Passport 				= require('./models/post'),
+	Sprint 					= require('./models/sprint'),
+	Post 					= require('./models/post'),
+	Comment 				= require('./models/comment'),
+	User 					= require('./models/user'),
+	seedDB					= require('./seeds');
 
-var commentsRoutes 		= require("./routes/comments"),
-	articlesRoutes 		= require("./routes/articles"),
-	indexRoutes			= require("./routes/index");
+var postCommentsRoutes 		= require("./routes/post-comments"),
+	sprintCommentsRoutes 	= require("./routes/sprint-comments"),
+	sprintsRoutes 			= require("./routes/sprints"),
+	postsRoutes 			= require("./routes/posts"),
+	indexRoutes				= require("./routes/index");
 
 
 // seedDB(); // this is not needed anumore, it was populating dummy data
@@ -54,8 +58,10 @@ app.use(function(req, res, next) {
 
 // Reduce path length 
 app.use(indexRoutes);
-app.use("/articles/", articlesRoutes);
-app.use("/articles/:id/comments", commentsRoutes);
+app.use("/sprints/", sprintsRoutes);
+app.use("/sprints/:id/comments/", sprintCommentsRoutes);
+app.use("/sprints/:id/posts/", postsRoutes);
+app.use("/sprints/:id/posts/:post_id/comments", postCommentsRoutes);
 
 
 app.listen(process.env.PORT || 3000, () => {

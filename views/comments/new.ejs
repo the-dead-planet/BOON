@@ -2,10 +2,10 @@
 
 <div class="container">
 	<div class="row">
-		<h1 class="tx-center">Add a new comment to <%= article.name %></h1>
+		<h1 class="tx-center">Add a new comment to Sprint <%= sprint.number %>: <%= sprint.name %></h1>
 		
 		<div class="new-form">
-			<form action="/articles/<%= article._id %>/comments" method="POST">
+			<form action="/sprints/<%= sprint._id %>/comments" method="POST">
 				<div class="form-group">
 					<input class="form-control" type="text" name="comment[text]" placeholder="comment">
 				</div>
@@ -14,7 +14,7 @@
 				</div>
 			</form>
 			
-			<a href="/articles/<%= article._id %>" name="backToArticles">Go back</a>
+			<a href="/sprints/<%= sprint._id %>" name="backToSprints">Go back</a>
 		</div>
 	</div>
 </div>

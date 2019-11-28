@@ -1,4 +1,5 @@
-var Article = require('../models/article');
+var Sprint = require('../models/sprint');
+var Post = require('../models/post');
 var Comment = require('../models/comment');
 
 var middlewareObj = {};
@@ -8,52 +9,37 @@ middlewareObj.isLoggedIn = function(req, res, next) {
 		return next();
 	}
 	
-	req.flash("error", "You need to be logged in to do that"); // flash displays on the next page, therefore needs to go before res.redirect
-	res.redirect("/login"); // no need to add 'else' because of return
+	req.flash("error", "You need to be logged in to do that");
+	res.redirect("/login"); 
 }
 
-middlewareObj.checkArticleOwnership =	function(req, res, next) {
-	if(req.isAuthenticated()) {
-		Article.findById(req.params.id, function(err, article) {
-			if(err || !article) {
-				console.log("err");
-				req.flash("error", "Article not found");
-				res.redirect("/articles");
-			} else {
-				
-				// if (article.author.id === req.user._id) 	// this wont work, first one is a mongoose object, second is a string
-				if(article.author.id.equals(req.user._id)) {
-					req.article = article;
-					next();
-				} else {
-					req.flash("error", "You do not have permission to edit this article");
-					res.redirect("/articles");
-				}
-			}
-		});
-	}
-	else {
-		req.flash("error", "You need to be logged in to do that");
-		res.redirect("back");
-	}
+middlewareObj.checkSprintOwnership =	function(req, res, next) {
+	checkOwnership(req, res, next, Sprint, req.params.id, "Sprint", "/posts");
+}
+
+middlewareObj.checkPostOwnership =	function(req, res, next) {
+	checkOwnership(req, res, next, Post, req.params.post_id, "Post", "/posts");
 }
 
 middlewareObj.checkCommentOwnership = function(req, res, next) {
+	checkOwnership(req, res, next, Comment, req.params.comment_id, "Comment", "/posts");
+}
+
+// Generic check ownershi
+function checkOwnership(req, res, next, Object, id, objectName, redirectPath) {
 	if(req.isAuthenticated()) {
-		Comment.findById(req.params.comment_id, function(err, comment) {
-			if(err || !comment) {
+		Object.findById(id, function(err, object) {
+			if(err || !object) {
 				console.log(err);
-				req.flash("error", "Comment not found");
-				res.redirect("/articles");
+				req.flash("error", objectName + " not found");
+				res.redirect(redirectPath);
 			} else {
-				
-				// if (article.author.id === req.user._id) 	// this wont work, first one is a mongoose object, second is a string
-				if(comment.author.id.equals(req.user._id)) {
-					req.comment = comment;
+				if(object.author.id.equals(req.user._id)) {
+					req.object = object;
 					next();
 				} else {
-					req.flash("error", "You do not have permission to edit this comment");
-					res.redirect("/articles");
+					req.flash("error", "You do not have permission to edit this " + objectName.toLowerCase());
+					res.redirect(redirectPath);
 				}
 			}
 		});
@@ -65,5 +51,3 @@ middlewareObj.checkCommentOwnership = function(req, res, next) {
 }
 
 module.exports = middlewareObj;
-
-// could also write functions separately and export an object this way {}

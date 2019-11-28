@@ -28,7 +28,7 @@ router.post("/register", function(req, res) {
 		
 		passport.authenticate("local")(req, res, function(){
 			req.flash("success", "Welcome to BOON!, " + user.username);
-			res.redirect("/articles");
+			res.redirect("/sprints");
 		});
 	});
 });
@@ -40,21 +40,21 @@ router.get("/login", function(req, res) {
 
 router.post("/login", passport.authenticate("local", {
 	// success commented out as successful route is moved to function(req, res) in order to use current username from req
-	// successRedirect: "/articles", 
+	// successRedirect: "/posts", 
 	// successFlash: "Welcome back!"
 	failureRedirect: "/login",
 	// failureFlash: "Wrong username or password"
 	failureFlash: true
 }), function(req, res) {
 	req.flash("success", "Welcome back, " + req.user.username);
-	res.redirect("/articles");
+	res.redirect("/sprints");
 });
 
 // Log Out
 router.get("/logout", function(req, res){
 	req.logout(); 
 	req.flash("success", "Logged you out!");
-	res.redirect("/articles");
+	res.redirect("/sprints");
 });
 
 

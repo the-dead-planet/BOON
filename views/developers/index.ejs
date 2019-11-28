@@ -30,6 +30,36 @@
 			<p>Time to fill in this space...</p>
 		<%}%>
 	</div>
+
+
+	<div class="ui top attached segment">
+		<div class="ui divided items">
+			<% articles.forEach(function(article){ %>
+				<div class="item">
+					<div class="image">
+						<img src="<%= article.image %>">
+					</div>
+					
+					<div class="content">
+						<a class="header" href="/articles/<%= article._id %>"><%= article.name %></a>
+						<div class="meta">
+							
+						</div>
+						<div class="description">
+							<%- article.description.substring(0, 100) %>...
+						</div>
+					
+						<div class="extra">
+							<a class="ui floated basic blue button" href="/articles/<%= article._id %>">
+								Read More
+								<i class="right chevron icon"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			<% }); %>
+		</div>
+	</div>
 	
 </div>
 

@@ -1,11 +1,16 @@
 var mongoose = require('mongoose');
 
 // Schema setup - later will be broken to separate files
-var articleSchema = new mongoose.Schema({
+var postSchema = new mongoose.Schema({
 	name: String,
-	price: String,
-	image: String,
-	description: String,
+    description: String,
+    sprint: {
+		id: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Sprint"
+		},
+		name: String
+	},
 	author: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -18,7 +23,11 @@ var articleSchema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Comment"
 		}
-	]
+    ],
+    created: {
+		type: Date, 
+		default: Date.now()
+	}
 });
 
-module.exports = mongoose.model("Article", articleSchema);
+module.exports = mongoose.model("Post", postSchema);

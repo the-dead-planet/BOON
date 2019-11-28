@@ -1,0 +1,50 @@
+<% include ../partials/header %>
+
+<div class="register-container">
+    <h1>
+        New Sprint!
+    </h1>
+    <form action="/sprints" method="POST">
+        <div class="ui selection inverted dropdown">
+            <input type="hidden" name="number">
+            <i class="dropdown icon"></i>
+            <div class="default text">Number</div>
+            <div class="menu">
+					<% for (var i = 0; i < 25; ++i) { %>
+						<div class="item" data-value="<%= i %>"><%= i %></div>
+					<% } %>
+            </div>
+        </div>
+        <div class="ui inverted divider"></div>
+
+        <div class="ui inverted input">
+            <input class="form-control" type="text" name="name" placeholder="name">
+        </div>
+        <div class="ui inverted divider"></div>
+
+        <div class="ui inverted input">
+            Start Date <input class="form-control" type="date" name="dateFrom" value="<%= Date.now()%>">
+        </div>
+        <div class="ui inverted divider"></div>
+
+        <div class="ui inverted input">
+            End Date <input class="form-control" type="date" name="dateTo" value="<%= Date.now() %>">
+        </div>
+        <div class="ui inverted divider"></div>
+
+        <div class="ui inverted input">
+            <input class="form-control" type="text" name="description" placeholder="description">
+        </div>
+        <div class="ui inverted divider"></div>
+        
+        
+
+        <button class="ui secondary button">Submit</button>
+
+    </form>
+    
+</div>
+
+
+
+<% include ../partials/footer %>

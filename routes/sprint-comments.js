@@ -1,40 +1,33 @@
 var express = require('express');
-// mergeParams is necessary to find the Id of a article when posting a new comment 
+// mergeParams is necessary to find the Id of a post when posting a new comment 
 var router = express.Router({mergeParams: true});
-var Article = require('../models/article');
+var Sprint = require('../models/sprint');
 var Comment = require('../models/comment');
 var User = require("../models/user");
 var middleware = require("../middleware");
 
 
-// Nested routes for COMMENTS
-// NEW 		articles/:id/comments/new		GET
-// CREATE 	articles/:id/comments			POST
-// EDIT		articles/:id/comments/edit	POST / use PUT
 
 router.get("/new", middleware.isLoggedIn, function(req, res){
-	// find the article with provided :id and render a page
-	// var articleId = req.params.id;
-	Article.findById(req.params.id, function(err, article) {
-		if (err || !article) {
-			req.flash("error", "Sorry, this article does not exist!");
-			res.redirect("/articles");
+	Sprint.findById(req.params.id, function(err, sprint) {
+		if (err || !sprint) {
+			req.flash("error", "Sorry, this sprint does not exist!");
+            res.redirect("/sprints");
+            console.log("Test");
 		} else {
-			res.render("comments/new", {article: article});
+			res.render("comments/new", {sprint: sprint});
 		}
 	});
 	
 });
 
 
-// Post comment and get back to the article page
+// Post comment and get back to the sprint page
 router.post("/", middleware.isLoggedIn, function(req, res){
-	// find the article with provided :id and render a page
-	// var articleId = req.params.id;
-	Article.findById(req.params.id, function(err, article) {
-		if (err || !article) {
-			req.flash("error", "Sorry, this article does not exist!");
-			res.redirect("/articles");
+	Sprint.findById(req.params.id, function(err, sprint) {
+		if (err || !sprint) {
+			req.flash("error", "Sorry, this sprint does not exist!");
+			res.redirect("/sprints");
 		} else {
 			Comment.create(req.body.comment, function(err, comment) {
 				if (err) {
@@ -48,10 +41,10 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 					// Save comment	
 					comment.save();
 								
-					article.comments.push(comment);
-					article.save();
+					sprint.comments.push(comment);
+					sprint.save();
 					req.flash("success", "Comment added successfully");
-					res.redirect("/articles/" + article._id);
+					res.redirect("/sprints/" + sprint._id);
 				}
 			});
 			
@@ -62,8 +55,8 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 
 router.get("/:comment_id/edit", middleware.isLoggedIn, middleware.checkCommentOwnership, function(req,res) {
 	res.render("comments/edit", {
-		article_id: req.params.id,
-			comment: req.comment
+		sprint_id: req.params.id,
+		comment: req.object
 		});
 });
 
@@ -75,7 +68,7 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req, res) 
 			res.redirect("back");
 		} else {
 			req.flash("success", "Comment successfully updated");
-			res.redirect("/articles/" + req.params.id);
+			res.redirect("/sprints/" + req.params.id);
 		}
 	});
 });
@@ -88,7 +81,7 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, re
 			res.redirect("back");
 		} else {
 			req.flash("success", "Comment successfully deleted");
-			res.redirect("/articles/" + req.params.id);
+			res.redirect("/sprints/" + req.params.id);
 		}
 	});
 });
