@@ -1,110 +1,90 @@
 var express = require('express');
-var router = express.Router();
+// mergeParams is necessary to find the Id of a post when posting a new post 
+var router = express.Router({mergeParams: true});
 var Sprint = require('../models/sprint');
 var Post = require('../models/post');
 var Comment = require('../models/comment');
 var User = require("../models/user");
 var middleware = require("../middleware");
 
-// INDEX route
-router.get("/", function(req, res) {
-	Post.find({}, function(err, allPosts) {
-		if(err) {
-			console.log("Error getting all posts from the db: " + err);
+
+
+router.get("/new", middleware.isLoggedIn, function(req, res){
+	Sprint.findById(req.params.id, function(err, sprint) {
+		if (err || !sprint) {
+			req.flash("error", "Sorry, this sprint does not exist!");
+            res.redirect("/sprints");
+            console.log("Test");
 		} else {
-			res.render("posts/index", {
-				posts: allPosts
-			});
+			res.render("posts/new", {sprint: sprint});
 		}
 	});
+	
 });
 
 
-// NEW
-router.get("/new", middleware.isLoggedIn, function(req, res) {
-	res.render("posts/new");
-});
-
-
-// CREATE
+// Post and get back to the sprint page
 router.post("/", middleware.isLoggedIn, function(req, res){
-	var name = req.body.name;
-    var description = req.body.description;
-    var sprint = req.body.sprint;
-	var author = {
-		id: req.user._id,
-		username: req.user.username
-    };
-    var created = req.body.created;
-	var newPost = {
-		name: name, 
-        description: description,
-        sprint: sprint,
-        author: author,
-        created
-    };
-	
-	Post.create(newPost, function(err, post){
-		if(err || !post) {
-			req.flash("error", "Something went wrong");
-			console.log("Error creating new post: " + error);
+	Sprint.findById(req.params.id, function(err, sprint) {
+		if (err || !sprint) {
+			req.flash("error", "Sorry, this sprint does not exist!");
+			res.redirect("/sprints");
 		} else {
-			console.log("New post created:");
-			console.log(post);
-		}
-	});
-	
-	// redirect
-	req.flash("success", "Post successfully created");
-	res.redirect("/posts");
-});
-
-
-// Show blog post
-router.get("/:id", function(req, res){
-	Post.findById(req.params.id).populate("comments").exec(function(err, post) {
-		if (err || !post) {
-			console.log(err);
-			req.flash("error", "Sorry, this post does not exist");
-			res.redirect("/posts");
-			console.log("Could not find id error: " + err);
-		} else {
-			res.render("posts/show", {post: post});
+			Post.create(req.body.post, function(err, post) {
+				if (err) {
+					req.flash("error", "Something went wrong");
+					console.log(err);
+				} else {
+					// add username and id to post
+					// user must be logged in (middleware isLoggedIn) - this is assured
+					post.author.id = req.user._id;
+					post.author.username = req.user.username;
+					// Save post	
+					post.save();
+								
+					sprint.posts.push(post);
+					sprint.save();
+					req.flash("success", "Post added successfully");
+					res.redirect("/sprints/" + sprint._id);
+				}
+			});
+			
 		}
 	});
 	
 });
 
-
-// EDIT
-router.get("/:id/edit", middleware.isLoggedIn, middleware.checkPostOwnership, function(req, res) {
-	res.render("posts/edit", {post: req.post});	
+router.get("/:post_id/edit", middleware.isLoggedIn, middleware.checkPostOwnership, function(req,res) {
+	res.render("posts/edit", {
+		sprint_id: req.params.id,
+		post: req.object
+		});
 });
 
 // UPDATE ROUTE
-router.put("/:id", middleware.checkPostOwnership, function(req, res){
-    Post.findByIdAndUpdate(req.params.id, req.body.post, function(err, updatedPost){
-       if(err || !updatedPost){
-		   req.flash("error", "Sorry, this post does not exist!");
-           res.redirect("/posts");
-       } else {
-		   req.flash("success", "Post successfully updated");
-           res.redirect("/posts/" + req.params.id);
-       }
-    });
+router.put("/:post_id", middleware.checkPostOwnership, function(req, res) {
+	Post.findByIdAndUpdate(req.params.post_id, req.body.post, function(err, post){
+		if (err) {
+			req.flash("error", "Something went wrong");
+			res.redirect("back");
+		} else {
+			req.flash("success", "Post successfully updated");
+			res.redirect("/sprints/" + req.params.id);
+		}
+	});
 });
 
 // DESTROY ROUTE
-router.delete("/:id", middleware.checkPostOwnership, function(req, res){
-   Post.findByIdAndRemove(req.params.id, function(err, post){
-      if(err || !post){
-		  req.flash("error", "Sorry, this post does not exist!");
-          res.redirect("/posts");
-      } else {
-		  req.flash("success", "Post successfully deleted");
-          res.redirect("/posts");
-      }
-   });
+router.delete("/:post_id", middleware.checkPostOwnership, function(req, res) {
+	Post.findByIdAndRemove(req.params.post_id, function(err, post) {
+		if (err || !post) {
+			req.flash("error", "Sorry, this post does not exist");
+			res.redirect("back");
+		} else {
+			req.flash("success", "Post successfully deleted");
+			res.redirect("/sprints/" + req.params.id);
+		}
+	});
 });
 
 

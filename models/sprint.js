@@ -20,6 +20,12 @@ var sprintSchema = new mongoose.Schema({
 		},
 		username: String 
 	},
+	posts: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Post"
+		}
+    ],
 	comments: [
 		{
 			type: mongoose.Schema.Types.ObjectId,

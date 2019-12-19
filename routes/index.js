@@ -40,7 +40,7 @@ router.get("/login", function(req, res) {
 
 router.post("/login", passport.authenticate("local", {
 	// success commented out as successful route is moved to function(req, res) in order to use current username from req
-	// successRedirect: "/posts", 
+	// successRedirect: "/sprints", 
 	// successFlash: "Welcome back!"
 	failureRedirect: "/login",
 	// failureFlash: "Wrong username or password"

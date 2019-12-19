@@ -1,39 +1,26 @@
 <% include ../partials/header %>
 
-<div class="register-container">
-    <h1>
-        New Post!
-    </h1>
-    <form action="/posts" method="POST">
-        <div class="ui selection inverted dropdown">
-            <input type="hidden" name="team">
-            <i class="dropdown icon"></i>
-            <div class="default text">Sprint</div>
-            <div class="menu">
-                <div class="item" data-value="A">1</div>
-                <div class="item" data-value="B">2</div>
-            </div>
-        </div>
-        <div class="ui inverted divider"></div>
-
-        <div class="ui inverted input">
-            <input class="form-control" type="text" name="name" placeholder="name">
-        </div>
-        <div class="ui inverted divider"></div>
-
-        <div class="ui inverted input">
-            <input class="form-control" type="text" name="description" placeholder="description">
-        </div>
-        <div class="ui inverted divider"></div>
-        
-        
-
-        <button class="ui secondary button">Submit</button>
-
-    </form>
-    
+<div class="container">
+	<div class="row">
+		<h1 class="tx-center">Add a new post to Sprint <%= sprint.number %>: <%= sprint.name %></h1>
+		
+		<div class="new-form">
+			<form action="/sprints/<%= sprint._id %>/posts" method="POST">
+				<div class="form-group">
+					<input class="form-control" type="text" name="post[name]" placeholder="post">
+				</div>
+				<div class="form-group">
+					<input class="form-control" type="text" name="post[description]" placeholder="post">
+				</div>
+				<div class="form-group">
+					<button class="btn btn-default btn-block primary">Submit</button>
+				</div>
+			</form>
+			
+			<a href="/sprints/<%= sprint._id %>" name="backToSprints">Go back</a>
+		</div>
+	</div>
 </div>
-
 
 
 <% include ../partials/footer %>

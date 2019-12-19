@@ -3,14 +3,7 @@ var mongoose = require('mongoose');
 // Schema setup - later will be broken to separate files
 var postSchema = new mongoose.Schema({
 	name: String,
-    description: String,
-    sprint: {
-		id: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Sprint"
-		},
-		name: String
-	},
+	description: String,
 	author: {
 		id: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -24,7 +17,7 @@ var postSchema = new mongoose.Schema({
 			ref: "Comment"
 		}
     ],
-    created: {
+	created: {
 		type: Date, 
 		default: Date.now()
 	}

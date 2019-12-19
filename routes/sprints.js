@@ -68,7 +68,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 
 // Show sprint
 router.get("/:id", function(req, res){
-	Sprint.findById(req.params.id).populate("comments").exec(function(err, sprint) {
+	Sprint.findById(req.params.id).populate("comments posts posts.comments").exec(function(err, sprint) {
 		if (err || !sprint) {
 			console.log(err);
 			req.flash("error", "Sorry, this sprint does not exist");
@@ -111,18 +111,28 @@ router.delete("/:id", middleware.checkSprintOwnership, function(req, res){
 			req.flash("error", "Sorry, this sprint does not exist!");
 			res.redirect("/sprints");
 		} else {
+			req.flash("success", "Sprint deleted");
+
+			// delete associated posts
+			Post.deleteMany({_id: req.object.posts}, function(err, post) {
+				if (err || !post) {
+					req.flash("error", "Sorry, this post does not exist");
+					res.redirect("back");
+				} else {
+					req.flash("success", "Related posts deleted");
+				}
+			});
+
 			// delete associated comments
 			Comment.deleteMany({_id: req.object.comments}, function(err, comment) {
 				if (err || !comment) {
 					req.flash("error", "Sorry, this comment does not exist");
-					res.redirect("back");
 				} else {
-					req.flash("success", "Sprint and its comments successfully deleted");
-					res.redirect("/sprints");
+					req.flash("success", "Related comments deleted");
 				}
 			});
 
-			
+			res.redirect("/sprints");
 		}
 	});
 });

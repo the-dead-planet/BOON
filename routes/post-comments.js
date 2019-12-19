@@ -1,6 +1,7 @@
 var express = require('express');
 // mergeParams is necessary to find the Id of a post when posting a new comment 
 var router = express.Router({mergeParams: true});
+var Sprint = require('../models/sprint');
 var Post = require('../models/post');
 var Comment = require('../models/comment');
 var User = require("../models/user");
@@ -9,24 +10,49 @@ var middleware = require("../middleware");
 
 
 router.get("/new", middleware.isLoggedIn, function(req, res){
-	Post.findById(req.params.id, function(err, post) {
-		if (err || !post) {
-			req.flash("error", "Sorry, this post does not exist!");
-			res.redirect("/posts");
+	var spr = {};
+
+	Sprint.findById(req.params.id, function(err, sprint) {
+		if (err || !sprint) {
+			console.log(err);
 		} else {
-			res.render("comments/new", {post: post});
+			spr = sprint;
+		}
+	});
+
+	Post.findById(req.params.post_id, function(err, post) {
+		if (err || !post) {
+			req.flash("error", "Sorry, this post does not exist 1!");
+            res.redirect("/sprints");
+		} else {
+			res.render("comments/new", {
+				path: "/sprints/" + req.params.id + "/posts/" + req.params.post_id + "/comments",
+				sprint: spr,
+				post: post
+			});
 		}
 	});
 	
 });
 
 
-// Post comment and get back to the post page
+// Post comment and get back to the sprint page
 router.post("/", middleware.isLoggedIn, function(req, res){
-	Post.findById(req.params.id, function(err, post) {
+	var spr = {};
+
+	Sprint.findById(req.params.id, function(err, sprint) {
+		if (err || !sprint) {
+			console.log(err);
+		} else {
+			spr = sprint;
+		}
+	});
+
+	Post.findById(req.params.post_id, function(err, post) {
 		if (err || !post) {
 			req.flash("error", "Sorry, this post does not exist!");
-			res.redirect("/posts");
+			console.log(err);
+			res.redirect("/sprints");
 		} else {
 			Comment.create(req.body.comment, function(err, comment) {
 				if (err) {
@@ -43,7 +69,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 					post.comments.push(comment);
 					post.save();
 					req.flash("success", "Comment added successfully");
-					res.redirect("/posts/" + post._id);
+					res.redirect("/sprints/" + spr._id + "/posts/" + post._id);
 				}
 			});
 			
@@ -54,8 +80,8 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 
 router.get("/:comment_id/edit", middleware.isLoggedIn, middleware.checkCommentOwnership, function(req,res) {
 	res.render("comments/edit", {
-		post_id: req.params.id,
-		comment: req.comment
+		path: "/sprints/" + req.params.id + "/posts/" + req.params.post_id + "/comments/" + req.object._id,
+		comment: req.object
 		});
 });
 

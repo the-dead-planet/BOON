@@ -61,7 +61,7 @@ app.use(indexRoutes);
 app.use("/sprints/", sprintsRoutes);
 app.use("/sprints/:id/comments/", sprintCommentsRoutes);
 app.use("/sprints/:id/posts/", postsRoutes);
-app.use("/sprints/:id/posts/:post_id/comments", postCommentsRoutes);
+app.use("/sprints/:id/posts/:post_id/comments/", postCommentsRoutes);
 
 
 app.listen(process.env.PORT || 3000, () => {

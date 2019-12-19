@@ -9,13 +9,17 @@ var middleware = require("../middleware");
 
 
 router.get("/new", middleware.isLoggedIn, function(req, res){
+	console.log(req.params);
 	Sprint.findById(req.params.id, function(err, sprint) {
 		if (err || !sprint) {
 			req.flash("error", "Sorry, this sprint does not exist!");
             res.redirect("/sprints");
             console.log("Test");
 		} else {
-			res.render("comments/new", {sprint: sprint});
+			res.render("comments/new", {
+				path: "/sprints/" + req.params.id + "/comments",
+				sprint: sprint
+			});
 		}
 	});
 	
@@ -55,7 +59,7 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 
 router.get("/:comment_id/edit", middleware.isLoggedIn, middleware.checkCommentOwnership, function(req,res) {
 	res.render("comments/edit", {
-		sprint_id: req.params.id,
+		path: "/sprints/" + req.params.id + "/comments/" + req.params.post_id,
 		comment: req.object
 		});
 });

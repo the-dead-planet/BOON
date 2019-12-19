@@ -6,31 +6,7 @@ var userSchema = new mongoose.Schema({
 	username: String,
 	email: String,
 	team: String,
-	password: String,
-	comments: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Comment"
-		}
-	],
-	articles: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Article"
-		}
-	],
-	posts: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Post"
-		}
-	],
-	likes: [
-		{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Like"
-		}
-	]
+	password: String
 });
 
 // This adds methods to the User object
