@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './Landing.css';
 
 class Landing extends React.Component {
-
     constructor(props) {
         super(props);
     }
@@ -16,13 +15,11 @@ class Landing extends React.Component {
                             Something that is very helpful and improves the quality of life
                         </span>
                         <span className="landing-sub-header">
-                            noun | UK <i className="volume up icon"></i>/bu:n/ | US <i className="volume up icon"></i>/bu:n/
+                            noun | UK <i className="volume up icon"></i>/bu:n/ | US <i className="volume up icon"></i>
+                            /bu:n/
                         </span>
                     </h1>
-                    <a
-                        onClick={this.props.onClick}
-                        className="ui inverted button btn-slideshow"
-                    >
+                    <a onClick={this.props.onClick} className="ui inverted button btn-slideshow">
                         ENTER THE BOON!
                     </a>
                 </div>
@@ -33,11 +30,9 @@ class Landing extends React.Component {
                     <li></li>
                     <li></li>
                 </ul>
-                
             </div>
         );
     }
 }
-
 
 export default Landing;

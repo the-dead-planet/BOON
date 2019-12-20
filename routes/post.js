@@ -1,28 +1,27 @@
 const mongoose = require('mongoose');
-const middleware = require("../middleware");
+const middleware = require('../middleware');
 const Post = mongoose.model('Post');
 
-module.exports = (app) => {
-
+module.exports = app => {
     // INDEX
     app.get(`/api/posts`, async (req, res) => {
         Post.find({})
-            .populate("comments")
+            .populate('comments')
             .exec((err, posts) => {
-                if(err) {
-                    console.log("Error getting all posts from the db: ", err);
+                if (err) {
+                    console.log('Error getting all posts from the db: ', err);
                 } else {
-                    return res.status(200).send(posts)
+                    return res.status(200).send(posts);
                 }
             });
     });
 
-    // TODO: post, update and delete post linked to a sprint 
+    // TODO: post, update and delete post linked to a sprint
     // // POST
-    // app.post("/api/posts", middleware.isLoggedIn, (req, res) => {    
+    // app.post("/api/posts", middleware.isLoggedIn, (req, res) => {
     //     let post = {
     //         number: req.body.number,
-    //         name: req.body.name, 
+    //         name: req.body.name,
     //         dateFrom: req.body.dateFrom,
     //         dateTo: req.body.dateTo,
     //         description: req.body.description,
@@ -32,7 +31,7 @@ module.exports = (app) => {
     //         },
     //         created: req.body.created
     //     };
-        
+
     //     // Create a new post and save it to DB
     //     Post.create(post, (err, post) => {
     //         if(err || !post) {
@@ -75,7 +74,6 @@ module.exports = (app) => {
     //             req.flash("error", "Sorry, this post does not exist!");
     //         } else {
     //             req.flash("success", "Post deleted");
-                
 
     //             // TODO: find a more fancy solution to delete all related objects and handle async behavior
     //             // delete associated posts
@@ -86,7 +84,7 @@ module.exports = (app) => {
     //                     req.flash("success", "Related posts deleted");
     //                 }
     //             });
-    
+
     //             // delete associated comments
     //             Comment.deleteMany({_id: req.object.comments}, (err, comment) => {
     //                 if (err || !comment) {
@@ -95,7 +93,7 @@ module.exports = (app) => {
     //                     req.flash("success", "Related comments deleted");
     //                 }
     //             });
-    
+
     //             return res.status(202).send({
     //                 error: false,
     //                 post
@@ -103,4 +101,4 @@ module.exports = (app) => {
     //         }
     //     });
     // });
-}
+};

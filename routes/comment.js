@@ -1,26 +1,25 @@
 const mongoose = require('mongoose');
-const middleware = require("../middleware");
+const middleware = require('../middleware');
 const Comment = mongoose.model('Comment');
 
-module.exports = (app) => {
-
+module.exports = app => {
     // INDEX
     app.get(`/api/comments`, async (req, res) => {
         Comment.find({}, (err, comments) => {
-                if(err) {
-                    console.log("Error getting all comments from the db: ", err);
-                } else {
-                    return res.status(200).send(comments)
-                }
-            });
+            if (err) {
+                console.log('Error getting all comments from the db: ', err);
+            } else {
+                return res.status(200).send(comments);
+            }
+        });
     });
 
     // TODO: post, update and destroy comment routes
     // // POST
-    // app.post("/api/comments", middleware.isLoggedIn, (req, res) => {    
+    // app.post("/api/comments", middleware.isLoggedIn, (req, res) => {
     //     let comment = {
     //         number: req.body.number,
-    //         name: req.body.name, 
+    //         name: req.body.name,
     //         dateFrom: req.body.dateFrom,
     //         dateTo: req.body.dateTo,
     //         description: req.body.description,
@@ -30,7 +29,7 @@ module.exports = (app) => {
     //         },
     //         created: req.body.created
     //     };
-        
+
     //     // Create a new comment and save it to DB
     //     Comment.create(comment, (err, comment) => {
     //         if(err || !comment) {
@@ -73,7 +72,6 @@ module.exports = (app) => {
     //             req.flash("error", "Sorry, this comment does not exist!");
     //         } else {
     //             req.flash("success", "Comment deleted");
-                
 
     //             // TODO: find a more fancy solution to delete all related objects and handle async behavior
     //             // delete associated comments
@@ -84,7 +82,7 @@ module.exports = (app) => {
     //                     req.flash("success", "Related comments deleted");
     //                 }
     //             });
-    
+
     //             // delete associated comments
     //             Comment.deleteMany({_id: req.object.comments}, (err, comment) => {
     //                 if (err || !comment) {
@@ -93,7 +91,7 @@ module.exports = (app) => {
     //                     req.flash("success", "Related comments deleted");
     //                 }
     //             });
-    
+
     //             return res.status(202).send({
     //                 error: false,
     //                 comment
@@ -101,4 +99,4 @@ module.exports = (app) => {
     //         }
     //     });
     // });
-}
+};
