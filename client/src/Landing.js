@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './Landing.css';
 
 class Landing extends React.Component {
@@ -19,9 +20,9 @@ class Landing extends React.Component {
                             /bu:n/
                         </span>
                     </h1>
-                    <a onClick={this.props.onClick} className="ui inverted button btn-slideshow">
+                    <Link to={'/main'} className="ui inverted button btn-slideshow">
                         ENTER THE BOON!
-                    </a>
+                    </Link>
                 </div>
                 <ul className="slideshow">
                     <li></li>

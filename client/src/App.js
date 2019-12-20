@@ -1,28 +1,29 @@
 import React, { useState, useEffect, Component } from 'react';
-import Page from './Page';
-
-// SERVICES
-import sprintsService from './services/sprintsService';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Landing from './Landing';
+import Main from './Main';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            page: 'landing',
-        };
-    }
-
-    enter() {
-        this.setState({
-            page: 'main',
-        });
-    }
-
     render() {
         return (
-            <div className="App">
-                <Page page={this.state.page} onClick={this.enter.bind(this)} />
-            </div>
+            <Router>
+                <div className="App">
+                    <Switch>
+                        {/*
+                            A Switch will iterate through all routes and return
+                            on the first match.
+                            The order matters - the most generic paths should
+                            be at the very end.
+                        */}
+                        <Route path="/main">
+                            <Main />
+                        </Route>
+                        <Route path="/">
+                            <Landing />
+                        </Route>
+                    </Switch>
+                </div>
+            </Router>
         );
     }
 }
