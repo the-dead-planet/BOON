@@ -1,35 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
+import Page from './Page';
 
 // SERVICES
 import sprintsService from './services/sprintsService';
 
 
-function App() {
-  const [sprints, setsprints] = useState(null);
-
-  useEffect(() => {
-    if (!sprints) {
-      getSprints();
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      page: "landing"
     }
-  });
-
-  const getSprints = async () => {
-    let res = await sprintsService.getAll();
-    console.log(res);
-    setsprints(res);
   }
 
-  return (
-    <div className="App">
-      <ul className="list">
-        {(sprints && sprints.length > 0) ? (
-          sprints.map(sprint => <li key={sprint._id}>{sprint.name}</li>)
-        ) : (
-            <p>No sprints found</p>
-          )}
-      </ul>
-    </div>
-  );
+  enter() {
+    this.setState({
+      page: "main"
+    });
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Page page={this.state.page} onClick={this.enter.bind(this)} />
+      </div>
+    );
+  }
 }
 
 export default App;
