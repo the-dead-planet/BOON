@@ -31,4 +31,4 @@ A platform for sharing cross team developments, product increments, ideas and ro
 
 ## Running the app
 
-	$ node app.js
+	$ npm run dev

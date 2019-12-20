@@ -68,17 +68,23 @@ router.post("/", middleware.isLoggedIn, function(req, res){
 
 // Show sprint
 router.get("/:id", function(req, res){
-	Sprint.findById(req.params.id).populate("comments posts posts.comments").exec(function(err, sprint) {
-		if (err || !sprint) {
-			console.log(err);
-			req.flash("error", "Sorry, this sprint does not exist");
-			res.redirect("/sprints");
-			console.log("Could not find id error: " + err);
-		} else {
-			res.render("sprints/show", {sprint: sprint});
-		}
-	});
-	
+	Sprint.findById(req.params.id)
+		.populate({
+			path: 'posts comments',
+			populate: {
+				path: 'comments'
+			}
+		})
+		.exec(function(err, sprint) {
+			if (err || !sprint) {
+				console.log(err);
+				req.flash("error", "Sorry, this sprint does not exist");
+				res.redirect("/sprints");
+				console.log("Could not find id error: " + err);
+			} else {
+				res.render("sprints/show", {sprint: sprint});
+			}
+		});
 });
 
 
