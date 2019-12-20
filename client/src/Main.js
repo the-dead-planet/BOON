@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import sprintsService from './services/sprintsService';
 
 function Main(props) {
@@ -30,9 +31,9 @@ function Main(props) {
                     <p>No sprints found</p>
                 )}
             </ul>
-            <a onClick={() => props.onClick('landing')} className="ui inverted button btn-slideshow">
+            <Link to={'/'} className="ui inverted button btn-slideshow">
                 GO BACK!
-            </a>
+            </Link>
         </div>
     );
 }
