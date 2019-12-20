@@ -8,7 +8,13 @@ A platform for sharing cross team developments, product increments, ideas and ro
 	Node.js
 	Mongo DB
 
-### Dependencies - use 'npm install <package> --save'
+## Installation
+Run the following command to install all dependencies
+```
+yarn install && cd client && yarn install && cd ..
+```
+
+### Dependencies - use 'yarn install'
 ### package.json lists all dependencies
 	
 	@types/mongodb

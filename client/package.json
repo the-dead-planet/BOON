@@ -5,8 +5,8 @@
   "main": "index.js",
   "private": true,
   "engines": {
-    "npm": "6.12.1",
-    "node": "12.13.1"
+    "npm": ">6.12.1",
+    "node": ">12.13.1"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
