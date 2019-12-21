@@ -1,9 +1,9 @@
 import React, { useState, useEffect, Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Landing from './Landing';
-import Main from './Main';
-import Login from './Login';
-import Register from './Register';
+import Landing from './pages/Landing';
+import Main from './pages/Main';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 class App extends Component {
     render() {
