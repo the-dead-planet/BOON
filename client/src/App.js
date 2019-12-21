@@ -4,6 +4,7 @@ import Landing from './pages/Landing';
 import Main from './pages/Main';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import AddSprint from './pages/AddSprint';
 
 class App extends Component {
     render() {
@@ -25,6 +26,9 @@ class App extends Component {
                         </Route>
                         <Route path="/main">
                             <Main />
+                        </Route>
+                        <Route path="/add_sprint">
+                            <AddSprint />
                         </Route>
                         <Route path="/">
                             <Landing />
