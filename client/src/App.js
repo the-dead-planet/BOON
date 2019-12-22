@@ -1,10 +1,12 @@
 import React, { useState, useEffect, Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Landing from './pages/Landing';
-import Main from './pages/Main';
+import Sprints from './pages/Sprints';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AddSprint from './pages/AddSprint';
+import NavBar from './components/NavBar';
+import './App.css';
 
 class App extends Component {
     render() {
@@ -19,15 +21,19 @@ class App extends Component {
                             be at the very end.
                         */}
                         <Route path="/login">
+                            <NavBar />
                             <Login />
                         </Route>
                         <Route path="/register">
+                            <NavBar />
                             <Register />
                         </Route>
-                        <Route path="/main">
-                            <Main />
+                        <Route path="/sprints">
+                            <NavBar />
+                            <Sprints />
                         </Route>
                         <Route path="/add_sprint">
+                            <NavBar />
                             <AddSprint />
                         </Route>
                         <Route path="/">

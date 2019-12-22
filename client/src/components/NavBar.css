@@ -1,0 +1,27 @@
+.container .MuiAppBar-colorPrimary {
+    background-color: rgb(41, 0, 80);
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.logo {
+    width: 120px;
+}
+
+.menu {
+    color: white;
+    text-decoration: none;
+}
+
+@media (max-width: 600px) {
+    .nav {
+        display: none;
+    }
+    .menu {
+        display: block;
+    }
+}

@@ -121,22 +121,25 @@
         color: #db2828;
     }
     50% {
-        color: yellow;
+        color: rgb(156, 156, 13);
     }
     60% {
-        color: yellow;
+        color: rgb(156, 156, 13);
     }
     70% {
-        color: green;
+        color: rgb(7, 109, 7);
     }
     80% {
-        color: green;
+        color: rgb(7, 109, 7);
     }
     90% {
-        color: blue;
+        color: rgb(26, 11, 230);
+    }
+    99% {
+        color: rgb(26, 11, 230);
     }
     100% {
-        color: blue;
+        color: purple;
     }
 }
 

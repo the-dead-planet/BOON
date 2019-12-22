@@ -20,7 +20,7 @@ class Landing extends React.Component {
                             /bu:n/
                         </span>
                     </h1>
-                    <Link to={'/main'} className="btn-slideshow">
+                    <Link to={'/sprints'} className="btn-slideshow">
                         ENTER THE BOON
                     </Link>
                 </div>

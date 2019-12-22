@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AuthForm from '../components/AuthForm';
+import NavBar from '../components/NavBar';
 import authService from '../services/authService';
 
 const Login = () => (
