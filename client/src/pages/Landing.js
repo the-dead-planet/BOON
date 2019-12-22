@@ -20,8 +20,8 @@ class Landing extends React.Component {
                             /bu:n/
                         </span>
                     </h1>
-                    <Link to={'/main'} className="ui inverted button btn-slideshow">
-                        ENTER THE BOON!
+                    <Link to={'/main'} className="btn-slideshow">
+                        ENTER THE BOON
                     </Link>
                 </div>
                 <ul className="slideshow">

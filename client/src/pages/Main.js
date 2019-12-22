@@ -22,7 +22,7 @@ function Main(props) {
             <ul>
                 {sprints && sprints.length > 0 ? (
                     sprints.map(sprint => (
-                        <li key={sprint._id} style={{ color: '#FFFFFF' }}>
+                        <li key={sprint._id} style={{ color: '#000' }}>
                             <h3>{sprint.name}</h3>
                             <p>{sprint.description}</p>
                         </li>
