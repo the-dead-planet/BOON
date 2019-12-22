@@ -17,6 +17,12 @@ module.exports = app => {
             });
     });
 
+    // Returns the logged in user, or `null` if not logged in.
+    app.get('/api/whoami', (req, res) => {
+        const user = req.isAuthenticated() ? req.user : null;
+        return res.status(200).send(user);
+    });
+
     // POST
     app.post('/register', (req, res) => {
         User.register(

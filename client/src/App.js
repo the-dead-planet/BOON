@@ -7,10 +7,29 @@ import Register from './pages/Register';
 import AddSprint from './pages/AddSprint';
 import NavBar from './components/NavBar';
 import './App.css';
+import authService from './services/authService';
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            whoamiRequestDone: false,
+            user: null,
+        };
+    }
+
+    componentDidMount() {
+        authService.whoami().then(user => {
+            this.setState({ user, whoamiRequestDone: true });
+        });
+    }
+
     render() {
-        return (
+        const { whoamiRequestDone, user } = this.state;
+
+        return !whoamiRequestDone ? (
+            'Loading'
+        ) : (
             <Router>
                 <div className="App">
                     <Switch>
