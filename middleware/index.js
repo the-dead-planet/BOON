@@ -9,8 +9,9 @@ middlewareObj.isLoggedIn = function(req, res, next) {
         return next();
     }
 
-    req.flash('error', 'You need to be logged in to do that');
-    res.redirect('/login');
+    // Return a `401 - Unauthorized error and let the client handle it.
+    // Do not perform any redirects, as the backend does not control client-side routes.
+    return res.status(401).end();
 };
 
 middlewareObj.checkSprintOwnership = function(req, res, next) {

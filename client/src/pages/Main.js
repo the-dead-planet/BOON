@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import sprintsService from './services/sprintsService';
+import sprintsService from '../services/sprintsService';
 
 function Main(props) {
     const [sprints, setSprints] = useState(null);

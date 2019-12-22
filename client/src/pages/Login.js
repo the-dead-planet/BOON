@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import AuthForm from './AuthForm';
-import authService from './services/authService';
+import AuthForm from '../components/AuthForm';
+import authService from '../services/authService';
 
 const Login = () => (
     <div>
