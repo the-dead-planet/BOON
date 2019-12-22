@@ -53,7 +53,7 @@ class App extends Component {
                         </Route>
                         <Route path="/add_sprint">
                             <NavBar />
-                            <AddSprint />
+                            <AddSprint user={user} />
                         </Route>
                         <Route path="/">
                             <Landing />
