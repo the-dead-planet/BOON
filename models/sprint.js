@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-// Schema setup - later will be broken to separate files
 var sprintSchema = new mongoose.Schema({
     number: Number,
     name: String,
@@ -13,13 +12,6 @@ var sprintSchema = new mongoose.Schema({
         default: Date.now(),
     },
     description: String,
-    author: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-        },
-        username: String,
-    },
     posts: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -32,6 +24,19 @@ var sprintSchema = new mongoose.Schema({
             ref: 'Comment',
         },
     ],
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Like',
+        },
+    ],
+    author: {
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+        },
+        username: String,
+    },
     created: {
         type: Date,
         default: Date.now(),

@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 const middleware = require('../middleware');
 const User = mongoose.model('User');
+const UserAuth = mongoose.model('UserAuth');
 const passport = require('passport');
 
 module.exports = app => {
     // INDEX
     app.get(`/api/users`, async (req, res) => {
         User.find({})
-            .populate('comments')
+            .populate('userAuth')
             .exec((err, users) => {
                 if (err) {
                     console.log('Error getting all users from the db: ', err);
@@ -34,12 +35,12 @@ module.exports = app => {
             req.body.password,
             (err, user) => {
                 if (err) {
-                    console.log('Cannot register: ' + err);
+                    console.log('Cannot register: ', err);
                     req.flash('error', err.message);
                 }
 
                 passport.authenticate('local')(req, res, () => {
-                    req.flash('success', 'Welcome to BOON!, ' + user.username);
+                    req.flash('success', `Welcome to BOON, ${user.username}`);
                     return res.status(201).send({
                         error: false,
                         user,
@@ -61,7 +62,7 @@ module.exports = app => {
         }),
         (req, res) => {
             let user = req.user;
-            req.flash('success', 'Welcome back, ' + user.username);
+            req.flash('success', `Welcome back, ${user.username}`);
             return res.status(201).send({
                 error: false,
                 user,
@@ -73,7 +74,7 @@ module.exports = app => {
     app.get('/logout', (req, res) => {
         let user = req.user;
         req.logout();
-        req.flash('success', 'Logged you out, ' + user.username);
+        req.flash('success', `Logged you out, ${user.username}`);
         return res.status(201).send({
             error: false,
             user,

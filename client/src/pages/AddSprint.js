@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import sprintsService from '../services/sprintsService';
 import { authenticatedPage } from '../components/authenticatedPage';

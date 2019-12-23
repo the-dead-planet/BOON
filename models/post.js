@@ -4,6 +4,18 @@ var mongoose = require('mongoose');
 var postSchema = new mongoose.Schema({
     name: String,
     description: String,
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment',
+        },
+    ],
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Like',
+        },
+    ],
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
@@ -11,12 +23,6 @@ var postSchema = new mongoose.Schema({
         },
         username: String,
     },
-    comments: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Comment',
-        },
-    ],
     created: {
         type: Date,
         default: Date.now(),

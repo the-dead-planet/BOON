@@ -1,10 +1,8 @@
 var express = require('express');
 // mergeParams is necessary to find the Id of a post when posting a new post
 var router = express.Router({ mergeParams: true });
-var Sprint = require('../models/sprint');
-var Post = require('../models/post');
-var Comment = require('../models/comment');
-var User = require('../models/user');
+var Sprint = require('../models/Sprint');
+var Post = require('../models/Post');
 var middleware = require('../middleware');
 
 router.get('/new', middleware.isLoggedIn, function(req, res) {

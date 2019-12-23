@@ -6,11 +6,12 @@ var express = require('express'),
     passport = require('passport'),
     LocalStrategy = require('passport-local'),
     methodOverride = require('method-override'),
-    User = require('./models/user');
+    UserAuth = require('./models/UserAuth');
+    User = require('./models/User');
 
 // require('dotenv').config();	// TODO: check .env file
 
-//var seedDB					= require('./seeds');
+// var seedDB					= require('./seeds');
 // seedDB(); // this is not needed anumore, it was populating dummy data
 
 // Connect to Mongo DB
@@ -48,9 +49,9 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate())); // this one comes from plugin passport-local-mongoose in user.js
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.use(new LocalStrategy(UserAuth.authenticate())); // this one comes from plugin passport-local-mongoose in user.js
+passport.serializeUser(UserAuth.serializeUser());
+passport.deserializeUser(UserAuth.deserializeUser());
 
 // Handle API routes
 require('./routes/sprint')(app);

@@ -1,6 +1,6 @@
-var Sprint = require('../models/sprint');
-var Post = require('../models/post');
-var Comment = require('../models/comment');
+var Sprint = require('../models/Sprint');
+var Post = require('../models/Post');
+var Comment = require('../models/Comment');
 
 var middlewareObj = {};
 

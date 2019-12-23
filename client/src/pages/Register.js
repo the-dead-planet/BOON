@@ -1,14 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
+import NavBar from '../components/NavBar';
 import AuthForm from '../components/AuthForm';
 import authService from '../services/authService';
 
-const Register = () => (
+const Register = (props) => (
     <div>
-        <h1>Login</h1>
+        <NavBar user={props.user} />
+        <h1>Register</h1>
         <AuthForm
-            onSubmit={({ user, password, email, team }) => {
+            onSubmit={({ user, password, email }) => {
                 authService
-                    .register(user, password, email, team)
+                    .register(user, password, email)
                     .then(resp => {
                         console.log('Register successful: ', resp);
                     })

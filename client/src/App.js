@@ -1,11 +1,10 @@
-import React, { useState, useEffect, Component } from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Sprints from './pages/Sprints';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AddSprint from './pages/AddSprint';
-import NavBar from './components/NavBar';
 import './App.css';
 import authService from './services/authService';
 
@@ -40,19 +39,15 @@ class App extends Component {
                             be at the very end.
                         */}
                         <Route path="/login">
-                            <NavBar />
                             <Login onLoginSuccess={user => this.setState({ user })} />
                         </Route>
                         <Route path="/register">
-                            <NavBar />
-                            <Register />
+                            <Register user={user} />
                         </Route>
                         <Route path="/sprints">
-                            <NavBar />
-                            <Sprints />
+                            <Sprints user={user} />
                         </Route>
                         <Route path="/add_sprint">
-                            <NavBar />
                             <AddSprint user={user} />
                         </Route>
                         <Route path="/">

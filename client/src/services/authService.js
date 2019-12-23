@@ -11,11 +11,10 @@ const sendRawPostRequest = (url, data) =>
         },
     });
 
-// TODO: remove the `team` field from the `User` model;
-// Use either `username` or `email` for auth, but not both.
+// TODO: Use either `username` or `email` for auth, but not both.
 export default {
-    login: (username, password, team, email) => sendRawPostRequest('/login', { username, password, team, email }),
-    register: (username, password, team, email) => sendRawPostRequest('/register', { username, password, team, email }),
+    login: (username, password, email) => sendRawPostRequest('/login', { username, password, email }),
+    register: (username, password, email) => sendRawPostRequest('/register', { username, password, email }),
     whoami: () =>
         axios
             .get('/api/whoami')
