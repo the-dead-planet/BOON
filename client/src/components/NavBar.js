@@ -4,6 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import AuthButtons from './AuthButtons'
 import './NavBar.css'
 
 const menuButtons = [
@@ -26,16 +27,6 @@ const menuButtons = [
 ];
 
 function NavBar(props) {
-    var loginButton, signUpButton;
-
-    if (!props.user) {
-        loginButton = <Button color="inherit" href="/login">Login</Button>
-        signUpButton = <Button color="inherit" href="/register">Sign Up</Button>
-    } else {
-        loginButton = <Button color="inherit">Signed in as {props.user.username}</Button>
-        signUpButton = <Button color="inherit" href="/sprints">Log Out</Button>
-    }
-
     return (
         <div className="container">
             <AppBar position="static">
@@ -50,8 +41,7 @@ function NavBar(props) {
                             ))}
                         </div>
                         <div className="nav-left">
-                            {loginButton}
-                            {signUpButton}
+                            <AuthButtons user={props.user} />
                         </div>
                     </div>
                 </Toolbar>
