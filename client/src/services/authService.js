@@ -16,4 +16,9 @@ const sendRawPostRequest = (url, data) =>
 export default {
     login: (username, password, team, email) => sendRawPostRequest('/login', { username, password, team, email }),
     register: (username, password, team, email) => sendRawPostRequest('/register', { username, password, team, email }),
+    whoami: () =>
+        axios
+            .get('/api/whoami')
+            .then(response => response.data)
+            .catch(error => null),
 };

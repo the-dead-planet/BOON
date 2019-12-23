@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
 import sprintsService from '../services/sprintsService';
+import { authenticatedPage } from '../components/authenticatedPage';
 
 const AddSprint = () => (
     <div>
@@ -18,4 +19,4 @@ const AddSprint = () => (
     </div>
 );
 
-export default AddSprint;
+export default authenticatedPage(AddSprint);

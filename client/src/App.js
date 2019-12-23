@@ -7,10 +7,29 @@ import Register from './pages/Register';
 import AddSprint from './pages/AddSprint';
 import NavBar from './components/NavBar';
 import './App.css';
+import authService from './services/authService';
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            whoamiRequestDone: false,
+            user: null,
+        };
+    }
+
+    componentDidMount() {
+        authService.whoami().then(user => {
+            this.setState({ user, whoamiRequestDone: true });
+        });
+    }
+
     render() {
-        return (
+        const { whoamiRequestDone, user } = this.state;
+
+        return !whoamiRequestDone ? (
+            'Loading'
+        ) : (
             <Router>
                 <div className="App">
                     <Switch>
@@ -22,7 +41,7 @@ class App extends Component {
                         */}
                         <Route path="/login">
                             <NavBar />
-                            <Login />
+                            <Login onLoginSuccess={user => this.setState({ user })} />
                         </Route>
                         <Route path="/register">
                             <NavBar />
@@ -34,7 +53,7 @@ class App extends Component {
                         </Route>
                         <Route path="/add_sprint">
                             <NavBar />
-                            <AddSprint />
+                            <AddSprint user={user} />
                         </Route>
                         <Route path="/">
                             <Landing />
