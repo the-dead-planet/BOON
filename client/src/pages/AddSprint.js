@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
 import sprintsService from '../services/sprintsService';
-import { withLoginRequired } from '../utils/authDecorators';
+import { authenticatedPage } from '../components/authenticatedPage';
 
 const AddSprint = () => (
     <div>
@@ -19,4 +19,4 @@ const AddSprint = () => (
     </div>
 );
 
-export default withLoginRequired(AddSprint);
+export default authenticatedPage(AddSprint);

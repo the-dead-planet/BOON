@@ -41,7 +41,7 @@ class App extends Component {
                         */}
                         <Route path="/login">
                             <NavBar />
-                            <Login />
+                            <Login onLoginSuccess={user => this.setState({ user })} />
                         </Route>
                         <Route path="/register">
                             <NavBar />

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import AuthForm from '../components/AuthForm';
 import NavBar from '../components/NavBar';
 import authService from '../services/authService';
+import { interceptPage } from '../components/interceptPage';
 
-const Login = () => (
+const Login = ({ next, onLoginSuccess }) => (
     <div>
         <h1>Login</h1>
         <AuthForm
@@ -11,7 +12,8 @@ const Login = () => (
                 authService
                     .login(user, password, email, team)
                     .then(resp => {
-                        console.log('Login successful: ', resp);
+                        onLoginSuccess(resp);
+                        next();
                     })
                     .catch(err => {
                         console.log('Login failed: ', err);
@@ -21,4 +23,4 @@ const Login = () => (
     </div>
 );
 
-export default Login;
+export default interceptPage(Login);
