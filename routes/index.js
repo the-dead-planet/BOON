@@ -9,11 +9,9 @@ module.exports = app => {
     app.get(`/api/users`, async (req, res) => {
         User.find({})
             .populate('userAuth')
-            .exec((err, users) => {
-                if (!err) {
-                    return res.status(200).send(users);
-                }
-            });
+            .exec()
+            .then(users => res.status(200).send(users))
+            .catch(err => res.status(500).send({err}))
     });
 
     // Returns the logged in user, or `null` if not logged in.
@@ -22,7 +20,7 @@ module.exports = app => {
         return res.status(200).send(user);
     });
 
-    // POST - register
+    // TODO: sort out a nicer way to write this with promises
     app.post('/register', (req, res) => {
         // Create user with login credentials only
         UserAuth.register(
@@ -32,14 +30,16 @@ module.exports = app => {
             }),
             req.body.password,
             (error, userAuth) => {
-                if (!error && userAuth) {
+                if (error) res.status(500).send({error})
+                else if (userAuth) {
                     passport.authenticate('local')(req, res, () => {
                         // If auth user successfully created, create user with reference to auth user
                         User.create(new User({
                             userAuth: userAuth._id,
                             team: req.body.team,
                         }), (err, user) => {
-                            if (!err || user) {
+                            if (err) res.status(500).send(err)
+                            else if (user) {
                                 return res.status(201).send({
                                     error: false,
                                     user,

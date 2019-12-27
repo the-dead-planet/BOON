@@ -5,13 +5,9 @@ const Comment = mongoose.model('Comment');
 module.exports = app => {
     // INDEX
     app.get(`/api/comments`, async (req, res) => {
-        Comment.find({}, (err, comments) => {
-            if (err) {
-                console.log('Error getting all comments from the db: ', err);
-            } else {
-                return res.status(200).send(comments);
-            }
-        });
+        Comment.find({})
+        .then(comments => res.status(200).send(comments))
+        .catch(err => res.status(500).send({err}))
     });
 
     // TODO: post, update and destroy comment routes

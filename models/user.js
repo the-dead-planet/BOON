@@ -9,7 +9,7 @@ var userSchema = new mongoose.Schema({
     team: String,
     created: {
         type: Date,
-        default: Date.now(),
+        default: Date.now,
     },
 });
 

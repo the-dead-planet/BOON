@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const middleware = require('../middleware');
 const Sprint = mongoose.model('Sprint');
+const Post = mongoose.model('Post');
+const Comment = mongoose.model('Comment');
 
 module.exports = app => {
     app.get('/', async (req, res) => {
@@ -16,13 +18,9 @@ module.exports = app => {
                     path: 'comments',
                 },
             })
-            .exec((err, sprints) => {
-                if (err) {
-                    console.log('Error getting all sprints from the db: ', err);
-                } else {
-                    return res.status(200).send(sprints);
-                }
-            });
+            .exec()
+            .catch(err => res.status(500).send({err}))
+            .then(sprints => res.status(200).send(sprints))
     });
 
     // POST
@@ -40,73 +38,49 @@ module.exports = app => {
             created: req.body.created,
         };
 
-        // Create a new sprint and save it to DB
-        Sprint.create(sprint, (err, sprint) => {
-            if (err || !sprint) {
-                console.log('Error creating new sprint: ', err);
-                req.flash('error', 'Something went wrong');
-            } else {
-                console.log('New sprint created:', err);
-                req.flash('success', 'Sprint successfully created');
-                return res.status(201).send({
-                    error: false,
-                    sprint,
-                });
-            }
-        });
+        Sprint.create(sprint)
+            .then(sprint => res.status(201).send({
+                error: false,
+                sprint,
+            }))
+            .catch(err => res.status(500).send({err}))
     });
 
     // UPDATE
     app.put('/api/sprints/:id', middleware.checkSprintOwnership, (req, res) => {
-        Sprint.findByIdAndUpdate(req.params.id, req.body.sprint, (err, sprint) => {
-            if (err || !sprint) {
-                console.log('Error updating sprint: ', err);
-                req.flash('error', 'Sorry, this sprint does not exist!');
-            } else {
-                console.log('Sprint updated ', req.params.dateFrom);
-                req.flash('success', 'Sprint successfully updated');
-                return res.status(202).send({
-                    error: false,
-                    sprint,
-                });
-            }
-        });
+        Sprint.findByIdAndUpdate(req.params.id, req.body.sprint)
+            .then(sprint => res.status(202).send({
+                error: false,
+                sprint,
+            }))
+            .catch(err => res.status(500).send({err}))
+        
     });
 
-    // DESTROY
+    // TODO: review sequence of deletion or all related objects
     app.delete('/:id', middleware.checkSprintOwnership, (req, res) => {
         // Delete sprint and all related objects (posts and comments)
-        Sprint.findByIdAndDelete(req.params.id, function(err, sprint) {
-            if (err || !sprint) {
-                console.log('Deleting unsuccessful');
-                req.flash('error', 'Sorry, this sprint does not exist!');
-            } else {
-                req.flash('success', 'Sprint deleted');
+        Sprint.findByIdAndDelete(req.params.id)
+            .then(sprint => {
+                if(sprint) {
+                    Post.deleteMany({ _id: req.object.posts })
+                        .then(posts => console.log("Posts deleted"))
+                        .catch(err => res.status(500).send({err}));
 
-                // TODO: find a more fancy solution to delete all related objects and handle async behavior
-                // delete associated posts
-                Post.deleteMany({ _id: req.object.posts }, (err, post) => {
-                    if (err || !post) {
-                        req.flash('error', 'Sorry, this post does not exist');
-                    } else {
-                        req.flash('success', 'Related posts deleted');
-                    }
-                });
+                    Comment.deleteMany({ _id: req.object.comments })
+                        .then(comments => console.log("Comments deleted"))
+                        .catch(err => res.status(500).send({err}));
 
-                // delete associated comments
-                Comment.deleteMany({ _id: req.object.comments }, (err, comment) => {
-                    if (err || !comment) {
-                        req.flash('error', 'Sorry, this comment does not exist');
-                    } else {
-                        req.flash('success', 'Related comments deleted');
-                    }
-                });
-
-                return res.status(202).send({
-                    error: false,
-                    sprint,
-                });
-            }
-        });
+                    // Like.deleteMany({ _id: req.object.comments })
+                    //     .then(like => console.log("Likes deleted"))
+                    //     .catch(err => res.status(500).send({err}));
+    
+                    return res.status(202).send({
+                        error: false,
+                        sprint,
+                    });
+                }
+            })
+            .catch(err => res.status(500).send({err})) 
     });
 };

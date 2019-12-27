@@ -7,13 +7,9 @@ module.exports = app => {
     app.get(`/api/posts`, async (req, res) => {
         Post.find({})
             .populate('comments')
-            .exec((err, posts) => {
-                if (err) {
-                    console.log('Error getting all posts from the db: ', err);
-                } else {
-                    return res.status(200).send(posts);
-                }
-            });
+            .exec()
+            .then(posts => res.status(200).send(posts))
+            .catch(err => res.status(500).send({err}))
     });
 
     // TODO: post, update and delete post linked to a sprint

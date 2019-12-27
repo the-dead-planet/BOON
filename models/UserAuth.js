@@ -12,3 +12,4 @@ var userAuthSchema = new mongoose.Schema({
 userAuthSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('UserAuth', userAuthSchema);
+ 
