@@ -11,7 +11,7 @@ module.exports = app => {
             .populate('userAuth')
             .exec()
             .then(users => res.status(200).send(users))
-            .catch(err => res.status(500).send({err}))
+            .catch(err => res.status(500).send({ err }));
     });
 
     // Returns the logged in user, or `null` if not logged in.
@@ -24,34 +24,29 @@ module.exports = app => {
     app.post('/register', (req, res) => {
         console.log(req.body);
         // Create user with login credentials only
-        UserAuth.register(
+        return UserAuth.register(
             new UserAuth({
                 username: req.body.email,
             }),
-            req.body.password)
+            req.body.password
+        )
             .then(userAuth => {
-                // TODO: add authentication/login after registering or display message and ask user to log in
-                // If auth user successfully created, authenticate and create user with reference to auth user
-                // passport.authenticate('local', req, res, () => {
-                //     res.status(201).send({
-                //         error: false,
-                //         userAuth
-                //     });
-                // });
-                
                 // TODO: Add check if username also already exists or not
-                User.create(new User({
-                    userAuth: userAuth._id,
-                    username: req.body.username,
-                    team: req.body.team,
-                }))
-                .then(user => res.status(201).send({
-                    error: false,
-                    user
-                }))
-                .catch(err => res.status(500).send({err}))
-            })   
-            .catch(err => res.status(500).send({err}));
+                return User.create(
+                    new User({
+                        userAuth: userAuth._id,
+                        username: req.body.username,
+                        team: req.body.team,
+                    })
+                ).then(user =>
+                    // Send the created user object to the client.
+                    res.status(201).send({
+                        error: false,
+                        user,
+                    })
+                );
+            })
+            .catch(err => res.status(500).send({ err }));
     });
 
     // POST - Log in
@@ -63,7 +58,6 @@ module.exports = app => {
             user,
         });
     });
-        
 
     // Log Out
     app.get('/logout', (req, res) => {

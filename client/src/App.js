@@ -42,7 +42,7 @@ class App extends Component {
                             <Login onLoginSuccess={user => this.setState({ user })} />
                         </Route>
                         <Route path="/register">
-                            <Register user={user} />
+                            <Register user={user} onSuccess={user => this.setState({ user })} />
                         </Route>
                         <Route path="/sprints">
                             <Sprints user={user} />

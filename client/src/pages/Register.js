@@ -2,18 +2,21 @@ import React from 'react';
 import NavBar from '../components/NavBar';
 import AuthForm from '../components/AuthForm';
 import authService from '../services/authService';
+import { interceptPage } from '../components/interceptPage';
 
-const Register = (props) => (
+const Register = ({ user, onSuccess, next }) => (
     <div>
-        <NavBar user={props.user} />
+        <NavBar user={user} />
         <h1>Register</h1>
         <AuthForm
-            type='register'
+            type="register"
             onSubmit={({ username, password, email, team }) => {
                 authService
-                    .register(username, password, email, team )
+                    .register(username, password, email, team)
                     .then(resp => {
-                        console.log('Register successful: ', resp);
+                        const { user } = resp;
+                        onSuccess(user);
+                        next();
                     })
                     .catch(err => {
                         console.log('Register failed: ', err);
@@ -23,4 +26,4 @@ const Register = (props) => (
     </div>
 );
 
-export default Register;
+export default interceptPage(Register);
