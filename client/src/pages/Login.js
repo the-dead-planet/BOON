@@ -9,9 +9,10 @@ const Login = ({next, onLoginSuccess, user }) => (
         <NavBar user={user} />
         <h1>Login</h1>
         <AuthForm
-            onSubmit={({ user, password, email }) => {
+            type='login'
+            onSubmit={({ password, email }) => {
                 authService
-                    .login(user, password, email)
+                    .login( password, email)
                     .then(resp => {
                         onLoginSuccess(resp);
                         next();

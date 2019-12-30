@@ -4,10 +4,10 @@ var express = require('express'),
     mongoose = require('mongoose'),
     flash = require('connect-flash'),
     passport = require('passport'),
-    LocalStrategy = require('passport-local'),
+    LocalStrategy = require('passport-local').Strategy,
     methodOverride = require('method-override'),
     UserAuth = require('./models/UserAuth');
-    User = require('./models/User');
+User = require('./models/User');
 
 // require('dotenv').config();	// TODO: check .env file
 
@@ -49,7 +49,16 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(UserAuth.authenticate())); // this one comes from plugin passport-local-mongoose in user.js
+/*
+    Local Strategy uses value of input field with name='email' not 'username'
+    UserAuth schema still needs to have properties named 'username' and 'password'
+    'username' property is filled in with e-mail value when creating object and saving to db
+*/
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+}, UserAuth.authenticate()));
+
 passport.serializeUser(UserAuth.serializeUser());
 passport.deserializeUser(UserAuth.deserializeUser());
 

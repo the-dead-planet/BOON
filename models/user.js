@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
-var passportLocalMongoose = require('passport-local-mongoose');
 
 var userSchema = new mongoose.Schema({
     userAuth: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserAuth',
     },
+    username: String,
     team: String,
     created: {
         type: Date,
@@ -13,7 +13,5 @@ var userSchema = new mongoose.Schema({
     },
 });
 
-// This adds methods to the User object - is this needed here?
-userSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('User', userSchema);

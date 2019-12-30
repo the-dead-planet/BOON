@@ -8,9 +8,10 @@ const Register = (props) => (
         <NavBar user={props.user} />
         <h1>Register</h1>
         <AuthForm
-            onSubmit={({ user, password, email }) => {
+            type='register'
+            onSubmit={({ username, password, email, team }) => {
                 authService
-                    .register(user, password, email)
+                    .register(username, password, email, team )
                     .then(resp => {
                         console.log('Register successful: ', resp);
                     })

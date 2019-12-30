@@ -11,11 +11,10 @@ const sendRawPostRequest = (url, data) =>
         },
     });
 
-// TODO: Use either `username` or `email` for auth, but not both.
 export default {
-    login: (username, password, email) => sendRawPostRequest('/login', { username, password, email }),
-    logout: (username, password, email) => sendRawPostRequest('/logout', { username, password, email }),
-    register: (username, password, email) => sendRawPostRequest('/register', { username, password, email }),
+    login: (password, email) => sendRawPostRequest('/login', { password, email }),
+    logout: (password, email) => sendRawPostRequest('/logout', { password, email }),
+    register: (username, password, email, team) => sendRawPostRequest('/register', { username, password, email, team }),
     whoami: () =>
         axios
             .get('/api/whoami')

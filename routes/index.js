@@ -22,38 +22,41 @@ module.exports = app => {
 
     // TODO: sort out a nicer way to write this with promises
     app.post('/register', (req, res) => {
+        console.log(req.body);
         // Create user with login credentials only
         UserAuth.register(
             new UserAuth({
-                username: req.body.username,
-                email: req.body.email,
+                username: req.body.email,
             }),
-            req.body.password,
-            (error, userAuth) => {
-                if (error) res.status(500).send({error})
-                else if (userAuth) {
-                    passport.authenticate('local')(req, res, () => {
-                        // If auth user successfully created, create user with reference to auth user
-                        User.create(new User({
-                            userAuth: userAuth._id,
-                            team: req.body.team,
-                        }), (err, user) => {
-                            if (err) res.status(500).send(err)
-                            else if (user) {
-                                return res.status(201).send({
-                                    error: false,
-                                    user,
-                                });
-                            }
-                        });
-                    });
-                }
-            }
-        );
+            req.body.password)
+            .then(userAuth => {
+                // TODO: add authentication/login after registering or display message and ask user to log in
+                // If auth user successfully created, authenticate and create user with reference to auth user
+                // passport.authenticate('local', req, res, () => {
+                //     res.status(201).send({
+                //         error: false,
+                //         userAuth
+                //     });
+                // });
+                
+                // TODO: Add check if username also already exists or not
+                User.create(new User({
+                    userAuth: userAuth._id,
+                    username: req.body.username,
+                    team: req.body.team,
+                }))
+                .then(user => res.status(201).send({
+                    error: false,
+                    user
+                }))
+                .catch(err => res.status(500).send({err}))
+            })   
+            .catch(err => res.status(500).send({err}));
     });
 
     // POST - Log in
     app.post('/login', passport.authenticate('local'), (req, res) => {
+        console.log(req.user);
         let user = req.user;
         return res.status(201).send({
             error: false,

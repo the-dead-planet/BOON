@@ -4,12 +4,11 @@ var passportLocalMongoose = require('passport-local-mongoose');
 // User login credentials only
 var userAuthSchema = new mongoose.Schema({
     username: String,
-    email: String,
-    password: String,
+    password: String
 });
 
-// This adds methods to the User object
+// Add methods from passport-local-mongoose (authenticate, register etc)
 userAuthSchema.plugin(passportLocalMongoose);
 
+
 module.exports = mongoose.model('UserAuth', userAuthSchema);
- 
