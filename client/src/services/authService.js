@@ -9,7 +9,7 @@ const sendRawPostRequest = (url, data) =>
         headers: {
             'content-type': 'application/x-www-form-urlencoded;charset=utf-8',
         },
-    });
+    }).then(response => response.data);
 
 export default {
     login: (password, email) => sendRawPostRequest('/login', { password, email }),
