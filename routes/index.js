@@ -38,13 +38,16 @@ module.exports = app => {
                         username: req.body.username,
                         team: req.body.team,
                     })
-                ).then(user =>
+                ).then(user => {
+                    // Authenticate the user after registration.
+                    req.login(userAuth, err => console.log({ err }));
+
                     // Send the created user object to the client.
-                    res.status(201).send({
+                    return res.status(201).send({
                         error: false,
                         user,
-                    })
-                );
+                    });
+                });
             })
             .catch(err => res.status(500).send({ err }));
     });
