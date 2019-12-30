@@ -54,10 +54,15 @@ app.use(passport.session());
     UserAuth schema still needs to have properties named 'username' and 'password'
     'username' property is filled in with e-mail value when creating object and saving to db
 */
-passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
-}, UserAuth.authenticate()));
+passport.use(
+    new LocalStrategy(
+        {
+            usernameField: 'email',
+            passwordField: 'password',
+        },
+        UserAuth.authenticate()
+    )
+);
 
 passport.serializeUser(UserAuth.serializeUser());
 passport.deserializeUser(UserAuth.deserializeUser());
