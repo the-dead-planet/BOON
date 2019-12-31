@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import sprintsService from '../services/sprintsService';
 import NavBar from '../components/NavBar';
+import Loading from '../components/Loading';
 import './Sprints.css';
 
 function Sprints(props) {
@@ -19,7 +20,6 @@ function Sprints(props) {
 
     const getSprints = async () => {
         let res = await sprintsService.getAll();
-        console.log(res);
         setSprints(res);
     };
 
@@ -36,22 +36,26 @@ function Sprints(props) {
             <NavBar user={props.user} />
             <Container maxWidth="lg" className="main">
                 <Paper className={classes.root}>
-                    {sprints && sprints.length > 0 ? (
-                        sprints.map(sprint => (
-                            <div key={sprint._id} style={{ color: '#000' }}>
-                                <Typography variant="h5" component="h3">
-                                    {sprint.name}
-                                </Typography>
-                                <Typography component="p">
-                                    {/* {sprint.dateFrom.toISOString().slice(0,10)} - {sprint.dateTo} */}
-                                    {sprint.dateFrom} - {sprint.dateTo}
-                                </Typography>
-                            </div>
-                        ))
+                    {!sprints ? (
+                        <Loading />
                     ) : (
-                            <Typography component="p">
-                                No sprints found
-                        </Typography>
+                            sprints.length > 0 ? (
+                                sprints.map(sprint => (
+                                    <div key={sprint._id} style={{ color: '#000' }}>
+                                        <Typography variant="h5" component="h3">
+                                            {sprint.name}
+                                        </Typography>
+                                        <Typography component="p">
+                                            {/* {sprint.dateFrom.toISOString().slice(0,10)} - {sprint.dateTo} */}
+                                            {sprint.dateFrom} - {sprint.dateTo}
+                                        </Typography>
+                                    </div>
+                                ))
+                            ) : (
+                                    <Typography component="p">
+                                        No sprints found...
+                                    </Typography>
+                                )
                         )}
                 </Paper>
             </Container>
