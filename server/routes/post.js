@@ -9,7 +9,7 @@ module.exports = app => {
             .populate('comments')
             .exec()
             .then(posts => res.status(200).send(posts))
-            .catch(err => res.status(500).send({err}))
+            .catch(err => res.status(500).send({ err }));
     });
 
     // TODO: post, update and delete post linked to a sprint

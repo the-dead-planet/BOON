@@ -6,8 +6,8 @@ module.exports = app => {
     // INDEX
     app.get(`/api/comments`, async (req, res) => {
         Comment.find({})
-        .then(comments => res.status(200).send(comments))
-        .catch(err => res.status(500).send({err}))
+            .then(comments => res.status(200).send(comments))
+            .catch(err => res.status(500).send({ err }));
     });
 
     // TODO: post, update and destroy comment routes

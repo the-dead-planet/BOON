@@ -19,8 +19,8 @@ module.exports = app => {
                 },
             })
             .exec()
-            .catch(err => res.status(500).send({err}))
-            .then(sprints => res.status(200).send(sprints))
+            .catch(err => res.status(500).send({ err }))
+            .then(sprints => res.status(200).send(sprints));
     });
 
     // POST
@@ -39,22 +39,25 @@ module.exports = app => {
         };
 
         Sprint.create(sprint)
-            .then(sprint => res.status(201).send({
-                error: false,
-                sprint,
-            }))
-            .catch(err => res.status(500).send({err}))
+            .then(sprint =>
+                res.status(201).send({
+                    error: false,
+                    sprint,
+                })
+            )
+            .catch(err => res.status(500).send({ err }));
     });
 
     // UPDATE
     app.put('/api/sprints/:id', middleware.checkSprintOwnership, (req, res) => {
         Sprint.findByIdAndUpdate(req.params.id, req.body.sprint)
-            .then(sprint => res.status(202).send({
-                error: false,
-                sprint,
-            }))
-            .catch(err => res.status(500).send({err}))
-        
+            .then(sprint =>
+                res.status(202).send({
+                    error: false,
+                    sprint,
+                })
+            )
+            .catch(err => res.status(500).send({ err }));
     });
 
     // TODO: review sequence of deletion or all related objects
@@ -62,25 +65,25 @@ module.exports = app => {
         // Delete sprint and all related objects (posts and comments)
         Sprint.findByIdAndDelete(req.params.id)
             .then(sprint => {
-                if(sprint) {
+                if (sprint) {
                     Post.deleteMany({ _id: req.object.posts })
-                        .then(posts => console.log("Posts deleted"))
-                        .catch(err => res.status(500).send({err}));
+                        .then(posts => console.log('Posts deleted'))
+                        .catch(err => res.status(500).send({ err }));
 
                     Comment.deleteMany({ _id: req.object.comments })
-                        .then(comments => console.log("Comments deleted"))
-                        .catch(err => res.status(500).send({err}));
+                        .then(comments => console.log('Comments deleted'))
+                        .catch(err => res.status(500).send({ err }));
 
                     // Like.deleteMany({ _id: req.object.comments })
                     //     .then(like => console.log("Likes deleted"))
                     //     .catch(err => res.status(500).send({err}));
-    
+
                     return res.status(202).send({
                         error: false,
                         sprint,
                     });
                 }
             })
-            .catch(err => res.status(500).send({err})) 
+            .catch(err => res.status(500).send({ err }));
     });
 };
