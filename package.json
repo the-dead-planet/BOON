@@ -4,7 +4,9 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
+        "test": "yarn test_server; yarn test_client",
+        "test_server": "jest --passWithNoTests --testPathIgnorePatterns=[client/, node_modules/]",
+        "test_client": "yarn --cwd client test --watch-all=false",
         "client": "npm run start --prefix client",
         "server": "nodemon index.js",
         "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
@@ -38,6 +40,7 @@
         "babel-preset-es2015": "^6.24.1",
         "concurrently": "^5.0.2",
         "husky": "^3.1.0",
+        "jest": "^24.9.0",
         "nodemon": "^2.0.2",
         "prettier": "1.19.1",
         "pretty-quick": "^2.0.1"
