@@ -1,17 +1,20 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import App from './App';
+import authService, { resolveWhoAmi, rejectWhoAmi } from './services/authService';
+
+jest.mock('./services/authService');
 
 describe('landing page', () => {
-    test('Displays a loading message', () => {
-        const { getByText } = render(<App />);
-        expect(getByText(/loading/i)).toBeInTheDocument();
-    });
+    test('Waits from whoami and renders an enter button', () => {
+        const { getByText, findByText } = render(<App />);
 
-    // NOTE: skipped, because it would currently fail - the app waits for the whoami call to resolve before rendering the landing page
-    test.skip('renders the enter button', () => {
-        const { getByText } = render(<App />);
-        const enterTheBoonButton = getByText(/ /i);
-        expect(enterTheBoonButton).toBeInTheDocument();
+        // The whoami request is pending - app shows a loading screen.
+        expect(getByText(/loading/i)).toBeInTheDocument();
+
+        // Finalize the request. The app should transition to the landing page.
+        resolveWhoAmi();
+        const enterButtonPromise = findByText(/enter the boon/i);
+        return expect(enterButtonPromise).resolves.toBeInTheDocument();
     });
 });
