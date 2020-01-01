@@ -7,13 +7,16 @@ const express = require('express');
 const app = require('./app');
 
 describe('app', () => {
-    // TODO: use a fake database
+    // Connect to a temporary database.
+    // Will clean all data after each test.
     beforeAll(() =>
-        mongoose.connect('mongodb://localhost:27017/boon', {
+        mongoose.connect(process.env.MONGO_URL, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })
     );
+
+    afterAll(() => mongoose.disconnect());
 
     describe('whoami', () => {
         test('returns OK status code', () => {
@@ -24,7 +27,4 @@ describe('app', () => {
                 });
         });
     });
-
-    // This line is required to let jest finish.
-    afterAll(() => mongoose.disconnect());
 });
