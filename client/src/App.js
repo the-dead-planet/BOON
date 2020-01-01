@@ -18,7 +18,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-        authService.whoami().then(user => {
+        authService.whoami().then(({ user }) => {
             this.setState({ user, whoamiRequestDone: true });
         });
     }

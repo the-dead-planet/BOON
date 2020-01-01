@@ -13,7 +13,7 @@ describe('landing page', () => {
         expect(getByText(/loading/i)).toBeInTheDocument();
 
         // Finalize the request. The app should transition to the landing page.
-        resolveWhoAmi();
+        resolveWhoAmi({ user: { username: 'username' } });
         const enterButtonPromise = findByText(/enter the boon/i);
         return expect(enterButtonPromise).resolves.toBeInTheDocument();
     });

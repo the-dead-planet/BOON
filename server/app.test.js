@@ -110,14 +110,17 @@ describe('app', () => {
 
         test('handles unauthenticated users', () => {
             return agent.get('/api/whoami').then(resp => {
-                expect(resp).toMatchObject({ statusCode: 200, body: {} });
+                expect(resp).toMatchObject({ statusCode: 200, body: { user: null } });
             });
         });
 
         test('handles authenticated users', () => {
             return authenticate().then(() =>
                 agent.get('/api/whoami').then(resp => {
-                    expect(resp).toMatchObject({ statusCode: 200, body: { username: userCredentials.email } });
+                    expect(resp).toMatchObject({
+                        statusCode: 200,
+                        body: { user: { username: userCredentials.email } },
+                    });
                 })
             );
         });

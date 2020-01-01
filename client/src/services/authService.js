@@ -19,5 +19,5 @@ export default {
         axios
             .get('/api/whoami')
             .then(response => response.data)
-            .catch(error => null),
+            .catch(error => ({ user: null })),
 };
