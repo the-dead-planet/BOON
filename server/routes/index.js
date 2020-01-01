@@ -22,7 +22,6 @@ module.exports = app => {
 
     // TODO: sort out a nicer way to write this with promises
     app.post('/register', (req, res) => {
-        console.log(req.body);
         // Create user with login credentials only
         return UserAuth.register(
             new UserAuth({
@@ -54,7 +53,6 @@ module.exports = app => {
 
     // POST - Log in
     app.post('/login', passport.authenticate('local'), (req, res) => {
-        console.log(req.user);
         let user = req.user;
         return res.status(201).send({
             error: false,
