@@ -2,10 +2,18 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import sprintsService from '../services/sprintsService';
 import { authenticatedPage } from '../components/authenticatedPage';
+import { withPush } from '../utils/routingDecorators';
 
-const AddSprint = () => (
+const AddSprint = ({ push }) => (
     <div>
-        <Formik initialValues={{}} onSubmit={data => sprintsService.add(data)}>
+        <Formik
+            initialValues={{}}
+            onSubmit={data =>
+                sprintsService.add(data).then(() => {
+                    push('/sprints');
+                })
+            }
+        >
             {() => (
                 <Form>
                     <Field type="number" name="number" />
@@ -19,4 +27,4 @@ const AddSprint = () => (
     </div>
 );
 
-export default authenticatedPage(AddSprint);
+export default authenticatedPage(withPush(AddSprint));
