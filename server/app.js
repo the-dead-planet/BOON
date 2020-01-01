@@ -19,6 +19,7 @@ User = require('./models/User');
 // Some some random thingies
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 app.use(flash()); // TODO: check if this will work with React - what are the alternatives
 
