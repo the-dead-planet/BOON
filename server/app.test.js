@@ -60,6 +60,38 @@ describe('app', () => {
         });
     });
 
+    describe('register', () => {
+        test('creates a new user object', () => {
+            const username = 'username';
+            return request(app)
+                .post('/register')
+                .send(`email=some@email.com`)
+                .send(`password=password`)
+                .send(`team=team`)
+                .send(`username=${username}`)
+                .then(resp => {
+                    expect(resp).toMatchObject({
+                        statusCode: 201,
+                        body: { user: { username } },
+                    });
+                })
+                .then(() => {
+                    // Check if a new User object has been saved in the database.
+                    expect(User.find({ username })).resolves.toHaveLength(1);
+                });
+        });
+
+        test('rejects a duplicate email', () => {
+            return request(app)
+                .post('/register')
+                .send(`email=${userCredentials.email}`)
+                .send(`password=password`)
+                .send(`team=team`)
+                .send(`username=username`)
+                .expect(500);
+        });
+    });
+
     describe('whoami', () => {
         // Use an `agent` instead of `request` to persist state across requests.
         // This approach allows accessing the API as a logged in user.
