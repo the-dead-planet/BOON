@@ -1,27 +1,20 @@
+// This file exposes the whole app as a library.
+//
+// It *does not* connect the app to the real world. All external clients should
+// be injectable / configurable from the outside to make testing possible.
+// For example, the library does not connect to the database - it depends on
+// the caller initializing the connection. This allows using a different connection
+// in unit tests, and a different one in a production environment.
+
 var express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
-    mongoose = require('mongoose'),
     flash = require('connect-flash'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     methodOverride = require('method-override'),
     UserAuth = require('./models/UserAuth');
 User = require('./models/User');
-
-// require('dotenv').config();	// TODO: check .env file
-
-// var seedDB					= require('./seeds');
-// seedDB(); // this is not needed anumore, it was populating dummy data
-
-// Connect to Mongo DB
-console.log('DATABASEURL env parameter: ', process.env.DATABASEURL);
-// mongoose.connect('mongodb://localhost:27017/boon', {
-// mongoose.connect('mongodb+srv://globalUser:TestUser1234@somethingcluster-zo5fb.mongodb.net/test?retryWrites=true&w=majority', {
-mongoose.connect(process.env.DATABASEURL || 'mongodb://localhost:27017/boon', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
 
 // Some some random thingies
 app.use(express.static(__dirname + '/public'));

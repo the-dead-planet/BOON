@@ -7,6 +7,14 @@ const express = require('express');
 const app = require('./app');
 
 describe('app', () => {
+    // TODO: use a fake database
+    beforeAll(() =>
+        mongoose.connect('mongodb://localhost:27017/boon', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        })
+    );
+
     describe('whoami', () => {
         test('returns OK status code', () => {
             return request(app)
