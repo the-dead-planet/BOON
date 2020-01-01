@@ -29,16 +29,6 @@ describe('app', () => {
 
     afterAll(() => mongoose.disconnect());
 
-    describe('whoami', () => {
-        test('returns OK status code', () => {
-            return request(app)
-                .get('/api/whoami')
-                .then(resp => {
-                    expect(resp).toMatchObject({ statusCode: 200 });
-                });
-        });
-    });
-
     describe('login', () => {
         test('logs an existing user in', () => {
             return request(app)
@@ -67,6 +57,37 @@ describe('app', () => {
                 .send(`email=wrong@email.com`)
                 .send(`password=${userCredentials.password}`)
                 .expect(401);
+        });
+    });
+
+    describe('whoami', () => {
+        // Use an `agent` instead of `request` to persist state across requests.
+        // This approach allows accessing the API as a logged in user.
+        const agent = request.agent(app);
+
+        const authenticate = () =>
+            agent
+                .post('/login')
+                .send(`email=${userCredentials.email}`)
+                .send(`password=${userCredentials.password}`)
+                .then(resp => {
+                    if (resp.statusCode !== 201) {
+                        return Promise.reject(`Authentication failed: ${resp.statusCode}`);
+                    }
+                });
+
+        test('handles unauthenticated users', () => {
+            return agent.get('/api/whoami').then(resp => {
+                expect(resp).toMatchObject({ statusCode: 200, body: {} });
+            });
+        });
+
+        test('handles authenticated users', () => {
+            return authenticate().then(() =>
+                agent.get('/api/whoami').then(resp => {
+                    expect(resp).toMatchObject({ statusCode: 200, body: { username: userCredentials.email } });
+                })
+            );
         });
     });
 });
