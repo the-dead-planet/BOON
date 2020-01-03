@@ -5,6 +5,7 @@ import Sprints from './pages/Sprints';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import AddSprint from './pages/AddSprint';
+import { SprintDetail } from './pages/SprintDetail';
 import './App.css';
 import authService from './services/authService';
 
@@ -43,6 +44,9 @@ class App extends Component {
                         </Route>
                         <Route path="/register">
                             <Register user={user} onSuccess={user => this.setState({ user })} />
+                        </Route>
+                        <Route path="/sprints/:id">
+                            <SprintDetail />
                         </Route>
                         <Route path="/sprints">
                             <Sprints user={user} />
