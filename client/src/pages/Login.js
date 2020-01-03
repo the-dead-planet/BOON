@@ -5,7 +5,7 @@ import authService from '../services/authService';
 import { interceptPage } from '../components/interceptPage';
 
 const Login = ({ next, onLoginSuccess, user }) => (
-    <div>
+    <div className="center">
         <NavBar user={user} />
         <h1>Login</h1>
         <AuthForm

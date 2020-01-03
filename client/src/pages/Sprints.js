@@ -43,11 +43,13 @@ function Sprints(props) {
                                 sprints.map(sprint => (
                                     <div key={sprint._id} style={{ color: '#000' }}>
                                         <Typography variant="h5" component="h3">
-                                            {sprint.name}
+                                            {sprint.number} : {sprint.name}
                                         </Typography>
                                         <Typography component="p">
-                                            {/* {sprint.dateFrom.toISOString().slice(0,10)} - {sprint.dateTo} */}
-                                            {sprint.dateFrom} - {sprint.dateTo}
+                                            {sprint.dateFrom.slice(0,10)} - {sprint.dateTo.slice(0,10)} 
+                                        </Typography>
+                                        <Typography component="p">
+                                            {sprint.description} 
                                         </Typography>
                                     </div>
                                 ))

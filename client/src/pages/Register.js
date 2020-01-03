@@ -5,7 +5,7 @@ import authService from '../services/authService';
 import { interceptPage } from '../components/interceptPage';
 
 const Register = ({ user, onSuccess, next }) => (
-    <div>
+    <div className="center">
         <NavBar user={user} />
         <h1>Register</h1>
         <AuthForm
