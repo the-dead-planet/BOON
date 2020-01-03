@@ -6,15 +6,15 @@ A platform for sharing cross team developments, product increments, ideas and ro
 
 ## Requirements
 
-    Node.js
-    Mongo DB
+-   Node.js
+-   Mongo DB
 
 ## Installation
 
-Run the following command to install all dependencies
+Run the following command to install all dependencies:
 
 ```
-yarn install && cd client && yarn install && cd ..
+yarn install-all
 ```
 
 ## Testing
@@ -30,4 +30,6 @@ Refer to its package.json for more details.
 
 ## Running the app
 
-    $ npm run dev
+```
+yarn dev
+```

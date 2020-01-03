@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "install-all": "yarn --cwd client install && yarn --cwd server install",
+        "install-all": "yarn install && yarn --cwd client install && yarn --cwd server install",
         "test": "yarn test_server; yarn test_client",
         "test_client": "yarn --cwd client test --watch-all=false",
         "test_server": "yarn --cwd server test --watch-all=false",
