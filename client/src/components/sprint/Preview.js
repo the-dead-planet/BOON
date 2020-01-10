@@ -25,7 +25,7 @@ function Preview({ _id, number, name, dateFrom, dateTo, description }) {
 
     const classes = useStyles();
 
-    var sprintTitle = `${number}: ${name}`;
+    var sprintTitle =<Link to={`/sprints/${_id}`}>{number}: {name}</Link>;
 
 
     return (
@@ -46,16 +46,16 @@ function Preview({ _id, number, name, dateFrom, dateTo, description }) {
                                 className={classes.inline}
                                 color="textPrimary"
                             >
-                                {dateFrom.substring(0,10)} - {dateTo.substring(0,10)}
+                                {dateFrom ? dateFrom.substring(0,10):""} - {dateTo ? dateTo.substring(0,10) : ""}
                             </Typography>
-                            {description.substring(0,70)}...
+                            {description ? description.substring(0,70): ""}...
                         </React.Fragment>
                     }
                 />
             </ListItem>
             <Divider variant="inset" component="li" />
-        {/* </Link> */}
         </div>
+        // </Link>
     );
 }
 

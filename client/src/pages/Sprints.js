@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
+import React, { useState, useEffect, Component } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
-import sprintsService from '../services/sprintsService';
 import NavBar from '../components/NavBar';
+import SprintList from '../components/sprint/SprintList';
+import { Detail } from '../components/sprint/Detail';
+import sprintsService from '../services/sprintsService';
+import './Sprints.css';
 import Loading from '../components/Loading';
 import Preview from '../components/sprint/Preview';
-import './Sprints.css';
+import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
 
 
-
-function Sprints(props) {
+const Sprints = (props) => {
     const useStyles = makeStyles(theme => ({
         root: {
             padding: theme.spacing(3, 2),
@@ -40,22 +43,34 @@ function Sprints(props) {
         }
     });
 
+    
 
     return (
         <div>
             <NavBar user={props.user} />
             <Container maxWidth="lg" className="main">
-                {/* <Paper className={classes.root}> */}
-                <List className={classes.root}>
-                    {!sprints ? (
-                            <Loading />
-                        ) : sprints.length > 0 ? (
-                            sprints.map(sprint => <Preview {...sprint} key={sprint._id} />)
-                        ) : (
-                                    <Typography component="p">No sprints found...</Typography>
-                                )}
-                </List>
-                {/* </Paper> */}
+                <div className="">
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={12} lg={4}>
+                            <SprintList sprints={sprints} />
+                        </Grid>
+                        <Grid item xs={12} sm={12} lg={8}>
+                            <Paper className={classes.paper}>
+                            {!sprints ? (
+                                    <Loading />
+                                ) : sprints.length > 0 ? (
+                                    <Detail {...sprints[props.index]}  />
+                                ) : (
+                                            <Typography component="p">No sprints found...</Typography>
+                                        )}
+                                
+                            </Paper>
+
+                        </Grid>
+
+                    </Grid>
+                </div>
+
             </Container>
         </div>
     );

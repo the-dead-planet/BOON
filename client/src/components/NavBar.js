@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import AuthButtons from './AuthButtons'
 import './NavBar.css'
 
+var today = new Date().toISOString().substr(0,10);
 
 const menuButtons = [
     // {

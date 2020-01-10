@@ -15,6 +15,7 @@ class App extends Component {
         this.state = {
             whoamiRequestDone: false,
             user: null,
+            sprintIndex: 3,
         };
     }
 
@@ -49,7 +50,7 @@ class App extends Component {
                             <SprintDetail />
                         </Route>
                         <Route path="/sprints">
-                            <Sprints user={user} />
+                            <Sprints user={user} index={this.state.sprintIndex} />   
                         </Route>
                         <Route path="/add_sprint">
                             <AddSprint user={user} />
