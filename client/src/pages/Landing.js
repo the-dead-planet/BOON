@@ -1,22 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './Landing.css';
+import '../styles/Landing.css';
 
-const Landing = (props) => (
+const Landing = props => (
     <div>
         <div className="landing-header">
             <h1>
                 <span className="landing-header-main">
                     Something that is very helpful and improves the quality of life
-                        </span>
+                </span>
                 <span className="landing-sub-header">
                     noun | UK <i className="volume up icon"></i>/bu:n/ | US <i className="volume up icon"></i>
                     /bu:n/
-                        </span>
+                </span>
             </h1>
             <Link to={'/sprints'} className="btn-slideshow">
                 ENTER THE BOON
-                    </Link>
+            </Link>
         </div>
         <ul className="slideshow">
             <li></li>
@@ -26,6 +26,6 @@ const Landing = (props) => (
             <li></li>
         </ul>
     </div>
-)
+);
 
 export default Landing;

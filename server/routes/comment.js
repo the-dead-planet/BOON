@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const middleware = require('../middleware');
 const Comment = mongoose.model('Comment');
+const Sprint = mongoose.model('Sprint');
 
 module.exports = app => {
     // INDEX
@@ -8,6 +9,37 @@ module.exports = app => {
         Comment.find({})
             .then(comments => res.status(200).send(comments))
             .catch(err => res.status(500).send({ err }));
+    });
+
+    // POST
+    app.post('/api/comments', middleware.isLoggedIn, (req, res) => {
+        let comment = {
+            text: req.body.comment,
+            author: {
+                id: req.user._id,
+                username: req.user.username,
+            },
+            created: req.body.created,
+        };
+
+        console.log(req.body);
+
+        // let sprintId = req.sprintId;
+
+        // Sprint.findById(sprintId)
+        //     .then(sprint => {
+        Comment.create(comment)
+            .then(comment => {
+                // sprint.comments.push(comment);
+
+                res.status(201).send({
+                    error: false,
+                    comment,
+                });
+            })
+            .catch(err => res.status(500).send({ err }));
+        //     })
+        //     .catch(err => res.status(500).send({ err }))
     });
 
     // TODO: post, update and destroy comment routes

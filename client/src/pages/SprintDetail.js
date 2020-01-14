@@ -4,9 +4,9 @@ import Paper from '@material-ui/core/Paper';
 import sprintsService from '../services/sprintsService';
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
-import { Detail } from '../components/sprint/Detail';
-import './Sprints.css';
+import { SprintDetails } from '../components/sprint/SprintDetails';
 import { useParams } from 'react-router-dom';
+import '../styles/main.css';
 
 export const SprintDetail = props => {
     const { id } = useParams();
@@ -30,7 +30,7 @@ export const SprintDetail = props => {
         <div>
             <NavBar user={props.user} />
             <Container className="main">
-                <Paper>{!sprint ? <Loading /> : <Detail {...sprint} />}</Paper>
+                <Paper>{!sprint ? <Loading /> : <SprintDetails {...sprint} />}</Paper>
             </Container>
         </div>
     );

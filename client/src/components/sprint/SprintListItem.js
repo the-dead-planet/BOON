@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
@@ -8,9 +8,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 
-
-function Preview({ _id, number, name, dateFrom, dateTo, description }) {
-
+function SprintListItem({ _id, number, name, dateFrom, dateTo, description, onClick }) {
     const useStyles = makeStyles(theme => ({
         root: {
             padding: theme.spacing(3, 2),
@@ -21,42 +19,42 @@ function Preview({ _id, number, name, dateFrom, dateTo, description }) {
         inline: {
             display: 'inline',
         },
+        title: {
+            fontWeight: 'bold',
+        },
     }));
 
     const classes = useStyles();
 
-    var sprintTitle =<Link to={`/sprints/${_id}`}>{number}: {name}</Link>;
-
+    // var sprintTitle =<Link to={`/sprints/${_id}`}>{number}: {name}</Link>;
+    var sprintTitle = (
+        <span className={classes.title} onClick={onClick}>
+            {number}: {name}
+        </span>
+    );
 
     return (
-        // <List className={classes.root}>
-        // <Link to={`/sprints/${_id}`}>
         <div>
             <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                </ListItemAvatar>
+                {/* <ListItemAvatar>
+                    <Avatar alt="Remy Sharp" />
+                </ListItemAvatar> */}
                 <ListItemText
+                    onClick={onClick}
                     primary={sprintTitle}
                     secondary={
                         <React.Fragment>
-                            <Typography
-                                component="span"
-                                variant="body2"
-                                className={classes.inline}
-                                color="textPrimary"
-                            >
-                                {dateFrom ? dateFrom.substring(0,10):""} - {dateTo ? dateTo.substring(0,10) : ""}
+                            <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
+                                {dateFrom ? dateFrom.substring(0, 10) : ''} - {dateTo ? dateTo.substring(0, 10) : ''}
                             </Typography>
-                            {description ? description.substring(0,70): ""}...
+                            {description ? description.substring(0, 65) : ''}...
                         </React.Fragment>
                     }
                 />
             </ListItem>
             <Divider variant="inset" component="li" />
         </div>
-        // </Link>
     );
 }
 
-export default Preview;
+export default SprintListItem;

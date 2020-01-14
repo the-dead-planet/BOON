@@ -4,10 +4,7 @@ import sprintsService from '../services/sprintsService';
 import { authenticatedPage } from '../components/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import NavBar from '../components/NavBar';
-import './styles.css';
-
-
-
+import '../styles/main.css';
 
 const AddSprint = ({ push, user, today }) => (
     <div>
@@ -22,14 +19,28 @@ const AddSprint = ({ push, user, today }) => (
             }
         >
             {() => (
-                <Form >
+                <Form>
                     <div className="center">
-                        <p>Number <Field type="number" name="number" /></p>
-                        <p>Name <Field type="text" name="name" /></p>
-                        <p>Date From<Field type="date" name="dateFrom" defaultValue={today} /></p>
-                        <p>Date From<Field type="date" name="dateTo" defaultValue={today} /></p>
-                        <p>Description <Field type="text" name="description" /></p>
-                        <p><button type="submit">Submit</button></p>
+                        <p>
+                            Number <Field type="number" name="number" />
+                        </p>
+                        <p>
+                            Name <Field type="text" name="name" />
+                        </p>
+                        <p>
+                            Date From
+                            <Field type="date" name="dateFrom" defaultValue={today} />
+                        </p>
+                        <p>
+                            Date From
+                            <Field type="date" name="dateTo" defaultValue={today} />
+                        </p>
+                        <p>
+                            Description <Field type="text" name="description" />
+                        </p>
+                        <p>
+                            <button type="submit">Submit</button>
+                        </p>
                     </div>
                 </Form>
             )}
