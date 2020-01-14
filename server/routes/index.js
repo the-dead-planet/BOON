@@ -61,7 +61,7 @@ module.exports = app => {
     });
 
     // Log Out
-    app.get('/logout', (req, res) => {
+    app.post('/logout', (req, res) => {
         let user = req.user;
         req.logout();
         return res.status(201).send({

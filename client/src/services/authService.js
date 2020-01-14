@@ -13,7 +13,7 @@ const sendRawPostRequest = (url, data) =>
 
 export default {
     login: (password, email) => sendRawPostRequest('/login', { password, email }),
-    logout: (password, email) => sendRawPostRequest('/logout', { password, email }),
+    logout: () => axios.post('/logout').then(response => response.data),
     register: (username, password, email, team) => sendRawPostRequest('/register', { username, password, email, team }),
     whoami: () =>
         axios

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Sprints from './pages/Sprints';
 import Login from './pages/Login';
+import Logout from './pages/Logout';
 import Register from './pages/Register';
 import AddSprint from './pages/AddSprint';
 import { SprintDetail } from './pages/SprintDetail';
@@ -44,6 +45,9 @@ class App extends Component {
                         </Route>
                         <Route path="/register">
                             <Register user={user} onSuccess={user => this.setState({ user })} />
+                        </Route>
+                        <Route path="/logout">
+                            <Logout user={user} onSuccess={() => this.setState({ user: null })} />
                         </Route>
                         <Route path="/sprints/:id">
                             <SprintDetail />
