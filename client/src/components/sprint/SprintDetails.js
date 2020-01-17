@@ -1,9 +1,9 @@
 import React from 'react';
-import { Formik, Form } from 'formik';
+import { Formik, Form, Field } from 'formik';
+import { TextField as FormikTextField } from 'formik-material-ui'; // Use the formik-ready variants of form fields.
 import { Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import TextField from '@material-ui/core/TextField';
 import commentsService from '../../services/commentsService';
 import { authenticatedPage } from '../../components/authenticatedPage';
 import { withPush } from '../../utils/routingDecorators';
@@ -48,11 +48,6 @@ export const SprintDetails = ({
     push,
 }) => {
     const classes = useStyles();
-    const [value, setValue] = React.useState('Controlled');
-
-    const handleChange = event => {
-        setValue(event.target.value);
-    };
 
     return (
         <Paper className={`${classes.paper} ${classes.offset}`}>
@@ -82,13 +77,13 @@ export const SprintDetails = ({
                         }
                     >
                         <Form className={classes.rootForm} noValidate autoComplete="off">
-                            <TextField
-                                id="outlined-multiline-static"
+                            <Field
+                                name="comment"
                                 multiline
                                 rows="3"
                                 placeholder={`Add Comment ${_id}`}
                                 variant="outlined"
-                                name="comment"
+                                component={FormikTextField}
                             />
                             <p>
                                 <button type="submit">Submit</button>
