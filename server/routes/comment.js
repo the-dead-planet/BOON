@@ -13,33 +13,38 @@ module.exports = app => {
 
     // POST
     app.post('/api/comments', middleware.isLoggedIn, (req, res) => {
-        let comment = {
-            text: req.body.comment,
-            author: {
-                id: req.user._id,
-                username: req.user.username,
-            },
-            created: req.body.created,
-        };
+        const { sprintId, comment, created } = req.body;
+        const user = req.user;
 
-        console.log(req.body);
-
-        // let sprintId = req.sprintId;
-
-        // Sprint.findById(sprintId)
-        //     .then(sprint => {
-        Comment.create(comment)
+        Sprint.findById(sprintId)
+            .exec()
+            .then(sprint => {
+                if (!sprint) {
+                    return Promise.reject('Sprint not found');
+                } else {
+                    return sprint;
+                }
+            })
+            .then(sprint =>
+                Comment.create({
+                    text: comment,
+                    author: {
+                        id: user._id,
+                        username: user.username,
+                    },
+                    created,
+                }).then(comment => {
+                    sprint.comments.push(comment._id);
+                    return sprint.save().then(() => comment);
+                })
+            )
             .then(comment => {
-                // sprint.comments.push(comment);
-
                 res.status(201).send({
                     error: false,
                     comment,
                 });
             })
             .catch(err => res.status(500).send({ err }));
-        //     })
-        //     .catch(err => res.status(500).send({ err }))
     });
 
     // TODO: post, update and destroy comment routes

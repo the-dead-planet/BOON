@@ -70,11 +70,15 @@ export const SprintDetails = ({
 
                     <Formik
                         initialValues={{}}
-                        onSubmit={data =>
-                            commentsService.add(data).then(() => {
+                        onSubmit={data => {
+                            const extendedData = {
+                                ...data, // copy form values
+                                sprintId: _id, // add sprint id
+                            };
+                            return commentsService.add(extendedData).then(() => {
                                 push('/comments');
-                            })
-                        }
+                            });
+                        }}
                     >
                         <Form className={classes.rootForm} noValidate autoComplete="off">
                             <Field
