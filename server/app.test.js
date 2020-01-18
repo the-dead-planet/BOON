@@ -27,7 +27,11 @@ describe('app', () => {
         return userPromise;
     });
 
-    afterAll(() => mongoose.disconnect());
+    afterAll(() =>
+        UserAuth.deleteOne({ username: userCredentials.email })
+            .exec()
+            .then(() => mongoose.disconnect())
+    );
 
     describe('login', () => {
         test('logs an existing user in', () => {
