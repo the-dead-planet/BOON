@@ -16,6 +16,8 @@ var express = require('express'),
     UserAuth = require('./models/UserAuth');
 User = require('./models/User');
 
+var handleErrors = require('./middleware').handleErrors;
+
 // Some some random thingies
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -66,5 +68,7 @@ require('./routes/sprint')(app);
 require('./routes/post')(app);
 require('./routes/comment')(app);
 require('./routes')(app);
+
+app.use(handleErrors);
 
 module.exports = app;

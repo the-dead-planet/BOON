@@ -1,6 +1,7 @@
 var Sprint = require('../models/Sprint');
 var Post = require('../models/Post');
 var Comment = require('../models/Comment');
+var BoonHttpError = require('../common/errors').BoonHttpError;
 
 var middlewareObj = {};
 
@@ -49,5 +50,15 @@ function checkOwnership(req, res, next, Object, id, objectName, redirectPath) {
         res.redirect('back');
     }
 }
+
+middlewareObj.handleErrors = function handleErrors(err, req, res, next) {
+    if (err && err instanceof BoonHttpError) {
+        return res.status(err.errorCode).send(err.toRawObject());
+    } else {
+        // If the error is not our custom object, let the default handler take
+        // care of it.
+        return next(err);
+    }
+};
 
 module.exports = middlewareObj;
