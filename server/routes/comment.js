@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const middleware = require('../middleware');
+const errors = require('../common/errors');
 const Comment = mongoose.model('Comment');
 const Sprint = mongoose.model('Sprint');
 
@@ -12,7 +13,7 @@ module.exports = app => {
     });
 
     // POST
-    app.post('/api/comments', middleware.isLoggedIn, (req, res) => {
+    app.post('/api/comments', middleware.isLoggedIn, (req, res, next) => {
         const { sprintId, comment, created } = req.body;
         const user = req.user;
 
@@ -20,7 +21,7 @@ module.exports = app => {
             .exec()
             .then(sprint => {
                 if (!sprint) {
-                    return Promise.reject('Sprint not found');
+                    return Promise.reject(new errors.NotFoundError('sprintId', sprintId));
                 } else {
                     return sprint;
                 }
@@ -44,7 +45,7 @@ module.exports = app => {
                     comment,
                 });
             })
-            .catch(err => res.status(500).send({ err }));
+            .catch(next);
     });
 
     // TODO: post, update and destroy comment routes

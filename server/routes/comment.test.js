@@ -59,6 +59,7 @@ describe('sprint comment', () => {
                     });
                 });
         });
+
         test('can comment', () => {
             return agent
                 .post('/api/comments')
@@ -66,6 +67,18 @@ describe('sprint comment', () => {
                 .then(resp => {
                     return expect(resp).toMatchObject({
                         statusCode: 201,
+                    });
+                });
+        });
+
+        test('unknown sprintId', () => {
+            return agent
+                .post('/api/comments')
+                .send({ sprintId: '1234567890ab', comment: 'comment text' })
+                .then(resp => {
+                    return expect(resp).toMatchObject({
+                        statusCode: 404,
+                        body: { detail: {} },
                     });
                 });
         });
