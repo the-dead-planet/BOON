@@ -46,7 +46,7 @@ describe('sprint comment', () => {
     );
 
     describe('authenticated user', () => {
-        beforeAll(() => {
+        beforeEach(() => {
             // Log the user in before each test case.
             return agent
                 .post('/login')
@@ -58,6 +58,10 @@ describe('sprint comment', () => {
                         body: { user: { username: userCredentials.email } },
                     });
                 });
+        });
+
+        afterEach(() => {
+            return agent.post('/logout');
         });
 
         test('can comment', () => {
@@ -79,6 +83,19 @@ describe('sprint comment', () => {
                     return expect(resp).toMatchObject({
                         statusCode: 404,
                         body: { detail: {} },
+                    });
+                });
+        });
+    });
+
+    describe('unauthenticated user', () => {
+        test('cannot comment', () => {
+            return agent
+                .post('/api/comments')
+                .send({ sprintId: sprint._id, comment: 'comment text' })
+                .then(resp => {
+                    return expect(resp).toMatchObject({
+                        statusCode: 401,
                     });
                 });
         });
