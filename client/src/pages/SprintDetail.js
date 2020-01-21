@@ -27,11 +27,11 @@ export const SprintDetail = props => {
     });
 
     return (
-        <div>
+        <React.Fragment>
             <NavBar user={props.user} />
             <Container className="main">
                 <Paper>{!sprint ? <Loading /> : <SprintDetails {...sprint} />}</Paper>
             </Container>
-        </div>
+        </React.Fragment>
     );
 };

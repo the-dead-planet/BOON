@@ -34,7 +34,7 @@ function SprintListItem({ _id, number, name, dateFrom, dateTo, description, onCl
     );
 
     return (
-        <div>
+        <React.Fragment>
             <ListItem alignItems="flex-start">
                 {/* <ListItemAvatar>
                     <Avatar alt="Remy Sharp" />
@@ -53,7 +53,7 @@ function SprintListItem({ _id, number, name, dateFrom, dateTo, description, onCl
                 />
             </ListItem>
             <Divider variant="inset" component="li" />
-        </div>
+        </React.Fragment>
     );
 }
 

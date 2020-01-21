@@ -1,12 +1,11 @@
 import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import { TextField as FormikTextField } from 'formik-material-ui'; // Use the formik-ready variants of form fields.
 import { Typography, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import commentsService from '../../services/commentsService';
-import { authenticatedPage } from '../../components/authenticatedPage';
-import { withPush } from '../../utils/routingDecorators';
+import { SprintDetailsHeader } from './SprintDetailsHeader';
+import { SprintDetailsContent } from './SprintDetailsContent';
+import { SprintDetailsComments } from './SprintDetailsComments';
+import { SprintDetailsPosts } from './SprintDetailsPosts';
 
 const useStyles = makeStyles(theme => ({
     rootForm: {
@@ -34,6 +33,7 @@ const useStyles = makeStyles(theme => ({
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
 export const SprintDetails = ({
+    user,
     _id,
     number,
     name,
@@ -52,49 +52,13 @@ export const SprintDetails = ({
     return (
         <Paper className={`${classes.paper} ${classes.offset}`}>
             <Box>
-                <Box id={'header'} textAlign="left">
-                    <Typography variant="h2">
-                        {number} : {name}
-                    </Typography>
-                </Box>
-                <Box id={'content'} textAlign="left">
-                    <Typography variant="body1">
-                        {dateFrom ? dateFrom.substring(0, 10) : ''} - {dateTo ? dateTo.substring(0, 10) : ''}
-                    </Typography>
-                    <Typography variant="body2">{description}</Typography>
-                </Box>
+                <SprintDetailsHeader _id={_id} number={number} name={name} dateFrom={dateFrom} dateTo={dateTo} />
 
-                <Box id={'posts'}>{(posts || []).map(post => 'TODO')}</Box>
-                <Box id={'comments'}>
-                    {(comments || []).map(comment => 'TODO')}
+                <SprintDetailsContent _id={_id} description={description} />
 
-                    <Formik
-                        initialValues={{}}
-                        onSubmit={data => {
-                            const extendedData = {
-                                ...data, // copy form values
-                                sprintId: _id, // add sprint id
-                            };
-                            return commentsService.add(extendedData).then(() => {
-                                push('/comments');
-                            });
-                        }}
-                    >
-                        <Form className={classes.rootForm} noValidate autoComplete="off">
-                            <Field
-                                name="comment"
-                                multiline
-                                rows="3"
-                                placeholder={`Add Comment ${_id}`}
-                                variant="outlined"
-                                component={FormikTextField}
-                            />
-                            <p>
-                                <button type="submit">Submit</button>
-                            </p>
-                        </Form>
-                    </Formik>
-                </Box>
+                <SprintDetailsComments user={user} _id={_id} comments={comments} push={push} />
+
+                <SprintDetailsPosts user={user} _id={_id} posts={posts} push={push} />
             </Box>
         </Paper>
     );

@@ -31,6 +31,7 @@ class Sprints extends Component {
             <div>
                 <NavBar user={this.props.user} />
                 <SprintsView
+                    user={this.props.user}
                     sprintId={this.state.sprintId}
                     onClick={id => this.setSprintId(id)}
                     initializeSprint={sprints => this.initializeSprint(sprints)}

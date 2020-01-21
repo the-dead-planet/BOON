@@ -55,7 +55,10 @@ const SprintsView = props => {
                         <SprintsList sprints={sprints} onClick={props.onClick} />
                     </Grid>
                     <Grid item xs={12} sm={12} lg={8}>
-                        <SprintDetails {...sprints.filter(sprint => sprint._id === props.sprintId)[0]} />
+                        <SprintDetails
+                            user={props.user}
+                            {...sprints.filter(sprint => sprint._id === props.sprintId)[0]}
+                        />
                     </Grid>
                 </Grid>
             )}
