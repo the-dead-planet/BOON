@@ -9,4 +9,8 @@ export default {
     add: data => {
         return axios.post('/api/comments', data);
     },
+
+    delete: data => {
+        return axios.delete(`/api/comments/${data._id}`, data);
+    },
 };

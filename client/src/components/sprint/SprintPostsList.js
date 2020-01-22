@@ -33,7 +33,6 @@ export const SprintPostsList = ({ posts }) => {
 
     return (
         <List>
-            <h2>Posts</h2>
             {(posts || []).map((post, index) => (
                 <div key={index}>
                     <h4>{post.title}</h4>

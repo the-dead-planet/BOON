@@ -9,4 +9,12 @@ export default {
     add: data => {
         return axios.post('/api/sprints', data);
     },
+
+    update: data => {
+        return axios.put('/api/sprints', data);
+    },
+
+    delete: data => {
+        return axios.delete('/api/sprints', data);
+    },
 };

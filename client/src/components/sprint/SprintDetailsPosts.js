@@ -16,6 +16,7 @@ export const SprintDetailsPosts = ({ user, _id, posts, push }) => {
 
     return (
         <Box id={'posts'}>
+            <h2>Posts</h2>
             <SprintPostsList user={user} posts={posts} />
             <SprintAddPost user={user} _id={_id} push={push} />
         </Box>

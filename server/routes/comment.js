@@ -6,7 +6,7 @@ const Sprint = mongoose.model('Sprint');
 
 module.exports = app => {
     // INDEX
-    app.get(`/api/comments`, async (req, res) => {
+    app.get('/api/comments', async (req, res) => {
         Comment.find({})
             .then(comments => res.status(200).send(comments))
             .catch(err => res.status(500).send({ err }));
@@ -133,4 +133,21 @@ module.exports = app => {
     //         }
     //     });
     // });
+
+    app.delete('/api/comments/:id', middleware.checkSprintOwnership, (req, res) => {
+        const { commentId } = req.body;
+
+        Comment.findByIdAndDelete(commentId)
+            .then(comment => {
+                if (comment) {
+                    // TODO: if comments have likes - delete them
+
+                    return res.status(202).send({
+                        error: false,
+                        comment,
+                    });
+                }
+            })
+            .catch(err => res.status(500).send({ err }));
+    });
 };

@@ -46,15 +46,6 @@ export const SprintAddComment = ({ _id, user, push }) => {
         >
             {user ? (
                 <Form className={classes.rootForm} noValidate autoComplete="off">
-                    <Field
-                        id="comment-body"
-                        name="body"
-                        multiline
-                        rows="3"
-                        placeholder={`Add Comment ${_id}`}
-                        variant="outlined"
-                        component={FormikTextField}
-                    />
                     <p>
                         <button type="submit">Submit</button>
                     </p>
