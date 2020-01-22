@@ -14,7 +14,7 @@ module.exports = app => {
 
     // POST
     app.post('/api/comments', middleware.isLoggedIn, (req, res, next) => {
-        const { sprintId, comment, created } = req.body;
+        const { sprintId, body, created } = req.body;
         const user = req.user;
 
         Sprint.findById(sprintId)
@@ -28,7 +28,7 @@ module.exports = app => {
             })
             .then(sprint =>
                 Comment.create({
-                    text: comment,
+                    body: body,
                     author: {
                         id: user._id,
                         username: user.username,

@@ -25,7 +25,7 @@ const AddSprint = ({ push, user, today }) => (
                             Number <Field type="number" name="number" />
                         </p>
                         <p>
-                            Name <Field type="text" name="name" />
+                            Name <Field type="text" name="title" />
                         </p>
                         <p>
                             Date From
@@ -36,7 +36,7 @@ const AddSprint = ({ push, user, today }) => (
                             <Field type="date" name="dateTo" defaultValue={today} />
                         </p>
                         <p>
-                            Description <Field type="text" name="description" />
+                            Description <Field type="text" name="body" />
                         </p>
                         <p>
                             <button type="submit">Submit</button>

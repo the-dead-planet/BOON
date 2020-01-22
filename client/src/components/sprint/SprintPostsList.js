@@ -28,17 +28,19 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export const SprintPostsList = ({ user, posts }) => {
+export const SprintPostsList = ({ posts }) => {
     const classes = useStyles();
 
     return (
         <List>
+            <h2>Posts</h2>
             {(posts || []).map((post, index) => (
                 <div key={index}>
-                    <h4>
+                    <h4>{post.title}</h4>
+                    <p>
                         {post.author.username} / {post.created.substring(0, 10)}
-                    </h4>
-                    <p>{post.text}</p>
+                    </p>
+                    <p>{post.body}</p>
                 </div>
             ))}
         </List>

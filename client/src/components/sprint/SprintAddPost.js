@@ -1,8 +1,6 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { TextField as FormikTextField } from 'formik-material-ui'; // Use the formik-ready variants of form fields.
-import { Typography, Box } from '@material-ui/core';
-import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 import postsService from '../../services/postsService';
 
@@ -47,10 +45,20 @@ export const SprintAddPost = ({ _id, user, push }) => {
             {user ? (
                 <Form className={classes.rootForm} noValidate autoComplete="off">
                     <Field
-                        name="post"
+                        id="post-title"
+                        name="title"
+                        multiline
+                        rows="1"
+                        placeholder={`Add Post to sprint: ${_id}`}
+                        variant="outlined"
+                        component={FormikTextField}
+                    />
+                    <Field
+                        id="post-body"
+                        name="body"
                         multiline
                         rows="3"
-                        placeholder={`Add Post to sprint: ${_id}`}
+                        placeholder={`Blablabla...`}
                         variant="outlined"
                         component={FormikTextField}
                     />

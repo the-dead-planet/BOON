@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const middleware = require('../middleware');
 const Post = mongoose.model('Post');
+const Sprint = mongoose.model('Sprint');
 
 module.exports = app => {
     // INDEX
@@ -10,6 +11,43 @@ module.exports = app => {
             .exec()
             .then(posts => res.status(200).send(posts))
             .catch(err => res.status(500).send({ err }));
+    });
+
+    // POST
+    app.post('/api/posts', middleware.isLoggedIn, (req, res, next) => {
+        const { sprintId, title, body, created } = req.body;
+        const user = req.user;
+
+        Sprint.findById(sprintId)
+            .exec()
+            .then(sprint => {
+                if (!sprint) {
+                    return Promise.reject(new errors.NotFoundError('sprintId', sprintId));
+                } else {
+                    return sprint;
+                }
+            })
+            .then(sprint =>
+                Post.create({
+                    title: title,
+                    body: body,
+                    author: {
+                        id: user._id,
+                        username: user.username,
+                    },
+                    created,
+                }).then(post => {
+                    sprint.posts.push(post._id);
+                    return sprint.save().then(() => post);
+                })
+            )
+            .then(post => {
+                res.status(201).send({
+                    error: false,
+                    post,
+                });
+            })
+            .catch(next);
     });
 
     // TODO: post, update and delete post linked to a sprint

@@ -8,17 +8,18 @@ import commentsService from '../../services/commentsService';
 
 const useStyles = makeStyles(theme => ({}));
 
-export const SprintCommentsList = ({ user, comments }) => {
+export const SprintCommentsList = ({ comments }) => {
     const classes = useStyles();
 
     return (
         <List>
+            <h3>Comments</h3>
             {(comments || []).map((comment, index) => (
                 <div key={index}>
                     <h4>
                         {comment.author.username} / {comment.created.substring(0, 10)}
                     </h4>
-                    <p>{comment.text}</p>
+                    <p>{comment.body}</p>
                 </div>
             ))}
         </List>

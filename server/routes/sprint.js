@@ -27,10 +27,10 @@ module.exports = app => {
     app.post('/api/sprints', middleware.isLoggedIn, (req, res) => {
         let sprint = {
             number: req.body.number,
-            name: req.body.name,
             dateFrom: req.body.dateFrom,
             dateTo: req.body.dateTo,
-            description: req.body.description,
+            title: req.body.title,
+            body: req.body.body,
             author: {
                 id: req.user._id,
                 username: req.user.username,

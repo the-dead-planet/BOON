@@ -6,6 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { SprintPostsList } from './SprintPostsList';
 import { SprintAddPost } from './SprintAddPost';
 import postsService from '../../services/postsService';
+import { authenticatedPage } from '../../components/authenticatedPage';
+import { withPush } from '../../utils/routingDecorators';
 
 const useStyles = makeStyles(theme => ({}));
 

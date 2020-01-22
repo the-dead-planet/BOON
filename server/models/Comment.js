@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 // Schema setup - later will be broken to separate files
 var commentSchema = new mongoose.Schema({
-    text: String,
+    body: String,
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,

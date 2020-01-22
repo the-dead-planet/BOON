@@ -32,33 +32,19 @@ const useStyles = makeStyles(theme => ({
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
-export const SprintDetails = ({
-    user,
-    _id,
-    number,
-    name,
-    dateFrom,
-    dateTo,
-    description,
-    posts,
-    comments,
-    likes,
-    author,
-    created,
-    push,
-}) => {
+export const SprintDetails = ({ user, sprint }) => {
     const classes = useStyles();
 
     return (
         <Paper className={`${classes.paper} ${classes.offset}`}>
             <Box>
-                <SprintDetailsHeader _id={_id} number={number} name={name} dateFrom={dateFrom} dateTo={dateTo} />
+                <SprintDetailsHeader {...sprint} />
 
-                <SprintDetailsContent _id={_id} description={description} />
+                <SprintDetailsContent {...sprint} />
 
-                <SprintDetailsComments user={user} _id={_id} comments={comments} push={push} />
+                <SprintDetailsComments user={user} {...sprint} />
 
-                <SprintDetailsPosts user={user} _id={_id} posts={posts} push={push} />
+                <SprintDetailsPosts user={user} {...sprint} />
             </Box>
         </Paper>
     );

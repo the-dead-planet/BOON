@@ -8,7 +8,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 
-function SprintListItem({ _id, number, name, dateFrom, dateTo, description, onClick }) {
+function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick }) {
     const useStyles = makeStyles(theme => ({
         root: {
             padding: theme.spacing(3, 2),
@@ -26,10 +26,10 @@ function SprintListItem({ _id, number, name, dateFrom, dateTo, description, onCl
 
     const classes = useStyles();
 
-    // var sprintTitle =<Link to={`/sprints/${_id}`}>{number}: {name}</Link>;
+    // var sprintTitle =<Link to={`/sprints/${_id}`}>{number}: {title}</Link>;
     var sprintTitle = (
         <span className={classes.title} onClick={onClick}>
-            {number}: {name}
+            {number}: {title}
         </span>
     );
 
@@ -47,7 +47,7 @@ function SprintListItem({ _id, number, name, dateFrom, dateTo, description, onCl
                             <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
                                 {dateFrom ? dateFrom.substring(0, 10) : ''} - {dateTo ? dateTo.substring(0, 10) : ''}
                             </Typography>
-                            {description ? description.substring(0, 65) : ''}...
+                            {body ? body.substring(0, 65) : ''}...
                         </React.Fragment>
                     }
                 />

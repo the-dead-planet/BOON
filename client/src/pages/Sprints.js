@@ -13,7 +13,9 @@ class Sprints extends Component {
     }
 
     initializeSprint(sprints) {
-        const latestSprintId = [...sprints].sort((a, b) => new Date(b.dateTo) - new Date(a.dateTo))[0]._id;
+        const latestSprintId =
+            sprints.length > 0 ? [...sprints].sort((a, b) => new Date(b.dateTo) - new Date(a.dateTo))[0]._id : 0;
+        // const latestSprintId = 0;
 
         this.setState({
             sprintId: latestSprintId,

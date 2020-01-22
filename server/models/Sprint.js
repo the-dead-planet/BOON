@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 
 var sprintSchema = new mongoose.Schema({
     number: Number,
-    name: String,
     dateFrom: {
         type: Date,
         default: Date.now(),
@@ -11,7 +10,8 @@ var sprintSchema = new mongoose.Schema({
         type: Date,
         default: Date.now(),
     },
-    description: String,
+    title: String,
+    body: String,
     posts: [
         {
             type: mongoose.Schema.Types.ObjectId,

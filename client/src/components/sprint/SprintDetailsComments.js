@@ -1,11 +1,10 @@
 import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import { TextField as FormikTextField } from 'formik-material-ui'; // Use the formik-ready variants of form fields.
-import { Typography, Box } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { SprintCommentsList } from './SprintCommentsList';
 import { SprintAddComment } from './SprintAddComment';
-import commentsService from '../../services/commentsService';
+import { authenticatedPage } from '../../components/authenticatedPage';
+import { withPush } from '../../utils/routingDecorators';
 
 const useStyles = makeStyles(theme => ({
     rootForm: {

@@ -47,7 +47,8 @@ export const SprintAddComment = ({ _id, user, push }) => {
             {user ? (
                 <Form className={classes.rootForm} noValidate autoComplete="off">
                     <Field
-                        name="comment"
+                        id="comment-body"
+                        name="body"
                         multiline
                         rows="3"
                         placeholder={`Add Comment ${_id}`}
