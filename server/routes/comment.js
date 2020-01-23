@@ -12,6 +12,12 @@ module.exports = app => {
             .catch(err => res.status(500).send({ err }));
     });
 
+    app.get('/api/comments/:id', async (req, res) => {
+        Comment.find({ _id: req.params.id })
+            .then(comments => res.status(200).send(comments))
+            .catch(err => res.status(500).send({ err }));
+    });
+
     // POST
     app.post('/api/comments', middleware.isLoggedIn, (req, res, next) => {
         const { sprintId, body, created } = req.body;
@@ -134,19 +140,21 @@ module.exports = app => {
     //     });
     // });
 
-    app.delete('/api/comments/:id', middleware.checkSprintOwnership, (req, res) => {
+    app.delete('/api/comments/:id', middleware.checkCommentOwnership, (req, res) => {
         const { commentId } = req.body;
 
         Comment.findByIdAndDelete(commentId)
             .then(comment => {
-                if (comment) {
-                    // TODO: if comments have likes - delete them
+                comment
+                    ? // TODO: if comments have likes - delete them
 
-                    return res.status(202).send({
-                        error: false,
-                        comment,
-                    });
-                }
+                      res.status(202).send({
+                          error: false,
+                          comment,
+                      })
+                    : res.status(500).send({
+                          error: 'Not found',
+                      });
             })
             .catch(err => res.status(500).send({ err }));
     });

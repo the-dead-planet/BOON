@@ -16,15 +16,15 @@ middlewareObj.isLoggedIn = function(req, res, next) {
 };
 
 middlewareObj.checkSprintOwnership = function(req, res, next) {
-    checkOwnership(req, res, next, Sprint, req.params.id, 'Sprint', '/posts');
+    checkOwnership(req, res, next, Sprint, req.params.id, 'Sprint', '/sprints');
 };
 
 middlewareObj.checkPostOwnership = function(req, res, next) {
-    checkOwnership(req, res, next, Post, req.params.post_id, 'Post', '/posts');
+    checkOwnership(req, res, next, Post, req.params.id, 'Post', '/sprints');
 };
 
 middlewareObj.checkCommentOwnership = function(req, res, next) {
-    checkOwnership(req, res, next, Comment, req.params.comment_id, 'Comment', '/posts');
+    checkOwnership(req, res, next, Comment, req.params.id, 'Comment', '/sprints');
 };
 
 // Generic check ownershi

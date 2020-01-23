@@ -11,6 +11,6 @@ export default {
     },
 
     delete: data => {
-        return axios.delete(`/api/comments/${data._id}`, data);
+        return axios.delete(`/api/comments/${data.commentId}`, data);
     },
 };

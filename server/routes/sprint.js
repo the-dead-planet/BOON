@@ -60,30 +60,30 @@ module.exports = app => {
             .catch(err => res.status(500).send({ err }));
     });
 
-    // TODO: review sequence of deletion or all related objects
-    app.delete('/:id', middleware.checkSprintOwnership, (req, res) => {
-        // Delete sprint and all related objects (posts and comments)
-        Sprint.findByIdAndDelete(req.params.id)
-            .then(sprint => {
-                if (sprint) {
-                    Post.deleteMany({ _id: req.object.posts })
-                        .then(posts => console.log('Posts deleted'))
-                        .catch(err => res.status(500).send({ err }));
+    // // TODO: review sequence of deletion or all related objects
+    // app.delete('/api/sprints/:id', middleware.checkSprintOwnership, (req, res) => {
+    //     // Delete sprint and all related objects (posts and comments)
+    //     Sprint.findByIdAndDelete(req.params.id)
+    //         .then(sprint => {
+    //             if (sprint) {
+    //                 Post.deleteMany({ _id: req.object.posts })
+    //                     .then(posts => console.log('Posts deleted'))
+    //                     .catch(err => res.status(500).send({ err }));
 
-                    Comment.deleteMany({ _id: req.object.comments })
-                        .then(comments => console.log('Comments deleted'))
-                        .catch(err => res.status(500).send({ err }));
+    //                 Comment.deleteMany({ _id: req.object.comments })
+    //                     .then(comments => console.log('Comments deleted'))
+    //                     .catch(err => res.status(500).send({ err }));
 
-                    // Like.deleteMany({ _id: req.object.comments })
-                    //     .then(like => console.log("Likes deleted"))
-                    //     .catch(err => res.status(500).send({err}));
+    //                 // Like.deleteMany({ _id: req.object.comments })
+    //                 //     .then(like => console.log("Likes deleted"))
+    //                 //     .catch(err => res.status(500).send({err}));
 
-                    return res.status(202).send({
-                        error: false,
-                        sprint,
-                    });
-                }
-            })
-            .catch(err => res.status(500).send({ err }));
-    });
+    //                 return res.status(202).send({
+    //                     error: false,
+    //                     sprint,
+    //                 });
+    //             }
+    //         })
+    //         .catch(err => res.status(500).send({ err }));
+    // });
 };

@@ -4,8 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
+// import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+// import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 
 function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick }) {

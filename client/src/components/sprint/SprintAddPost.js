@@ -7,7 +7,7 @@ import postsService from '../../services/postsService';
 const useStyles = makeStyles(theme => ({
     rootForm: {
         '& .MuiTextField-root': {
-            margin: theme.spacing(2),
+            // margin: theme.spacing(2),
             width: '100%',
             margin: '0 auto',
         },

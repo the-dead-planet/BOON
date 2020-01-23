@@ -1,12 +1,9 @@
 import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import { TextField as FormikTextField } from 'formik-material-ui'; // Use the formik-ready variants of form fields.
-import { Typography, Box } from '@material-ui/core';
+import { Formik, Form } from 'formik';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 import commentsService from '../../services/commentsService';
-import { authenticatedPage } from '../../components/authenticatedPage';
-import { withPush } from '../../utils/routingDecorators';
+// import { authenticatedPage } from '../../components/authenticatedPage';
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -27,6 +24,7 @@ export const SprintCommentsList = ({ user, comments, push }) => {
                             initialValues={{}}
                             onSubmit={data => {
                                 const extendedData = {
+                                    ...data,
                                     commentId: comment._id, // add sprint id
                                 };
                                 return commentsService.delete(extendedData).then(() => {

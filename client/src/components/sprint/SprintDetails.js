@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Box } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { SprintDetailsHeader } from './SprintDetailsHeader';
@@ -7,27 +7,7 @@ import { SprintDetailsContent } from './SprintDetailsContent';
 import { SprintDetailsComments } from './SprintDetailsComments';
 import { SprintDetailsPosts } from './SprintDetailsPosts';
 
-const useStyles = makeStyles(theme => ({
-    rootForm: {
-        '& .MuiTextField-root': {
-            margin: theme.spacing(2),
-            width: '100%',
-            margin: '0 auto',
-        },
-    },
-    root: {
-        padding: theme.spacing(3, 2),
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
-    },
-    inline: {
-        display: 'inline',
-    },
-    offset: {
-        padding: '20px',
-    },
-}));
+const useStyles = makeStyles(theme => ({}));
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
