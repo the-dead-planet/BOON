@@ -12,9 +12,10 @@ describe('sprint comment', () => {
     const agent = request.agent(app);
     const userCredentials = { email: 'aa@aa.aa', password: 'password' };
 
-    // Sprint instance used by test cases.
+    // Instances used by test cases.
     // Initially null, populated in `beforeEach`.
     let sprint = null;
+    let userAuth = null;
 
     beforeAll(() => {
         // Connect to a temporary database.
@@ -26,7 +27,11 @@ describe('sprint comment', () => {
 
         // Register a user.
         const userPromise = dbPromise.then(() =>
-            UserAuth.register(UserAuth({ username: userCredentials.email }), userCredentials.password)
+            UserAuth.register(UserAuth({ username: userCredentials.email }), userCredentials.password).then(
+                createdUserAuth => {
+                    userAuth = createdUserAuth;
+                }
+            )
         );
 
         return userPromise;
@@ -83,6 +88,22 @@ describe('sprint comment', () => {
                     return expect(resp).toMatchObject({
                         statusCode: 404,
                         body: { detail: {} },
+                    });
+                });
+        });
+
+        test('can delete a comment', () => {
+            return Promise.resolve()
+                .then(() =>
+                    Comment.create({
+                        body: 'comment',
+                        author: { id: userAuth._id },
+                    })
+                )
+                .then(comment => agent.delete(`/api/comments/${comment._id}`))
+                .then(resp => {
+                    return expect(resp).toMatchObject({
+                        statusCode: 202,
                     });
                 });
         });

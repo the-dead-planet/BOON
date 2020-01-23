@@ -141,11 +141,11 @@ module.exports = app => {
     // });
 
     app.delete('/api/comments/:id', middleware.checkCommentOwnership, (req, res) => {
-        const { commentId } = req.body;
+        const { id } = req.params;
 
-        Comment.findByIdAndDelete(commentId)
+        Comment.findByIdAndDelete(id)
             .then(comment => {
-                comment
+                return comment
                     ? // TODO: if comments have likes - delete them
 
                       res.status(202).send({
