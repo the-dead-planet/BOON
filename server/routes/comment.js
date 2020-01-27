@@ -140,22 +140,65 @@ module.exports = app => {
     //     });
     // });
 
-    app.delete('/api/comments/:id', middleware.checkCommentOwnership, (req, res) => {
-        const { id } = req.params;
+    /* 
+        TODO: Think if we should keep one delete method 
+        with conditions for Sprint and Post update, 
+        or separate ones for each object with comments
+    */
+    app.delete('/api/sprints/:sprintId/comments/:id', middleware.checkCommentOwnership, (req, res) => {
+        const { id, sprintId } = req.params;
 
         Comment.findByIdAndDelete(id)
             .then(comment => {
-                return comment
-                    ? // TODO: if comments have likes - delete them
-
-                      res.status(202).send({
-                          error: false,
-                          comment,
-                      })
+                comment
+                    ? Sprint.findByIdAndUpdate(
+                          sprintId,
+                          { $pull: { comments: new mongoose.Types.ObjectId(id) } },
+                          { new: true },
+                          (err, sprint) => {
+                              return err
+                                  ? res.status(500).send({
+                                        error: 'Not found',
+                                    })
+                                  : res.status(202).send({
+                                        error: false,
+                                        comment,
+                                        sprint,
+                                    });
+                          }
+                      )
                     : res.status(500).send({
-                          error: 'Not found',
+                          error: `Comment ${id} not found`,
                       });
             })
             .catch(err => res.status(500).send({ err }));
     });
+
+    // app.deletePostComment('/api/posts/:postId/comments/:id', middleware.checkCommentOwnership, (req, res) => {
+    //     const { id, postId } = req.params;
+
+    //     Comment.findByIdAndDelete(id)
+    //         .then(comment => {
+    //             comment ? (
+    //                 Post.findByIdAndUpdate(
+    //                     postId,
+    //                     { $pull: { comments: new mongoose.Types.ObjectId(id) } },
+    //                     { new: true },
+    //                     (err, post) => {
+    //                         return err ? res.status(500).send({
+    //                             error: 'Not found',
+    //                         }) : res.status(202).send({
+    //                             error: false,
+    //                             comment,
+    //                             post
+    //                         })
+    //                     })
+    //             ) : (
+    //                     res.status(500).send({
+    //                         error: `Comment ${id} not found`,
+    //                     })
+    //                 )
+    //         })
+    //         .catch(err => res.status(500).send({ err }));
+    // });
 };

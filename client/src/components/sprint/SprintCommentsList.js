@@ -7,7 +7,7 @@ import commentsService from '../../services/commentsService';
 
 const useStyles = makeStyles(theme => ({}));
 
-export const SprintCommentsList = ({ user, comments, push }) => {
+export const SprintCommentsList = ({ user, sprintId, comments, push }) => {
     const classes = useStyles();
 
     return (
@@ -26,7 +26,9 @@ export const SprintCommentsList = ({ user, comments, push }) => {
                                 const extendedData = {
                                     ...data,
                                     commentId: comment._id, // add sprint id
+                                    sprintId: sprintId,
                                 };
+                                console.log(sprintId);
                                 return commentsService.delete(extendedData).then(() => {
                                     push('/comments');
                                 });

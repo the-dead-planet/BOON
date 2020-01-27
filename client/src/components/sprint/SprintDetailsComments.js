@@ -14,7 +14,7 @@ export const SprintDetailsComments = ({ user, _id, comments, push }) => {
     return (
         <Box id={'comments'}>
             <h2>Comments</h2>
-            <SprintCommentsList user={user} comments={comments} push={push} />
+            <SprintCommentsList user={user} sprintId={_id} comments={comments} push={push} />
             <SprintAddComment user={user} _id={_id} push={push} />
         </Box>
     );
