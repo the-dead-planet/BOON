@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const middleware = require('../middleware');
+const models = require('../common/models');
 const Post = mongoose.model('Post');
 const Sprint = mongoose.model('Sprint');
 
@@ -15,7 +16,7 @@ module.exports = app => {
 
     // POST
     app.post('/api/posts', middleware.isLoggedIn, (req, res, next) => {
-        const { sprintId, title, body, created } = req.body;
+        const { sprintId, title, body, created, model } = req.body;
         const user = req.user;
 
         Sprint.findById(sprintId)
@@ -29,6 +30,10 @@ module.exports = app => {
             })
             .then(sprint =>
                 Post.create({
+                    postedToObject: {
+                        model: model,
+                        id: sprintId,
+                    },
                     title: title,
                     body: body,
                     author: {
@@ -50,38 +55,6 @@ module.exports = app => {
             .catch(next);
     });
 
-    // TODO: post, update and delete post linked to a sprint
-    // // POST
-    // app.post("/api/posts", middleware.isLoggedIn, (req, res) => {
-    //     let post = {
-    //         number: req.body.number,
-    //         name: req.body.name,
-    //         dateFrom: req.body.dateFrom,
-    //         dateTo: req.body.dateTo,
-    //         description: req.body.description,
-    //         author: {
-    //             id: req.user._id,
-    //             username: req.user.username
-    //         },
-    //         created: req.body.created
-    //     };
-
-    //     // Create a new post and save it to DB
-    //     Post.create(post, (err, post) => {
-    //         if(err || !post) {
-    //             console.log("Error creating new post: ", err);
-    //             req.flash("error", "Something went wrong");
-    //         } else {
-    //             console.log("New post created:", err);
-    //             req.flash("success", "Post successfully created");
-    //             return res.status(201).send({
-    //                 error: false,
-    //                 post
-    //             });
-    //         }
-    //     });
-    // });
-
     // // UPDATE
     // app.put("/api/posts/:id", middleware.checkSprintOwnership, (req, res) => {
     //     Post.findByIdAndUpdate(req.params.id, req.body.post, (err, post) => {
@@ -99,40 +72,37 @@ module.exports = app => {
     //     });
     // });
 
-    // // DESTROY
-    // app.delete("/:id", middleware.checkSprintOwnership, (req, res) => {
-    //     // Delete post and all related objects (posts and comments)
-    //     Post.findByIdAndDelete(req.params.id, function(err, post){
-    //         if(err || !post){
-    //             console.log("Deleting unsuccessful")
-    //             req.flash("error", "Sorry, this post does not exist!");
-    //         } else {
-    //             req.flash("success", "Post deleted");
+    /* 
+        Delete post 
+        Delete children of this object (Comments, Likes)
+        Delete References to this post ID from parent objects (Sprint)
+    */
+    app.delete('/api/posts/:id', middleware.checkPostOwnership, (req, res) => {
+        const { id } = req.params;
 
-    //             // TODO: find a more fancy solution to delete all related objects and handle async behavior
-    //             // delete associated posts
-    //             Post.deleteMany({_id: req.object.posts}, (err, post) => {
-    //                 if (err || !post) {
-    //                     req.flash("error", "Sorry, this post does not exist");
-    //                 } else {
-    //                     req.flash("success", "Related posts deleted");
-    //                 }
-    //             });
-
-    //             // delete associated comments
-    //             Comment.deleteMany({_id: req.object.comments}, (err, comment) => {
-    //                 if (err || !comment) {
-    //                     req.flash("error", "Sorry, this comment does not exist");
-    //                 } else {
-    //                     req.flash("success", "Related comments deleted");
-    //                 }
-    //             });
-
-    //             return res.status(202).send({
-    //                 error: false,
-    //                 post
-    //             })
-    //         }
-    //     });
-    // });
+        Post.findByIdAndDelete(id)
+            .then(post => {
+                post
+                    ? models[post.postedToObject.model].findByIdAndUpdate(
+                          post.postedToObject.id,
+                          { $pull: { posts: new mongoose.Types.ObjectId(id) } },
+                          { new: true },
+                          (err, model) => {
+                              return err
+                                  ? res.status(500).send({
+                                        error: 'Not found',
+                                    })
+                                  : res.status(202).send({
+                                        error: false,
+                                        post,
+                                        model,
+                                    });
+                          }
+                      )
+                    : res.status(500).send({
+                          error: `Post ${id} not found`,
+                      });
+            })
+            .catch(err => res.status(500).send({ err }));
+    });
 };

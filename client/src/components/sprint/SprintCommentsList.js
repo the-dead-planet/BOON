@@ -25,10 +25,9 @@ export const SprintCommentsList = ({ user, sprintId, comments, push }) => {
                             onSubmit={data => {
                                 const extendedData = {
                                     ...data,
-                                    commentId: comment._id, // add sprint id
-                                    sprintId: sprintId,
+                                    commentId: comment._id,
                                 };
-                                console.log(sprintId);
+                                console.log(typeof sprintId);
                                 return commentsService.delete(extendedData).then(() => {
                                     push('/comments');
                                 });

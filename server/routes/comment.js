@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const middleware = require('../middleware');
 const errors = require('../common/errors');
+const models = require('../common/models');
 const Comment = mongoose.model('Comment');
 const Sprint = mongoose.model('Sprint');
+const Post = mongoose.model('Post');
 
 module.exports = app => {
     // INDEX
@@ -20,7 +22,7 @@ module.exports = app => {
 
     // POST
     app.post('/api/comments', middleware.isLoggedIn, (req, res, next) => {
-        const { sprintId, body, created } = req.body;
+        const { sprintId, body, created, model } = req.body;
         const user = req.user;
 
         Sprint.findById(sprintId)
@@ -34,6 +36,10 @@ module.exports = app => {
             })
             .then(sprint =>
                 Comment.create({
+                    commentedObject: {
+                        model: model,
+                        id: sprintId,
+                    },
                     body: body,
                     author: {
                         id: user._id,
@@ -54,38 +60,6 @@ module.exports = app => {
             .catch(next);
     });
 
-    // TODO: post, update and destroy comment routes
-    // // POST
-    // app.post("/api/comments", middleware.isLoggedIn, (req, res) => {
-    //     let comment = {
-    //         number: req.body.number,
-    //         name: req.body.name,
-    //         dateFrom: req.body.dateFrom,
-    //         dateTo: req.body.dateTo,
-    //         description: req.body.description,
-    //         author: {
-    //             id: req.user._id,
-    //             username: req.user.username
-    //         },
-    //         created: req.body.created
-    //     };
-
-    //     // Create a new comment and save it to DB
-    //     Comment.create(comment, (err, comment) => {
-    //         if(err || !comment) {
-    //             console.log("Error creating new comment: ", err);
-    //             req.flash("error", "Something went wrong");
-    //         } else {
-    //             console.log("New comment created:", err);
-    //             req.flash("success", "Comment successfully created");
-    //             return res.status(201).send({
-    //                 error: false,
-    //                 comment
-    //             });
-    //         }
-    //     });
-    // });
-
     // // UPDATE
     // app.put("/api/comments/:id", middleware.checkSprintOwnership, (req, res) => {
     //     Comment.findByIdAndUpdate(req.params.id, req.body.comment, (err, comment) => {
@@ -103,59 +77,22 @@ module.exports = app => {
     //     });
     // });
 
-    // // DESTROY
-    // app.delete("/:id", middleware.checkSprintOwnership, (req, res) => {
-    //     // Delete comment and all related objects (comments and comments)
-    //     Comment.findByIdAndDelete(req.params.id, function(err, comment){
-    //         if(err || !comment){
-    //             console.log("Deleting unsuccessful")
-    //             req.flash("error", "Sorry, this comment does not exist!");
-    //         } else {
-    //             req.flash("success", "Comment deleted");
-
-    //             // TODO: find a more fancy solution to delete all related objects and handle async behavior
-    //             // delete associated comments
-    //             Comment.deleteMany({_id: req.object.comments}, (err, comment) => {
-    //                 if (err || !comment) {
-    //                     req.flash("error", "Sorry, this comment does not exist");
-    //                 } else {
-    //                     req.flash("success", "Related comments deleted");
-    //                 }
-    //             });
-
-    //             // delete associated comments
-    //             Comment.deleteMany({_id: req.object.comments}, (err, comment) => {
-    //                 if (err || !comment) {
-    //                     req.flash("error", "Sorry, this comment does not exist");
-    //                 } else {
-    //                     req.flash("success", "Related comments deleted");
-    //                 }
-    //             });
-
-    //             return res.status(202).send({
-    //                 error: false,
-    //                 comment
-    //             })
-    //         }
-    //     });
-    // });
-
     /* 
-        TODO: Think if we should keep one delete method 
-        with conditions for Sprint and Post update, 
-        or separate ones for each object with comments
+        Delete comment 
+        Delete children of this object (Likes)
+        Delete References to this comment ID from parent objects (Sprint, Post)
     */
-    app.delete('/api/sprints/:sprintId/comments/:id', middleware.checkCommentOwnership, (req, res) => {
-        const { id, sprintId } = req.params;
+    app.delete('/api/comments/:id', middleware.checkCommentOwnership, (req, res) => {
+        const { id } = req.params;
 
         Comment.findByIdAndDelete(id)
             .then(comment => {
                 comment
-                    ? Sprint.findByIdAndUpdate(
-                          sprintId,
+                    ? models[comment.commentedObject.model].findByIdAndUpdate(
+                          comment.commentedObject.id,
                           { $pull: { comments: new mongoose.Types.ObjectId(id) } },
                           { new: true },
-                          (err, sprint) => {
+                          (err, model) => {
                               return err
                                   ? res.status(500).send({
                                         error: 'Not found',
@@ -163,7 +100,7 @@ module.exports = app => {
                                   : res.status(202).send({
                                         error: false,
                                         comment,
-                                        sprint,
+                                        model,
                                     });
                           }
                       )
@@ -173,32 +110,4 @@ module.exports = app => {
             })
             .catch(err => res.status(500).send({ err }));
     });
-
-    // app.deletePostComment('/api/posts/:postId/comments/:id', middleware.checkCommentOwnership, (req, res) => {
-    //     const { id, postId } = req.params;
-
-    //     Comment.findByIdAndDelete(id)
-    //         .then(comment => {
-    //             comment ? (
-    //                 Post.findByIdAndUpdate(
-    //                     postId,
-    //                     { $pull: { comments: new mongoose.Types.ObjectId(id) } },
-    //                     { new: true },
-    //                     (err, post) => {
-    //                         return err ? res.status(500).send({
-    //                             error: 'Not found',
-    //                         }) : res.status(202).send({
-    //                             error: false,
-    //                             comment,
-    //                             post
-    //                         })
-    //                     })
-    //             ) : (
-    //                     res.status(500).send({
-    //                         error: `Comment ${id} not found`,
-    //                     })
-    //                 )
-    //         })
-    //         .catch(err => res.status(500).send({ err }));
-    // });
 };

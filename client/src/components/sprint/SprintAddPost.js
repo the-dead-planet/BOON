@@ -36,6 +36,7 @@ export const SprintAddPost = ({ _id, user, push }) => {
                 const extendedData = {
                     ...data, // copy form values
                     sprintId: _id, // add sprint id
+                    model: 'Sprint',
                 };
                 return postsService.add(extendedData).then(() => {
                     push('/posts');

@@ -11,10 +11,6 @@ export default {
     },
 
     delete: data => {
-        return axios.delete(`/api/sprints/${data.sprintId}/comments/${data.commentId}`, data);
+        return axios.delete(`/api/comments/${data.commentId}`, data);
     },
-
-    // deletePostComment: data => {
-    //     return axios.delete(`/api/posts/${data.postId}/comments/${data.commentId}`, data);
-    // },
 };

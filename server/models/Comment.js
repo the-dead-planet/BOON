@@ -2,6 +2,10 @@ var mongoose = require('mongoose');
 
 // Schema setup - later will be broken to separate files
 var commentSchema = new mongoose.Schema({
+    commentedObject: {
+        model: String,
+        id: String,
+    },
     body: String,
     author: {
         id: {

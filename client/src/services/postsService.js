@@ -9,4 +9,8 @@ export default {
     add: data => {
         return axios.post('/api/posts', data);
     },
+
+    delete: data => {
+        return axios.delete(`/api/posts/${data.postId}`, data);
+    },
 };

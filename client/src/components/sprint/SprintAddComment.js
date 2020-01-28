@@ -36,6 +36,7 @@ export const SprintAddComment = ({ _id, user, push }) => {
                 const extendedData = {
                     ...data, // copy form values
                     sprintId: _id, // add sprint id
+                    model: 'Sprint',
                 };
                 return commentsService.add(extendedData).then(() => {
                     push('/comments');
