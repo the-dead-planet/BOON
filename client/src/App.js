@@ -50,7 +50,7 @@ class App extends Component {
                             <Logout user={user} onSuccess={() => this.setState({ user: null })} />
                         </Route>
                         <Route path="/sprints/:id">
-                            <SprintDetail />
+                            <SprintDetail user={user} />
                         </Route>
                         <Route path="/sprints">
                             <Sprints user={user} />
