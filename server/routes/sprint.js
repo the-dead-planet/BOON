@@ -72,6 +72,33 @@ module.exports = app => {
         Sprint.findByIdAndDelete(id)
             .then(async sprint => {
                 if (sprint) {
+                    // let posts, comments, likes;
+                    // const objects = [
+                    //     {
+                    //         model: Post,
+                    //         ids: sprint.posts,
+                    //         var: posts
+                    //     },
+                    //     {
+                    //         model: Comment,
+                    //         ids: sprint.comments,
+                    //         var: comments
+                    //     },
+                    //     {
+                    //         model: Like,
+                    //         ids: sprint.likes,
+                    //         var: likes
+                    //     },
+                    // ];
+
+                    // await objects.map(async obj => {
+                    //     obj.model.deleteMany({ _id: obj.ids })
+                    //         .then(result => {
+                    //             obj.var = result // TODO: how to shallow copy, this way sth's not working
+                    //         })
+                    //         .catch(err => res.status(500).send({ err }))
+                    // })
+
                     const posts = await Post.deleteMany({ _id: sprint.posts }).catch(err =>
                         res.status(500).send({ err })
                     );
@@ -80,15 +107,16 @@ module.exports = app => {
                         res.status(500).send({ err })
                     );
 
-                    // const likes = await Like.deleteMany({ _id: sprint.likes })
-                    //     .catch(err => res.status(500).send({ err }));
+                    const likes = await Like.deleteMany({ _id: sprint.likes }).catch(err =>
+                        res.status(500).send({ err })
+                    );
 
                     res.status(202).send({
                         error: false,
                         sprint,
                         posts,
                         comments,
-                        // likes
+                        likes,
                     });
                 } else {
                     res.status(500).send({

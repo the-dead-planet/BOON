@@ -5,6 +5,7 @@ const models = require('../common/models');
 const Comment = mongoose.model('Comment');
 const Sprint = mongoose.model('Sprint');
 const Post = mongoose.model('Post');
+const Like = mongoose.model('Like');
 
 module.exports = app => {
     // INDEX
@@ -86,28 +87,54 @@ module.exports = app => {
         const { id } = req.params;
 
         Comment.findByIdAndDelete(id)
-            .then(comment => {
-                comment
-                    ? models[comment.commentedObject.model].findByIdAndUpdate(
-                          comment.commentedObject.id,
-                          { $pull: { comments: new mongoose.Types.ObjectId(id) } },
-                          { new: true },
-                          (err, model) => {
-                              return err
-                                  ? res.status(404).send({
-                                        error: 'Not found',
-                                    })
-                                  : res.status(202).send({
-                                        error: false,
-                                        comment,
-                                        model,
-                                    });
-                          }
-                      )
-                    : res.status(404).send({
-                          error: `Comment ${id} not found`,
-                      });
+            .then(async comment => {
+                if (comment) {
+                    const likes = await Like.deleteMany({ _id: comment.likes }).catch(err =>
+                        res.status(500).send({ err })
+                    );
+
+                    const updatedObject = await models[comment.commentedObject.model]
+                        .findByIdAndUpdate(
+                            comment.commentedObject.id,
+                            { $pull: { comments: new mongoose.Types.ObjectId(id) } },
+                            { new: true }
+                        )
+                        .catch(err =>
+                            res.status(404).send({
+                                error: 'Not found',
+                            })
+                        );
+
+                    res.status(202).send({
+                        error: false,
+                        comment,
+                        likes,
+                        updatedObject,
+                    });
+                } else {
+                    res.status(404).send({
+                        error: `Comment ${id} not found`,
+                    });
+                }
             })
             .catch(err => res.status(500).send({ err }));
     });
 };
+// const posts = await Post.deleteMany({ _id: sprint.posts }).catch(err =>
+//     res.status(500).send({ err })
+// );
+
+// const comments = await Comment.deleteMany({ _id: sprint.comments }).catch(err =>
+//     res.status(500).send({ err })
+// );
+
+// const likes = await Like.deleteMany({ _id: sprint.likes })
+//     .catch(err => res.status(500).send({ err }));
+
+// res.status(202).send({
+//     error: false,
+//     sprint,
+//     posts,
+//     comments,
+//     // likes
+// });

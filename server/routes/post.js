@@ -3,6 +3,7 @@ const middleware = require('../middleware');
 const models = require('../common/models');
 const Post = mongoose.model('Post');
 const Sprint = mongoose.model('Sprint');
+const Like = mongoose.model('Like');
 
 module.exports = app => {
     // INDEX
@@ -81,27 +82,40 @@ module.exports = app => {
         const { id } = req.params;
 
         Post.findByIdAndDelete(id)
-            .then(post => {
-                post
-                    ? models[post.postedToObject.model].findByIdAndUpdate(
-                          post.postedToObject.id,
-                          { $pull: { posts: new mongoose.Types.ObjectId(id) } },
-                          { new: true },
-                          (err, model) => {
-                              return err
-                                  ? res.status(500).send({
-                                        error: 'Not found',
-                                    })
-                                  : res.status(202).send({
-                                        error: false,
-                                        post,
-                                        model,
-                                    });
-                          }
-                      )
-                    : res.status(500).send({
-                          error: `Post ${id} not found`,
-                      });
+            .then(async post => {
+                if (post) {
+                    const comments = await Comment.deleteMany({ _id: post.comments }).catch(err =>
+                        res.status(500).send({ err })
+                    );
+
+                    const likes = await Like.deleteMany({ _id: post.likes }).catch(err =>
+                        res.status(500).send({ err })
+                    );
+
+                    const updatedObject = models[post.postedToObject.model]
+                        .findByIdAndUpdate(
+                            post.postedToObject.id,
+                            { $pull: { posts: new mongoose.Types.ObjectId(id) } },
+                            { new: true }
+                        )
+                        .catch(err =>
+                            res.status(404).send({
+                                error: 'Not found',
+                            })
+                        );
+
+                    res.status(202).send({
+                        error: false,
+                        post,
+                        comments,
+                        likes,
+                        updatedObject,
+                    });
+                } else {
+                    res.status(500).send({
+                        error: `Post ${id} not found`,
+                    });
+                }
             })
             .catch(err => res.status(500).send({ err }));
     });

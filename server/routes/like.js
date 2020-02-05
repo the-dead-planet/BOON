@@ -80,34 +80,36 @@ module.exports = app => {
 
     /* 
         Delete like 
-        Delete children of this object (Likes)
-        Delete References to this like ID from parent objects (Sprint, Post)
+        Delete References to this like ID from parent objects (Sprint, Post, Comment)
     */
     app.delete('/api/likes/:id', middleware.checkLikeOwnership, (req, res) => {
         const { id } = req.params;
 
         Like.findByIdAndDelete(id)
-            .then(like => {
-                like
-                    ? models[like.likeddObject.model].findByIdAndUpdate(
-                          like.likeddObject.id,
-                          { $pull: { likes: new mongoose.Types.ObjectId(id) } },
-                          { new: true },
-                          (err, model) => {
-                              return err
-                                  ? res.status(500).send({
-                                        error: 'Not found',
-                                    })
-                                  : res.status(202).send({
-                                        error: false,
-                                        like,
-                                        model,
-                                    });
-                          }
-                      )
-                    : res.status(500).send({
-                          error: `Like ${id} not found`,
-                      });
+            .then(async like => {
+                if (like) {
+                    const updatedObject = await models[like.likedObject.model]
+                        .findByIdAndUpdate(
+                            like.likedObject.id,
+                            { $pull: { likes: new mongoose.Types.ObjectId(id) } },
+                            { new: true }
+                        )
+                        .catch(err =>
+                            res.status(404).send({
+                                error: 'Not found',
+                            })
+                        );
+
+                    res.status(202).send({
+                        error: false,
+                        like,
+                        updatedObject,
+                    });
+                } else {
+                    res.status(404).send({
+                        error: `Comment ${id} not found`,
+                    });
+                }
             })
             .catch(err => res.status(500).send({ err }));
     });

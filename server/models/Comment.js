@@ -7,6 +7,12 @@ var commentSchema = new mongoose.Schema({
         id: String,
     },
     body: String,
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Like',
+        },
+    ],
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
