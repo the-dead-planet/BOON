@@ -9,6 +9,8 @@ import { useParams } from 'react-router-dom';
 import '../styles/main.css';
 
 export const SprintDetail = props => {
+    const { user } = props;
+
     const { id } = useParams();
 
     const [sprint, setSprint] = useState(null);
@@ -28,9 +30,9 @@ export const SprintDetail = props => {
 
     return (
         <React.Fragment>
-            <NavBar user={props.user} />
+            <NavBar user={user} />
             <Container className="main">
-                <Paper>{!sprint ? <Loading /> : <SprintDetails {...sprint} />}</Paper>
+                <Paper>{!sprint ? <Loading /> : <SprintDetails user={user} {...sprint} />}</Paper>
             </Container>
         </React.Fragment>
     );

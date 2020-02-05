@@ -94,7 +94,7 @@ module.exports = app => {
                           { new: true },
                           (err, model) => {
                               return err
-                                  ? res.status(500).send({
+                                  ? res.status(404).send({
                                         error: 'Not found',
                                     })
                                   : res.status(202).send({
@@ -104,7 +104,7 @@ module.exports = app => {
                                     });
                           }
                       )
-                    : res.status(500).send({
+                    : res.status(404).send({
                           error: `Comment ${id} not found`,
                       });
             })

@@ -98,6 +98,7 @@ describe('sprint comment', () => {
                     Comment.create({
                         body: 'comment',
                         author: { id: userAuth._id },
+                        commentedObject: { model: 'Sprint', id: sprint._id },
                     })
                 )
                 .then(comment => agent.delete(`/api/comments/${comment._id}`))

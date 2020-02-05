@@ -8,7 +8,7 @@ import { withPush } from '../../utils/routingDecorators';
 
 // const useStyles = makeStyles(theme => ({}));
 
-export const SprintDetailsComments = ({ user, _id, comments, push }) => {
+const SprintDetailsCommentsImpl = ({ user, _id, comments, push }) => {
     // const classes = useStyles();
 
     return (
@@ -19,3 +19,7 @@ export const SprintDetailsComments = ({ user, _id, comments, push }) => {
         </Box>
     );
 };
+
+const SprintDetailsComments = withPush(SprintDetailsCommentsImpl);
+
+export { SprintDetailsComments };
