@@ -15,6 +15,6 @@ export default {
     },
 
     delete: data => {
-        return axios.delete('/api/sprints', data);
+        return axios.delete(`/api/sprints/${data.objectId}`, data);
     },
 };

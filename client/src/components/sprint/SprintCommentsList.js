@@ -1,9 +1,8 @@
 import React from 'react';
-import { Formik, Form } from 'formik';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
-import commentsService from '../../services/commentsService';
 // import { authenticatedPage } from '../../components/authenticatedPage';
+import { ObjectDelete } from './ObjectDelete';
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -19,27 +18,7 @@ export const SprintCommentsList = ({ user, sprintId, comments, push }) => {
                     </h4>
                     <p>{comment.body}</p>
 
-                    {user && comment.author.id === user._id ? (
-                        <Formik
-                            initialValues={{}}
-                            onSubmit={data => {
-                                const extendedData = {
-                                    ...data,
-                                    commentId: comment._id,
-                                };
-                                console.log(typeof sprintId);
-                                return commentsService.delete(extendedData).then(() => {
-                                    push('/comments');
-                                });
-                            }}
-                        >
-                            <Form className={classes.rootForm}>
-                                <button type="submit">Delete</button>
-                            </Form>
-                        </Formik>
-                    ) : (
-                        ''
-                    )}
+                    <ObjectDelete user={user} model="Comment" object={comment} />
                 </div>
             ))}
         </List>

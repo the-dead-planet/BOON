@@ -9,7 +9,6 @@
 var express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
-    flash = require('connect-flash'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     methodOverride = require('method-override'),
@@ -23,7 +22,6 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride('_method'));
-app.use(flash()); // TODO: check if this will work with React - what are the alternatives
 
 // Production setup
 if (process.env.NODE_ENV === 'production') {
@@ -67,6 +65,7 @@ passport.deserializeUser(UserAuth.deserializeUser());
 require('./routes/sprint')(app);
 require('./routes/post')(app);
 require('./routes/comment')(app);
+require('./routes/like')(app);
 require('./routes')(app);
 
 app.use(handleErrors);

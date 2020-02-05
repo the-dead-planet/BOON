@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 
-// Schema setup - later will be broken to separate files
 var postSchema = new mongoose.Schema({
     postedToObject: {
         model: String,

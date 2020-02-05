@@ -3,6 +3,7 @@ const middleware = require('../middleware');
 const Sprint = mongoose.model('Sprint');
 const Post = mongoose.model('Post');
 const Comment = mongoose.model('Comment');
+const Like = mongoose.model('Like');
 
 module.exports = app => {
     app.get('/', async (req, res) => {
@@ -60,30 +61,41 @@ module.exports = app => {
             .catch(err => res.status(500).send({ err }));
     });
 
-    // // TODO: review sequence of deletion or all related objects
-    // app.delete('/api/sprints/:id', middleware.checkSprintOwnership, (req, res) => {
-    //     // Delete sprint and all related objects (posts and comments)
-    //     Sprint.findByIdAndDelete(req.params.id)
-    //         .then(sprint => {
-    //             if (sprint) {
-    //                 Post.deleteMany({ _id: req.object.posts })
-    //                     .then(posts => console.log('Posts deleted'))
-    //                     .catch(err => res.status(500).send({ err }));
+    /* 
+        Delete sprint 
+        Delete children of this object (Comments, Likes, Posts)
+        Delete References to this post ID from parent objects (N/A for now)
+    */
+    app.delete('/api/sprints/:id', middleware.checkSprintOwnership, (req, res) => {
+        const { id } = req.params;
 
-    //                 Comment.deleteMany({ _id: req.object.comments })
-    //                     .then(comments => console.log('Comments deleted'))
-    //                     .catch(err => res.status(500).send({ err }));
+        Sprint.findByIdAndDelete(id)
+            .then(async sprint => {
+                if (sprint) {
+                    const posts = await Post.deleteMany({ _id: sprint.posts }).catch(err =>
+                        res.status(500).send({ err })
+                    );
 
-    //                 // Like.deleteMany({ _id: req.object.comments })
-    //                 //     .then(like => console.log("Likes deleted"))
-    //                 //     .catch(err => res.status(500).send({err}));
+                    const comments = await Comment.deleteMany({ _id: sprint.comments }).catch(err =>
+                        res.status(500).send({ err })
+                    );
 
-    //                 return res.status(202).send({
-    //                     error: false,
-    //                     sprint,
-    //                 });
-    //             }
-    //         })
-    //         .catch(err => res.status(500).send({ err }));
-    // });
+                    // const likes = await Like.deleteMany({ _id: sprint.likes })
+                    //     .catch(err => res.status(500).send({ err }));
+
+                    res.status(202).send({
+                        error: false,
+                        sprint,
+                        posts,
+                        comments,
+                        // likes
+                    });
+                } else {
+                    res.status(500).send({
+                        error: `Sprint ${id} not found`,
+                    });
+                }
+            })
+            .catch(err => res.status(500).send({ err }));
+    });
 };

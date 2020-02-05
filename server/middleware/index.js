@@ -1,6 +1,8 @@
+// const models = require('../common/models');
 var Sprint = require('../models/Sprint');
 var Post = require('../models/Post');
 var Comment = require('../models/Comment');
+var Like = require('../models/Like');
 var BoonHttpError = require('../common/errors').BoonHttpError;
 
 var middlewareObj = {};
@@ -25,6 +27,10 @@ middlewareObj.checkPostOwnership = function(req, res, next) {
 
 middlewareObj.checkCommentOwnership = function(req, res, next) {
     checkOwnership(req, res, next, Comment, req.params.id, 'Comment', '/sprints');
+};
+
+middlewareObj.checkLikeOwnership = function(req, res, next) {
+    checkOwnership(req, res, next, Like, req.params.id, 'Like', '/sprints');
 };
 
 // Generic check ownershi
