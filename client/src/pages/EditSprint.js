@@ -6,13 +6,13 @@ import { withPush } from '../utils/routingDecorators';
 import NavBar from '../components/NavBar';
 import '../styles/main.css';
 
-class AddSprint extends Component {
+class EditSprint extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dateFrom: Date.now,
-            dateTo: Date.now,
-            number: undefined,
+            dateFrom: Date.now(),
+            dateTo: Date.now(),
+            number: 1,
             title: '',
             body: '',
         };
@@ -62,10 +62,9 @@ class AddSprint extends Component {
                 <Formik
                     initialValues={{}}
                     onSubmit={data => {
-                        sprintsService.add(data);
-                        // .then(() => {
-                        //     this.props.push('/sprints');
-                        // })
+                        sprintsService.add(data).then(() => {
+                            this.props.push('/sprints');
+                        });
                     }}
                 >
                     {() => (
@@ -128,5 +127,5 @@ class AddSprint extends Component {
     }
 }
 
-// export default authenticatedPage(withPush(AddSprint)); // TODO: repair this
-export default AddSprint;
+export default authenticatedPage(withPush(EditSprint)); // TODO: repair this
+// export default EditSprint;
