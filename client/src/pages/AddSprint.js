@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field } from 'formik';
+import moment from 'moment';
 import sprintsService from '../services/sprintsService';
 import { authenticatedPage } from '../components/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
+import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import NavBar from '../components/NavBar';
 import '../styles/main.css';
 
@@ -11,7 +13,10 @@ const AddSprint = ({ user, push }) => (
         <NavBar user={user} />
         <h1 className="center">Add Sprint</h1>
         <Formik
-            initialValues={{ dateFrom: '2010-10-10', dateTo: '2010-10-12' }}
+            initialValues={{
+                dateFrom: moment().format(FORMIK_DATE_FORMAT),
+                dateTo: moment().format(FORMIK_DATE_FORMAT),
+            }}
             onSubmit={data => {
                 sprintsService.add(data).then(() => {
                     push('/sprints');
