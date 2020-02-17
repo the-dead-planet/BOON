@@ -25,29 +25,15 @@ const models = {
     },
 };
 
-export const ObjectDelete = ({ user, model, object, push }) => {
+export const ObjectEdit = ({ user, model, object, push }) => {
     const classes = useStyles();
 
     return (
         <React.Fragment>
             {user && object && object.author.id === user._id ? (
-                <Formik
-                    initialValues={{}}
-                    onSubmit={data => {
-                        const extendedData = {
-                            ...data,
-                            objectId: object._id,
-                        };
-
-                        return models[model].service.delete(extendedData).then(() => {
-                            push(models[model].path);
-                        });
-                    }}
-                >
-                    <Form className={classes.rootForm}>
-                        <button type="submit">Delete</button>
-                    </Form>
-                </Formik>
+                <Button color="inherit" href={`${models[model].path}/${object._id}/edit`}>
+                    Edit
+                </Button>
             ) : (
                 ''
             )}

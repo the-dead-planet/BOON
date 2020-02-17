@@ -24,6 +24,12 @@ module.exports = app => {
             .then(sprints => res.status(200).send(sprints));
     });
 
+    app.get(`/api/sprints/:id`, async (req, res) => {
+        Sprint.findById(req.params.id)
+            .then(sprint => res.status(200).send(sprint))
+            .catch(err => res.status(500).send({ err }));
+    });
+
     // POST
     app.post('/api/sprints', middleware.isLoggedIn, (req, res) => {
         let sprint = {
@@ -61,7 +67,7 @@ module.exports = app => {
 
         Sprint.findByIdAndUpdate(req.params.id, sprint)
             .then(sprint => {
-                sprint.edited.push(Date.now);
+                sprint.edited = Date.now();
                 sprint.save().then(() =>
                     res.status(202).send({
                         error: false,

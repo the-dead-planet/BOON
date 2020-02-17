@@ -50,6 +50,9 @@ class App extends Component {
                         <Route path="/logout">
                             <Logout user={user} onSuccess={() => this.setState({ user: null })} />
                         </Route>
+                        <Route path="/sprints/:id/edit">
+                            <EditSprint user={user} />
+                        </Route>
                         <Route path="/sprints/:id">
                             <SprintDetail user={user} />
                         </Route>
@@ -59,10 +62,6 @@ class App extends Component {
                         <Route path="/add_sprint">
                             <AddSprint user={user} />
                         </Route>
-                        <Route path="/sprints/:id/edit">
-                            <EditSprint user={user} />
-                        </Route>
-
                         <Route path="/">
                             <Landing />
                         </Route>

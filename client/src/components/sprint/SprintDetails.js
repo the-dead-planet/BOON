@@ -7,6 +7,7 @@ import { SprintDetailsContent } from './SprintDetailsContent';
 import { SprintDetailsComments } from './SprintDetailsComments';
 import { SprintDetailsPosts } from './SprintDetailsPosts';
 import { ObjectDelete } from './ObjectDelete';
+import { ObjectEdit } from './ObjectEdit';
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -24,6 +25,7 @@ export const SprintDetails = ({ user, sprint }) => {
                 <SprintDetailsContent {...sprint} />
 
                 <ObjectDelete user={user} model="Sprint" object={sprint} />
+                <ObjectEdit user={user} model="Sprint" object={sprint} />
 
                 <SprintDetailsComments user={user} {...sprint} />
 

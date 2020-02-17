@@ -16,9 +16,7 @@ export const SprintDetail = props => {
     const [sprint, setSprint] = useState(null);
 
     const getSprint = async () => {
-        // TODO: expose a separate API method to fetch a single sprint
-        const res = await sprintsService.getAll();
-        const sprint = res.find(({ _id }) => _id === id);
+        const sprint = await sprintsService.getOne({ objectId: id });
         setSprint(sprint);
     };
 
