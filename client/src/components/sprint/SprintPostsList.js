@@ -1,6 +1,8 @@
 import React from 'react';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
+import moment from 'moment';
+import { EXT_DATE_FORMAT } from '../../utils/constants';
 import { ObjectDelete } from './ObjectDelete';
 
 const useStyles = makeStyles(theme => ({}));
@@ -14,7 +16,7 @@ export const SprintPostsList = ({ user, sprintId, posts, push }) => {
                 <div key={index}>
                     <h4>{post.title}</h4>
                     <p>
-                        {post.author.username} / {post.created.substring(0, 10)}
+                        {post.author.username} / {moment(post.created).format(EXT_DATE_FORMAT)}
                     </p>
                     <p>{post.body}</p>
 

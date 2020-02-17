@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Box } from '@material-ui/core';
+import moment from 'moment';
+import { DATE_FORMAT } from '../../utils/constants';
 
 // const useStyles = makeStyles(theme => ({}));
 
@@ -13,7 +15,8 @@ export const SprintDetailsHeader = ({ _id, number, title, dateFrom, dateTo }) =>
                 {number} : {title}
             </Typography>
             <Typography variant="body1">
-                {dateFrom ? dateFrom.substring(0, 10) : ''} - {dateTo ? dateTo.substring(0, 10) : ''}
+                {dateFrom ? moment(dateFrom).format(DATE_FORMAT) : ''} -{' '}
+                {dateTo ? moment(dateTo).format(DATE_FORMAT) : ''}
             </Typography>
         </Box>
     );

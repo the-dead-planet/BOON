@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Register from './pages/Register';
 import AddSprint from './pages/AddSprint';
+import EditSprint from './pages/EditSprint';
 import { SprintDetail } from './pages/SprintDetail';
 import './App.css';
 import authService from './services/authService';
@@ -57,6 +58,9 @@ class App extends Component {
                         </Route>
                         <Route path="/add_sprint">
                             <AddSprint user={user} />
+                        </Route>
+                        <Route path="/sprints/:id/edit">
+                            <EditSprint user={user} />
                         </Route>
 
                         <Route path="/">

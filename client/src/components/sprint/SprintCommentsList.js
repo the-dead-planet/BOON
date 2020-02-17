@@ -1,6 +1,7 @@
 import React from 'react';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 // import { authenticatedPage } from '../../components/authenticatedPage';
 import { ObjectDelete } from './ObjectDelete';
 
@@ -14,7 +15,7 @@ export const SprintCommentsList = ({ user, sprintId, comments, push }) => {
             {(comments || []).map((comment, index) => (
                 <div key={index}>
                     <h4>
-                        {comment.author.username} / {comment.created.substring(0, 10)}
+                        {comment.author.username} / {moment(comment.created).fromNow()}
                     </h4>
                     <p>{comment.body}</p>
 

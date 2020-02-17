@@ -8,7 +8,7 @@ import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import NavBar from '../components/NavBar';
 import '../styles/main.css';
 
-const EditSprint = ({ user, push }) => (
+const EditSprint = ({ match, user, push }) => (
     <div>
         <NavBar user={this.user} />
         <h1 className="center">Add Sprint</h1>
@@ -27,7 +27,7 @@ const EditSprint = ({ user, push }) => (
                 <Form>
                     <div className="center">
                         <p>
-                            Number
+                            {match.params.id}
                             <Field type="number" name="number" />
                         </p>
                         <p>

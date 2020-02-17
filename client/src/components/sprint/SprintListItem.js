@@ -7,6 +7,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 // import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 // import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
+import moment from 'moment';
+import { DATE_FORMAT } from '../../utils/constants';
 
 function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick }) {
     const useStyles = makeStyles(theme => ({
@@ -45,7 +47,8 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick })
                     secondary={
                         <React.Fragment>
                             <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
-                                {dateFrom ? dateFrom.substring(0, 10) : ''} - {dateTo ? dateTo.substring(0, 10) : ''}
+                                {dateFrom ? moment(dateFrom).format(DATE_FORMAT) : ''} -{' '}
+                                {dateTo ? moment(dateTo).format(DATE_FORMAT) : ''}
                             </Typography>
                             {body ? body.substring(0, 65) : ''}...
                         </React.Fragment>
