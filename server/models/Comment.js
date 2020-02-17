@@ -24,6 +24,12 @@ var commentSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    edited: [
+        {
+            type: Date,
+            default: undefined,
+        },
+    ],
 });
 
 module.exports = mongoose.model('Comment', commentSchema);

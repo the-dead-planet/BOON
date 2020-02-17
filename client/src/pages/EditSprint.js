@@ -8,9 +8,9 @@ import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import NavBar from '../components/NavBar';
 import '../styles/main.css';
 
-const AddSprint = ({ user, push }) => (
+const EditSprint = ({ user, push }) => (
     <div>
-        <NavBar user={user} />
+        <NavBar user={this.user} />
         <h1 className="center">Add Sprint</h1>
         <Formik
             initialValues={{
@@ -19,7 +19,7 @@ const AddSprint = ({ user, push }) => (
             }}
             onSubmit={data => {
                 sprintsService.add(data).then(() => {
-                    push('/sprints');
+                    this.props.push('/sprints');
                 });
             }}
         >
@@ -56,4 +56,4 @@ const AddSprint = ({ user, push }) => (
     </div>
 );
 
-export default authenticatedPage(withPush(AddSprint));
+export default authenticatedPage(withPush(EditSprint));

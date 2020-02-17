@@ -38,9 +38,7 @@ export const SprintAddPost = ({ _id, user, push }) => {
                     sprintId: _id, // add sprint id
                     model: 'Sprint',
                 };
-                return postsService.add(extendedData).then(() => {
-                    push('/posts');
-                });
+                return postsService.add(extendedData);
             }}
         >
             {user ? (

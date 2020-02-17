@@ -51,13 +51,24 @@ module.exports = app => {
 
     // UPDATE
     app.put('/api/sprints/:id', middleware.checkSprintOwnership, (req, res) => {
-        Sprint.findByIdAndUpdate(req.params.id, req.body.sprint)
-            .then(sprint =>
-                res.status(202).send({
-                    error: false,
-                    sprint,
-                })
-            )
+        let sprint = {
+            number: req.body.number,
+            dateFrom: req.body.dateFrom,
+            dateTo: req.body.dateTo,
+            title: req.body.title,
+            body: req.body.body,
+        };
+
+        Sprint.findByIdAndUpdate(req.params.id, sprint)
+            .then(sprint => {
+                sprint.edited.push(Date.now);
+                sprint.save().then(() =>
+                    res.status(202).send({
+                        error: false,
+                        sprint,
+                    })
+                );
+            })
             .catch(err => res.status(500).send({ err }));
     });
 

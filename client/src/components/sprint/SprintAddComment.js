@@ -38,9 +38,7 @@ export const SprintAddComment = ({ _id, user, push }) => {
                     sprintId: _id, // add sprint id
                     model: 'Sprint',
                 };
-                return commentsService.add(extendedData).then(() => {
-                    push('/comments');
-                });
+                return commentsService.add(extendedData);
             }}
         >
             {user ? (
