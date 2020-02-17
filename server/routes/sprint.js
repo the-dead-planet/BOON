@@ -7,10 +7,10 @@ const Like = mongoose.model('Like');
 
 module.exports = app => {
     app.get('/', async (req, res) => {
-        res.send("BOON API's: /api/sprints  /api/posts  /api/comments  /api/users");
+        res.send("BOON API's: /api/sprints  /api/posts  /api/comments  /api/likes  /api/users");
     });
 
-    // INDEX
+    // INDEX - Get all
     app.get(`/api/sprints`, async (req, res) => {
         Sprint.find({})
             .populate({
@@ -24,6 +24,7 @@ module.exports = app => {
             .then(sprints => res.status(200).send(sprints));
     });
 
+    // INDEX - Get one
     app.get(`/api/sprints/:id`, async (req, res) => {
         Sprint.findById(req.params.id)
             .then(sprint => res.status(200).send(sprint))
@@ -42,7 +43,6 @@ module.exports = app => {
                 id: req.user._id,
                 username: req.user.username,
             },
-            created: req.body.created,
         };
 
         Sprint.create(sprint)
@@ -55,7 +55,11 @@ module.exports = app => {
             .catch(err => res.status(500).send({ err }));
     });
 
-    // UPDATE
+    /* 
+        UPDATE
+        Update sprint with values from user form
+        Add/replace 'edited' date with today
+    */
     app.put('/api/sprints/:id', middleware.checkSprintOwnership, (req, res) => {
         let sprint = {
             number: req.body.number,
@@ -63,11 +67,11 @@ module.exports = app => {
             dateTo: req.body.dateTo,
             title: req.body.title,
             body: req.body.body,
+            edited: Date.now(),
         };
 
         Sprint.findByIdAndUpdate(req.params.id, sprint)
             .then(sprint => {
-                sprint.edited = Date.now();
                 sprint.save().then(() =>
                     res.status(202).send({
                         error: false,
@@ -89,33 +93,6 @@ module.exports = app => {
         Sprint.findByIdAndDelete(id)
             .then(async sprint => {
                 if (sprint) {
-                    // let posts, comments, likes;
-                    // const objects = [
-                    //     {
-                    //         model: Post,
-                    //         ids: sprint.posts,
-                    //         var: posts
-                    //     },
-                    //     {
-                    //         model: Comment,
-                    //         ids: sprint.comments,
-                    //         var: comments
-                    //     },
-                    //     {
-                    //         model: Like,
-                    //         ids: sprint.likes,
-                    //         var: likes
-                    //     },
-                    // ];
-
-                    // await objects.map(async obj => {
-                    //     obj.model.deleteMany({ _id: obj.ids })
-                    //         .then(result => {
-                    //             obj.var = result // TODO: how to shallow copy, this way sth's not working
-                    //         })
-                    //         .catch(err => res.status(500).send({ err }))
-                    // })
-
                     const posts = await Post.deleteMany({ _id: sprint.posts }).catch(err =>
                         res.status(500).send({ err })
                     );

@@ -9,7 +9,7 @@ import NavBar from '../components/NavBar';
 import '../styles/main.css';
 
 const AddSprint = ({ user, push }) => (
-    <div>
+    <React.Fragment>
         <NavBar user={user} />
         <h1 className="center">Add Sprint</h1>
         <Formik
@@ -53,7 +53,7 @@ const AddSprint = ({ user, push }) => (
                 </Form>
             )}
         </Formik>
-    </div>
+    </React.Fragment>
 );
 
 export default authenticatedPage(withPush(AddSprint));

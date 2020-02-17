@@ -25,7 +25,7 @@ const models = {
     },
 };
 
-export const ObjectEdit = ({ user, model, object, push }) => {
+export const ObjectEdit = ({ user, model, object }) => {
     const classes = useStyles();
 
     return (

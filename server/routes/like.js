@@ -8,50 +8,57 @@ const Post = mongoose.model('Post');
 const Like = mongoose.model('Like');
 
 module.exports = app => {
-    // INDEX
+    // INDEX - get all
     app.get('/api/likes', async (req, res) => {
         Like.find({})
             .then(likes => res.status(200).send(likes))
             .catch(err => res.status(500).send({ err }));
     });
 
-    app.get('/api/likes/:id', async (req, res) => {
-        Like.find({ _id: req.params.id })
-            .then(likes => res.status(200).send(likes))
+    // INDEX - get one
+    app.get(`/api/likes/:id`, async (req, res) => {
+        Like.findById(req.params.id)
+            .then(like => res.status(200).send(like))
             .catch(err => res.status(500).send({ err }));
     });
 
-    // POST
+    // POST - add like only if it wasn't already given by that user
     app.post('/api/likes', middleware.isLoggedIn, (req, res, next) => {
-        const { sprintId, body, created, model } = req.body;
+        const { id, type, model } = req.body;
         const user = req.user;
 
-        Sprint.findById(sprintId)
+        models[model]
+            .findById(id)
             .exec()
-            .then(sprint => {
-                if (!sprint) {
-                    return Promise.reject(new errors.NotFoundError('sprintId', sprintId));
+            .then(updatedObject => {
+                if (!updatedObject) {
+                    return Promise.reject(new errors.NotFoundError('sprintId', id));
                 } else {
-                    return sprint;
+                    return updatedObject;
                 }
             })
-            .then(sprint =>
-                Like.create({
-                    likedObject: {
-                        model: model,
-                        id: sprintId,
-                    },
-                    body: body,
-                    author: {
-                        id: user._id,
-                        username: user.username,
-                    },
-                    created,
-                }).then(like => {
-                    sprint.likes.push(like._id);
-                    return sprint.save().then(() => like);
-                })
-            )
+            .then(updatedObject => {
+                updatedObject.likes.filter(like => {
+                    like.author.username === user.username;
+                }).length === 0
+                    ? like
+                          .create({
+                              likedObject: {
+                                  model: model,
+                                  id: id,
+                              },
+                              type: type,
+                              author: {
+                                  id: user._id,
+                                  username: user.username,
+                              },
+                          })
+                          .then(like => {
+                              updatedObject.likes.push(like._id);
+                              return updatedObject.save().then(() => like);
+                          })
+                    : '';
+            })
             .then(like => {
                 res.status(201).send({
                     error: false,
@@ -61,22 +68,26 @@ module.exports = app => {
             .catch(next);
     });
 
-    // // UPDATE
-    // app.put("/api/comments/:id", middleware.checkSprintOwnership, (req, res) => {
-    //     Comment.findByIdAndUpdate(req.params.id, req.body.comment, (err, comment) => {
-    //        if(err || !comment){
-    //            console.log("Error updating comment: ", err);
-    //            req.flash("error", "Sorry, this comment does not exist!");
-    //        } else {
-    //            console.log("Comment updated ", req.params.dateFrom);
-    //            req.flash("success", "Comment successfully updated");
-    //            return res.status(202).send({
-    //                 error: false,
-    //                 comment
-    //             });
-    //        }
-    //     });
-    // });
+    /* 
+        UPDATE
+        Update like with new type
+    */
+    app.put('/api/likes/:id', middleware.checkLikeOwnership, (req, res) => {
+        let like = {
+            type: req.body.type,
+        };
+
+        Like.findByIdAndUpdate(req.params.id, like)
+            .then(like => {
+                like.save().then(() =>
+                    res.status(202).send({
+                        error: false,
+                        like,
+                    })
+                );
+            })
+            .catch(err => res.status(500).send({ err }));
+    });
 
     /* 
         Delete like 
@@ -107,7 +118,7 @@ module.exports = app => {
                     });
                 } else {
                     res.status(404).send({
-                        error: `Comment ${id} not found`,
+                        error: `Like ${id} not found`,
                     });
                 }
             })

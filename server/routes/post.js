@@ -6,7 +6,7 @@ const Sprint = mongoose.model('Sprint');
 const Like = mongoose.model('Like');
 
 module.exports = app => {
-    // INDEX
+    // INDEX - get all
     app.get(`/api/posts`, async (req, res) => {
         Post.find({})
             .populate('comments')
@@ -15,9 +15,19 @@ module.exports = app => {
             .catch(err => res.status(500).send({ err }));
     });
 
-    // POST
+    // INDEX - Get one
+    app.get(`/api/posts/:id`, async (req, res) => {
+        Post.findById(req.params.id)
+            .then(post => res.status(200).send(post))
+            .catch(err => res.status(500).send({ err }));
+    });
+
+    /*
+        Create new post
+        Add post id reference to sprint.posts array
+    */
     app.post('/api/posts', middleware.isLoggedIn, (req, res, next) => {
-        const { sprintId, title, body, created, model } = req.body;
+        const { sprintId, title, body, model } = req.body;
         const user = req.user;
 
         Sprint.findById(sprintId)
@@ -41,7 +51,6 @@ module.exports = app => {
                         id: user._id,
                         username: user.username,
                     },
-                    created,
                 }).then(post => {
                     sprint.posts.push(post._id);
                     return sprint.save().then(() => post);
@@ -56,22 +65,29 @@ module.exports = app => {
             .catch(next);
     });
 
-    // // UPDATE
-    // app.put("/api/posts/:id", middleware.checkSprintOwnership, (req, res) => {
-    //     Post.findByIdAndUpdate(req.params.id, req.body.post, (err, post) => {
-    //        if(err || !post){
-    //            console.log("Error updating post: ", err);
-    //            req.flash("error", "Sorry, this post does not exist!");
-    //        } else {
-    //            console.log("Post updated ", req.params.dateFrom);
-    //            req.flash("success", "Post successfully updated");
-    //            return res.status(202).send({
-    //                 error: false,
-    //                 post
-    //             });
-    //        }
-    //     });
-    // });
+    /* 
+        UPDATE
+        Update post with values from user form
+        Add/replace 'edited' date with today
+    */
+    app.put('/api/posts/:id', middleware.checkPostOwnership, (req, res) => {
+        let post = {
+            title: req.body.title,
+            body: req.body.body,
+            edited: Date.now(),
+        };
+
+        Post.findByIdAndUpdate(req.params.id, post)
+            .then(post => {
+                post.save().then(() =>
+                    res.status(202).send({
+                        error: false,
+                        post,
+                    })
+                );
+            })
+            .catch(err => res.status(500).send({ err }));
+    });
 
     /* 
         Delete post 

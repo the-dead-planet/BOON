@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@material-ui/core';
 // import { makeStyles } from '@material-ui/core/styles';
 import { SprintCommentsList } from './SprintCommentsList';
-import { SprintAddComment } from './SprintAddComment';
+import { AddComment } from './AddComment';
 import { authenticatedPage } from '../../components/authenticatedPage';
 import { withPush } from '../../utils/routingDecorators';
 
@@ -15,7 +15,7 @@ const SprintDetailsCommentsImpl = ({ user, _id, comments, push }) => {
         <Box id={'comments'}>
             <h2>Comments</h2>
             <SprintCommentsList user={user} sprintId={_id} comments={comments} push={push} />
-            <SprintAddComment user={user} _id={_id} push={push} />
+            <AddComment user={user} _id={_id} model="Sprint" push={push} />
         </Box>
     );
 };

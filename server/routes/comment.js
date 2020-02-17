@@ -8,48 +8,49 @@ const Post = mongoose.model('Post');
 const Like = mongoose.model('Like');
 
 module.exports = app => {
-    // INDEX
+    // INDEX - get all
     app.get('/api/comments', async (req, res) => {
         Comment.find({})
             .then(comments => res.status(200).send(comments))
             .catch(err => res.status(500).send({ err }));
     });
 
-    app.get('/api/comments/:id', async (req, res) => {
-        Comment.find({ _id: req.params.id })
-            .then(comments => res.status(200).send(comments))
+    // INDEX - get one
+    app.get(`/api/posts/:id`, async (req, res) => {
+        Comment.findById(req.params.id)
+            .then(comment => res.status(200).send(comment))
             .catch(err => res.status(500).send({ err }));
     });
 
     // POST
     app.post('/api/comments', middleware.isLoggedIn, (req, res, next) => {
-        const { sprintId, body, created, model } = req.body;
+        const { id, body, model } = req.body;
         const user = req.user;
 
-        Sprint.findById(sprintId)
+        models[model]
+            .findById(id)
             .exec()
-            .then(sprint => {
-                if (!sprint) {
-                    return Promise.reject(new errors.NotFoundError('sprintId', sprintId));
+            .then(updatedObject => {
+                if (!updatedObject) {
+                    return Promise.reject(new errors.NotFoundError('sprintId', id));
                 } else {
-                    return sprint;
+                    return updatedObject;
                 }
             })
-            .then(sprint =>
+            .then(updatedObject =>
                 Comment.create({
                     commentedObject: {
                         model: model,
-                        id: sprintId,
+                        id: id,
                     },
                     body: body,
                     author: {
                         id: user._id,
                         username: user.username,
                     },
-                    created,
                 }).then(comment => {
-                    sprint.comments.push(comment._id);
-                    return sprint.save().then(() => comment);
+                    updatedObject.comments.push(comment._id);
+                    return updatedObject.save().then(() => comment);
                 })
             )
             .then(comment => {
@@ -61,22 +62,28 @@ module.exports = app => {
             .catch(next);
     });
 
-    // // UPDATE
-    // app.put("/api/comments/:id", middleware.checkSprintOwnership, (req, res) => {
-    //     Comment.findByIdAndUpdate(req.params.id, req.body.comment, (err, comment) => {
-    //        if(err || !comment){
-    //            console.log("Error updating comment: ", err);
-    //            req.flash("error", "Sorry, this comment does not exist!");
-    //        } else {
-    //            console.log("Comment updated ", req.params.dateFrom);
-    //            req.flash("success", "Comment successfully updated");
-    //            return res.status(202).send({
-    //                 error: false,
-    //                 comment
-    //             });
-    //        }
-    //     });
-    // });
+    /* 
+        UPDATE
+        Update comment with values from user form
+        Add/replace 'edited' date with today
+    */
+    app.put('/api/comments/:id', middleware.checkCommentOwnership, (req, res) => {
+        let comment = {
+            body: req.body.body,
+            edited: Date.now(),
+        };
+
+        Comment.findByIdAndUpdate(req.params.id, comment)
+            .then(comment => {
+                comment.save().then(() =>
+                    res.status(202).send({
+                        error: false,
+                        comment,
+                    })
+                );
+            })
+            .catch(err => res.status(500).send({ err }));
+    });
 
     /* 
         Delete comment 
@@ -120,21 +127,3 @@ module.exports = app => {
             .catch(err => res.status(500).send({ err }));
     });
 };
-// const posts = await Post.deleteMany({ _id: sprint.posts }).catch(err =>
-//     res.status(500).send({ err })
-// );
-
-// const comments = await Comment.deleteMany({ _id: sprint.comments }).catch(err =>
-//     res.status(500).send({ err })
-// );
-
-// const likes = await Like.deleteMany({ _id: sprint.likes })
-//     .catch(err => res.status(500).send({ err }));
-
-// res.status(202).send({
-//     error: false,
-//     sprint,
-//     posts,
-//     comments,
-//     // likes
-// });

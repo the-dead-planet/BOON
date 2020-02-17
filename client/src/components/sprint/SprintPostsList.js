@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import { EXT_DATE_FORMAT } from '../../utils/constants';
 import { ObjectDelete } from './ObjectDelete';
+import { AddComment } from './AddComment';
 
 const useStyles = makeStyles(theme => ({}));
 
@@ -21,6 +22,7 @@ export const SprintPostsList = ({ user, sprintId, posts, push }) => {
                     <p>{post.body}</p>
 
                     <ObjectDelete user={user} model="Post" object={post} />
+                    <AddComment user={user} _id={post._id} model="Post" push={push} />
                 </div>
             ))}
         </List>

@@ -31,23 +31,20 @@ export const ObjectDelete = ({ user, model, object, push }) => {
     return (
         <React.Fragment>
             {user && object && object.author.id === user._id ? (
-                <Formik
-                    initialValues={{}}
-                    onSubmit={data => {
+                <Button
+                    color="inherit"
+                    href="/sprints"
+                    onClick={data => {
                         const extendedData = {
                             ...data,
                             objectId: object._id,
                         };
 
-                        return models[model].service.delete(extendedData).then(() => {
-                            push(models[model].path);
-                        });
+                        return models[model].service.delete(extendedData);
                     }}
                 >
-                    <Form className={classes.rootForm}>
-                        <button type="submit">Delete</button>
-                    </Form>
-                </Formik>
+                    Delete
+                </Button>
             ) : (
                 ''
             )}

@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export const SprintAddComment = ({ _id, user, push }) => {
+export const AddComment = ({ _id, user, model, push }) => {
     const classes = useStyles();
 
     return (
@@ -35,8 +35,8 @@ export const SprintAddComment = ({ _id, user, push }) => {
             onSubmit={data => {
                 const extendedData = {
                     ...data, // copy form values
-                    sprintId: _id, // add sprint id
-                    model: 'Sprint',
+                    id: _id, // add sprint id
+                    model: model,
                 };
                 return commentsService.add(extendedData);
             }}
