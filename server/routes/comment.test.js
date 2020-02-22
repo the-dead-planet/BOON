@@ -72,7 +72,7 @@ describe('sprint comment', () => {
         test('can comment', () => {
             return agent
                 .post('/api/comments')
-                .send({ sprintId: sprint._id, comment: 'comment text' })
+                .send({ id: sprint._id, model: 'Sprint', comment: 'comment text' })
                 .then(resp => {
                     return expect(resp).toMatchObject({
                         statusCode: 201,
@@ -83,7 +83,7 @@ describe('sprint comment', () => {
         test('unknown sprintId', () => {
             return agent
                 .post('/api/comments')
-                .send({ sprintId: '1234567890ab', comment: 'comment text' })
+                .send({ id: '1234567890ab', model: 'Sprint', comment: 'comment text' })
                 .then(resp => {
                     return expect(resp).toMatchObject({
                         statusCode: 404,
