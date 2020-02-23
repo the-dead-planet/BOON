@@ -31,7 +31,6 @@ module.exports = app => {
     app.post('/api/posts', middleware.isLoggedIn, (req, res, next) => {
         const { sprintId, project, title, body, model } = req.body;
         const user = req.user;
-        // const projectId = project.projectId; // TODO: figure this out
 
         Sprint.findById(sprintId)
             .exec()
@@ -48,7 +47,7 @@ module.exports = app => {
                         model: model,
                         id: sprintId,
                     },
-                    project: projectId,
+                    project: project,
                     title: title,
                     body: body,
                     author: {
@@ -76,7 +75,7 @@ module.exports = app => {
     */
     app.put('/api/posts/:id', middleware.checkPostOwnership, (req, res) => {
         let post = {
-            // project: req.body.project, // TODO: figure this out
+            project: req.body.project,
             title: req.body.title,
             body: req.body.body,
             edited: Date.now(),

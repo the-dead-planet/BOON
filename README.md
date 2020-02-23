@@ -48,14 +48,13 @@ yarn dev
 - Display Post comments
 - Add dropdown selector for a project to which this post is linked
 - Enable new project creation when entering new post data
-- Add handle change of project
 
 ```
 
 ```PROJECT
 - Add "Add Project" page
-- Disable project deletion if posts are already linked to it
 - Test delete route scenarios: try to delete project with posts (failure) and without (success)
+- Add Project Group ???
 
 ```
 
@@ -74,7 +73,7 @@ yarn dev
 ```
 
 ```UI
-- change all components
+- Change input fields in forms: Login, Register, Add/Edit Project, Add/Edit Sprint
 
 ```
 

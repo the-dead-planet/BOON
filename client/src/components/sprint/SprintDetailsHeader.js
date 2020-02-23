@@ -15,8 +15,8 @@ export const SprintDetailsHeader = ({ _id, number, title, dateFrom, dateTo }) =>
                 {number} : {title}
             </Typography>
             <Typography variant="body1">
-                {dateFrom ? moment(dateFrom).format(DATE_FORMAT) : ''} -{' '}
-                {dateTo ? moment(dateTo).format(DATE_FORMAT) : ''}
+                {dateFrom ? moment(dateFrom).format(DATE_FORMAT) : null} -{' '}
+                {dateTo ? moment(dateTo).format(DATE_FORMAT) : null}
             </Typography>
         </Box>
     );

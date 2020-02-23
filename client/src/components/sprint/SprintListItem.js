@@ -47,10 +47,10 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick })
                     secondary={
                         <React.Fragment>
                             <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
-                                {dateFrom ? moment(dateFrom).format(DATE_FORMAT) : ''} -{' '}
-                                {dateTo ? moment(dateTo).format(DATE_FORMAT) : ''}
+                                {dateFrom ? moment(dateFrom).format(DATE_FORMAT) : null} -{' '}
+                                {dateTo ? moment(dateTo).format(DATE_FORMAT) : null}
                             </Typography>
-                            {body ? body.substring(0, 65) : ''}...
+                            {body ? body.substring(0, 65) : null}...
                         </React.Fragment>
                     }
                 />

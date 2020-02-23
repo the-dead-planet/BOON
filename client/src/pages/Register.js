@@ -7,7 +7,6 @@ import { interceptPage } from '../components/interceptPage';
 const Register = ({ user, onSuccess, next }) => (
     <div className="center">
         <NavBar user={user} />
-        <h1>Register</h1>
         <AuthForm
             type="register"
             onSubmit={({ username, password, email, team }) => {

@@ -9,7 +9,9 @@ import { SprintDetailsPosts } from './SprintDetailsPosts';
 import { ObjectDelete } from './ObjectDelete';
 import { ObjectEdit } from './ObjectEdit';
 
-const useStyles = makeStyles(theme => ({}));
+const useStyles = makeStyles(theme => ({
+    paper: { backgroundColor: '#FFF' },
+}));
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -18,19 +20,24 @@ export const SprintDetails = ({ user, sprint }) => {
     const classes = useStyles();
 
     return (
-        <Paper className={`${classes.paper} ${classes.offset}`}>
-            <Box>
+        // <Paper className={`${classes.paper} ${classes.offset}`}>
+        <Box>
+            <Paper className={`${classes.paper} ${classes.offset}`}>
                 <SprintDetailsHeader {...sprint} />
-
                 <SprintDetailsContent {...sprint} />
 
                 <ObjectDelete user={user} model="Sprint" object={sprint} />
                 <ObjectEdit user={user} model="Sprint" object={sprint} />
+            </Paper>
 
+            <Paper className={`${classes.paper} ${classes.offset}`}>
                 <SprintDetailsComments user={user} {...sprint} />
+            </Paper>
 
+            <Paper className={`${classes.paper} ${classes.offset}`}>
                 <SprintDetailsPosts user={user} {...sprint} />
-            </Box>
-        </Paper>
+            </Paper>
+        </Box>
+        // </Paper>
     );
 };

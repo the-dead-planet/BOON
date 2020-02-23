@@ -57,7 +57,7 @@ module.exports = app => {
                               updatedObject.likes.push(like._id);
                               return updatedObject.save().then(() => like);
                           })
-                    : '';
+                    : null;
             })
             .then(like => {
                 res.status(201).send({
