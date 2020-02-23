@@ -27,8 +27,12 @@ const menuButtons = [
         path: '/teams',
     },
     {
-        name: 'ADD',
+        name: 'ADD SPRINT',
         path: '/add_sprint',
+    },
+    {
+        name: 'ADD PROJECT',
+        path: '/add_project',
     },
 ];
 

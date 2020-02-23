@@ -63,6 +63,7 @@ passport.deserializeUser(UserAuth.deserializeUser());
 
 // Handle API routes
 require('./routes/sprint')(app);
+require('./routes/project')(app);
 require('./routes/post')(app);
 require('./routes/comment')(app);
 require('./routes/like')(app);

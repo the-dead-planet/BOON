@@ -9,7 +9,7 @@ module.exports = app => {
     // INDEX - get all
     app.get(`/api/posts`, async (req, res) => {
         Post.find({})
-            .populate('comments')
+            .populate('comments likes')
             .exec()
             .then(posts => res.status(200).send(posts))
             .catch(err => res.status(500).send({ err }));
@@ -18,6 +18,8 @@ module.exports = app => {
     // INDEX - Get one
     app.get(`/api/posts/:id`, async (req, res) => {
         Post.findById(req.params.id)
+            .populate('comments likes')
+            .exec()
             .then(post => res.status(200).send(post))
             .catch(err => res.status(500).send({ err }));
     });
@@ -27,8 +29,9 @@ module.exports = app => {
         Add post id reference to sprint.posts array
     */
     app.post('/api/posts', middleware.isLoggedIn, (req, res, next) => {
-        const { sprintId, title, body, model } = req.body;
+        const { sprintId, project, title, body, model } = req.body;
         const user = req.user;
+        // const projectId = project.projectId; // TODO: figure this out
 
         Sprint.findById(sprintId)
             .exec()
@@ -45,6 +48,7 @@ module.exports = app => {
                         model: model,
                         id: sprintId,
                     },
+                    project: projectId,
                     title: title,
                     body: body,
                     author: {
@@ -72,6 +76,7 @@ module.exports = app => {
     */
     app.put('/api/posts/:id', middleware.checkPostOwnership, (req, res) => {
         let post = {
+            // project: req.body.project, // TODO: figure this out
             title: req.body.title,
             body: req.body.body,
             edited: Date.now(),

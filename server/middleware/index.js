@@ -1,5 +1,6 @@
 // const models = require('../common/models');
 var Sprint = require('../models/Sprint');
+var Project = require('../models/Project');
 var Post = require('../models/Post');
 var Comment = require('../models/Comment');
 var Like = require('../models/Like');
@@ -23,6 +24,10 @@ middlewareObj.checkSprintOwnership = function(req, res, next) {
 
 middlewareObj.checkPostOwnership = function(req, res, next) {
     checkOwnership(req, res, next, Post, req.params.id, 'Post', '/sprints');
+};
+
+middlewareObj.checkProjectOwnership = function(req, res, next) {
+    checkOwnership(req, res, next, Project, req.params.id, 'Project', '/sprints');
 };
 
 middlewareObj.checkCommentOwnership = function(req, res, next) {

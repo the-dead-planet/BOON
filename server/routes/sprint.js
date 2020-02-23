@@ -14,7 +14,7 @@ module.exports = app => {
     app.get(`/api/sprints`, async (req, res) => {
         Sprint.find({})
             .populate({
-                path: 'posts comments',
+                path: 'posts comments likes',
                 populate: {
                     path: 'comments',
                 },
@@ -27,6 +27,13 @@ module.exports = app => {
     // INDEX - Get one
     app.get(`/api/sprints/:id`, async (req, res) => {
         Sprint.findById(req.params.id)
+            .populate({
+                path: 'posts comments likes',
+                populate: {
+                    path: 'comments',
+                },
+            })
+            .exec()
             .then(sprint => res.status(200).send(sprint))
             .catch(err => res.status(500).send({ err }));
     });

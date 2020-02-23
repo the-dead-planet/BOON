@@ -6,6 +6,7 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Register from './pages/Register';
 import AddSprint from './pages/AddSprint';
+import AddProject from './pages/AddProject';
 import EditSprint from './pages/EditSprint';
 import { SprintDetail } from './pages/SprintDetail';
 import './App.css';
@@ -61,6 +62,9 @@ class App extends Component {
                         </Route>
                         <Route path="/add_sprint">
                             <AddSprint user={user} />
+                        </Route>
+                        <Route path="/add_project">
+                            <AddProject user={user} />
                         </Route>
                         <Route path="/">
                             <Landing />

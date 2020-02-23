@@ -3,7 +3,6 @@ import { Box } from '@material-ui/core';
 // import { makeStyles } from '@material-ui/core/styles';
 import { SprintPostsList } from './SprintPostsList';
 import { SprintAddPost } from './SprintAddPost';
-import { AddComment } from './AddComment';
 import { authenticatedPage } from '../../components/authenticatedPage';
 import { withPush } from '../../utils/routingDecorators';
 

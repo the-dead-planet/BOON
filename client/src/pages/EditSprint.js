@@ -10,7 +10,7 @@ import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
 import '../styles/main.css';
 
-const EditSprint = ({ match, user, push }) => {
+const EditSprint = ({ user, push }) => {
     const { id } = useParams();
 
     const [sprint, setSprint] = useState(null);
