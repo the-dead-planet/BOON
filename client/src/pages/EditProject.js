@@ -33,7 +33,8 @@ const EditProject = ({ user, push }) => {
             {!project ? (
                 <Loading />
             ) : (
-                <Formik
+                <ProjectForm
+                    title={`Edit project: ${project.title}`}
                     initialValues={{
                         title: project.title,
                         body: project.body,
@@ -43,25 +44,7 @@ const EditProject = ({ user, push }) => {
                             push('/projects');
                         });
                     }}
-                >
-                    {() => (
-                        <Form>
-                            <div className="center">
-                                <p>
-                                    Title
-                                    <Field type="text" name="title" />
-                                </p>
-                                <p>
-                                    Description
-                                    <Field type="text" name="body" />
-                                </p>
-                                <p>
-                                    <button type="submit">Submit</button>
-                                </p>
-                            </div>
-                        </Form>
-                    )}
-                </Formik>
+                />
             )}
         </React.Fragment>
     );

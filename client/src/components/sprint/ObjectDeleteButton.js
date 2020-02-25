@@ -24,14 +24,25 @@ const models = {
     },
 };
 
-export const ObjectEdit = ({ user, model, object }) => {
+export const ObjectDeleteButton = ({ user, model, object, push }) => {
     // const classes = useStyles();
 
     return (
         <React.Fragment>
             {user && object && object.author.id === user._id ? (
-                <Button color="inherit" href={`${models[model].path}/${object._id}/edit`}>
-                    Edit
+                <Button
+                    color="inherit"
+                    href="/sprints"
+                    onClick={data => {
+                        const extendedData = {
+                            ...data,
+                            objectId: object._id,
+                        };
+
+                        return models[model].service.delete(extendedData);
+                    }}
+                >
+                    Delete
                 </Button>
             ) : (
                 ''

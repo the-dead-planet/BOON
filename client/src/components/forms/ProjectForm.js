@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
-const AddSprintForm = ({ initialValues, onSubmit }) => {
+const ProjectForm = ({ title, initialValues, onSubmit }) => {
     const useStyles = makeStyles(theme => ({
         root: {
             height: '100%',
@@ -37,27 +37,6 @@ const AddSprintForm = ({ initialValues, onSubmit }) => {
 
     const classes = useStyles();
 
-    // var usernameField,
-    //     teamField = null;
-    var title = 'Add Sprint';
-
-    // if (type === 'register') {
-    //     usernameField = (
-    //         <Grid item xs="12">
-    //             <Field as={TextField} name="username" required id="standard-required" label="Username" />
-    //         </Grid>
-    //     );
-
-    //     // TODO: Change to select
-    //     teamField = (
-    //         <Grid item xs="12">
-    //             <Field as={TextField} name="team" required id="standard-required" label="Team" />
-    //         </Grid>
-    //     );
-
-    //     title = 'Register';
-    // }
-
     return (
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
             {() => (
@@ -69,50 +48,14 @@ const AddSprintForm = ({ initialValues, onSubmit }) => {
                                     <h1>{title}</h1>
                                 </Grid>
 
-                                <Grid item xs={2}>
-                                    <Field
-                                        // fullWidth
-                                        as={TextField}
-                                        type="number"
-                                        name="number"
-                                        required
-                                        id="add-sprint-number"
-                                        label="Number"
-                                    />
-                                </Grid>
-
-                                <Grid item xs={5}>
-                                    <Field
-                                        // fullWidth
-                                        as={TextField}
-                                        type="date"
-                                        name="dateFrom"
-                                        required
-                                        id="add-sprint-date-from"
-                                        label="Start date"
-                                    />
-                                </Grid>
-
-                                <Grid item xs={5}>
-                                    <Field
-                                        // fullWidth
-                                        as={TextField}
-                                        type="date"
-                                        name="dateTo"
-                                        required
-                                        id="add-sprint-date-to"
-                                        label="End date"
-                                    />
-                                </Grid>
-
                                 <Grid item xs={12}>
                                     <Field
                                         fullWidth
                                         as={TextField}
                                         name="title"
                                         required
-                                        id="add-sprint-title"
-                                        label="Sprint title"
+                                        id="add-project-title"
+                                        label="Project name"
                                     />
                                 </Grid>
 
@@ -124,8 +67,8 @@ const AddSprintForm = ({ initialValues, onSubmit }) => {
                                         as={TextField}
                                         name="body"
                                         required
-                                        id="add-sprint-body"
-                                        label="Did you start ruling the world this sprint?"
+                                        id="add-project-body"
+                                        label="How's this project going to make the place a better world?"
                                     />
                                 </Grid>
 
@@ -141,4 +84,4 @@ const AddSprintForm = ({ initialValues, onSubmit }) => {
     );
 };
 
-export default AddSprintForm;
+export default ProjectForm;

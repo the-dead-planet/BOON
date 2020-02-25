@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Formik, Form, Field } from 'formik';
+import SprintForm from '../components/forms/SprintForm';
 import moment from 'moment';
 import sprintsService from '../services/sprintsService';
 import { authenticatedPage } from '../components/authenticatedPage';
@@ -32,11 +32,11 @@ const EditSprint = ({ user, push }) => {
     return (
         <React.Fragment>
             <NavBar user={user} />
-            <h1 className="center">Edit Sprint {id}</h1>
             {!sprint ? (
                 <Loading />
             ) : (
-                <Formik
+                <SprintForm
+                    title={`Edit sprint ${sprint.number}`}
                     initialValues={{
                         number: sprint.number,
                         title: sprint.title,
@@ -49,37 +49,7 @@ const EditSprint = ({ user, push }) => {
                             push('/sprints');
                         });
                     }}
-                >
-                    {() => (
-                        <Form>
-                            <div className="center">
-                                <p>
-                                    Number
-                                    <Field type="number" name="number" />
-                                </p>
-                                <p>
-                                    Title
-                                    <Field type="text" name="title" />
-                                </p>
-                                <p>
-                                    Date From
-                                    <Field type="date" name="dateFrom" />
-                                </p>
-                                <p>
-                                    Date To
-                                    <Field type="date" name="dateTo" />
-                                </p>
-                                <p>
-                                    Description
-                                    <Field type="text" name="body" />
-                                </p>
-                                <p>
-                                    <button type="submit">Submit</button>
-                                </p>
-                            </div>
-                        </Form>
-                    )}
-                </Formik>
+                />
             )}
         </React.Fragment>
     );

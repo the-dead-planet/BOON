@@ -3,7 +3,7 @@ import List from '@material-ui/core/List';
 // import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 // import { authenticatedPage } from '../../components/authenticatedPage';
-import { ObjectDelete } from './ObjectDelete';
+import { ObjectDeleteButton } from './ObjectDeleteButton';
 
 // const useStyles = makeStyles(theme => ({}));
 
@@ -19,7 +19,7 @@ export const SprintCommentsList = ({ user, sprintId, comments, push }) => {
                     </h4>
                     <p>{comment.body}</p>
 
-                    <ObjectDelete user={user} model="Comment" object={comment} />
+                    <ObjectDeleteButton user={user} model="Comment" object={comment} />
                 </div>
             ))}
         </List>

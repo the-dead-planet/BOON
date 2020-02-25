@@ -6,8 +6,9 @@ import { SprintDetailsHeader } from './SprintDetailsHeader';
 import { SprintDetailsContent } from './SprintDetailsContent';
 import { SprintDetailsComments } from './SprintDetailsComments';
 import { SprintDetailsPosts } from './SprintDetailsPosts';
-import { ObjectDelete } from './ObjectDelete';
-import { ObjectEdit } from './ObjectEdit';
+import { ObjectDeleteButton } from './ObjectDeleteButton';
+import { ObjectEditButton } from './ObjectEditButton';
+import { AddPost } from './AddPost';
 
 const useStyles = makeStyles(theme => ({
     paper: { backgroundColor: '#FFF' },
@@ -26,8 +27,9 @@ export const SprintDetails = ({ user, sprint }) => {
                 <SprintDetailsHeader {...sprint} />
                 <SprintDetailsContent {...sprint} />
 
-                <ObjectDelete user={user} model="Sprint" object={sprint} />
-                <ObjectEdit user={user} model="Sprint" object={sprint} />
+                <ObjectDeleteButton user={user} model="Sprint" object={sprint} />
+                <ObjectEditButton user={user} model="Sprint" object={sprint} />
+                <AddPost user={user} />
             </Paper>
 
             <Paper className={`${classes.paper} ${classes.offset}`}>

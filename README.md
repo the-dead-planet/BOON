@@ -43,6 +43,12 @@ yarn dev
 
 ```
 
+```SPRINT
+- Add validation to sprint number
+- Prefill dates in form based on the latest dateTo
+
+```
+
 ```POST
 - Add 'edit' buttons
 - Display Post comments
@@ -52,7 +58,6 @@ yarn dev
 ```
 
 ```PROJECT
-- Add "Add Project" page
 - Test delete route scenarios: try to delete project with posts (failure) and without (success)
 - Add Project Group ???
 
@@ -60,7 +65,7 @@ yarn dev
 
 ```COMMENT
 - Add edit buttons
--
+- Change component to expandable one / do not show input component by default
 
 ```
 
@@ -84,5 +89,10 @@ yarn dev
 
 ```State
 - Add posts and comments to state to allow rendering after comment/post addition
+
+```
+
+```CSS / styles
+- Current way of dealing with styles and CSS is messy - think of a more sophisticated and ordered way to handle styles
 
 ```

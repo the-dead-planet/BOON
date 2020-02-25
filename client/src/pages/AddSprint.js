@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import sprintsService from '../services/sprintsService';
-import AddSprintForm from '../components/forms/AddSprintForm';
+import SprintForm from '../components/forms/SprintForm';
 import { authenticatedPage } from '../components/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import { FORMIK_DATE_FORMAT } from '../utils/constants';
@@ -11,7 +11,8 @@ import '../styles/main.css';
 const AddSprint = ({ user, push }) => (
     <React.Fragment>
         <NavBar user={user} />
-        <AddSprintForm
+        <SprintForm
+            title="Add new sprint"
             initialValues={{
                 number: 1,
                 dateFrom: moment().format(FORMIK_DATE_FORMAT),
@@ -24,7 +25,7 @@ const AddSprint = ({ user, push }) => (
                     push('/sprints');
                 });
             }}
-        ></AddSprintForm>
+        />
     </React.Fragment>
 );
 
