@@ -1,14 +1,13 @@
 import React from 'react';
-import { Formik, Form } from 'formik';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import commentsService from '../../services/commentsService';
 import postsService from '../../services/postsService';
 import sprintsService from '../../services/sprintsService';
 // import { authenticatedPage } from '../../components/authenticatedPage';
-import { withPush } from '../../utils/routingDecorators';
+// import { withPush } from '../../utils/routingDecorators';
 
-const useStyles = makeStyles(theme => ({}));
+// const useStyles = makeStyles(theme => ({}));
 
 const models = {
     Sprint: {
@@ -26,7 +25,7 @@ const models = {
 };
 
 export const ObjectEdit = ({ user, model, object }) => {
-    const classes = useStyles();
+    // const classes = useStyles();
 
     return (
         <React.Fragment>

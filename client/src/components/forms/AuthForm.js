@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { useField, Formik, Form, Field } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -37,15 +37,15 @@ const AuthForm = ({ type, onSubmit }) => {
 
     if (type === 'register') {
         usernameField = (
-            <Grid item xs="12">
-                <Field as={TextField} name="username" required id="standard-required" label="Username" />
+            <Grid item xs={12}>
+                <Field as={TextField} name="username" required id="auth-username" label="Username" />
             </Grid>
         );
 
         // TODO: Change to select
         teamField = (
-            <Grid item xs="12">
-                <Field as={TextField} name="team" required id="standard-required" label="Team" />
+            <Grid item xs={12}>
+                <Field as={TextField} name="team" required id="auth-team" label="Team" />
             </Grid>
         );
 
@@ -58,30 +58,30 @@ const AuthForm = ({ type, onSubmit }) => {
                 <div className={classes.root}>
                     <Form>
                         <Paper className={classes.paper}>
-                            <Grid container spacing="2">
-                                <Grid item xs="12">
+                            <Grid container spacing={2}>
+                                <Grid item xs={12}>
                                     <h1>{title}</h1>
                                 </Grid>
-                                <Grid item xs="12">
-                                    <Field as={TextField} name="email" required id="standard-required" label="E-mail" />
+                                <Grid item xs={12}>
+                                    <Field as={TextField} name="email" required id="auth-email" label="E-mail" />
                                 </Grid>
 
                                 {usernameField}
 
-                                <Grid item xs="12">
+                                <Grid item xs={12}>
                                     <Field
                                         type="password"
                                         as={TextField}
                                         name="password"
                                         required
-                                        id="standard-required"
+                                        id="auth-password"
                                         label="Password"
                                     />
                                 </Grid>
 
                                 {teamField}
 
-                                <Grid item xs="12">
+                                <Grid item xs={12}>
                                     <Button type="submit">Submit</Button>
                                 </Grid>
                             </Grid>

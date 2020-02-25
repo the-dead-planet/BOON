@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Formik, Form, Field } from 'formik';
 // import moment from 'moment';
 import projectsService from '../services/projectsService';

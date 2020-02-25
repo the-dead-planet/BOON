@@ -1,14 +1,14 @@
 import React from 'react';
 import List from '@material-ui/core/List';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 // import { authenticatedPage } from '../../components/authenticatedPage';
 import { ObjectDelete } from './ObjectDelete';
 
-const useStyles = makeStyles(theme => ({}));
+// const useStyles = makeStyles(theme => ({}));
 
 export const SprintCommentsList = ({ user, sprintId, comments, push }) => {
-    const classes = useStyles();
+    // const classes = useStyles();
 
     return (
         <List>

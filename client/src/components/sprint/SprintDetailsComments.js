@@ -3,7 +3,7 @@ import { Box } from '@material-ui/core';
 // import { makeStyles } from '@material-ui/core/styles';
 import { SprintCommentsList } from './SprintCommentsList';
 import { AddComment } from './AddComment';
-import { authenticatedPage } from '../../components/authenticatedPage';
+// import { authenticatedPage } from '../../components/authenticatedPage';
 import { withPush } from '../../utils/routingDecorators';
 
 // const useStyles = makeStyles(theme => ({}));

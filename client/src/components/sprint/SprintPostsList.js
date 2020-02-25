@@ -1,15 +1,15 @@
 import React from 'react';
 import List from '@material-ui/core/List';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import { EXT_DATE_FORMAT } from '../../utils/constants';
 import { ObjectDelete } from './ObjectDelete';
 import { AddComment } from './AddComment';
 
-const useStyles = makeStyles(theme => ({}));
+// const useStyles = makeStyles(theme => ({}));
 
 export const SprintPostsList = ({ user, sprintId, posts, push }) => {
-    const classes = useStyles();
+    // const classes = useStyles();
 
     return (
         <List>
