@@ -36,7 +36,7 @@ describe('app', () => {
     describe('login', () => {
         test('logs an existing user in', () => {
             return request(app)
-                .post('/login')
+                .post('/api/auth/login')
                 .send(`email=${userCredentials.email}`)
                 .send(`password=${userCredentials.password}`)
                 .then(resp => {
@@ -49,7 +49,7 @@ describe('app', () => {
 
         test('rejects invalid password', () => {
             return request(app)
-                .post('/login')
+                .post('/api/auth/login')
                 .send(`email=${userCredentials.email}`)
                 .send(`password=wrong_password`)
                 .expect(401);
@@ -57,7 +57,7 @@ describe('app', () => {
 
         test('rejects invalid email', () => {
             return request(app)
-                .post('/login')
+                .post('/api/auth/login')
                 .send(`email=wrong@email.com`)
                 .send(`password=${userCredentials.password}`)
                 .expect(401);
@@ -68,7 +68,7 @@ describe('app', () => {
         test('creates a new user object', () => {
             const username = 'username';
             return request(app)
-                .post('/register')
+                .post('/api/auth/register')
                 .send(`email=some@email.com`)
                 .send(`password=password`)
                 .send(`team=team`)
@@ -87,7 +87,7 @@ describe('app', () => {
 
         test('rejects a duplicate email', () => {
             return request(app)
-                .post('/register')
+                .post('/api/auth/register')
                 .send(`email=${userCredentials.email}`)
                 .send(`password=password`)
                 .send(`team=team`)
@@ -103,7 +103,7 @@ describe('app', () => {
 
         const authenticate = () =>
             agent
-                .post('/login')
+                .post('/api/auth/login')
                 .send(`email=${userCredentials.email}`)
                 .send(`password=${userCredentials.password}`)
                 .then(resp => {
@@ -113,14 +113,14 @@ describe('app', () => {
                 });
 
         test('handles unauthenticated users', () => {
-            return agent.get('/api/whoami').then(resp => {
+            return agent.get('/api/auth/whoami').then(resp => {
                 expect(resp).toMatchObject({ statusCode: 200, body: { user: null } });
             });
         });
 
         test('handles authenticated users', () => {
             return authenticate().then(() =>
-                agent.get('/api/whoami').then(resp => {
+                agent.get('/api/auth/whoami').then(resp => {
                     expect(resp).toMatchObject({
                         statusCode: 200,
                         body: { user: { username: userCredentials.email } },

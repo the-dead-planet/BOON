@@ -54,7 +54,7 @@ describe('sprint comment', () => {
         beforeEach(() => {
             // Log the user in before each test case.
             return agent
-                .post('/login')
+                .post('/api/auth/login')
                 .send(`email=${userCredentials.email}`)
                 .send(`password=${userCredentials.password}`)
                 .then(resp => {
@@ -66,7 +66,7 @@ describe('sprint comment', () => {
         });
 
         afterEach(() => {
-            return agent.post('/logout');
+            return agent.post('/api/auth/logout');
         });
 
         test('can comment', () => {

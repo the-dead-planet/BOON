@@ -67,7 +67,8 @@ require('./routes/project')(app);
 require('./routes/post')(app);
 require('./routes/comment')(app);
 require('./routes/like')(app);
-require('./routes')(app);
+require('./routes/auth')(app);
+require('./routes/user')(app);
 
 app.use(handleErrors);
 

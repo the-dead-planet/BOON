@@ -12,12 +12,13 @@ const sendRawPostRequest = (url, data) =>
     }).then(response => response.data);
 
 export default {
-    login: (password, email) => sendRawPostRequest('/login', { password, email }),
-    logout: () => axios.post('/logout').then(response => response.data),
-    register: (username, password, email, team) => sendRawPostRequest('/register', { username, password, email, team }),
+    login: (password, email) => sendRawPostRequest('/api/auth/login', { password, email }),
+    logout: () => axios.post('/api/auth/logout').then(response => response.data),
+    register: (username, password, email, team) =>
+        sendRawPostRequest('/api/auth/register', { username, password, email, team }),
     whoami: () =>
         axios
-            .get('/api/whoami')
+            .get('/api/auth/whoami')
             .then(response => response.data)
             .catch(error => ({ user: null })),
 };
