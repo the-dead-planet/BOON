@@ -14,23 +14,20 @@ module.exports = app => {
             .catch(err => res.status(500).send({ err }));
     });
 
-    // TODO: update
-    // // UPDATE
-    // app.put("/api/users/:id", middleware.checkSprintOwnership, (req, res) => {
-    //     User.findByIdAndUpdate(req.params.id, req.body.user, (err, user) => {
-    //        if(err || !user){
-    //            console.log("Error updating user: ", err);
-    //            req.flash("error", "Sorry, this user does not exist!");
-    //        } else {
-    //            console.log("User updated ", req.params.dateFrom);
-    //            req.flash("success", "User successfully updated");
-    //            return res.status(202).send({
-    //                 error: false,
-    //                 user
-    //             });
-    //        }
-    //     });
-    // });
+    // UPDATE
+    app.put('/api/users/:id', middleware.isUser, async (req, res) => {
+        const { id } = req.params;
+        const user = {
+            ...req.body,
+            edited: Date.now(),
+        };
+        // TODO: throw if userAuth is modified
+        User.findByIdAndUpdate(id, user)
+            .then(user => {
+                res.status(200).send({ error: false, user });
+            })
+            .catch(err => res.status(500).send({ err }));
+    });
 
     // // TODO - add DESTROY
     // app.delete('/:id', (req, res) => {

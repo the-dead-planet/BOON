@@ -4,6 +4,7 @@ var Project = require('../models/Project');
 var Post = require('../models/Post');
 var Comment = require('../models/Comment');
 var Like = require('../models/Like');
+const User = require('../models/User');
 var BoonHttpError = require('../common/errors').BoonHttpError;
 
 var middlewareObj = {};
@@ -16,6 +17,23 @@ middlewareObj.isLoggedIn = function(req, res, next) {
     // Return a `401 - Unauthorized error and let the client handle it.
     // Do not perform any redirects, as the backend does not control client-side routes.
     return res.status(401).end();
+};
+
+// Checks if the requesting user is the same as the viewed user.
+middlewareObj.isUser = function(req, res, next) {
+    const loggedInUserId = req.isAuthenticated() ? req.user.id : null;
+    if (loggedInUserId === null) {
+        // Unauthenticated user.
+        return res.status(401).end();
+    }
+
+    const viewedUserId = req.params.id;
+    if (loggedInUserId !== viewedUserId) {
+        // Different user.
+        return res.status(403).end();
+    }
+
+    return next();
 };
 
 middlewareObj.checkSprintOwnership = function(req, res, next) {
