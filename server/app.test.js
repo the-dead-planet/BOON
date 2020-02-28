@@ -11,7 +11,7 @@ const UserAuth = mongoose.model('UserAuth');
 describe('app', () => {
     const userCredentials = { email: 'aa@aa.aa', password: 'password' };
 
-    beforeAll(() => {
+    beforeEach(() => {
         // Connect to a temporary database.
         // Will clean all data after each test run.
         const dbPromise = mongoose.connect(process.env.MONGO_URL, {
@@ -27,11 +27,11 @@ describe('app', () => {
         return userPromise;
     });
 
-    afterAll(() =>
-        UserAuth.deleteOne({ username: userCredentials.email })
-            .exec()
-            .then(() => mongoose.disconnect())
-    );
+    afterEach(async () => {
+        await User.deleteMany().exec();
+        await UserAuth.deleteMany().exec();
+        await mongoose.disconnect();
+    });
 
     describe('login', () => {
         test('logs an existing user in', () => {
