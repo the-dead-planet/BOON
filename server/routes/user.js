@@ -4,6 +4,11 @@ const User = mongoose.model('User');
 const UserAuth = mongoose.model('UserAuth');
 const passport = require('passport');
 
+// NOTE: delete is not supported user objects, as it would cause holes in
+// stored data - all related objects (comments, posts) would have to disappear
+// or lost information regarding the author.
+// If an unregister-like functionality is needed, consider adding a
+// `deactivated` field to the model.
 module.exports = app => {
     // INDEX
     app.get(`/api/users`, async (req, res) => {
@@ -28,41 +33,4 @@ module.exports = app => {
             })
             .catch(err => res.status(500).send({ err }));
     });
-
-    // // TODO - add DESTROY
-    // app.delete('/:id', (req, res) => {
-    //     // Delete user and all related objects (users and users)
-    //     User.findByIdAndDelete(req.params.id, function (err, user) {
-    //         if (err || !user) {
-    //             console.log('Deleting unsuccessful');
-    //             req.flash('error', 'Sorry, this user does not exist!');
-    //         } else {
-    //             req.flash('success', 'User deleted');
-
-    //             // TODO: find a more fancy solution to delete all related objects and handle async behavior
-    //             // delete associated users
-    //             User.deleteMany({ _id: req.object.users }, (err, user) => {
-    //                 if (err || !user) {
-    //                     req.flash('error', 'Sorry, this user does not exist');
-    //                 } else {
-    //                     req.flash('success', 'Related users deleted');
-    //                 }
-    //             });
-
-    //             // delete associated users
-    //             User.deleteMany({ _id: req.object.users }, (err, user) => {
-    //                 if (err || !user) {
-    //                     req.flash('error', 'Sorry, this user does not exist');
-    //                 } else {
-    //                     req.flash('success', 'Related users deleted');
-    //                 }
-    //             });
-
-    //             return res.status(202).send({
-    //                 error: false,
-    //                 user,
-    //             });
-    //         }
-    //     });
-    // });
 };
