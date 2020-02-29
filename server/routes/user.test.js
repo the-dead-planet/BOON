@@ -4,50 +4,24 @@ const express = require('express');
 
 const app = require('../app');
 
+const { loginAgentAs } = require('../testing/auth');
+const { createUsers } = require('../testing/factories/user');
+const { withFreshDbConnection } = require('../testing/db');
+
 const UserAuth = mongoose.model('UserAuth');
 const User = mongoose.model('User');
 const Comment = mongoose.model('Comment');
 const Sprint = mongoose.model('Sprint');
 
-const createUser = ({ email, password, team }) =>
-    UserAuth.register(UserAuth({ username: email }), password).then(userAuth =>
-        User.create(User({ userAuth: userAuth._id, username: email, team }))
-    );
-
-const createUsers = users => Promise.all(users.map(user => createUser(user)));
-
-// Utility function to login the `agent` (i.e. an object maintaining the
-// connection with the server, mimicking a browser) using `user`'s data.
-// Note, that this is a Higher Order Function (HOF) - it takes an argument
-// (`agent`),and returns a function that takes one argument (`user`) that
-// produces a result. It's done for convenience - the agent will be applied
-// in the test description, while the second function will be used in test's body.
-// The same behaviour could be implemented with `bind`.
-const loginAgentAs = agent => async (email, password) => {
-    await agent
-        .post('/api/auth/login')
-        .send(`email=${email}`)
-        .send(`password=${password}`)
-        .expect(200);
-    return agent;
-};
+withFreshDbConnection();
 
 describe('user', () => {
     const agent = request.agent(app);
     const loginAs = loginAgentAs(agent);
 
-    // TODO: move common test code to a standalone module
-    beforeEach(() =>
-        mongoose.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        })
-    );
-
     afterEach(async () => {
         await User.deleteMany();
         await UserAuth.deleteMany();
-        await mongoose.disconnect();
     });
 
     describe('get', () => {

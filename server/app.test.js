@@ -4,33 +4,27 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const express = require('express');
 
+// `app` must be one of the first imports. It triggers model registration on
+// load.
 const app = require('./app');
 
+const { withFreshDbConnection } = require('./testing/db');
+
 const UserAuth = mongoose.model('UserAuth');
+
+withFreshDbConnection();
 
 describe('app', () => {
     const userCredentials = { email: 'aa@aa.aa', password: 'password' };
 
-    beforeEach(() => {
-        // Connect to a temporary database.
-        // Will clean all data after each test run.
-        const dbPromise = mongoose.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-
+    beforeEach(() =>
         // Register a user.
-        const userPromise = dbPromise.then(() =>
-            UserAuth.register(UserAuth({ username: userCredentials.email }), userCredentials.password)
-        );
-
-        return userPromise;
-    });
+        UserAuth.register(UserAuth({ username: userCredentials.email }), userCredentials.password)
+    );
 
     afterEach(async () => {
         await User.deleteMany().exec();
         await UserAuth.deleteMany().exec();
-        await mongoose.disconnect();
     });
 
     describe('login', () => {
