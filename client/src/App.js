@@ -16,11 +16,26 @@ import authService from './services/authService';
 class App extends Component {
     constructor(props) {
         super(props);
+        // TODO - extract state to a standalone module, expose state
+        // update functions and the default constructor
         this.state = {
             whoamiRequestDone: false,
             user: null,
+            notifications: [],
         };
     }
+
+    addNotification = notification => {
+        this.setState({ notifications: this.state.notifications.concat([notification]) });
+    };
+
+    popNotification = notificationId => {
+        // Pop the notification after 5000ms. Do not pop it immediately, as it
+        // cause a re-render, hiding the notification.
+        setTimeout(() => {
+            this.setState({ notifications: this.state.notifications.filter(n => n.id !== notificationId) });
+        }, 5000);
+    };
 
     componentDidMount() {
         authService.whoami().then(({ user }) => {
@@ -29,7 +44,7 @@ class App extends Component {
     }
 
     render() {
-        const { whoamiRequestDone, user } = this.state;
+        const { whoamiRequestDone, user, notifications } = this.state;
 
         return !whoamiRequestDone ? (
             'Loading'
@@ -44,7 +59,12 @@ class App extends Component {
                             be at the very end.
                         */}
                         <Route path="/login">
-                            <Login onLoginSuccess={user => this.setState({ user })} />
+                            <Login
+                                onLoginSuccess={user => this.setState({ user })}
+                                addNotification={this.addNotification}
+                                onNotificationShown={this.popNotification}
+                                notifications={notifications}
+                            />
                         </Route>
                         <Route path="/register">
                             <Register user={user} onSuccess={user => this.setState({ user })} />
