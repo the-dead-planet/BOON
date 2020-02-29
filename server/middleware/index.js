@@ -4,7 +4,10 @@ var Project = require('../models/Project');
 var Post = require('../models/Post');
 var Comment = require('../models/Comment');
 var Like = require('../models/Like');
+const User = require('../models/User');
 var BoonHttpError = require('../common/errors').BoonHttpError;
+
+const asyncMiddleware = require('./asyncMiddleware');
 
 var middlewareObj = {};
 
@@ -17,6 +20,27 @@ middlewareObj.isLoggedIn = function(req, res, next) {
     // Do not perform any redirects, as the backend does not control client-side routes.
     return res.status(401).end();
 };
+
+// Checks if the requesting user is the same as the viewed user.
+middlewareObj.isUser = asyncMiddleware(async (req, res, next) => {
+    const loggedInUserAuthId = req.isAuthenticated() ? req.user.id : null;
+    if (loggedInUserAuthId === null) {
+        // Unauthenticated user.
+        return res.status(401).end();
+    }
+
+    // The object stored under `req.user` is a `UserAuth` instance.
+    // Fetch the related `User` instance.
+    // TODO - consider storing userId in the `userAuth` model.
+    const loggedInUser = await User.findOne({ userAuth: loggedInUserAuthId });
+    const viewedUserId = req.params.id;
+    if (loggedInUser._id != viewedUserId) {
+        // Different user.
+        return res.status(403).end();
+    }
+
+    return next();
+});
 
 middlewareObj.checkSprintOwnership = function(req, res, next) {
     checkOwnership(req, res, next, Sprint, req.params.id, 'Sprint', '/sprints');
@@ -43,7 +67,6 @@ function checkOwnership(req, res, next, Object, id, objectName, redirectPath) {
     if (req.isAuthenticated()) {
         Object.findById(id, function(err, object) {
             if (err || !object) {
-                console.log(err);
                 req.flash('error', objectName + ' not found');
                 res.redirect(redirectPath);
             } else {

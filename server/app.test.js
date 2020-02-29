@@ -4,33 +4,22 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const express = require('express');
 
+// `app` must be one of the first imports. It triggers model registration on
+// load.
 const app = require('./app');
 
+const { withFreshDbConnection } = require('./testing/db');
+
 const UserAuth = mongoose.model('UserAuth');
+
+withFreshDbConnection();
 
 describe('app', () => {
     const userCredentials = { email: 'aa@aa.aa', password: 'password' };
 
-    beforeAll(() => {
-        // Connect to a temporary database.
-        // Will clean all data after each test run.
-        const dbPromise = mongoose.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-
+    beforeEach(() =>
         // Register a user.
-        const userPromise = dbPromise.then(() =>
-            UserAuth.register(UserAuth({ username: userCredentials.email }), userCredentials.password)
-        );
-
-        return userPromise;
-    });
-
-    afterAll(() =>
-        UserAuth.deleteOne({ username: userCredentials.email })
-            .exec()
-            .then(() => mongoose.disconnect())
+        UserAuth.register(UserAuth({ username: userCredentials.email }), userCredentials.password)
     );
 
     describe('login', () => {
@@ -41,7 +30,7 @@ describe('app', () => {
                 .send(`password=${userCredentials.password}`)
                 .then(resp => {
                     expect(resp).toMatchObject({
-                        statusCode: 201,
+                        statusCode: 200,
                         body: { user: { username: userCredentials.email } },
                     });
                 });
@@ -107,7 +96,7 @@ describe('app', () => {
                 .send(`email=${userCredentials.email}`)
                 .send(`password=${userCredentials.password}`)
                 .then(resp => {
-                    if (resp.statusCode !== 201) {
+                    if (resp.statusCode !== 200) {
                         return Promise.reject(`Authentication failed: ${resp.statusCode}`);
                     }
                 });

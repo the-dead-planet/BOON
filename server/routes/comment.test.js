@@ -4,44 +4,32 @@ const express = require('express');
 
 const app = require('../app');
 
+const { withFreshDbConnection } = require('../testing/db');
+const { loginAgentAs } = require('../testing/auth');
+const { createUser } = require('../testing/factories/user');
+
 const UserAuth = mongoose.model('UserAuth');
 const Comment = mongoose.model('Comment');
 const Sprint = mongoose.model('Sprint');
 
+withFreshDbConnection();
+
 describe('sprint comment', () => {
     const agent = request.agent(app);
+    const loginAs = loginAgentAs(agent);
     const userCredentials = { email: 'aa@aa.aa', password: 'password' };
 
     // Instances used by test cases.
     // Initially null, populated in `beforeEach`.
     let sprint = null;
-    let userAuth = null;
+    let userAuthId = null;
 
-    beforeAll(() => {
-        // Connect to a temporary database.
-        // Will clean all data after each test run.
-        const dbPromise = mongoose.connect(process.env.MONGO_URL, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-
+    beforeEach(() => {
         // Register a user.
-        const userPromise = dbPromise.then(() =>
-            UserAuth.register(UserAuth({ username: userCredentials.email }), userCredentials.password).then(
-                createdUserAuth => {
-                    userAuth = createdUserAuth;
-                }
-            )
-        );
-
-        return userPromise;
+        return createUser(userCredentials).then(createdUser => {
+            userAuthId = createdUser.userAuth;
+        });
     });
-
-    afterAll(() =>
-        UserAuth.deleteOne({ username: userCredentials.email })
-            .exec()
-            .then(() => mongoose.disconnect())
-    );
 
     beforeEach(() =>
         Sprint.create({ number: 1, name: 'sprint' }).then(createdSprint => {
@@ -52,17 +40,8 @@ describe('sprint comment', () => {
 
     describe('authenticated user', () => {
         beforeEach(() => {
-            // Log the user in before each test case.
-            return agent
-                .post('/api/auth/login')
-                .send(`email=${userCredentials.email}`)
-                .send(`password=${userCredentials.password}`)
-                .then(resp => {
-                    expect(resp).toMatchObject({
-                        statusCode: 201,
-                        body: { user: { username: userCredentials.email } },
-                    });
-                });
+            const { email, password } = userCredentials;
+            return loginAs(email, password);
         });
 
         afterEach(() => {
@@ -97,7 +76,7 @@ describe('sprint comment', () => {
                 .then(() =>
                     Comment.create({
                         body: 'comment',
-                        author: { id: userAuth._id },
+                        author: { id: userAuthId }, // TODO - use user.id instead of userauth
                         commentedObject: { model: 'Sprint', id: sprint._id },
                     })
                 )

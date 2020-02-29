@@ -45,7 +45,7 @@ module.exports = app => {
     // POST - Log in
     app.post('/api/auth/login', passport.authenticate('local'), (req, res) => {
         let user = req.user;
-        return res.status(201).send({
+        return res.status(200).send({
             error: false,
             user,
         });
@@ -55,7 +55,7 @@ module.exports = app => {
     app.post('/api/auth/logout', (req, res) => {
         let user = req.user;
         req.logout();
-        return res.status(201).send({
+        return res.status(200).send({
             error: false,
             user,
         });
