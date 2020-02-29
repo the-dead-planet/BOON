@@ -8,6 +8,7 @@ import { SprintDetailsComments } from './SprintDetailsComments';
 import { SprintDetailsPosts } from './SprintDetailsPosts';
 import { ObjectDeleteButton } from './ObjectDeleteButton';
 import { ObjectEditButton } from './ObjectEditButton';
+import { AddPostButton } from './AddPostButton';
 import { AddPost } from './AddPost';
 
 const useStyles = makeStyles(theme => ({
@@ -29,6 +30,7 @@ export const SprintDetails = ({ user, sprint }) => {
 
                 <ObjectDeleteButton user={user} model="Sprint" object={sprint} />
                 <ObjectEditButton user={user} model="Sprint" object={sprint} />
+                <AddPostButton user={user} sprint={sprint} />
                 <AddPost user={user} />
             </Paper>
 

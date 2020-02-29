@@ -36,6 +36,16 @@ yarn dev
 
 ## TODO:
 
+```ROUTES
+- Create a generic routes file and reuse in all other ones
+
+```
+
+```FORMS
+- Create a generic form to be used in all other ones
+
+```
+
 ```USER
 - Add edit route
 - Add delete route
@@ -83,7 +93,7 @@ yarn dev
 ```
 
 ```Models
-- Create a new model for projects and add a project ID reference to Post model
+-
 
 ```
 

@@ -1,123 +1,73 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Formik, Form, Field } from 'formik';
 import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
+import AppForm from './AppForm';
 
 const SprintForm = ({ title, initialValues, onSubmit }) => {
-    const useStyles = makeStyles(theme => ({
-        root: {
-            height: '100%',
-            flexGrow: 1,
-            flexWrap: 'wrap',
-            display: 'flex',
-            // alignContent: 'center',
-            justifyContent: 'center',
-            margin: '3% auto',
+    const fields = [
+        {
+            grid: {
+                xs: 2,
+                md: 2,
+                lg: 2,
+            },
+            component: TextField,
+            type: 'number',
+            name: 'number',
+            id: 'add-sprint-number',
+            label: 'Number',
         },
-        textField: {
-            marginLeft: theme.spacing(1),
-            marginRight: theme.spacing(1),
-            width: 200,
+        {
+            grid: {
+                xs: 5,
+                md: 5,
+                lg: 5,
+            },
+            component: TextField,
+            type: 'date',
+            name: 'dateFrom',
+            id: 'add-sprint-date-from',
+            label: 'Start date',
         },
-        paper: {
-            padding: theme.spacing(2),
-            textAlign: 'center',
-            color: theme.palette.text.secondary,
-            width: '500px', //TODO: correct it
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignContent: 'center',
-            alignItems: 'center',
+        {
+            grid: {
+                xs: 5,
+                md: 5,
+                lg: 5,
+            },
+            component: TextField,
+            type: 'date',
+            name: 'dateTo',
+            id: 'add-sprint-date-to',
+            label: 'End date',
         },
-    }));
+        {
+            grid: {
+                xs: 12,
+                md: 12,
+                lg: 12,
+            },
+            component: TextField,
+            type: 'text',
+            name: 'title',
+            id: 'add-sprint-title',
+            label: 'Sprint title',
+        },
+        {
+            grid: {
+                xs: 12,
+                md: 12,
+                lg: 12,
+            },
+            component: TextField,
+            type: 'text',
+            rows: 5,
+            name: 'body',
+            id: 'add-sprint-body',
+            label: 'Did you start ruling the world this sprint?',
+        },
+    ];
 
-    const classes = useStyles();
-
-    return (
-        <Formik initialValues={initialValues} onSubmit={onSubmit}>
-            {() => (
-                <div className={classes.root}>
-                    <Form>
-                        <Paper className={classes.paper}>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12}>
-                                    <h1>{title}</h1>
-                                </Grid>
-
-                                <Grid item xs={2}>
-                                    <Field
-                                        fullWidth
-                                        as={TextField}
-                                        type="number"
-                                        name="number"
-                                        required
-                                        id="add-sprint-number"
-                                        label="Number"
-                                    />
-                                </Grid>
-
-                                <Grid item xs={5}>
-                                    <Field
-                                        fullWidth
-                                        as={TextField}
-                                        type="date"
-                                        name="dateFrom"
-                                        required
-                                        id="add-sprint-date-from"
-                                        label="Start date"
-                                    />
-                                </Grid>
-
-                                <Grid item xs={5}>
-                                    <Field
-                                        fullWidth
-                                        as={TextField}
-                                        type="date"
-                                        name="dateTo"
-                                        required
-                                        id="add-sprint-date-to"
-                                        label="End date"
-                                    />
-                                </Grid>
-
-                                <Grid item xs={12}>
-                                    <Field
-                                        fullWidth
-                                        as={TextField}
-                                        name="title"
-                                        required
-                                        id="add-sprint-title"
-                                        label="Sprint title"
-                                    />
-                                </Grid>
-
-                                <Grid item xs={12}>
-                                    <Field
-                                        fullWidth
-                                        multiline
-                                        rows="5"
-                                        as={TextField}
-                                        name="body"
-                                        required
-                                        id="add-sprint-body"
-                                        label="Did you start ruling the world this sprint?"
-                                    />
-                                </Grid>
-
-                                <Grid item xs={12}>
-                                    <Button type="submit">Submit</Button>
-                                </Grid>
-                            </Grid>
-                        </Paper>
-                    </Form>
-                </div>
-            )}
-        </Formik>
-    );
+    return <AppForm title={title} initialValues={initialValues} onSubmit={onSubmit} fields={fields} />;
 };
 
 export default SprintForm;
