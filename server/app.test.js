@@ -41,7 +41,7 @@ describe('app', () => {
                 .send(`password=${userCredentials.password}`)
                 .then(resp => {
                     expect(resp).toMatchObject({
-                        statusCode: 201,
+                        statusCode: 200,
                         body: { user: { username: userCredentials.email } },
                     });
                 });
@@ -107,7 +107,7 @@ describe('app', () => {
                 .send(`email=${userCredentials.email}`)
                 .send(`password=${userCredentials.password}`)
                 .then(resp => {
-                    if (resp.statusCode !== 201) {
+                    if (resp.statusCode !== 200) {
                         return Promise.reject(`Authentication failed: ${resp.statusCode}`);
                     }
                 });

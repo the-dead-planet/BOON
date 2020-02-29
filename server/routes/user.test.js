@@ -28,7 +28,7 @@ const loginAgentAs = agent => async (email, password) => {
         .post('/api/auth/login')
         .send(`email=${email}`)
         .send(`password=${password}`)
-        .expect(201);
+        .expect(200);
     return agent;
 };
 

@@ -59,7 +59,7 @@ describe('sprint comment', () => {
                 .send(`password=${userCredentials.password}`)
                 .then(resp => {
                     expect(resp).toMatchObject({
-                        statusCode: 201,
+                        statusCode: 200,
                         body: { user: { username: userCredentials.email } },
                     });
                 });
