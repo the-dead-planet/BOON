@@ -19,11 +19,6 @@ describe('user', () => {
     const agent = request.agent(app);
     const loginAs = loginAgentAs(agent);
 
-    afterEach(async () => {
-        await User.deleteMany();
-        await UserAuth.deleteMany();
-    });
-
     describe('get', () => {
         test('list of users', async () => {
             const [userA, userB] = await createUsers([

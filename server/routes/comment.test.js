@@ -31,11 +31,6 @@ describe('sprint comment', () => {
         });
     });
 
-    afterEach(async () => {
-        await User.deleteMany().exec();
-        await UserAuth.deleteMany().exec();
-    });
-
     beforeEach(() =>
         Sprint.create({ number: 1, name: 'sprint' }).then(createdSprint => {
             // Expose the crated variable to all test cases.

@@ -22,11 +22,6 @@ describe('app', () => {
         UserAuth.register(UserAuth({ username: userCredentials.email }), userCredentials.password)
     );
 
-    afterEach(async () => {
-        await User.deleteMany().exec();
-        await UserAuth.deleteMany().exec();
-    });
-
     describe('login', () => {
         test('logs an existing user in', () => {
             return request(app)

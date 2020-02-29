@@ -9,16 +9,21 @@ const connect = () =>
 
 const disconnect = () => mongoose.disconnect();
 
+const eraseAllData = () => {
+    const modelNames = mongoose.modelNames();
+    return Promise.all(modelNames.map(name => mongoose.model(name).deleteMany()));
+};
+
 // When invoked in a test, all underlying tests will start a new database
 // connection before the test and close the connection afterwards.
-// TODO - erase all data in `afterEach`.
+// No data persists across connections.
 const withFreshDbConnection = () => {
     beforeEach(() => {
         return connect();
     });
 
     afterEach(() => {
-        return disconnect();
+        return eraseAllData().then(disconnect);
     });
 };
 
