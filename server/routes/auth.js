@@ -46,6 +46,7 @@ module.exports = app => {
     app.post('/api/auth/login', passport.authenticate('local'), (req, res) => {
         let user = req.user;
         return res.status(201).send({
+            // TODO: return 200 instead
             error: false,
             user,
         });
