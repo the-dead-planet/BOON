@@ -26,7 +26,7 @@ const PostForm = ({ title, initialValues, onSubmit }) => {
                 lg: 12,
             },
             component: FormControl,
-            type: 'text',
+            type: null,
             rows: null,
             name: 'project',
             id: 'add-post-project',

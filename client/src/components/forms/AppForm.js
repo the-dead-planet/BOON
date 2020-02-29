@@ -62,20 +62,20 @@ const AppForm = ({ title, fields, initialValues, onSubmit }) => {
 
                             {fields.map((field, i) => (
                                 <Grid key={field.id} item xs={field.grid.xs} md={field.grid.md} lg={field.grid.lg}>
-                                    {field.select ? (
-                                        <SelectComponent key={field.id} field={field} i={i} />
-                                    ) : (
-                                        <Field
-                                            key={field.id}
-                                            required
-                                            fullWidth
-                                            as={field.component}
-                                            type={field.type}
-                                            name={field.name}
-                                            id={field.id}
-                                            label={field.label}
-                                        />
-                                    )}
+                                    <Field
+                                        key={field.id}
+                                        required
+                                        fullWidth
+                                        multiline //if this is added, date&number selectors and dropdowns are not working correctyly
+                                        rows={field.rows}
+                                        as={field.component}
+                                        type={field.type}
+                                        name={field.name}
+                                        id={field.id}
+                                        label={field.label}
+                                    >
+                                        {field.select ? <SelectComponent key={field.id} field={field} i={i} /> : null}
+                                    </Field>
                                 </Grid>
                             ))}
 

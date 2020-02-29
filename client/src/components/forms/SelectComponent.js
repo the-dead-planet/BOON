@@ -13,18 +13,20 @@ const SelectComponent = ({ field, i }) => {
     };
 
     return (
-        <Field required fullWidth as={field.component} name={field.name} id={field.id}>
+        // <Field required fullWidth as={field.component} name={field.name} id={field.id}>
+        <React.Fragment>
             <InputLabel id={`label-${i}`}>{field.label}</InputLabel>
             <Select labelId="add-post-project-select" id={`select-label-${i}`} value={value} onChange={handleChange}>
                 {field.select.list
                     ? field.select.list.map(item => (
-                          <MenuItem key={item._id} id={item._id} value={item._id}>
-                              {item.title}
-                          </MenuItem>
-                      ))
+                        <MenuItem key={item._id} id={item._id} value={item._id}>
+                            {item.title}
+                        </MenuItem>
+                    ))
                     : null}
             </Select>
-        </Field>
+        </React.Fragment>
+        // </Field>
     );
 };
 
