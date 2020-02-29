@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 
 // Simple snackbar notification displaying a message.
 // TODO - create customized versions per notification kind.
-const Notification = ({ message }) => {
+const Notification = ({ notification, onShown }) => {
+    const { id, message } = notification;
+
+    useEffect(() => {
+        onShown(id);
+    });
+
     return (
         <Snackbar
             anchorOrigin={{
@@ -11,7 +17,7 @@ const Notification = ({ message }) => {
                 horizontal: 'left',
             }}
             message={message}
-            autoHideDuration={5000}
+            open={true}
         />
     );
 };
