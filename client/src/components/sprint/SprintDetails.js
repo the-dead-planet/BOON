@@ -6,9 +6,7 @@ import { SprintDetailsHeader } from './SprintDetailsHeader';
 import { SprintDetailsContent } from './SprintDetailsContent';
 import { SprintDetailsComments } from './SprintDetailsComments';
 import { SprintDetailsPosts } from './SprintDetailsPosts';
-import { ObjectDeleteButton } from './ObjectDeleteButton';
-import { ObjectEditButton } from './ObjectEditButton';
-import { AddPostButton } from './AddPostButton';
+import { ObjectDeleteButton, ObjectEditButton, AddPostButton } from './SprintButtons';
 import { AddPost } from './AddPost';
 
 const useStyles = makeStyles(theme => ({

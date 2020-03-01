@@ -4,8 +4,6 @@ import Button from '@material-ui/core/Button';
 import commentsService from '../../services/commentsService';
 import postsService from '../../services/postsService';
 import sprintsService from '../../services/sprintsService';
-// import { authenticatedPage } from '../../components/authenticatedPage';
-// import { withPush } from '../../utils/routingDecorators';
 
 // const useStyles = makeStyles(theme => ({}));
 
@@ -25,8 +23,6 @@ const models = {
 };
 
 export const ObjectDeleteButton = ({ user, model, object, push, onError }) => {
-    // const classes = useStyles();
-
     return (
         <React.Fragment>
             {user && object && object.author.id === user._id ? (
@@ -42,6 +38,34 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError }) => {
                     }}
                 >
                     Delete
+                </Button>
+            ) : (
+                ''
+            )}
+        </React.Fragment>
+    );
+};
+
+export const ObjectEditButton = ({ user, model, object }) => {
+    return (
+        <React.Fragment>
+            {user && object && object.author.id === user._id ? (
+                <Button color="inherit" href={`${models[model].path}/${object._id}/edit`}>
+                    Edit
+                </Button>
+            ) : (
+                ''
+            )}
+        </React.Fragment>
+    );
+};
+
+export const AddPostButton = ({ user, sprint }) => {
+    return (
+        <React.Fragment>
+            {user && sprint ? (
+                <Button color="inherit" href={`${models['Sprint'].path}/${sprint._id}/add_post`}>
+                    Add Post
                 </Button>
             ) : (
                 ''
