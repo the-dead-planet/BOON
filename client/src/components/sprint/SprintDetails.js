@@ -6,8 +6,7 @@ import { SprintDetailsHeader } from './SprintDetailsHeader';
 import { SprintDetailsContent } from './SprintDetailsContent';
 import { SprintDetailsComments } from './SprintDetailsComments';
 import { SprintDetailsPosts } from './SprintDetailsPosts';
-import { ObjectDeleteButton, ObjectEditButton, AddPostButton } from './SprintButtons';
-import { AddPost } from './AddPost';
+import { SprintButtons } from './SprintButtons';
 
 const useStyles = makeStyles(theme => ({
     paper: { backgroundColor: '#FFF' },
@@ -20,16 +19,11 @@ export const SprintDetails = ({ user, sprint, onError }) => {
     const classes = useStyles();
 
     return (
-        // <Paper className={`${classes.paper} ${classes.offset}`}>
         <Box>
             <Paper className={`${classes.paper} ${classes.offset}`}>
                 <SprintDetailsHeader {...sprint} />
                 <SprintDetailsContent {...sprint} />
-
-                <ObjectDeleteButton user={user} model="Sprint" object={sprint} onError={onError.bind('deleteSprint')} />
-                <ObjectEditButton user={user} model="Sprint" object={sprint} />
-                <AddPostButton user={user} sprint={sprint} />
-                <AddPost user={user} />
+                <SprintButtons user={user} sprint={sprint} model="Sprint" onError={onError} />
             </Paper>
 
             <Paper className={`${classes.paper} ${classes.offset}`}>
@@ -40,6 +34,5 @@ export const SprintDetails = ({ user, sprint, onError }) => {
                 <SprintDetailsPosts user={user} {...sprint} />
             </Paper>
         </Box>
-        // </Paper>
     );
 };

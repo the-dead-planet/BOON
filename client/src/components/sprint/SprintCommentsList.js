@@ -3,7 +3,7 @@ import List from '@material-ui/core/List';
 // import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 // import { authenticatedPage } from '../../components/authenticatedPage';
-import { ObjectDeleteButton } from './SprintButtons';
+import { ObjectDeleteButton } from './Buttons';
 
 // const useStyles = makeStyles(theme => ({}));
 

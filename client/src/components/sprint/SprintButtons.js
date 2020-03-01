@@ -1,75 +1,34 @@
 import React from 'react';
-// import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import commentsService from '../../services/commentsService';
-import postsService from '../../services/postsService';
-import sprintsService from '../../services/sprintsService';
+import { ObjectDeleteButton, ObjectEditButton, AddPostButton } from './Buttons';
 
-// const useStyles = makeStyles(theme => ({}));
 
-const models = {
-    Sprint: {
-        service: sprintsService,
-        path: '/sprints',
-    },
-    Post: {
-        service: postsService,
-        path: '/posts',
-    },
-    Comment: {
-        service: commentsService,
-        path: '/comments',
-    },
-};
+/*  
+    Allow Edit and Delete only if user is logged in and is the author of the sprint
+    Allow Add Post to all logged in users
+*/
+export const SprintButtons = ({ user, sprint, model, onError }) => {
 
-export const ObjectDeleteButton = ({ user, model, object, push, onError }) => {
-    return (
-        <React.Fragment>
-            {user && object && object.author.id === user._id ? (
-                <Button
-                    color="inherit"
-                    onClick={data => {
-                        const extendedData = {
-                            ...data,
-                            objectId: object._id,
-                        };
-
-                        return models[model].service.delete(extendedData).catch(onError);
-                    }}
-                >
-                    Delete
-                </Button>
-            ) : (
-                ''
-            )}
-        </React.Fragment>
-    );
-};
-
-export const ObjectEditButton = ({ user, model, object }) => {
-    return (
-        <React.Fragment>
-            {user && object && object.author.id === user._id ? (
-                <Button color="inherit" href={`${models[model].path}/${object._id}/edit`}>
-                    Edit
-                </Button>
-            ) : (
-                ''
-            )}
-        </React.Fragment>
-    );
-};
-
-export const AddPostButton = ({ user, sprint }) => {
     return (
         <React.Fragment>
             {user && sprint ? (
-                <Button color="inherit" href={`${models['Sprint'].path}/${sprint._id}/add_post`}>
-                    Add Post
-                </Button>
+                <React.Fragment>
+
+                    {sprint.author.id === user._id ? (
+                        <React.Fragment>
+                            <ObjectDeleteButton user={user} model={model} object={sprint} onError={onError.bind('deleteSprint')} />
+                            <ObjectEditButton user={user} model={model} object={sprint} />
+                        </React.Fragment>
+                    ) : (
+                            null
+                        )}
+
+                    <AddPostButton user={user} sprint={sprint} />
+
+                </React.Fragment>
             ) : (
-                ''
-            )}
+                    null
+                )}
+
         </React.Fragment>
     );
 };
