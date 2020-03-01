@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AppLayout from '../layouts/AppLayout';
 import SprintsView from '../components/sprint/SprintsView';
+import NotificationObject from '../logic/NotificationObject';
 
 class Sprints extends Component {
     constructor(props) {
@@ -36,6 +37,7 @@ class Sprints extends Component {
                     sprintId={this.state.sprintId}
                     onClick={id => this.setSprintId(id)}
                     initializeSprint={sprints => this.initializeSprint(sprints)}
+                    onError={this.props.addNotification}
                 />
             </AppLayout>
         );

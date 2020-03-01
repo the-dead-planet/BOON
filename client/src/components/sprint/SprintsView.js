@@ -28,7 +28,7 @@ const SprintsView = props => {
     const [sprints, setSprints] = useState(null);
 
     const getSprints = async () => {
-        let res = await sprintsService.getAll();
+        let res = await sprintsService.getAll().catch(props.onError.bind('getSprints'));
         setSprints(res);
         props.initializeSprint(res);
     };
@@ -58,6 +58,7 @@ const SprintsView = props => {
                         <SprintDetails
                             user={props.user}
                             sprint={sprints.filter(sprint => sprint._id === props.sprintId)[0]}
+                            onError={props.onError}
                         />
                     </Grid>
                 </Grid>
