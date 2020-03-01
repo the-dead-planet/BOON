@@ -3,7 +3,7 @@ import AuthForm from '../components/forms/AuthForm';
 import NavBar from '../components/NavBar';
 import authService from '../services/authService';
 import { interceptPage } from '../components/interceptPage';
-import Notification from '../components/Notification';
+import NotificationsRenderer from '../components/NotificationsRenderer';
 import NotificationObject from '../logic/NotificationObject';
 
 // NOTE: notification handling has been added here for testing / demonstration purposes.
@@ -11,7 +11,6 @@ import NotificationObject from '../logic/NotificationObject';
 // TODO: extract a `Layout` component handling common parts of each page, i.e. NavBar and Notification rendering,
 // use it in all page/ components.
 const Login = ({ next, onLoginSuccess, addNotification, user, notifications, onNotificationShown }) => {
-    const notification = notifications.length ? notifications[0] : null;
     return (
         <div className="center">
             <NavBar user={user} />
@@ -27,7 +26,7 @@ const Login = ({ next, onLoginSuccess, addNotification, user, notifications, onN
                         .catch(err => addNotification(new NotificationObject('login error', err.toString())));
                 }}
             />
-            {notification && <Notification notification={notification} onShown={onNotificationShown} />}
+            <NotificationsRenderer notifications={notifications} onShown={onNotificationShown} />}
         </div>
     );
 };
