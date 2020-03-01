@@ -46,6 +46,13 @@ class App extends Component {
     render() {
         const { whoamiRequestDone, user, notifications } = this.state;
 
+        // Pack props into an object to reduce boilerplate code.
+        const notificationsProps = {
+            addNotification: this.addNotification,
+            onNotificationShown: this.popNotification,
+            notifications,
+        };
+
         return !whoamiRequestDone ? (
             'Loading'
         ) : (
@@ -59,12 +66,7 @@ class App extends Component {
                             be at the very end.
                         */}
                         <Route path="/login">
-                            <Login
-                                onLoginSuccess={user => this.setState({ user })}
-                                addNotification={this.addNotification}
-                                onNotificationShown={this.popNotification}
-                                notifications={notifications}
-                            />
+                            <Login onLoginSuccess={user => this.setState({ user })} {...notificationsProps} />
                         </Route>
                         <Route path="/register">
                             <Register user={user} onSuccess={user => this.setState({ user })} />
@@ -82,7 +84,7 @@ class App extends Component {
                             <SprintDetail user={user} />
                         </Route>
                         <Route path="/sprints">
-                            <Sprints user={user} />
+                            <Sprints user={user} {...notificationsProps} />
                         </Route>
                         <Route path="/add_sprint">
                             <AddSprint user={user} />

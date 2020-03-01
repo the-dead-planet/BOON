@@ -30,7 +30,7 @@ class Sprints extends Component {
 
     render() {
         return (
-            <AppLayout user={this.props.user}>
+            <AppLayout {...this.props}>
                 <SprintsView
                     user={this.props.user}
                     sprintId={this.state.sprintId}
