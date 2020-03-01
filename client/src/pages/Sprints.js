@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NavBar from '../components/NavBar';
+import AppLayout from '../layouts/AppLayout';
 import SprintsView from '../components/sprint/SprintsView';
 
 class Sprints extends Component {
@@ -30,15 +30,14 @@ class Sprints extends Component {
 
     render() {
         return (
-            <div>
-                <NavBar user={this.props.user} />
+            <AppLayout user={this.props.user}>
                 <SprintsView
                     user={this.props.user}
                     sprintId={this.state.sprintId}
                     onClick={id => this.setSprintId(id)}
                     initializeSprint={sprints => this.initializeSprint(sprints)}
                 />
-            </div>
+            </AppLayout>
         );
     }
 }
