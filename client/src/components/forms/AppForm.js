@@ -66,7 +66,7 @@ const AppForm = ({ title, fields, initialValues, onSubmit }) => {
                                         key={field.id}
                                         required
                                         fullWidth
-                                        multiline //if this is added, date&number selectors and dropdowns are not working correctyly
+                                        multiline={field.rows ? true : undefined}
                                         rows={field.rows}
                                         as={field.component}
                                         type={field.type}
