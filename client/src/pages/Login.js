@@ -15,7 +15,11 @@ const Login = ({ next, onLoginSuccess, addNotification, user, notifications, onN
         <div className="center">
             <NavBar user={user} />
             <AuthForm
-                type="login"
+                register={false}
+                initialValues={{
+                    email: '',
+                    password: '',
+                }}
                 onSubmit={({ password, email }) => {
                     authService
                         .login(password, email)

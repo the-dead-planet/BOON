@@ -8,7 +8,13 @@ const Register = ({ user, onSuccess, next }) => (
     <div className="center">
         <NavBar user={user} />
         <AuthForm
-            type="register"
+            register={true}
+            initialValues={{
+                username: '',
+                email: '',
+                password: '',
+                team: '',
+            }}
             onSubmit={({ username, password, email, team }) => {
                 authService
                     .register(username, password, email, team)

@@ -4,9 +4,8 @@ import { Formik, Form, Field } from 'formik';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import SelectComponent from './SelectComponent';
 
-const AppForm = ({ title, fields, initialValues, onSubmit }) => {
+const AppForm = ({ title, initialValues, onSubmit, children }) => {
     const useStyles = makeStyles(theme => ({
         root: {
             height: '100%',
@@ -56,24 +55,7 @@ const AppForm = ({ title, fields, initialValues, onSubmit }) => {
                                 <h1 className={classes.center}>{title}</h1>
                             </Grid>
 
-                            {fields.map((field, i) => (
-                                <Grid key={field.id} item xs={field.grid.xs} md={field.grid.md} lg={field.grid.lg}>
-                                    <Field
-                                        key={field.id}
-                                        required
-                                        fullWidth
-                                        multiline={field.rows ? true : undefined}
-                                        rows={field.rows}
-                                        as={field.component}
-                                        type={field.type}
-                                        name={field.name}
-                                        id={field.id}
-                                        label={field.label}
-                                    >
-                                        {field.select ? <SelectComponent key={field.id} field={field} i={i} /> : null}
-                                    </Field>
-                                </Grid>
-                            ))}
+                            {children}
 
                             <Grid className={classes.center} item xs={12}>
                                 <Button type="submit">Submit</Button>
