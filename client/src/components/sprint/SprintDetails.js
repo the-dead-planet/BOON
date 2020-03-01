@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
-export const SprintDetails = ({ user, sprint }) => {
+export const SprintDetails = ({ user, sprint, onError }) => {
     const classes = useStyles();
 
     return (
@@ -28,7 +28,7 @@ export const SprintDetails = ({ user, sprint }) => {
                 <SprintDetailsHeader {...sprint} />
                 <SprintDetailsContent {...sprint} />
 
-                <ObjectDeleteButton user={user} model="Sprint" object={sprint} />
+                <ObjectDeleteButton user={user} model="Sprint" object={sprint} onError={onError.bind('deleteSprint')} />
                 <ObjectEditButton user={user} model="Sprint" object={sprint} />
                 <AddPostButton user={user} sprint={sprint} />
                 <AddPost user={user} />

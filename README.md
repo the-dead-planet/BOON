@@ -89,6 +89,7 @@ yarn dev
 
 ```UI
 - Change input fields in forms: Login, Register, Add/Edit Project, Add/Edit Sprint
+- Use layout components across the app
 
 ```
 

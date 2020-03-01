@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import NavBar from '../components/NavBar';
+import AppLayout from '../layouts/AppLayout';
 import SprintsView from '../components/sprint/SprintsView';
+import NotificationObject from '../logic/NotificationObject';
 
 class Sprints extends Component {
     constructor(props) {
@@ -30,15 +31,15 @@ class Sprints extends Component {
 
     render() {
         return (
-            <div>
-                <NavBar user={this.props.user} />
+            <AppLayout {...this.props}>
                 <SprintsView
                     user={this.props.user}
                     sprintId={this.state.sprintId}
                     onClick={id => this.setSprintId(id)}
                     initializeSprint={sprints => this.initializeSprint(sprints)}
+                    onError={this.props.addNotification}
                 />
-            </div>
+            </AppLayout>
         );
     }
 }

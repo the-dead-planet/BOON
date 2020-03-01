@@ -24,7 +24,7 @@ const models = {
     },
 };
 
-export const ObjectDeleteButton = ({ user, model, object, push }) => {
+export const ObjectDeleteButton = ({ user, model, object, push, onError }) => {
     // const classes = useStyles();
 
     return (
@@ -32,14 +32,13 @@ export const ObjectDeleteButton = ({ user, model, object, push }) => {
             {user && object && object.author.id === user._id ? (
                 <Button
                     color="inherit"
-                    href="/sprints"
                     onClick={data => {
                         const extendedData = {
                             ...data,
                             objectId: object._id,
                         };
 
-                        return models[model].service.delete(extendedData);
+                        return models[model].service.delete(extendedData).catch(onError);
                     }}
                 >
                     Delete
