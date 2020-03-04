@@ -27,8 +27,6 @@ const EditSprint = ({ user, push }) => {
         }
     });
 
-    console.log('sprint is: ', sprint);
-
     return (
         <React.Fragment>
             <NavBar user={user} />

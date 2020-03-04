@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // import moment from 'moment';
 import postsService from '../services/postsService';
+import sprintsService from '../services/sprintsService';
 import PostForm from '../components/forms/PostForm';
 import { authenticatedPage } from '../components/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
@@ -12,11 +13,25 @@ import { useParams } from 'react-router-dom';
 const AddPost = ({ user, sprintId, push }) => {
     const { id } = useParams();
 
+    const [sprint, setSprint] = useState(null);
+
+    const getSprint = async () => {
+        const sprint = await sprintsService.getOne({ objectId: id });
+        console.log(sprint);
+        setSprint(sprint);
+    };
+
+    useEffect(() => {
+        if (!sprint) {
+            getSprint();
+        }
+    });
+
     return (
         <React.Fragment>
             <NavBar user={user} />
             <PostForm
-                title="Add new post"
+                title={sprint ? `Add post to sprint ${sprint.number}` : `Add post`}
                 initialValues={{
                     project: '',
                     title: '',
