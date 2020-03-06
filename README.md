@@ -36,30 +36,35 @@ yarn dev
 
 ## TODO:
 
-```ROUTES
+```
+ROUTES
 - Create a generic routes file and reuse in all other ones
 
 ```
 
-```FORMS
+```
+FORMS
 - Create a generic form to be used in all other ones
 
 ```
 
-```USER
+```
+USER
 - Add edit route
 - Add delete route
 - Change to use Windows AD authentication / SSO?
 
 ```
 
-```SPRINT
+```
+SPRINT
 - Add validation to sprint number
 - Prefill dates in form based on the latest dateTo
 
 ```
 
-```POST
+```
+POST
 - Add 'edit' buttons
 - Display Post comments
 - Add dropdown selector for a project to which this post is linked
@@ -67,19 +72,22 @@ yarn dev
 
 ```
 
-```PROJECT
+```
+PROJECT
 - Test delete route scenarios: try to delete project with posts (failure) and without (success)
 - Add Project Group ???
 
 ```
 
-```COMMENT
+```
+COMMENT
 - Add edit buttons
 - Change component to expandable one / do not show input component by default
 
 ```
 
-```LIKE
+```
+LIKE
 - Define a fixed list of like types
 - Add like functionality to Sprints
 - Add like functionality to Posts
@@ -87,23 +95,33 @@ yarn dev
 
 ```
 
-```UI
+```
+UI
 - Change input fields in forms: Login, Register, Add/Edit Project, Add/Edit Sprint
 - Use layout components across the app
 
 ```
 
-```Models
+```
+Models
 -
 
 ```
 
-```State
+```
+State
 - Add posts and comments to state to allow rendering after comment/post addition
 
 ```
 
-```CSS / styles
+```
+CSS / styles
 - Current way of dealing with styles and CSS is messy - think of a more sophisticated and ordered way to handle styles
+
+```
+
+```
+Statistics
+- Add a page with some tables or charts showing the number of sprints, projects etc
 
 ```
