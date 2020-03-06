@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import projectsService from '../../services/projectsService';
 import AppForm from './AppForm';
-import SelectComponent from './SelectComponent';
+import GridFieldSelect from './GridFieldSelect';
 import GridField from './GridField';
+import Select from '@material-ui/core/Select';
 
 const PostForm = ({ title, initialValues, onSubmit }) => {
     const [projects, setProjects] = useState(null);
@@ -21,10 +22,10 @@ const PostForm = ({ title, initialValues, onSubmit }) => {
 
     return (
         <AppForm title={title} initialValues={initialValues} onSubmit={onSubmit}>
-            <GridField
+            <GridFieldSelect
                 required
                 fullWidth
-                as={SelectComponent}
+                as={Select}
                 name="project"
                 id="add-post-project"
                 label="Project"
