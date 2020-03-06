@@ -67,7 +67,6 @@ SPRINT
 POST
 - Add 'edit' buttons
 - Display Post comments
-- Add dropdown selector for a project to which this post is linked
 - Enable new project creation when entering new post data
 
 ```
