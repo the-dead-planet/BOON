@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import sprintsService from '../services/sprintsService';
-import SprintForm from '../components/forms/SprintForm';
+import SprintForm from '../components/forms/Sprint';
 import { authenticatedPage } from '../components/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import { FORMIK_DATE_FORMAT } from '../utils/constants';

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import SprintForm from '../components/forms/SprintForm';
+import SprintForm from '../components/forms/Sprint';
 import moment from 'moment';
 import sprintsService from '../services/sprintsService';
 import { authenticatedPage } from '../components/authenticatedPage';

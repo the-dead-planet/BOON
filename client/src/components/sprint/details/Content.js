@@ -4,7 +4,7 @@ import { Typography, Box } from '@material-ui/core';
 
 // const useStyles = makeStyles(theme => ({}));
 
-export const SprintDetailsContent = ({ _id, body }) => {
+export const SprintContent = ({ _id, body }) => {
     // const classes = useStyles();
 
     return (

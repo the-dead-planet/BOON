@@ -1,6 +1,6 @@
 import React from 'react';
 import NavBar from '../components/NavBar';
-import AuthForm from '../components/forms/AuthForm';
+import AuthForm from '../components/forms/Auth';
 import authService from '../services/authService';
 import { interceptPage } from '../components/interceptPage';
 

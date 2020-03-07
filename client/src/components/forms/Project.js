@@ -1,11 +1,11 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import AppForm from './AppForm';
-import GridField from './GridField';
+import { AppFormPaper } from './App';
+import { GridField } from './GridFields';
 
 const ProjectForm = ({ title, initialValues, onSubmit }) => {
     return (
-        <AppForm title={title} initialValues={initialValues} onSubmit={onSubmit}>
+        <AppFormPaper title={title} initialValues={initialValues} onSubmit={onSubmit}>
             <GridField
                 required
                 fullWidth
@@ -26,7 +26,7 @@ const ProjectForm = ({ title, initialValues, onSubmit }) => {
                 label="How's this project going to make the place a better world?"
                 xs={12}
             />
-        </AppForm>
+        </AppFormPaper>
     );
 };
 

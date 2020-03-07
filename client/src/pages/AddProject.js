@@ -2,7 +2,7 @@ import React from 'react';
 // import { Formik, Form, Field } from 'formik';
 // import moment from 'moment';
 import projectsService from '../services/projectsService';
-import ProjectForm from '../components/forms/ProjectForm';
+import ProjectForm from '../components/forms/Project';
 import { authenticatedPage } from '../components/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 // import { FORMIK_DATE_FORMAT } from '../utils/constants';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
-import SprintListItem from './SprintListItem';
+import SprintListItem from './ListItem';
 
 const SprintsList = ({ sprints, onClick }) => {
     const useStyles = makeStyles(theme => ({

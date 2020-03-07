@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 // import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
-import { DATE_FORMAT } from '../../utils/constants';
+import { DATE_FORMAT } from '../../../utils/constants';
 
 function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick }) {
     const useStyles = makeStyles(theme => ({

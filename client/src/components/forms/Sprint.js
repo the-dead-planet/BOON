@@ -1,11 +1,11 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import AppForm from './AppForm';
-import GridField from './GridField';
+import { AppFormPaper } from './App';
+import { GridField } from './GridFields';
 
 const SprintForm = ({ title, initialValues, onSubmit }) => {
     return (
-        <AppForm title={title} initialValues={initialValues} onSubmit={onSubmit}>
+        <AppFormPaper title={title} initialValues={initialValues} onSubmit={onSubmit}>
             <GridField
                 required
                 fullWidth
@@ -56,7 +56,7 @@ const SprintForm = ({ title, initialValues, onSubmit }) => {
                 label="Did you start ruling the world this sprint?"
                 xs={12}
             />
-        </AppForm>
+        </AppFormPaper>
     );
 };
 

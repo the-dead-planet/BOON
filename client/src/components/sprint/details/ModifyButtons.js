@@ -1,11 +1,11 @@
 import React from 'react';
-import { ObjectDeleteButton, ObjectEditButton, AddPostButton } from './Buttons';
+import { ObjectDeleteButton, ObjectEditButton, AddPostButton } from '../../Buttons';
 
 /*  
     Allow Edit and Delete only if user is logged in and is the author of the sprint
     Allow Add Post to all logged in users
 */
-export const SprintButtons = ({ user, sprint, model, onError }) => {
+export const SprintModifyButtons = ({ user, sprint, model, onError }) => {
     return (
         <React.Fragment>
             {user && sprint ? (

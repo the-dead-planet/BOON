@@ -1,14 +1,14 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 // import { makeStyles } from '@material-ui/core/styles';
-import { SprintCommentsList } from './SprintCommentsList';
+import { SprintCommentsList } from './CommentsList';
 // import { authenticatedPage } from '../../components/authenticatedPage';
-import { withPush } from '../../utils/routingDecorators';
-import { AddComment } from '../sprint/AddComment';
-import CollapsePanel from '../transitions/CollapsePanel';
+import { withPush } from '../../../utils/routingDecorators';
+import { AddComment } from '../../forms/Comment';
+import CollapsePanel from '../../transitions/CollapsePanel';
 // const useStyles = makeStyles(theme => ({}));
 
-const SprintDetailsCommentsImpl = ({ user, _id, comments, push }) => {
+const SprintCommentsImpl = ({ user, _id, comments, push }) => {
     // const classes = useStyles();
 
     return (
@@ -21,6 +21,6 @@ const SprintDetailsCommentsImpl = ({ user, _id, comments, push }) => {
     );
 };
 
-const SprintDetailsComments = withPush(SprintDetailsCommentsImpl);
+const SprintComments = withPush(SprintCommentsImpl);
 
-export { SprintDetailsComments };
+export { SprintComments };

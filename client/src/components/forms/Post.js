@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import projectsService from '../../services/projectsService';
-import AppForm from './AppForm';
-import GridFieldSelect from './GridFieldSelect';
-import GridField from './GridField';
+import { AppFormPaper } from './App';
+import { GridField, GridFieldSelect } from './GridFields';
 import Select from '@material-ui/core/Select';
 
 const PostForm = ({ title, initialValues, onSubmit }) => {
@@ -21,7 +20,7 @@ const PostForm = ({ title, initialValues, onSubmit }) => {
     });
 
     return (
-        <AppForm title={title} initialValues={initialValues} onSubmit={onSubmit}>
+        <AppFormPaper title={title} initialValues={initialValues} onSubmit={onSubmit}>
             <GridFieldSelect
                 required
                 fullWidth
@@ -44,7 +43,7 @@ const PostForm = ({ title, initialValues, onSubmit }) => {
                 label="How's this increment going to make the place a better world?"
                 xs={12}
             />
-        </AppForm>
+        </AppFormPaper>
     );
 };
 

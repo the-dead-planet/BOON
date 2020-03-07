@@ -9,7 +9,7 @@ import AddSprint from './pages/AddSprint';
 import AddProject from './pages/AddProject';
 import AddPost from './pages/AddPost';
 import EditSprint from './pages/EditSprint';
-import { SprintDetail } from './pages/SprintDetail';
+import { Sprint } from './pages/Sprint';
 import './App.css';
 import authService from './services/authService';
 
@@ -81,7 +81,7 @@ class App extends Component {
                             <AddPost user={user} />
                         </Route>
                         <Route path="/sprints/:id">
-                            <SprintDetail user={user} />
+                            <Sprint user={user} />
                         </Route>
                         <Route path="/sprints">
                             <Sprints user={user} {...notificationsProps} />

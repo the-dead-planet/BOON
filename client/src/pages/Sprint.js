@@ -4,11 +4,11 @@ import Paper from '@material-ui/core/Paper';
 import sprintsService from '../services/sprintsService';
 import NavBar from '../components/NavBar';
 import Loading from '../components/Loading';
-import { SprintDetails } from '../components/sprint/SprintDetails';
+import { SingleSprint } from '../components/sprint/details/SingleSprint';
 import { useParams } from 'react-router-dom';
 import '../styles/main.css';
 
-export const SprintDetail = props => {
+export const Sprint = props => {
     const { user } = props;
 
     const { id } = useParams();
@@ -30,7 +30,7 @@ export const SprintDetail = props => {
         <React.Fragment>
             <NavBar user={user} />
             <Container className="main">
-                <Paper>{!sprint ? <Loading /> : <SprintDetails user={user} {...sprint} />}</Paper>
+                <Paper>{!sprint ? <Loading /> : <SingleSprint user={user} {...sprint} />}</Paper>
             </Container>
         </React.Fragment>
     );

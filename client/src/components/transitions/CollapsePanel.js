@@ -26,7 +26,7 @@ import Button from '@material-ui/core/Button';
 // }));
 
 // TODO: fix the warning about children
-const SimpleCollapse = ({ title, children, push }) => {
+const SimpleCollapse = ({ title, children }) => {
     // const classes = useStyles();
     const [toggle, setToggle] = React.useState(false);
 

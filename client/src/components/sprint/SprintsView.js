@@ -3,8 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Container from '@material-ui/core/Container';
-import SprintsList from './SprintsList';
-import { SprintDetails } from './SprintDetails';
+import SprintsList from './list/List';
+import { SingleSprint } from './details/SingleSprint';
 import Loading from '../Loading';
 import Typography from '@material-ui/core/Typography';
 import '../../styles/main.css';
@@ -55,7 +55,7 @@ const SprintsView = props => {
                         <SprintsList sprints={sprints} onClick={props.onClick} />
                     </Grid>
                     <Grid item xs={12} sm={12} lg={8}>
-                        <SprintDetails
+                        <SingleSprint
                             user={props.user}
                             sprint={sprints.filter(sprint => sprint._id === props.sprintId)[0]}
                             onError={props.onError}

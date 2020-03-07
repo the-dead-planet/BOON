@@ -1,16 +1,16 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 // import { makeStyles } from '@material-ui/core/styles';
-import { SprintPostsList } from './SprintPostsList';
+import { SprintPostsList } from './PostsList';
 // import { SprintAddPost } from './SprintAddPost';
 // import { authenticatedPage } from '../../components/authenticatedPage';
-import { withPush } from '../../utils/routingDecorators';
+import { withPush } from '../../../utils/routingDecorators';
 
 // const useStyles = makeStyles(theme => ({}));
 
 // Implementation of the component. Note, that it expects to receive a `push` property from the caller. It's injected throught the `withPush` HOF below.
 // Only the decorated instance is exported. The `*Impl` class is here for convenience only and is not directly used outside of this file.
-const SprintDetailsPostsImpl = ({ user, _id, posts, push }) => {
+const SprintPostsImpl = ({ user, _id, posts, push }) => {
     // const classes = useStyles();
 
     return (
@@ -22,6 +22,6 @@ const SprintDetailsPostsImpl = ({ user, _id, posts, push }) => {
 };
 
 // Decorate the component with `withPush` HOF to inject the `push` property.
-const SprintDetailsPosts = withPush(SprintDetailsPostsImpl);
+const SprintPosts = withPush(SprintPostsImpl);
 
-export { SprintDetailsPosts };
+export { SprintPosts };
