@@ -22,6 +22,7 @@ const models = {
     },
 };
 
+
 export const ObjectDeleteButton = ({ user, model, object, push, onError }) => {
     return user && object && object.author.id === user._id ? (
         <Button
@@ -40,6 +41,7 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError }) => {
     ) : null;
 };
 
+
 export const ObjectEditButton = ({ user, model, object }) => {
     return user && object && object.author.id === user._id ? (
         <Button color="inherit" href={`${models[model].path}/${object._id}/edit`}>
@@ -48,6 +50,7 @@ export const ObjectEditButton = ({ user, model, object }) => {
     ) : null;
 };
 
+
 export const AddPostButton = ({ user, sprint }) => {
     return user && sprint ? (
         <Button color="inherit" href={`${models['Sprint'].path}/${sprint._id}/add_post`}>
@@ -55,6 +58,7 @@ export const AddPostButton = ({ user, sprint }) => {
         </Button>
     ) : null;
 };
+
 
 export const AddCommentButton = ({ user, object, onClick }) => {
     return user && object ? (

@@ -3,11 +3,11 @@ import List from '@material-ui/core/List';
 // import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 // import { authenticatedPage } from '../../components/authenticatedPage';
-import { ObjectDeleteButton } from '../../Buttons';
+import { ObjectDeleteButton } from './Buttons';
 
 // const useStyles = makeStyles(theme => ({}));
 
-export const SprintCommentsList = ({ user, sprintId, comments, push }) => {
+export const CommentsList = ({ user, comments }) => {
     // const classes = useStyles();
 
     return (

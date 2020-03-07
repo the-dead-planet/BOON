@@ -81,7 +81,7 @@ PROJECT
 ```
 COMMENT
 - Add edit buttons
-- Change component to expandable one / do not show input component by default
+- Add nested transition to show first only 3 comments and the form, and then the rest after clicking
 
 ```
 

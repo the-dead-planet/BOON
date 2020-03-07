@@ -4,18 +4,25 @@ import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { SprintHeader } from './Header';
 import { SprintContent } from './Content';
-import { SprintComments } from './Comments';
-import { SprintPosts } from './Posts';
+import { Comments } from '../../Comments';
+import { Posts } from './Posts';
 import { SprintModifyButtons } from './ModifyButtons';
 
 const useStyles = makeStyles(theme => ({
-    paper: { backgroundColor: '#FFF' },
+    paper: { 
+        backgroundColor: '#FFF',
+        margin: '1% 0'
+    },
+    offset: {
+        padding: '20px',
+    },
 }));
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
 export const SingleSprint = ({ user, sprint, onError }) => {
+    
     const classes = useStyles();
 
     return (
@@ -24,15 +31,11 @@ export const SingleSprint = ({ user, sprint, onError }) => {
                 <SprintHeader {...sprint} />
                 <SprintContent {...sprint} />
                 <SprintModifyButtons user={user} sprint={sprint} model="Sprint" onError={onError} />
+                <Comments user={user} model="Sprint" {...sprint} />
             </Paper>
 
-            <Paper className={`${classes.paper} ${classes.offset}`}>
-                <SprintComments user={user} {...sprint} />
-            </Paper>
+            <Posts user={user} {...sprint} />
 
-            <Paper className={`${classes.paper} ${classes.offset}`}>
-                <SprintPosts user={user} {...sprint} />
-            </Paper>
         </Box>
     );
 };

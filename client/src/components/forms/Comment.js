@@ -1,6 +1,5 @@
 import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import { TextField as FormikTextField } from 'formik-material-ui'; // Use the formik-ready variants of form fields.
+import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import commentsService from '../../services/commentsService';
@@ -59,7 +58,7 @@ export const AddComment = ({ _id, user, model, push }) => {
                 />
             </AppForm>
         ) : (
-                <TextField>Log in to express your fabulous opinion</TextField>
+                <Typography>Log in to express your fabulous opinion</Typography>
             )
     );
 };
