@@ -1,41 +1,36 @@
 import React from 'react';
+import { Posts } from './Posts';
+import { SprintOverview } from './Overview';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import { SprintHeader } from './Header';
-import { SprintContent } from './Content';
-import { Comments } from '../../Comments';
-import { Posts } from './Posts';
-import { SprintModifyButtons } from './ModifyButtons';
-
-const useStyles = makeStyles(theme => ({
-    paper: { 
-        backgroundColor: '#FFF',
-        margin: '1% 0'
-    },
-    offset: {
-        padding: '20px',
-    },
-}));
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
 export const SingleSprint = ({ user, sprint, onError }) => {
-    
+    const useStyles = makeStyles(theme => ({
+        inline: {
+            display: 'inline',
+        },
+        paper: {
+            backgroundColor: '#FFF',
+            margin: '1% 0'
+        },
+        offset: {
+            padding: '10px',
+        },
+        root: {
+            overflow: 'auto',
+            height: '580px',
+        },
+    }));
+
     const classes = useStyles();
 
     return (
-        <Box>
-            <Paper className={`${classes.paper} ${classes.offset}`}>
-                <SprintHeader {...sprint} />
-                <SprintContent {...sprint} />
-                <SprintModifyButtons user={user} sprint={sprint} model="Sprint" onError={onError} />
-                <Comments user={user} model="Sprint" {...sprint} />
-            </Paper>
-
+        <Box className={classes.root}>
+            <SprintOverview user={user} sprint={sprint} model="Sprint" onError={onError} />
             <Posts user={user} {...sprint} />
-
         </Box>
     );
 };

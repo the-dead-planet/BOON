@@ -11,7 +11,7 @@ export const SprintHeader = ({ _id, number, title, dateFrom, dateTo }) => {
 
     return (
         <Box id={'header'} textAlign="left">
-            <Typography variant="h2">
+            <Typography variant="h4">
                 {number} : {title}
             </Typography>
             <Typography variant="body1">

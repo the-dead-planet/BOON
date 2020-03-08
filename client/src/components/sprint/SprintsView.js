@@ -39,6 +39,7 @@ const SprintsView = props => {
         }
     });
 
+    // TODO: fix the sprint list to the left side of the screen / use drawers? repair scrolling
     return (
         <Container maxWidth="lg" className="offset-top">
             {!sprints ? (

@@ -13,7 +13,6 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles(theme => ({
     paper: {
         backgroundColor: '#FFF',
-        margin: '1% 0'
     },
     offset: {
         padding: '20px',
