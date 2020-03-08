@@ -72,31 +72,39 @@ class App extends Component {
                             />
                         </Route>
                         <Route path="/register">
-                            <Register user={user} onSuccess={user => this.setState({ user })} />
+                            <Register
+                                user={user}
+                                onSuccess={user => this.setState({ user })}
+                                notificationsProps={notificationsProps}
+                            />
                         </Route>
                         <Route path="/logout">
-                            <Logout user={user} onSuccess={() => this.setState({ user: null })} />
+                            <Logout
+                                user={user}
+                                onSuccess={() => this.setState({ user: null })}
+                                notificationsProps={notificationsProps}
+                            />
                         </Route>
                         <Route path="/sprints/:id/edit">
-                            <EditSprint user={user} />
+                            <EditSprint user={user} notificationsProps={notificationsProps} />
                         </Route>
                         <Route path="/sprints/:id/add_post">
-                            <AddPost user={user} />
+                            <AddPost user={user} notificationsProps={notificationsProps} />
                         </Route>
                         <Route path="/sprints/:id">
-                            <Sprint user={user} />
+                            <Sprint user={user} notificationsProps={notificationsProps} />
                         </Route>
                         <Route path="/sprints">
                             <Sprints user={user} notificationsProps={notificationsProps} />
                         </Route>
                         <Route path="/add_sprint">
-                            <AddSprint user={user} />
+                            <AddSprint user={user} notificationsProps={notificationsProps} />
                         </Route>
                         <Route path="/add_project">
-                            <AddProject user={user} />
+                            <AddProject user={user} notificationsProps={notificationsProps} />
                         </Route>
                         <Route path="/add_post">
-                            <AddPost user={user} />
+                            <AddPost user={user} notificationsProps={notificationsProps} />
                         </Route>
                         <Route path="/">
                             <Landing />

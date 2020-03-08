@@ -6,12 +6,11 @@ import ProjectForm from '../components/forms/Project';
 import { authenticatedPage } from '../components/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 // import { FORMIK_DATE_FORMAT } from '../utils/constants';
-import NavBar from '../components/NavBar';
+import AppLayout from '../layouts/AppLayout';
 import '../styles/main.css';
 
-const AddProject = ({ user, push }) => (
-    <React.Fragment>
-        <NavBar user={user} />
+const AddProject = ({ user, push, notificationsProps }) => (
+    <AppLayout user={user} {...notificationsProps}>
         <ProjectForm
             title="Add new project"
             initialValues={{
@@ -24,7 +23,7 @@ const AddProject = ({ user, push }) => (
                 });
             }}
         />
-    </React.Fragment>
+    </AppLayout>
 );
 
 export default authenticatedPage(withPush(AddProject));

@@ -6,11 +6,11 @@ import projectsService from '../services/projectsService';
 import { authenticatedPage } from '../components/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 // import { FORMIK_DATE_FORMAT } from '../utils/constants';
-import NavBar from '../components/NavBar';
+import AppLayout from '../layouts/AppLayout';
 import Loading from '../components/Loading';
 import '../styles/main.css';
 
-const EditProject = ({ user, push }) => {
+const EditProject = ({ user, push, notificationProps }) => {
     const { id } = useParams();
 
     const [project, setProject] = useState(null);
@@ -27,8 +27,7 @@ const EditProject = ({ user, push }) => {
     });
 
     return (
-        <React.Fragment>
-            <NavBar user={user} />
+        <AppLayout user={user} {...notificationsProps}>
             <h1 className="center">Edit Project {id}</h1>
             {!project ? (
                 <Loading />
@@ -46,7 +45,7 @@ const EditProject = ({ user, push }) => {
                     }}
                 />
             )}
-        </React.Fragment>
+        </AppLayout>
     );
 };
 
