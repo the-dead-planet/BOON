@@ -23,7 +23,7 @@ const Login = ({ next, onLoginSuccess, user, notificationsProps }) => {
                                 onLoginSuccess(user);
                                 next();
                             })
-                            .catch(err => addNotification(new NotificationObject('login error', err.toString())));
+                            .catch(err => addNotification(NotificationObject.make(err.toString())));
                     }}
                 />
             </div>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import AppLayout from '../layouts/AppLayout';
 import SprintsView from '../components/sprint/SprintsView';
-import NotificationObject from '../logic/NotificationObject';
 
 class Sprints extends Component {
     constructor(props) {
