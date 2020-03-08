@@ -6,11 +6,11 @@ import sprintsService from '../services/sprintsService';
 import { authenticatedPage } from '../components/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import { FORMIK_DATE_FORMAT } from '../utils/constants';
-import NavBar from '../components/NavBar';
+import AppLayout from '../layouts/AppLayout';
 import Loading from '../components/Loading';
 import '../styles/main.css';
 
-const EditSprint = ({ user, push }) => {
+const EditSprint = ({ user, push, notificationsProps }) => {
     const { id } = useParams();
 
     const [sprint, setSprint] = useState(null);
@@ -28,8 +28,7 @@ const EditSprint = ({ user, push }) => {
     });
 
     return (
-        <React.Fragment>
-            <NavBar user={user} />
+        <AppLayout user={user} {...notificationsProps}>
             {!sprint ? (
                 <Loading />
             ) : (
@@ -49,7 +48,7 @@ const EditSprint = ({ user, push }) => {
                     }}
                 />
             )}
-        </React.Fragment>
+        </AppLayout>
     );
 };
 

@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-import NavBar from '../components/NavBar';
+import AppLayout from '../layouts/AppLayout';
 import authService from '../services/authService';
+import NotificationObject from '../logic/NotificationObject';
 
-const Logout = ({ user, onSuccess }) => {
+const Logout = ({ user, onSuccess, notificationsProps }) => {
+    const { addNotification } = notificationsProps;
+
     const [logoutRequestDone, setLogoutRequestDone] = useState(false);
 
     useEffect(() => {
@@ -11,6 +14,7 @@ const Logout = ({ user, onSuccess }) => {
             authService
                 .logout()
                 .then(() => onSuccess())
+                .catch(err => addNotification(NotificationObject.make(err.toString())))
                 .finally(() => setLogoutRequestDone(true));
         }
     });
@@ -19,10 +23,9 @@ const Logout = ({ user, onSuccess }) => {
         return <Redirect to={'/'} />;
     } else {
         return (
-            <div className="center">
-                <NavBar user={user} />
+            <AppLayout user={user} {...notificationsProps}>
                 <h1>Logging you out</h1>
-            </div>
+            </AppLayout>
         );
     }
 };

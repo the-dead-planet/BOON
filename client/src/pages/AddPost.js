@@ -6,11 +6,11 @@ import PostForm from '../components/forms/Post';
 import { authenticatedPage } from '../components/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 // import { FORMIK_DATE_FORMAT } from '../utils/constants';
-import NavBar from '../components/NavBar';
+import AppLayout from '../layouts/AppLayout';
 import '../styles/main.css';
 import { useParams } from 'react-router-dom';
 
-const AddPost = ({ user, sprintId, push }) => {
+const AddPost = ({ user, sprintId, push, notificationsProps }) => {
     const { id } = useParams();
 
     const [sprint, setSprint] = useState(null);
@@ -28,8 +28,7 @@ const AddPost = ({ user, sprintId, push }) => {
     });
 
     return (
-        <React.Fragment>
-            <NavBar user={user} />
+        <AppLayout user={user} {...notificationsProps}>
             <PostForm
                 title={sprint ? `Add post to sprint ${sprint.number}` : `Add post`}
                 initialValues={{
@@ -46,7 +45,7 @@ const AddPost = ({ user, sprintId, push }) => {
                     return postsService.add(extendedData);
                 }}
             />
-        </React.Fragment>
+        </AppLayout>
     );
 };
 

@@ -28,7 +28,7 @@ const SprintsView = props => {
     const [sprints, setSprints] = useState(null);
 
     const getSprints = async () => {
-        let res = await sprintsService.getAll().catch(props.onError.bind('getSprints'));
+        let res = await sprintsService.getAll().catch(props.onError);
         setSprints(res);
         props.initializeSprint(res);
     };

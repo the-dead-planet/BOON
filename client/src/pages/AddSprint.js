@@ -5,12 +5,11 @@ import SprintForm from '../components/forms/Sprint';
 import { authenticatedPage } from '../components/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import { FORMIK_DATE_FORMAT } from '../utils/constants';
-import NavBar from '../components/NavBar';
+import AppLayout from '../layouts/AppLayout';
 import '../styles/main.css';
 
-const AddSprint = ({ user, push }) => (
-    <React.Fragment>
-        <NavBar user={user} />
+const AddSprint = ({ user, push, notificationsProps }) => (
+    <AppLayout user={user} {...notificationsProps}>
         <SprintForm
             title="Add new sprint"
             initialValues={{
@@ -26,7 +25,7 @@ const AddSprint = ({ user, push }) => (
                 });
             }}
         />
-    </React.Fragment>
+    </AppLayout>
 );
 
 export default authenticatedPage(withPush(AddSprint));
