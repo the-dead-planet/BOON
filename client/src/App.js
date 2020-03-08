@@ -66,7 +66,10 @@ class App extends Component {
                             be at the very end.
                         */}
                         <Route path="/login">
-                            <Login onLoginSuccess={user => this.setState({ user })} {...notificationsProps} />
+                            <Login
+                                onLoginSuccess={user => this.setState({ user })}
+                                notificationsProps={notificationsProps}
+                            />
                         </Route>
                         <Route path="/register">
                             <Register user={user} onSuccess={user => this.setState({ user })} />
@@ -84,7 +87,7 @@ class App extends Component {
                             <Sprint user={user} />
                         </Route>
                         <Route path="/sprints">
-                            <Sprints user={user} {...notificationsProps} />
+                            <Sprints user={user} notificationsProps={notificationsProps} />
                         </Route>
                         <Route path="/add_sprint">
                             <AddSprint user={user} />

@@ -10,7 +10,12 @@ import NotificationObject from '../logic/NotificationObject';
 // It should be extracted to a reusable component before applying to other pages.
 // TODO: extract a `Layout` component handling common parts of each page, i.e. NavBar and Notification rendering,
 // use it in all page/ components.
-const Login = ({ next, onLoginSuccess, addNotification, user, notifications, onNotificationShown }) => {
+const Login = ({
+    next,
+    onLoginSuccess,
+    user,
+    notificationsProps: { notifications, addNotification, onNotificationShown },
+}) => {
     return (
         <div className="center">
             <NavBar user={user} />

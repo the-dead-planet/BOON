@@ -30,14 +30,16 @@ class Sprints extends Component {
     }
 
     render() {
+        const { user, notificationsProps } = this.props;
+
         return (
-            <AppLayout {...this.props}>
+            <AppLayout user={user} {...notificationsProps}>
                 <SprintsView
                     user={this.props.user}
                     sprintId={this.state.sprintId}
                     onClick={id => this.setSprintId(id)}
                     initializeSprint={sprints => this.initializeSprint(sprints)}
-                    onError={this.props.addNotification}
+                    onError={notificationsProps.addNotification}
                 />
             </AppLayout>
         );
