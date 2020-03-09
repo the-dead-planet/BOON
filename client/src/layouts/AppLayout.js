@@ -1,6 +1,5 @@
 import React from 'react';
-
-import NavBar from '../components/NavBar';
+import { NavBar } from '../components/navigation/NavBar';
 import NotificationsRenderer from '../components/NotificationsRenderer';
 
 const AppLayout = ({ user, children, notifications, onNotificationShown }) => (

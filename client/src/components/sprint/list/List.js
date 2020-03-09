@@ -5,7 +5,7 @@ import SprintListItem from './ListItem';
 import { Box, Typography } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 
-const SprintsList = ({ sprints, onClick }) => {
+const SprintList = ({ sprints, onClick }) => {
     const useStyles = makeStyles(theme => ({
         inline: {
             display: 'inline',
@@ -41,4 +41,4 @@ const SprintsList = ({ sprints, onClick }) => {
     );
 };
 
-export default SprintsList;
+export default SprintList;

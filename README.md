@@ -124,3 +124,10 @@ Statistics
 - Add a page with some tables or charts showing the number of sprints, projects etc
 
 ```
+
+```
+HIDDEN
+- hide buttons in navbar for sm down
+- show drawer with buttons from navbar for md up
+
+```
