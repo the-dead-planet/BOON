@@ -12,12 +12,7 @@ export const SprintModifyButtons = ({ user, sprint, model, onError }) => {
                 <React.Fragment>
                     {sprint.author.id === user._id ? (
                         <React.Fragment>
-                            <ObjectDeleteButton
-                                user={user}
-                                model={model}
-                                object={sprint}
-                                onError={onError.bind('deleteSprint')}
-                            />
+                            <ObjectDeleteButton user={user} model={model} object={sprint} onError={onError} />
                             <ObjectEditButton user={user} model={model} object={sprint} />
                         </React.Fragment>
                     ) : null}

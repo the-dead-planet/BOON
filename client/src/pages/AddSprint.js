@@ -7,8 +7,9 @@ import { withPush } from '../utils/routingDecorators';
 import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';
 import '../styles/main.css';
+import withShowError from '../components/withShowError';
 
-const AddSprint = ({ user, push, notificationsProps }) => (
+const AddSprint = ({ user, push, notificationsProps, showError }) => (
     <AppLayout user={user} {...notificationsProps}>
         <SprintForm
             title="Add new sprint"
@@ -20,12 +21,15 @@ const AddSprint = ({ user, push, notificationsProps }) => (
                 body: '',
             }}
             onSubmit={data => {
-                sprintsService.add(data).then(() => {
-                    push('/sprints');
-                });
+                sprintsService
+                    .add(data)
+                    .then(() => {
+                        push('/sprints');
+                    })
+                    .catch(showError);
             }}
         />
     </AppLayout>
 );
 
-export default authenticatedPage(withPush(AddSprint));
+export default authenticatedPage(withPush(withShowError(AddSprint)));

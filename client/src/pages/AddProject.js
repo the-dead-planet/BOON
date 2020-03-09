@@ -8,22 +8,28 @@ import { withPush } from '../utils/routingDecorators';
 // import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';
 import '../styles/main.css';
+import withShowError from '../components/withShowError';
 
-const AddProject = ({ user, push, notificationsProps }) => (
-    <AppLayout user={user} {...notificationsProps}>
-        <ProjectForm
-            title="Add new project"
-            initialValues={{
-                title: '',
-                body: '',
-            }}
-            onSubmit={data => {
-                projectsService.add(data).then(() => {
-                    push('/sprints');
-                });
-            }}
-        />
-    </AppLayout>
-);
+const AddProject = ({ user, push, notificationsProps, showError }) => {
+    return (
+        <AppLayout user={user} {...notificationsProps}>
+            <ProjectForm
+                title="Add new project"
+                initialValues={{
+                    title: '',
+                    body: '',
+                }}
+                onSubmit={data => {
+                    projectsService
+                        .add(data)
+                        .then(() => {
+                            push('/sprints');
+                        })
+                        .catch(showError);
+                }}
+            />
+        </AppLayout>
+    );
+};
 
-export default authenticatedPage(withPush(AddProject));
+export default authenticatedPage(withPush(withShowError(AddProject)));

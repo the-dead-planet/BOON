@@ -3,9 +3,9 @@ import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import authService from '../services/authService';
 import { interceptPage } from '../components/interceptPage';
-import NotificationObject from '../logic/NotificationObject';
+import withShowError from '../components/withShowError';
 
-const Login = ({ next, onLoginSuccess, user, notificationsProps }) => {
+const Login = ({ next, onLoginSuccess, user, notificationsProps, showError }) => {
     const { addNotification } = notificationsProps;
     return (
         <AppLayout user={user} {...notificationsProps}>
@@ -23,7 +23,7 @@ const Login = ({ next, onLoginSuccess, user, notificationsProps }) => {
                                 onLoginSuccess(user);
                                 next();
                             })
-                            .catch(err => addNotification(NotificationObject.make(err.toString())));
+                            .catch(showError);
                     }}
                 />
             </div>
@@ -31,4 +31,4 @@ const Login = ({ next, onLoginSuccess, user, notificationsProps }) => {
     );
 };
 
-export default interceptPage(Login);
+export default interceptPage(withShowError(Login));

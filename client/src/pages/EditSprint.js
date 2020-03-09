@@ -9,15 +9,15 @@ import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';
 import Loading from '../components/Loading';
 import '../styles/main.css';
+import withShowError from '../components/withShowError';
 
-const EditSprint = ({ user, push, notificationsProps }) => {
+const EditSprint = ({ user, push, notificationsProps, showError }) => {
     const { id } = useParams();
 
     const [sprint, setSprint] = useState(null);
 
     const getSprint = async () => {
-        const sprint = await sprintsService.getOne({ objectId: id });
-        console.log(sprint);
+        const sprint = await sprintsService.getOne({ objectId: id }).catch(showError);
         setSprint(sprint);
     };
 
@@ -42,9 +42,12 @@ const EditSprint = ({ user, push, notificationsProps }) => {
                         body: sprint.body,
                     }}
                     onSubmit={data => {
-                        sprintsService.update({ ...data, objectId: id }).then(() => {
-                            push('/sprints');
-                        });
+                        sprintsService
+                            .update({ ...data, objectId: id })
+                            .then(() => {
+                                push('/sprints');
+                            })
+                            .catch(showError);
                     }}
                 />
             )}
