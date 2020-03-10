@@ -3,9 +3,9 @@ import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import authService from '../services/authService';
 import { interceptPage } from '../components/interceptPage';
-import NotificationObject from '../logic/NotificationObject';
+import withShowError from '../components/withShowError';
 
-const Register = ({ user, onSuccess, next, notificationsProps }) => (
+const Register = ({ user, onSuccess, next, notificationsProps, showError }) => (
     <AppLayout user={user} {...notificationsProps}>
         <div className="center">
             <AuthForm
@@ -24,14 +24,11 @@ const Register = ({ user, onSuccess, next, notificationsProps }) => (
                             onSuccess(user);
                             next();
                         })
-                        .catch(err => {
-                            // TODO: structure errors returned from services, render form errors on respective fields
-                            return notificationsProps.addNotification(NotificationObject.make(err.toString()));
-                        });
+                        .catch(showError);
                 }}
             />
         </div>
     </AppLayout>
 );
 
-export default interceptPage(Register);
+export default interceptPage(withShowError(Register));

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import AppLayout from '../layouts/AppLayout';
 import SprintsView from '../components/sprint/SprintsView';
 
+// TODO: convert to a pure functional component (drop the class keyword).
 class Sprints extends Component {
     constructor(props) {
         super(props);

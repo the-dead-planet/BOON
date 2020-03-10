@@ -9,7 +9,7 @@ import AddSprint from './pages/AddSprint';
 import AddProject from './pages/AddProject';
 import AddPost from './pages/AddPost';
 import EditSprint from './pages/EditSprint';
-import { Sprint } from './pages/Sprint';
+import Sprint from './pages/Sprint';
 import './App.css';
 import authService from './services/authService';
 

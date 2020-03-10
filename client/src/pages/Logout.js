@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import AppLayout from '../layouts/AppLayout';
 import authService from '../services/authService';
-import NotificationObject from '../logic/NotificationObject';
+import withShowError from '../components/withShowError';
 
-const Logout = ({ user, onSuccess, notificationsProps }) => {
+const Logout = ({ user, onSuccess, notificationsProps, showError }) => {
     const { addNotification } = notificationsProps;
 
     const [logoutRequestDone, setLogoutRequestDone] = useState(false);
@@ -14,7 +14,7 @@ const Logout = ({ user, onSuccess, notificationsProps }) => {
             authService
                 .logout()
                 .then(() => onSuccess())
-                .catch(err => addNotification(NotificationObject.make(err.toString())))
+                .catch(showError)
                 .finally(() => setLogoutRequestDone(true));
         }
     });
@@ -30,4 +30,4 @@ const Logout = ({ user, onSuccess, notificationsProps }) => {
     }
 };
 
-export default Logout;
+export default withShowError(Logout);

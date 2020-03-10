@@ -9,8 +9,9 @@ import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import Loading from '../components/Loading';
 import '../styles/main.css';
+import withShowError from '../components/withShowError';
 
-const EditProject = ({ user, push, notificationProps }) => {
+const EditProject = ({ user, push, notificationProps, showError }) => {
     const { id } = useParams();
 
     const [project, setProject] = useState(null);
@@ -39,9 +40,12 @@ const EditProject = ({ user, push, notificationProps }) => {
                         body: project.body,
                     }}
                     onSubmit={data => {
-                        projectsService.update({ ...data, objectId: id }).then(() => {
-                            push('/projects');
-                        });
+                        projectsService
+                            .update({ ...data, objectId: id })
+                            .then(() => {
+                                push('/projects');
+                            })
+                            .catch(showError);
                     }}
                 />
             )}
@@ -49,4 +53,4 @@ const EditProject = ({ user, push, notificationProps }) => {
     );
 };
 
-export default authenticatedPage(withPush(EditProject));
+export default authenticatedPage(withPush(withShowError(EditProject)));
