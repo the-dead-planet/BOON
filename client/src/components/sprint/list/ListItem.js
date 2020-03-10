@@ -20,6 +20,7 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick })
         },
         inline: {
             display: 'inline',
+            color: '#fff',
         },
         title: {
             fontWeight: 'bold',
@@ -50,7 +51,9 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick })
                                 {dateFrom ? moment(dateFrom).format(DATE_FORMAT) : null} -{' '}
                                 {dateTo ? moment(dateTo).format(DATE_FORMAT) : null}
                             </Typography>
-                            {body ? body.substring(0, 65) : null}...
+                            <Typography component="span" variant="body3" className={classes.inline} color="textPrimary">
+                                {body ? body.substring(0, 65) : null}...
+                            </Typography>
                         </React.Fragment>
                     }
                 />

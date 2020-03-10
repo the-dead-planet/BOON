@@ -10,7 +10,7 @@ import { AuthButtonsHorizontal } from './AuthButtons';
 
 const useStyles = makeStyles(theme => ({
     link: {
-        color: '#FFF',
+        color: '#fff',
         textDecoration: 'none',
     },
     nav: {
@@ -19,7 +19,6 @@ const useStyles = makeStyles(theme => ({
         width: '100%',
     },
 }));
-
 
 export const MenuItemsHorizontal = ({ user }) => {
     const classes = useStyles();
@@ -37,11 +36,10 @@ export const MenuItemsHorizontal = ({ user }) => {
                 <AuthButtonsHorizontal user={user} />
             </div>
         </div>
-    )
-}
+    );
+};
 
-
-// TODO: repair styling of list items to be white 
+// TODO: repair styling of list items to be white
 export const MenuItemsVertical = () => {
     const classes = useStyles();
 
@@ -54,5 +52,5 @@ export const MenuItemsVertical = () => {
                 </ListItem>
             ))}
         </List>
-    )
-}
+    );
+};

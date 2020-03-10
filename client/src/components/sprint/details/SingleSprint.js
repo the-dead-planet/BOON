@@ -14,7 +14,7 @@ export const SingleSprint = ({ user, sprint, onError }) => {
         },
         paper: {
             backgroundColor: '#FFF',
-            margin: '1% 0'
+            margin: '1% 0',
         },
         offset: {
             padding: '10px',
@@ -23,12 +23,14 @@ export const SingleSprint = ({ user, sprint, onError }) => {
             overflow: 'auto',
             height: '580px',
         },
+        toolbar: theme.mixins.toolbar,
     }));
 
     const classes = useStyles();
 
     return (
         <Box className={classes.root}>
+            <div className={classes.toolbar} />
             <SprintOverview user={user} sprint={sprint} model="Sprint" onError={onError} />
             <Posts user={user} {...sprint} />
         </Box>

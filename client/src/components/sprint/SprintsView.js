@@ -7,7 +7,6 @@ import SprintList from './list/List';
 import { SingleSprint } from './details/SingleSprint';
 import Loading from '../Loading';
 import Typography from '@material-ui/core/Typography';
-import '../../styles/main.css';
 import sprintsService from '../../services/sprintsService';
 
 const SprintsView = props => {

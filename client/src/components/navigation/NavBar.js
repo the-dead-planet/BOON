@@ -1,27 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import { MenuItemsHorizontal } from './MenuItems';
 import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
 import { makeStyles } from '@material-ui/core/styles';
 import { MenuDrawer } from './MenuDrawer';
 import { Logo } from './Logo';
 
-
 const useStyles = makeStyles(theme => ({
     background: {
-        backgroundColor: '#290050',
+        backgroundColor: '#2c3531',
     },
     menu: {
-        color: '#FFF',
+        color: '#fff',
         textDecoration: 'none',
     },
     button: {
-        color: '#FFF',
-        marginRight: theme.spacing(2)
+        color: '#240090',
+        marginRight: theme.spacing(2),
     },
     hideMdUp: {
         [theme.breakpoints.down('sm')]: {
@@ -33,10 +29,12 @@ const useStyles = makeStyles(theme => ({
             display: 'none',
         },
     },
+    appBar: {
+        zIndex: theme.zIndex.drawer + 1,
+    },
 }));
 
 export const NavBar = () => {
-
     const classes = useStyles();
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -46,14 +44,13 @@ export const NavBar = () => {
 
     return (
         <React.Fragment>
-            <AppBar className={classes.background} position="static">
+            <AppBar className={`${classes.background} ${classes.appBar}`} position="fixed">
                 <Toolbar>
                     <Logo handleDrawerToggle={handleDrawerToggle} />
 
                     <Hidden smDown>
                         <MenuItemsHorizontal />
                     </Hidden>
-
                 </Toolbar>
             </AppBar>
 
@@ -63,4 +60,4 @@ export const NavBar = () => {
             </Hidden>
         </React.Fragment>
     );
-}
+};

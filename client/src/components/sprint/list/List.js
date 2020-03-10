@@ -2,42 +2,40 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import SprintListItem from './ListItem';
-import { Box, Typography } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
+import Drawer from '@material-ui/core/Drawer';
+import Typography from '@material-ui/core/Typography';
 
 const SprintList = ({ sprints, onClick }) => {
+    const drawerWidth = 275;
+
     const useStyles = makeStyles(theme => ({
-        inline: {
-            display: 'inline',
+        drawerPaper: {
+            backgroundColor: '#116466',
+            color: '#fff',
+            width: drawerWidth,
         },
-        paper: {
-            backgroundColor: '#FFF',
-            margin: '1% 0'
-        },
-        offset: {
-            padding: '10px',
-        },
-        root: {
-            overflow: 'auto',
-            height: '500px',
-        },
+        toolbar: theme.mixins.toolbar,
     }));
 
     const classes = useStyles();
 
     return (
-        <Box>
-            <Paper className={`${classes.paper}`}>
-                <Typography variant="h4" className={classes.offset}>Sprints</Typography>
-                <List className={classes.root}>
-                    {[...sprints]
-                        .sort((a, b) => b.number - a.number)
-                        .map(sprint => (
-                            <SprintListItem {...sprint} key={sprint._id} onClick={() => onClick(sprint._id)} />
-                        ))}
-                </List>
-            </Paper>
-        </Box>
+        <Drawer
+            variant="permanent"
+            classes={{
+                paper: classes.drawerPaper,
+            }}
+        >
+            <div className={classes.toolbar} />
+            {/* <Typography variant="h5" className={classes.offset}>Sprints</Typography> */}
+            <List>
+                {[...sprints]
+                    .sort((a, b) => b.number - a.number)
+                    .map(sprint => (
+                        <SprintListItem {...sprint} key={sprint._id} onClick={() => onClick(sprint._id)} />
+                    ))}
+            </List>
+        </Drawer>
     );
 };
 

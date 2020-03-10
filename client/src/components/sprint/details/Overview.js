@@ -15,23 +15,25 @@ const useStyles = makeStyles(theme => ({
     offset: {
         padding: '10px',
     },
+    background: {
+        backgroundColor: '#ffcb9a',
+    },
 }));
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
 export const SprintOverview = ({ user, sprint, onError }) => {
-
     const classes = useStyles();
 
     return (
-        <Box>
-            <Paper className={`${classes.paper}`}>
-                <SprintHeader {...sprint} />
-                <SprintContent {...sprint} />
-                <SprintModifyButtons user={user} sprint={sprint} model="Sprint" onError={onError} />
-                <Comments user={user} model="Sprint" {...sprint} />
-            </Paper>
+        <Box className={classes.background}>
+            {/* <Paper className={`${classes.paper}`}> */}
+            <SprintHeader {...sprint} />
+            <SprintContent {...sprint} />
+            <SprintModifyButtons user={user} sprint={sprint} model="Sprint" onError={onError} />
+            <Comments user={user} model="Sprint" {...sprint} />
+            {/* </Paper> */}
         </Box>
     );
 };
