@@ -13,9 +13,13 @@ var express = require('express'),
     LocalStrategy = require('passport-local').Strategy,
     methodOverride = require('method-override'),
     UserAuth = require('./models/UserAuth');
-User = require('./models/User');
+    User = require('./models/User');
+    seedDB = require('./seeds');
 
 var handleErrors = require('./middleware').handleErrors;
+
+// // Add data to data base - comment if done once
+// seedDB();
 
 // Some some random thingies
 app.use(express.static(__dirname + '/public'));

@@ -5,3 +5,6 @@ yarn-error.log
 
 # IDEs
 .idea
+
+# Seeds data
+seeds-data.js
