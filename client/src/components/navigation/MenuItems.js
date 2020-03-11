@@ -10,7 +10,7 @@ import { AuthButtonsHorizontal } from './AuthButtons';
 
 const useStyles = makeStyles(theme => ({
     link: {
-        color: '#fff',
+        color: '#f0e1e7',
         textDecoration: 'none',
     },
     nav: {
@@ -27,7 +27,7 @@ export const MenuItemsHorizontal = ({ user }) => {
         <div className={classes.nav}>
             <div>
                 {menuItems.map((button, index) => (
-                    <Button key={index} color="inherit" href={button.path}>
+                    <Button className={classes.link} key={index} color="inherit" href={button.path}>
                         {button.name}
                     </Button>
                 ))}
@@ -46,9 +46,9 @@ export const MenuItemsVertical = () => {
     return (
         <List>
             {menuItems.map(item => (
-                <ListItem className={classes.menu} component={Link} to={item.path} key={item.name}>
+                <ListItem className={classes.link} component={Link} to={item.path} key={item.name}>
                     {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-                    <ListItemText className={classes.menu} primary={item.name} />
+                    <ListItemText className={classes.link} primary={item.name} />
                 </ListItem>
             ))}
         </List>

@@ -20,7 +20,7 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick })
         },
         inline: {
             display: 'inline',
-            color: '#fff',
+            color: '#f0e1e7',
         },
         title: {
             fontWeight: 'bold',

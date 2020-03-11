@@ -17,8 +17,7 @@ const useStyles = makeStyles(theme => ({
     },
     drawerPaper: {
         width: drawerWidth,
-        backgroundColor: '#290050',
-        color: '#FFF'
+        backgroundColor: '#1a1a1d'
     },
 }));
 

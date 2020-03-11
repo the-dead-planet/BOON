@@ -22,6 +22,7 @@ export const SingleSprint = ({ user, sprint, onError }) => {
         root: {
             overflow: 'auto',
             height: '580px',
+            color: '#6f2232'
         },
         toolbar: theme.mixins.toolbar,
     }));

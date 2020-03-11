@@ -10,8 +10,8 @@ const SprintList = ({ sprints, onClick }) => {
 
     const useStyles = makeStyles(theme => ({
         drawerPaper: {
-            backgroundColor: '#116466',
-            color: '#fff',
+            backgroundColor: '#950740',
+            color: '#f0e1e7',
             width: drawerWidth,
         },
         toolbar: theme.mixins.toolbar,

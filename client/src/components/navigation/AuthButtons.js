@@ -5,18 +5,26 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles(theme => ({
+    link: {
+        color: '#f0e1e7',
+        textDecoration: 'none',
+    },
+}));
 let loginButton, signUpButton;
 
-export const AuthButtonsHorizontal = ({ user }) => {
 
+export const AuthButtonsHorizontal = ({ user }) => {
+    const classes = useStyles();
     loginButton =
-        <Button color="inherit" href={!user ? "/login" : null}>
+        <Button className={classes.link} color="inherit" href={!user ? "/login" : null}>
             {!user ? 'Login' : `Signed in as ${user.username}`}
         </Button>
 
     signUpButton =
-        <Button color="inherit" href={!user ? "/register" : "/logout"}>
+        <Button className={classes.link} color="inherit" href={!user ? "/register" : "/logout"}>
             {!user ? 'Sign up' : 'Log out'}
         </Button>
 
@@ -30,17 +38,17 @@ export const AuthButtonsHorizontal = ({ user }) => {
 
 
 export const AuthButtonsVertical = ({ user }) => {
-
+    const classes = useStyles();
     loginButton =
-        <ListItem component={Link} to={!user ? "/login" : null}>
+        <ListItem className={classes.link} component={Link} to={!user ? "/login" : null}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-            <ListItemText primary={!user ? 'Login' : `Signed in as ${user.username}`} />
+            <ListItemText className={classes.link} primary={!user ? 'Login' : `Signed in as ${user.username}`} />
         </ListItem>
 
     signUpButton =
-        <ListItem component={Link} to={!user ? "/register" : "/logout"}>
+        <ListItem className={classes.link} component={Link} to={!user ? "/register" : "/logout"}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-            <ListItemText primary={!user ? 'Sign up' : 'Log out'} />
+            <ListItemText className={classes.link} primary={!user ? 'Sign up' : 'Log out'} />
         </ListItem>
 
 

@@ -9,15 +9,7 @@ import { Logo } from './Logo';
 
 const useStyles = makeStyles(theme => ({
     background: {
-        backgroundColor: '#2c3531',
-    },
-    menu: {
-        color: '#fff',
-        textDecoration: 'none',
-    },
-    button: {
-        color: '#240090',
-        marginRight: theme.spacing(2),
+        backgroundColor: '#1a1a1d',
     },
     hideMdUp: {
         [theme.breakpoints.down('sm')]: {

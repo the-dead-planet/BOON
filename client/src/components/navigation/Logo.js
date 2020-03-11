@@ -10,11 +10,11 @@ const useStyles = makeStyles(theme => ({
         width: '100px',
     },
     menu: {
-        color: '#FFF',
+        color: '#f0e1e7',
         textDecoration: 'none',
     },
     button: {
-        color: '#FFF',
+        color: '#f0e1e7',
         marginRight: theme.spacing(2)
     },
     hideMdUp: {

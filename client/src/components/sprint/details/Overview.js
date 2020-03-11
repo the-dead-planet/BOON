@@ -9,8 +9,7 @@ import { Box } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     paper: {
-        backgroundColor: '#FFF',
-        margin: '1% 0',
+        backgroundColor: '#ffcb9a',
     },
     offset: {
         padding: '10px',
@@ -27,7 +26,7 @@ export const SprintOverview = ({ user, sprint, onError }) => {
     const classes = useStyles();
 
     return (
-        <Box className={classes.background}>
+        <Box>
             {/* <Paper className={`${classes.paper}`}> */}
             <SprintHeader {...sprint} />
             <SprintContent {...sprint} />
