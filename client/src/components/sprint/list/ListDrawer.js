@@ -5,10 +5,12 @@ import SprintListItem from './ListItem';
 import Drawer from '@material-ui/core/Drawer';
 import Typography from '@material-ui/core/Typography';
 
-const SprintList = ({ sprints, onClick }) => {
-    const drawerWidth = 275;
-
+const SprintListDrawer = ({ sprints, onClick, drawerWidth }) => {
     const useStyles = makeStyles(theme => ({
+        drawer: {
+            width: drawerWidth,
+            flexShrink: 0,
+        },
         drawerPaper: {
             backgroundColor: '#950740',
             color: '#f0e1e7',
@@ -21,6 +23,7 @@ const SprintList = ({ sprints, onClick }) => {
 
     return (
         <Drawer
+            className={classes.drawer}
             variant="permanent"
             classes={{
                 paper: classes.drawerPaper,
@@ -39,4 +42,4 @@ const SprintList = ({ sprints, onClick }) => {
     );
 };
 
-export default SprintList;
+export default SprintListDrawer;

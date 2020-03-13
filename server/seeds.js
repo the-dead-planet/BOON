@@ -1,11 +1,22 @@
-var mongodb = require("mongodb");
+var mongodb = require('mongodb');
 var mongoose = require('mongoose');
 var ObjectId = mongodb.ObjectID;
 var Sprint = require('./models/Sprint');
 var Post = require('./models/Post');
 const data = require('./seeds-data');
 
+const author = {
+    id: '5e109cf282b7142980345126',
+    username: 'kx@kx.com',
+};
+
 const seedDB = () => {
+    // Remove all sprints and posts
+    Sprint.remove({}, err => console.log({ err: 'Error removing sprints' })).then(
+        Post.remove({}, err => console.log({ err: 'Error removing posts' }))
+    );
+
+    // Create new data
     data.forEach(seed => {
         let newSprint = {
             number: seed.number,
@@ -13,10 +24,7 @@ const seedDB = () => {
             dateTo: seed.dateTo,
             title: seed.title,
             body: seed.body,
-            author: {
-                id: ObjectId("5e109cf282b7142980345127"),
-                username: 'kx',
-            },
+            author: author,
         };
 
         Sprint.create(newSprint)
@@ -24,11 +32,10 @@ const seedDB = () => {
                 createSprintPosts(sprint, seed.posts);
             })
             .catch(err => console.log({ type: 'Error creating new sprint.', error: err }));
-    })
-}
+    });
+};
 
 const createSprintPosts = async (sprint, posts) => {
-
     for (const post of posts) {
         let newPost = {
             postedToObject: {
@@ -37,10 +44,7 @@ const createSprintPosts = async (sprint, posts) => {
             },
             title: post.title,
             body: post.body,
-            author: {
-                id: ObjectId("5e109cf282b7142980345127"),
-                username: 'kx',
-            },
+            author: author,
         };
 
         await Post.create(newPost)
@@ -51,6 +55,6 @@ const createSprintPosts = async (sprint, posts) => {
     }
 
     sprint.save().then(() => console.log(`Sprint ${sprint.number} created successfully.`));
-}
+};
 
 module.exports = seedDB;

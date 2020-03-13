@@ -19,7 +19,7 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick })
             backgroundColor: theme.palette.background.paper,
         },
         inline: {
-            display: 'inline',
+            display: 'block',
             color: '#f0e1e7',
         },
         title: {
@@ -32,7 +32,7 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick })
     // var sprintTitle =<Link to={`/sprints/${_id}`}>{number}: {title}</Link>;
     var sprintTitle = (
         <span className={classes.title} onClick={onClick}>
-            {number}: {title}
+            {title}
         </span>
     );
 
@@ -47,11 +47,17 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick })
                     primary={sprintTitle}
                     secondary={
                         <React.Fragment>
-                            <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
+                            <Typography
+                                component="span"
+                                variant="caption"
+                                className={classes.inline}
+                                color="textPrimary"
+                            >
+                                {`No.${number} ~ `}
                                 {dateFrom ? moment(dateFrom).format(DATE_FORMAT) : null} -{' '}
                                 {dateTo ? moment(dateTo).format(DATE_FORMAT) : null}
                             </Typography>
-                            <Typography component="span" variant="body3" className={classes.inline} color="textPrimary">
+                            <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
                                 {body ? body.substring(0, 65) : null}...
                             </Typography>
                         </React.Fragment>

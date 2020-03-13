@@ -6,7 +6,6 @@ import { authenticatedPage } from '../components/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';
-import '../styles/main.css';
 import withShowError from '../components/withShowError';
 
 const AddSprint = ({ user, push, notificationsProps, showError }) => (

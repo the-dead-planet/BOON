@@ -1,36 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
-import SprintList from './list/List';
+import SprintListDrawer from './list/ListDrawer';
 import { SingleSprint } from './details/SingleSprint';
-import Loading from '../Loading';
-import Typography from '@material-ui/core/Typography';
+import { Loading, Empty } from '../Loading';
 import sprintsService from '../../services/sprintsService';
+import Hidden from '@material-ui/core/Hidden';
 
-const SprintsView = props => {
-    const useStyles = makeStyles(theme => ({
-        root: {
-            padding: theme.spacing(3, 2),
-            width: '100%',
-            maxWidth: 360,
-            backgroundColor: theme.palette.background.paper,
-        },
-        inline: {
-            display: 'inline',
-        },
-    }));
+const drawerWidth = 300;
 
+const useStyles = makeStyles(theme => ({
+    inline: {
+        display: 'inline',
+        height: '100%',
+    },
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: `${drawerWidth}px`,
+        },
+    },
+}));
+
+const SprintsView = ({ user, onClick, sprintId, initializeSprint, onError }) => {
     const classes = useStyles();
 
     const [sprints, setSprints] = useState(null);
 
     const getSprints = async () => {
         // TODO: store `sprints` in `App.js`, pass by props
-        let res = await sprintsService.getAll().catch(props.onError);
+        let res = await sprintsService.getAll().catch(onError);
         setSprints(res);
-        props.initializeSprint(res);
+        initializeSprint(res);
     };
 
     useEffect(() => {
@@ -39,32 +40,24 @@ const SprintsView = props => {
         }
     });
 
-    // TODO: fix the sprint list to the left side of the screen / use drawers? repair scrolling
-    return (
-        <Container maxWidth="lg" className="offset-top">
-            {!sprints ? (
-                <Paper className={classes.paper}>
-                    <Loading />
-                </Paper>
-            ) : sprints.length === 0 ? (
-                <Paper className={classes.paper}>
-                    <Typography component="p">No sprints found...</Typography>
-                </Paper>
-            ) : (
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={12} lg={4}>
-                        <SprintList sprints={sprints} onClick={props.onClick} />
-                    </Grid>
-                    <Grid item xs={12} sm={12} lg={8}>
-                        <SingleSprint
-                            user={props.user}
-                            sprint={sprints.filter(sprint => sprint._id === props.sprintId)[0]}
-                            onError={props.onError}
-                        />
-                    </Grid>
-                </Grid>
-            )}
-        </Container>
+    return !sprints ? (
+        <Loading />
+    ) : sprints.length === 0 ? (
+        <Empty />
+    ) : (
+        <React.Fragment>
+            <Hidden xsDown>
+                <SprintListDrawer drawerWidth={drawerWidth} sprints={sprints} onClick={onClick} />
+            </Hidden>
+
+            <main className={classes.content}>
+                <SingleSprint
+                    user={user}
+                    sprint={sprints.filter(sprint => sprint._id === sprintId)[0]}
+                    onError={onError}
+                />
+            </main>
+        </React.Fragment>
     );
 };
 

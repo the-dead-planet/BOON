@@ -6,21 +6,17 @@ import { ObjectDeleteButton, ObjectEditButton, AddPostButton } from '../../Butto
     Allow Add Post to all logged in users
 */
 export const SprintModifyButtons = ({ user, sprint, model, onError }) => {
-    return (
+    return user && sprint ? (
         <React.Fragment>
-            {user && sprint ? (
+            {sprint.author.id === user._id ? (
                 <React.Fragment>
-                    {sprint.author.id === user._id ? (
-                        <React.Fragment>
-                            <ObjectDeleteButton user={user} model={model} object={sprint} onError={onError} />
-                            <ObjectEditButton user={user} model={model} object={sprint} />
-                        </React.Fragment>
-                    ) : null}
-
-                    <AddPostButton user={user} sprint={sprint} />
-                    {/* <AddCommentButton user={user} object={sprint} onClick={console.log("clicked")} /> */}
+                    <ObjectDeleteButton user={user} model={model} object={sprint} onError={onError} />
+                    <ObjectEditButton user={user} model={model} object={sprint} />
                 </React.Fragment>
             ) : null}
+
+            <AddPostButton user={user} sprint={sprint} />
+            {/* <AddCommentButton user={user} object={sprint} onClick={console.log("clicked")} /> */}
         </React.Fragment>
-    );
+    ) : null;
 };

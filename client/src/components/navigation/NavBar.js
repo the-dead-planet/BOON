@@ -1,13 +1,16 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import { MenuItemsHorizontal } from './MenuItems';
 import Hidden from '@material-ui/core/Hidden';
+import AppBar from '@material-ui/core/AppBar';
+import { MenuItemsHorizontal } from './MenuItems';
 import { makeStyles } from '@material-ui/core/styles';
 import { MenuDrawer } from './MenuDrawer';
 import { Logo } from './Logo';
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+    },
     background: {
         backgroundColor: '#1a1a1d',
     },
@@ -24,9 +27,10 @@ const useStyles = makeStyles(theme => ({
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
     },
+    toolbar: theme.mixins.toolbar,
 }));
 
-export const NavBar = () => {
+export const NavBar = ({ user }) => {
     const classes = useStyles();
     const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -41,14 +45,16 @@ export const NavBar = () => {
                     <Logo handleDrawerToggle={handleDrawerToggle} />
 
                     <Hidden smDown>
-                        <MenuItemsHorizontal />
+                        <MenuItemsHorizontal user={user} />
                     </Hidden>
                 </Toolbar>
             </AppBar>
 
+            <div className={classes.toolbar} />
+
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
             <Hidden mdUp implementation="css">
-                <MenuDrawer mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+                <MenuDrawer user={user} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
             </Hidden>
         </React.Fragment>
     );

@@ -7,8 +7,7 @@ import { authenticatedPage } from '../components/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';
-import Loading from '../components/Loading';
-import '../styles/main.css';
+import { Loading } from '../components/Loading';
 import withShowError from '../components/withShowError';
 
 const EditSprint = ({ user, push, notificationsProps, showError }) => {

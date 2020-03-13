@@ -8,7 +8,6 @@ import { withPush } from '../utils/routingDecorators';
 // import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';
 import Loading from '../components/Loading';
-import '../styles/main.css';
 import withShowError from '../components/withShowError';
 
 const EditProject = ({ user, push, notificationProps, showError }) => {

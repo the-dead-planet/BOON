@@ -39,8 +39,7 @@ export const MenuItemsHorizontal = ({ user }) => {
     );
 };
 
-// TODO: repair styling of list items to be white
-export const MenuItemsVertical = () => {
+export const MenuItemsVertical = ({ user }) => {
     const classes = useStyles();
 
     return (

@@ -15,18 +15,19 @@ const useStyles = makeStyles(theme => ({
 }));
 let loginButton, signUpButton;
 
-
 export const AuthButtonsHorizontal = ({ user }) => {
     const classes = useStyles();
-    loginButton =
-        <Button className={classes.link} color="inherit" href={!user ? "/login" : null}>
+    loginButton = (
+        <Button className={classes.link} color="inherit" href={!user ? '/login' : null}>
             {!user ? 'Login' : `Signed in as ${user.username}`}
         </Button>
+    );
 
-    signUpButton =
-        <Button className={classes.link} color="inherit" href={!user ? "/register" : "/logout"}>
+    signUpButton = (
+        <Button className={classes.link} color="inherit" href={!user ? '/register' : '/logout'}>
             {!user ? 'Sign up' : 'Log out'}
         </Button>
+    );
 
     return (
         <React.Fragment>
@@ -34,29 +35,28 @@ export const AuthButtonsHorizontal = ({ user }) => {
             {signUpButton}
         </React.Fragment>
     );
-}
-
+};
 
 export const AuthButtonsVertical = ({ user }) => {
     const classes = useStyles();
-    loginButton =
-        <ListItem className={classes.link} component={Link} to={!user ? "/login" : null}>
+    loginButton = (
+        <ListItem className={classes.link} component={Link} to={!user ? '/login' : '/'}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText className={classes.link} primary={!user ? 'Login' : `Signed in as ${user.username}`} />
         </ListItem>
+    );
 
-    signUpButton =
-        <ListItem className={classes.link} component={Link} to={!user ? "/register" : "/logout"}>
+    signUpButton = (
+        <ListItem className={classes.link} component={Link} to={!user ? '/register' : '/logout'}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText className={classes.link} primary={!user ? 'Sign up' : 'Log out'} />
         </ListItem>
+    );
 
-
-
-return (
-    <List>
-        {loginButton}
-        {signUpButton}
-    </List>
-);
-}
+    return (
+        <List>
+            {loginButton}
+            {signUpButton}
+        </List>
+    );
+};

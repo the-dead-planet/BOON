@@ -1,6 +1,7 @@
 import React from 'react';
 // import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
 import commentsService from '../services/commentsService';
 import postsService from '../services/postsService';
 import sprintsService from '../services/sprintsService';
@@ -22,10 +23,9 @@ const models = {
     },
 };
 
-
 export const ObjectDeleteButton = ({ user, model, object, push, onError }) => {
     return user && object && object.author.id === user._id ? (
-        <Button
+        <DeleteIcon
             color="inherit"
             onClick={data => {
                 const extendedData = {
@@ -35,12 +35,9 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError }) => {
 
                 return models[model].service.delete(extendedData).catch(onError);
             }}
-        >
-            Delete
-        </Button>
+        />
     ) : null;
 };
-
 
 export const ObjectEditButton = ({ user, model, object }) => {
     return user && object && object.author.id === user._id ? (
@@ -50,7 +47,6 @@ export const ObjectEditButton = ({ user, model, object }) => {
     ) : null;
 };
 
-
 export const AddPostButton = ({ user, sprint }) => {
     return user && sprint ? (
         <Button color="inherit" href={`${models['Sprint'].path}/${sprint._id}/add_post`}>
@@ -58,7 +54,6 @@ export const AddPostButton = ({ user, sprint }) => {
         </Button>
     ) : null;
 };
-
 
 export const AddCommentButton = ({ user, object, onClick }) => {
     return user && object ? (

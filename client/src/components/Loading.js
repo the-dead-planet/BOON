@@ -1,26 +1,37 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
-        '& > * + *': {
-            marginLeft: theme.spacing(2),
-        },
-        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center',
         padding: '5%',
+        fontSize: '10em',
+        color: '#1a1a1d',
     },
 }));
 
-const Loading = () => {
+export const Loading = () => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
+        <Container className={classes.root}>
             <CircularProgress color="secondary" />
-        </div>
+        </Container>
     );
 };
 
-export default Loading;
+export const Empty = () => {
+    const classes = useStyles();
+
+    return (
+        <Container className={classes.root}>
+            <i className="optin monster icon" href="/" />
+            <Typography variant="h5">Oops... No sprints found. Lazy, lazy...</Typography>
+        </Container>
+    );
+};

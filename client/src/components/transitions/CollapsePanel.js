@@ -26,7 +26,7 @@ import Button from '@material-ui/core/Button';
 // }));
 
 // TODO: fix the warning about children
-const SimpleCollapse = ({ title, children }) => {
+const SimpleCollapse = ({ expanded, title, children }) => {
     // const classes = useStyles();
     const [toggle, setToggle] = React.useState(false);
 
@@ -36,8 +36,10 @@ const SimpleCollapse = ({ title, children }) => {
 
     return (
         <React.Fragment>
-            <FormControlLabel control={<Button onClick={handleChange} />} label={title} />
-            <Collapse in={toggle}>{children}</Collapse>
+            {/* <FormControlLabel control={<Button onClick={handleChange} />} label={title} /> */}
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+                {children}
+            </Collapse>
         </React.Fragment>
     );
 };
