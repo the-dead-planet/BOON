@@ -41,22 +41,20 @@ module.exports = app => {
                 updatedObject.likes.filter(like => {
                     like.author.username === user.username;
                 }).length === 0
-                    ? like
-                          .create({
-                              likedObject: {
-                                  model: model,
-                                  id: id,
-                              },
-                              type: type,
-                              author: {
-                                  id: user._id,
-                                  username: user.username,
-                              },
-                          })
-                          .then(like => {
-                              updatedObject.likes.push(like._id);
-                              return updatedObject.save().then(() => like);
-                          })
+                    ? Like.create({
+                          likedObject: {
+                              model: model,
+                              id: id,
+                          },
+                          type: type,
+                          author: {
+                              id: user._id,
+                              username: user.username,
+                          },
+                      }).then(like => {
+                          updatedObject.likes.push(like._id);
+                          return updatedObject.save().then(() => like);
+                      })
                     : null;
             })
             .then(like => {
