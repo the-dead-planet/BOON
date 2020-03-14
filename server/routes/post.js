@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const middleware = require('../middleware');
+const errors = require('../common/errors');
 const models = require('../common/models');
 const Post = mongoose.model('Post');
 const Sprint = mongoose.model('Sprint');
@@ -29,6 +30,7 @@ module.exports = app => {
         Add post id reference to sprint.posts array
     */
     app.post('/api/posts', middleware.isLoggedIn, (req, res, next) => {
+        // TODO: either remove the `model` field, or handle other models as well
         const { sprintId, project, title, body, model } = req.body;
         const user = req.user;
 
@@ -44,7 +46,7 @@ module.exports = app => {
             .then(sprint =>
                 Post.create({
                     postedToObject: {
-                        model: model,
+                        model: 'Sprint',
                         id: sprintId,
                     },
                     project: project,
