@@ -32,7 +32,7 @@ module.exports = app => {
         const { title, body } = req.body;
         const user = req.user;
 
-        Project.create({
+        return Project.create({
             title: title,
             body: body,
             author: {
@@ -41,7 +41,7 @@ module.exports = app => {
             },
         })
             .then(project => {
-                res.status(201).send({
+                return res.status(201).send({
                     error: false,
                     project,
                 });
@@ -84,13 +84,7 @@ module.exports = app => {
                 !project.posts || project.posts.length === 0
                     ? Project.findByIdAndDelete(id).then(async project => {
                           if (project) {
-                              res.status(202).send({
-                                  error: false,
-                                  project,
-                                  comments,
-                                  likes,
-                                  updatedObject,
-                              });
+                              res.status(202).send();
                           } else {
                               res.status(500).send({
                                   error: `Project ${id} not found`,
