@@ -28,7 +28,7 @@ describe('app', () => {
         // Resolve all requests upfront to make the test simpler.
         resolveWhoAmi({ user: { username: 'username' } });
         MockSprintsService.resolveGetAll([
-            { _id: 'sprint0Id', number: 0, title: 'sprint0Title', author: { _id: 'user0Id' } },
+            { _id: 'sprint0Id', number: 0, title: 'sprint0Title', author: { _id: 'user0Id' }, likes: [], comments: [] },
         ]);
 
         await fireEvent.click(await findByText(/enter the boon/i));
