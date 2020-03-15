@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import SprintListItem from './ListItem';
 import Drawer from '@material-ui/core/Drawer';
-import Typography from '@material-ui/core/Typography';
 
 const SprintListDrawer = ({ sprints, onClick, drawerWidth }) => {
     const useStyles = makeStyles(theme => ({
@@ -30,7 +29,6 @@ const SprintListDrawer = ({ sprints, onClick, drawerWidth }) => {
             }}
         >
             <div className={classes.toolbar} />
-            {/* <Typography variant="h5" className={classes.offset}>Sprints</Typography> */}
             <List>
                 {[...sprints]
                     .sort((a, b) => b.number - a.number)

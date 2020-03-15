@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import { SprintHeader } from './Header';
 import { SprintContent } from './Content';
 import { Comments } from '../../Comments';
@@ -27,12 +26,10 @@ export const SprintOverview = ({ user, sprint, onError }) => {
 
     return (
         <Box>
-            {/* <Paper className={`${classes.paper}`}> */}
             <SprintHeader {...sprint} />
             <SprintContent {...sprint} />
             <SprintModifyButtons user={user} sprint={sprint} model="Sprint" onError={onError} />
             <Comments user={user} model="Sprint" {...sprint} />
-            {/* </Paper> */}
         </Box>
     );
 };

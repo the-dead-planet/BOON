@@ -1,5 +1,4 @@
 import React from 'react';
-import { Box } from '@material-ui/core';
 import { PostsList } from './List';
 // import { SprintAddPost } from './SprintAddPost';
 // import { authenticatedPage } from '../../components/authenticatedPage';
