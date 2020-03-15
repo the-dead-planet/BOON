@@ -5,12 +5,12 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined';
 
 
-export const ActionButtons = ({ user, post, handleExpandClick }) => {
+export const ActionButtons = ({ user, object, handleExpandClick }) => {
 
     return (
         <React.Fragment>
             <IconButton aria-label="add to favorites">
-                <Typography variant="caption">{post.likes.length}</Typography>
+                <Typography variant="caption">{object.likes.length}</Typography>
                 <FavoriteIcon />
             </IconButton>
             {/* <IconButton aria-label="share">
@@ -22,13 +22,8 @@ export const ActionButtons = ({ user, post, handleExpandClick }) => {
                 // aria-label="show more"
             >
                 <ModeCommentOutlinedIcon />
-                <Typography variant="caption">{post.comments.length}</Typography>
+                <Typography variant="caption">{object.comments.length}</Typography>
             </IconButton>
-
-            {/* TODO: move to the ... menu panel
-                <IconButton className={classes.right}>
-                    <ObjectDeleteButton user={user} model="Post" object={post} />
-                </IconButton> */}
         </React.Fragment>
     );
 };

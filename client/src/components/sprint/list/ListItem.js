@@ -12,12 +12,6 @@ import { DATE_FORMAT } from '../../../utils/constants';
 
 function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick }) {
     const useStyles = makeStyles(theme => ({
-        root: {
-            padding: theme.spacing(3, 2),
-            width: '100%',
-            maxWidth: 360,
-            backgroundColor: theme.palette.background.paper,
-        },
         inline: {
             display: 'block',
             color: '#f0e1e7',
@@ -30,11 +24,13 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick })
     const classes = useStyles();
 
     // var sprintTitle =<Link to={`/sprints/${_id}`}>{number}: {title}</Link>;
-    var sprintTitle = (
+    let sprintTitle = (
         <span className={classes.title} onClick={onClick}>
             {title}
         </span>
     );
+
+    let sprintDateRange = `${dateFrom ? moment(dateFrom).format(DATE_FORMAT) : null} - ${dateTo ? moment(dateTo).format(DATE_FORMAT) : null}`
 
     return (
         <React.Fragment>
@@ -44,7 +40,7 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick })
                 </ListItemAvatar> */}
                 <ListItemText
                     onClick={onClick}
-                    primary={sprintTitle}
+                    primary={`No.${number} ${title}`}
                     secondary={
                         <React.Fragment>
                             <Typography
@@ -53,18 +49,19 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick })
                                 className={classes.inline}
                                 color="textPrimary"
                             >
-                                {`No.${number} ~ `}
-                                {dateFrom ? moment(dateFrom).format(DATE_FORMAT) : null} -{' '}
-                                {dateTo ? moment(dateTo).format(DATE_FORMAT) : null}
+                                {sprintDateRange}
                             </Typography>
-                            <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
+                            {/* <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
                                 {body ? body.substring(0, 65) : null}...
-                            </Typography>
+                            </Typography> */}
                         </React.Fragment>
                     }
                 />
             </ListItem>
-            <Divider variant="inset" component="li" />
+            <Divider 
+                variant="inset" 
+                component="li" 
+            />
         </React.Fragment>
     );
 }
