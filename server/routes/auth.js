@@ -11,53 +11,53 @@ module.exports = app => {
         return res.status(200).send({ user });
     });
 
-    // TODO: sort out a nicer way to write this with promises
-    app.post('/api/auth/register', (req, res) => {
-        // Create user with login credentials only
-        return UserAuth.register(
-            new UserAuth({
-                username: req.body.email,
-            }),
-            req.body.password
-        )
-            .then(userAuth => {
+    app.post('/api/auth/register', (req, res, next) => {
+        // Wrap the code with an empty promise to make the inner code `async` and handle potential errors.
+        return Promise.resolve()
+            .then(async () => {
+                // Create user with login credentials only
+                const userAuth = await UserAuth.register(
+                    new UserAuth({
+                        username: req.body.email,
+                    }),
+                    req.body.password
+                );
+
                 // TODO: Add check if username also already exists or not
-                return User.create(
+                const user = await User.create(
                     new User({
                         userAuth: userAuth._id,
                         username: req.body.username,
                         team: req.body.team,
                     })
-                ).then(user => {
-                    // Authenticate the user after registration.
-                    req.login(userAuth, err => console.log({ err }));
+                );
 
-                    // Send the created user object to the client.
-                    return res.status(201).send({
-                        error: false,
-                        user,
-                    });
+                // Authenticate the user after registration.
+                req.login(userAuth, err => {
+                    if (err) {
+                        throw err;
+                    } else {
+                        // Send the created user object to the client.
+                        return res.status(201).send({
+                            user,
+                        });
+                    }
                 });
             })
-            .catch(err => res.status(500).send({ err }));
+            .catch(next);
     });
 
     // POST - Log in
     app.post('/api/auth/login', passport.authenticate('local'), (req, res) => {
-        let user = req.user;
+        const { user } = req;
         return res.status(200).send({
-            error: false,
             user,
         });
     });
 
     // Log Out
     app.post('/api/auth/logout', (req, res) => {
-        let user = req.user;
         req.logout();
-        return res.status(200).send({
-            error: false,
-            user,
-        });
+        return res.status(200).send();
     });
 };

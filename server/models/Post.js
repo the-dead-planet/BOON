@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 
 var postSchema = new mongoose.Schema({
+    // TODO: consider dropping this field; according to the implementation, Posts can be added to Sprints only
     postedToObject: {
         model: String,
         id: String,
@@ -28,6 +29,7 @@ var postSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
         },
+        // TODO: do not store the username here; store `User.id` only
         username: String,
     },
     created: {

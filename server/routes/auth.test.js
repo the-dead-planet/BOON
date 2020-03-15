@@ -1,30 +1,32 @@
-// TODO: split the backend into smaller modules, test each one separately
-
 const mongoose = require('mongoose');
 const request = require('supertest');
 const express = require('express');
 
 // `app` must be one of the first imports. It triggers model registration on
 // load.
-const app = require('./app');
+const app = require('../app');
 
-const { withFreshDbConnection } = require('./testing/db');
+const { withFreshDbConnection } = require('../testing/db');
+const { loginAgentAs } = require('../testing/auth');
+const { createUser } = require('../testing/factories/user');
 
 const UserAuth = mongoose.model('UserAuth');
 
 withFreshDbConnection();
 
 describe('app', () => {
+    const agent = request.agent(app);
+    const loginAs = loginAgentAs(agent);
     const userCredentials = { email: 'aa@aa.aa', password: 'password' };
 
     beforeEach(() =>
-        // Register a user.
-        UserAuth.register(UserAuth({ username: userCredentials.email }), userCredentials.password)
+        // Register a user before each test. Useful for testing username conflicts.
+        createUser(userCredentials)
     );
 
     describe('login', () => {
         test('logs an existing user in', () => {
-            return request(app)
+            return agent
                 .post('/api/auth/login')
                 .send(`email=${userCredentials.email}`)
                 .send(`password=${userCredentials.password}`)
@@ -37,7 +39,7 @@ describe('app', () => {
         });
 
         test('rejects invalid password', () => {
-            return request(app)
+            return agent
                 .post('/api/auth/login')
                 .send(`email=${userCredentials.email}`)
                 .send(`password=wrong_password`)
@@ -45,7 +47,7 @@ describe('app', () => {
         });
 
         test('rejects invalid email', () => {
-            return request(app)
+            return agent
                 .post('/api/auth/login')
                 .send(`email=wrong@email.com`)
                 .send(`password=${userCredentials.password}`)
@@ -56,7 +58,7 @@ describe('app', () => {
     describe('register', () => {
         test('creates a new user object', () => {
             const username = 'username';
-            return request(app)
+            return agent
                 .post('/api/auth/register')
                 .send(`email=some@email.com`)
                 .send(`password=password`)
@@ -75,7 +77,7 @@ describe('app', () => {
         });
 
         test('rejects a duplicate email', () => {
-            return request(app)
+            return agent
                 .post('/api/auth/register')
                 .send(`email=${userCredentials.email}`)
                 .send(`password=password`)
@@ -86,21 +88,6 @@ describe('app', () => {
     });
 
     describe('whoami', () => {
-        // Use an `agent` instead of `request` to persist state across requests.
-        // This approach allows accessing the API as a logged in user.
-        const agent = request.agent(app);
-
-        const authenticate = () =>
-            agent
-                .post('/api/auth/login')
-                .send(`email=${userCredentials.email}`)
-                .send(`password=${userCredentials.password}`)
-                .then(resp => {
-                    if (resp.statusCode !== 200) {
-                        return Promise.reject(`Authentication failed: ${resp.statusCode}`);
-                    }
-                });
-
         test('handles unauthenticated users', () => {
             return agent.get('/api/auth/whoami').then(resp => {
                 expect(resp).toMatchObject({ statusCode: 200, body: { user: null } });
@@ -108,7 +95,7 @@ describe('app', () => {
         });
 
         test('handles authenticated users', () => {
-            return authenticate().then(() =>
+            return loginAs(userCredentials.email, userCredentials.password).then(() =>
                 agent.get('/api/auth/whoami').then(resp => {
                     expect(resp).toMatchObject({
                         statusCode: 200,
