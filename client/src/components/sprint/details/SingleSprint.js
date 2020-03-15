@@ -1,5 +1,5 @@
 import React from 'react';
-import { Posts } from './Posts';
+import { Posts } from './post/Posts';
 import Container from '@material-ui/core/Container';
 import { SprintOverview } from './Overview';
 

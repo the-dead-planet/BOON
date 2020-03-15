@@ -2,9 +2,9 @@ import React from 'react';
 import List from '@material-ui/core/List';
 import { makeStyles } from '@material-ui/core/styles';
 import moment from 'moment';
-import { EXT_DATE_FORMAT } from '../../../utils/constants';
-import { ObjectDeleteButton } from '../../Buttons';
-import { Comments } from '../../Comments';
+import { EXT_DATE_FORMAT } from '../../../../utils/constants';
+import { ObjectDeleteButton } from '../../../Buttons';
+import { Comments } from '../../../Comments';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -54,7 +54,13 @@ export const PostsList = ({ user, posts, push }) => {
 
     const [expanded, setExpanded] = React.useState([]);
     const handleExpandClick = i => {
-        setExpanded(posts.map((post, index) => (index === i ? !expanded[index] : expanded[index])));
+        const expand = () => {
+            setExpanded(posts.map((post, index) => (
+                index === i ? !expanded[index] : expanded[index]
+            )))
+        };
+
+        return expand;
     };
 
     return (
@@ -89,7 +95,7 @@ export const PostsList = ({ user, posts, push }) => {
                                 <ShareIcon />
                             </IconButton> */}
                         <IconButton
-                            onClick={() => handleExpandClick(index)}
+                            onClick={handleExpandClick(index)}
                             aria-expanded={expanded}
                             aria-label="show more"
                         >

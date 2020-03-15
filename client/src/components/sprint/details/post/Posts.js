@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
-import { PostsList } from './PostsList';
+import { PostsList } from './List';
 // import { SprintAddPost } from './SprintAddPost';
 // import { authenticatedPage } from '../../components/authenticatedPage';
-import { withPush } from '../../../utils/routingDecorators';
+import { withPush } from '../../../../utils/routingDecorators';
 
 // const useStyles = makeStyles(theme => ({}));
 
@@ -12,11 +12,7 @@ import { withPush } from '../../../utils/routingDecorators';
 const PostsImpl = ({ user, _id, posts, push }) => {
     // const classes = useStyles();
 
-    return (
-        <Box id={'posts'}>
-            <PostsList user={user} posts={posts} push={push} />
-        </Box>
-    );
+    return <PostsList user={user} posts={posts} push={push} />
 };
 
 // Decorate the component with `withPush` HOF to inject the `push` property.
