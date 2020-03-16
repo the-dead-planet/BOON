@@ -44,7 +44,6 @@ ROUTES
 
 ```
 FORMS
-- Create a generic form to be used in all other ones
 
 ```
 
@@ -115,7 +114,7 @@ State
 
 ```
 CSS / styles
-- Current way of dealing with styles and CSS is messy - think of a more sophisticated and ordered way to handle styles
+
 
 ```
 
@@ -127,7 +126,11 @@ Statistics
 
 ```
 HIDDEN
-- hide buttons in navbar for sm down
-- show drawer with buttons from navbar for md up
+
+```
+
+```
+SEEDS
+- Create seeds-data file with lorem ipsum with sprints, posts and projects correctly referencing each other
 
 ```

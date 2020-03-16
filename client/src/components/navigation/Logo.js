@@ -1,35 +1,10 @@
 import React from 'react';
+import { useStyles } from '../../styles/main';
 import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import { makeStyles } from '@material-ui/core/styles';
 
-
-const useStyles = makeStyles(theme => ({
-    logo: {
-        width: '100px',
-    },
-    menu: {
-        color: '#f0e1e7',
-        textDecoration: 'none',
-    },
-    button: {
-        color: '#f0e1e7',
-        marginRight: theme.spacing(2)
-    },
-    hideMdUp: {
-        [theme.breakpoints.down('sm')]: {
-            display: 'none',
-        },
-    },
-    hideSmDown: {
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
-        },
-    },
-}));
-
-export const Logo = ({ menuItems, handleDrawerToggle}) => {
+export const Logo = ({ linkItems, handleDrawerToggle }) => {
     const classes = useStyles();
 
     return (
@@ -38,18 +13,17 @@ export const Logo = ({ menuItems, handleDrawerToggle}) => {
                 aria-label="open drawer"
                 edge="start"
                 onClick={handleDrawerToggle}
-                className={`${classes.button} ${classes.hideSmDown}`}
+                className={`${classes.textColorLight} ${classes.spacingRight} ${classes.hideSmDown}`}
             >
                 <i className="optin monster icon" href="/" />
             </IconButton>
-            
-            <IconButton className={`${classes.button} ${classes.hideMdUp}`}>
+
+            <IconButton className={`${classes.textColorLight} ${classes.spacingRight} ${classes.hideMdUp}`}>
                 <i className="optin monster icon" href="/" />
             </IconButton>
-            <Link to={'/'} className={classes.menu}>
-                <Typography variant="h6" className={classes.logo}>BOON</Typography>
-            </Link>
-
+            <Typography variant="h6" className={classes.width100}>
+                BOON
+            </Typography>
         </React.Fragment>
     );
-}
+};

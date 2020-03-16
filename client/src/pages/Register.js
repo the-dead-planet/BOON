@@ -7,7 +7,7 @@ import withShowError from '../components/withShowError';
 
 const Register = ({ user, onSuccess, next, notificationsProps, showError }) => (
     <AppLayout user={user} {...notificationsProps}>
-        <div className="center">
+        <div>
             <AuthForm
                 register={true}
                 initialValues={{

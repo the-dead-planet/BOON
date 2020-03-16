@@ -3,32 +3,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Hidden from '@material-ui/core/Hidden';
 import AppBar from '@material-ui/core/AppBar';
 import { MenuItemsHorizontal } from './MenuItems';
-import { makeStyles } from '@material-ui/core/styles';
 import { MenuDrawer } from './MenuDrawer';
 import { Logo } from './Logo';
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-    },
-    background: {
-        backgroundColor: '#1a1a1d',
-    },
-    hideMdUp: {
-        [theme.breakpoints.down('sm')]: {
-            display: 'none',
-        },
-    },
-    hideSmDown: {
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
-        },
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-    },
-    toolbar: theme.mixins.toolbar,
-}));
+import { useStyles } from '../../styles/main';
 
 export const NavBar = ({ user }) => {
     const classes = useStyles();
@@ -40,7 +17,7 @@ export const NavBar = ({ user }) => {
 
     return (
         <React.Fragment>
-            <AppBar className={`${classes.background} ${classes.appBar}`} position="fixed">
+            <AppBar className={classes.appBar} position="fixed">
                 <Toolbar>
                     <Logo handleDrawerToggle={handleDrawerToggle} />
 

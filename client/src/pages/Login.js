@@ -1,4 +1,5 @@
 import React from 'react';
+import { useStyles } from '../styles/main';
 import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import authService from '../services/authService';
@@ -6,27 +7,28 @@ import { interceptPage } from '../components/interceptPage';
 import withShowError from '../components/withShowError';
 
 const Login = ({ next, onLoginSuccess, user, notificationsProps, showError }) => {
+    const classes = useStyles();
     const { addNotification } = notificationsProps;
     return (
         <AppLayout user={user} {...notificationsProps}>
-            <div className="center">
-                <AuthForm
-                    register={false}
-                    initialValues={{
-                        email: '',
-                        password: '',
-                    }}
-                    onSubmit={({ password, email }) => {
-                        authService
-                            .login(password, email)
-                            .then(({ user }) => {
-                                onLoginSuccess(user);
-                                next();
-                            })
-                            .catch(showError);
-                    }}
-                />
-            </div>
+            {/* <div className={classes.main}> */}
+            <AuthForm
+                register={false}
+                initialValues={{
+                    email: '',
+                    password: '',
+                }}
+                onSubmit={({ password, email }) => {
+                    authService
+                        .login(password, email)
+                        .then(({ user }) => {
+                            onLoginSuccess(user);
+                            next();
+                        })
+                        .catch(showError);
+                }}
+            />
+            {/* </div> */}
         </AppLayout>
     );
 };

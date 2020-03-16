@@ -1,6 +1,6 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import { AppFormPaper }  from './App';
+import { AppFormPaper } from './App';
 import { GridField } from './GridFields';
 
 const AuthForm = ({ register, initialValues, onSubmit }) => {
@@ -22,7 +22,7 @@ const AuthForm = ({ register, initialValues, onSubmit }) => {
                 xs={12}
             />
 
-            {register ? <GridField required as={TextField} name="team" id="auth-team" label="Team" /> : null}
+            {register ? <GridField required as={TextField} name="team" id="auth-team" label="Team" xs={12} /> : null}
         </AppFormPaper>
     );
 };

@@ -1,26 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { useStyles } from '../../styles/main';
 import SprintListDrawer from './list/ListDrawer';
 import { SingleSprint } from './details/SingleSprint';
 import { Loading, Empty } from '../Loading';
 import sprintsService from '../../services/sprintsService';
 import Hidden from '@material-ui/core/Hidden';
-
-const drawerWidth = 300;
-
-const useStyles = makeStyles(theme => ({
-    inline: {
-        display: 'inline',
-        height: '100%',
-    },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: `${drawerWidth}px`,
-        },
-    },
-}));
 
 const SprintsView = ({ user, onClick, sprintId, initializeSprint, onError }) => {
     const classes = useStyles();
@@ -47,10 +31,10 @@ const SprintsView = ({ user, onClick, sprintId, initializeSprint, onError }) => 
     ) : (
         <React.Fragment>
             <Hidden xsDown>
-                <SprintListDrawer drawerWidth={drawerWidth} sprints={sprints} onClick={onClick} />
+                <SprintListDrawer sprints={sprints} onClick={onClick} />
             </Hidden>
 
-            <main className={classes.content}>
+            <main className={`${classes.content}`}>
                 <SingleSprint
                     user={user}
                     sprint={sprints.filter(sprint => sprint._id === sprintId)[0]}
