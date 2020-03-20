@@ -18,9 +18,9 @@ export const SprintOverview = ({ user, sprint, onError }) => {
             model="Sprint"
             object={sprint}
             title={`No${sprint.number} // ${sprint.title}`}
-            subtitle={`${sprint.dateFrom ? moment(sprint.dateFrom).format(DATE_FORMAT) : null} - ${
-                sprint.dateTo ? moment(sprint.dateTo).format(DATE_FORMAT) : null
-            }`}
+            subtitle={`${sprint.author.username} // ${
+                sprint.dateFrom ? moment(sprint.dateFrom).format(DATE_FORMAT) : null
+            } - ${sprint.dateTo ? moment(sprint.dateTo).format(DATE_FORMAT) : null}`}
             // mediaTop={<CardMedia className={classes.height200} image={sprint.image} />}
             mediaTop={<CardMedia className={classes.height200} image={require('../../../img/Landing_1.png')} />}
         />

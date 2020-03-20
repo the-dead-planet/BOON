@@ -7,6 +7,17 @@ var userSchema = new mongoose.Schema({
     },
     username: String,
     team: String,
+    role: String,
+    country: String,
+    skills: [String],
+    joined: {
+        type: Date,
+        default: undefined,
+    },
+    left: {
+        type: Date,
+        default: undefined,
+    },
     created: {
         type: Date,
         default: Date.now,
@@ -15,6 +26,8 @@ var userSchema = new mongoose.Schema({
         type: Date,
         default: undefined,
     },
+    // TODO: think how to store this attribute. Values: admin, standard user etc
+    auth: String,
 });
 
 module.exports = mongoose.model('User', userSchema);

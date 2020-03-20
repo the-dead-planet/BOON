@@ -37,6 +37,7 @@ class App extends Component {
         }, 5000);
     };
 
+    // TODO: Change to pass value of model User, not UserAuth
     componentDidMount() {
         authService.whoami().then(({ user }) => {
             this.setState({ user, whoamiRequestDone: true });

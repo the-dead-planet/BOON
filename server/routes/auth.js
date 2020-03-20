@@ -28,9 +28,23 @@ module.exports = app => {
                     new User({
                         userAuth: userAuth._id,
                         username: req.body.username,
+                        role: req.body.role,
                         team: req.body.team,
+                        country: req.body.country,
+                        joined: req.body.joined,
+                        left: req.body.left,
+                        auth: undefined,
                     })
                 );
+                // TODO: handle array of skills
+                // .then(user =>
+                //      req.body.skills.map(skill => user.skills.push(skill))
+                //     res.status(201).send({
+                //         error: false,
+                //         user,
+                //     })
+                // )
+                // .catch(err => res.status(500).send({ err }));
 
                 // Authenticate the user after registration.
                 req.login(userAuth, err => {

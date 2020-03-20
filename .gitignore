@@ -7,4 +7,5 @@ yarn-error.log
 .idea
 
 # Seeds data
-seeds-data.js
+seeds-data-real.js
+seeds-data-password.js
