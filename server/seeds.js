@@ -6,136 +6,150 @@ var Post = require('./models/Post');
 var Project = require('./models/Project');
 var UserAuth = require('./models/UserAuth');
 var User = require('./models/User');
+var Team = require('./models/Team');
 const data = require('./seeds-data');
 
-// TODO: review again async behavior
-const seedDB = () => {
-    removeData();
-    createUsers(data.users).then(users => {
-        createProjects(data.projects, users).then(projects => {
-            createSprintsPosts(data.sprints, users, projects);
-        });
+const schemas = [Sprint, Post, Project, User, UserAuth];
+
+// TODO: add generate teams
+const seedDB = () =>
+    removeData()
+        .then(res => createTeams(data.teams))
+        .then(teams => createUsers(data.users, teams))
+        .then(users =>
+            createProjects(data.projects, users).then(projects => createSprints(data.sprints, projects, users))
+        )
+        .then(sprints => updateProjectsWithPosts());
+
+// Remove data from all schemas
+const removeData = () =>
+    Promise.all(
+        schemas.map(schema =>
+            schema
+                .deleteMany({})
+                .then(res => console.log(res))
+                .catch(err => console.log(err))
+        )
+    );
+
+// Create one team
+const createTeam = teamData =>
+    Team.create({
+        title: teamData.title,
+        body: teamData.body,
+    }).then(team => {
+        console.log(`Team ${team.title} created`);
+        return team;
+    });
+
+// Create all teams
+const createTeams = teamsData => Promise.all(teamsData.map(teamData => createTeam(teamData)));
+
+// Create one user
+const createUser = (user, teams) =>
+    UserAuth.register(new UserAuth({ username: user.email }), user.password).then(userAuth =>
+        User.create(
+            new User({
+                userAuth: userAuth._id,
+                username: user.username,
+                // team: ,  // TODO: change model to reference ID and figure this out
+                role: user.role,
+                team: user.team,
+                country: user.country,
+                joined: user.joined,
+                left: user.left,
+                skills: user.skills,
+                auth: user.auth,
+            })
+        ).then(user => {
+            console.log(`User ${user.username} created`);
+            return user;
+        })
+    );
+
+// Create all users
+const createUsers = (users, teams) => Promise.all(users.map(user => createUser(user, teams)));
+
+// Create one project
+const createProject = (projectData, users) =>
+    Project.create({
+        title: projectData.title,
+        body: projectData.body,
+        author: generateAuthor(users),
+    }).then(project => {
+        console.log(`Project ${project.title} created`);
+        return project;
+    });
+
+// Create projects and assign a random user as the author
+const createProjects = (projectsData, users) =>
+    Promise.all(projectsData.map(projectData => createProject(projectData, users)));
+
+// Create one sprint
+// Assign to a random user
+// Create all posts associated with the sprint
+const createSprint = (sprintData, projects, users) =>
+    Sprint.create({
+        number: sprintData.number,
+        dateFrom: sprintData.dateFrom,
+        dateTo: sprintData.dateTo,
+        title: sprintData.title,
+        body: sprintData.body,
+        author: generateAuthor(users),
+    }).then(sprint =>
+        createPosts(sprint, sprintData.posts, projects, users).then(posts =>
+            sprint.save().then(sprint => {
+                console.log(`Sprint ${sprint.number} and related posts created`);
+                return sprint;
+            })
+        )
+    );
+
+// Create all sprints with their associated posts
+const createSprints = (sprintsData, projects, users) =>
+    Promise.all(sprintsData.map(sprintData => createSprint(sprintData, projects, users)));
+
+// Create one post
+// Assign to a random user (author)
+// Assign to a random project
+// Add its ID to sprint.posts array
+const createPost = (sprint, postData, projects, users) => {
+    Post.create({
+        postedToObject: {
+            model: 'Sprint',
+            id: sprint._id,
+        },
+        project: generateObject(projects)._id,
+        title: postData.title,
+        body: postData.body,
+        author: generateAuthor(users),
+    }).then(post => {
+        sprint.posts.push(post._id); // The same is required for project and is handled in the last step of the main promise chain
+        console.log(`Post ${post.title} created`);
+        return post;
     });
 };
 
-// Remove data from all schemas
-const removeData = () => {
-    Sprint.deleteMany({}, err => console.log(err ? { err: err } : 'Sprints deleted'));
-    Post.deleteMany({}, err => console.log(err ? { err: err } : 'Posts deleted'));
-    Project.deleteMany({}, err => console.log(err ? { err: err } : 'Projects deleted'));
-    User.deleteMany({}, err => console.log(err ? { err: err } : 'Users deleted'));
-    UserAuth.deleteMany({}, err => console.log(err ? { err: err } : 'UserAuths deleted'));
-};
+// Create all posts related to one sprint
+const createPosts = (sprint, postsData, projects, users) =>
+    Promise.all(postsData.map(postData => createPost(sprint, postData, projects, users)));
 
-// Create userauths and users
-const createUsers = async users => {
-    console.log('Start creating users');
-    let newUsers = [];
+// TODO: add the same for teams-users
+// Add references to post ID's in project objects.
+// Handling this in a separate method due to parallel save error: can't save() the same doc multiple times
+const updateProjectsWithPosts = () =>
+    Project.find({}).then(projects =>
+        Post.find({}).then(posts =>
+            Promise.all(
+                projects.map(project => {
+                    posts.filter(post => post.project.equals(project._id)).map(post => project.posts.push(post._id));
 
-    for (const user of users) {
-        const userAuth = await UserAuth.register(
-            new UserAuth({
-                username: user.email,
-            }),
-            user.password
-        );
-
-        // TODO: Add check if username also already exists or not
-        newUsers.push(
-            await User.create(
-                new User({
-                    userAuth: userAuth._id,
-                    username: user.username,
-                    role: user.role,
-                    team: user.team,
-                    country: user.country,
-                    joined: user.joined,
-                    left: user.left,
-                    skills: user.skills,
-                    auth: user.auth,
+                    project.save();
+                    return project;
                 })
             )
-        );
-        console.log(`User ${user.username} created`);
-    }
-
-    console.log('Finished creating users');
-    return newUsers;
-};
-
-// Create projects and assign a random user as the author
-const createProjects = async (projects, users) => {
-    console.log('Start creating projects');
-    let newProjects = [];
-
-    for (const project of projects) {
-        let author = generateAuthor(users);
-
-        newProjects.push(
-            await Project.create({
-                title: project.title,
-                body: project.body,
-                author: author,
-            })
-        );
-        console.log(`Project ${project.title} created`);
-    }
-
-    console.log('Finished creating projects');
-    return newProjects;
-};
-
-// Create new data for sprints and posts and assign random user to each single sprint and post
-// Assign random project to each post
-const createSprintsPosts = async (sprints, users, projects) => {
-    console.log('Start creating sprints');
-    let newSprints = [];
-
-    for (const sprint of sprints) {
-        let author = generateAuthor(users);
-
-        const newSprint = await Sprint.create({
-            number: sprint.number,
-            dateFrom: sprint.dateFrom,
-            dateTo: sprint.dateTo,
-            title: sprint.title,
-            body: sprint.body,
-            author: author,
-        });
-
-        newSprints.push(newSprint);
-        createPosts(newSprint, sprint.posts, projects, users);
-    }
-
-    console.log('Finished creating sprints');
-    return newSprints;
-};
-
-// Assign random user (as author) and random project to each post
-const createPosts = async (sprint, posts, projects, users) => {
-    console.log(`Start creating posts in sprint ${sprint.number}`);
-
-    for (const post of posts) {
-        let author = generateAuthor(users);
-
-        await Post.create({
-            postedToObject: {
-                model: 'Sprint',
-                id: sprint._id,
-            },
-            project: generateProjectId(projects),
-            title: post.title,
-            body: post.body,
-            author: author,
-        })
-            .then(post => {
-                sprint.posts.push(post._id);
-            })
-            .catch(err => console.log({ type: 'Error creating new post.', error: err }));
-    }
-
-    sprint.save().then(() => console.log(`Sprint ${sprint.number} and related posts are created successfully.`));
-};
+        )
+    );
 
 const generateAuthor = users => {
     let user = users[Math.floor(Math.random() * users.length)];
@@ -147,10 +161,9 @@ const generateAuthor = users => {
     return author;
 };
 
-const generateProjectId = projects => {
-    let project = projects[Math.floor(Math.random() * projects.length)];
-
-    return project._id;
+const generateObject = objects => {
+    let object = objects[Math.floor(Math.random() * objects.length)];
+    return object;
 };
 
 module.exports = seedDB;

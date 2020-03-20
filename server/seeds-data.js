@@ -1,6 +1,8 @@
 // Below file is in .gitignore, generate your own file with content: 'module.exports = <password>'
 const password = require('./seeds-data-password');
 
+// TODO: automate generation
+
 module.exports = {
     teams: [
         {
@@ -311,7 +313,7 @@ module.exports = {
             number: 6,
             dateFrom: new Date('2019-09-01'),
             dateTo: new Date('2019-09-30'),
-            title: 'Double BOON',
+            title: 'Gravity',
             body:
                 "Descended from astronomers billions upon billions gathered by gravity great turbulent clouds vel illum qui dolorem eum fugiat quo voluptas nulla pariatur cosmos. Dream of the mind's eye vanquish the impossible bits of moving fluff muse about shores of the cosmic ocean permanence of the stars. Inconspicuous motes of rock and gas are creatures of the cosmos are creatures of the cosmos shores of the cosmic ocean qui dolorem ipsum quia dolor sit amet vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.",
             posts: [
