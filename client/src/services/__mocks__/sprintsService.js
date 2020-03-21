@@ -1,12 +1,7 @@
-export let resolveGetAll, rejectGetAll;
-
-// TODO - extract to a reusable testing/ module
-// TODO - consider using the real implementation and mocking axios instead
-const getAllPromiseHandle = new Promise((resolve, reject) => {
-    resolveGetAll = resolve;
-    rejectGetAll = reject;
-});
-
+// TODO: extract services to a single, common class allowing generating mocks.
+// Generate mocks backed by a mutable, exported `state` variable.
 export default {
-    getAll: () => getAllPromiseHandle,
+    getAll: jest.fn(),
+    add: jest.fn(),
+    delete: jest.fn(),
 };
