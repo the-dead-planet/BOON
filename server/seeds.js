@@ -9,7 +9,7 @@ var User = require('./models/User');
 var Team = require('./models/Team');
 const data = require('./seeds-data');
 
-const schemas = [Sprint, Post, Project, User, UserAuth];
+const schemas = [Sprint, Post, Project, Team, User, UserAuth];
 
 // TODO: add generate teams
 const seedDB = () =>
@@ -19,7 +19,13 @@ const seedDB = () =>
         .then(users =>
             createProjects(data.projects, users).then(projects => createSprints(data.sprints, projects, users))
         )
-        .then(sprints => updateProjectsWithPosts());
+        .then(sprints =>
+            [
+                { parentObject: Sprint, childObject: Post, parentPropName: 'posts', childPropName: 'sprint' },
+                { parentObject: Project, childObject: Post, parentPropName: 'posts', childPropName: 'project' },
+                { parentObject: Team, childObject: User, parentPropName: 'users', childPropName: 'team' },
+            ].map(obj => updateIdReferences(obj.parentObject, obj.childObject, obj.parentPropName, obj.childPropName))
+        );
 
 // Remove data from all schemas
 const removeData = () =>
@@ -52,9 +58,8 @@ const createUser = (user, teams) =>
             new User({
                 userAuth: userAuth._id,
                 username: user.username,
-                // team: ,  // TODO: change model to reference ID and figure this out
                 role: user.role,
-                team: user.team,
+                team: generateObject(teams)._id,
                 country: user.country,
                 joined: user.joined,
                 left: user.left,
@@ -115,16 +120,12 @@ const createSprints = (sprintsData, projects, users) =>
 // Add its ID to sprint.posts array
 const createPost = (sprint, postData, projects, users) => {
     Post.create({
-        postedToObject: {
-            model: 'Sprint',
-            id: sprint._id,
-        },
+        sprint: sprint._id,
         project: generateObject(projects)._id,
         title: postData.title,
         body: postData.body,
         author: generateAuthor(users),
     }).then(post => {
-        sprint.posts.push(post._id); // The same is required for project and is handled in the last step of the main promise chain
         console.log(`Post ${post.title} created`);
         return post;
     });
@@ -137,19 +138,22 @@ const createPosts = (sprint, postsData, projects, users) =>
 // TODO: add the same for teams-users
 // Add references to post ID's in project objects.
 // Handling this in a separate method due to parallel save error: can't save() the same doc multiple times
-const updateProjectsWithPosts = () =>
-    Project.find({}).then(projects =>
-        Post.find({}).then(posts =>
+const updateIdReferences = (parentObject, childObject, parentPropName, childPropName) => {
+    return parentObject.find({}).then(parents =>
+        childObject.find({}).then(children =>
             Promise.all(
-                projects.map(project => {
-                    posts.filter(post => post.project.equals(project._id)).map(post => project.posts.push(post._id));
+                parents.map(parent => {
+                    children
+                        .filter(child => child[childPropName].equals(parent._id))
+                        .map(child => parent[parentPropName].push(child._id));
 
-                    project.save();
-                    return project;
+                    parent.save();
+                    return parent;
                 })
             )
         )
     );
+};
 
 const generateAuthor = users => {
     let user = users[Math.floor(Math.random() * users.length)];

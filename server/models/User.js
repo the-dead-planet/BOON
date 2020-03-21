@@ -6,7 +6,10 @@ var userSchema = new mongoose.Schema({
         ref: 'UserAuth',
     },
     username: String,
-    team: String,
+    team: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Team',
+    },
     role: String,
     country: String,
     skills: [String],

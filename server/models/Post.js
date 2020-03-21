@@ -1,10 +1,9 @@
 var mongoose = require('mongoose');
 
 var postSchema = new mongoose.Schema({
-    // TODO: consider dropping this field; according to the implementation, Posts can be added to Sprints only
-    postedToObject: {
-        model: String,
-        id: String,
+    sprint: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Sprint',
     },
     project: {
         type: mongoose.Schema.Types.ObjectId,

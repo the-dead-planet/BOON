@@ -2,7 +2,6 @@
 const password = require('./seeds-data-password');
 
 // TODO: automate generation
-
 module.exports = {
     teams: [
         {

@@ -6,7 +6,7 @@ var TeamSchema = new mongoose.Schema({
     users: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Post',
+            ref: 'User',
         },
     ],
     created: {
