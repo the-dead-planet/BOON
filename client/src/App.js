@@ -40,9 +40,10 @@ class App extends Component {
         // Pack props into an object to reduce boilerplate code.
         const notificationsProps = {
             addNotification: updateState(State.addNotification),
-            onNotificationShown: setTimeout(() => {
-                updateState(State.popNotification);
-            }),
+            onNotificationShown: (...args) =>
+                setTimeout(() => {
+                    updateState(State.popNotification)(...args);
+                }, 5000),
             notifications,
         };
 
