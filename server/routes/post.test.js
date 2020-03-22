@@ -53,10 +53,6 @@ describe('post', () => {
             await expect(Post.find({})).resolves.toEqual(
                 expect.arrayContaining([
                     expect.objectContaining({
-                        postedToObject: expect.objectContaining({
-                            model: 'Sprint',
-                            id: sprint._id.toString(),
-                        }),
                         title: 'title',
                         body: 'body',
                         author: expect.objectContaining({
