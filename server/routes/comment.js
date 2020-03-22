@@ -11,6 +11,7 @@ module.exports = app => {
     // INDEX - get all
     app.get('/api/comments', async (req, res) => {
         Comment.find({})
+            .populate('author likes')
             .then(comments => res.status(200).send(comments))
             .catch(err => res.status(500).send({ err }));
     });
@@ -18,6 +19,7 @@ module.exports = app => {
     // INDEX - get one
     app.get(`/api/posts/:id`, async (req, res) => {
         Comment.findById(req.params.id)
+            .populate('author likes')
             .then(comment => res.status(200).send(comment))
             .catch(err => res.status(500).send({ err }));
     });

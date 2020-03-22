@@ -13,12 +13,14 @@ const seedDB = () =>
     removeData([Sprint, Post, Project, Team, Comment, Like, User, UserAuth])
         .then(res => createTeams(data.teams))
         .then(teams => createUsers(data.users, teams))
-        .then(users =>
-            createProjects(data.projects, users)
-                .then(() => createSprints(data.sprints, users))
-                .then(() => createPosts(data.posts, users))
-                .then(() => createComments(data.comments, users, [Sprint, Post]))
-                .then(() => createLikes(data.likes, users, [Sprint, Post]))
+        .then(
+            users =>
+                createProjects(data.projects, users)
+                    .then(() => createSprints(data.sprints, users))
+                    .then(() => createPosts(data.posts, users))
+                    .then(() => createComments(data.comments, users, [Sprint, Post]))
+                    .then(() => Comment.find({}).then(data => console.log(data))) // TODO: why is this returning empty???
+                    .then(() => createLikes(data.likes, users, [Sprint, Post, Comment])) // Comments are not populated with likes :(
         )
         .then(() => addIdReferences(Team, User, 'users'))
         .then(() => addIdReferences(Sprint, Post, 'posts'))
@@ -126,15 +128,19 @@ const createComment = (datum, users) =>
 // One user can add multiple comments to multiple or the same object
 const createComments = (data, users, models) =>
     models.map(model =>
-        model.find({}).then(objects =>
-            objects.map(object => {
-                Array.from({ length: random(10) }, () => 1).map(() =>
-                    object.comments.push(createComment(data[random(data.length)], users)._id)
-                );
-
-                return object.save();
-            })
-        )
+        model
+            .find({})
+            .then(objects =>
+                objects.map(object =>
+                    Promise.all(
+                        Array.from({ length: random(10) }, () => 1).map(() =>
+                            createComment(data[random(data.length)], users).then(comment =>
+                                object.comments.push(comment._id)
+                            )
+                        )
+                    ).then(() => object.save())
+                )
+            )
     );
 
 // Create Likes
@@ -150,16 +156,16 @@ const createLike = (datum, user) =>
 const createLikes = (data, users, models) =>
     models.map(model =>
         model.find({}).then(objects =>
-            objects.map(object => {
-                users
-                    .filter((user, i) => i % random(users.length) === 0)
-                    .map(user => {
-                        // console.log("Creating like in model", model, "for object", object.title)
-                        return object.likes.push(createLike(data[random(data.length)], user)._id);
-                    });
-
-                return object.save();
-            })
+            objects.map(object =>
+                Promise.all(
+                    users
+                        .filter((user, i) => i % random(users.length) === 0)
+                        .map(user =>
+                            // console.log("Creating like in model", model, "for object", object.title)
+                            createLike(data[random(data.length)], user).then(like => object.likes.push(like._id))
+                        )
+                ).then(() => object.save())
+            )
         )
     );
 

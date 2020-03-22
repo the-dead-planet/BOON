@@ -16,7 +16,7 @@ module.exports = app => {
             .populate({
                 path: 'author posts comments likes',
                 populate: {
-                    path: 'comments',
+                    path: 'comments likes',
                 },
             })
             .exec()
@@ -30,7 +30,7 @@ module.exports = app => {
             .populate({
                 path: 'author posts comments likes',
                 populate: {
-                    path: 'comments',
+                    path: 'comments likes',
                 },
             })
             .exec()
