@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 import App from '../App';
-import authService, { resolveWhoAmi } from '../services/authService';
-import MockSprintsService from '../services/sprintsService';
+import authService from '../services/authService';
+import sprintsService from '../services/sprintsService';
 
 jest.mock('../services/authService');
 jest.mock('../services/sprintsService');
@@ -11,34 +11,34 @@ jest.setTimeout(10000);
 
 describe('app', () => {
     test('Allows Sprint CRUD', async () => {
-        const { container, getByLabelText, getByRole, findByText, findAllByText } = render(<App />);
-
-        resolveWhoAmi({ user: { username: 'username', _id: 'userId' } });
+        authService.whoami.mockResolvedValue({ user: { username: 'username', _id: 'userId' } });
 
         // Initial sprints state - empty.
-        MockSprintsService.getAll.mockResolvedValue([]);
+        sprintsService.getAll.mockResolvedValue([]);
 
-        MockSprintsService.add.mockImplementation(instance => {
+        sprintsService.add.mockImplementation(instance => {
             // Upon calling `add`, the service will add the freshly added instance to its list.
-            MockSprintsService.getAll.mockResolvedValue([
+            sprintsService.getAll.mockResolvedValue([
                 { ...instance, _id: 'abcd', likes: [], comments: [], author: { id: 'userId' } },
             ]);
 
             return Promise.resolve();
         });
 
-        MockSprintsService.delete.mockImplementation(instance => {
+        sprintsService.delete.mockImplementation(instance => {
             // Upon calling `delete`, the service will remove the instance from the list.
-            MockSprintsService.getAll.mockResolvedValue([]);
+            sprintsService.getAll.mockResolvedValue([]);
 
             return Promise.resolve();
         });
+
+        const { container, getByLabelText, getByRole, findByText, findAllByText } = render(<App />);
 
         // Landing page.
         await act(async () => fireEvent.click(await findByText(/enter the boon/i)));
 
         // Sprints list. Initially empty.
-        expect(MockSprintsService.getAll).toHaveBeenCalled();
+        expect(sprintsService.getAll).toHaveBeenCalled();
 
         await act(async () => fireEvent.click(await findByText(/ADD SPRINT/i)));
 
@@ -57,16 +57,16 @@ describe('app', () => {
 
         await act(async () => fireEvent.submit(await findByText(/submit/i)));
 
-        expect(MockSprintsService.add).toHaveBeenCalled();
+        expect(sprintsService.add).toHaveBeenCalled();
 
         // Sprints list. Contains the freshly added instance.
-        expect(MockSprintsService.getAll).toHaveBeenCalled();
+        expect(sprintsService.getAll).toHaveBeenCalled();
 
         await act(async () => fireEvent.click(await findByText(/Some Title/i)));
         await act(async () => fireEvent.click(await getByLabelText(/more/i)));
         await act(async () => fireEvent.click(await findByText(/Delete/i)));
 
-        expect(MockSprintsService.delete).toHaveBeenCalled();
+        expect(sprintsService.delete).toHaveBeenCalled();
         // TODO - change the app's behaviour and refresh the displayed list after deletion.
         // Once done, update the test.
     });

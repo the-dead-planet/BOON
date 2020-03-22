@@ -12,6 +12,7 @@ const UserAuth = mongoose.model('UserAuth');
 const User = mongoose.model('User');
 const Comment = mongoose.model('Comment');
 const Sprint = mongoose.model('Sprint');
+const Team = mongoose.model('Team');
 
 withFreshDbConnection();
 
@@ -21,9 +22,10 @@ describe('user', () => {
 
     describe('get', () => {
         test('list of users', async () => {
+            const team = await Team.create({});
             const [userA, userB] = await createUsers([
-                { email: 'emailA', password: 'passwordA', team: 'teamA' },
-                { email: 'emailB', password: 'passwordB', team: 'teamB' },
+                { email: 'emailA', password: 'passwordA', team: team._id },
+                { email: 'emailB', password: 'passwordB', team: team._id },
             ]);
             return agent.get('/api/users').then(resp => {
                 expect(resp.statusCode).toBe(200);
@@ -35,22 +37,24 @@ describe('user', () => {
 
     describe('update', () => {
         test('self', async () => {
+            const team = await Team.create({});
             const [actingUser, otherUser] = await createUsers([
-                { email: 'emailA', password: 'passwordA', team: 'teamA' },
-                { email: 'emailB', password: 'passwordB', team: 'teamB' },
+                { email: 'emailA', password: 'passwordA', team: team._id },
+                { email: 'emailB', password: 'passwordB', team: team._id },
             ]);
 
             await loginAs('emailA', 'passwordA');
 
+            const newTeam = await Team.create({});
             await agent
                 .put(`/api/users/${actingUser._id}`)
-                .send({ team: 'teamC' })
+                .send({ team: newTeam._id })
                 .then(resp => {
                     expect(resp.statusCode).toBe(200);
                 });
 
             // Fetch the user from DB, see if it got updated.
-            await expect(User.findById(actingUser._id)).resolves.toMatchObject({ team: 'teamC' });
+            await expect(User.findById(actingUser._id)).resolves.toMatchObject({ team: newTeam._id });
         });
     });
 });

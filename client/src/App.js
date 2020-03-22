@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import * as State from './State';
 import Landing from './pages/Landing';
 import Sprints from './pages/Sprints';
 import Login from './pages/Login';
@@ -16,41 +17,33 @@ import authService from './services/authService';
 class App extends Component {
     constructor(props) {
         super(props);
-        // TODO - extract state to a standalone module, expose state
-        // update functions and the default constructor
-        this.state = {
-            whoamiRequestDone: false,
-            user: null,
-            notifications: [],
-        };
+        this.state = State.INITIAL_STATE;
     }
-
-    addNotification = notification => {
-        this.setState({ notifications: this.state.notifications.concat([notification]) });
-    };
-
-    popNotification = notificationId => {
-        // Pop the notification after 5000ms. Do not pop it immediately, as it
-        // cause a re-render, hiding the notification.
-        setTimeout(() => {
-            this.setState({ notifications: this.state.notifications.filter(n => n.id !== notificationId) });
-        }, 5000);
-    };
 
     // TODO: Change to pass value of model User, not UserAuth
     componentDidMount() {
         authService.whoami().then(({ user }) => {
-            this.setState({ user, whoamiRequestDone: true });
+            this.setState(State.resolveWhoAmI(this.state)(user));
         });
     }
 
     render() {
         const { whoamiRequestDone, user, notifications } = this.state;
 
+        // Each function in the `State` module should be wrapped in `setState`
+        // and passed `state` as the first argument.
+        // Build a HOF performing these 2 steps to reduce boilerplate.
+        // The resulting function will forward all arguments to `stateUpdater` and
+        // invoke `setState` with the result.
+        const updateState = stateUpdater => (...args) => this.setState(stateUpdater(this.state)(...args));
+
         // Pack props into an object to reduce boilerplate code.
         const notificationsProps = {
-            addNotification: this.addNotification,
-            onNotificationShown: this.popNotification,
+            addNotification: updateState(State.addNotification),
+            onNotificationShown: (...args) =>
+                setTimeout(() => {
+                    updateState(State.popNotification)(...args);
+                }, 5000),
             notifications,
         };
 
@@ -68,21 +61,21 @@ class App extends Component {
                         */}
                         <Route path="/login">
                             <Login
-                                onLoginSuccess={user => this.setState({ user })}
+                                onLoginSuccess={updateState(State.setUser)}
                                 notificationsProps={notificationsProps}
                             />
                         </Route>
                         <Route path="/register">
                             <Register
                                 user={user}
-                                onSuccess={user => this.setState({ user })}
+                                onSuccess={updateState(State.setUser)}
                                 notificationsProps={notificationsProps}
                             />
                         </Route>
                         <Route path="/logout">
                             <Logout
                                 user={user}
-                                onSuccess={() => this.setState({ user: null })}
+                                onSuccess={updateState(State.clearUser)}
                                 notificationsProps={notificationsProps}
                             />
                         </Route>

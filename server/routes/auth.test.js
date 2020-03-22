@@ -11,6 +11,7 @@ const { loginAgentAs } = require('../testing/auth');
 const { createUser } = require('../testing/factories/user');
 
 const UserAuth = mongoose.model('UserAuth');
+const Team = mongoose.model('Team');
 
 withFreshDbConnection();
 
@@ -56,13 +57,15 @@ describe('app', () => {
     });
 
     describe('register', () => {
-        test('creates a new user object', () => {
+        test('creates a new user object', async () => {
+            const team = await Team.create({});
             const username = 'username';
+
             return agent
                 .post('/api/auth/register')
                 .send(`email=some@email.com`)
                 .send(`password=password`)
-                .send(`team=team`)
+                .send(`team=${team._id}`)
                 .send(`username=${username}`)
                 .then(resp => {
                     expect(resp).toMatchObject({
