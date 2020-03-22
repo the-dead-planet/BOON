@@ -5,6 +5,21 @@
 // - binding with `this.state`
 // - forwarding the result to `setState`
 export const INITIAL_STATE = {
+    // Client-side reflection of the backend state. Contains a subset of data
+    // stored by the backend.
+    // Field below should follow schema defined by the backend.
+    // Data fetched with `GET` requests should end up here.
+    // Each field is indexed by the objects' `id` field.
+    data: {
+        projects: {},
+        sprints: {},
+        comments: {},
+        teams: {},
+        users: {},
+        likes: {},
+    },
+
+    // Client specific state.
     whoamiRequestDone: false,
     user: null,
     notifications: [],
