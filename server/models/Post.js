@@ -1,14 +1,6 @@
 var mongoose = require('mongoose');
 
 var postSchema = new mongoose.Schema({
-    sprint: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Sprint',
-    },
-    project: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Project',
-    },
     title: String,
     body: String,
     comments: [
@@ -24,12 +16,8 @@ var postSchema = new mongoose.Schema({
         },
     ],
     author: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-        },
-        // TODO: do not store the username here; store `User.id` only
-        username: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
     },
     created: {
         type: Date,

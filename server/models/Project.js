@@ -10,11 +10,8 @@ var projectSchema = new mongoose.Schema({
         },
     ],
     author: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-        },
-        username: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
     },
     created: {
         type: Date,

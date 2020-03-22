@@ -1,173 +1,190 @@
 var mongodb = require('mongodb');
-var mongoose = require('mongoose');
-var ObjectId = mongodb.ObjectID;
 var Sprint = require('./models/Sprint');
 var Post = require('./models/Post');
 var Project = require('./models/Project');
 var UserAuth = require('./models/UserAuth');
 var User = require('./models/User');
 var Team = require('./models/Team');
+var Comment = require('./models/Comment');
+var Like = require('./models/Like');
 const data = require('./seeds-data');
 
-const schemas = [Sprint, Post, Project, Team, User, UserAuth];
-
-// TODO: add generate teams
 const seedDB = () =>
-    removeData()
+    removeData([Sprint, Post, Project, Team, Comment, Like, User, UserAuth])
         .then(res => createTeams(data.teams))
         .then(teams => createUsers(data.users, teams))
         .then(users =>
-            createProjects(data.projects, users).then(projects => createSprints(data.sprints, projects, users))
+            createProjects(data.projects, users)
+                .then(() => createSprints(data.sprints, users))
+                .then(() => createPosts(data.posts, users))
+                .then(() => createComments(data.comments, users, [Sprint, Post]))
+                .then(() => createLikes(data.likes, users, [Sprint, Post]))
         )
-        .then(sprints =>
-            [
-                { parentObject: Sprint, childObject: Post, parentPropName: 'posts', childPropName: 'sprint' },
-                { parentObject: Project, childObject: Post, parentPropName: 'posts', childPropName: 'project' },
-                { parentObject: Team, childObject: User, parentPropName: 'users', childPropName: 'team' },
-            ].map(obj => updateIdReferences(obj.parentObject, obj.childObject, obj.parentPropName, obj.childPropName))
-        );
+        .then(() => addIdReferences(Team, User, 'users'))
+        .then(() => addIdReferences(Sprint, Post, 'posts'))
+        .then(() => addIdReferences(Project, Post, 'posts'))
+        .then(() => console.log('Finished creating data'));
 
-// Remove data from all schemas
-const removeData = () =>
+// Remove data from all models
+const removeData = models =>
     Promise.all(
-        schemas.map(schema =>
-            schema
+        models.map(model =>
+            model
                 .deleteMany({})
                 .then(res => console.log(res))
                 .catch(err => console.log(err))
         )
     );
 
+// Create object based on seed data
+const createObject = (model, data) =>
+    model.create(data).then(object => {
+        // console.log(model, "created");
+        return object;
+    });
+
+// Generic function to create all objects in one schema as promise.all
+const createObjects = (create, data, ...args) => Promise.all(data.map(datum => create(datum, ...args)));
+
 // Create one team
-const createTeam = teamData =>
-    Team.create({
-        title: teamData.title,
-        body: teamData.body,
-    }).then(team => {
-        console.log(`Team ${team.title} created`);
-        return team;
+const createTeam = datum =>
+    createObject(Team, {
+        title: datum.title,
+        body: datum.body,
     });
 
 // Create all teams
-const createTeams = teamsData => Promise.all(teamsData.map(teamData => createTeam(teamData)));
+const createTeams = data => createObjects(createTeam, data);
 
 // Create one user
-const createUser = (user, teams) =>
-    UserAuth.register(new UserAuth({ username: user.email }), user.password).then(userAuth =>
-        User.create(
-            new User({
-                userAuth: userAuth._id,
-                username: user.username,
-                role: user.role,
-                team: generateObject(teams)._id,
-                country: user.country,
-                joined: user.joined,
-                left: user.left,
-                skills: user.skills,
-                auth: user.auth,
-            })
-        ).then(user => {
-            console.log(`User ${user.username} created`);
-            return user;
+const createUser = datum =>
+    UserAuth.register(new UserAuth({ username: datum.email }), datum.password).then(userAuth =>
+        createObject(User, {
+            userAuth: userAuth._id,
+            username: datum.username,
+            role: datum.role,
+            country: datum.country,
+            joined: datum.joined,
+            left: datum.left,
+            skills: datum.skills,
+            auth: datum.auth,
         })
     );
 
 // Create all users
-const createUsers = (users, teams) => Promise.all(users.map(user => createUser(user, teams)));
+const createUsers = data => createObjects(createUser, data);
 
 // Create one project
-const createProject = (projectData, users) =>
-    Project.create({
-        title: projectData.title,
-        body: projectData.body,
-        author: generateAuthor(users),
-    }).then(project => {
-        console.log(`Project ${project.title} created`);
-        return project;
+const createProject = (datum, users) =>
+    createObject(Project, {
+        title: datum.title,
+        body: datum.body,
+        author: generateRandom(users)._id,
     });
 
 // Create projects and assign a random user as the author
-const createProjects = (projectsData, users) =>
-    Promise.all(projectsData.map(projectData => createProject(projectData, users)));
+const createProjects = (data, users) => createObjects(createProject, data, users);
 
 // Create one sprint
 // Assign to a random user
 // Create all posts associated with the sprint
-const createSprint = (sprintData, projects, users) =>
-    Sprint.create({
-        number: sprintData.number,
-        dateFrom: sprintData.dateFrom,
-        dateTo: sprintData.dateTo,
-        title: sprintData.title,
-        body: sprintData.body,
-        author: generateAuthor(users),
-    }).then(sprint =>
-        createPosts(sprint, sprintData.posts, projects, users).then(posts =>
-            sprint.save().then(sprint => {
-                console.log(`Sprint ${sprint.number} and related posts created`);
-                return sprint;
-            })
-        )
-    );
+const createSprint = (datum, users) =>
+    createObject(Sprint, {
+        number: datum.number,
+        dateFrom: datum.dateFrom,
+        dateTo: datum.dateTo,
+        title: datum.title,
+        body: datum.body,
+        author: generateRandom(users)._id,
+    });
 
 // Create all sprints with their associated posts
-const createSprints = (sprintsData, projects, users) =>
-    Promise.all(sprintsData.map(sprintData => createSprint(sprintData, projects, users)));
+const createSprints = (data, users) => createObjects(createSprint, data, users);
 
 // Create one post
 // Assign to a random user (author)
 // Assign to a random project
 // Add its ID to sprint.posts array
-const createPost = (sprint, postData, projects, users) => {
-    Post.create({
-        sprint: sprint._id,
-        project: generateObject(projects)._id,
-        title: postData.title,
-        body: postData.body,
-        author: generateAuthor(users),
-    }).then(post => {
-        console.log(`Post ${post.title} created`);
-        return post;
+const createPost = (datum, users) =>
+    createObject(Post, {
+        title: datum.title,
+        body: datum.body,
+        author: generateRandom(users)._id,
     });
-};
 
 // Create all posts related to one sprint
-const createPosts = (sprint, postsData, projects, users) =>
-    Promise.all(postsData.map(postData => createPost(sprint, postData, projects, users)));
+const createPosts = (data, users) => createObjects(createPost, data, users);
 
-// TODO: add the same for teams-users
-// Add references to post ID's in project objects.
-// Handling this in a separate method due to parallel save error: can't save() the same doc multiple times
-const updateIdReferences = (parentObject, childObject, parentPropName, childPropName) => {
-    return parentObject.find({}).then(parents =>
-        childObject.find({}).then(children =>
-            Promise.all(
-                parents.map(parent => {
-                    children
-                        .filter(child => child[childPropName].equals(parent._id))
-                        .map(child => parent[parentPropName].push(child._id));
+// Create Comments
+const createComment = (datum, users) =>
+    createObject(Comment, {
+        body: datum.body,
+        author: generateRandom(users)._id,
+    });
 
-                    parent.save();
-                    return parent;
-                })
-            )
+// Create comments and randomly add to sprints and posts .comments array
+// One user can add multiple comments to multiple or the same object
+const createComments = (data, users, models) =>
+    models.map(model =>
+        model.find({}).then(objects =>
+            objects.map(object => {
+                Array.from({ length: random(10) }, () => 1).map(() =>
+                    object.comments.push(createComment(data[random(data.length)], users)._id)
+                );
+
+                return object.save();
+            })
         )
     );
-};
 
-const generateAuthor = users => {
-    let user = users[Math.floor(Math.random() * users.length)];
-    let author = {
-        id: user.userAuth,
-        username: user.username,
-    };
+// Create Likes
+const createLike = (datum, user) =>
+    createObject(Like, {
+        type: datum.type,
+        author: user._id,
+    });
 
-    return author;
-};
+// Create random likes and add to selected sprints and posts
+// Max. one like per user-post or user-sprint combination
+// Not all users have to give likes, not all objects need to receive likes
+const createLikes = (data, users, models) =>
+    models.map(model =>
+        model.find({}).then(objects =>
+            objects.map(object => {
+                users
+                    .filter((user, i) => i % random(users.length) === 0)
+                    .map(user => {
+                        // console.log("Creating like in model", model, "for object", object.title)
+                        return object.likes.push(createLike(data[random(data.length)], user)._id);
+                    });
 
-const generateObject = objects => {
-    let object = objects[Math.floor(Math.random() * objects.length)];
+                return object.save();
+            })
+        )
+    );
+
+// Add ID references (only) to parent objects, e.g. project.posts, sprint.posts
+// Distribute children evenly among all parent objects
+const addIdReferences = (parentModel, childModel, attrName) =>
+    parentModel.find({}).then(parents =>
+        childModel.find({}).then(children =>
+            parents.map((parent, parentInd) => {
+                children
+                    .filter((child, childInd) => parentInd === childInd % parents.length)
+                    .map(child => {
+                        // console.log(`parent `, parentModel, ` adding child`, childModel)
+                        return parent[attrName].push(child._id);
+                    });
+                return parent.save();
+            })
+        )
+    );
+
+const generateRandom = objects => {
+    let object = objects[random(objects.length)];
     return object;
 };
+
+const random = n => Math.floor(Math.random() * n);
 
 module.exports = seedDB;

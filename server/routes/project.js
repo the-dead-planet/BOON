@@ -10,7 +10,7 @@ module.exports = app => {
     // INDEX - get all
     app.get(`/api/projects`, async (req, res) => {
         Project.find({})
-            .populate('posts')
+            .populate('author posts')
             .exec()
             .then(projects => res.status(200).send(projects))
             .catch(err => res.status(500).send({ err }));
@@ -19,7 +19,7 @@ module.exports = app => {
     // INDEX - Get one
     app.get(`/api/projects/:id`, async (req, res) => {
         Project.findById(req.params.id)
-            .populate('posts')
+            .populate('author posts')
             .exec()
             .then(project => res.status(200).send(project))
             .catch(err => res.status(500).send({ err }));

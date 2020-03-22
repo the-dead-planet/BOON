@@ -2,10 +2,6 @@ var mongoose = require('mongoose');
 
 // Schema setup - later will be broken to separate files
 var commentSchema = new mongoose.Schema({
-    commentedObject: {
-        model: String,
-        id: String,
-    },
     body: String,
     likes: [
         {
@@ -14,11 +10,8 @@ var commentSchema = new mongoose.Schema({
         },
     ],
     author: {
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-        },
-        username: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
     },
     created: {
         type: Date,
