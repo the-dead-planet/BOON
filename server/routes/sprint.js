@@ -46,10 +46,7 @@ module.exports = app => {
             dateTo: req.body.dateTo,
             title: req.body.title,
             body: req.body.body,
-            author: {
-                id: req.user._id,
-                username: req.user.username,
-            },
+            author: req.user._id,
         };
 
         Sprint.create(sprint)

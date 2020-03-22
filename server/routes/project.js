@@ -35,10 +35,7 @@ module.exports = app => {
         return Project.create({
             title: title,
             body: body,
-            author: {
-                id: user._id,
-                username: user.username,
-            },
+            author: user._id,
         })
             .then(project => {
                 return res.status(201).send({

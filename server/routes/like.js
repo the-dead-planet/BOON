@@ -22,9 +22,10 @@ module.exports = app => {
             .catch(err => res.status(500).send({ err }));
     });
 
-    // POST - add like only if it wasn't already given by that user
+    // TODO: rewrite below, search 'likeable' models by given 'id' and search its likes by author id
+    // If does not exist, create new one, else null
     app.post('/api/likes', middleware.isLoggedIn, (req, res, next) => {
-        const { id, type, model } = req.body;
+        const { id, type } = req.body;
         const user = req.user;
 
         models[model]
@@ -42,15 +43,8 @@ module.exports = app => {
                     like.author.username === user.username;
                 }).length === 0
                     ? Like.create({
-                          likedObject: {
-                              model: model,
-                              id: id,
-                          },
                           type: type,
-                          author: {
-                              id: user._id,
-                              username: user.username,
-                          },
+                          author: user._id,
                       }).then(like => {
                           updatedObject.likes.push(like._id);
                           return updatedObject.save().then(() => like);

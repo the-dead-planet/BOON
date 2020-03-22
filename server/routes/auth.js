@@ -29,7 +29,6 @@ module.exports = app => {
                         userAuth: userAuth._id,
                         username: req.body.username,
                         role: req.body.role,
-                        team: req.body.team,
                         country: req.body.country,
                         joined: req.body.joined,
                         left: req.body.left,
@@ -45,6 +44,8 @@ module.exports = app => {
                 //     })
                 // )
                 // .catch(err => res.status(500).send({ err }));
+
+                // TODO: Add user ID to Team.users array
 
                 // Authenticate the user after registration.
                 req.login(userAuth, err => {

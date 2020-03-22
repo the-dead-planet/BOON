@@ -45,11 +45,6 @@ module.exports = app => {
             })
             .then(sprint =>
                 Post.create({
-                    postedToObject: {
-                        model: 'Sprint',
-                        id: sprintId,
-                    },
-                    project: project,
                     title: title,
                     body: body,
                     author: {
@@ -58,6 +53,7 @@ module.exports = app => {
                     },
                 }).then(post => {
                     sprint.posts.push(post._id);
+                    // TODO: find project by id and also project.posts.push(post._id)
                     return sprint.save().then(() => post);
                 })
             )
@@ -77,7 +73,6 @@ module.exports = app => {
     */
     app.put('/api/posts/:id', middleware.checkPostOwnership, (req, res) => {
         let post = {
-            project: req.body.project,
             title: req.body.title,
             body: req.body.body,
             edited: Date.now(),
@@ -114,6 +109,7 @@ module.exports = app => {
                         res.status(500).send({ err })
                     );
 
+                    // TODO: search all sprints and its posts by post._id
                     const updatedObject = models[post.postedToObject.model]
                         .findByIdAndUpdate(
                             post.postedToObject.id,

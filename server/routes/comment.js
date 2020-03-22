@@ -39,15 +39,8 @@ module.exports = app => {
             })
             .then(updatedObject =>
                 Comment.create({
-                    commentedObject: {
-                        model: model,
-                        id: id,
-                    },
                     body: body,
-                    author: {
-                        id: user._id,
-                        username: user.username,
-                    },
+                    author: user._id,
                 }).then(comment => {
                     updatedObject.comments.push(comment._id);
                     return updatedObject.save().then(() => comment);
@@ -100,6 +93,7 @@ module.exports = app => {
                         res.status(500).send({ err })
                     );
 
+                    // TODO: search all 'commentable' objects (Sprint, Post), maybe store in a separate file as a constant
                     const updatedObject = await models[comment.commentedObject.model]
                         .findByIdAndUpdate(
                             comment.commentedObject.id,

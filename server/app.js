@@ -18,8 +18,8 @@ seedDB = require('./seeds');
 
 var handleErrors = require('./middleware').handleErrors;
 
-// Add data to data base - comment if done once
-seedDB();
+// // Add data to data base - comment if done once
+// seedDB();
 
 // Some some random thingies
 app.use(express.static(__dirname + '/public'));
