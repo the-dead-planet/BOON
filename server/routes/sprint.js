@@ -16,7 +16,13 @@ module.exports = app => {
             .populate({
                 path: 'author posts comments likes',
                 populate: {
-                    path: 'comments likes',
+                    path: 'author comments likes',
+                    populate: {
+                        path: 'author comments likes',
+                        populate: {
+                            path: 'author',
+                        },
+                    },
                 },
             })
             .exec()
@@ -30,7 +36,13 @@ module.exports = app => {
             .populate({
                 path: 'author posts comments likes',
                 populate: {
-                    path: 'comments likes',
+                    path: 'author comments likes',
+                    populate: {
+                        path: 'author comments likes',
+                        populate: {
+                            path: 'author',
+                        },
+                    },
                 },
             })
             .exec()

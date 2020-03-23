@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var TeamSchema = new mongoose.Schema({
     title: String,
     body: String,
-    users: [
+    members: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',

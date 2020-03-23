@@ -11,6 +11,10 @@ module.exports = app => {
     // INDEX - get all
     app.get('/api/likes', async (req, res) => {
         Like.find({})
+            .populate({
+                path: 'author',
+            })
+            .exec()
             .then(likes => res.status(200).send(likes))
             .catch(err => res.status(500).send({ err }));
     });
@@ -18,6 +22,10 @@ module.exports = app => {
     // INDEX - get one
     app.get(`/api/likes/:id`, async (req, res) => {
         Like.findById(req.params.id)
+            .populate({
+                path: 'author',
+            })
+            .exec()
             .then(like => res.status(200).send(like))
             .catch(err => res.status(500).send({ err }));
     });

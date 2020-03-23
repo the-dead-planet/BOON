@@ -11,15 +11,39 @@ module.exports = app => {
     // INDEX - get all
     app.get('/api/comments', async (req, res) => {
         Comment.find({})
-            .populate('author likes')
+            .populate({
+                path: 'author comments likes',
+                populate: {
+                    path: 'author comments likes', // For now only one level of comments available, can increase to two levels in the future
+                    populate: {
+                        path: 'author likes',
+                        populate: {
+                            path: 'author',
+                        },
+                    },
+                },
+            })
+            .exec()
             .then(comments => res.status(200).send(comments))
             .catch(err => res.status(500).send({ err }));
     });
 
-    // INDEX - get one
-    app.get(`/api/posts/:id`, async (req, res) => {
+    // INDEX - Get one
+    app.get(`/api/comments/:id`, async (req, res) => {
         Comment.findById(req.params.id)
-            .populate('author likes')
+            .populate({
+                path: 'author comments likes',
+                populate: {
+                    path: 'author comments likes',
+                    populate: {
+                        path: 'author likes',
+                        populate: {
+                            path: 'author',
+                        },
+                    },
+                },
+            })
+            .exec()
             .then(comment => res.status(200).send(comment))
             .catch(err => res.status(500).send({ err }));
     });

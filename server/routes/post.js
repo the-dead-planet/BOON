@@ -10,7 +10,18 @@ module.exports = app => {
     // INDEX - get all
     app.get(`/api/posts`, async (req, res) => {
         Post.find({})
-            .populate('author comments likes')
+            .populate({
+                path: 'author comments likes',
+                populate: {
+                    path: 'author comments likes',
+                    populate: {
+                        path: 'author comments likes',
+                        populate: {
+                            path: 'author',
+                        },
+                    },
+                },
+            })
             .exec()
             .then(posts => res.status(200).send(posts))
             .catch(err => res.status(500).send({ err }));
@@ -19,7 +30,18 @@ module.exports = app => {
     // INDEX - Get one
     app.get(`/api/posts/:id`, async (req, res) => {
         Post.findById(req.params.id)
-            .populate('author comments likes')
+            .populate({
+                path: 'author comments likes',
+                populate: {
+                    path: 'author comments likes',
+                    populate: {
+                        path: 'author comments likes',
+                        populate: {
+                            path: 'author',
+                        },
+                    },
+                },
+            })
             .exec()
             .then(post => res.status(200).send(post))
             .catch(err => res.status(500).send({ err }));

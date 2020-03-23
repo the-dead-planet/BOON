@@ -18,8 +18,8 @@ seedDB = require('./seeds');
 
 var handleErrors = require('./middleware').handleErrors;
 
-// Add data to data base - comment if done once
-seedDB();
+// // Add data to data base - comment if done once
+// seedDB();
 
 // Some some random thingies
 app.use(express.static(__dirname + '/public'));
@@ -71,6 +71,7 @@ require('./routes/project')(app);
 require('./routes/post')(app);
 require('./routes/comment')(app);
 require('./routes/like')(app);
+require('./routes/team')(app);
 require('./routes/auth')(app);
 require('./routes/user')(app);
 

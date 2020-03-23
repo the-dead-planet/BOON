@@ -1,16 +1,24 @@
 const mongoose = require('mongoose');
 const middleware = require('../middleware');
 const models = require('../common/models');
-const Post = mongoose.model('Post');
 const Project = mongoose.model('Project');
-const Sprint = mongoose.model('Sprint');
-const Like = mongoose.model('Like');
 
 module.exports = app => {
     // INDEX - get all
     app.get(`/api/projects`, async (req, res) => {
         Project.find({})
-            .populate('author posts')
+            .populate({
+                path: 'author posts',
+                populate: {
+                    path: 'author comments likes',
+                    populate: {
+                        path: 'author comments likes',
+                        populate: {
+                            path: 'author',
+                        },
+                    },
+                },
+            })
             .exec()
             .then(projects => res.status(200).send(projects))
             .catch(err => res.status(500).send({ err }));
@@ -19,7 +27,18 @@ module.exports = app => {
     // INDEX - Get one
     app.get(`/api/projects/:id`, async (req, res) => {
         Project.findById(req.params.id)
-            .populate('author posts')
+            .populate({
+                path: 'author posts',
+                populate: {
+                    path: 'author comments likes',
+                    populate: {
+                        path: 'author comments likes',
+                        populate: {
+                            path: 'author',
+                        },
+                    },
+                },
+            })
             .exec()
             .then(project => res.status(200).send(project))
             .catch(err => res.status(500).send({ err }));

@@ -13,16 +13,14 @@ const seedDB = () =>
     removeData([Sprint, Post, Project, Team, Comment, Like, User, UserAuth])
         .then(res => createTeams(data.teams))
         .then(teams => createUsers(data.users, teams))
-        .then(
-            users =>
-                createProjects(data.projects, users)
-                    .then(() => createSprints(data.sprints, users))
-                    .then(() => createPosts(data.posts, users))
-                    .then(() => createComments(data.comments, users, [Sprint, Post]))
-                    .then(() => Comment.find({}).then(data => console.log(data))) // TODO: why is this returning empty???
-                    .then(() => createLikes(data.likes, users, [Sprint, Post, Comment])) // Comments are not populated with likes :(
+        .then(users =>
+            createProjects(data.projects, users)
+                .then(() => createSprints(data.sprints, users))
+                .then(() => createPosts(data.posts, users))
+                .then(() => createComments(data.comments, users, [Sprint, Post]))
+                .then(() => createLikes(data.likes, users, [Sprint, Post, Comment]))
         )
-        .then(() => addIdReferences(Team, User, 'users'))
+        .then(() => addIdReferences(Team, User, 'members'))
         .then(() => addIdReferences(Sprint, Post, 'posts'))
         .then(() => addIdReferences(Project, Post, 'posts'))
         .then(() => console.log('Finished creating data'));
@@ -127,21 +125,23 @@ const createComment = (datum, users) =>
 // Create comments and randomly add to sprints and posts .comments array
 // One user can add multiple comments to multiple or the same object
 const createComments = (data, users, models) =>
-    models.map(model =>
-        model
-            .find({})
-            .then(objects =>
-                objects.map(object =>
-                    Promise.all(
-                        Array.from({ length: random(10) }, () => 1).map(() =>
-                            createComment(data[random(data.length)], users).then(comment =>
-                                object.comments.push(comment._id)
+    Promise.all(
+        models.map(model =>
+            model
+                .find({})
+                .then(objects =>
+                    objects.map(object =>
+                        Promise.all(
+                            Array.from({ length: random(10) }, () => 1).map(() =>
+                                createComment(data[random(data.length)], users).then(comment =>
+                                    object.comments.push(comment._id)
+                                )
                             )
-                        )
-                    ).then(() => object.save())
+                        ).then(() => object.save())
+                    )
                 )
-            )
-    );
+        )
+    ).then(() => Comment.find({})); // TODO: workaround, without this likes were not populating for Comment schema
 
 // Create Likes
 const createLike = (datum, user) =>
