@@ -36,8 +36,17 @@ module.exports = app => {
         const { id, type } = req.body;
         const user = req.user;
 
+        Like.create({
+            type: type,
+            author: user._id,
+        })
+            // TODO: see note above
+            /*
         models[model]
             .findById(id)
+            .populate({
+                path: 'author',
+            })
             .exec()
             .then(updatedObject => {
                 if (!updatedObject) {
@@ -59,6 +68,7 @@ module.exports = app => {
                       })
                     : null;
             })
+            */
             .then(like => {
                 res.status(201).send({
                     error: false,
@@ -97,6 +107,8 @@ module.exports = app => {
         const { id } = req.params;
 
         Like.findByIdAndDelete(id)
+            // TODO: iterate over likeable models
+            /*
             .then(async like => {
                 if (like) {
                     const updatedObject = await models[like.likedObject.model]
@@ -122,6 +134,7 @@ module.exports = app => {
                     });
                 }
             })
+            */
             .catch(err => res.status(500).send({ err }));
     });
 };

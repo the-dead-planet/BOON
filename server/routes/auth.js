@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const middleware = require('../middleware');
 const User = mongoose.model('User');
-const UserAuth = mongoose.model('UserAuth');
 const passport = require('passport');
 
 module.exports = app => {
@@ -15,25 +14,18 @@ module.exports = app => {
         // Wrap the code with an empty promise to make the inner code `async` and handle potential errors.
         return Promise.resolve()
             .then(async () => {
-                // Create user with login credentials only
-                const userAuth = await UserAuth.register(
-                    new UserAuth({
-                        username: req.body.email,
-                    }),
-                    req.body.password
-                );
-
                 // TODO: Add check if username also already exists or not
-                const user = await User.create(
+                const user = await User.register(
                     new User({
-                        userAuth: userAuth._id,
-                        username: req.body.username,
+                        username: req.body.email,
+                        publicName: req.body.publicName,
                         role: req.body.role,
                         country: req.body.country,
                         joined: req.body.joined,
                         left: req.body.left,
                         auth: undefined,
-                    })
+                    }),
+                    req.body.password
                 );
                 // TODO: handle array of skills
                 // .then(user =>
@@ -48,7 +40,7 @@ module.exports = app => {
                 // TODO: Add user ID to Team.users array
 
                 // Authenticate the user after registration.
-                req.login(userAuth, err => {
+                req.login(user, err => {
                     if (err) {
                         throw err;
                     } else {

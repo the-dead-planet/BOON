@@ -2,7 +2,6 @@ var mongodb = require('mongodb');
 var Sprint = require('./models/Sprint');
 var Post = require('./models/Post');
 var Project = require('./models/Project');
-var UserAuth = require('./models/UserAuth');
 var User = require('./models/User');
 var Team = require('./models/Team');
 var Comment = require('./models/Comment');
@@ -10,7 +9,7 @@ var Like = require('./models/Like');
 const data = require('./seeds-data');
 
 const seedDB = () =>
-    removeData([Sprint, Post, Project, Team, Comment, Like, User, UserAuth])
+    removeData([Sprint, Post, Project, Team, Comment, Like, User])
         .then(res => createTeams(data.teams))
         .then(teams => createUsers(data.users, teams))
         .then(users =>
@@ -58,17 +57,18 @@ const createTeams = data => createObjects(createTeam, data);
 
 // Create one user
 const createUser = datum =>
-    UserAuth.register(new UserAuth({ username: datum.email }), datum.password).then(userAuth =>
-        createObject(User, {
-            userAuth: userAuth._id,
-            username: datum.username,
+    User.register(
+        new User({
+            username: datum.email,
+            publicName: datum.publicName,
             role: datum.role,
             country: datum.country,
             joined: datum.joined,
             left: datum.left,
             skills: datum.skills,
             auth: datum.auth,
-        })
+        }),
+        datum.password
     );
 
 // Create all users

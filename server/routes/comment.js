@@ -120,6 +120,9 @@ module.exports = app => {
                     );
 
                     // TODO: search all 'commentable' objects (Sprint, Post), maybe store in a separate file as a constant
+                    // NOTE: the code below won't work with the new model - `commentedObject` doesn't exist anymore.
+                    // TODO: store a list of all models with a reference to `Comment`, iterate over their tables.
+                    /*
                     const updatedObject = await models[comment.commentedObject.model]
                         .findByIdAndUpdate(
                             comment.commentedObject.id,
@@ -131,12 +134,12 @@ module.exports = app => {
                                 error: 'Not found',
                             })
                         );
+                        */
 
                     res.status(202).send({
                         error: false,
                         comment,
                         likes,
-                        updatedObject,
                     });
                 } else {
                     res.status(404).send({
@@ -144,6 +147,6 @@ module.exports = app => {
                     });
                 }
             })
-            .catch(err => res.status(500).send({ err }));
+            .catch(err => res.status(500).send({ err: err.toString() }));
     });
 };

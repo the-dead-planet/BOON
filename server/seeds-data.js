@@ -31,7 +31,7 @@ module.exports = {
     // TODO: store list of skills separately and use references to it in 'skills' attribute of user
     users: [
         {
-            username: 'admin',
+            publicName: 'admin',
             email: 'admin@admin.com',
             password: password,
             role: 'Scrum Master',
@@ -39,7 +39,7 @@ module.exports = {
             skills: ['Scrum', 'Agile', 'Business Analysis'],
         },
         {
-            username: 'cosmic_arena',
+            publicName: 'cosmic_arena',
             email: 'cosmic@arena.com',
             password: password,
             role: 'Front-end Developer',
@@ -47,7 +47,7 @@ module.exports = {
             skills: ['javaScript', 'Testing', 'Business Analysis', 'React'],
         },
         {
-            username: 'nemo',
+            publicName: 'nemo',
             email: 'nemo@nemo.com',
             password: password,
             role: 'Data Engineer',
@@ -55,7 +55,7 @@ module.exports = {
             skills: ['python', 'R', 'Statistics'],
         },
         {
-            username: 'distantEpochs',
+            publicName: 'distantEpochs',
             email: 'distant@epochs.com',
             password: password,
             role: 'Product Owner',
@@ -63,7 +63,7 @@ module.exports = {
             skills: ['Business Analysis', 'Project Management', 'Data Visualization'],
         },
         {
-            username: 'galactica',
+            publicName: 'galactica',
             email: 'galactica@galactica.com',
             password: password,
             role: 'Full Stack Developer',
@@ -71,7 +71,7 @@ module.exports = {
             skills: ['javaScript', 'Python', 'Networking', 'C++', 'Machine Learning'],
         },
         {
-            username: 'encycLopaedia',
+            publicName: 'encycLopaedia',
             email: 'encyclopaedia@encyclopaedia.com',
             password: password,
             role: 'Back-end Developer',

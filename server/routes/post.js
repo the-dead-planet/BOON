@@ -69,10 +69,7 @@ module.exports = app => {
                 Post.create({
                     title: title,
                     body: body,
-                    author: {
-                        id: user._id,
-                        username: user.username,
-                    },
+                    author: user._id,
                 }).then(post => {
                     sprint.posts.push(post._id);
                     // TODO: find project by id and also project.posts.push(post._id)

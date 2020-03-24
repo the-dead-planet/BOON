@@ -8,7 +8,6 @@ const { loginAgentAs } = require('../testing/auth');
 const { createUsers } = require('../testing/factories/user');
 const { withFreshDbConnection } = require('../testing/db');
 
-const UserAuth = mongoose.model('UserAuth');
 const User = mongoose.model('User');
 const Comment = mongoose.model('Comment');
 const Sprint = mongoose.model('Sprint');
@@ -39,8 +38,8 @@ describe('user', () => {
         test('self', async () => {
             const team = await Team.create({});
             const [actingUser, otherUser] = await createUsers([
-                { email: 'emailA', password: 'passwordA', team: team._id },
-                { email: 'emailB', password: 'passwordB', team: team._id },
+                { email: 'emailA', password: 'passwordA' },
+                { email: 'emailB', password: 'passwordB' },
             ]);
 
             await loginAs('emailA', 'passwordA');
@@ -48,13 +47,13 @@ describe('user', () => {
             const newTeam = await Team.create({});
             await agent
                 .put(`/api/users/${actingUser._id}`)
-                .send({ team: newTeam._id })
+                .send({ publicName: 'updatedPublicName' })
                 .then(resp => {
                     expect(resp.statusCode).toBe(200);
                 });
 
             // Fetch the user from DB, see if it got updated.
-            await expect(User.findById(actingUser._id)).resolves.toMatchObject({ team: newTeam._id });
+            await expect(User.findById(actingUser._id)).resolves.toMatchObject({ publicName: 'updatedPublicName' });
         });
     });
 });

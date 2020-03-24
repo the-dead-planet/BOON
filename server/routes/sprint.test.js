@@ -8,7 +8,6 @@ const { withFreshDbConnection } = require('../testing/db');
 const { loginAgentAs } = require('../testing/auth');
 const { createUser } = require('../testing/factories/user');
 
-const UserAuth = mongoose.model('UserAuth');
 const Comment = mongoose.model('Comment');
 const Sprint = mongoose.model('Sprint');
 const Project = mongoose.model('Project');
@@ -59,17 +58,14 @@ describe('sprint', () => {
                     expect.objectContaining({
                         title: 'title',
                         body: 'body',
-                        author: expect.objectContaining({
-                            id: user.userAuth._id, // TODO: use user.id instead
-                            username: 'aa@aa.aa',
-                        }),
+                        author: user._id,
                     }),
                 ])
             );
         });
 
         test('can delete owned', async () => {
-            const sprint = await Sprint.create({ title: 'title', author: { id: user.userAuth._id } });
+            const sprint = await Sprint.create({ title: 'title', author: user._id });
 
             const resp = await agent.delete(`/api/sprints/${sprint._id}`);
 
