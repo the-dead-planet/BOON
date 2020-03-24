@@ -21,7 +21,7 @@ const models = {
 };
 
 export const ObjectDeleteButton = ({ user, model, object, push, onError }) => {
-    return user && object && object.author.id === user._id ? (
+    return user && object && object.author._id === user._id ? (
         <MenuItem
             color="inherit"
             onClick={data => {
@@ -39,7 +39,7 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError }) => {
 };
 
 export const ObjectEditButton = ({ user, model, object }) => {
-    return user && object && object.author.id === user._id ? (
+    return user && object && object.author._id === user._id ? (
         <Button color="inherit" href={`${models[model].path}/${object._id}/edit`}>
             Edit
         </Button>

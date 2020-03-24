@@ -19,7 +19,7 @@ describe('app', () => {
         sprintsService.add.mockImplementation(instance => {
             // Upon calling `add`, the service will add the freshly added instance to its list.
             sprintsService.getAll.mockResolvedValue([
-                { ...instance, _id: 'abcd', likes: [], comments: [], author: { id: 'userId' } },
+                { ...instance, _id: 'abcd', likes: [], comments: [], author: { _id: 'userId' } },
             ]);
 
             return Promise.resolve();
