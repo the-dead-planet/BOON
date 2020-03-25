@@ -8,7 +8,6 @@ const { withFreshDbConnection } = require('../testing/db');
 const { loginAgentAs } = require('../testing/auth');
 const { createUser } = require('../testing/factories/user');
 
-const UserAuth = mongoose.model('UserAuth');
 const Comment = mongoose.model('Comment');
 const Sprint = mongoose.model('Sprint');
 
@@ -22,12 +21,12 @@ describe('sprint comment', () => {
     // Instances used by test cases.
     // Initially null, populated in `beforeEach`.
     let sprint = null;
-    let userAuthId = null;
+    let user = null;
 
     beforeEach(() => {
         // Register a user.
         return createUser(userCredentials).then(createdUser => {
-            userAuthId = createdUser.userAuth;
+            user = createdUser;
         });
     });
 
@@ -76,7 +75,7 @@ describe('sprint comment', () => {
                 .then(() =>
                     Comment.create({
                         body: 'comment',
-                        author: { id: userAuthId }, // TODO - use user.id instead of userauth
+                        author: user._id,
                         commentedObject: { model: 'Sprint', id: sprint._id },
                     })
                 )

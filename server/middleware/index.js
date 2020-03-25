@@ -23,18 +23,14 @@ middlewareObj.isLoggedIn = function(req, res, next) {
 
 // Checks if the requesting user is the same as the viewed user.
 middlewareObj.isUser = asyncMiddleware(async (req, res, next) => {
-    const loggedInUserAuthId = req.isAuthenticated() ? req.user.id : null;
-    if (loggedInUserAuthId === null) {
+    const loggedInUserId = req.isAuthenticated() ? req.user.id : null;
+    if (loggedInUserId === null) {
         // Unauthenticated user.
         return res.status(401).end();
     }
 
-    // The object stored under `req.user` is a `UserAuth` instance.
-    // Fetch the related `User` instance.
-    // TODO - consider storing userId in the `userAuth` model.
-    const loggedInUser = await User.findOne({ userAuth: loggedInUserAuthId });
     const viewedUserId = req.params.id;
-    if (loggedInUser._id != viewedUserId) {
+    if (loggedInUserId != viewedUserId) {
         // Different user.
         return res.status(403).end();
     }
@@ -62,7 +58,8 @@ middlewareObj.checkLikeOwnership = function(req, res, next) {
     checkOwnership(req, res, next, Like, req.params.id, 'Like', '/sprints');
 };
 
-// Generic check ownershi
+// Generic check ownership.
+// TODO: remove references to flash and redirect (we don't handle them due to a custrom frontend).
 function checkOwnership(req, res, next, Object, id, objectName, redirectPath) {
     if (req.isAuthenticated()) {
         Object.findById(id, function(err, object) {
@@ -70,7 +67,7 @@ function checkOwnership(req, res, next, Object, id, objectName, redirectPath) {
                 req.flash('error', objectName + ' not found');
                 res.redirect(redirectPath);
             } else {
-                if (object.author.id.equals(req.user._id)) {
+                if (object.author.equals(req.user._id)) {
                     req.object = object;
                     next();
                 } else {

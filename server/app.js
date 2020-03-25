@@ -12,8 +12,7 @@ var express = require('express'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     methodOverride = require('method-override'),
-    UserAuth = require('./models/UserAuth');
-User = require('./models/User');
+    User = require('./models/User');
 seedDB = require('./seeds');
 
 var handleErrors = require('./middleware').handleErrors;
@@ -49,7 +48,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 /*
     Local Strategy uses value of input field with name='email' not 'username'
-    UserAuth schema still needs to have properties named 'username' and 'password'
+    User schema still needs to have properties named 'username' and 'password'
     'username' property is filled in with e-mail value when creating object and saving to db
 */
 passport.use(
@@ -58,12 +57,12 @@ passport.use(
             usernameField: 'email',
             passwordField: 'password',
         },
-        UserAuth.authenticate()
+        User.authenticate()
     )
 );
 
-passport.serializeUser(UserAuth.serializeUser());
-passport.deserializeUser(UserAuth.deserializeUser());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // Handle API routes
 require('./routes/sprint')(app);

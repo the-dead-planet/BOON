@@ -10,7 +10,7 @@ const { withFreshDbConnection } = require('../testing/db');
 const { loginAgentAs } = require('../testing/auth');
 const { createUser } = require('../testing/factories/user');
 
-const UserAuth = mongoose.model('UserAuth');
+const User = mongoose.model('User');
 const Team = mongoose.model('Team');
 
 withFreshDbConnection();
@@ -59,23 +59,23 @@ describe('app', () => {
     describe('register', () => {
         test('creates a new user object', async () => {
             const team = await Team.create({});
-            const username = 'username';
+            const publicName = 'publicName';
 
             return agent
                 .post('/api/auth/register')
                 .send(`email=some@email.com`)
                 .send(`password=password`)
                 .send(`team=${team._id}`)
-                .send(`username=${username}`)
+                .send(`publicName=${publicName}`)
                 .then(resp => {
                     expect(resp).toMatchObject({
                         statusCode: 201,
-                        body: { user: { username } },
+                        body: { user: { publicName } },
                     });
                 })
                 .then(() => {
                     // Check if a new User object has been saved in the database.
-                    expect(User.find({ username })).resolves.toHaveLength(1);
+                    expect(User.find({ publicName })).resolves.toHaveLength(1);
                 });
         });
 
@@ -85,7 +85,7 @@ describe('app', () => {
                 .send(`email=${userCredentials.email}`)
                 .send(`password=password`)
                 .send(`team=team`)
-                .send(`username=username`)
+                .send(`publicName=publicName`)
                 .expect(500);
         });
     });
