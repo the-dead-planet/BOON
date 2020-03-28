@@ -6,18 +6,25 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Link } from 'react-router-dom';
 
+const getText = user => {
+    return {
+        login: !user ? 'Login' : `Signed in as ${user.publicName}`,
+        logout: !user ? 'Sign up' : 'Log out',
+    };
+};
+
 export const AuthButtonsHorizontal = ({ user }) => {
     const classes = useStyles();
 
     let loginButton = (
         <Button color="inherit" href={!user ? '/login' : null}>
-            {!user ? 'Login' : `Signed in as ${user.username}`}
+            {getText(user).login}
         </Button>
     );
 
     let signUpButton = (
         <Button color="inherit" href={!user ? '/register' : '/logout'}>
-            {!user ? 'Sign up' : 'Log out'}
+            {getText(user).logout}
         </Button>
     );
 
@@ -35,17 +42,14 @@ export const AuthButtonsVertical = ({ user }) => {
     let loginButton = (
         <ListItem component={Link} to={!user ? '/login' : '/'}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-            <ListItemText
-                className={classes.textColorLight}
-                primary={!user ? 'Login' : `Signed in as ${user.username}`}
-            />
+            <ListItemText className={classes.textColorLight} primary={getText(user).login} />
         </ListItem>
     );
 
     let signUpButton = (
         <ListItem component={Link} to={!user ? '/register' : '/logout'}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-            <ListItemText className={classes.textColorLight} primary={!user ? 'Sign up' : 'Log out'} />
+            <ListItemText className={classes.textColorLight} primary={getText(user).logout} />
         </ListItem>
     );
 

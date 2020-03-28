@@ -18,6 +18,16 @@ module.exports = app => {
             .catch(err => res.status(500).send({ err }));
     });
 
+    app.get(`/api/users/:id`, async (req, res) => {
+        User.findById(req.params.id)
+            .then(user => res.status(200).send(user))
+            .catch(err =>
+                res.status(404).send({
+                    error: `User ${req.params.id} not found`,
+                })
+            );
+    });
+
     // UPDATE
     app.put('/api/users/:id', middleware.isUser, async (req, res) => {
         const { id } = req.params;
@@ -29,6 +39,10 @@ module.exports = app => {
             .then(user => {
                 res.status(200).send({ error: false, user });
             })
-            .catch(err => res.status(500).send({ err }));
+            .catch(err =>
+                res.status(404).send({
+                    error: `User ${req.params.id} not found`,
+                })
+            );
     });
 };

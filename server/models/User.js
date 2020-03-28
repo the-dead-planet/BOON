@@ -6,7 +6,13 @@ const userSchema = new mongoose.Schema({
     username: String, // User's email. Passport expects the field to be named this way.
     password: String,
 
-    //
+    // Active / Inactive (deleted)
+    active: {
+        type: Boolean,
+        default: true,
+    },
+
+    // Other
     publicName: String, // Custom name displayed to other users.
     role: String,
     country: String,
