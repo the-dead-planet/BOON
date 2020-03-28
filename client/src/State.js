@@ -13,6 +13,7 @@ export const INITIAL_STATE = {
     data: {
         projects: {},
         sprints: {},
+        posts: {},
         comments: {},
         teams: {},
         users: {},
@@ -38,3 +39,5 @@ export const addNotification = state => notification => ({
 export const popNotification = state => notificationId => ({
     notifications: state.notifications.filter(n => n.id !== notificationId),
 });
+
+export const setSprints = state => sprints => ({ sprints });

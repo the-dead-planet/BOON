@@ -1,32 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useStyles } from '../styles/main';
 import sprintsService from '../services/sprintsService';
 import AppLayout from '../layouts/AppLayout';
-import { Loading } from '../components/Loading';
-import { SingleSprint } from '../components/sprint/details/SingleSprint';
-import { useParams } from 'react-router-dom';
+import SprintView from '../components/sprint/SprintView';
 import withShowError from '../components/withShowError';
 
-const Sprint = props => {
-    const { user, notificationsProps, showError } = props;
-
+const Sprint = ({ user, sprints, setSprints, notificationsProps, onError, showError }) => {
+    const classes = useStyles();
     const { id } = useParams();
 
-    const [sprint, setSprint] = useState(null);
-
-    const getSprint = async () => {
-        const sprint = await sprintsService.getOne({ objectId: id }).catch(showError);
-        setSprint(sprint);
+    const getSprints = async () => {
+        let res = await sprintsService.getAll().catch(onError);
+        setSprints(res);
     };
 
     useEffect(() => {
-        if (!sprint) {
-            getSprint();
+        if (!sprints) {
+            getSprints();
         }
     });
 
     return (
         <AppLayout user={user} {...notificationsProps}>
-            {!sprint ? <Loading /> : <SingleSprint user={user} {...sprint} />}
+            <SprintView user={user} sprints={sprints} setSprints={setSprints} onError={onError} showError={showError} />
         </AppLayout>
     );
 };

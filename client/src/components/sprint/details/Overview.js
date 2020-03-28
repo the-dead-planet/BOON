@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStyles } from '../../../styles/main';
 import { Box } from '@material-ui/core';
-import { CardInnerContent } from './post/CardInnerContent';
+import { PostCard } from './post/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import moment from 'moment';
 import { DATE_FORMAT } from '../../../utils/constants';
@@ -13,16 +13,18 @@ export const SprintOverview = ({ user, sprint, onError }) => {
     const classes = useStyles();
 
     const content = sprint ? (
-        <CardInnerContent
+        // TODO: Create a sprint card
+        <PostCard
             user={user}
             model="Sprint"
             object={sprint}
             title={`No${sprint.number} // ${sprint.title}`}
-            subtitle={`${sprint.author.username} // ${
+            subtitle={`${sprint.author.publicName} // ${
                 sprint.dateFrom ? moment(sprint.dateFrom).format(DATE_FORMAT) : null
             } - ${sprint.dateTo ? moment(sprint.dateTo).format(DATE_FORMAT) : null}`}
             // mediaTop={<CardMedia className={classes.height200} image={sprint.image} />}
             mediaTop={<CardMedia className={classes.height200} image={require('../../../img/Landing_1.png')} />}
+            menuItems={[{ name: 'Cos tu wymyslimy' }]}
         />
     ) : null;
 

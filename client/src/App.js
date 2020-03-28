@@ -86,10 +86,19 @@ class App extends Component {
                             <AddPost user={user} notificationsProps={notificationsProps} />
                         </Route>
                         <Route path="/sprints/:id">
-                            <Sprint user={user} notificationsProps={notificationsProps} />
+                            <Sprint
+                                user={user}
+                                setSprints={updateState(State.setSprints)}
+                                sprints={this.state.sprints}
+                                notificationsProps={notificationsProps}
+                            />
                         </Route>
                         <Route path="/sprints">
-                            <Sprints user={user} notificationsProps={notificationsProps} />
+                            <Sprints
+                                user={user}
+                                setSprints={updateState(State.setSprints)}
+                                notificationsProps={notificationsProps}
+                            />
                         </Route>
                         <Route path="/add_sprint">
                             <AddSprint user={user} notificationsProps={notificationsProps} />
