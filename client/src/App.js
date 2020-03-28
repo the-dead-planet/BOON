@@ -94,13 +94,15 @@ class App extends Component {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
-                            {/* <Route path="/sprints">
-                                    <Sprints
-                                        user={user}
-                                        setSprints={updateState(State.setSprints)}
-                                        notificationsProps={notificationsProps}
-                                    />
-                                </Route> */}
+                            {/* /sprints - redirect to the sprint page with  */}
+                            <Route path="/sprints">
+                                <Sprint
+                                    user={user}
+                                    setSprints={updateState(State.setSprints)}
+                                    sprints={this.state.sprints}
+                                    notificationsProps={notificationsProps}
+                                />
+                            </Route>
                             <Route path="/add_sprint">
                                 <AddSprint user={user} notificationsProps={notificationsProps} />
                             </Route>

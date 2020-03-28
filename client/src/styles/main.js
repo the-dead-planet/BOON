@@ -1,3 +1,5 @@
+//TODO: add some fancy transition when opening a new page, currently updating page feels unnatural
+
 // The purpose of this file is to integrate all styles in one place and reuse classes in various components
 import { createMuiTheme } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
@@ -37,8 +39,8 @@ export const useStyles = makeStyles(theme => ({
     // Display and size
     main: {
         backgroundColor: color3,
-        // width: '100%',
-        // height: '100%',
+        minWidth: '100%',
+        minHeight: '100%',
     },
     flexSpaceBetween: {
         display: 'flex',
@@ -123,6 +125,8 @@ export const useStyles = makeStyles(theme => ({
 
     // Misc
     loading: {
+        width: '100%',
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',

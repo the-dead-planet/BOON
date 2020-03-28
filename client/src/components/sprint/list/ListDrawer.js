@@ -19,7 +19,7 @@ const SprintListDrawer = ({ sprints, onClick }) => {
                 {[...sprints]
                     .sort((a, b) => b.number - a.number)
                     .map(sprint => (
-                        <SprintListItem key={sprint._id} onClick={() => onClick(sprint._id)} {...sprint} />
+                        <SprintListItem key={sprint._id} {...sprint} />
                     ))}
             </List>
         </Drawer>

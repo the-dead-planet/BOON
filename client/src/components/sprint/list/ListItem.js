@@ -10,7 +10,7 @@ import moment from 'moment';
 import { DATE_FORMAT } from '../../../utils/constants';
 import { Link } from 'react-router-dom';
 
-function SprintListItem({ _id, number, title, dateFrom, dateTo, body, onClick }) {
+function SprintListItem({ _id, number, title, dateFrom, dateTo, body }) {
     const classes = useStyles();
 
     let sprintDateRange = `${dateFrom ? moment(dateFrom).format(DATE_FORMAT) : null} - ${
