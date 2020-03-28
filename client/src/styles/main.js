@@ -37,8 +37,8 @@ export const useStyles = makeStyles(theme => ({
     // Display and size
     main: {
         backgroundColor: color3,
-        width: '100%',
-        height: '100%',
+        // width: '100%',
+        // height: '100%',
     },
     flexSpaceBetween: {
         display: 'flex',

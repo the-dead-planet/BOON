@@ -7,20 +7,6 @@ import SprintView from '../components/sprint/SprintView';
 import withShowError from '../components/withShowError';
 
 const Sprint = ({ user, sprints, setSprints, notificationsProps, onError, showError }) => {
-    const classes = useStyles();
-    const { id } = useParams();
-
-    const getSprints = async () => {
-        let res = await sprintsService.getAll().catch(onError);
-        setSprints(res);
-    };
-
-    useEffect(() => {
-        if (!sprints) {
-            getSprints();
-        }
-    });
-
     return (
         <AppLayout user={user} {...notificationsProps}>
             <SprintView user={user} sprints={sprints} setSprints={setSprints} onError={onError} showError={showError} />
