@@ -13,6 +13,8 @@ const color1 = '#1A1A1D'; // black
 const color2 = '#950740'; // dark purple
 const color3 = '#F0F0F0'; // light grey
 const color4 = '#6e6e6e'; // lighter black
+const colorHoverLighter = 'rgba(255, 255, 255, 0.075)';
+const colorHoverDarker = 'rgba(0, 0, 0, 0.075)';
 
 // Overwrite colors with custom color palette
 export const theme = createMuiTheme({
@@ -74,6 +76,12 @@ export const useStyles = makeStyles(theme => ({
     bgLight: {
         backgroundColor: color3,
     },
+    bgHoverDarker: {
+        backgroundColor: colorHoverDarker,
+    },
+    bgHoverLighter: {
+        backgroundColor: colorHoverLighter,
+    },
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
         color: color3,
@@ -103,6 +111,9 @@ export const useStyles = makeStyles(theme => ({
     },
     textColorDark: {
         color: color1,
+    },
+    textColor: {
+        color: color2,
     },
     noDecoration: {
         textDecoration: 'none',

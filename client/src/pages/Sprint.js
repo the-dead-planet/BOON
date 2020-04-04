@@ -6,7 +6,7 @@ import SprintView from '../components/sprint/SprintView';
 import withShowError from '../components/withShowError';
 
 // If path is /sprints, redirect to the newest sprint
-const Sprint = ({ user, sprints, setSprints, notificationsProps, onError, showError }) => {
+const Sprint = ({ user, sprints, posts, comments, likes, setSprints, notificationsProps, onError, showError }) => {
     const { id } = useParams();
 
     let sprintToDisplayId = id;
@@ -37,6 +37,7 @@ const Sprint = ({ user, sprints, setSprints, notificationsProps, onError, showEr
         getSprints();
     }, []);
 
+    console.log(sprints, posts);
     return sprintToDisplayId && sprintToDisplayId !== id ? (
         <Redirect to={`/sprints/${sprintToDisplayId}`} />
     ) : (

@@ -100,6 +100,9 @@ class App extends Component {
                                     user={user}
                                     setSprints={updateState(State.setSprints)}
                                     sprints={this.state.sprints}
+                                    posts={this.state.posts}
+                                    comments={this.state.comments}
+                                    likes={this.state.likes}
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>

@@ -33,7 +33,7 @@ export const MenuItemsVertical = ({ user }) => {
     return (
         <List>
             {menuItems.map(item => (
-                <ListItem component={Link} to={item.path} key={item.name}>
+                <ListItem button component={Link} to={item.path} key={item.name}>
                     {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
                     <ListItemText className={classes.textColorLight} primary={item.name} />
                 </ListItem>
