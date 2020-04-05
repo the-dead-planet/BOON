@@ -149,17 +149,20 @@
 .fade-in {
     z-index: 1;
     position: relative;
-    animation: fadeIn ease-in 4s;
-    -webkit-animation: fadeIn ease-in 4s;
-    -moz-animation: fadeIn ease-in 4s;
-    -o-animation: fadeIn ease-in 4s;
-    -ms-animation: fadeIn ease-in 4s;
+    animation: fadeIn ease-in 6s;
+    -webkit-animation: fadeIn ease-in 6s;
+    -moz-animation: fadeIn ease-in 6s;
+    -o-animation: fadeIn ease-in 6s;
+    -ms-animation: fadeIn ease-in 6s;
 }
 @keyframes fadeIn {
     0% {
         opacity: 0;
     }
-    100% {
+    30% {
+        opacity: 0;
+    }
+    80% {
         opacity: 1;
     }
 }
@@ -168,7 +171,10 @@
     0% {
         opacity: 0;
     }
-    100% {
+    30% {
+        opacity: 0;
+    }
+    80% {
         opacity: 1;
     }
 }
@@ -177,7 +183,10 @@
     0% {
         opacity: 0;
     }
-    100% {
+    30% {
+        opacity: 0;
+    }
+    80% {
         opacity: 1;
     }
 }
@@ -186,7 +195,10 @@
     0% {
         opacity: 0;
     }
-    100% {
+    30% {
+        opacity: 0;
+    }
+    80% {
         opacity: 1;
     }
 }
@@ -195,7 +207,10 @@
     0% {
         opacity: 0;
     }
-    100% {
+    30% {
+        opacity: 0;
+    }
+    80% {
         opacity: 1;
     }
 }

@@ -14,7 +14,7 @@ const SprintView = ({ user, sprints, sprintId, onError, showError }) => {
         <Empty />
     ) : (
         <React.Fragment>
-            <Hidden xsDown>{sprints ? <SprintListDrawer sprints={sprints} /> : null}</Hidden>
+            <Hidden xsDown>{sprints ? <SprintListDrawer sprints={sprints} currentSprintId={sprintId} /> : null}</Hidden>
 
             <main className={`${classes.content}`}>
                 <SingleSprint

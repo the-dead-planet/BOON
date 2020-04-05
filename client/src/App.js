@@ -91,6 +91,9 @@ class App extends Component {
                                     user={user}
                                     setSprints={updateState(State.setSprints)}
                                     sprints={this.state.sprints}
+                                    posts={this.state.posts}
+                                    likes={this.state.likes}
+                                    comments={this.state.comments}
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
@@ -99,10 +102,6 @@ class App extends Component {
                                 <Sprint
                                     user={user}
                                     setSprints={updateState(State.setSprints)}
-                                    sprints={this.state.sprints}
-                                    posts={this.state.posts}
-                                    comments={this.state.comments}
-                                    likes={this.state.likes}
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>

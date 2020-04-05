@@ -4,7 +4,7 @@ import List from '@material-ui/core/List';
 import SprintListItem from './ListItem';
 import Drawer from '@material-ui/core/Drawer';
 
-const SprintListDrawer = ({ sprints, onClick }) => {
+const SprintListDrawer = ({ sprints, currentSprintId }) => {
     const classes = useStyles();
 
     return (
@@ -19,7 +19,7 @@ const SprintListDrawer = ({ sprints, onClick }) => {
                 {[...sprints]
                     .sort((a, b) => b.number - a.number)
                     .map(sprint => (
-                        <SprintListItem key={sprint._id} {...sprint} />
+                        <SprintListItem key={sprint._id} currentSprintId={currentSprintId} {...sprint} />
                     ))}
             </List>
         </Drawer>

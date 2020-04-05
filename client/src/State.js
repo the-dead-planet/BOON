@@ -43,9 +43,6 @@ export const popNotification = state => notificationId => ({
 // Extract populated objects, such as: posts, comments, likes
 // Depopulate objects and store them as originally stored in mongo (with references to id's only)
 export const setSprints = state => sprints => {
-    // TODO: Pewnie wymyslisz ladniejszy sposob niz te ponizej heh ale chyba o to chodzilo z tym depopulatem?
-    // TODO: Czy to moze isc synchronicznie, czy wykombinujemy promises?
-
     // const posts = [].concat.apply([], sprints.map(sprint => sprint.posts));
     const posts = depopulatePosts(sprints.map(sprint => sprint.posts).flat());
 
@@ -70,20 +67,12 @@ export const setSprints = state => sprints => {
         })
         .flat();
 
-    // Set state for depopulated objects extracted from Sprints
-    // FIXME: this is not working...
-    setPosts(posts);
-    setComments(comments);
-    setLikes(likes);
+    // sprints = depopulateSprints(sprints);
 
-    return { sprints };
+    return { sprints, posts, comments, likes };
     // TODO: Adjust components according to new state logic - currently components still read data from populated sprint
     // return { depopulateSprints(sprints) }
 };
-
-const setPosts = state => posts => ({ posts });
-const setLikes = state => likes => ({ likes });
-const setComments = state => Comments => ({ Comments });
 
 // Depopulate methodss
 const depopulateSprints = sprints =>
