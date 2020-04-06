@@ -6,19 +6,23 @@ import { PostCard } from './Card';
 import moment from 'moment';
 import { EXT_DATE_FORMAT } from '../../../../utils/constants';
 
-export const PostsList = ({ user, posts, push }) => {
+export const PostsList = ({ user, posts, comments, likes, push }) => {
     const classes = useStyles();
 
     return (
         <List>
-            {(posts || []).map(post => (
+            {(posts || []).map((post, index) => (
                 <PostCard
-                    key={post._id}
+                    key={`${post._id}-${index}`}
                     user={user}
-                    model="Post"
-                    title={post.title}
-                    subtitle={`${post.author.publicName} / ${moment(post.created).format(EXT_DATE_FORMAT)}`}
                     object={post}
+                    model="Post"
+                    comments={post.comments.map(id => comments.get(id))}
+                    likes={post.likes.map(id => likes.get(id))}
+                    title={post.title}
+                    subtitle={` / ${moment(post.created).format(EXT_DATE_FORMAT)}`}
+                    // subtitle={`${post.author.publicName} / ${moment(post.created).format(EXT_DATE_FORMAT)}`} // TODO: get authors from state and filter
+                    body={post.body}
                     mediaMiddle={
                         <CardMedia className={classes.height200} image={require('../../../../img/Landing_1.png')} />
                     }

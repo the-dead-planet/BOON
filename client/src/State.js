@@ -11,13 +11,13 @@ export const INITIAL_STATE = {
     // Data fetched with `GET` requests should end up here.
     // Each field is indexed by the objects' `id` field.
     data: {
-        projects: {},
-        sprints: {},
-        posts: {},
-        comments: {},
-        teams: {},
-        users: {},
-        likes: {},
+        projects: new Map(),
+        sprints: new Map(),
+        posts: new Map(),
+        comments: new Map(),
+        teams: new Map(),
+        users: new Map(),
+        likes: new Map(),
     },
 
     // Client specific state.
@@ -43,64 +43,67 @@ export const popNotification = state => notificationId => ({
 // Extract populated objects, such as: posts, comments, likes
 // Depopulate objects and store them as originally stored in mongo (with references to id's only)
 export const setSprints = state => sprints => {
-    // const posts = [].concat.apply([], sprints.map(sprint => sprint.posts));
-    const posts = depopulatePosts(sprints.map(sprint => sprint.posts).flat());
+    let state = {
+        sprints: new Map(),
+        posts: new Map(),
+        comments: new Map(),
+        likes: new Map(),
+        users: new Map(),
+    };
 
-    // Comments are given to sprints and posts
-    const comments = sprints
-        .map(sprint => {
-            const sprintComments = depopulateComments(sprint.comments);
-            const sprintPostsComments = depopulateComments(sprint.posts.map(post => post.comments).flat());
-
-            return [...sprintComments, ...sprintPostsComments];
-        })
-        .flat();
-
-    // Likes are given to sprints, posts and comments
-    const likes = sprints
-        .map(sprint => {
-            const sprintLikes = depopulateLikes(sprint.likes);
-            const sprintPostsLikes = depopulateLikes(sprint.posts.map(post => post.likes).flat());
-            const sprintCommentsLikes = depopulateLikes(sprint.comments.map(comment => comment.likes).flat());
-
-            return [...sprintLikes, ...sprintPostsLikes, ...sprintCommentsLikes];
-        })
-        .flat();
-
-    // sprints = depopulateSprints(sprints);
-
-    return { sprints, posts, comments, likes };
-    // TODO: Adjust components according to new state logic - currently components still read data from populated sprint
-    // return { depopulateSprints(sprints) }
+    extractAndDepopulate(sprints, 'sprints', state);
+    console.log('state', state);
+    // return state;
+    return { data: state };
 };
 
-// Depopulate methodss
-const depopulateSprints = sprints =>
-    sprints.map(({ author, posts, comments, likes, ...args }) => ({
+// TODO: extract author and create generic method
+const extractSprint = ({ _id, author, posts, comments, likes, ...args }, state) => {
+    return {
+        _id: _id,
         author: author._id,
-        posts: posts.map(post => post._id),
-        comments: comments.map(comment => comment._id),
-        likes: likes.map(like => like._id),
+        posts: extractAndDepopulate(posts, 'posts', state),
+        comments: extractAndDepopulate(comments, 'comments', state),
+        likes: extractAndDepopulate(likes, 'likes', state),
         ...args,
-    }));
+    };
+};
 
-const depopulatePosts = posts =>
-    posts.map(({ author, likes, comments, ...args }) => ({
+const extractPost = ({ author, comments, likes, ...args }, state) => {
+    return {
         author: author._id,
-        comments: comments.map(comment => comment._id),
-        likes: likes.map(like => like._id),
+        comments: extractAndDepopulate(comments, 'comments', state),
+        likes: extractAndDepopulate(likes, 'likes', state),
         ...args,
-    }));
+    };
+};
 
-const depopulateLikes = likes =>
-    likes.map(({ author, ...args }) => ({
+const extractComment = ({ author, likes, ...args }, state) => {
+    return {
         author: author._id,
+        likes: extractAndDepopulate(likes, 'likes', state),
         ...args,
-    }));
+    };
+};
 
-const depopulateComments = comments =>
-    comments.map(({ author, likes, ...args }) => ({
+const extractLike = ({ author, ...args }, state) => {
+    return {
         author: author._id,
-        likes: likes.map(like => like._id),
         ...args,
-    }));
+    };
+};
+
+// Generic method
+const extractMethods = {
+    sprints: extractSprint,
+    posts: extractPost,
+    comments: extractComment,
+    likes: extractLike,
+    // users: extractUser,
+};
+
+const extractAndDepopulate = (list, name, state) =>
+    list.map(({ _id, ...args }) => {
+        state[name].set(_id, extractMethods[name]({ _id, ...args }, state)); // TODO: remove the _id - see sprint ListDrawer component
+        return _id;
+    });

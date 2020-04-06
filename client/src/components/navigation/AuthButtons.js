@@ -14,8 +14,6 @@ const getText = user => {
 };
 
 export const AuthButtonsHorizontal = ({ user }) => {
-    const classes = useStyles();
-
     let loginButton = (
         <Button color="inherit" href={!user ? '/login' : null}>
             {getText(user).login}

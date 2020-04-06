@@ -6,10 +6,8 @@ import { withPush } from '../../../../utils/routingDecorators';
 
 // Implementation of the component. Note, that it expects to receive a `push` property from the caller. It's injected throught the `withPush` HOF below.
 // Only the decorated instance is exported. The `*Impl` class is here for convenience only and is not directly used outside of this file.
-const PostsImpl = ({ user, _id, posts, push }) => {
-    // const classes = useStyles();
-
-    return <PostsList user={user} posts={posts} push={push} />;
+const PostsImpl = ({ user, _id, posts, comments, likes, push }) => {
+    return <PostsList user={user} posts={posts} comments={comments} likes={likes} push={push} />;
 };
 
 // Decorate the component with `withPush` HOF to inject the `push` property.

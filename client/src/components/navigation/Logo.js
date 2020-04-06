@@ -1,10 +1,9 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
-import { Link } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 
-export const Logo = ({ linkItems, handleDrawerToggle }) => {
+export const Logo = ({ handleDrawerToggle }) => {
     const classes = useStyles();
 
     return (

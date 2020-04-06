@@ -4,13 +4,11 @@ import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined';
 
-
-export const ActionButtons = ({ user, object, handleExpandClick }) => {
-
+export const ActionButtons = ({ user, comments, likes, handleExpandClick }) => {
     return (
         <React.Fragment>
             <IconButton aria-label="add to favorites">
-                <Typography variant="caption">{object.likes.length}</Typography>
+                <Typography variant="caption">{likes.length}</Typography>
                 <FavoriteIcon />
             </IconButton>
             {/* <IconButton aria-label="share">
@@ -22,7 +20,7 @@ export const ActionButtons = ({ user, object, handleExpandClick }) => {
                 // aria-label="show more"
             >
                 <ModeCommentOutlinedIcon />
-                <Typography variant="caption">{object.comments.length}</Typography>
+                <Typography variant="caption">{comments.length}</Typography>
             </IconButton>
         </React.Fragment>
     );

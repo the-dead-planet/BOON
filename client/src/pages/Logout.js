@@ -5,7 +5,7 @@ import authService from '../services/authService';
 import withShowError from '../components/withShowError';
 
 const Logout = ({ user, onSuccess, notificationsProps, showError }) => {
-    const { addNotification } = notificationsProps;
+    // const { addNotification } = notificationsProps;
 
     const [logoutRequestDone, setLogoutRequestDone] = useState(false);
 

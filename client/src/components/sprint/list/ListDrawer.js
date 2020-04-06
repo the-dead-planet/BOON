@@ -16,10 +16,11 @@ const SprintListDrawer = ({ sprints, currentSprintId }) => {
         >
             <div className={classes.toolbar} />
             <List>
-                {[...sprints]
+                {/* TODO: sort a map, remove _id from values */}
+                {[...sprints.values()]
                     .sort((a, b) => b.number - a.number)
                     .map(sprint => (
-                        <SprintListItem key={sprint._id} currentSprintId={currentSprintId} {...sprint} />
+                        <SprintListItem key={sprint.title} currentSprintId={currentSprintId} {...sprint} />
                     ))}
             </List>
         </Drawer>

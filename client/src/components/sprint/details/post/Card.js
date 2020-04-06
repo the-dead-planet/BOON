@@ -12,7 +12,19 @@ import { ActionButtons } from './ActionButtons';
 import { CardMenu } from './Menu';
 
 // Pass a component to mediaTop or mediaBottom depending on which location it is needed in
-export const PostCard = ({ user, model, object, title, subtitle, mediaTop, mediaMiddle, menuItems }) => {
+export const PostCard = ({
+    user,
+    model,
+    object,
+    comments,
+    likes,
+    title,
+    subtitle,
+    body,
+    mediaTop,
+    mediaMiddle,
+    menuItems,
+}) => {
     const classes = useStyles();
 
     const [expanded, setExpanded] = React.useState(false);
@@ -21,7 +33,6 @@ export const PostCard = ({ user, model, object, title, subtitle, mediaTop, media
     };
 
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
 
     const handleMenuClick = event => {
         setAnchorEl(event.currentTarget);
@@ -60,14 +71,14 @@ export const PostCard = ({ user, model, object, title, subtitle, mediaTop, media
             {mediaMiddle}
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    {object.body}
+                    {body}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <ActionButtons user={user} object={object} handleExpandClick={handleExpandClick} />
+                <ActionButtons user={user} comments={comments} likes={likes} handleExpandClick={handleExpandClick} />
             </CardActions>
             <CardContent>
-                <Comments expanded={expanded} user={user} model={model} {...object} />
+                <Comments expanded={expanded} user={user} _id={object._id} comments={comments} />
             </CardContent>
         </Card>
     );

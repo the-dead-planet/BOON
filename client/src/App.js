@@ -89,11 +89,12 @@ class App extends Component {
                             <Route path="/sprints/:id">
                                 <Sprint
                                     user={user}
-                                    setSprints={updateState(State.setSprints)}
-                                    sprints={this.state.sprints}
-                                    posts={this.state.posts}
-                                    likes={this.state.likes}
-                                    comments={this.state.comments}
+                                    setState={updateState(State.setSprints)}
+                                    data={this.state.data}
+                                    // sprints={this.state.sprints}
+                                    // posts={this.state.posts}
+                                    // likes={this.state.likes}
+                                    // comments={this.state.comments}
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
@@ -101,7 +102,12 @@ class App extends Component {
                             <Route path="/sprints">
                                 <Sprint
                                     user={user}
-                                    setSprints={updateState(State.setSprints)}
+                                    setState={updateState(State.setSprints)}
+                                    data={this.state.data}
+                                    // sprints={this.state.sprints}
+                                    // posts={this.state.posts}
+                                    // likes={this.state.likes}
+                                    // comments={this.state.comments}
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { useStyles } from '../styles/main';
 import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import authService from '../services/authService';
@@ -11,8 +10,7 @@ import withShowError from '../components/withShowError';
  If non-email address value entered, match with publicName and replace 'email' value 
  by matched user's username (=email) */
 const Login = ({ next, onLoginSuccess, user, notificationsProps, showError }) => {
-    const classes = useStyles();
-    const { addNotification } = notificationsProps;
+    // const { addNotification } = notificationsProps;
     return (
         <AppLayout user={user} {...notificationsProps}>
             {/* <div className={classes.main}> */}

@@ -1,9 +1,7 @@
 import React from 'react';
 import { useStyles } from '../../../styles/main';
 import Typography from '@material-ui/core/Typography';
-import { Box } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
 import moment from 'moment';
 import { DATE_FORMAT } from '../../../utils/constants';
@@ -36,7 +34,6 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, currentSpr
                     />
                 </ListItem>
             </Link>
-            {/* <Divider variant="inset" component="li" /> */}
         </React.Fragment>
     );
 }
