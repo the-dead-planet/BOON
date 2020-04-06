@@ -16,7 +16,7 @@ export const INITIAL_STATE = {
         posts: new Map(),
         comments: new Map(),
         teams: new Map(),
-        users: new Map(),
+        authors: new Map(),
         likes: new Map(),
     },
 
@@ -48,10 +48,10 @@ export const setSprints = state => sprints => {
         posts: new Map(),
         comments: new Map(),
         likes: new Map(),
-        users: new Map(),
+        authors: new Map(), // TODO: only users who posted something are extracted here, does it make sense to store as a separate state obj or too much redundancy?
     };
 
-    extractAndDepopulate(sprints, 'sprints', state);
+    extractAndDepopulateMany(sprints, 'sprints', state);
     console.log('state', state);
     // return state;
     return { data: state };
@@ -61,27 +61,27 @@ export const setSprints = state => sprints => {
 const extractSprint = ({ _id, author, posts, comments, likes, ...args }, state) => {
     return {
         _id: _id,
-        author: author._id,
-        posts: extractAndDepopulate(posts, 'posts', state),
-        comments: extractAndDepopulate(comments, 'comments', state),
-        likes: extractAndDepopulate(likes, 'likes', state),
+        author: extractAndDepopulateOne(author, 'authors', state),
+        posts: extractAndDepopulateMany(posts, 'posts', state),
+        comments: extractAndDepopulateMany(comments, 'comments', state),
+        likes: extractAndDepopulateMany(likes, 'likes', state),
         ...args,
     };
 };
 
 const extractPost = ({ author, comments, likes, ...args }, state) => {
     return {
-        author: author._id,
-        comments: extractAndDepopulate(comments, 'comments', state),
-        likes: extractAndDepopulate(likes, 'likes', state),
+        author: extractAndDepopulateOne(author, 'authors', state),
+        comments: extractAndDepopulateMany(comments, 'comments', state),
+        likes: extractAndDepopulateMany(likes, 'likes', state),
         ...args,
     };
 };
 
 const extractComment = ({ author, likes, ...args }, state) => {
     return {
-        author: author._id,
-        likes: extractAndDepopulate(likes, 'likes', state),
+        author: extractAndDepopulateOne(author, 'authors', state),
+        likes: extractAndDepopulateMany(likes, 'likes', state),
         ...args,
     };
 };
@@ -93,17 +93,24 @@ const extractLike = ({ author, ...args }, state) => {
     };
 };
 
+const extractAuthor = ({ ...args }, state) => {
+    return {
+        ...args,
+    };
+};
+
 // Generic method
 const extractMethods = {
     sprints: extractSprint,
     posts: extractPost,
     comments: extractComment,
     likes: extractLike,
-    // users: extractUser,
+    authors: extractAuthor,
 };
 
-const extractAndDepopulate = (list, name, state) =>
-    list.map(({ _id, ...args }) => {
-        state[name].set(_id, extractMethods[name]({ _id, ...args }, state)); // TODO: remove the _id - see sprint ListDrawer component
-        return _id;
-    });
+const extractAndDepopulateMany = (list, name, state) => list.map(obj => extractAndDepopulateOne(obj, name, state));
+
+const extractAndDepopulateOne = ({ _id, ...args }, name, state) => {
+    state[name].set(_id, extractMethods[name]({ _id, ...args }, state)); // TODO: remove the _id - see sprint ListDrawer component
+    return _id;
+};

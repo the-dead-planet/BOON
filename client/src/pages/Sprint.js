@@ -8,7 +8,7 @@ import withShowError from '../components/withShowError';
 // If path is /sprints, redirect to the newest sprint
 const Sprint = ({ user, data, setState, notificationsProps, onError, showError }) => {
     const { id } = useParams();
-    const { sprints, posts, comments, likes } = data;
+    const { sprints, posts, comments, likes, authors } = data;
     let sprintToDisplayId = id;
     // If no specific `Sprint` has been specified, try to redirect to the
     // detail page of the most recent sprint.
@@ -16,15 +16,13 @@ const Sprint = ({ user, data, setState, notificationsProps, onError, showError }
         // Wait for the sprints to load.
         // TODO: consider adding a HOC waiting for pending requests and rendering a spinner.
 
-        if (sprints) {
+        if (sprints && sprints.size > 0) {
             // If no sprints exists, there's nowhere to redirect to.
             // TODO: consider handling this case by rendering a message.
-            if ([...sprints.values()].length !== 0) {
-                const mostRecentSprint = [...sprints.values()].reduce((a, b) =>
-                    new Date(a.dateTo) > new Date(b.dateTo) ? a : b
-                );
-                sprintToDisplayId = mostRecentSprint._id;
-            }
+            const mostRecentSprint = [...sprints.values()].reduce((a, b) =>
+                new Date(a.dateTo) > new Date(b.dateTo) ? a : b
+            );
+            sprintToDisplayId = mostRecentSprint._id;
         }
     }
 
@@ -52,6 +50,7 @@ const Sprint = ({ user, data, setState, notificationsProps, onError, showError }
                     posts={posts}
                     comments={comments}
                     likes={likes}
+                    authors={authors}
                     sprintId={id}
                     onError={onError}
                     showError={showError}

@@ -18,6 +18,7 @@ export const PostCard = ({
     object,
     comments,
     likes,
+    authors,
     title,
     subtitle,
     body,
@@ -78,7 +79,7 @@ export const PostCard = ({
                 <ActionButtons user={user} comments={comments} likes={likes} handleExpandClick={handleExpandClick} />
             </CardActions>
             <CardContent>
-                <Comments expanded={expanded} user={user} _id={object._id} comments={comments} />
+                <Comments expanded={expanded} user={user} _id={object._id} comments={comments} authors={authors} />
             </CardContent>
         </Card>
     );
