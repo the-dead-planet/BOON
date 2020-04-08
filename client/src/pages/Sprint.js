@@ -8,7 +8,7 @@ import withShowError from '../components/withShowError';
 // If path is /sprints, redirect to the newest sprint
 const Sprint = ({ user, data, setState, notificationsProps, onError, showError }) => {
     const { id } = useParams();
-    const { sprints, posts, comments, likes, authors } = data;
+    const { sprints, posts, comments, likes, users } = data;
     let sprintToDisplayId = id;
     // If no specific `Sprint` has been specified, try to redirect to the
     // detail page of the most recent sprint.
@@ -50,7 +50,7 @@ const Sprint = ({ user, data, setState, notificationsProps, onError, showError }
                     posts={posts}
                     comments={comments}
                     likes={likes}
-                    authors={authors}
+                    users={users}
                     sprintId={id}
                     onError={onError}
                     showError={showError}

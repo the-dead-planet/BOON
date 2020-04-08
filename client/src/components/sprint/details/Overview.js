@@ -9,7 +9,7 @@ import { DATE_FORMAT } from '../../../utils/constants';
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
-export const SprintOverview = ({ user, sprint, comments, likes, authors, onError }) => {
+export const SprintOverview = ({ user, sprint, comments, likes, users, onError }) => {
     const classes = useStyles();
 
     const content = sprint ? (
@@ -20,9 +20,9 @@ export const SprintOverview = ({ user, sprint, comments, likes, authors, onError
             model="Sprint" // TODO: figure out a better way - this is used in object delete button to choose the right service
             comments={comments}
             likes={likes}
-            authors={authors}
+            users={users}
             title={`No${sprint.number} // ${sprint.title}`}
-            subtitle={`${authors.get(sprint.author).publicName} // ${
+            subtitle={`${users.get(sprint.author).publicName} // ${
                 sprint.dateFrom ? moment(sprint.dateFrom).format(DATE_FORMAT) : null
             } - ${sprint.dateTo ? moment(sprint.dateTo).format(DATE_FORMAT) : null}`}
             body={sprint.body}
