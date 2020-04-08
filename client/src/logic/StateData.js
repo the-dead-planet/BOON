@@ -32,8 +32,8 @@ const PATHS_DATA = {
 // This function receives an object and depopulates it by replacing all
 // direct nested objects with their object._id and initiates the same for these nested object,
 // then adds the depopulated object to the appropriate state property
-export const setAndDepopulateOne = ({ _id, ...args }, name, state) => {
-    state[PATHS_DATA[name].state].set(_id, depopulate({ _id, ...args }, PATHS_DATA[name].paths, state));
+export const setAndDepopulateOne = ({ _id, ...args }, path, state) => {
+    state[PATHS_DATA[path].state].set(_id, depopulate({ _id, ...args }, PATHS_DATA[path].paths, state));
 
     return _id;
 };

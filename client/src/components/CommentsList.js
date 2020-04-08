@@ -4,13 +4,13 @@ import moment from 'moment';
 // import { authenticatedPage } from '../../components/authenticatedPage';
 import { ObjectDeleteButton } from './Buttons';
 
-export const CommentsList = ({ user, comments, authors }) => {
+export const CommentsList = ({ user, comments, users }) => {
     return (
         <List>
             {(comments || []).map((comment, index) => (
                 <div key={index}>
                     <h4>
-                        {authors.get(comment.author).publicName} / {moment(comment.created).fromNow()}
+                        {users.get(comment.author).publicName} / {moment(comment.created).fromNow()}
                     </h4>
                     <p>{comment.body}</p>
 
