@@ -5,37 +5,38 @@ import commentsService from '../../services/commentsService';
 import { AppForm } from './App';
 import { GridField } from './GridFields';
 
-
-export const AddComment = ({ _id, user, model, push }) => {
-
-    return (
-        user ? (
-            <AppForm
-                initialValues={{}}
-                onSubmit={data => {
-                    const extendedData = {
-                        ...data, // copy form values
-                        id: _id, // add sprint id
-                        model: model,
-                    };
-                    return commentsService.add(extendedData);
-                }}
-            >
-                <GridField
-                    as={TextField}
-                    required
-                    fullWidth
-                    multiline
-                    rows={3}
-                    variant="outlined"
-                    name="body"
-                    id="add-comment-body"
-                    placeholder="Express your fabulous opinion"
-                    xs={12}
-                />
-            </AppForm>
-        ) : (
-                <Typography>Log in to express your fabulous opinion</Typography>
-            )
+export const AddComment = ({ _id, user, model, updateStateData, updatepush }) => {
+    return user ? (
+        <AppForm
+            initialValues={{}}
+            onSubmit={data => {
+                const extendedData = {
+                    ...data, // copy form values
+                    id: _id, // add sprint id
+                    model: model,
+                };
+                return commentsService.add(extendedData).then(service => {
+                    // console.log(service.data.comment);
+                    updateStateData(service.data.comment, 'comments');
+                });
+                // return;
+                // return commentsService.add(extendedData);
+            }}
+        >
+            <GridField
+                as={TextField}
+                required
+                fullWidth
+                multiline
+                rows={3}
+                variant="outlined"
+                name="body"
+                id="add-comment-body"
+                placeholder="Express your fabulous opinion"
+                xs={12}
+            />
+        </AppForm>
+    ) : (
+        <Typography>Log in to express your fabulous opinion</Typography>
     );
 };

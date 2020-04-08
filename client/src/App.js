@@ -46,7 +46,7 @@ class App extends Component {
                 }, 5000),
             notifications,
         };
-
+        console.log('updated state', this.state.data);
         return !whoamiRequestDone ? (
             'Loading'
         ) : (
@@ -90,6 +90,7 @@ class App extends Component {
                                 <Sprint
                                     user={user}
                                     setState={updateState(State.setSprints)}
+                                    updateStateData={updateState(State.updateData)}
                                     data={this.state.data}
                                     notificationsProps={notificationsProps}
                                 />
@@ -99,6 +100,7 @@ class App extends Component {
                                 <Sprint
                                     user={user}
                                     setState={updateState(State.setSprints)}
+                                    updateStateData={updateState(State.updateData)}
                                     data={this.state.data}
                                     notificationsProps={notificationsProps}
                                 />

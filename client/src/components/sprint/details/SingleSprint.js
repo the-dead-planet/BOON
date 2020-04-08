@@ -7,7 +7,7 @@ import usersService from '../../../services/usersService';
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
-export const SingleSprint = ({ user, sprint, posts, comments, likes, users, onError }) => {
+export const SingleSprint = ({ user, sprint, posts, comments, likes, users, updateStateData, onError }) => {
     return (
         <Container maxWidth="md">
             {sprint ? (
@@ -18,6 +18,7 @@ export const SingleSprint = ({ user, sprint, posts, comments, likes, users, onEr
                         comments={sprint.comments.map(id => comments.get(id))}
                         likes={sprint.likes.map(id => likes.get(id))}
                         users={users}
+                        updateStateData={updateStateData}
                         onError={onError}
                     />
                     <Posts
@@ -26,10 +27,11 @@ export const SingleSprint = ({ user, sprint, posts, comments, likes, users, onEr
                         comments={comments}
                         likes={likes}
                         users={users}
+                        updateStateData={updateStateData}
                     />
                 </React.Fragment>
             ) : (
-                <div></div>
+                <React.Fragment />
             )}
         </Container>
     );

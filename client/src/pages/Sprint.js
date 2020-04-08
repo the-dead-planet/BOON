@@ -6,7 +6,7 @@ import SprintView from '../components/sprint/SprintView';
 import withShowError from '../components/withShowError';
 
 // If path is /sprints, redirect to the newest sprint
-const Sprint = ({ user, data, setState, notificationsProps, onError, showError }) => {
+const Sprint = ({ user, data, setState, updateStateData, notificationsProps, onError, showError }) => {
     const { id } = useParams();
     const { sprints, posts, comments, likes, users } = data;
     let sprintToDisplayId = id;
@@ -52,6 +52,7 @@ const Sprint = ({ user, data, setState, notificationsProps, onError, showError }
                     likes={likes}
                     users={users}
                     sprintId={id}
+                    updateStateData={updateStateData}
                     onError={onError}
                     showError={showError}
                 />

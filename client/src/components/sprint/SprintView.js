@@ -5,7 +5,18 @@ import { Loading, Empty } from '../Loading';
 import { SingleSprint } from './details/SingleSprint';
 import SprintListDrawer from './list/ListDrawer';
 
-const SprintView = ({ user, sprints, posts, comments, likes, users, sprintId, onError, showError }) => {
+const SprintView = ({
+    user,
+    sprints,
+    posts,
+    comments,
+    likes,
+    users,
+    sprintId,
+    updateStateData,
+    onError,
+    showError,
+}) => {
     const classes = useStyles();
     const sprint = sprints ? sprints.get(sprintId) : undefined;
 
@@ -25,6 +36,7 @@ const SprintView = ({ user, sprints, posts, comments, likes, users, sprintId, on
                     comments={comments}
                     likes={likes}
                     users={users}
+                    updateStateData={updateStateData}
                     onError={onError}
                 />
             </main>

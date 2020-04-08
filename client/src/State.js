@@ -44,8 +44,20 @@ export const popNotification = state => notificationId => ({
 // Set populated objects, such as: posts, comments, likes
 // Depopulate objects and store them as originally stored in mongo (with references to id's only)
 export const setSprints = state => sprints => {
-    let state = { ...INITIAL_STATE.data };
-    StateData.setAndDepopulateMany(sprints, 'sprints', state);
+    let newState = { ...INITIAL_STATE.data };
+    StateData.setAndDepopulateMany(sprints, 'sprints', newState);
+    console.log(state);
+    return { data: newState };
 
-    return { data: state };
+    // // TODO: Or like this?
+    // StateData.setAndDepopulateMany(sprints, 'sprints', state.data);
+    // return state;   // TODO: and like this?
+};
+
+// FIXME: State is updated
+// Update state after posting an object to db
+export const updateData = state => ({ _id, ...args }, prop) => {
+    state.data[prop].set(_id, { _id, ...args }); // TODO: delete _id once sprint drawer issue resolved
+
+    return state;
 };

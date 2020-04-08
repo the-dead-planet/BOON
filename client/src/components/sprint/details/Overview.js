@@ -9,7 +9,7 @@ import { DATE_FORMAT } from '../../../utils/constants';
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
-export const SprintOverview = ({ user, sprint, comments, likes, users, onError }) => {
+export const SprintOverview = ({ user, sprint, comments, likes, users, updateStateData, onError }) => {
     const classes = useStyles();
 
     const content = sprint ? (
@@ -29,6 +29,7 @@ export const SprintOverview = ({ user, sprint, comments, likes, users, onError }
             // mediaTop={<CardMedia className={classes.height200} image={sprint.image} />}
             mediaTop={<CardMedia className={classes.height200} image={require('../../../img/Landing_1.png')} />}
             menuItems={[{ name: 'Cos tu wymyslimy' }]}
+            updateStateData={updateStateData}
         />
     ) : null;
 

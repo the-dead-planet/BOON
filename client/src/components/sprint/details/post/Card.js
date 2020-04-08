@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStyles } from '../../../../styles/main';
-import { Comments } from '../../../Comments';
+import { CommentsSection } from '../../../CommentsSection';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -25,6 +25,7 @@ export const PostCard = ({
     mediaTop,
     mediaMiddle,
     menuItems,
+    updateStateData,
 }) => {
     const classes = useStyles();
 
@@ -79,7 +80,15 @@ export const PostCard = ({
                 <ActionButtons user={user} comments={comments} likes={likes} handleExpandClick={handleExpandClick} />
             </CardActions>
             <CardContent>
-                <Comments expanded={expanded} user={user} _id={object._id} comments={comments} users={users} />
+                <CommentsSection
+                    expanded={expanded}
+                    user={user}
+                    _id={object._id}
+                    model={model}
+                    comments={comments}
+                    users={users}
+                    updateStateData={updateStateData}
+                />
             </CardContent>
         </Card>
     );

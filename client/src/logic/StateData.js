@@ -32,24 +32,25 @@ const PATHS_DATA = {
 // This function receives an object and depopulates it by replacing all
 // direct nested objects with their object._id and initiates the same for these nested object,
 // then adds the depopulated object to the appropriate state property
-export const setAndDepopulateOne = ({ _id, ...args }, path, state) => {
-    state[PATHS_DATA[path].state].set(_id, depopulate({ _id, ...args }, PATHS_DATA[path].paths, state));
+export const setAndDepopulateOne = ({ _id, ...args }, path, stateData) => {
+    stateData[PATHS_DATA[path].state].set(_id, depopulate({ _id, ...args }, PATHS_DATA[path].paths, stateData)); // TODO: delete _id
 
     return _id;
 };
 
 // The same as setAndDepopulateOne for an array of objects of the same model
-export const setAndDepopulateMany = (list, name, state) => list.map(obj => setAndDepopulateOne(obj, name, state));
+export const setAndDepopulateMany = (list, path, stateData) =>
+    list.map(obj => setAndDepopulateOne(obj, path, stateData));
 
 // This function receives a nested (populated) object as the first parameter
 // and depopulates its properties defined in 'PATHS_DATA' by overwriting
 // them with their '_id' value. The same is repeated for each nested object
 // within the object passed as function parameter. Return value is the depopulated object.
-export const depopulate = (obj, paths, state) => {
+export const depopulate = (obj, paths, stateData) => {
     paths.map(path => {
         // Check if the property stores one object (author) or many in an array (posts)
         const setAndDepopulate = Array.isArray(obj[path]) ? setAndDepopulateMany : setAndDepopulateOne;
-        obj[path] = setAndDepopulate(obj[path], path, state);
+        obj[path] = setAndDepopulate(obj[path], path, stateData);
     });
 
     return obj;

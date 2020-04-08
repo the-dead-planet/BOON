@@ -5,17 +5,17 @@ import { withPush } from '../utils/routingDecorators';
 import { AddComment } from './forms/Comment';
 import CollapsePanel from './transitions/CollapsePanel';
 
-const CommentsImpl = ({ expanded, user, _id, comments, users, push }) => {
+const CommentsImpl = ({ expanded, user, _id, comments, model, users, updateStateData, push }) => {
     return (
         <Box id="comments">
             <CollapsePanel expanded={expanded}>
                 <CommentsList user={user} comments={comments} users={users} push={push} />
-                <AddComment user={user} _id={_id} push={push} />
+                <AddComment user={user} _id={_id} model={model} updateStateData={updateStateData} push={push} />
             </CollapsePanel>
         </Box>
     );
 };
 
-const Comments = withPush(CommentsImpl);
+const CommentsSection = withPush(CommentsImpl);
 
-export { Comments };
+export { CommentsSection };

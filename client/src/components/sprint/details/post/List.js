@@ -6,7 +6,7 @@ import { PostCard } from './Card';
 import moment from 'moment';
 import { EXT_DATE_FORMAT } from '../../../../utils/constants';
 
-export const PostsList = ({ user, posts, comments, likes, users, push }) => {
+export const PostsList = ({ user, posts, comments, likes, users, updateStateData, push }) => {
     const classes = useStyles();
 
     return (
@@ -28,6 +28,7 @@ export const PostsList = ({ user, posts, comments, likes, users, push }) => {
                         <CardMedia className={classes.height200} image={require('../../../../img/Landing_1.png')} />
                     }
                     menuItems={[{ name: 'Go to related project' }]}
+                    updateStateData={updateStateData}
                 />
             ))}
         </List>
