@@ -46,7 +46,7 @@ class App extends Component {
                 }, 5000),
             notifications,
         };
-        console.log('updated state', this.state.data);
+
         return !whoamiRequestDone ? (
             'Loading'
         ) : (
@@ -86,7 +86,7 @@ class App extends Component {
                             <Route path="/sprints/:id/add_post">
                                 <AddPost user={user} notificationsProps={notificationsProps} />
                             </Route>
-                            <Route path="/sprints/:id">
+                            <Route path={'/sprints/:id'}>
                                 <Sprint
                                     user={user}
                                     setState={updateState(State.setSprints)}

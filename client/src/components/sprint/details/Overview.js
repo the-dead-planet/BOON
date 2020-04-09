@@ -4,7 +4,7 @@ import { Box } from '@material-ui/core';
 import { PostCard } from './post/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import moment from 'moment';
-import { DATE_FORMAT } from '../../../utils/constants';
+import { DATE_FORMAT, MODELS } from '../../../utils/constants';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -17,7 +17,7 @@ export const SprintOverview = ({ user, sprint, comments, likes, users, updateSta
         <PostCard
             user={user}
             object={sprint}
-            model="Sprint" // TODO: figure out a better way - this is used in object delete button to choose the right service
+            model={MODELS.sprint}
             comments={comments}
             likes={likes}
             users={users}
@@ -37,7 +37,7 @@ export const SprintOverview = ({ user, sprint, comments, likes, users, updateSta
         <Box>
             {/* <SprintHeader {...sprint} />
         <SprintContent {...sprint} />
-        <SprintModifyButtons user={user} sprint={sprint} model="Sprint" onError={onError} /> */}
+        <SprintModifyButtons user={user} sprint={sprint} model={MODELS.sprint} onError={onError} /> */}
             {content}
         </Box>
     );

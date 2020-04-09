@@ -14,8 +14,8 @@ import { CardMenu } from './Menu';
 // Pass a component to mediaTop or mediaBottom depending on which location it is needed in
 export const PostCard = ({
     user,
-    model,
     object,
+    model,
     comments,
     likes,
     users,
@@ -64,8 +64,8 @@ export const PostCard = ({
             />
             <CardMenu
                 user={user}
-                model={model}
                 object={object}
+                model={model}
                 anchorEl={anchorEl}
                 handleMenuClose={handleMenuClose}
                 menuItems={menuItems}
@@ -83,7 +83,7 @@ export const PostCard = ({
                 <CommentsSection
                     expanded={expanded}
                     user={user}
-                    _id={object._id}
+                    object={object}
                     model={model}
                     comments={comments}
                     users={users}

@@ -52,6 +52,7 @@ USER
 - Add edit route
 - Add delete route
 - Change to use Windows AD authentication / SSO?
+- Add account page and form
 
 ```
 

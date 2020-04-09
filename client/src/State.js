@@ -44,9 +44,9 @@ export const popNotification = state => notificationId => ({
 // Set populated objects, such as: posts, comments, likes
 // Depopulate objects and store them as originally stored in mongo (with references to id's only)
 export const setSprints = state => sprints => {
-    let newState = { ...INITIAL_STATE.data };
+    let newState = { ...state.data };
     StateData.setAndDepopulateMany(sprints, 'sprints', newState);
-    console.log(state);
+
     return { data: newState };
 
     // // TODO: Or like this?

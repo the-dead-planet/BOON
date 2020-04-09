@@ -5,7 +5,7 @@ import commentsService from '../../services/commentsService';
 import { AppForm } from './App';
 import { GridField } from './GridFields';
 
-export const AddComment = ({ _id, user, model, updateStateData, updatepush }) => {
+export const AddComment = ({ user, _id, model, updateStateData, updatepush }) => {
     return user ? (
         <AppForm
             initialValues={{}}
@@ -16,11 +16,8 @@ export const AddComment = ({ _id, user, model, updateStateData, updatepush }) =>
                     model: model,
                 };
                 return commentsService.add(extendedData).then(service => {
-                    // console.log(service.data.comment);
                     updateStateData(service.data.comment, 'comments');
                 });
-                // return;
-                // return commentsService.add(extendedData);
             }}
         >
             <GridField
