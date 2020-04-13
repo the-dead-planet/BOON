@@ -1,5 +1,18 @@
 /* Module containing methods related to state data manipulation */
 
+// Initial values of the object.
+// Wrapped in a function to make sure each call returns a fresh, empty state.
+// If it was exposed as a constant, it would still be possible to modify its underlying maps.
+export const initialState = () => ({
+    projects: new Map(),
+    sprints: new Map(),
+    posts: new Map(),
+    comments: new Map(),
+    teams: new Map(),
+    users: new Map(),
+    likes: new Map(),
+});
+
 // Direct paths which are populated in data returned by rest call
 // state is the name of the app state property where object data is stored
 const PATHS_DATA = {

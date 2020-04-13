@@ -11,15 +11,7 @@ export const INITIAL_STATE = {
     // Field below should follow schema defined by the backend.
     // Data fetched with `GET` requests should end up here.
     // Each field is indexed by the objects' `id` field.
-    data: {
-        projects: new Map(),
-        sprints: new Map(),
-        posts: new Map(),
-        comments: new Map(),
-        teams: new Map(),
-        users: new Map(),
-        likes: new Map(),
-    },
+    data: { ...StateData.INITIAL_STATE },
 
     // Client specific state.
     whoamiRequestDone: false,
