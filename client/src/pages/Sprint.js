@@ -29,7 +29,6 @@ const Sprint = ({ user, data, setState, updateStateData, notificationsProps, onE
 
     const getSprints = async () => {
         let res = await sprintsService.getAll().catch(onError);
-        console.log(res);
         await setState(res);
     };
 
