@@ -7,3 +7,7 @@ import 'jest-extended';
 
 // Mock some browser specific functions.
 global.window.scrollTo = () => {};
+
+// Extend jest with local matchers.
+import { matchers } from './testing/matchers';
+expect.extend(matchers);
