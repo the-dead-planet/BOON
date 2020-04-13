@@ -46,7 +46,17 @@ const PATHS_DATA = {
 // direct nested objects with their object._id and initiates the same for these nested object,
 // then adds the depopulated object to the appropriate state property
 export const setAndDepopulateOne = ({ _id, ...args }, path, stateData) => {
-    stateData[PATHS_DATA[path].state].set(_id, depopulate({ _id, ...args }, PATHS_DATA[path].paths, stateData)); // TODO: delete _id
+    const model = PATHS_DATA[path];
+    if (!model) {
+        throw new Error(`Model not found: ${JSON.stringify({ path })}`);
+    }
+
+    const { state, paths } = model;
+    if (!(state in stateData)) {
+        throw new Error(`State data not found: ${JSON.stringify({ state, stateData })}`);
+    }
+
+    stateData[state].set(_id, depopulate({ _id, ...args }, paths, stateData)); // TODO: delete _id
 
     return _id;
 };
@@ -61,6 +71,9 @@ export const setAndDepopulateMany = (list, path, stateData) =>
 // within the object passed as function parameter. Return value is the depopulated object.
 export const depopulate = (obj, paths, stateData) => {
     paths.map(path => {
+        if (!(path in obj)) {
+            throw new Error(`Unknown depopulation path: ${JSON.stringify({ path, obj })}`);
+        }
         // Check if the property stores one object (author) or many in an array (posts)
         const setAndDepopulate = Array.isArray(obj[path]) ? setAndDepopulateMany : setAndDepopulateOne;
         obj[path] = setAndDepopulate(obj[path], path, stateData);
