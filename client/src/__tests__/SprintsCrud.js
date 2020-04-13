@@ -64,9 +64,12 @@ describe('app', () => {
 
         await act(async () => fireEvent.click(await findByText(/Some Title/i)));
         await act(async () => fireEvent.click(await getByLabelText(/more/i)));
+        // TODO - uncomment after sprint deletion is reintroduced
+        /*
         await act(async () => fireEvent.click(await findByText(/Delete/i)));
 
         expect(sprintsService.delete).toHaveBeenCalled();
+        */
         // TODO - change the app's behaviour and refresh the displayed list after deletion.
         // Once done, update the test.
     });
