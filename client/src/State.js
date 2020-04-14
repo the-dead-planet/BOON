@@ -39,7 +39,7 @@ export const setSprints = state => sprints => {
     const newState = { ...state.data };
 
     // Wrap data in an object to match `depopulate`'s signature.
-    depopulate({ sprints }, ['sprints'], newState);
+    depopulate(sprints, 'sprints', newState);
 
     return { data: newState };
 };

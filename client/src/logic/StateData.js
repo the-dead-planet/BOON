@@ -38,6 +38,31 @@ const PATHS_DATA = {
     },
 };
 
+// This function receives a nested (populated) object as the first parameter
+// and depopulates its properties defined in 'PATHS_DATA' by overwriting
+// them with their '_id' value. The same is repeated for each nested object
+// within the object passed as function parameter. Return value is the depopulated object.
+//
+// This is the only exported depopulation related function.
+// The two remaining functions are not exported, because we want to have a single entry point
+// to the logic - it's easier to maintain.
+export const depopulate = (obj, modelName, stateData) => depopulateImpl({ [modelName]: obj }, [modelName], stateData);
+
+// Implementation of `depopulate`. Not to be exported.
+// This function differs from `depopulate` in its signature, allowing more fine grained invocations.
+export const depopulateImpl = (obj, paths, stateData) => {
+    paths.map(path => {
+        if (!(path in obj)) {
+            throw new Error(`Unknown depopulation path: ${JSON.stringify({ path, obj })}`);
+        }
+        // Check if the property stores one object (author) or many in an array (posts)
+        const setAndDepopulate = Array.isArray(obj[path]) ? setAndDepopulateMany : setAndDepopulateOne;
+        obj[path] = setAndDepopulate(obj[path], path, stateData);
+    });
+
+    return obj;
+};
+
 // This function receives an object and depopulates it by replacing all
 // direct nested objects with their object._id and initiates the same for these nested object,
 // then adds the depopulated object to the appropriate state property
@@ -52,31 +77,10 @@ const setAndDepopulateOne = ({ _id, ...args }, path, stateData) => {
         throw new Error(`State data not found: ${JSON.stringify({ state, stateData })}`);
     }
 
-    stateData[state].set(_id, depopulate({ _id, ...args }, paths, stateData)); // TODO: delete _id
+    stateData[state].set(_id, depopulateImpl({ _id, ...args }, paths, stateData)); // TODO: delete _id
 
     return _id;
 };
 
 // The same as setAndDepopulateOne for an array of objects of the same model
 const setAndDepopulateMany = (list, path, stateData) => list.map(obj => setAndDepopulateOne(obj, path, stateData));
-
-// This function receives a nested (populated) object as the first parameter
-// and depopulates its properties defined in 'PATHS_DATA' by overwriting
-// them with their '_id' value. The same is repeated for each nested object
-// within the object passed as function parameter. Return value is the depopulated object.
-//
-// This is the only exported depopulation related function.
-// The two remaining functions are not exported, because we want to have a single entry point
-// to the logic - it's easier to maintain.
-export const depopulate = (obj, paths, stateData) => {
-    paths.map(path => {
-        if (!(path in obj)) {
-            throw new Error(`Unknown depopulation path: ${JSON.stringify({ path, obj })}`);
-        }
-        // Check if the property stores one object (author) or many in an array (posts)
-        const setAndDepopulate = Array.isArray(obj[path]) ? setAndDepopulateMany : setAndDepopulateOne;
-        obj[path] = setAndDepopulate(obj[path], path, stateData);
-    });
-
-    return obj;
-};

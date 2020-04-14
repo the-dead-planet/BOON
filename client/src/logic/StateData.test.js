@@ -6,17 +6,18 @@ describe('StateData', () => {
         test('Author', () => {
             const state = initialState();
             const author = { _id: 'authorId' };
-            expect(depopulate(author, [], state)).toBe(author);
-            expect(state).toEqual(initialState());
+            depopulate(author, 'author', state);
+            expect(state).toEqual({ ...initialState(), users: buildMap({ authorId: { _id: 'authorId' } }) });
         });
 
         test('Like', () => {
             const state = initialState();
             const like = { _id: 'likeId', author: { _id: 'authorId' } };
-            expect(depopulate(like, ['author'], state)).toEqual({ _id: 'likeId', author: 'authorId' });
+            depopulate(like, 'likes', state);
             expect(state).toEqual({
                 ...initialState(),
                 users: buildMap({ authorId: { _id: 'authorId' } }),
+                likes: buildMap({ likeId: { _id: 'likeId', author: 'authorId' } }),
             });
         });
 
@@ -48,12 +49,7 @@ describe('StateData', () => {
                     },
                 ],
             };
-            expect(depopulate(comment, ['author', 'likes'], state)).toEqual({
-                _id: 'commentId',
-                body: 'commentBody',
-                author: 'commentAuthorId',
-                likes: ['likeAId', 'likeBId'],
-            });
+            depopulate(comment, ['comments'], state);
             expect(state).toEqual({
                 ...initialState(),
                 likes: buildMap({
@@ -73,6 +69,15 @@ describe('StateData', () => {
                     likeAAuthorId: { _id: 'likeAAuthorId', username: 'likeAAuthor' },
                     likeBAuthorId: { _id: 'likeBAuthorId', username: 'likeBAuthor' },
                     commentAuthorId: { _id: 'commentAuthorId', username: 'commentAuthor' },
+                }),
+
+                comments: buildMap({
+                    commentId: {
+                        _id: 'commentId',
+                        body: 'commentBody',
+                        author: 'commentAuthorId',
+                        likes: ['likeAId', 'likeBId'],
+                    },
                 }),
             });
         });
