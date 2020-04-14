@@ -19,7 +19,7 @@ describe('app', () => {
         sprintsService.add.mockImplementation(instance => {
             // Upon calling `add`, the service will add the freshly added instance to its list.
             sprintsService.getAll.mockResolvedValue([
-                { ...instance, _id: 'abcd', likes: [], comments: [], author: { _id: 'userId' } },
+                { ...instance, _id: 'abcd', likes: [], comments: [], posts: [], author: { _id: 'userId' } },
             ]);
 
             return Promise.resolve();
@@ -64,9 +64,12 @@ describe('app', () => {
 
         await act(async () => fireEvent.click(await findByText(/Some Title/i)));
         await act(async () => fireEvent.click(await getByLabelText(/more/i)));
+        // TODO - uncomment after sprint deletion is reintroduced
+        /*
         await act(async () => fireEvent.click(await findByText(/Delete/i)));
 
         expect(sprintsService.delete).toHaveBeenCalled();
+        */
         // TODO - change the app's behaviour and refresh the displayed list after deletion.
         // Once done, update the test.
     });
