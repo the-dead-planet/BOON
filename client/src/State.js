@@ -1,4 +1,5 @@
-import { depopulate, initialState as initialStateData } from './logic/StateData';
+import { depopulate, mergeStateData, initialState as initialStateData } from './logic/StateData';
+
 // Module containing global state definition and functions for manipulating it.
 // Each state modifying function takes the current state as the first argument
 // and returns subset of the new state as a result.
@@ -36,12 +37,11 @@ export const popNotification = state => notificationId => ({
 // Set populated objects, such as: posts, comments, likes
 // Depopulate objects and store them as originally stored in mongo (with references to id's only)
 export const setSprints = state => sprints => {
-    const newState = { ...state.data };
-
-    // Wrap data in an object to match `depopulate`'s signature.
-    depopulate(sprints, 'sprints', newState);
-
-    return { data: newState };
+    const stateDataUpdates = depopulate(sprints, 'sprints');
+    // Merge current state with updates.
+    // The second argument takes precedence -> pass updates as the second argument.
+    const mergedData = mergeStateData(state.data, stateDataUpdates);
+    return { data: mergedData };
 };
 
 // FIXME: State is updated

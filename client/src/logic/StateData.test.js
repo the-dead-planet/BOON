@@ -1,4 +1,4 @@
-import { depopulate, initialState } from '../logic/StateData';
+import { depopulate, initialState, mergeStateData } from '../logic/StateData';
 import { buildMap } from '../testing/builders';
 
 describe('StateData', () => {
@@ -6,15 +6,16 @@ describe('StateData', () => {
         test('Author', () => {
             const state = initialState();
             const author = { _id: 'authorId' };
-            depopulate(author, 'author', state);
-            expect(state).toEqual({ ...initialState(), users: buildMap({ authorId: { _id: 'authorId' } }) });
+            expect(depopulate(author, 'author')).toEqual({
+                ...initialState(),
+                users: buildMap({ authorId: { _id: 'authorId' } }),
+            });
         });
 
         test('Like', () => {
             const state = initialState();
             const like = { _id: 'likeId', author: { _id: 'authorId' } };
-            depopulate(like, 'likes', state);
-            expect(state).toEqual({
+            expect(depopulate(like, 'likes')).toEqual({
                 ...initialState(),
                 users: buildMap({ authorId: { _id: 'authorId' } }),
                 likes: buildMap({ likeId: { _id: 'likeId', author: 'authorId' } }),
@@ -49,8 +50,7 @@ describe('StateData', () => {
                     },
                 ],
             };
-            depopulate(comment, ['comments'], state);
-            expect(state).toEqual({
+            expect(depopulate(comment, 'comments')).toEqual({
                 ...initialState(),
                 likes: buildMap({
                     likeAId: {
@@ -80,6 +80,34 @@ describe('StateData', () => {
                     },
                 }),
             });
+        });
+    });
+
+    describe('mergeStateData', () => {
+        test('two initial states', () => {
+            expect(mergeStateData(initialState(), initialState())).toEqual(initialState());
+        });
+
+        test('disjoint', () => {
+            expect(
+                mergeStateData(
+                    { ...initialState(), likes: buildMap({ likeId: { _id: 'likeId' } }) },
+                    { ...initialState(), users: buildMap({ userId: { _id: 'userId' } }) }
+                )
+            ).toEqual({
+                ...initialState(),
+                likes: buildMap({ likeId: { _id: 'likeId' } }),
+                users: buildMap({ userId: { _id: 'userId' } }),
+            });
+        });
+
+        test('overlapping', () => {
+            expect(
+                mergeStateData(
+                    { ...initialState(), likes: buildMap({ likeId: { _id: 'likeA' } }) },
+                    { ...initialState(), likes: buildMap({ likeId: { _id: 'likeB' } }) }
+                )
+            ).toEqual({ ...initialState(), likes: buildMap({ likeId: { _id: 'likeB' } }) });
         });
     });
 });
