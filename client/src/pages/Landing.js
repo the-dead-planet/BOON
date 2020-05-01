@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/Landing.css';
+import '../styles/landing.css';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';

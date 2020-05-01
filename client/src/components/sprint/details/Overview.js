@@ -27,7 +27,7 @@ export const SprintOverview = ({ user, sprint, comments, likes, users, updateSta
             } - ${sprint.dateTo ? moment(sprint.dateTo).format(DATE_FORMAT) : null}`}
             body={sprint.body}
             // mediaTop={<CardMedia className={classes.height200} image={sprint.image} />}
-            mediaTop={<CardMedia className={classes.height200} image={require('../../../img/Landing_1.png')} />}
+            // mediaTop={<CardMedia className={classes.height200} image={require('../../../img/Landing_1.png')} />}
             menuItems={[{ name: 'Cos tu wymyslimy' }]}
             updateStateData={updateStateData}
         />

@@ -35,7 +35,10 @@ class App extends Component {
         // Build a HOF performing these 2 steps to reduce boilerplate.
         // The resulting function will forward all arguments to `stateUpdater` and
         // invoke `setState` with the result.
-        const updateState = stateUpdater => (...args) => this.setState(stateUpdater(this.state)(...args));
+        const updateState = stateUpdater => (...args) => {
+            console.log(stateUpdater);
+            return this.setState(stateUpdater(this.state)(...args));
+        };
 
         // Pack props into an object to reduce boilerplate code.
         const notificationsProps = {

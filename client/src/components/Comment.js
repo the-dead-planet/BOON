@@ -1,11 +1,13 @@
 import React from 'react';
 import { useStyles } from '../styles/main';
 import moment from 'moment';
-import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import IconButton from '@material-ui/core/IconButton';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import Typography from '@material-ui/core/Typography';
 import { ObjectDeleteButton } from './Buttons';
 
@@ -37,6 +39,9 @@ export const Comment = ({ user, comment, users }) => {
                     }
                     secondary={comment.body}
                 />
+                <IconButton aria-label="add to favorites">
+                    <FavoriteIcon />
+                </IconButton>
             </ListItem>
             {/* <Divider variant="inset" component="li" /> */}
         </React.Fragment>

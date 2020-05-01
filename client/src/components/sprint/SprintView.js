@@ -1,9 +1,11 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
 import Hidden from '@material-ui/core/Hidden';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import { Loading, Empty } from '../Loading';
 import { SingleSprint } from './details/SingleSprint';
-import SprintListDrawer from './list/ListDrawer';
+import SprintList from './list/List';
 
 const SprintView = ({
     user,
@@ -25,22 +27,29 @@ const SprintView = ({
     ) : sprints.length === 0 ? (
         <Empty />
     ) : (
-        <React.Fragment>
-            <Hidden xsDown>{sprints ? <SprintListDrawer sprints={sprints} currentSprintId={sprintId} /> : null}</Hidden>
+        <Container>
+            <div className={classes.toolbar} />
+            <Grid container spacing={3}>
+                <Grid item xs={2}>
+                    <Hidden xsDown>
+                        {sprints ? <SprintList sprints={sprints} currentSprintId={sprintId} /> : null}
+                    </Hidden>
+                </Grid>
 
-            <main className={`${classes.content}`}>
-                <SingleSprint
-                    user={user}
-                    sprint={sprint}
-                    posts={posts}
-                    comments={comments}
-                    likes={likes}
-                    users={users}
-                    updateStateData={updateStateData}
-                    onError={onError}
-                />
-            </main>
-        </React.Fragment>
+                <Grid item xs={8}>
+                    <SingleSprint
+                        user={user}
+                        sprint={sprint}
+                        posts={posts}
+                        comments={comments}
+                        likes={likes}
+                        users={users}
+                        updateStateData={updateStateData}
+                        onError={onError}
+                    />
+                </Grid>
+            </Grid>
+        </Container>
     );
 };
 

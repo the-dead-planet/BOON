@@ -121,6 +121,9 @@ export const useStyles = makeStyles(theme => ({
     center: {
         textAlign: 'center',
     },
+    selected: {
+        fontWeight: 'bold',
+    },
 
     // Hidden
     hideMdUp: {
