@@ -1,30 +1,26 @@
 const mongoose = require('mongoose');
 const middleware = require('../middleware');
+const { populateFromPaths } = require('../common/queries');
+const ModelRoutesDefinition = require('../common/ModelRoutesDefinition');
 const Sprint = mongoose.model('Sprint');
 const Post = mongoose.model('Post');
 const Comment = mongoose.model('Comment');
 const Like = mongoose.model('Like');
 
-module.exports = app => {
-    app.get('/', async (req, res) => {
-        res.send("BOON API's: /api/sprints  /api/posts  /api/comments  /api/likes  /api/users");
-    });
+// TODO: use the defnition in all routes.
+const routesDefinition = new ModelRoutesDefinition('Sprint', {
+    posts: 'Post',
+    comments: 'Comment',
+    likes: 'Like',
+    author: 'User',
+});
 
+module.exports = app => {
     // INDEX - Get all
     app.get(`/api/sprints`, async (req, res) => {
-        Sprint.find({})
-            .populate({
-                path: 'author posts comments likes',
-                populate: {
-                    path: 'author comments likes',
-                    populate: {
-                        path: 'author comments likes',
-                        populate: {
-                            path: 'author',
-                        },
-                    },
-                },
-            })
+        const query = Sprint.find({});
+        const populatedQuery = populateFromPaths(query, routesDefinition.populatePaths());
+        return populatedQuery
             .exec()
             .catch(err => res.status(500).send({ err }))
             .then(sprints => res.status(200).send(sprints));
@@ -32,19 +28,9 @@ module.exports = app => {
 
     // INDEX - Get one
     app.get(`/api/sprints/:id`, async (req, res) => {
-        Sprint.findById(req.params.id)
-            .populate({
-                path: 'author posts comments likes',
-                populate: {
-                    path: 'author comments likes',
-                    populate: {
-                        path: 'author comments likes',
-                        populate: {
-                            path: 'author',
-                        },
-                    },
-                },
-            })
+        const query = Sprint.findById(req.params.id);
+        const populatedQuery = populateFromPaths(query, routesDefinition.populatePaths());
+        return populatedQuery
             .exec()
             .then(sprint => res.status(200).send(sprint))
             .catch(err => res.status(500).send({ err }));
@@ -52,6 +38,7 @@ module.exports = app => {
 
     // POST
     app.post('/api/sprints', middleware.isLoggedIn, (req, res) => {
+        // TODO: unify body -> sprint logic with POST
         let sprint = {
             number: req.body.number,
             dateFrom: req.body.dateFrom,
@@ -77,6 +64,7 @@ module.exports = app => {
         Add/replace 'edited' date with today
     */
     app.put('/api/sprints/:id', middleware.checkSprintOwnership, (req, res) => {
+        // TODO: unify body -> sprint logic with POST
         let sprint = {
             number: req.body.number,
             dateFrom: req.body.dateFrom,
@@ -104,6 +92,7 @@ module.exports = app => {
         Delete References to this post ID from parent objects (N/A for now)
     */
     app.delete('/api/sprints/:id', middleware.checkSprintOwnership, (req, res) => {
+        // TODO: get related objects from `ModelRoutesDefinition`
         const { id } = req.params;
 
         Sprint.findByIdAndDelete(id)
