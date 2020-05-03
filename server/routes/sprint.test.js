@@ -9,8 +9,10 @@ const { loginAgentAs } = require('../testing/auth');
 const { createUser } = require('../testing/factories/user');
 
 const Comment = mongoose.model('Comment');
+const Like = mongoose.model('Like');
 const Sprint = mongoose.model('Sprint');
 const Project = mongoose.model('Project');
+const Post = mongoose.model('Post');
 
 withFreshDbConnection();
 
@@ -39,13 +41,39 @@ describe('sprint', () => {
             return agent.post('/api/auth/logout');
         });
 
-        test('can fetch', async () => {
+        test('can fetch a simple object', async () => {
             await Sprint.create({ title: 'title' });
 
             const resp = await agent.get('/api/sprints');
             await expect(resp).toMatchObject({
                 statusCode: 200,
                 body: expect.arrayContaining([expect.objectContaining({ title: 'title' })]),
+            });
+        });
+
+        test('can fetch a complex object', async () => {
+            const like = await Like.create({ type: 'likeType' });
+            const comment = await Comment.create({ body: 'commentBody', like: like.id });
+            const post = await Post.create({ body: 'postBody' });
+            await Sprint.create({ title: 'title', comments: [comment.id], posts: [post.id] });
+
+            const resp = await agent.get('/api/sprints');
+            await expect(resp).toMatchObject({
+                statusCode: 200,
+                body: expect.arrayContaining([
+                    expect.objectContaining({
+                        title: 'title',
+                        posts: [expect.objectContaining({ body: 'postBody' })],
+                        comments: [
+                            expect.objectContaining({
+                                body: 'commentBody',
+                                likes: [
+                                    /*FIXME*/
+                                ],
+                            }),
+                        ],
+                    }),
+                ]),
             });
         });
 
