@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const middleware = require('../middleware');
 const { populateFromPaths } = require('../common/queries');
+const { requestPreprocessor } = require('../common/request');
 const ModelRoutesDefinition = require('../common/ModelRoutesDefinition');
 const Sprint = mongoose.model('Sprint');
 const Post = mongoose.model('Post');
@@ -14,6 +15,10 @@ const routesDefinition = new ModelRoutesDefinition('Sprint', {
     likes: 'Like',
     author: 'User',
 });
+
+// TODO: after extracting all core logic, remove the rest of boilerplate to `ModelRoutesDefinition`
+const postRequestPreprocessor = requestPreprocessor({ author: req => req.user._id });
+const putRequestPreprocessor = requestPreprocessor({ edited: req => Date.now() });
 
 module.exports = app => {
     // INDEX - Get all
@@ -38,15 +43,7 @@ module.exports = app => {
 
     // POST
     app.post('/api/sprints', middleware.isLoggedIn, (req, res) => {
-        // TODO: unify body -> sprint logic with POST
-        let sprint = {
-            number: req.body.number,
-            dateFrom: req.body.dateFrom,
-            dateTo: req.body.dateTo,
-            title: req.body.title,
-            body: req.body.body,
-            author: req.user._id,
-        };
+        const sprint = postRequestPreprocessor(req);
 
         Sprint.create(sprint)
             .then(sprint =>
@@ -64,15 +61,7 @@ module.exports = app => {
         Add/replace 'edited' date with today
     */
     app.put('/api/sprints/:id', middleware.checkSprintOwnership, (req, res) => {
-        // TODO: unify body -> sprint logic with POST
-        let sprint = {
-            number: req.body.number,
-            dateFrom: req.body.dateFrom,
-            dateTo: req.body.dateTo,
-            title: req.body.title,
-            body: req.body.body,
-            edited: Date.now(),
-        };
+        const sprint = putRequestPreprocessor(req);
 
         Sprint.findByIdAndUpdate(req.params.id, sprint)
             .then(sprint => {
