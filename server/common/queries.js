@@ -1,5 +1,11 @@
-// Returns the original query with populated `paths`.
-// An automated way of calling `.populate(path)` repetitively.
-const populateFromPaths = (query, paths) => paths.reduce((q, path) => q.populate(path), query);
+const pathsInMongooseFormat = paths => {
+    return Object.keys(paths).map(path => {
+        const dependencies = paths[path];
+        return {
+            path,
+            populate: pathsInMongooseFormat(dependencies),
+        };
+    });
+};
 
-module.exports = { populateFromPaths };
+module.exports = { pathsInMongooseFormat };
