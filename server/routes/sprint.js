@@ -1,31 +1,23 @@
 const mongoose = require('mongoose');
 const middleware = require('../middleware');
-const { populateFromPaths } = require('../common/queries');
+const { pathsInMongooseFormat } = require('../common/queries');
 const { requestPreprocessor } = require('../common/request');
-const ModelRoutesDefinition = require('../common/ModelRoutesDefinition');
+const ModelRegistry = require('../common/ModelRegistry');
 const Sprint = mongoose.model('Sprint');
 const Post = mongoose.model('Post');
 const Comment = mongoose.model('Comment');
 const Like = mongoose.model('Like');
 
-// TODO: use the defnition in all routes.
-const routesDefinition = new ModelRoutesDefinition('Sprint', {
-    posts: 'Post',
-    comments: 'Comment',
-    likes: 'Like',
-    author: 'User',
-});
-
 // TODO: after extracting all core logic, remove the rest of boilerplate to `ModelRoutesDefinition`
 const postRequestPreprocessor = requestPreprocessor({ author: req => req.user._id });
 const putRequestPreprocessor = requestPreprocessor({ edited: req => Date.now() });
 
-module.exports = app => {
+module.exports = (app, modelRegistry) => {
     // INDEX - Get all
     app.get(`/api/sprints`, async (req, res) => {
         const query = Sprint.find({});
-        const populatedQuery = populateFromPaths(query, routesDefinition.populatePaths());
-        return populatedQuery
+        return query
+            .populate(pathsInMongooseFormat(modelRegistry.populatePaths('Sprint')))
             .exec()
             .catch(err => res.status(500).send({ err }))
             .then(sprints => res.status(200).send(sprints));
@@ -34,8 +26,8 @@ module.exports = app => {
     // INDEX - Get one
     app.get(`/api/sprints/:id`, async (req, res) => {
         const query = Sprint.findById(req.params.id);
-        const populatedQuery = populateFromPaths(query, routesDefinition.populatePaths());
-        return populatedQuery
+        return query
+            .populate(pathsInMongooseFormat(modelRegistry.populatePaths('Sprint')))
             .exec()
             .then(sprint => res.status(200).send(sprint))
             .catch(err => res.status(500).send({ err }));

@@ -15,6 +15,9 @@ var express = require('express'),
     User = require('./models/User');
 seedDB = require('./seeds');
 
+const ModelRoutesDefinition = require('./common/ModelRoutesDefinition');
+const ModelRegistry = require('./common/ModelRegistry');
+
 var handleErrors = require('./middleware').handleErrors;
 
 // // Add data to data base - comment if done once
@@ -64,8 +67,46 @@ passport.use(
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// Define models.
+const modelRegistry = new ModelRegistry({
+    Comment: new ModelRoutesDefinition({
+        author: 'User',
+        likes: 'Like',
+    }),
+
+    Like: new ModelRoutesDefinition({
+        author: 'User',
+    }),
+
+    Post: new ModelRoutesDefinition({
+        author: 'User',
+        comments: 'Comment',
+        likes: 'Like',
+    }),
+
+    Project: new ModelRoutesDefinition({
+        author: 'User',
+        posts: 'Post',
+        likes: 'Like',
+    }),
+
+    Sprint: new ModelRoutesDefinition({
+        author: 'User',
+        comments: 'Comment',
+        likes: 'Like',
+        posts: 'Post',
+    }),
+
+    Team: new ModelRoutesDefinition({
+        members: 'User',
+    }),
+
+    User: new ModelRoutesDefinition({}),
+});
+
 // Handle API routes
-require('./routes/sprint')(app);
+// TODO: use `modelRegistry` in all routes.
+require('./routes/sprint')(app, modelRegistry);
 require('./routes/project')(app);
 require('./routes/post')(app);
 require('./routes/comment')(app);
