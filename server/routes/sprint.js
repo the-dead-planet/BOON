@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
 const middleware = require('../middleware');
 const { pathsInMongooseFormat } = require('../common/queries');
-const { requestPreprocessor } = require('../common/request');
+const { requestPreprocessor, RequestKind } = require('../common/request');
 const ModelRegistry = require('../common/ModelRegistry');
 const Sprint = mongoose.model('Sprint');
 const Post = mongoose.model('Post');
 const Comment = mongoose.model('Comment');
 const Like = mongoose.model('Like');
 
-// TODO: after extracting all core logic, remove the rest of boilerplate to `ModelRoutesDefinition`
-const postRequestPreprocessor = requestPreprocessor({ author: req => req.user._id });
-const putRequestPreprocessor = requestPreprocessor({ edited: req => Date.now() });
+module.exports = (app, modelRegistry, modelId) => {
+    const modelDefinition = modelRegistry.findDefinition(modelId);
+    const postRequestPreprocessor = requestPreprocessor(modelDefinition.requestMappers[RequestKind.POST] || {});
+    const putRequestPreprocessor = requestPreprocessor(modelDefinition.requestMappers[RequestKind.PUT] || {});
 
-module.exports = (app, modelRegistry) => {
     // INDEX - Get all
     app.get(`/api/sprints`, async (req, res) => {
         const query = Sprint.find({});

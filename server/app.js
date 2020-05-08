@@ -17,6 +17,7 @@ seedDB = require('./seeds');
 
 const ModelRoutesDefinition = require('./common/ModelRoutesDefinition');
 const ModelRegistry = require('./common/ModelRegistry');
+const { RequestKind } = require('./common/request');
 
 var handleErrors = require('./middleware').handleErrors;
 
@@ -90,12 +91,18 @@ const modelRegistry = new ModelRegistry({
         likes: 'Like',
     }),
 
-    Sprint: new ModelRoutesDefinition({
-        author: 'User',
-        comments: 'Comment',
-        likes: 'Like',
-        posts: 'Post',
-    }),
+    Sprint: new ModelRoutesDefinition(
+        {
+            author: 'User',
+            comments: 'Comment',
+            likes: 'Like',
+            posts: 'Post',
+        },
+        {
+            [RequestKind.POST]: { author: req => req.user._id },
+            [RequestKind.PUT]: { edited: req => Date.now() },
+        }
+    ),
 
     Team: new ModelRoutesDefinition({
         members: 'User',
@@ -106,7 +113,7 @@ const modelRegistry = new ModelRegistry({
 
 // Handle API routes
 // TODO: use `modelRegistry` in all routes.
-require('./routes/sprint')(app, modelRegistry);
+require('./routes/sprint')(app, modelRegistry, 'Sprint');
 require('./routes/project')(app);
 require('./routes/post')(app);
 require('./routes/comment')(app);
