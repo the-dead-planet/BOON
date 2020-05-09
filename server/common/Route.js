@@ -86,7 +86,7 @@ class Route {
         const behaviour = (mongoose, req, res) => {
             const { params } = req;
 
-            const data = postRequestPreprocessor(req);
+            const data = putRequestPreprocessor(req);
             const mongooseModel = mongoose.model(modelId);
             const query = mongooseModel.findByIdAndUpdate(params.id, data);
             return query

@@ -18,6 +18,8 @@ seedDB = require('./seeds');
 const ModelRoutesDefinition = require('./common/ModelRoutesDefinition');
 const ModelRegistry = require('./common/ModelRegistry');
 const { RequestKind } = require('./common/request');
+const Route = require('./common/Route');
+const Routes = require('./common/Routes');
 
 var handleErrors = require('./middleware').handleErrors;
 
@@ -112,8 +114,12 @@ const modelRegistry = new ModelRegistry({
 });
 
 // Handle API routes
-// TODO: use `modelRegistry` in all routes.
-require('./routes/sprint')(app, modelRegistry, 'Sprint');
+// TODO: use the `Route` class in all route definitions.
+const routes = new Routes([require('./routes/sprint')(modelRegistry)].flat());
+
+routes.connect(app);
+
+// Legacy routes. To be migrated to `Routes`.
 require('./routes/project')(app);
 require('./routes/post')(app);
 require('./routes/comment')(app);
