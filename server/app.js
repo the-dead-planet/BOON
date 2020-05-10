@@ -15,6 +15,13 @@ var express = require('express'),
     User = require('./models/User');
 seedDB = require('./seeds');
 
+const ModelRoutesDefinition = require('./common/ModelRoutesDefinition');
+const ModelRegistry = require('./common/ModelRegistry');
+const { RequestKind } = require('./common/request');
+const Route = require('./common/Route');
+const Routes = require('./common/Routes');
+const { SingleModelField, ManyModelField } = require('./common/ModelField');
+
 var handleErrors = require('./middleware').handleErrors;
 
 // // Add data to data base - comment if done once
@@ -64,15 +71,90 @@ passport.use(
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// Define models.
+// TODO: move to separate modules, extract `author` and `edited` handlers to decorators
+const modelRegistry = new ModelRegistry({
+    Comment: new ModelRoutesDefinition(
+        {
+            author: new SingleModelField('User'),
+            likes: new ManyModelField('Like'),
+        },
+        {
+            [RequestKind.POST]: { author: req => req.user._id },
+            [RequestKind.PUT]: { edited: req => Date.now() },
+        }
+    ),
+
+    Like: new ModelRoutesDefinition(
+        {
+            author: new SingleModelField('User'),
+        },
+        {
+            [RequestKind.POST]: { author: req => req.user._id },
+        }
+    ),
+
+    Post: new ModelRoutesDefinition(
+        {
+            author: new SingleModelField('User'),
+            comments: new ManyModelField('Comment'),
+            likes: new ManyModelField('Like'),
+        },
+        {
+            [RequestKind.POST]: { author: req => req.user._id },
+            [RequestKind.PUT]: { edited: req => Date.now() },
+        }
+    ),
+
+    Project: new ModelRoutesDefinition(
+        {
+            author: new SingleModelField('User'),
+            posts: new ManyModelField('Post'),
+            likes: new ManyModelField('Like'),
+        },
+        {
+            [RequestKind.POST]: { author: req => req.user._id },
+            [RequestKind.PUT]: { edited: req => Date.now() },
+        }
+    ),
+
+    Sprint: new ModelRoutesDefinition(
+        {
+            author: new SingleModelField('User'),
+            comments: new ManyModelField('Comment'),
+            likes: new ManyModelField('Like'),
+            posts: new ManyModelField('Post'),
+        },
+        {
+            [RequestKind.POST]: { author: req => req.user._id },
+            [RequestKind.PUT]: { edited: req => Date.now() },
+        }
+    ),
+
+    Team: new ModelRoutesDefinition({
+        members: new ManyModelField('User'),
+    }),
+
+    User: new ModelRoutesDefinition({}),
+});
+
 // Handle API routes
-require('./routes/sprint')(app);
-require('./routes/project')(app);
-require('./routes/post')(app);
-require('./routes/comment')(app);
-require('./routes/like')(app);
-require('./routes/team')(app);
-require('./routes/auth')(app);
-require('./routes/user')(app);
+const routes = new Routes(
+    [
+        require('./routes/auth'),
+        require('./routes/comment'),
+        require('./routes/like'),
+        require('./routes/post'),
+        require('./routes/project'),
+        require('./routes/sprint'),
+        require('./routes/team'),
+        require('./routes/user'),
+    ]
+        .map(routesModule => routesModule(modelRegistry))
+        .flat()
+);
+
+routes.connect(app);
 
 app.use(handleErrors);
 

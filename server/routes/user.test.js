@@ -49,7 +49,7 @@ describe('user', () => {
                 .put(`/api/users/${actingUser._id}`)
                 .send({ publicName: 'updatedPublicName' })
                 .then(resp => {
-                    expect(resp.statusCode).toBe(200);
+                    expect(resp.statusCode).toBe(202);
                 });
 
             // Fetch the user from DB, see if it got updated.

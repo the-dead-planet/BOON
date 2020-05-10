@@ -59,15 +59,6 @@ describe('post', () => {
                 ])
             );
         });
-
-        test('cannot post to unknown sprint', async () => {
-            const resp = await agent
-                .post('/api/posts')
-                .send({ sprintId: '1234567890ab', title: 'title', body: 'body' });
-
-            await expect(resp).toMatchObject({ statusCode: 404 });
-            await expect(Post.find({ postedToObject: { id: '1234567890ab' } })).resolves.toHaveLength(0);
-        });
     });
 
     describe('unauthenticated user', () => {

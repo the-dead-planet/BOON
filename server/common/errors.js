@@ -28,7 +28,7 @@ class NotFoundError extends BoonHttpError {
     }
 
     detail() {
-        return { [this.fieldName]: this.value };
+        return `${this.fieldName}: ${this.value}`;
     }
 }
 

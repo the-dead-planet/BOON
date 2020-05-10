@@ -58,18 +58,6 @@ describe('sprint comment', () => {
                 });
         });
 
-        test('unknown sprintId', () => {
-            return agent
-                .post('/api/comments')
-                .send({ id: '1234567890ab', model: 'Sprint', comment: 'comment text' })
-                .then(resp => {
-                    return expect(resp).toMatchObject({
-                        statusCode: 404,
-                        body: { detail: {} },
-                    });
-                });
-        });
-
         test('can delete a comment', () => {
             return Promise.resolve()
                 .then(() =>
