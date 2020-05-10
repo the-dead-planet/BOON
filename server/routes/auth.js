@@ -1,70 +1,73 @@
-const mongoose = require('mongoose');
-const middleware = require('../middleware');
-const User = mongoose.model('User');
 const passport = require('passport');
+const Route = require('../common/Route');
+const { RequestKind } = require('../common/request');
 
-module.exports = app => {
-    // Returns the logged in user, or `null` if not logged in.
-    app.get('/api/auth/whoami', (req, res) => {
+module.exports = modelRegistry => [
+    new Route('/api/auth/whoami', RequestKind.GET, (mongoose, req, res) => {
         const user = req.isAuthenticated() ? req.user : null;
         return res.status(200).send({ user });
-    });
+    }),
 
-    app.post('/api/auth/register', (req, res, next) => {
-        // Wrap the code with an empty promise to make the inner code `async` and handle potential errors.
-        return Promise.resolve()
-            .then(async () => {
-                // TODO: Add check if username also already exists or not
-                const user = await User.register(
-                    new User({
-                        username: req.body.email,
-                        publicName: req.body.publicName,
-                        role: req.body.role,
-                        country: req.body.country,
-                        joined: req.body.joined,
-                        left: req.body.left,
-                        auth: undefined,
-                    }),
-                    req.body.password
-                );
-                // TODO: handle array of skills
-                // .then(user =>
-                //      req.body.skills.map(skill => user.skills.push(skill))
-                //     res.status(201).send({
-                //         error: false,
-                //         user,
-                //     })
-                // )
-                // .catch(err => res.status(500).send({ err }));
+    new Route('/api/auth/register', RequestKind.POST, async (mongoose, req, res, next) => {
+        try {
+            const User = mongoose.model('User');
 
-                // TODO: Add user ID to Team.users array
+            // TODO: Add check if username also already exists or not
+            const user = await User.register(
+                new User({
+                    username: req.body.email,
+                    publicName: req.body.publicName,
+                    role: req.body.role,
+                    country: req.body.country,
+                    joined: req.body.joined,
+                    left: req.body.left,
+                }),
+                req.body.password
+            );
 
-                // Authenticate the user after registration.
-                req.login(user, err => {
-                    if (err) {
-                        throw err;
-                    } else {
-                        // Send the created user object to the client.
-                        return res.status(201).send({
-                            user,
-                        });
-                    }
-                });
-            })
-            .catch(next);
-    });
+            // TODO: handle array of skills
+            // .then(user =>
+            //      req.body.skills.map(skill => user.skills.push(skill))
+            //     res.status(201).send({
+            //         error: false,
+            //         user,
+            //     })
+            // )
+            // .catch(err => res.status(500).send({ err }));
 
-    // POST - Log in
-    app.post('/api/auth/login', passport.authenticate('local'), (req, res) => {
-        const { user } = req;
-        return res.status(200).send({
-            user,
-        });
-    });
+            // TODO: Add user ID to Team.users array
 
-    // Log Out
-    app.post('/api/auth/logout', (req, res) => {
+            // Authenticate the user after registration.
+            // TODO: Add check if username also already exists or not
+            await req.login(user, err => {
+                if (err) {
+                    throw err;
+                }
+            });
+
+            // Send the created user object to the client.
+            return res.status(201).send({
+                user,
+            });
+        } catch (err) {
+            next(err);
+        }
+    }),
+
+    new Route(
+        '/api/auth/login',
+        RequestKind.POST,
+        (mongoose, req, res) => {
+            const { user } = req;
+            return res.status(200).send({
+                user,
+            });
+        },
+        passport.authenticate('local')
+    ),
+
+    new Route('/api/auth/logout', RequestKind.POST, (mongoose, req, res) => {
         req.logout();
         return res.status(200).send();
-    });
-};
+    }),
+];

@@ -71,27 +71,46 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // Define models.
+// TODO: move to separate modules, extract `author` and `edited` handlers to decorators
 const modelRegistry = new ModelRegistry({
-    Comment: new ModelRoutesDefinition({
-        author: 'User',
-        likes: 'Like',
-    }),
+    Comment: new ModelRoutesDefinition(
+        {
+            author: 'User',
+            likes: 'Like',
+        },
+        {
+            [RequestKind.POST]: { author: req => req.user._id },
+            [RequestKind.PUT]: { edited: req => Date.now() },
+        }
+    ),
 
     Like: new ModelRoutesDefinition({
         author: 'User',
     }),
 
-    Post: new ModelRoutesDefinition({
-        author: 'User',
-        comments: 'Comment',
-        likes: 'Like',
-    }),
+    Post: new ModelRoutesDefinition(
+        {
+            author: 'User',
+            comments: 'Comment',
+            likes: 'Like',
+        },
+        {
+            [RequestKind.POST]: { author: req => req.user._id },
+            [RequestKind.PUT]: { edited: req => Date.now() },
+        }
+    ),
 
-    Project: new ModelRoutesDefinition({
-        author: 'User',
-        posts: 'Post',
-        likes: 'Like',
-    }),
+    Project: new ModelRoutesDefinition(
+        {
+            author: 'User',
+            posts: 'Post',
+            likes: 'Like',
+        },
+        {
+            [RequestKind.POST]: { author: req => req.user._id },
+            [RequestKind.PUT]: { edited: req => Date.now() },
+        }
+    ),
 
     Sprint: new ModelRoutesDefinition(
         {
@@ -114,19 +133,22 @@ const modelRegistry = new ModelRegistry({
 });
 
 // Handle API routes
-// TODO: use the `Route` class in all route definitions.
-const routes = new Routes([require('./routes/sprint')(modelRegistry)].flat());
+const routes = new Routes(
+    [
+        require('./routes/auth'),
+        require('./routes/comment'),
+        require('./routes/like'),
+        require('./routes/post'),
+        require('./routes/project'),
+        require('./routes/sprint'),
+        require('./routes/team'),
+        require('./routes/user'),
+    ]
+        .map(routesModule => routesModule(modelRegistry))
+        .flat()
+);
 
 routes.connect(app);
-
-// Legacy routes. To be migrated to `Routes`.
-require('./routes/project')(app);
-require('./routes/post')(app);
-require('./routes/comment')(app);
-require('./routes/like')(app);
-require('./routes/team')(app);
-require('./routes/auth')(app);
-require('./routes/user')(app);
 
 app.use(handleErrors);
 

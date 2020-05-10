@@ -9,7 +9,7 @@ const { isLoggedIn } = require('../middleware');
 // Exposes multiple static factory methods implementing common
 // scenarios.
 //
-// `behaviour` is a void function taking a `(mongoose, req, res)` triple as an argument.
+// `behaviour` is a void function taking a `(mongoose, req, res, next)` tuple as an argument.
 // `mongoose` is injected as an argument to minimize boilerplate of route definitions and
 // to aid testing - since `mongoose` is being injected, it can be easily mocked.
 class Route {
@@ -120,7 +120,7 @@ class Route {
     connect(app) {
         // Behaviour with all arguments not provided by the request itself preapplied.
         // Matches the signature expected by express.
-        const preappliedBehaviour = (req, res) => this.behaviour(mongoose, req, res);
+        const preappliedBehaviour = this.behaviour.bind(null, mongoose);
         const expressProperty = this.expressPropertyMatchingMethod();
         if (this.middleware) {
             app[expressProperty](this.path, this.middleware, preappliedBehaviour);
