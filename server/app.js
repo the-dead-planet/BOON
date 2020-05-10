@@ -20,6 +20,7 @@ const ModelRegistry = require('./common/ModelRegistry');
 const { RequestKind } = require('./common/request');
 const Route = require('./common/Route');
 const Routes = require('./common/Routes');
+const { SingleModelField, ManyModelField } = require('./common/ModelField');
 
 var handleErrors = require('./middleware').handleErrors;
 
@@ -75,8 +76,8 @@ passport.deserializeUser(User.deserializeUser());
 const modelRegistry = new ModelRegistry({
     Comment: new ModelRoutesDefinition(
         {
-            author: 'User',
-            likes: 'Like',
+            author: new SingleModelField('User'),
+            likes: new ManyModelField('Like'),
         },
         {
             [RequestKind.POST]: { author: req => req.user._id },
@@ -86,7 +87,7 @@ const modelRegistry = new ModelRegistry({
 
     Like: new ModelRoutesDefinition(
         {
-            author: 'User',
+            author: new SingleModelField('User'),
         },
         {
             [RequestKind.POST]: { author: req => req.user._id },
@@ -95,9 +96,9 @@ const modelRegistry = new ModelRegistry({
 
     Post: new ModelRoutesDefinition(
         {
-            author: 'User',
-            comments: 'Comment',
-            likes: 'Like',
+            author: new SingleModelField('User'),
+            comments: new ManyModelField('Comment'),
+            likes: new ManyModelField('Like'),
         },
         {
             [RequestKind.POST]: { author: req => req.user._id },
@@ -107,9 +108,9 @@ const modelRegistry = new ModelRegistry({
 
     Project: new ModelRoutesDefinition(
         {
-            author: 'User',
-            posts: 'Post',
-            likes: 'Like',
+            author: new SingleModelField('User'),
+            posts: new ManyModelField('Post'),
+            likes: new ManyModelField('Like'),
         },
         {
             [RequestKind.POST]: { author: req => req.user._id },
@@ -119,10 +120,10 @@ const modelRegistry = new ModelRegistry({
 
     Sprint: new ModelRoutesDefinition(
         {
-            author: 'User',
-            comments: 'Comment',
-            likes: 'Like',
-            posts: 'Post',
+            author: new SingleModelField('User'),
+            comments: new ManyModelField('Comment'),
+            likes: new ManyModelField('Like'),
+            posts: new ManyModelField('Post'),
         },
         {
             [RequestKind.POST]: { author: req => req.user._id },
@@ -131,7 +132,7 @@ const modelRegistry = new ModelRegistry({
     ),
 
     Team: new ModelRoutesDefinition({
-        members: 'User',
+        members: new ManyModelField('User'),
     }),
 
     User: new ModelRoutesDefinition({}),

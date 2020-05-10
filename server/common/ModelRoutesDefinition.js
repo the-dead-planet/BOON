@@ -1,4 +1,5 @@
 const RequestKind = require('./request');
+const { ModelField } = require('./ModelField');
 
 // Single type exposing all data needed to define API routes for a model.
 //
@@ -9,13 +10,19 @@ const RequestKind = require('./request');
 // `ModelRegistry`.
 // TODO: convert into a regular interface once TypeScript is supported.
 class ModelRoutesDefinition {
-    constructor(relatedModels, requestMappers) {
-        relatedModels = relatedModels || {};
+    constructor(fields, requestMappers) {
+        fields = fields || {};
         requestMappers = requestMappers || {};
 
-        // { referenceId: referenceModelName } mapping of related models.
+        Object.values(fields).forEach(modelField => {
+            if (!(modelField instanceof ModelField)) {
+                throw new Error(`fields must only contain ModelFields. Got: ${modelField}`);
+            }
+        });
+
+        // { referenceId: ModelField } mapping of related models.
         // Will be used, among others, to derive `populate` paths.
-        this.relatedModels = relatedModels;
+        this.fields = fields;
 
         // { RequestKind: { propertyId: mapper } } mapping of per-request mappers.
         // By default, each request's `body` object will be passed directly to mongoose as

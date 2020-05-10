@@ -14,13 +14,13 @@ class ModelRegistry {
 
     // Recursively build a tree of `populate` paths.
     populatePaths(modelId) {
-        const relatedModels = this.findDefinition(modelId).relatedModels;
+        const fields = this.findDefinition(modelId).fields;
 
         return Object.fromEntries(
-            Object.keys(relatedModels).map(fieldName => {
+            Object.keys(fields).map(fieldName => {
                 // Call the function recursively for each related model.
                 // Return in a format compatible with `Object.fromEntries`.
-                const relatedModelName = relatedModels[fieldName];
+                const relatedModelName = fields[fieldName].modelName;
                 return [fieldName, this.populatePaths(relatedModelName)];
             })
         );
