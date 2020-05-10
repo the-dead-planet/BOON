@@ -11,11 +11,19 @@ class SingleModelField extends ModelField {
     constructor(modelName) {
         super(modelName);
     }
+
+    required() {
+        return true;
+    }
 }
 
 class ManyModelField extends ModelField {
     constructor(modelName) {
         super(modelName);
+    }
+
+    required() {
+        return false;
     }
 }
 

@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { RequestKind, requestPreprocessor } = require('./request');
 const { pathsInMongooseFormat } = require('./queries');
 const { isLoggedIn } = require('../middleware');
+const { NotFoundError } = require('./errors');
 
 // Definition of a single API route.
 //
@@ -63,8 +64,25 @@ class Route {
         const modelDefinition = modelRegistry.findDefinition(modelId);
         const postRequestPreprocessor = requestPreprocessor(modelDefinition.requestMappers[method] || {});
 
-        const behaviour = (mongoose, req) => {
+        const behaviour = async (mongoose, req) => {
             const data = postRequestPreprocessor(req);
+
+            // Check if all related objects exist.
+            await Promise.all(
+                Object.entries(modelDefinition.fields)
+                    .filter(([_, field]) => field.required())
+                    .map(async ([propertyName, field]) => {
+                        const relatedModel = mongoose.model(field.modelName);
+                        const providedRelatedId = data[propertyName];
+                        if (!relatedModel) {
+                            throw new Error(`Unknown model: ${field.modelName}`);
+                        }
+                        if ((await relatedModel.findById(providedRelatedId).exec()) == null) {
+                            throw new NotFoundError(field.modelName, providedRelatedId);
+                        }
+                    })
+            );
+
             const mongooseModel = mongoose.model(modelId);
             const query = mongooseModel.create(data);
             return query.then(obj => ({ statusCode: 201, data: obj }));
