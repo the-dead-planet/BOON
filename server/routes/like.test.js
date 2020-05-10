@@ -55,7 +55,7 @@ describe('sprint like', () => {
         test('can like', async () => {
             const resp = await agent.post('/api/likes').send({ id: sprint._id, model: 'Sprint', type: 'likeType' });
 
-            await expect(resp).toMatchObject({ statusCode: 201 });
+            await expect(resp).toEqual(expect.objectContaining({ status: 201 }));
             await expect(Like.find({})).resolves.toEqual(
                 expect.arrayContaining([
                     expect.objectContaining({

@@ -84,9 +84,14 @@ const modelRegistry = new ModelRegistry({
         }
     ),
 
-    Like: new ModelRoutesDefinition({
-        author: 'User',
-    }),
+    Like: new ModelRoutesDefinition(
+        {
+            author: 'User',
+        },
+        {
+            [RequestKind.POST]: { author: req => req.user._id },
+        }
+    ),
 
     Post: new ModelRoutesDefinition(
         {

@@ -80,7 +80,7 @@ describe('sprint', () => {
         test('can create', async () => {
             const resp = await agent.post('/api/sprints').send({ title: 'title', body: 'body' });
 
-            await expect(resp).toMatchObject({ statusCode: 201 });
+            await expect(resp).toEqual(expect.objectContaining({ statusCode: 201 }));
             await expect(Sprint.find({})).resolves.toEqual(
                 expect.arrayContaining([
                     expect.objectContaining({
