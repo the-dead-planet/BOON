@@ -9,7 +9,7 @@ const { isLoggedIn } = require('../middleware');
 // Exposes multiple static factory methods implementing common
 // scenarios.
 //
-// `behaviour` is a void function taking a `(mongoose, req, res, next)` tuple as an argument.
+// `behaviour` is a function `(mongoose, request) => { statusCode: Number, data: Object }`.
 // `mongoose` is injected as an argument to minimize boilerplate of route definitions and
 // to aid testing - since `mongoose` is being injected, it can be easily mocked.
 class Route {
@@ -25,15 +25,14 @@ class Route {
         const path = `/api/${modelId}s/:id`;
         const method = RequestKind.GET;
 
-        const behaviour = mongoose => (req, res) => {
+        const behaviour = (mongoose, req) => {
             const { params } = req;
             const mongooseModel = mongoose.model(modelId);
             const query = mongooseModel.findById(params.id);
             return query
                 .populate(pathsInMongooseFormat(modelRegistry.populatePaths(modelId)))
                 .exec()
-                .then(sprint => res.status(200).send(sprint))
-                .catch(err => res.status(500).send({ err }));
+                .then(sprint => ({ statusCode: 200, data: sprint }));
         };
 
         return new Route(path, method, behaviour);
@@ -44,14 +43,13 @@ class Route {
     static getAll(modelId, modelRegistry) {
         const path = `/api/${modelId}s`;
         const method = RequestKind.GET;
-        const behaviour = (mongoose, req, res) => {
+        const behaviour = (mongoose, req) => {
             const mongooseModel = mongoose.model(modelId);
             const query = mongooseModel.find({});
             return query
                 .populate(pathsInMongooseFormat(modelRegistry.populatePaths(modelId)))
                 .exec()
-                .then(sprint => res.status(200).send(sprint))
-                .catch(err => res.status(500).send({ err }));
+                .then(sprints => ({ statusCode: 200, data: sprints }));
         };
 
         return new Route(path, method, behaviour);
@@ -65,11 +63,11 @@ class Route {
         const modelDefinition = modelRegistry.findDefinition(modelId);
         const postRequestPreprocessor = requestPreprocessor(modelDefinition.requestMappers[method] || {});
 
-        const behaviour = (mongoose, req, res) => {
+        const behaviour = (mongoose, req) => {
             const data = postRequestPreprocessor(req);
             const mongooseModel = mongoose.model(modelId);
             const query = mongooseModel.create(data);
-            return query.then(obj => res.status(201).send({ obj })).catch(err => res.status(500).send({ err }));
+            return query.then(obj => ({ statusCode: 201, data: obj }));
         };
 
         return new Route(path, method, behaviour, isLoggedIn);
@@ -89,9 +87,10 @@ class Route {
             const data = putRequestPreprocessor(req);
             const mongooseModel = mongoose.model(modelId);
             const query = mongooseModel.findByIdAndUpdate(params.id, data);
-            return query
-                .then(obj => obj.save().then(() => res.status(202).send({ obj })))
-                .catch(err => res.status(500).send({ err }));
+            return query.then(obj => {
+                obj.save();
+                return { statusCode: 202, data: obj };
+            });
         };
 
         return new Route(path, method, behaviour, isLoggedIn); // TODO: checkOwnership
@@ -110,17 +109,32 @@ class Route {
 
             const mongooseModel = mongoose.model(modelId);
             const query = mongooseModel.findByIdAndDelete(params.id);
-            return query.then(obj => res.status(202).send([params.id])).catch(err => res.status(500).send({ err }));
+            return query.then(() => ({ statusCode: 202, data: params.id }));
         };
 
         return new Route(path, method, behaviour, isLoggedIn); // TODO: checkOwnership
+    }
+
+    // Handles all boilerplate of turning a behaviour function into an express-compatible callback.
+    // Guarantees that a response is returned to the client.
+    decoratedBehaviour() {
+        return async (req, res, next) => {
+            try {
+                const { statusCode = 200, data } = await this.behaviour(mongoose, req);
+                return res.status(statusCode).send(data);
+            } catch (err) {
+                // Let the remaining middleware handle the error.
+                // Unless some remaining middleware catches the error, this will result in a 500 response.
+                next(err);
+            }
+        };
     }
 
     // Adds the route to `app`.
     connect(app) {
         // Behaviour with all arguments not provided by the request itself preapplied.
         // Matches the signature expected by express.
-        const preappliedBehaviour = this.behaviour.bind(null, mongoose);
+        const preappliedBehaviour = this.decoratedBehaviour();
         const expressProperty = this.expressPropertyMatchingMethod();
         if (this.middleware) {
             app[expressProperty](this.path, this.middleware, preappliedBehaviour);
