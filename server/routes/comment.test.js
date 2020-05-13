@@ -63,12 +63,7 @@ describe('sprint comment', () => {
             // Fetch the object from the database to make sure its properties are updated.
             const updatedSprint = await Sprint.findById(sprint._id);
             expect(updatedSprint.comments).toHaveLength(1);
-
-            // NOTE: mongoose ids are not directly comparable with the `==` operator, which makes writing a matcher
-            // a bit harder.
-            // TODO: write a matcher for mongooseIds
-            const fetchedCommentId = updatedSprint.comments[0];
-            expect(fetchedCommentId.equals(createdCommentId)).toBe(true);
+            expect(updatedSprint.comments).toContainEqual(expect.toMatchMongooseId(createdCommentId));
         });
 
         test('can delete a comment', () => {
