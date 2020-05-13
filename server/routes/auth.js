@@ -1,14 +1,14 @@
 const passport = require('passport');
 const Route = require('../common/Route');
-const { RequestKind } = require('../common/request');
+const { RequestMethod } = require('../common/request');
 
 module.exports = modelRegistry => [
-    new Route('/api/auth/whoami', RequestKind.GET, (mongoose, req) => {
+    new Route('/api/auth/whoami', RequestMethod.GET, (mongoose, req) => {
         const user = req.isAuthenticated() ? req.user : null;
         return { statusCode: 200, data: { user } };
     }),
 
-    new Route('/api/auth/register', RequestKind.POST, async (mongoose, req) => {
+    new Route('/api/auth/register', RequestMethod.POST, async (mongoose, req) => {
         const User = mongoose.model('User');
 
         // TODO: Add check if username also already exists or not
@@ -50,7 +50,7 @@ module.exports = modelRegistry => [
 
     new Route(
         '/api/auth/login',
-        RequestKind.POST,
+        RequestMethod.POST,
         (mongoose, req) => {
             const { user } = req;
             return { statusCode: 200, data: { user } };
@@ -58,7 +58,7 @@ module.exports = modelRegistry => [
         passport.authenticate('local')
     ),
 
-    new Route('/api/auth/logout', RequestKind.POST, (mongoose, req) => {
+    new Route('/api/auth/logout', RequestMethod.POST, (mongoose, req) => {
         req.logout();
         return { statusCode: 200 };
     }),

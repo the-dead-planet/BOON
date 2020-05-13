@@ -1,4 +1,4 @@
-const RequestKind = require('./request');
+const RequestMethod = require('./request');
 const { ModelField } = require('./ModelField');
 
 // Single type exposing all data needed to define API routes for a model.
@@ -24,14 +24,14 @@ class ModelRoutesDefinition {
         // Will be used, among others, to derive `populate` paths.
         this.fields = fields;
 
-        // { RequestKind: { propertyId: mapper } } mapping of per-request mappers.
+        // { RequestMethod: { propertyId: mapper } } mapping of per-request mappers.
         // By default, each request's `body` object will be passed directly to mongoose as
         // an object's definition. A mapper can be used to preprocess the `body` before passing
         // it to mongoose.
         // For example, one could add a `createdAt` field to each created object by definining
         // ```
         // requestMappers = {
-        //   [RequestKind.POST]: { createdAt: req => Date.now() }
+        //   [RequestMethod.POST]: { createdAt: req => Date.now() }
         // }
         // ```
         // Only PUT and POST request kinds are supported.
