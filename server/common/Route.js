@@ -4,6 +4,7 @@ const { RequestKind, requestPreprocessor } = require('./request');
 const { pathsInMongooseFormat } = require('./queries');
 const { isLoggedIn } = require('../middleware');
 const { NotFoundError } = require('./errors');
+const Link = require('./Link');
 
 // Definition of a single API route.
 //
@@ -66,7 +67,6 @@ class Route {
 
         const behaviour = async (mongoose, req) => {
             const data = postRequestPreprocessor(req);
-
             // Check if all related objects exist.
             await Promise.all(
                 Object.entries(modelDefinition.fields)
@@ -84,8 +84,21 @@ class Route {
             );
 
             const mongooseModel = mongoose.model(modelId);
-            const query = mongooseModel.create(data);
-            return query.then(obj => ({ statusCode: 201, data: obj }));
+            const obj = await mongooseModel.create(data);
+
+            // Link the object to related objects.
+            await Promise.all(
+                Object.entries(data)
+                    .filter(([_, value]) => value instanceof Link)
+                    .map(async ([key, link]) => {
+                        const relatedModel = mongoose.model(link.modelId);
+                        const relatedObject = await relatedModel.findById(link.objectId).exec();
+                        relatedObject[link.modelProperty].push(obj._id);
+                        await relatedObject.save();
+                    })
+            );
+
+            return { statusCode: 201, data: obj };
         };
 
         return new Route(path, method, behaviour, isLoggedIn);
