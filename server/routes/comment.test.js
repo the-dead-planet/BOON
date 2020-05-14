@@ -47,15 +47,23 @@ describe('sprint comment', () => {
             return agent.post('/api/auth/logout');
         });
 
-        test('can comment', () => {
-            return agent
+        test('can comment', async () => {
+            const resp = await agent
                 .post('/api/comments')
-                .send({ id: sprint._id, model: 'Sprint', comment: 'comment text' })
-                .then(resp => {
-                    return expect(resp).toMatchObject({
-                        statusCode: 201,
-                    });
-                });
+                .send({ id: sprint._id, model: 'Sprint', comment: 'comment text' });
+
+            expect(resp).toEqual(
+                expect.objectContaining({
+                    statusCode: 201,
+                })
+            );
+
+            const createdCommentId = resp.body._id;
+
+            // Fetch the object from the database to make sure its properties are updated.
+            const updatedSprint = await Sprint.findById(sprint._id);
+            expect(updatedSprint.comments).toHaveLength(1);
+            expect(updatedSprint.comments).toContainEqual(expect.toMatchMongooseId(createdCommentId));
         });
 
         test('can delete a comment', () => {

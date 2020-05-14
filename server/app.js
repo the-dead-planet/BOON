@@ -18,6 +18,7 @@ seedDB = require('./seeds');
 const ModelRoutesDefinition = require('./common/ModelRoutesDefinition');
 const ModelRegistry = require('./common/ModelRegistry');
 const { RequestMethod } = require('./common/request');
+const Link = require('./common/Link');
 const Route = require('./common/Route');
 const Routes = require('./common/Routes');
 const { SingleModelField, ManyModelField } = require('./common/ModelField');
@@ -80,8 +81,12 @@ const modelRegistry = new ModelRegistry({
             likes: new ManyModelField('Like'),
         },
         {
-            [RequestMethod.POST]: { author: req => req.user._id },
+            [RequestMethod.POST]: {
+                author: req => req.user._id,
+                commentedObject: req => new Link(req.body.model, req.body.id, 'comments'),
+            },
             [RequestMethod.PUT]: { edited: req => Date.now() },
+
         }
     ),
 
