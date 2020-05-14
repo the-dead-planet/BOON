@@ -3,7 +3,7 @@ import { useStyles } from '../../../styles/main';
 import { Box } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
-import TreeView from '@material-ui/lab/TreeView';
+import { TreeView } from '@material-ui/lab/';
 import TreeItem from '@material-ui/lab/TreeItem';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
