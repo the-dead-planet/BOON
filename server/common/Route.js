@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const { RequestKind, requestPreprocessor } = require('./request');
+const { RequestMethod, requestPreprocessor } = require('./request');
 const { pathsInMongooseFormat } = require('./queries');
 const { isLoggedIn } = require('../middleware');
 const { NotFoundError } = require('./errors');
@@ -25,7 +25,7 @@ class Route {
     // A default route fetching a single object.
     static getOne(modelId, modelRegistry) {
         const path = `/api/${modelId}s/:id`;
-        const method = RequestKind.GET;
+        const method = RequestMethod.GET;
 
         const behaviour = (mongoose, req) => {
             const { params } = req;
@@ -44,7 +44,7 @@ class Route {
     // TODO: extract common part of getOne and getAll into a separate method
     static getAll(modelId, modelRegistry) {
         const path = `/api/${modelId}s`;
-        const method = RequestKind.GET;
+        const method = RequestMethod.GET;
         const behaviour = (mongoose, req) => {
             const mongooseModel = mongoose.model(modelId);
             const query = mongooseModel.find({});
@@ -60,7 +60,7 @@ class Route {
     // A default route creating a single object.
     static create(modelId, modelRegistry) {
         const path = `/api/${modelId}s`;
-        const method = RequestKind.POST;
+        const method = RequestMethod.POST;
 
         const modelDefinition = modelRegistry.findDefinition(modelId);
         const postRequestPreprocessor = requestPreprocessor(modelDefinition.requestMappers[method] || {});
@@ -107,7 +107,7 @@ class Route {
     // A default route updating a single object.
     static update(modelId, modelRegistry) {
         const path = `/api/${modelId}s/:id`;
-        const method = RequestKind.PUT;
+        const method = RequestMethod.PUT;
 
         const modelDefinition = modelRegistry.findDefinition(modelId);
         const putRequestPreprocessor = requestPreprocessor(modelDefinition.requestMappers[method] || {});
@@ -131,7 +131,7 @@ class Route {
     // Not named `delete` to avoid conflicts with the builtin operator.
     static remove(modelId, modelRegistry) {
         const path = `/api/${modelId}s/:id`;
-        const method = RequestKind.DELETE;
+        const method = RequestMethod.DELETE;
 
         // TODO: find related models, delete them too
 
@@ -178,13 +178,13 @@ class Route {
     // For example, to define a `GET` route, one calls `app.get`.
     expressPropertyMatchingMethod() {
         switch (this.method) {
-            case RequestKind.GET:
+            case RequestMethod.GET:
                 return 'get';
-            case RequestKind.POST:
+            case RequestMethod.POST:
                 return 'post';
-            case RequestKind.PUT:
+            case RequestMethod.PUT:
                 return 'put';
-            case RequestKind.DELETE:
+            case RequestMethod.DELETE:
                 return 'delete';
             default:
                 throw new Error(`Unknown method: ${this.method}`);

@@ -11,11 +11,11 @@ const requestPreprocessor = mappers => request => {
     };
 };
 
-const RequestKind = {
+const RequestMethod = {
     GET: 'GET',
     POST: 'POST',
     PUT: 'PUT',
     DELETE: 'DELETE',
 };
 
-module.exports = { requestPreprocessor, RequestKind };
+module.exports = { requestPreprocessor, RequestMethod };

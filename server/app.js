@@ -17,7 +17,7 @@ seedDB = require('./seeds');
 
 const ModelRoutesDefinition = require('./common/ModelRoutesDefinition');
 const ModelRegistry = require('./common/ModelRegistry');
-const { RequestKind } = require('./common/request');
+const { RequestMethod } = require('./common/request');
 const Link = require('./common/Link');
 const Route = require('./common/Route');
 const Routes = require('./common/Routes');
@@ -81,11 +81,12 @@ const modelRegistry = new ModelRegistry({
             likes: new ManyModelField('Like'),
         },
         {
-            [RequestKind.POST]: {
+            [RequestMethod.POST]: {
                 author: req => req.user._id,
                 commentedObject: req => new Link(req.body.model, req.body.id, 'comments'),
             },
-            [RequestKind.PUT]: { edited: req => Date.now() },
+            [RequestMethod.PUT]: { edited: req => Date.now() },
+
         }
     ),
 
@@ -94,7 +95,7 @@ const modelRegistry = new ModelRegistry({
             author: new SingleModelField('User'),
         },
         {
-            [RequestKind.POST]: { author: req => req.user._id },
+            [RequestMethod.POST]: { author: req => req.user._id },
         }
     ),
 
@@ -105,8 +106,8 @@ const modelRegistry = new ModelRegistry({
             likes: new ManyModelField('Like'),
         },
         {
-            [RequestKind.POST]: { author: req => req.user._id },
-            [RequestKind.PUT]: { edited: req => Date.now() },
+            [RequestMethod.POST]: { author: req => req.user._id },
+            [RequestMethod.PUT]: { edited: req => Date.now() },
         }
     ),
 
@@ -117,8 +118,8 @@ const modelRegistry = new ModelRegistry({
             likes: new ManyModelField('Like'),
         },
         {
-            [RequestKind.POST]: { author: req => req.user._id },
-            [RequestKind.PUT]: { edited: req => Date.now() },
+            [RequestMethod.POST]: { author: req => req.user._id },
+            [RequestMethod.PUT]: { edited: req => Date.now() },
         }
     ),
 
@@ -130,8 +131,8 @@ const modelRegistry = new ModelRegistry({
             posts: new ManyModelField('Post'),
         },
         {
-            [RequestKind.POST]: { author: req => req.user._id },
-            [RequestKind.PUT]: { edited: req => Date.now() },
+            [RequestMethod.POST]: { author: req => req.user._id },
+            [RequestMethod.PUT]: { edited: req => Date.now() },
         }
     ),
 
