@@ -3,7 +3,9 @@
         "outDir": "./built",
         "allowJs": true,
         "target": "es5",
-        "lib": ["es6"]
+        "lib": ["es6"],
+        "module": "commonjs",
+        "moduleResolution": "node"
     },
     "include": ["./src/**/*"]
 }
