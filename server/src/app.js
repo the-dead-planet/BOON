@@ -86,7 +86,6 @@ const modelRegistry = new ModelRegistry({
                 commentedObject: req => new Link(req.body.model, req.body.id, 'comments'),
             },
             [RequestMethod.PUT]: { edited: req => Date.now() },
-
         }
     ),
 

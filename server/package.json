@@ -2,10 +2,10 @@
     "name": "react-express-mongo",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "src/index.js",
     "scripts": {
         "test": "jest --detectOpenHandles",
-        "start": "nodemon index.js"
+        "start": "nodemon src/index.js"
     },
     "keywords": [],
     "author": "",
