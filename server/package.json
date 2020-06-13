@@ -5,6 +5,7 @@
     "main": "built/index.js",
     "scripts": {
         "build": "tsc",
+        "clean": "rm -rf built/",
         "test": "jest --detectOpenHandles",
         "start": "nodemon built/index.js"
     },
