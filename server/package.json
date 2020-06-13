@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "jest --testEnvironment node --detectOpenHandles",
+        "test": "jest --detectOpenHandles",
         "start": "nodemon index.js"
     },
     "keywords": [],
