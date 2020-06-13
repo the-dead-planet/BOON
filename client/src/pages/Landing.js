@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../styles/Landing.css';
+import '../styles/landing.css';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
@@ -8,7 +8,7 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 const Landing = props => (
     <React.Fragment>
         <div className="fade-in">
-            <Container className="landing-header">
+            <div className="landing-header">
                 <Typography variant="h4">Something that is very helpful and improves the quality of life</Typography>
                 <Typography className="offset" variant="h5">
                     noun | UK <VolumeUpIcon />
@@ -17,7 +17,7 @@ const Landing = props => (
                 <Link to={'/sprints'} className="btn-slideshow">
                     ENTER THE BOON
                 </Link>
-            </Container>
+            </div>
         </div>
         <ul className="slideshow">
             <li></li>
