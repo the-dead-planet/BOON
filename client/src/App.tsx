@@ -13,9 +13,10 @@ import Sprint from './pages/Sprint';
 import './App.css';
 import authService from './services/authService';
 import ScrollToTop from './utils/ScrollToTop';
+import { StateType } from './logic/types';
 
-class App extends Component {
-    constructor(props) {
+class App extends Component<{}, StateType> {
+    constructor(props: any) {
         super(props);
         this.state = State.INITIAL_STATE;
     }
@@ -35,7 +36,7 @@ class App extends Component {
         // Build a HOF performing these 2 steps to reduce boilerplate.
         // The resulting function will forward all arguments to `stateUpdater` and
         // invoke `setState` with the result.
-        const updateState = stateUpdater => (...args) => {
+        const updateState = (stateUpdater: any) => (...args: any) => {
             console.log(stateUpdater);
             return this.setState(stateUpdater(this.state)(...args));
         };
@@ -43,7 +44,7 @@ class App extends Component {
         // Pack props into an object to reduce boilerplate code.
         const notificationsProps = {
             addNotification: updateState(State.addNotification),
-            onNotificationShown: (...args) =>
+            onNotificationShown: (...args: any) =>
                 setTimeout(() => {
                     updateState(State.popNotification)(...args);
                 }, 5000),

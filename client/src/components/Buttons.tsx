@@ -4,7 +4,7 @@ import commentsService from '../services/commentsService';
 import postsService from '../services/postsService';
 import sprintsService from '../services/sprintsService';
 import MenuItem from '@material-ui/core/MenuItem';
-import { User, Sprint, Object, Model } from '../logic/types';
+import { User, Sprint, MongoObject, Model } from '../logic/types';
 
 const models = [
     {
@@ -27,7 +27,7 @@ const models = [
 interface DeleteProps {
     user: User;
     model: Model;
-    object: Object;
+    object: MongoObject;
     push?: any;
     onError?: any;
 }
@@ -56,7 +56,7 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError }: Delet
 interface EditProps {
     user: User;
     model: string;
-    object: Object;
+    object: MongoObject;
 }
 
 export const ObjectEditButton = ({ user, model, object }: EditProps) => {
@@ -88,7 +88,7 @@ export const AddPostButton = ({ user, sprint }: AddProps) => {
 
 interface AddCommentProps {
     user: User;
-    object: Object;
+    object: MongoObject;
     onClick: any;
 }
 export const AddCommentButton = ({ user, object, onClick }: AddCommentProps) => {

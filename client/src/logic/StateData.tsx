@@ -1,11 +1,13 @@
 import { isEqual } from 'lodash';
 import { concatMaps } from '../utils/containers';
+import { StateData, MongoObject, Model, Path, StateDataFunc } from './types';
+import { getValue } from '../utils/helperMethods'; // TODO: On a long term solve in a cleverer way
 /* Module containing methods related to state data manipulation */
 
 // Initial values of the object.
 // Wrapped in a function to make sure each call returns a fresh, empty state.
 // If it was exposed as a constant, it would still be possible to modify its underlying maps.
-export const initialState = () => ({
+export const initialState: StateDataFunc = () => ({
     projects: new Map(),
     sprints: new Map(),
     posts: new Map(),
@@ -17,9 +19,9 @@ export const initialState = () => ({
 
 // Merge two state data objects.
 // `right` takes precedence.
-export const mergeStateData = (left, right) => {
+export const mergeStateData = (left: any, right: any) => {
     // Make sure both objects contain the same set of keys.
-    const sortedKeys = obj => Object.keys(obj).sort();
+    const sortedKeys = (obj: any) => Object.keys(obj).sort();
 
     // `isEqual` checks deep equality, as opposed to the `==` operator.
     const leftKeys = sortedKeys(left);
@@ -69,7 +71,7 @@ const PATHS_DATA = {
 // This is the only exported depopulation related function.
 // The two remaining functions are not exported, because we want to have a single entry point
 // to the logic - it's easier to maintain.
-export const depopulate = (obj, modelName) => {
+export const depopulate = (obj: MongoObject, modelName: Path) => {
     // `depopulateImpl` modifes a received state in-place. It's an implementation detail, though.
     // This function will have no side effects - it creates its own state and returns it to the caller.
     // The caller is responsible for merging the created state with its own, previous state.
@@ -80,14 +82,15 @@ export const depopulate = (obj, modelName) => {
 
 // Implementation of `depopulate`. Not to be exported.
 // This function differs from `depopulate` in its signature, allowing more fine grained invocations.
-export const depopulateImpl = (obj, paths, stateData) => {
+export const depopulateImpl = (obj: MongoObject, paths: Array<Path>, stateData: StateData) => {
     paths.map(path => {
         if (!(path in obj)) {
             throw new Error(`Unknown depopulation path: ${JSON.stringify({ path, obj })}`);
         }
+
         // Check if the property stores one object (author) or many in an array (posts)
-        const setAndDepopulate = Array.isArray(obj[path]) ? setAndDepopulateMany : setAndDepopulateOne;
-        obj[path] = setAndDepopulate(obj[path], path, stateData);
+        const setAndDepopulate = Array.isArray(getValue(obj, path)) ? setAndDepopulateMany : setAndDepopulateOne;
+        obj[path] = setAndDepopulate(getValue(obj, path), path, stateData);
     });
 
     return obj;
@@ -96,8 +99,8 @@ export const depopulateImpl = (obj, paths, stateData) => {
 // This function receives an object and depopulates it by replacing all
 // direct nested objects with their object._id and initiates the same for these nested object,
 // then adds the depopulated object to the appropriate state property
-const setAndDepopulateOne = ({ _id, ...args }, path, stateData) => {
-    const model = PATHS_DATA[path];
+const setAndDepopulateOne = ({ _id, ...args }: MongoObject, path: Path | string, stateData: StateData) => {
+    const model = getValue(PATHS_DATA, path);
     if (!model) {
         throw new Error(`Model not found: ${JSON.stringify({ path })}`);
     }
@@ -107,10 +110,11 @@ const setAndDepopulateOne = ({ _id, ...args }, path, stateData) => {
         throw new Error(`State data not found: ${JSON.stringify({ state, stateData })}`);
     }
 
-    stateData[state].set(_id, depopulateImpl({ _id, ...args }, paths, stateData)); // TODO: delete _id
+    getValue(stateData, state).set(_id, depopulateImpl({ _id, ...args }, paths, stateData)); // TODO: delete _id
 
     return _id;
 };
 
 // The same as setAndDepopulateOne for an array of objects of the same model
-const setAndDepopulateMany = (list, path, stateData) => list.map(obj => setAndDepopulateOne(obj, path, stateData));
+const setAndDepopulateMany = (list: Array<MongoObject>, path: Path, stateData: StateData) =>
+    list.map(obj => setAndDepopulateOne(obj, path, stateData));

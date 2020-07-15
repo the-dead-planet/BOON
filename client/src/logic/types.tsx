@@ -16,12 +16,24 @@ type User = {
     darkMode: boolean | undefined,
 } | undefined
 
-interface State {
-    user: User,
-    whoAmIRequestDone: boolean,
+interface StateType {
+    user: User | null,
+    whoamiRequestDone: boolean,
     mode: Mode,
-    query: string,
-    data: Array<DataItem>
+    notifications: Array<Notification>,
+    data: StateData,
+}
+
+type StateDataFunc = () => StateData
+
+type StateData = {
+    projects: Map<string, Project>,
+    sprints: Map<string, Sprint>,
+    posts: Map<string, Post>,
+    comments: Map<string, Comment>,
+    teams: Map<string, Team>,
+    users: Map<string, User>,
+    likes: Map<string, Like>,
 }
 
 interface DataItem { 
@@ -121,8 +133,9 @@ interface Team {
 }
 
 
-type Object = Post | Sprint | Project | Comment | Like;
+type MongoObject = Post | Sprint | Project | Comment | Like;
 type Model = "Sprint" | "Post" | "Project" | "Team" | "Comment" | "Like";
+type Path = 'author' | 'posts' | 'comments'| 'likes'| 'sprints' | 'projects';
 
 interface FeedLayout {
     posts: Array<{
@@ -144,6 +157,10 @@ interface Landing {
     button: { name: string, path: string },
 }
 
+interface Notification { 
+    id: string 
+}
+
 export type {
     DataItem,
     User,
@@ -151,7 +168,9 @@ export type {
     DrawerVariant,
     Input,
     Drawer,
-    State,
+    StateType,
+    StateDataFunc,
+    StateData,
     Action,
     Jumbotron,
     Comment,
@@ -161,8 +180,10 @@ export type {
     PostLayout,
     Post,
     Sprint,
-    Object,
+    MongoObject,
     Model,
+    Path,
     FeedLayout,
     Landing,
+    Notification
 }
