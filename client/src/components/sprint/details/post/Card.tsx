@@ -10,6 +10,23 @@ import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ActionButtons } from './ActionButtons';
 import { CardMenu } from './Menu';
+import { User, Comment, Like } from '../../../../logic/types';
+
+interface Props {
+    user: User;
+    object: any;
+    model: string;
+    comments: Array<Comment>;
+    likes: Array<Like>;
+    users: Array<User>;
+    title: string;
+    subtitle: string;
+    body: string;
+    mediaTop?: any;
+    mediaMiddle?: any;
+    menuItems: Array<{ name: string; path: string }>;
+    updateStateData: any;
+}
 
 // Pass a component to mediaTop or mediaBottom depending on which location it is needed in
 export const PostCard = ({
@@ -26,7 +43,7 @@ export const PostCard = ({
     mediaMiddle,
     menuItems,
     updateStateData,
-}) => {
+}: Props) => {
     const classes = useStyles();
 
     const [expanded, setExpanded] = React.useState(false);
@@ -34,9 +51,9 @@ export const PostCard = ({
         setExpanded(!expanded);
     };
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-    const handleMenuClick = event => {
+    const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
 

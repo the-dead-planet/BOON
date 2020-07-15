@@ -1,5 +1,5 @@
 // Below file is in .gitignore, generate your own file with content: 'module.exports = <password>'
-const password = require('../seeds-data-password');
+const password = require('./seeds-data-password');
 
 // TODO: automate generation
 module.exports = {

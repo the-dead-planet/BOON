@@ -5,6 +5,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { PostCard } from './Card';
 import moment from 'moment';
 import { EXT_DATE_FORMAT, MODELS } from '../../../../utils/constants';
+import img from '../../../../img/landing/Landing_1.png';
 
 export const PostsList = ({ user, posts, comments, likes, users, updateStateData, push }) => {
     const classes = useStyles();
@@ -22,10 +23,10 @@ export const PostsList = ({ user, posts, comments, likes, users, updateStateData
                     users={users}
                     title={post.title}
                     subtitle={` / ${moment(post.created).format(EXT_DATE_FORMAT)}`}
-                    subtitle={`${users.get(post.author).publicName} / ${moment(post.created).format(EXT_DATE_FORMAT)}`} // TODO: get users from state and filter
+                    // subtitle={`${users.get(post.author).publicName} / ${moment(post.created).format(EXT_DATE_FORMAT)}`} // TODO: get users from state and filter
                     body={post.body}
                     mediaMiddle={
-                        <CardMedia className={classes.height200} image={require('../../../../img/Landing_1.png')} /> // TODO: read from db
+                        <CardMedia style={{ height: '200px' }} image={img} /> // TODO: read from db
                     }
                     menuItems={[{ name: 'Go to related project' }]}
                     updateStateData={updateStateData}

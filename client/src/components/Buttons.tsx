@@ -4,6 +4,7 @@ import commentsService from '../services/commentsService';
 import postsService from '../services/postsService';
 import sprintsService from '../services/sprintsService';
 import MenuItem from '@material-ui/core/MenuItem';
+import { User, Sprint, Object } from '../logic/types';
 
 const models = {
     Sprint: {
@@ -20,7 +21,15 @@ const models = {
     },
 };
 
-export const ObjectDeleteButton = ({ user, model, object, push, onError }) => {
+interface DeleteProps {
+    user: User;
+    model: string;
+    object: Object;
+    push: any;
+    onError: any;
+}
+
+export const ObjectDeleteButton = ({ user, model, object, push, onError }: DeleteProps) => {
     return user && object && object.author._id === user._id ? (
         <MenuItem
             color="inherit"
@@ -38,7 +47,13 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError }) => {
     ) : null;
 };
 
-export const ObjectEditButton = ({ user, model, object }) => {
+interface EditProps {
+    user: User;
+    model: string;
+    object: Object;
+}
+
+export const ObjectEditButton = ({ user, model, object }: EditProps) => {
     return user && object && object.author._id === user._id ? (
         <Button color="inherit" href={`${models[model].path}/${object._id}/edit`}>
             Edit
@@ -46,7 +61,12 @@ export const ObjectEditButton = ({ user, model, object }) => {
     ) : null;
 };
 
-export const AddPostButton = ({ user, sprint }) => {
+interface AddProps {
+    user: User;
+    sprint: Sprint;
+}
+
+export const AddPostButton = ({ user, sprint }: AddProps) => {
     return user && sprint ? (
         <Button color="inherit" href={`${models['Sprint'].path}/${sprint._id}/add_post`}>
             Add Post
@@ -54,7 +74,12 @@ export const AddPostButton = ({ user, sprint }) => {
     ) : null;
 };
 
-export const AddCommentButton = ({ user, object, onClick }) => {
+interface AddCommentProps {
+    user: User;
+    object: Object;
+    onClick: any;
+}
+export const AddCommentButton = ({ user, object, onClick }: AddCommentProps) => {
     return user && object ? (
         <Button color="inherit" href="" onClick={onClick}>
             Add Comment

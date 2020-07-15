@@ -2,8 +2,19 @@ import React from 'react';
 import { ObjectDeleteButton } from '../../../Buttons';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import { User } from '../../../../logic/types';
 
-export const CardMenu = ({ user, model, _id, object, anchorEl, handleMenuClose, menuItems }) => {
+interface Props {
+    user: User;
+    model: string;
+    _id?: string;
+    object: any;
+    anchorEl: HTMLElement;
+    handleMenuClose: any;
+    menuItems: Array<{ name: string; path: string }>;
+}
+
+export const CardMenu = ({ user, model, _id, object, anchorEl, handleMenuClose, menuItems }: Props) => {
     return (
         <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose}>
             {/* TODO: implement action to go to projects page and change state for current project */}

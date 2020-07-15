@@ -3,8 +3,16 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined';
+import { User, Comment, Like } from '../../../../logic/types';
 
-export const ActionButtons = ({ user, comments, likes, handleExpandClick }) => {
+interface Props {
+    user: User;
+    comments: Array<Comment>;
+    likes: Array<Like>;
+    handleExpandClick: any;
+}
+
+export const ActionButtons = ({ user, comments, likes, handleExpandClick }: Props) => {
     return (
         <React.Fragment>
             <IconButton aria-label="add to favorites">
