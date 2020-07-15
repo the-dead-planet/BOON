@@ -4,9 +4,32 @@ import sprintsService from '../services/sprintsService';
 import AppLayout from '../layouts/AppLayout';
 import SprintView from '../components/sprint/SprintView';
 import withShowError from '../components/withShowError';
+import { User, NotificationProps, Mode, StateData } from '../logic/types';
+
+interface Props {
+    user: User,
+    mode: Mode,
+    setMode: any,
+    data: StateData,
+    setState: any,
+    updateStateData: any,
+    notificationsProps: NotificationProps,
+    onError: any,
+    showError: any
+}
 
 // If path is /sprints, redirect to the newest sprint
-const Sprint = ({ user, data, setState, updateStateData, notificationsProps, onError, showError }) => {
+const Sprint = ({
+    user,
+    mode,
+    setMode,
+    data,
+    setState,
+    updateStateData,
+    notificationsProps,
+    onError,
+    showError
+}: Props) => {
     const { id } = useParams();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users } = data;
 
@@ -20,7 +43,7 @@ const Sprint = ({ user, data, setState, updateStateData, notificationsProps, onE
         if (sprints && sprints.size > 0) {
             // If no sprints exists, there's nowhere to redirect to.
             // TODO: consider handling this case by rendering a message.
-            const mostRecentSprint = [...sprints.values()].reduce((a, b) =>
+            const mostRecentSprint = [...sprints.values()].reduce((a, b) => // TODO: check this typescript error
                 new Date(a.dateTo) > new Date(b.dateTo) ? a : b
             );
             sprintToDisplayId = mostRecentSprint._id;
@@ -42,24 +65,24 @@ const Sprint = ({ user, data, setState, updateStateData, notificationsProps, onE
     return sprintToDisplayId && sprintToDisplayId !== id ? (
         <Redirect to={`/sprints/${sprintToDisplayId}`} />
     ) : (
-        <AppLayout user={user} {...notificationsProps}>
-            {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
-            {sprintToDisplayId && (
-                <SprintView
-                    user={user}
-                    sprints={sprints}
-                    posts={posts}
-                    comments={comments}
-                    likes={likes}
-                    users={users}
-                    sprintId={id}
-                    updateStateData={updateStateData}
-                    onError={onError}
-                    showError={showError}
-                />
-            )}
-        </AppLayout>
-    );
+            <AppLayout user={user} mode={mode} setMode={any} {...notificationsProps}>
+                {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
+                {sprintToDisplayId && (
+                    <SprintView
+                        user={user}
+                        sprints={sprints}
+                        posts={posts}
+                        comments={comments}
+                        likes={likes}
+                        users={users}
+                        sprintId={id}
+                        updateStateData={updateStateData}
+                        onError={onError}
+                        showError={showError}
+                    />
+                )}
+            </AppLayout>
+        );
 };
 
 export default withShowError(Sprint);

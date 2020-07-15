@@ -5,14 +5,25 @@ import authService from '../services/authService';
 import usersService from '../services/usersService';
 import { interceptPage } from '../components/interceptPage';
 import withShowError from '../components/withShowError';
+import { User, NotificationProps, Mode } from '../logic/types';
 
 /* Users can log in using either their e-mail (passport 'username') or their publicName
  If non-email address value entered, match with publicName and replace 'email' value 
  by matched user's username (=email) */
-const Login = ({ next, onLoginSuccess, user, notificationsProps, showError }) => {
+interface Props {
+    next: any,
+    onLoginSuccess: any,
+    user: User,
+    mode: Mode,
+    setMode: any,
+    notificationsProps: NotificationProps,
+    showError: any,
+}
+
+const Login = ({ next, onLoginSuccess, user, mode, setMode, notificationsProps, showError }: Props) => {
     // const { addNotification } = notificationsProps;
     return (
-        <AppLayout user={user} {...notificationsProps}>
+        <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
             {/* <div className={classes.main}> */}
             <AuthForm
                 register={false}
@@ -20,10 +31,10 @@ const Login = ({ next, onLoginSuccess, user, notificationsProps, showError }) =>
                     email: '',
                     password: '',
                 }}
-                onSubmit={async ({ password, email }) => {
+                onSubmit={async ({ password, email }: { password: string, email: string }) => {
                     if (email.indexOf('@') === -1)
                         await usersService.getAll().then(users => {
-                            let matchedUsers = users.filter(user => user.publicName === email);
+                            let matchedUsers = users.filter((user: User) => user?.publicName === email);
                             email = matchedUsers.length > 0 ? matchedUsers[0].username : email;
                         });
 

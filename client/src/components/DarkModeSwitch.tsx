@@ -7,11 +7,11 @@ import { Mode } from '../logic/types';
 // TODO: Add update user if user logged in and switches the dark mode on/off
 interface Props {
     mode: ModeType;
-    setDarkMode: any;
+    setMode: any;
     style?: object;
 }
 
-const DarkModeSwitch = ({ mode, setDarkMode, style }: Props) => {
+const DarkModeSwitch = ({ mode, setMode, style }: Props) => {
     const classes = useStyles();
 
     // Toggle mode light/dark
@@ -22,7 +22,7 @@ const DarkModeSwitch = ({ mode, setDarkMode, style }: Props) => {
     const changeDarkMode = (event: React.ChangeEvent<HTMLInputElement>) => {
         const darkModeChecked = event.target.checked;
         setState({ ...state, [event.target.name]: darkModeChecked });
-        setDarkMode(darkModeChecked ? 'dark' : 'light');
+        setMode(darkModeChecked ? 'dark' : 'light');
     };
 
     return (

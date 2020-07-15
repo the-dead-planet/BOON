@@ -15,12 +15,12 @@ import NotificationsRenderer from '../components/NotificationsRenderer';
 */
 interface Props {
     user: User;
-    children: React.ReactChild;
+    children: React.ReactChild | React.ReactChildren | Array<React.ReactChild>;
     jumbotron?: JumbotronType;
     drawer?: Drawer;
     appBar?: boolean;
     mode: Mode;
-    setDarkMode: any;
+    setMode: any;
     notifications: any;
     onNotificationShown: any;
 }
@@ -32,7 +32,7 @@ const AppLayout = ({
     drawer,
     appBar,
     mode,
-    setDarkMode,
+    setMode,
     notifications,
     onNotificationShown,
 }: Props) => {
@@ -67,7 +67,7 @@ const AppLayout = ({
                     user={user}
                     name="Monsters Gallery"
                     mode={mode}
-                    setDarkMode={setDarkMode}
+                    setMode={setMode}
                     open={open}
                     handleDrawerOpen={handleDrawerOpen}
                     handleDrawerClose={handleDrawerClose}
@@ -78,7 +78,7 @@ const AppLayout = ({
                 user={user}
                 {...drawer}
                 mode={mode}
-                setDarkMode={setDarkMode}
+                setMode={setMode}
                 open={open}
                 toggleDrawer={toggleDrawer}
             />

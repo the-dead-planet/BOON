@@ -12,14 +12,14 @@ import { DrawerVariant, Mode, User } from '../../logic/types';
 interface Props {
     user: User;
     mode: Mode;
-    setDarkMode: any;
+    setMode: any;
     open: boolean;
     toggleDrawer: any;
     variant?: DrawerVariant;
 }
 
 // This component can be either temporary or persistent. By default temporary. use prop 'variant' to change to "persistent"
-const MenuDrawer = ({ user, variant = 'temporary', mode, setDarkMode, open, toggleDrawer }: Props) => {
+const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDrawer }: Props) => {
     const classes = useStyles();
     const { main } = PATHS;
 
@@ -55,7 +55,7 @@ const MenuDrawer = ({ user, variant = 'temporary', mode, setDarkMode, open, togg
             </Hidden>
 
             <Divider />
-            <DarkModeSwitch style={{ marginLeft: 'auto' }} mode={mode} setDarkMode={setDarkMode} />
+            <DarkModeSwitch style={{ marginLeft: 'auto' }} mode={mode} setMode={setMode} />
         </Drawer>
     );
 };

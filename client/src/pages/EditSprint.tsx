@@ -9,8 +9,18 @@ import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';
 import { Loading } from '../components/Loading';
 import withShowError from '../components/withShowError';
+import { User, NotificationProps, Mode, StateData } from '../logic/types';
 
-const EditSprint = ({ user, push, notificationsProps, showError }) => {
+interface Props {
+    user: User,
+    mode: Mode,
+    setMode: any,
+    push: any, 
+    notificationsProps: NotificationProps,
+    showError: any,
+}
+
+const EditSprint = ({ user, mode, setMode, push, notificationsProps, showError }: Props) => {
     const { id } = useParams();
 
     const [sprint, setSprint] = useState(null);
@@ -27,12 +37,14 @@ const EditSprint = ({ user, push, notificationsProps, showError }) => {
     });
 
     return (
-        <AppLayout user={user} {...notificationsProps}>
+        <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
             {!sprint ? (
                 <Loading />
             ) : (
                 <SprintForm
-                    title={`Edit sprint ${sprint.number}`}
+                    title={`Edit sprint ${sprint.number}`}  
+                    // TODO: Solve the possibly 'null' error. 
+                    // Assure that sprint is either of type Sprint or undefined and use sprint?.number (optional chaining ES2020)
                     initialValues={{
                         number: sprint.number,
                         title: sprint.title,

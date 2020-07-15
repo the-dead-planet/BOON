@@ -13,7 +13,7 @@ import Sprint from './pages/Sprint';
 import './App.css';
 import authService from './services/authService';
 import ScrollToTop from './utils/ScrollToTop';
-import { StateType } from './logic/types';
+import { StateType, Mode } from './logic/types';
 
 class App extends Component<{}, StateType> {
     constructor(props: any) {
@@ -26,6 +26,11 @@ class App extends Component<{}, StateType> {
         authService.whoami().then(({ user }) => {
             this.setState(State.resolveWhoAmI(this.state)(user));
         });
+    }
+
+    // TODO: move to state methods
+    setMode = (mode: Mode) => {
+        this.setState({ mode: mode })
     }
 
     render() {
@@ -54,78 +59,113 @@ class App extends Component<{}, StateType> {
         return !whoamiRequestDone ? (
             'Loading'
         ) : (
-            <Router>
-                <ScrollToTop>
-                    <div className="App">
-                        <Switch>
-                            {/*
+                <Router>
+                    <ScrollToTop>
+                        <div className="App">
+                            <Switch>
+                                {/*
                             A Switch will iterate through all routes and return
                             on the first match.
                             The order matters - the most generic paths should
                             be at the very end.
                         */}
-                            <Route path="/login">
-                                <Login
-                                    onLoginSuccess={updateState(State.setUser)}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path="/register">
-                                <Register
-                                    user={user}
-                                    onSuccess={updateState(State.setUser)}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path="/logout">
-                                <Logout
-                                    user={user}
-                                    onSuccess={updateState(State.clearUser)}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path="/sprints/:id/edit">
-                                <EditSprint user={user} notificationsProps={notificationsProps} />
-                            </Route>
-                            <Route path="/sprints/:id/add_post">
-                                <AddPost user={user} notificationsProps={notificationsProps} />
-                            </Route>
-                            <Route path={'/sprints/:id'}>
-                                <Sprint
-                                    user={user}
-                                    setState={updateState(State.setSprints)}
-                                    updateStateData={updateState(State.updateData)}
-                                    data={this.state.data}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            {/* /sprints - redirect to the sprint page with  */}
-                            <Route path="/sprints">
-                                <Sprint
-                                    user={user}
-                                    setState={updateState(State.setSprints)}
-                                    updateStateData={updateState(State.updateData)}
-                                    data={this.state.data}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path="/add_sprint">
-                                <AddSprint user={user} notificationsProps={notificationsProps} />
-                            </Route>
-                            <Route path="/add_project">
-                                <AddProject user={user} notificationsProps={notificationsProps} />
-                            </Route>
-                            <Route path="/add_post">
-                                <AddPost user={user} notificationsProps={notificationsProps} />
-                            </Route>
-                            <Route path="/">
-                                <Landing />
-                            </Route>
-                        </Switch>
-                    </div>
-                </ScrollToTop>
-            </Router>
-        );
+                                <Route path="/login">
+                                    <Login
+                                        mode={this.state.mode}
+                                        setMode={this.setMode}
+                                        onLoginSuccess={updateState(State.setUser)}
+                                        notificationsProps={notificationsProps}
+                                    />
+                                </Route>
+                                <Route path="/register">
+                                    <Register
+                                        user={user}
+                                        mode={this.state.mode}
+                                        setMode={this.setMode}
+                                        onSuccess={updateState(State.setUser)}
+                                        notificationsProps={notificationsProps}
+                                    />
+                                </Route>
+                                <Route path="/logout">
+                                    <Logout
+                                        user={user}
+                                        mode={this.state.mode}
+                                        setMode={this.setMode}
+                                        onSuccess={updateState(State.clearUser)}
+                                        notificationsProps={notificationsProps}
+                                    />
+                                </Route>
+                                <Route path="/sprints/:id/edit">
+                                    <EditSprint 
+                                        user={user} 
+                                        mode={this.state.mode}
+                                        setMode={this.setMode}
+                                        notificationsProps={notificationsProps} 
+                                    />
+                                </Route>
+                                <Route path="/sprints/:id/add_post">
+                                    <AddPost 
+                                        user={user} 
+                                        mode={this.state.mode}
+                                        setMode={this.setMode}
+                                        notificationsProps={notificationsProps} 
+                                    />
+                                </Route>
+                                <Route path={'/sprints/:id'}>
+                                    <Sprint
+                                        user={user}
+                                        mode={this.state.mode}
+                                        setMode={this.setMode}
+                                        setState={updateState(State.setSprints)}
+                                        updateStateData={updateState(State.updateData)}
+                                        data={this.state.data}
+                                        notificationsProps={notificationsProps}
+                                    />
+                                </Route>
+                                {/* /sprints - redirect to the sprint page with  */}
+                                <Route path="/sprints">
+                                    <Sprint
+                                        user={user}
+                                        mode={this.state.mode}
+                                        setMode={this.setMode}
+                                        setState={updateState(State.setSprints)}
+                                        updateStateData={updateState(State.updateData)}
+                                        data={this.state.data}
+                                        notificationsProps={notificationsProps}
+                                    />
+                                </Route>
+                                <Route path="/add_sprint">
+                                    <AddSprint 
+                                        user={user} 
+                                        mode={this.state.mode}
+                                        setMode={this.setMode}
+                                        notificationsProps={notificationsProps} 
+                                    />
+                                </Route>
+                                <Route path="/add_project">
+                                    <AddProject 
+                                        user={user} 
+                                        mode={this.state.mode}
+                                        setMode={this.setMode}
+                                        notificationsProps={notificationsProps} 
+                                    />
+                                </Route>
+                                <Route path="/add_post">
+                                    <AddPost 
+                                        user={user} 
+                                        mode={this.state.mode}
+                                        setMode={this.setMode}
+                                        notificationsProps={notificationsProps} 
+                                    />
+                                </Route>
+                                <Route path="/">
+                                    <Landing />
+                                </Route>
+                            </Switch>
+                        </div>
+                    </ScrollToTop>
+                </Router>
+            );
     }
 }
 

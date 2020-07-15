@@ -15,13 +15,13 @@ interface Props {
     user: User;
     name: string;
     mode: Mode;
-    setDarkMode: any;
+    setMode: any;
     open: boolean;
     handleDrawerOpen: any;
     handleDrawerClose: any;
 }
 
-const NavBar = ({ user, name, mode, setDarkMode, open, handleDrawerOpen, handleDrawerClose }: Props) => {
+const NavBar = ({ user, name, mode, setMode, open, handleDrawerOpen, handleDrawerClose }: Props) => {
     const classes = useStyles();
     const location = useLocation();
     const path = location.pathname;
@@ -54,7 +54,7 @@ const NavBar = ({ user, name, mode, setDarkMode, open, handleDrawerOpen, handleD
                     {/* Show auth buttons only on other pages than authentication or home (includes those buttons on the jumbotron) */}
                     {![home, login, logout, register].includes(path) && (
                         <Hidden smDown>
-                            <AuthButtonsHorizontal style={{ marginLeft: 'auto' }} user={user} />
+                            <AuthButtonsHorizontal user={user} />
                         </Hidden>
                     )}
                 </Toolbar>

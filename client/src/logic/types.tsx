@@ -158,7 +158,12 @@ interface Landing {
 }
 
 interface Notification { 
-    id: string 
+    id: string,
+}
+
+interface NotificationProps { 
+    notifications: Array<Notification>,
+    onNotificationShown: any,
 }
 
 export type {
@@ -185,5 +190,6 @@ export type {
     Path,
     FeedLayout,
     Landing,
-    Notification
+    Notification,
+    NotificationProps
 }

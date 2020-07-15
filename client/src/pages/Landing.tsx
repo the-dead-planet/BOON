@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
-const Landing = props => (
+const Landing = (props: any) => (
     <React.Fragment>
         <div className="fade-in">
             <div className="landing-header">

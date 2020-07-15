@@ -4,9 +4,20 @@ import AuthForm from '../components/forms/Auth';
 import authService from '../services/authService';
 import { interceptPage } from '../components/interceptPage';
 import withShowError from '../components/withShowError';
+import { User, NotificationProps, Mode } from '../logic/types';
 
-const Register = ({ user, onSuccess, next, notificationsProps, showError }) => (
-    <AppLayout user={user} {...notificationsProps}>
+interface Props {
+    next: any,
+    onSuccess: any,
+    user: User,
+    mode: Mode,
+    setMode: any,
+    notificationsProps: NotificationProps,
+    showError: any,
+}
+
+const Register = ({ user, mode, setMode, onSuccess, next, notificationsProps, showError }: Props) => (
+    <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
         <div>
             <AuthForm
                 register={true}
@@ -16,7 +27,7 @@ const Register = ({ user, onSuccess, next, notificationsProps, showError }) => (
                     password: '',
                     team: '',
                 }}
-                onSubmit={({ username, password, email, team }) => {
+                onSubmit={({ username, password, email, team }: { username: string, password: string, email: string, team: string }) => {
                     authService
                         .register(username, password, email, team)
                         .then(resp => {
