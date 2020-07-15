@@ -2,14 +2,14 @@ import React from 'react';
 import { ObjectDeleteButton } from '../../../Buttons';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { User } from '../../../../logic/types';
+import { User, Object, Model } from '../../../../logic/types';
 
 interface Props {
     user: User;
-    model: string;
+    model: Model;
     _id?: string;
-    object: any;
-    anchorEl: HTMLElement;
+    object: Object;
+    anchorEl: HTMLElement | null;
     handleMenuClose: any;
     menuItems: Array<{ name: string; path: string }>;
 }

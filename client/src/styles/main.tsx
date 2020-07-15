@@ -8,8 +8,8 @@ import { fade, makeStyles, useTheme, Theme, createStyles } from '@material-ui/co
 // Below components need to be imported to correctly overwrite styles with classes in useStyle
 import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
-import header from '../img/landing/header-1.jpg';
-import header2 from '../img/landing/header-2.jpg';
+const header = require('../img/landing/header-1.jpg');
+const header2 = require('../img/landing/header-2.jpg');
 
 // // Custom palette - colors should be defined here and referenced in classes
 // const color1 = '#1A1A1D'; // black

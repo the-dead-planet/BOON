@@ -4,29 +4,32 @@ import commentsService from '../services/commentsService';
 import postsService from '../services/postsService';
 import sprintsService from '../services/sprintsService';
 import MenuItem from '@material-ui/core/MenuItem';
-import { User, Sprint, Object } from '../logic/types';
+import { User, Sprint, Object, Model } from '../logic/types';
 
-const models = {
-    Sprint: {
+const models = [
+    {
+        name: 'Sprint',
         service: sprintsService,
         path: '/sprints',
     },
-    Post: {
+    {
+        name: 'Post',
         service: postsService,
         path: '/posts',
     },
-    Comment: {
+    {
+        name: 'Comment',
         service: commentsService,
         path: '/comments',
     },
-};
+];
 
 interface DeleteProps {
     user: User;
-    model: string;
+    model: Model;
     object: Object;
-    push: any;
-    onError: any;
+    push?: any;
+    onError?: any;
 }
 
 export const ObjectDeleteButton = ({ user, model, object, push, onError }: DeleteProps) => {
@@ -39,7 +42,10 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError }: Delet
                     objectId: object._id,
                 };
 
-                return models[model].service.delete(extendedData).catch(onError);
+                return models
+                    .reduce((acc, val) => (val.name === model ? val : acc))
+                    .service.delete(extendedData)
+                    .catch(onError);
             }}
         >
             Delete
@@ -55,7 +61,10 @@ interface EditProps {
 
 export const ObjectEditButton = ({ user, model, object }: EditProps) => {
     return user && object && object.author._id === user._id ? (
-        <Button color="inherit" href={`${models[model].path}/${object._id}/edit`}>
+        <Button
+            color="inherit"
+            href={`${models.reduce((acc, val) => (val.name === model ? val : acc)).path}/${object._id}/edit`}
+        >
             Edit
         </Button>
     ) : null;
@@ -68,7 +77,10 @@ interface AddProps {
 
 export const AddPostButton = ({ user, sprint }: AddProps) => {
     return user && sprint ? (
-        <Button color="inherit" href={`${models['Sprint'].path}/${sprint._id}/add_post`}>
+        <Button
+            color="inherit"
+            href={`${models.reduce((acc, val) => (val.name === 'Sprint' ? val : acc)).path}/${sprint._id}/add_post`}
+        >
             Add Post
         </Button>
     ) : null;

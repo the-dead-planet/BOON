@@ -1,14 +1,24 @@
 import React from 'react';
 import { ObjectDeleteButton, ObjectEditButton, AddPostButton } from '../../Buttons';
+import { userInfo } from 'os';
+import { User, Sprint, Mode, Model } from '../../../logic/types';
 
 /*  
     Allow Edit and Delete only if user is logged in and is the author of the sprint
     Allow Add Post to all logged in users
 */
-export const SprintModifyButtons = ({ user, sprint, model, onError }) => {
+
+interface Props {
+    user: User;
+    sprint: Sprint;
+    model: Model;
+    onError?: any;
+}
+
+export const SprintModifyButtons = ({ user, sprint, model, onError }: Props) => {
     return user && sprint ? (
         <React.Fragment>
-            {sprint.author.id === user._id ? (
+            {sprint && user && sprint.author.id === user._id ? (
                 <React.Fragment>
                     <ObjectDeleteButton user={user} model={model} object={sprint} onError={onError} />
                     <ObjectEditButton user={user} model={model} object={sprint} />

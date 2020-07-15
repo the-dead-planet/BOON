@@ -9,9 +9,16 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Typography from '@material-ui/core/Typography';
-import { ObjectDeleteButton } from './Buttons';
+// import { ObjectDeleteButton } from './Buttons';
+import { User, Comment as CommentType } from '../logic/types';
 
-export const Comment = ({ user, comment, users }) => {
+interface Props {
+    user: User;
+    comment: CommentType;
+    users: Map<string, User>;
+}
+
+export const Comment = ({ user, comment, users }: Props) => {
     const classes = useStyles();
     const author = users.get(comment.author).publicName;
 
@@ -24,15 +31,10 @@ export const Comment = ({ user, comment, users }) => {
                 <ListItemText
                     primary={
                         <React.Fragment>
-                            <Typography component="span" variant="body2" className={classes.inline} color="textPrimary">
+                            <Typography component="span" variant="body2" color="textPrimary">
                                 {author}
                             </Typography>
-                            <Typography
-                                component="span"
-                                variant="caption"
-                                className={classes.inline}
-                                color="textPrimary"
-                            >
+                            <Typography component="span" variant="caption" color="textPrimary">
                                 {` - ${moment(comment.created).fromNow()}`}
                             </Typography>
                         </React.Fragment>

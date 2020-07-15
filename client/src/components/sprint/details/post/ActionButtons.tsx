@@ -7,8 +7,8 @@ import { User, Comment, Like } from '../../../../logic/types';
 
 interface Props {
     user: User;
-    comments: Array<Comment>;
-    likes: Array<Like>;
+    comments: Array<Comment | undefined>;
+    likes: Array<Like | undefined>;
     handleExpandClick: any;
 }
 

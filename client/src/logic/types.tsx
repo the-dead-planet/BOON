@@ -48,14 +48,17 @@ interface Drawer {
 interface Comment {
     _id: string,
     author: string,
-    created: Date,
+    likes: Array<Like>,
     body: string,
+    created: Date,
+    edited: Date,
 }
 
 interface Like {
     _id: string,
     author: string,
-    type: 'thumbs up' | 'heart',
+    type: 'Thumb up' | 'Thumb down' | 'Heart',
+    created: Date,
 }
 
 interface ValidationError { 
@@ -74,20 +77,52 @@ interface PostLayout {
 
 interface Sprint {
     _id: string,
+    number: number,
+    dateFrom: Date,
+    dateTo: Date,
+    title: string,
+    body: string,
+    posts: Array<string>,
+    comments: Array<string>,
+    likes: Array<string>,
     author: User,
+    created: Date,
+    edited: Date,
 }
 
 interface Post {
+    _id: string,
+    author: User,
     title: string,
-    subtitle: string,
-    body?: string,
-    content?: any,
+    body: string,
+    comments: Array<string>,
+    likes: Array<string>,
+    created: Date,
+    edited: Date,
 }
 
-interface Object { 
-    _id: string, 
+interface Project {
+    _id: string,
     author: User,
+    title: string,
+    body: string,
+    posts: Array<string>,
+    created: Date,
+    edited: Date,
 }
+
+interface Team {
+    _id: string,
+    title: string,
+    body: string,
+    members: Array<string>,
+    created: Date,
+    edited: Date,
+}
+
+
+type Object = Post | Sprint | Project | Comment | Like;
+type Model = "Sprint" | "Post" | "Project" | "Team" | "Comment" | "Like";
 
 interface FeedLayout {
     posts: Array<{
@@ -121,11 +156,13 @@ export type {
     Jumbotron,
     Comment,
     Like,
+    Team,
     ValidationError,
     PostLayout,
     Post,
     Sprint,
     Object,
+    Model,
     FeedLayout,
     Landing,
 }

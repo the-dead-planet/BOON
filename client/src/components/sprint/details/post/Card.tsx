@@ -10,15 +10,15 @@ import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ActionButtons } from './ActionButtons';
 import { CardMenu } from './Menu';
-import { User, Comment, Like } from '../../../../logic/types';
+import { User, Comment, Like, Object, Model } from '../../../../logic/types';
 
 interface Props {
     user: User;
-    object: any;
-    model: string;
-    comments: Array<Comment>;
-    likes: Array<Like>;
-    users: Array<User>;
+    object: Object;
+    model: Model;
+    comments: Array<Comment | undefined>;
+    likes: Array<Like | undefined>;
+    users: Array<User | undefined>;
     title: string;
     subtitle: string;
     body: string;

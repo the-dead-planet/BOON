@@ -4,20 +4,30 @@ import List from '@material-ui/core/List';
 import CardMedia from '@material-ui/core/CardMedia';
 import { PostCard } from './Card';
 import moment from 'moment';
-import { EXT_DATE_FORMAT, MODELS } from '../../../../utils/constants';
-import img from '../../../../img/landing/Landing_1.png';
+import { EXT_DATE_FORMAT } from '../../../../utils/constants';
+import img from '../../../../img/landing/landing_1.png';
+import { User, Post, Comment, Like } from '../../../../logic/types';
 
-export const PostsList = ({ user, posts, comments, likes, users, updateStateData, push }) => {
+interface Props {
+    user: User;
+    posts: Array<Post>;
+    comments: Map<string, Comment>;
+    likes: Map<string, Like>;
+    users: Array<User>;
+    updateStateData: any;
+    push: any;
+}
+export const PostsList = ({ user, posts, comments, likes, users, updateStateData, push }: Props) => {
     const classes = useStyles();
 
     return (
         <List>
-            {(posts || []).map((post, index) => (
+            {(posts || []).map((post: Post, index: number) => (
                 <PostCard
                     key={`${post._id}-${index}`}
                     user={user}
                     object={post}
-                    model={MODELS.post}
+                    model={'Post'}
                     comments={post.comments.map(id => comments.get(id))}
                     likes={post.likes.map(id => likes.get(id))}
                     users={users}
@@ -28,7 +38,7 @@ export const PostsList = ({ user, posts, comments, likes, users, updateStateData
                     mediaMiddle={
                         <CardMedia style={{ height: '200px' }} image={img} /> // TODO: read from db
                     }
-                    menuItems={[{ name: 'Go to related project' }]}
+                    menuItems={[{ name: 'Go to related project', path: '/' }]}
                     updateStateData={updateStateData}
                 />
             ))}
