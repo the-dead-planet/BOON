@@ -156,6 +156,19 @@ interface ProjectSubmit {
     body: string; 
 }
 
+interface CommentSubmit {
+    body: string;
+}
+
+interface Submit {
+    project?: string; 
+    title?: string; 
+    body?: string; 
+    number?: number;
+    dateFrom?: Date;
+    dateTo?: Date;
+}
+
 interface FeedLayout {
     posts: Array<{
         id: string;
@@ -210,6 +223,8 @@ export type {
     SprintSubmit,
     PostSubmit,
     ProjectSubmit,
+    CommentSubmit,
+    Submit,
     FeedLayout,
     Landing,
     Notification,

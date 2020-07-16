@@ -4,9 +4,16 @@ import projectsService from '../../services/projectsService';
 import { AppFormPaper } from './App';
 import { GridField, GridFieldSelect } from './GridFields';
 import Select from '@material-ui/core/Select';
+import { PostSubmit } from '../../logic/types';
 
-const PostForm = ({ title, initialValues, onSubmit }) => {
-    const [projects, setProjects] = useState(null);
+interface Props {
+    title: string;
+    initialValues: PostSubmit;
+    onSubmit: any;
+}
+
+const PostForm = ({ title, initialValues, onSubmit }: Props) => {
+    const [projects, setProjects] = useState([]);
 
     const getProjects = async () => {
         let res = await projectsService.getAll();

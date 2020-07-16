@@ -2,8 +2,15 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { AppFormPaper } from './App';
 import { GridField } from './GridFields';
+import { SprintSubmit } from '../../logic/types';
 
-const SprintForm = ({ title, initialValues, onSubmit }) => {
+interface Props {
+    title: string;
+    initialValues: SprintSubmit;
+    onSubmit: any;
+}
+
+const SprintForm = ({ title, initialValues, onSubmit }: Props) => {
     return (
         <AppFormPaper title={title} initialValues={initialValues} onSubmit={onSubmit}>
             <GridField

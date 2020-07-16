@@ -4,8 +4,16 @@ import { Formik, Form } from 'formik';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import { Submit } from '../../logic/types';
 
-export const AppForm = ({ title, initialValues, onSubmit, children }) => {
+interface Props {
+    title: string;
+    initialValues: Submit;
+    onSubmit: any;
+    children: React.ReactChildren | React.ReactChild | Array<React.ReactChild> | null | undefined;
+}
+
+export const AppForm = ({ title, initialValues, onSubmit, children }: Props) => {
     const classes = useStyles();
 
     return (
@@ -29,7 +37,7 @@ export const AppForm = ({ title, initialValues, onSubmit, children }) => {
     );
 };
 
-export const AppFormPaper = props => {
+export const AppFormPaper = (props: Props) => {
     const classes = useStyles();
 
     return (
