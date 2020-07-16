@@ -1,33 +1,35 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import { Link } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
-import menuItems from './items';
+import { Button, Grid, List, ListItem, ListItemText, } from '@material-ui/core';
+import { menuItems } from './items';
 import { AuthButtonsHorizontal } from './AuthButtons';
+import { User } from '../../logic/types';
 
-export const MenuItemsHorizontal = ({ user }) => {
+interface Props {
+    user: User;
+}
+
+export const MenuItemsHorizontal = ({ user }: Props) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.flexSpaceBetween}>
-            <div>
+        <Grid container justify="space-between">
+            <Grid item>
                 {menuItems.map((button, index) => (
                     <Button key={index} color="inherit" href={button.path}>
                         {button.name}
                     </Button>
                 ))}
-            </div>
-            <div>
+            </Grid>
+            <Grid item>
                 <AuthButtonsHorizontal user={user} />
-            </div>
-        </div>
+            </Grid>
+        </Grid>
     );
 };
 
-export const MenuItemsVertical = ({ user }) => {
+export const MenuItemsVertical = ({ user }: Props) => {
     const classes = useStyles();
 
     return (
@@ -35,7 +37,7 @@ export const MenuItemsVertical = ({ user }) => {
             {menuItems.map(item => (
                 <ListItem button component={Link} to={item.path} key={item.name}>
                     {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-                    <ListItemText className={classes.textColorLight} primary={item.name} />
+                    <ListItemText primary={item.name} />
                 </ListItem>
             ))}
         </List>

@@ -175,33 +175,6 @@ const useStyles = makeStyles((theme: Theme) =>
             minWidth: '100%',
             minHeight: '100%',
         },
-        flexSpaceBetween: {
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-        },
-        flexCenter: {
-            display: 'flex',
-            justifyContent: 'center',
-        },
-        width100: {
-            width: '100px',
-        },
-        spacingRight: {
-            marginRight: theme.spacing(2),
-        },
-        cardMedia: {
-            height: '200px',
-        },
-        height250: {
-            height: '250px',
-        },
-        height300: {
-            height: '300px',
-        },
-        bottom20: {
-            marginBottom: '20px',
-        },
 
         /* 
             Containers

@@ -1,4 +1,4 @@
-const menuItems = [
+export const menuItems = [
     // {
     //     name: "BOON",
     //     path: "/"
@@ -24,5 +24,3 @@ const menuItems = [
         path: '/add_project',
     },
 ];
-
-module.exports = menuItems;
