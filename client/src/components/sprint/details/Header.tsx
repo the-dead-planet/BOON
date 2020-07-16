@@ -3,7 +3,15 @@ import { Typography, Box } from '@material-ui/core';
 import moment from 'moment';
 import { DATE_FORMAT } from '../../../utils/constants';
 
-export const SprintHeader = ({ _id, number, title, dateFrom, dateTo }) => {
+interface Props {
+    _id: string;
+    number: number;
+    title: string;
+    dateFrom: Date;
+    dateTo: Date;
+}
+
+export const SprintHeader = ({ _id, number, title, dateFrom, dateTo }: Props) => {
     return (
         <Box id={'header'} textAlign="left">
             <Typography variant="h4">

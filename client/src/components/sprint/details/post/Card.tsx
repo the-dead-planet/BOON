@@ -18,7 +18,7 @@ interface Props {
     model: Model;
     comments: Array<Comment | undefined>;
     likes: Array<Like | undefined>;
-    users: Array<User | undefined>;
+    users: Map<string, User>;
     title: string;
     subtitle: string;
     body: string;
@@ -62,7 +62,7 @@ export const PostCard = ({
     };
 
     return (
-        <Card className={classes.bottom20}>
+        <Card style={{ marginBottom: "20px" }}>
             {mediaTop}
             <CardHeader
                 avatar={null}

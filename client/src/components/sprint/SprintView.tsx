@@ -6,6 +6,20 @@ import Grid from '@material-ui/core/Grid';
 import { Loading, Empty } from '../Loading';
 import { SingleSprint } from './details/SingleSprint';
 import SprintList from './list/List';
+import { User, Sprint, Post, Comment, Like } from '../../logic/types';
+
+interface Props {
+    user: User;
+    sprints: Map<string, Sprint>;
+    posts: Map<string, Post>;
+    comments: Map<string, Comment>;
+    likes: Map<string, Like>;
+    users: Map<string, User>;
+    sprintId: string;
+    updateStateData: any;
+    onError: any;
+    showError: any;
+}
 
 const SprintView = ({
     user,
@@ -18,13 +32,13 @@ const SprintView = ({
     updateStateData,
     onError,
     showError,
-}) => {
+}: Props) => {
     const classes = useStyles();
     const sprint = sprints ? sprints.get(sprintId) : undefined;
 
     return !sprints ? (
         <Loading />
-    ) : sprints.length === 0 ? (
+    ) : sprints.size === 0 ? (
         <Empty />
     ) : (
         <Container>
