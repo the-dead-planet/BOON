@@ -10,126 +10,126 @@ type Input =
     "url" | "week"
 
 type User = {
-    _id: string,
-    email: string,
-    publicName: string,
-    darkMode: boolean | undefined,
+    _id: string;
+    email: string;
+    publicName: string;
+    darkMode: boolean | undefined;
 } | undefined
 
 interface StateType {
-    user: User | null,
-    whoamiRequestDone: boolean,
-    mode: Mode,
-    notifications: Array<Notification>,
-    data: StateData,
+    user: User | null;
+    whoamiRequestDone: boolean;
+    mode: Mode;
+    notifications: Array<Notification>;
+    data: StateData;
 }
 
 type StateDataFunc = () => StateData
 
 type StateData = {
-    projects: Map<string, Project>,
-    sprints: Map<string, Sprint>,
-    posts: Map<string, Post>,
-    comments: Map<string, Comment>,
-    teams: Map<string, Team>,
-    users: Map<string, User>,
-    likes: Map<string, Like>,
+    projects: Map<string, Project>;
+    sprints: Map<string, Sprint>;
+    posts: Map<string, Post>;
+    comments: Map<string, Comment>;
+    teams: Map<string, Team>;
+    users: Map<string, User>;
+    likes: Map<string, Like>;
 }
 
 interface DataItem { 
-    title: string,
+    title: string;
     src: string 
 }
 
 interface Action {
-    name: string,
+    name: string;
     path: string
 }
 interface Jumbotron {
-    img?: string,
-    title: string,
-    subtitle: string,
-    actions?: Array<Action>,
-    onClick?: any,
+    img?: string;
+    title: string;
+    subtitle: string;
+    actions?: Array<Action>;
+    onClick?: any;
 }
 
 interface Drawer {
-    variant: DrawerVariant,
+    variant: DrawerVariant;
 }
 
 interface Comment {
-    _id: string,
-    author: string,
-    likes: Array<Like>,
-    body: string,
-    created: Date,
-    edited: Date,
+    _id: string;
+    author: string;
+    likes: Array<Like>;
+    body: string;
+    created: Date;
+    edited: Date;
 }
 
 interface Like {
-    _id: string,
-    author: string,
-    type: 'Thumb up' | 'Thumb down' | 'Heart',
-    created: Date,
+    _id: string;
+    author: string;
+    type: 'Thumb up' | 'Thumb down' | 'Heart';
+    created: Date;
 }
 
 interface ValidationError { 
-    error: string, 
+    error: string; 
     touched: boolean 
 }
 
 interface PostLayout {
-    id: string,
-    title: string,
-    subtitle: string,
-    body?: string,
-    content?: React.ReactElement,
-    additional?: any,
+    id: string;
+    title: string;
+    subtitle: string;
+    body?: string;
+    content?: React.ReactElement;
+    additional?: any;
 }
 
 interface Sprint {
-    _id: string,
-    number: number,
-    dateFrom: Date,
-    dateTo: Date,
-    title: string,
-    body: string,
-    posts: Array<string>,
-    comments: Array<string>,
-    likes: Array<string>,
-    author: User,
-    created: Date,
-    edited: Date,
+    _id: string;
+    number: number;
+    dateFrom: Date;
+    dateTo: Date;
+    title: string;
+    body: string;
+    posts: Array<string>;
+    comments: Array<string>;
+    likes: Array<string>;
+    author: User;
+    created: Date;
+    edited: Date;
 }
 
 interface Post {
-    _id: string,
-    author: User,
-    title: string,
-    body: string,
-    comments: Array<string>,
-    likes: Array<string>,
-    created: Date,
-    edited: Date,
+    _id: string;
+    author: User;
+    title: string;
+    body: string;
+    comments: Array<string>;
+    likes: Array<string>;
+    created: Date;
+    edited: Date;
 }
 
 interface Project {
-    _id: string,
-    author: User,
-    title: string,
-    body: string,
-    posts: Array<string>,
-    created: Date,
-    edited: Date,
+    _id: string;
+    author: User;
+    title: string;
+    body: string;
+    posts: Array<string>;
+    created: Date;
+    edited: Date;
 }
 
 interface Team {
-    _id: string,
-    title: string,
-    body: string,
-    members: Array<string>,
-    created: Date,
-    edited: Date,
+    _id: string;
+    title: string;
+    body: string;
+    members: Array<string>;
+    created: Date;
+    edited: Date;
 }
 
 
@@ -137,33 +137,52 @@ type MongoObject = Post | Sprint | Project | Comment | Like;
 type Model = "Sprint" | "Post" | "Project" | "Team" | "Comment" | "Like";
 type Path = 'author' | 'posts' | 'comments'| 'likes'| 'sprints' | 'projects';
 
+interface SprintSubmit {
+    number: number;
+    dateFrom: Date;
+    dateTo: Date;
+    title: string;
+    body: string;
+}
+
+interface PostSubmit { 
+    project: string; 
+    title: string; 
+    body: string; 
+}
+
+interface ProjectSubmit { 
+    title: string; 
+    body: string; 
+}
+
 interface FeedLayout {
     posts: Array<{
-        id: string,
-        title: string,
-        subtitle: string,
-        body?: string,
-        content?: React.ReactElement,
-        additional?: any,
-    }>,
+        id: string;
+        title: string;
+        subtitle: string;
+        body?: string;
+        content?: React.ReactElement;
+        additional?: any;
+    }>;
 }
 
 interface Landing {
-    user: User,
-    mode: Mode,
-    setDarkMode: any,
-    title: string,
-    subtitle: string,
-    button: { name: string, path: string },
+    user: User;
+    mode: Mode;
+    setDarkMode: any;
+    title: string;
+    subtitle: string;
+    button: { name: string; path: string };
 }
 
 interface Notification { 
-    id: string,
+    id: string;
 }
 
 interface NotificationProps { 
-    notifications: Array<Notification>,
-    onNotificationShown: any,
+    notifications: Array<Notification>;
+    onNotificationShown: any;
 }
 
 export type {
@@ -188,8 +207,11 @@ export type {
     MongoObject,
     Model,
     Path,
+    SprintSubmit,
+    PostSubmit,
+    ProjectSubmit,
     FeedLayout,
     Landing,
     Notification,
-    NotificationProps
+    NotificationProps,
 }

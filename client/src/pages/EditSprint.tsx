@@ -9,7 +9,7 @@ import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';
 import { Loading } from '../components/Loading';
 import withShowError from '../components/withShowError';
-import { User, NotificationProps, Mode, StateData } from '../logic/types';
+import { User, NotificationProps, Mode, SprintSubmit } from '../logic/types';
 
 interface Props {
     user: User,
@@ -52,7 +52,7 @@ const EditSprint = ({ user, mode, setMode, push, notificationsProps, showError }
                         dateTo: moment(sprint.dateTo).format(FORMIK_DATE_FORMAT),
                         body: sprint.body,
                     }}
-                    onSubmit={data => {
+                    onSubmit={(data: SprintSubmit) => {
                         sprintsService
                             .update({ ...data, objectId: id })
                             .then(() => {

@@ -7,9 +7,19 @@ import { withPush } from '../utils/routingDecorators';
 import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';
 import withShowError from '../components/withShowError';
+import { User, NotificationProps, Mode, SprintSubmit } from '../logic/types';
 
-const AddSprint = ({ user, push, notificationsProps, showError }) => (
-    <AppLayout user={user} {...notificationsProps}>
+interface Props {
+    user: User;
+    mode: Mode;
+    setMode: any;
+    push: any;
+    notificationsProps: NotificationProps;
+    showError: any
+}
+
+const AddSprint = ({ user, mode, setMode, push, notificationsProps, showError }: Props) => (
+    <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
         <SprintForm
             title="Add new sprint"
             initialValues={{
@@ -19,7 +29,7 @@ const AddSprint = ({ user, push, notificationsProps, showError }) => (
                 title: '',
                 body: '',
             }}
-            onSubmit={data => {
+            onSubmit={(data: SprintSubmit) => {
                 sprintsService
                     .add(data)
                     .then(() => {

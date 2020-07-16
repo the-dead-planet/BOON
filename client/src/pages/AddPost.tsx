@@ -9,8 +9,20 @@ import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import { useParams } from 'react-router-dom';
 import withShowError from '../components/withShowError';
+import { User, NotificationProps, Mode, PostSubmit } from '../logic/types';
 
-const AddPost = ({ user, sprintId, push, notificationsProps, showError }) => {
+interface Props {
+    user: User;
+    mode: Mode;
+    sprintId: string;
+    setMode: any;
+    push: any;
+    notificationsProps: NotificationProps;
+    showError: any
+}
+
+
+const AddPost = ({ user, mode, setMode, sprintId, push, notificationsProps, showError }: Props) => {
     const { id } = useParams();
 
     const [sprint, setSprint] = useState(null);
@@ -27,15 +39,15 @@ const AddPost = ({ user, sprintId, push, notificationsProps, showError }) => {
     });
 
     return (
-        <AppLayout user={user} {...notificationsProps}>
+        <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
             <PostForm
-                title={sprint ? `Add post to sprint ${sprint.number}` : `Add post`}
+                title={sprint ? `Add post to sprint ${sprint.number}` : `Add post`}    // TODO: Null issue
                 initialValues={{
                     project: '',
                     title: '',
                     body: '',
                 }}
-                onSubmit={data => {
+                onSubmit={(data: PostSubmit) => {
                     const extendedData = {
                         ...data,
                         sprintId: id,
