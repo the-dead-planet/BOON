@@ -1,9 +1,14 @@
 import React, { useEffect } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
+import { Notification as NotificationType } from '../logic/types';
 
 // Simple snackbar notification displaying a message.
 // TODO - create customized versions per notification kind.
-const Notification = ({ notification, onShown }) => {
+interface Props {
+    notification: NotificationType;
+    onShown: any;
+}
+export const Notification = ({ notification, onShown }: Props) => {
     const { id, message } = notification;
 
     useEffect(() => {
@@ -22,4 +27,4 @@ const Notification = ({ notification, onShown }) => {
     );
 };
 
-export default Notification;
+// export default Notification;

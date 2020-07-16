@@ -5,4 +5,4 @@ import { withRouter } from 'react-router';
 // a Login form displayed when rendering a forbidded page.
 //
 // Injects utilities for redirecting back to the original page.
-export const interceptPage = wrappedComponent => withRouter(withPush(withNext(wrappedComponent)));
+export const interceptPage = (wrappedComponent: any) => withRouter(withPush(withNext(wrappedComponent)));

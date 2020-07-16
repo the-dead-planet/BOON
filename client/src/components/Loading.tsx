@@ -19,7 +19,7 @@ export const Empty = () => {
 
     return (
         <Container className={classes.loading}>
-            <i className="optin monster icon" href="/" />
+            <i className="optin monster icon" />
             <Typography variant="h5">Oops... No sprints found. Lazy, lazy...</Typography>
         </Container>
     );

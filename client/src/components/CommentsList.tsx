@@ -1,9 +1,15 @@
 import React from 'react';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
+import { Divider, List } from '@material-ui/core';
 import { Comment } from './Comment';
+import { User, Comment as CommentType } from '../logic/types';
 
-export const CommentsList = ({ user, comments, users }) => {
+interface Props {
+    user: User;
+    comments: Array<CommentType>;
+    users: Map<string, User>;
+}
+
+export const CommentsList = ({ user, comments, users }: Props) => {
     return (
         <List>
             <Divider component="li" />

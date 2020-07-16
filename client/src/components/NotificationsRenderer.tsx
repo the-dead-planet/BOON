@@ -1,8 +1,14 @@
 import React from 'react';
-import Notification from './Notification';
+import { Notification } from './Notification';
+import { Notification as NotificationType } from '../logic/types';
 
 // A simple component taking care of rendering the right amount of notifications.
-const NotificationsRenderer = ({ notifications, onShown }) => {
+interface Props {
+    notifications: Array<NotificationType>;
+    onShown: any;
+}
+
+const NotificationsRenderer = ({ notifications, onShown }: Props) => {
     if (!Array.isArray(notifications)) {
         throw new Error(`Expected notifications to be an array, but received: ${notifications}`);
     }

@@ -191,11 +191,13 @@ interface Landing {
 
 interface Notification { 
     id: string;
+    message: string;
 }
 
 interface NotificationProps { 
     notifications: Array<Notification>;
     onNotificationShown: any;
+    addNotification: any;
 }
 
 export type {
