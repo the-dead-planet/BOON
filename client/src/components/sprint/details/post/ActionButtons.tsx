@@ -6,13 +6,12 @@ import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined';
 import { User, Comment, Like } from '../../../../logic/types';
 
 interface Props {
-    user: User;
     comments: Array<Comment | undefined>;
     likes: Array<Like | undefined>;
     handleExpandClick: any;
 }
 
-export const ActionButtons = ({ user, comments, likes, handleExpandClick }: Props) => {
+export const ActionButtons = ({ comments, likes, handleExpandClick }: Props) => {
     return (
         <React.Fragment>
             <IconButton aria-label="add to favorites">

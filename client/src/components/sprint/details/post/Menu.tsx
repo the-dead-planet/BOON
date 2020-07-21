@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { User, MongoObject, Model } from '../../../../logic/types';
 
 interface Props {
-    user: User;
+    user: User | null | undefined;
     model: Model;
     _id?: string;
     object: MongoObject;

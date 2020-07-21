@@ -38,7 +38,7 @@ export const popNotification = (state: StateType) => (notificationId: string) =>
 // Set populated objects, such as: posts, comments, likes
 // Depopulate objects and store them as originally stored in mongo (with references to id's only)
 export const setSprints = (state: StateType) => (sprints: Array<Sprint>) => {
-    const stateDataUpdates = depopulate(sprints, 'sprints');
+    const stateDataUpdates = depopulate(sprints as any, 'sprints');
     // Merge current state with updates.
     // The second argument takes precedence -> pass updates as the second argument.
     const mergedData = mergeStateData(state.data, stateDataUpdates);

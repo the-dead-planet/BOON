@@ -11,7 +11,7 @@ import { User, Sprint, Comment, Like } from '../../../logic/types';
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
 interface Props {
-    user: User;
+    user: User | null | undefined;
     sprint: Sprint;
     comments: Array<Comment | undefined>;
     likes: Array<Like | undefined>;
@@ -23,23 +23,27 @@ interface Props {
 export const SprintOverview = ({ user, sprint, comments, likes, users, updateStateData, onError }: Props) => {
     const classes = useStyles();
 
+    const author: User | null = users.get(sprint.author as any); // FIXME: types are probably incompatible.
+    const authorPublicName = author ? author.publicName : 'unknown';
+
     const content = sprint ? (
         // TODO: Create a sprint card
         <PostCard
             user={user}
             object={sprint}
-            model={"Sprint"}
+            model={'Sprint'}
             comments={comments}
             likes={likes}
             users={users}
             title={`No${sprint.number} // ${sprint.title}`}
-            subtitle={`${users.get(sprint.author).publicName} // ${ // TODO: solve possiblyundefined
+            subtitle={`${authorPublicName} // ${
+                // TODO: solve possiblyundefined
                 sprint.dateFrom ? moment(sprint.dateFrom).format(DATE_FORMAT) : null
             } - ${sprint.dateTo ? moment(sprint.dateTo).format(DATE_FORMAT) : null}`}
             body={sprint.body}
             // mediaTop={<CardMedia className={classes.height200} image={sprint.image} />}
             // mediaTop={<CardMedia className={classes.height200} image={require('../../../img/landing/landing-1.png')} />}
-            menuItems={[{ name: 'Cos tu wymyslimy', path: "/" }]}
+            menuItems={[{ name: 'Cos tu wymyslimy', path: '/' }]}
             updateStateData={updateStateData}
         />
     ) : null;

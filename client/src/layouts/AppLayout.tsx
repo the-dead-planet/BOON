@@ -14,7 +14,7 @@ import NotificationsRenderer from '../components/NotificationsRenderer';
   Drawer allows additional properties, like variant. Not specified (default) is temporary. Other option is: persistent.
 */
 interface Props {
-    user: User;
+    user: User | null | undefined;
     children: React.ReactChild | React.ReactChildren | Array<React.ReactChild>;
     jumbotron?: JumbotronType;
     drawer?: Drawer;
@@ -74,14 +74,7 @@ const AppLayout = ({
                 />
             )}
 
-            <MenuDrawer
-                user={user}
-                {...drawer}
-                mode={mode}
-                setMode={setMode}
-                open={open}
-                toggleDrawer={toggleDrawer}
-            />
+            <MenuDrawer user={user} {...drawer} mode={mode} setMode={setMode} open={open} toggleDrawer={toggleDrawer} />
 
             {jumbotron && <Jumbotron {...jumbotron} />}
 

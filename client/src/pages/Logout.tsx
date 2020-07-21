@@ -2,22 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import AppLayout from '../layouts/AppLayout';
 import authService from '../services/authService';
-import withShowError from '../components/withShowError';
+import withShowError, { WithShowErrorInjectedProps } from '../components/withShowError';
 import { User, NotificationProps, Mode } from '../logic/types';
 
-interface Props {
-    next: any,
-    onSuccess: any,
-    user: User,
-    mode: Mode,
-    setMode: any,
-    notificationsProps: NotificationProps,
-    showError: any,
+interface LogoutProps {
+    onSuccess: any;
+    user: User | undefined | null;
+    mode: Mode;
+    setMode: any;
+    notificationsProps: NotificationProps;
+    showError: any;
 }
 
-const Logout = ({ user, onSuccess, mode, setMode, notificationsProps, showError }: Props) => {
-    // const { addNotification } = notificationsProps;
-
+const Logout = ({ user, onSuccess, mode, setMode, notificationsProps, showError }: LogoutProps) => {
     const [logoutRequestDone, setLogoutRequestDone] = useState(false);
 
     useEffect(() => {
@@ -41,4 +38,5 @@ const Logout = ({ user, onSuccess, mode, setMode, notificationsProps, showError 
     }
 };
 
-export default withShowError(Logout);
+// TODO: export the raw component from here, wrap it with HOCs in App.tsx.
+export default (withShowError as any)(Logout);

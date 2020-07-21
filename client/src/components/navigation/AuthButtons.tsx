@@ -7,7 +7,7 @@ import { PATHS } from '../../constants/data';
 // const { home, login, logout, register } = PATHS; // TODO:
 
 // Set text on auth buttons dependent on whether a user is logged in or not
-const getText = (user: User) => {
+const getText = (user: User | null | undefined) => {
     return {
         register: !user ? 'Join the other side' : `Hey there, ${user.publicName}`,
         login: !user ? 'Show your face' : 'Exit the planet',
@@ -15,14 +15,14 @@ const getText = (user: User) => {
 };
 
 interface Props {
-    user: User,
-    style?: object,
+    user: User | null | undefined;
+    style?: object;
 }
 
 export const AuthButtonsHorizontal = ({ user, style }: Props) => {
     let signUpButton = (
         <Link to={!user ? '/register' : '/'}>
-            <Button style={{ margin: "0 15px" }} color="inherit">
+            <Button style={{ margin: '0 15px' }} color="inherit">
                 {getText(user).register}
             </Button>
         </Link>
@@ -62,9 +62,9 @@ export const AuthButtonsVertical = ({ user, style }: Props) => {
     );
 
     return (
-        <List style={style} >
+        <List style={style}>
             {signUpButton}
             {loginButton}
         </List>
     );
-}; 
+};

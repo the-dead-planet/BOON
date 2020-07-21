@@ -10,7 +10,7 @@ import { PATHS } from '../../constants/data';
 import { DrawerVariant, Mode, User } from '../../logic/types';
 
 interface Props {
-    user: User;
+    user: User | null | undefined;
     mode: Mode;
     setMode: any;
     open: boolean;

@@ -41,7 +41,7 @@ export const AppFormPaper = (props: Props) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.flexCenter}>
+        <div className={/*classes.flexCenter*/ undefined}>
             <Paper className={classes.formPaper}>
                 <AppForm {...props} />
             </Paper>

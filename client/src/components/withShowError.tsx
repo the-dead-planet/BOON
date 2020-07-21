@@ -4,11 +4,18 @@ import { NotificationProps } from '../logic/types';
 
 // Wrapp a component with `notificationProps` prop, inject a `showError` property
 // parsing and queueing an error notifcation.
-interface Props {
+
+// Props the input component should have.
+interface WrappedComponentProps {
     notificationsProps: NotificationProps;
-    onShown: any;
 }
-const withShowError = (wrappedComponent: any) => (props: Props) => {
+
+// Props added to the output.
+export interface WithShowErrorInjectedProps {
+    showError: any;
+}
+
+const withShowError = <Props extends WrappedComponentProps>(wrappedComponent: React.SFC<Props>) => (props: Props) => {
     const {
         notificationsProps: { addNotification },
     } = props;

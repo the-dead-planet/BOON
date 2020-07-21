@@ -9,7 +9,7 @@ import { User, Sprint, Post, Comment, Like } from '../../../logic/types';
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
 interface Props {
-    user: User;
+    user: User | null | undefined;
     sprint: Sprint | undefined;
     posts: Map<string, Post>;
     comments: Map<string, Comment>;

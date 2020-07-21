@@ -11,13 +11,13 @@ import { User, NotificationProps, Mode } from '../logic/types';
  If non-email address value entered, match with publicName and replace 'email' value 
  by matched user's username (=email) */
 interface Props {
-    next: any,
-    onLoginSuccess: any,
-    user: User,
-    mode: Mode,
-    setMode: any,
-    notificationsProps: NotificationProps,
-    showError: any,
+    next: any;
+    onLoginSuccess: any;
+    user: User;
+    mode: Mode;
+    setMode: any;
+    notificationsProps: NotificationProps;
+    showError: any;
 }
 
 const Login = ({ next, onLoginSuccess, user, mode, setMode, notificationsProps, showError }: Props) => {
@@ -27,11 +27,13 @@ const Login = ({ next, onLoginSuccess, user, mode, setMode, notificationsProps, 
             {/* <div className={classes.main}> */}
             <AuthForm
                 register={false}
-                initialValues={{
-                    email: '',
-                    password: '',
-                }}
-                onSubmit={async ({ password, email }: { password: string, email: string }) => {
+                initialValues={
+                    {
+                        email: '',
+                        password: '',
+                    } as any
+                }
+                onSubmit={async ({ password, email }: { password: string; email: string }) => {
                     if (email.indexOf('@') === -1)
                         await usersService.getAll().then(users => {
                             let matchedUsers = users.filter((user: User) => user?.publicName === email);

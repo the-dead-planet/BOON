@@ -12,7 +12,7 @@ interface Props {
 
 const SprintForm = ({ title, initialValues, onSubmit }: Props) => {
     return (
-        <AppFormPaper title={title} initialValues={initialValues} onSubmit={onSubmit}>
+        <AppFormPaper title={title} initialValues={initialValues as any} onSubmit={onSubmit}>
             <GridField
                 required
                 fullWidth

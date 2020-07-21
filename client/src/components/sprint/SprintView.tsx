@@ -9,7 +9,7 @@ import SprintList from './list/List';
 import { User, Sprint, Post, Comment, Like } from '../../logic/types';
 
 interface Props {
-    user: User;
+    user: User | null | undefined;
     sprints: Map<string, Sprint>;
     posts: Map<string, Post>;
     comments: Map<string, Comment>;

@@ -25,15 +25,16 @@ const models = [
 ];
 
 interface DeleteProps {
-    user: User;
+    user: User | null | undefined;
     model: Model;
     object: MongoObject;
     push?: any;
     onError?: any;
 }
 
+// TODO: delete those `any` casts. Typescript correctly detects type violations in the functions below.
 export const ObjectDeleteButton = ({ user, model, object, push, onError }: DeleteProps) => {
-    return user && object && object.author._id === user._id ? (
+    return user && object && (object as any).author._id === user._id ? (
         <MenuItem
             color="inherit"
             onClick={data => {
@@ -54,13 +55,13 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError }: Delet
 };
 
 interface EditProps {
-    user: User;
+    user: User | null | undefined;
     model: string;
     object: MongoObject;
 }
 
 export const ObjectEditButton = ({ user, model, object }: EditProps) => {
-    return user && object && object.author._id === user._id ? (
+    return user && object && (object as any).author._id === user._id ? (
         <Button
             color="inherit"
             href={`${models.reduce((acc, val) => (val.name === model ? val : acc)).path}/${object._id}/edit`}
@@ -71,7 +72,7 @@ export const ObjectEditButton = ({ user, model, object }: EditProps) => {
 };
 
 interface AddProps {
-    user: User;
+    user: User | null | undefined;
     sprint: Sprint;
 }
 
@@ -87,7 +88,7 @@ export const AddPostButton = ({ user, sprint }: AddProps) => {
 };
 
 interface AddCommentProps {
-    user: User;
+    user: User | null | undefined;
     object: MongoObject;
     onClick: any;
 }
