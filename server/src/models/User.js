@@ -38,6 +38,8 @@ const userSchema = new mongoose.Schema({
 });
 
 // Add methods from passport-local-mongoose (authenticate, register etc)
-userSchema.plugin(passportLocalMongoose);
+// Allow using also the public name to authenticate
+userSchema.plugin(passportLocalMongoose, { usernameQueryFields: ['publicName'] });
+// TODO: this doesn't work while it should (works in monsters) unless forgot about another setting... hmmmmhmhm
 
 module.exports = mongoose.model('User', userSchema);

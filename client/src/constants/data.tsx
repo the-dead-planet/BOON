@@ -5,6 +5,9 @@ const PATHS = {
     logout: '/logout',
     register: '/register',
     main: '/sprints',
+    addSprint: '/add_sprint',
+    addPost: '/add_post',
+    addProject: '/add_project',
 };
 
 export { PATHS };

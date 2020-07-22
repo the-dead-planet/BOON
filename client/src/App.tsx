@@ -17,7 +17,7 @@ import ScrollToTop from './utils/ScrollToTop';
 import { StateType, Mode } from './logic/types';
 import { PATHS } from './constants/data';
 
-const { root, home, main, login, logout, register } = PATHS;
+const { root, home, main, login, logout, register, addSprint, addPost, addProject } = PATHS;
 
 class App extends Component<{}, StateType> {
     constructor(props: any) {
@@ -77,7 +77,7 @@ class App extends Component<{}, StateType> {
                             <Route exact path={root}>
                                 <Redirect to={home} />
                             </Route>
-                            <Route path="/login">
+                            <Route path={login}>
                                 <Login
                                     mode={this.state.mode}
                                     setMode={this.setMode}
@@ -85,7 +85,7 @@ class App extends Component<{}, StateType> {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
-                            <Route path="/register">
+                            <Route path={register}>
                                 <Register
                                     user={user}
                                     mode={this.state.mode}
@@ -94,7 +94,7 @@ class App extends Component<{}, StateType> {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
-                            <Route path="/logout">
+                            <Route path={logout}>
                                 <Logout
                                     user={user}
                                     mode={this.state.mode}
@@ -134,7 +134,7 @@ class App extends Component<{}, StateType> {
                                 />
                             </Route>
                             {/* /sprints - redirect to the sprint page with  */}
-                            <Route path="/sprints">
+                            <Route path={main}>
                                 <Sprint
                                     user={user}
                                     mode={this.state.mode}
@@ -145,7 +145,7 @@ class App extends Component<{}, StateType> {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
-                            <Route path="/add_sprint">
+                            <Route path={addSprint}>
                                 <AddSprint
                                     user={user}
                                     mode={this.state.mode}
@@ -153,7 +153,7 @@ class App extends Component<{}, StateType> {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
-                            <Route path="/add_project">
+                            <Route path={addProject}>
                                 <AddProject
                                     user={user}
                                     mode={this.state.mode}
@@ -161,7 +161,7 @@ class App extends Component<{}, StateType> {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
-                            <Route path="/add_post">
+                            <Route path={addPost}>
                                 <AddPost
                                     user={user}
                                     mode={this.state.mode}

@@ -14,6 +14,7 @@ interface Props {
 }
 
 // TODO: Add checkbox for 'stay logged in' and use cookies for keeping auth
+// TODO: Consider adding one page with both login and register divided by a vertical Divider instead of two separate
 const AuthForm = ({ mode, register, initialValues, onSubmit, error }: Props) => {
     const validationSchema = (values: any) =>
         Yup.object().shape({

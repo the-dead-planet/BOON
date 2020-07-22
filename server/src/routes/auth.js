@@ -15,7 +15,7 @@ module.exports = modelRegistry => [
         const user = await User.register(
             new User({
                 username: req.body.email,
-                publicName: req.body.publicName,
+                publicName: req.body.username,
                 role: req.body.role,
                 country: req.body.country,
                 joined: req.body.joined,
@@ -55,7 +55,18 @@ module.exports = modelRegistry => [
             const { user } = req;
             return { statusCode: 200, data: { user } };
         },
-        passport.authenticate('local')
+        passport.authenticate('local', (err, user, response) => {
+            if (err) {
+                res.status(500).send(err);
+            } else if (!user) {
+                res.status(401).send(response.message);
+            } else {
+                res.status(200).send({
+                    error: false,
+                    user,
+                });
+            }
+        })(req, res)
     ),
 
     new Route('/api/auth/logout', RequestMethod.POST, (mongoose, req) => {

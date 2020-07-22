@@ -34,16 +34,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(methodOverride('_method'));
 
-// Production setup
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('reactApp/build'));
-
-    const path = require('path');
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'reactApp', 'build', 'index.html'));
-    });
-}
-
 // Passport config - authentication
 app.use(
     require('express-session')({
@@ -161,5 +151,17 @@ const routes = new Routes(
 routes.connect(app);
 
 app.use(handleErrors);
+
+// Production setup
+// Serve static files from the React app
+// Catch any other routes than the ones above - must be after all api routes
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static('./build'));
+
+    const path = require('path');
+    app.get('*', function(req, res) {
+        res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+    });
+}
 
 module.exports = app;

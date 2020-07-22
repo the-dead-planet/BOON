@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { guestPage } from '../utils/authenticatedPage';
+import { interceptPage } from '../utils/interceptPage';
 import Layout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import authService from '../services/authService';
 import usersService from '../services/usersService';
-import { interceptPage } from '../utils/interceptPage';
 import { Mode, User, NotificationProps } from '../logic/types';
 
 /* 
@@ -54,5 +55,6 @@ const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, sh
     );
 };
 
+// TODO: Repair guest page to work and redirect to the main page if user is logged in -> works with /home, here not
 // export default interceptPage(withShowError(Register));
-export default interceptPage(Register);
+export default guestPage(interceptPage(Register));
