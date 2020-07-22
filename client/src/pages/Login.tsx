@@ -29,13 +29,7 @@ const Login = ({ user, mode, setMode, next, onLoginSuccess, notificationsProps, 
     };
 
     return (
-        <AppLayout
-            user={user}
-            mode={mode}
-            setMode={setMode}
-            notifications={notificationsProps}
-            onNotificationShown={showError}
-        >
+        <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
             <AuthForm
                 mode={mode}
                 error={error}

@@ -50,8 +50,8 @@ const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDr
             <Divider />
 
             <List>
-                {items.map(item => (
-                    <Link to={item.path}>
+                {items.map((item, i) => (
+                    <Link key={i} to={item.path}>
                         <ListItem button>
                             <ListItemText primary={item.name} />
                         </ListItem>

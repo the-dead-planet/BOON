@@ -29,13 +29,7 @@ const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, sh
     };
 
     return (
-        <Layout
-            user={user}
-            mode={mode}
-            setMode={setMode}
-            notifications={notificationsProps}
-            onNotificationShown={showError}
-        >
+        <Layout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
             <AuthForm
                 mode={mode}
                 register={true}

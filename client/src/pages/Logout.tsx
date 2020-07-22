@@ -38,25 +38,17 @@ const Logout = ({ user, onSuccess, mode, setMode, notificationsProps, showError 
         return <Redirect to={home} />;
     } else {
         return (
-            <AppLayout
-                user={user}
-                mode={mode}
-                setMode={setMode}
-                notifications={notificationsProps}
-                onNotificationShown={showError}
-            >
+            <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
                 <AppFormLayout>
                     <Fade timeout={1000} in={true}>
-                        <Typography variant="h4">
-                            Bye, bye, monster!
-                        </Typography>
+                        <Typography variant="h4">Bye, bye, monster!</Typography>
                     </Fade>
                 </AppFormLayout>
             </AppLayout>
         );
-    };
-}
+    }
+};
 // TODO: export the raw component from here, wrap it with HOCs in App.tsx.
 // export default (withShowError as any)(Logout);
 
-export default withPush(withShowError(Logout))
+export default withPush(withShowError(Logout));
