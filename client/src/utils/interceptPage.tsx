@@ -1,4 +1,4 @@
-import { withNext, withPush } from '../utils/routingDecorators';
+import { withNext, withPush } from './routingDecorators';
 import { withRouter } from 'react-router';
 
 // HOC for pages rendered as a side effect of accessing another page, e.g.

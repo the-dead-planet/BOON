@@ -42,6 +42,7 @@ const EditSprint = ({ user, mode, setMode, push, notificationsProps, showError }
                 <Loading />
             ) : (
                 <SprintForm
+                    mode={mode}
                     title={`Edit sprint ${sprint.number}`}
                     // TODO: Solve the possibly 'null' error.
                     // Assure that sprint is either of type Sprint or undefined and use sprint?.number (optional chaining ES2020)

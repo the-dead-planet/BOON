@@ -13,14 +13,14 @@ interface Props {
     setMode: any;
     push: any;
     notificationsProps: NotificationProps;
-    showError: any
+    showError: any;
 }
-
 
 const AddProject = ({ user, mode, setMode, push, notificationsProps, showError }: Props) => {
     return (
         <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
             <ProjectForm
+                mode={mode}
                 title="Add new project"
                 initialValues={{
                     title: '',

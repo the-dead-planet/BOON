@@ -15,12 +15,13 @@ interface Props {
     setMode: any;
     push: any;
     notificationsProps: NotificationProps;
-    showError: any
+    showError: any;
 }
 
 const AddSprint = ({ user, mode, setMode, push, notificationsProps, showError }: Props) => (
     <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
         <SprintForm
+            mode={mode}
             title="Add new sprint"
             initialValues={{
                 number: 1,

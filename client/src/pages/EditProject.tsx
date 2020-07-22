@@ -46,6 +46,7 @@ const EditProject = ({ user, mode, setMode, push, notificationsProps, showError 
                 <Loading />
             ) : (
                 <ProjectForm
+                    mode={mode}
                     title={`Edit project: ${projectTitle}`}
                     // TODO: Solve the possibly 'null' error.
                     // Assure that sprint is either of type Sprint or undefined and use sprint?.number (optional chaining ES2020)

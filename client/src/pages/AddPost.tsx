@@ -44,6 +44,7 @@ const AddPost = ({ user, mode, setMode, sprintId, push, notificationsProps, show
     return (
         <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
             <PostForm
+                mode={mode}
                 title={sprint ? `Add post to sprint ${sprintNumber}` : `Add post`} // TODO: Null issue
                 initialValues={{
                     project: '',
