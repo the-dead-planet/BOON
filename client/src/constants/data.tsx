@@ -4,7 +4,7 @@ const PATHS = {
     login: '/login',
     logout: '/logout',
     register: '/register',
-    main: '/feed',
+    main: '/sprints',
 };
 
 export { PATHS };

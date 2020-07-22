@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import postsService from '../services/postsService';
 import sprintsService from '../services/sprintsService';
 import PostForm from '../components/forms/Post';
-import { authenticatedPage } from '../components/authenticatedPage';
+import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 // import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';

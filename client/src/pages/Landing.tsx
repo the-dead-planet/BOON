@@ -1,6 +1,8 @@
 import React from 'react';
+import { withPush } from '../utils/routingDecorators';
+import { guestPage } from '../utils/authenticatedPage';
 import { Link } from 'react-router-dom';
-import '../styles/Landing.css';
+import '../styles/landing.css';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
@@ -29,4 +31,4 @@ const Landing = (props: any) => (
     </React.Fragment>
 );
 
-export default Landing;
+export default guestPage(withPush(Landing));

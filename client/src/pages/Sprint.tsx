@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
+import { authenticatedPage } from '../utils/authenticatedPage';
+import { withPush } from '../utils/routingDecorators';
 import sprintsService from '../services/sprintsService';
 import AppLayout from '../layouts/AppLayout';
 import SprintView from '../components/sprint/SprintView';
@@ -65,7 +67,13 @@ const Sprint = ({
     return sprintToDisplayId && sprintToDisplayId !== id ? (
         <Redirect to={`/sprints/${sprintToDisplayId}`} />
     ) : (
-        <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
+        <AppLayout 
+            user={user} 
+            mode={mode} 
+            setMode={setMode} 
+            appBar={true}
+            {...notificationsProps}
+        >
             {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
             {sprintToDisplayId && (
                 <SprintView
@@ -85,4 +93,6 @@ const Sprint = ({
     );
 };
 
-export default (withShowError as any)(Sprint);
+// export default (withShowError as any)(Sprint);
+export default authenticatedPage(withPush(Sprint));
+

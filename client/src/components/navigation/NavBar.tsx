@@ -12,7 +12,7 @@ import { PATHS } from '../../constants/data';
 const { home, login, logout, register } = PATHS;
 
 interface Props {
-    user: User | null | undefined;
+    user: User;
     name: string;
     mode: Mode;
     setMode: any;
@@ -54,7 +54,7 @@ const NavBar = ({ user, name, mode, setMode, open, handleDrawerOpen, handleDrawe
                     {/* Show auth buttons only on other pages than authentication or home (includes those buttons on the jumbotron) */}
                     {![home, login, logout, register].includes(path) && (
                         <Hidden smDown>
-                            <AuthButtonsHorizontal user={user} />
+                            <AuthButtonsHorizontal style={{ marginLeft: 'auto' }} user={user} />
                         </Hidden>
                     )}
                 </Toolbar>

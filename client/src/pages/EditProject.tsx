@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Formik, Form, Field } from 'formik';
 // import moment from 'moment';
 import projectsService from '../services/projectsService';
-import { authenticatedPage } from '../components/authenticatedPage';
+import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 // import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';

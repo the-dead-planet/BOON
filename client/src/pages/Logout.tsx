@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { withPush } from '../utils/routingDecorators';
 import { Redirect } from 'react-router-dom';
 import AppLayout from '../layouts/AppLayout';
+import { AppFormLayout } from '../components/forms/App';
+import { Typography, Fade } from '@material-ui/core';
 import authService from '../services/authService';
 import withShowError, { WithShowErrorInjectedProps } from '../components/withShowError';
 import { User, NotificationProps, Mode } from '../logic/types';
+import { PATHS } from '../constants/data';
+const { home } = PATHS;
 
 interface LogoutProps {
     onSuccess: any;
@@ -19,24 +24,39 @@ const Logout = ({ user, onSuccess, mode, setMode, notificationsProps, showError 
 
     useEffect(() => {
         if (!logoutRequestDone) {
-            authService
-                .logout()
-                .then(() => onSuccess())
-                .catch(showError)
-                .finally(() => setLogoutRequestDone(true));
+            setTimeout(() => {
+                authService
+                    .logout()
+                    .then(() => onSuccess())
+                    .catch(showError)
+                    .finally(() => setLogoutRequestDone(true));
+            }, 3000);
         }
     });
 
     if (logoutRequestDone) {
-        return <Redirect to={'/'} />;
+        return <Redirect to={home} />;
     } else {
         return (
-            <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
-                <h1>Logging you out</h1>
+            <AppLayout
+                user={user}
+                mode={mode}
+                setMode={setMode}
+                notifications={notificationsProps}
+                onNotificationShown={showError}
+            >
+                <AppFormLayout>
+                    <Fade timeout={1000} in={true}>
+                        <Typography variant="h4">
+                            Bye, bye, monster!
+                        </Typography>
+                    </Fade>
+                </AppFormLayout>
             </AppLayout>
         );
-    }
-};
-
+    };
+}
 // TODO: export the raw component from here, wrap it with HOCs in App.tsx.
-export default (withShowError as any)(Logout);
+// export default (withShowError as any)(Logout);
+
+export default withPush(withShowError(Logout))

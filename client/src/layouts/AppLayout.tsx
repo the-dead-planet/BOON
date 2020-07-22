@@ -10,12 +10,13 @@ import NotificationsRenderer from '../components/NotificationsRenderer';
 
 /*
   This component should serve as a wrapper for all pages. 
-  Jumbotron and appBar are optional so the component can be use for either an option with both, with only jumbotron or only appBar.
+  Jumbotron and appBar are optional so the component can be use for layout with both, 
+  with only jumbotron or only appBar or none of them but making use of the ThemeWrapper.
   Drawer allows additional properties, like variant. Not specified (default) is temporary. Other option is: persistent.
 */
 interface Props {
-    user: User | null | undefined;
-    children: React.ReactChild | React.ReactChildren | Array<React.ReactChild>;
+    user: User;
+    children: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | undefined;
     jumbotron?: JumbotronType;
     drawer?: Drawer;
     appBar?: boolean;
@@ -65,7 +66,7 @@ const AppLayout = ({
             {appBar && (
                 <NavBar
                     user={user}
-                    name="Monsters Gallery"
+                    name="BOON!"
                     mode={mode}
                     setMode={setMode}
                     open={open}

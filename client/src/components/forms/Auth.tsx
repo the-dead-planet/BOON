@@ -1,35 +1,52 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import { AppFormPaper } from './App';
+// import EmailValidator from 'email-validator';
+import * as Yup from 'yup';
+import { AppFormLayout, AppForm } from './App';
 import { GridField } from './GridFields';
-import { Submit } from '../../logic/types';
+import { Mode } from '../../logic/types';
 
 interface Props {
-    register: any;
-    initialValues: Submit;
+    mode: Mode;
+    register: boolean;
+    initialValues: object;
     onSubmit: any;
+    error?: string;
 }
 
-const AuthForm = ({ register, initialValues, onSubmit }: Props) => {
+// TODO: Add checkbox for 'stay logged in' and use cookies for keeping auth
+const AuthForm = ({ mode, register, initialValues, onSubmit, error }: Props) => {
+    const validationSchema = (values: any) =>
+        Yup.object().shape({
+            email: Yup.string()
+                .email()
+                .required('Required'),
+            password: Yup.string()
+                .required('No password provided.')
+                .min(8, 'Password is too short - should be 8 chars minimum.')
+                .matches(/(?=.*[0-9])/, 'Password must contain a number.'),
+        });
+
     return (
-        <AppFormPaper title={register ? 'Register' : 'Login'} initialValues={initialValues} onSubmit={onSubmit}>
-            <GridField required as={TextField} name="email" id="auth-email" label="E-mail" xs={12} />
+        <AppFormLayout title={register ? 'Register' : 'Login'} error={error}>
+            <AppForm
+                mode={mode}
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                validationSchema={register && validationSchema}
+            >
+                <GridField
+                    mode={mode}
+                    required
+                    name="email"
+                    id="auth-email"
+                    label={`${!register ? 'Username / ' : ''}E-mail`}
+                />
 
-            {register && <GridField required as={TextField} name="username" id="auth-username" label="Username" xs={12} />}
+                {register && <GridField mode={mode} required name="username" id="auth-username" label="Username" />}
 
-            <GridField
-                required
-                type="password"
-                as={TextField}
-                name="password"
-                id="auth-password"
-                label="Password"
-                xs={12}
-            />
-
-            {register && <GridField required as={TextField} name="team" id="auth-team" label="Team" xs={12} />}
-            
-        </AppFormPaper>
+                <GridField mode={mode} required type="password" name="password" id="auth-password" label="Password" />
+            </AppForm>
+        </AppFormLayout>
     );
 };
 

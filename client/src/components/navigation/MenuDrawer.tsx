@@ -10,7 +10,7 @@ import { PATHS } from '../../constants/data';
 import { DrawerVariant, Mode, User } from '../../logic/types';
 
 interface Props {
-    user: User | null | undefined;
+    user: User;
     mode: Mode;
     setMode: any;
     open: boolean;
@@ -21,7 +21,14 @@ interface Props {
 // This component can be either temporary or persistent. By default temporary. use prop 'variant' to change to "persistent"
 const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDrawer }: Props) => {
     const classes = useStyles();
-    const { main } = PATHS;
+    const { home } = PATHS;
+
+    const items = [
+        {
+            name: 'Home',
+            path: home,
+        },
+    ];
 
     return (
         <Drawer
@@ -43,11 +50,13 @@ const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDr
             <Divider />
 
             <List>
-                <Link to={main}>
-                    <ListItem button>
-                        <ListItemText primary="Sprints" />
-                    </ListItem>
-                </Link>
+                {items.map(item => (
+                    <Link to={item.path}>
+                        <ListItem button>
+                            <ListItemText primary={item.name} />
+                        </ListItem>
+                    </Link>
+                ))}
             </List>
             <Hidden mdUp>
                 <Divider />

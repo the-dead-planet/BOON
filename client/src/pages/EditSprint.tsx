@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import SprintForm from '../components/forms/Sprint';
 import moment from 'moment';
 import sprintsService from '../services/sprintsService';
-import { authenticatedPage } from '../components/authenticatedPage';
+import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';

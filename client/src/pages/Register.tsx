@@ -1,9 +1,9 @@
 import React from 'react';
+import withShowError from '../components/withShowError';
+import { interceptPage } from '../components/interceptPage';
 import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import authService from '../services/authService';
-import { interceptPage } from '../components/interceptPage';
-import withShowError from '../components/withShowError';
 import { User, NotificationProps, Mode } from '../logic/types';
 
 interface Props {

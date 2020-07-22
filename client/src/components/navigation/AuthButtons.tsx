@@ -3,14 +3,14 @@ import { useStyles } from '../../styles/main';
 import { Link } from 'react-router-dom';
 import { Box, Button, List, ListItem, ListItemText, Typography } from '@material-ui/core';
 import { User } from '../../logic/types';
-import { PATHS } from '../../constants/data';
+// import { PATHS } from '../../constants/data';
 // const { home, login, logout, register } = PATHS; // TODO:
 
 // Set text on auth buttons dependent on whether a user is logged in or not
 const getText = (user: User | null | undefined) => {
     return {
-        register: !user ? 'Join the other side' : `Hey there, ${user.publicName}`,
-        login: !user ? 'Show your face' : 'Exit the planet',
+        register: !user ? 'Sign up' : `Hey there, ${user.publicName}`,
+        login: !user ? 'Login' : 'Logout',
     };
 };
 

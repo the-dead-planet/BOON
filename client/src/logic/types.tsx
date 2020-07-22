@@ -31,7 +31,7 @@ type User =
           publicName: string;
           darkMode: boolean | undefined;
       }
-    | undefined;
+    | undefined | null;
 
 interface StateType {
     user: User | null;
@@ -199,7 +199,7 @@ interface FeedLayout {
 interface Landing {
     user: User;
     mode: Mode;
-    setDarkMode: any;
+    setMode: any;
     title: string;
     subtitle: string;
     button: { name: string; path: string };
@@ -216,7 +216,7 @@ interface NotificationProps {
     addNotification: any;
 }
 
-export {
+export type {
     DataItem,
     User,
     Mode,
