@@ -20,7 +20,7 @@ interface Props {
 
 export const Comment = ({ user, comment, users }: Props) => {
     const classes = useStyles();
-    const author = users.get(comment.author).publicName;
+    const author = users.get(comment.author)?.publicName;
 
     return (
         <React.Fragment>

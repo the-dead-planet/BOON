@@ -6,7 +6,7 @@ import { Mode } from '../logic/types';
 
 // TODO: Add update user if user logged in and switches the dark mode on/off
 interface Props {
-    mode: ModeType;
+    mode: Mode;
     setMode: any;
     style?: object;
 }

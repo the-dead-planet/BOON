@@ -5,7 +5,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { PostCard } from './Card';
 import moment from 'moment';
 import { EXT_DATE_FORMAT } from '../../../../utils/constants';
-import img from '../../../../img/landing/landing_1.png';
+import img from '../../../../img/landing/landing-1.png';
 import { User, Post, Comment, Like } from '../../../../logic/types';
 
 interface Props {
@@ -30,7 +30,7 @@ export const PostsList = ({ user, posts, comments, likes, users, updateStateData
                     model={'Post'}
                     comments={post.comments.map(id => comments.get(id))}
                     likes={post.likes.map(id => likes.get(id))}
-                    users={users}
+                    users={users as any}
                     title={post.title}
                     subtitle={` / ${moment(post.created).format(EXT_DATE_FORMAT)}`}
                     // subtitle={`${users.get(post.author).publicName} / ${moment(post.created).format(EXT_DATE_FORMAT)}`} // TODO: get users from state and filter

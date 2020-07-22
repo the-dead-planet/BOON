@@ -12,7 +12,7 @@ import { PATHS } from '../../constants/data';
 const { home, login, logout, register } = PATHS;
 
 interface Props {
-    user: User;
+    user: User | null | undefined;
     name: string;
     mode: Mode;
     setMode: any;

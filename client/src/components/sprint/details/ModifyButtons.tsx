@@ -18,7 +18,7 @@ interface Props {
 export const SprintModifyButtons = ({ user, sprint, model, onError }: Props) => {
     return user && sprint ? (
         <React.Fragment>
-            {sprint && user && sprint.author.id === user._id ? (
+            {sprint && user && sprint.author?._id === user._id ? (
                 <React.Fragment>
                     <ObjectDeleteButton user={user} model={model} object={sprint} onError={onError} />
                     <ObjectEditButton user={user} model={model} object={sprint} />

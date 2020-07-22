@@ -17,13 +17,24 @@ interface Props {
     push: any;
 }
 
+// A common trick to silence missing props in react components.
+// TODO: fix props instead.
+const anyProps: any = {};
+
 const CommentsImpl = ({ expanded, user, object, model, comments, users, updateStateData, push }: Props) => {
     return (
         <Box id="comments">
             <CollapsePanel expanded={expanded} title="Comments">
-                <Box >
-                    <CommentsList user={user} comments={comments} users={users} push={push} />
-                    <AddComment user={user} _id={object._id} model={model} updateStateData={updateStateData} push={push} />
+                <Box>
+                    <CommentsList user={user} comments={comments} users={users} push={push} {...anyProps} />
+                    <AddComment
+                        user={user}
+                        _id={object._id}
+                        model={model}
+                        updateStateData={updateStateData}
+                        push={push}
+                        {...anyProps}
+                    />
                 </Box>
             </CollapsePanel>
         </Box>

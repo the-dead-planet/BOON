@@ -7,13 +7,13 @@ import withShowError from '../components/withShowError';
 import { User, NotificationProps, Mode } from '../logic/types';
 
 interface Props {
-    next: any,
-    onSuccess: any,
-    user: User,
-    mode: Mode,
-    setMode: any,
-    notificationsProps: NotificationProps,
-    showError: any,
+    next: any;
+    onSuccess: any;
+    user: User;
+    mode: Mode;
+    setMode: any;
+    notificationsProps: NotificationProps;
+    showError: any;
 }
 
 const Register = ({ user, mode, setMode, onSuccess, next, notificationsProps, showError }: Props) => (
@@ -21,13 +21,25 @@ const Register = ({ user, mode, setMode, onSuccess, next, notificationsProps, sh
         <div>
             <AuthForm
                 register={true}
-                initialValues={{
-                    username: '',
-                    email: '',
-                    password: '',
-                    team: '',
-                }}
-                onSubmit={({ username, password, email, team }: { username: string, password: string, email: string, team: string }) => {
+                initialValues={
+                    {
+                        username: '',
+                        email: '',
+                        password: '',
+                        team: '',
+                    } as any
+                }
+                onSubmit={({
+                    username,
+                    password,
+                    email,
+                    team,
+                }: {
+                    username: string;
+                    password: string;
+                    email: string;
+                    team: string;
+                }) => {
                     authService
                         .register(username, password, email, team)
                         .then(resp => {

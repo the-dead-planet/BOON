@@ -76,7 +76,7 @@ export const depopulate = (obj: MongoObject, modelName: Path) => {
     // This function will have no side effects - it creates its own state and returns it to the caller.
     // The caller is responsible for merging the created state with its own, previous state.
     const state = initialState();
-    depopulateImpl({ [modelName]: obj }, [modelName], state);
+    (depopulateImpl as any)({ [modelName]: obj }, [modelName], state);
     return state;
 };
 
@@ -90,7 +90,7 @@ export const depopulateImpl = (obj: MongoObject, paths: Array<Path>, stateData: 
 
         // Check if the property stores one object (author) or many in an array (posts)
         const setAndDepopulate = Array.isArray(getValue(obj, path)) ? setAndDepopulateMany : setAndDepopulateOne;
-        obj[path] = setAndDepopulate(getValue(obj, path), path, stateData);
+        (obj as any)[path] = setAndDepopulate(getValue(obj, path), path, stateData);
     });
 
     return obj;

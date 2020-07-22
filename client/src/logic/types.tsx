@@ -1,20 +1,37 @@
-
-type Mode = "light" | "dark" | undefined
-type DrawerVariant = "persistent" | "temporary"
+type Mode = 'light' | 'dark' | undefined;
+type DrawerVariant = 'persistent' | 'temporary';
 type Input =
-    "button" | "checkbox" | "color" | "date" |
-    "datetime-local" | "email" | "file" | "hidden" |
-    "image" | "month" | "number" | "password" |
-    "radio" | "range" | "reset" | "search" |
-    "submit" | "tel" | "text" | "time" |
-    "url" | "week"
+    | 'button'
+    | 'checkbox'
+    | 'color'
+    | 'date'
+    | 'datetime-local'
+    | 'email'
+    | 'file'
+    | 'hidden'
+    | 'image'
+    | 'month'
+    | 'number'
+    | 'password'
+    | 'radio'
+    | 'range'
+    | 'reset'
+    | 'search'
+    | 'submit'
+    | 'tel'
+    | 'text'
+    | 'time'
+    | 'url'
+    | 'week';
 
-type User = {
-    _id: string;
-    email: string;
-    publicName: string;
-    darkMode: boolean | undefined;
-} | undefined
+type User =
+    | {
+          _id: string;
+          email: string;
+          publicName: string;
+          darkMode: boolean | undefined;
+      }
+    | undefined;
 
 interface StateType {
     user: User | null;
@@ -24,7 +41,7 @@ interface StateType {
     data: StateData;
 }
 
-type StateDataFunc = () => StateData
+type StateDataFunc = () => StateData;
 
 type StateData = {
     projects: Map<string, Project>;
@@ -34,16 +51,16 @@ type StateData = {
     teams: Map<string, Team>;
     users: Map<string, User>;
     likes: Map<string, Like>;
-}
+};
 
-interface DataItem { 
+interface DataItem {
     title: string;
-    src: string 
+    src: string;
 }
 
 interface Action {
     name: string;
-    path: string
+    path: string;
 }
 interface Jumbotron {
     img?: string;
@@ -73,9 +90,9 @@ interface Like {
     created: Date;
 }
 
-interface ValidationError { 
-    error: string; 
-    touched: boolean 
+interface ValidationError {
+    error: string;
+    touched: boolean;
 }
 
 interface PostLayout {
@@ -132,28 +149,27 @@ interface Team {
     edited: Date;
 }
 
-
 type MongoObject = Post | Sprint | Project | Comment | Like;
-type Model = "Sprint" | "Post" | "Project" | "Team" | "Comment" | "Like";
-type Path = 'author' | 'posts' | 'comments'| 'likes'| 'sprints' | 'projects';
+type Model = 'Sprint' | 'Post' | 'Project' | 'Team' | 'Comment' | 'Like';
+type Path = 'author' | 'posts' | 'comments' | 'likes' | 'sprints' | 'projects';
 
 interface SprintSubmit {
     number: number;
-    dateFrom: Date;
-    dateTo: Date;
+    dateFrom: string;
+    dateTo: string;
     title: string;
     body: string;
 }
 
-interface PostSubmit { 
-    project: string; 
-    title: string; 
-    body: string; 
+interface PostSubmit {
+    project: string;
+    title: string;
+    body: string;
 }
 
-interface ProjectSubmit { 
-    title: string; 
-    body: string; 
+interface ProjectSubmit {
+    title: string;
+    body: string;
 }
 
 interface CommentSubmit {
@@ -161,9 +177,9 @@ interface CommentSubmit {
 }
 
 interface Submit {
-    project?: string; 
-    title?: string; 
-    body?: string; 
+    project?: string;
+    title?: string;
+    body?: string;
     number?: number;
     dateFrom?: Date;
     dateTo?: Date;
@@ -189,18 +205,18 @@ interface Landing {
     button: { name: string; path: string };
 }
 
-interface Notification { 
+interface Notification {
     id: string;
     message: string;
 }
 
-interface NotificationProps { 
+interface NotificationProps {
     notifications: Array<Notification>;
     onNotificationShown: any;
     addNotification: any;
 }
 
-export type {
+export {
     DataItem,
     User,
     Mode,
@@ -222,6 +238,7 @@ export type {
     MongoObject,
     Model,
     Path,
+    Project,
     SprintSubmit,
     PostSubmit,
     ProjectSubmit,
@@ -231,4 +248,4 @@ export type {
     Landing,
     Notification,
     NotificationProps,
-}
+};

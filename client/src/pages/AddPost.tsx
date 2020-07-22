@@ -9,7 +9,7 @@ import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import { useParams } from 'react-router-dom';
 import withShowError from '../components/withShowError';
-import { User, NotificationProps, Mode, PostSubmit } from '../logic/types';
+import { User, NotificationProps, Mode, PostSubmit, Sprint } from '../logic/types';
 
 interface Props {
     user: User;
@@ -18,18 +18,19 @@ interface Props {
     setMode: any;
     push: any;
     notificationsProps: NotificationProps;
-    showError: any
+    showError: any;
 }
-
 
 const AddPost = ({ user, mode, setMode, sprintId, push, notificationsProps, showError }: Props) => {
     const { id } = useParams();
 
-    const [sprint, setSprint] = useState(null);
+    const [sprint, setSprint] = useState<Sprint | null>(null);
 
     const getSprint = async () => {
         const sprint = await sprintsService.getOne({ objectId: id }).catch(showError);
-        setSprint(sprint);
+        if (sprint) {
+            setSprint(sprint);
+        }
     };
 
     useEffect(() => {
@@ -38,10 +39,12 @@ const AddPost = ({ user, mode, setMode, sprintId, push, notificationsProps, show
         }
     });
 
+    const sprintNumber = sprint ? sprint.number : -1;
+
     return (
         <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
             <PostForm
-                title={sprint ? `Add post to sprint ${sprint.number}` : `Add post`}    // TODO: Null issue
+                title={sprint ? `Add post to sprint ${sprintNumber}` : `Add post`} // TODO: Null issue
                 initialValues={{
                     project: '',
                     title: '',

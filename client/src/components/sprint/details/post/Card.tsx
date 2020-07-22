@@ -13,7 +13,7 @@ import { CardMenu } from './Menu';
 import { User, Comment, Like, MongoObject, Model } from '../../../../logic/types';
 
 interface Props {
-    user: User;
+    user: User | null | undefined;
     object: MongoObject;
     model: Model;
     comments: Array<Comment | undefined>;
@@ -62,7 +62,7 @@ export const PostCard = ({
     };
 
     return (
-        <Card style={{ marginBottom: "20px" }}>
+        <Card style={{ marginBottom: '20px' }}>
             {mediaTop}
             <CardHeader
                 avatar={null}
@@ -94,7 +94,7 @@ export const PostCard = ({
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <ActionButtons user={user} comments={comments} likes={likes} handleExpandClick={handleExpandClick} />
+                <ActionButtons comments={comments} likes={likes} handleExpandClick={handleExpandClick} />
             </CardActions>
             <CardContent>
                 <CommentsSection

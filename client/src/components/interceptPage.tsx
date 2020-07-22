@@ -5,4 +5,6 @@ import { withRouter } from 'react-router';
 // a Login form displayed when rendering a forbidded page.
 //
 // Injects utilities for redirecting back to the original page.
-export const interceptPage = (wrappedComponent: any) => withRouter(withPush(withNext(wrappedComponent)));
+// NOTE: TS gets confused here, hence the `any`.
+// TODO: remove `any`, add a proper signature.
+export const interceptPage = (wrappedComponent: any): any => (withRouter as any)(withPush(withNext(wrappedComponent)));

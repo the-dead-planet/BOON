@@ -2,18 +2,12 @@ import React from 'react';
 import { useStyles } from '../../styles/main';
 import { Link } from 'react-router-dom';
 import { Box, Grid, Button, Typography, Hidden, Grow } from '@material-ui/core';
-import { JumbotronType } from '../../logic/types';
-import jumbotronLight from '../../img/landing/JumbotronLight.png';
+import { Jumbotron as JumbotronProps } from '../../logic/types';
+//import * as jumbotronLight from '../../img/landing/JumbotronLight.png';
 import { PATHS } from '../../constants/data';
 const { main } = PATHS;
 
-const Jumbotron = ({
-    img = jumbotronLight,
-    title = 'Hello',
-    subtitle = 'Welcome',
-    actions = [],
-    onClick,
-}: JumbotronType) => {
+const Jumbotron = ({ img = '', title = 'Hello', subtitle = 'Welcome', actions = [], onClick }: JumbotronProps) => {
     const classes = useStyles();
 
     return (
