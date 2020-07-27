@@ -1,8 +1,8 @@
 import React from 'react';
-import { useStyles } from '../../styles/main';
-import { Link } from 'react-router-dom';
-import { Container, Grid, Typography } from '@material-ui/core';
-import { Mode, User } from '../../logic/types';
+import { useStyles } from '../../styles/landing';
+// import { Link } from 'react-router-dom';
+import { Container, Box, Grid, Typography } from '@material-ui/core';
+// import { Mode, User } from '../../logic/types';
 import bed from '../../img/content/interior/bed.jpg';
 import couch from '../../img/content/interior/couch.jpg';
 import hall from '../../img/content/interior/hall.jpg';
@@ -13,7 +13,7 @@ import wall from '../../img/content/interior/wall.jpg';
 import { Landing } from '../../logic/types';
 import { ShowInViewport, ShowSlideInViewport, ViewportImage } from '../../utils/InViewPort';
 
-const ContentSimple = ({ user, mode, setMode, title, subtitle, button }: Landing) => {
+const Content = ({ user, mode, setMode, title, subtitle, button }: Landing) => {
     const classes = useStyles();
     const contents = [
         {
@@ -111,4 +111,4 @@ const ContentSimple = ({ user, mode, setMode, title, subtitle, button }: Landing
     );
 };
 
-export default ContentSimple;
+export default Content;
