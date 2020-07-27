@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import * as State from './State';
 import Home from './pages/Home';
-import Landing from './pages/Landing';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Register from './pages/Register';
@@ -168,9 +167,6 @@ class App extends Component<{}, StateType> {
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}
                                 />
-                            </Route>
-                            <Route path="/">
-                                <Landing />
                             </Route>
                         </Switch>
                     </div>

@@ -221,7 +221,7 @@ const useStyles = makeStyles((theme: Theme) =>
             zIndex: 20,
             transform: 'translateY(4rem)',
             // animation: `$fade-slide-up .5s 1s ease-out forwards, $pulse 2s 3s ease-out infinite`,
-            animation: `$no-transform .5s 1s ease-out forwards, $pulse 2s 3s ease-out infinite`,
+            animation: `$no-transform 1s 4s ease-out forwards, $pulse 2s 5s ease-out infinite`,
             opacity: 0,
         },
         // To remove redundancy in the other keyframe
@@ -257,7 +257,7 @@ const useStyles = makeStyles((theme: Theme) =>
             justifyContent: 'center',
             textAlign: 'center',
             textShadow: '2px 2px 4px #000000',
-            animation: 'colorAnim 40s ease-in-out infinite',
+            animation: '$colorAnim 30s ease-in-out infinite',
         },
 
         offset: {
@@ -285,26 +285,26 @@ const useStyles = makeStyles((theme: Theme) =>
                 backgroundRepeat: 'no-repeat' /* images wont repeat horiz or vert*/,
                 opacity: 0,
                 zIndex: 0,
-                animation: 'imageAnimation 40s linear infinite' /* linear - the same speed from beg to end*/,
+                animation: '$imageAnimation 30s linear infinite' /* linear - the same speed from beg to end*/,
             },
             '& li:nth-child(1)': {
                 backgroundImage: `url(${landing1})`,
             },
             '& li:nth-child(2)': {
                 backgroundImage: `url(${landing2})`,
-                animationDelay: '8s',
+                animationDelay: '6s',
             },
             '& li:nth-child(3)': {
                 backgroundImage: `url(${landing3})`,
-                animationDelay: '16s',
+                animationDelay: '12s',
             },
             '& li:nth-child(4)': {
                 backgroundImage: `url(${landing4})`,
-                animationDelay: '24s',
+                animationDelay: '18s',
             },
             '& li:nth-child(5)': {
                 backgroundImage: `url(${landing5})`,
-                animationDelay: '32s',
+                animationDelay: '24s',
             },
         },
         '@keyframes imageAnimation': {
@@ -333,7 +333,7 @@ const useStyles = makeStyles((theme: Theme) =>
             fontWeight: 'bold',
             fontSize: '1.2em',
             textDecoration: 'none',
-            animation: 'colorAnim 40s ease-in-out infinite',
+            animation: '$colorAnim 30s ease-in-out infinite',
             cursor: 'pointer',
             '&:hover': {
                 boxShadow: '0px 0px 8px 8px',
@@ -386,7 +386,7 @@ const useStyles = makeStyles((theme: Theme) =>
         fadeIn: {
             zIndex: 1,
             position: 'relative',
-            animation: 'fadeIn ease-in 6s',
+            animation: '$fadeIn ease-in 6s',
         },
         '@keyframes fadeIn': {
             '0%': {

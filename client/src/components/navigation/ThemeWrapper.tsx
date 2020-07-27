@@ -1,5 +1,6 @@
 import React from 'react';
-import { useStyles, createTheme } from '../../styles/main';
+import { useStyles } from '../../styles/main';
+import { createTheme } from '../../styles/themes';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Mode } from '../../logic/types';

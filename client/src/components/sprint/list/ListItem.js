@@ -22,7 +22,7 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, currentSpr
 
     return (
         <React.Fragment>
-            <Link className={classes.noDecoration} to={`/sprints/${_id}`}>
+            <Link to={`/sprints/${_id}`}>
                 <ListItem button className={`${txColor} ${selected}`}>
                     {`#${number} / ${sprintDateToMonth}`}
                 </ListItem>
