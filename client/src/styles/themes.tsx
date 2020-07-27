@@ -11,14 +11,6 @@ import IconButton from '@material-ui/core/IconButton';
 const header = require('../img/landing/header-1.jpg');
 const header2 = require('../img/landing/header-2.jpg');
 
-// // Custom palette - colors should be defined here and referenced in classes
-// const color1 = '#1A1A1D'; // black
-// const color2 = '#950740'; // dark purple
-// const color3 = '#F0F0F0'; // light grey
-// const color4 = '#6e6e6e'; // lighter black
-// const colorHoverLighter = 'rgba(255, 255, 255, 0.075)';
-// const colorHoverDarker = 'rgba(0, 0, 0, 0.075)';
-
 // Wrapper for the function in order to pass type parameter.
 // Requires defining 'const theme' in components which make use of it. See Layout.tsx
 const createTheme = (type: Mode) => {

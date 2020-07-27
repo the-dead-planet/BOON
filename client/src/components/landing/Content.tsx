@@ -59,31 +59,23 @@ const Content = ({ user, mode, setMode, title, subtitle, button }: Landing) => {
             img: hall,
         },
     ];
-
+    // TODO: Change this content to something which makes more sense, now it's quite a mess
     return (
         <>
-            <Container maxWidth="md" id="main-content" style={{ marginTop: '20px' }}>
-                <Grid container direction="column" justify="center" alignItems="center" style={{ minHeight: '100vh' }}>
+            <Container maxWidth="md" id="main-content" className={classes.contentContainer}>
+                <Grid container direction="column" justify="center" alignItems="center" className={classes.gridContent}>
                     <ShowInViewport>
-                        <Typography
-                            variant="h1"
-                            gutterBottom
-                            style={{ color: '#545050', textAlign: 'center', fontWeight: 'bold' }}
-                        >
+                        <Typography variant="h1" gutterBottom className={classes.contentTitle}>
                             Cupcake halvah toffee bonbon
                         </Typography>
                     </ShowInViewport>
 
                     {contents.map((item, i) => (
                         <React.Fragment key={i}>
-                            <Typography
-                                variant="h3"
-                                gutterBottom
-                                style={{ color: '#545050', textAlign: 'center', fontWeight: 'bold' }}
-                            >
+                            <Typography variant="h3" gutterBottom className={classes.contentItemTitle}>
                                 {item.title}
                             </Typography>
-                            <Typography variant="h4" gutterBottom style={{ color: '#545050', textAlign: 'center' }}>
+                            <Typography variant="h4" gutterBottom className={classes.contentItemBody}>
                                 {item.text}
                             </Typography>
 
@@ -93,17 +85,11 @@ const Content = ({ user, mode, setMode, title, subtitle, button }: Landing) => {
                 </Grid>
             </Container>
             <ShowSlideInViewport>
-                <Typography
-                    variant="body1"
-                    gutterBottom
-                    style={{ color: '#545050', textAlign: 'center', fontWeight: 'bold' }}
-                >
+                <Typography gutterBottom className={classes.messageTitle}>
                     Fruitcake cotton candy jelly beans croissant.
                 </Typography>
-                <Typography variant="subtitle1" style={{ color: '#545050', textAlign: 'center' }}>
-                    Cake bear claw donut gummi bears.
-                </Typography>
-                <Typography variant="subtitle1" gutterBottom style={{ color: '#545050', textAlign: 'center' }}>
+                <Typography className={classes.messageSubtitle}>Cake bear claw donut gummi bears.</Typography>
+                <Typography gutterBottom className={classes.messageBody}>
                     Caramels sesame snaps topping pastry muffin chupa chups gummies cake.
                 </Typography>
             </ShowSlideInViewport>
