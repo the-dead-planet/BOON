@@ -14,7 +14,7 @@ interface Props {
 
 const SprintForm = ({ mode, title, initialValues, onSubmit }: Props) => {
     // TODO: Write validation schema
-    const validationSchema = (values: any) => undefined;
+    // const validationSchema = (values: any) => undefined;
     // Yup.object().shape({
     //     email: Yup.string()
     //         .email()
@@ -27,7 +27,12 @@ const SprintForm = ({ mode, title, initialValues, onSubmit }: Props) => {
 
     return (
         <AppFormLayout title={title ? title : 'Add sprint'}>
-            <AppForm mode={mode} initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+            <AppForm
+                mode={mode}
+                initialValues={initialValues}
+                onSubmit={onSubmit}
+                // validationSchema={validationSchema}
+            >
                 <GridField
                     required
                     fullWidth

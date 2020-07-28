@@ -16,7 +16,7 @@ interface Props {
 
 export const AddComment = ({ user, mode, _id, model, updateStateData, updatepush }: Props) => {
     // TODO: Write validation schema
-    const validationSchema = (values: any) => undefined;
+    // const validationSchema = (values: any) => undefined;
     // Yup.object().shape({
     //     email: Yup.string()
     //         .email()
@@ -42,7 +42,7 @@ export const AddComment = ({ user, mode, _id, model, updateStateData, updatepush
                         updateStateData(service.data.comment, 'comments');
                     });
                 }}
-                validationSchema={validationSchema}
+                // validationSchema={validationSchema}
             >
                 <GridField
                     as={TextField}
