@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
-import { Link } from 'react-router-dom';
-import { Button, Grid, List, ListItem, ListItemText, } from '@material-ui/core';
+import { Link } from '../../utils/Link';
+import { Button, Grid, List, ListItem, ListItemText } from '@material-ui/core';
 import { menuItems } from './items';
 import { AuthButtonsHorizontal } from './AuthButtons';
 import { User } from '../../logic/types';

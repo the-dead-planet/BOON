@@ -6,6 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import { Loading, Empty } from '../Loading';
 import { SingleSprint } from './details/SingleSprint';
 import SprintList from './list/List';
+import ContentsList from '../navigation/ContentsList';
 import { User, Sprint, Post, Comment, Like } from '../../logic/types';
 
 interface Props {
@@ -45,7 +46,7 @@ const SprintView = ({
             <div className={classes.toolbar} />
             <Grid container spacing={3}>
                 <Grid item xs={2}>
-                    <Hidden xsDown>
+                    <Hidden only="xs">
                         {sprints ? <SprintList sprints={sprints} currentSprintId={sprintId} /> : null}
                     </Hidden>
                 </Grid>
@@ -61,6 +62,18 @@ const SprintView = ({
                         updateStateData={updateStateData}
                         onError={onError}
                     />
+                </Grid>
+
+                <Grid item xs={2}>
+                    <Hidden only="xs">
+                        {sprint ? (
+                            <ContentsList
+                                items={sprint.posts
+                                    .map(id => posts.get(id))
+                                    .map(post => ({ name: post?.title, path: post?._id }))}
+                            />
+                        ) : null}
+                    </Hidden>
                 </Grid>
             </Grid>
         </Container>

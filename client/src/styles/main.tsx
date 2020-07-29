@@ -131,6 +131,14 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: '10em',
             color: theme.palette.primary.light,
         },
+        noDecoration: {
+            textDecoration: "none",
+            color: "inherit",
+        },
+        pageNavList: {
+            paddingTop: "0px !important",
+            paddingBottom: "0px !important",
+        },
     })
 );
 

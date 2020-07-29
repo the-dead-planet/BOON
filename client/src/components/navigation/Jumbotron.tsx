@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
-import { Link } from 'react-router-dom';
+import { Link } from '../../utils/Link';
 import { Box, Grid, Button, Typography, Hidden, Grow } from '@material-ui/core';
 import { Jumbotron as JumbotronProps } from '../../logic/types';
 //import * as jumbotronLight from '../../img/landing/JumbotronLight.png';

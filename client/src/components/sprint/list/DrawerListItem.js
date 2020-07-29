@@ -1,11 +1,11 @@
 import React from 'react';
 import { useStyles } from '../../../styles/main';
+import { Link } from '../../utils/Link';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import moment from 'moment';
 import { DATE_FORMAT } from '../../../utils/constants';
-import { Link } from 'react-router-dom';
 
 function DrawerListItem({ _id, number, title, dateFrom, dateTo, body, currentSprintId }) {
     const classes = useStyles();

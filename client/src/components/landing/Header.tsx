@@ -1,7 +1,6 @@
 import React from 'react';
 import { useStyles } from '../../styles/landing';
-import { Link } from 'react-router-dom';
-import { HashLink } from 'react-router-hash-link';
+import { Link, HashLink } from '../../utils/Link';
 import { Box, Typography } from '@material-ui/core';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import arrow from '../../img/downarrow.png';

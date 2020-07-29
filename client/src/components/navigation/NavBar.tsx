@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { useStyles } from '../../styles/main';
-import { Link } from 'react-router-dom';
+import { Link } from '../../utils/Link';
 import { AppBar, Toolbar, Typography, IconButton, Hidden } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import HideOnScroll from '../../utils/HideOnScroll';

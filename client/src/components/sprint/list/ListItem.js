@@ -1,12 +1,9 @@
 import React from 'react';
 import { useStyles } from '../../../styles/main';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import { Link } from '../../../utils/Link';
+import { ListItem } from '@material-ui/core';
 import moment from 'moment';
 import { DATE_FORMAT, MONTH_DATE_FORMAT } from '../../../utils/constants';
-import { Link } from 'react-router-dom';
 
 function SprintListItem({ _id, number, title, dateFrom, dateTo, body, currentSprintId }) {
     const classes = useStyles();
@@ -23,8 +20,8 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, currentSpr
     return (
         <React.Fragment>
             <Link to={`/sprints/${_id}`}>
-                <ListItem button className={`${txColor} ${selected}`}>
-                    {`#${number} / ${sprintDateToMonth}`}
+                <ListItem button className={`${txColor} ${selected} ${classes.pageNavList}`}>
+                    {`${number}. ${sprintDateToMonth}`}
                 </ListItem>
             </Link>
         </React.Fragment>

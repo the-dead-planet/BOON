@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
-import { Link } from 'react-router-dom';
+import { Link } from '../../utils/Link';
 import { Box, Button, List, ListItem, ListItemText, Typography } from '@material-ui/core';
 import { User } from '../../logic/types';
 // import { PATHS } from '../../constants/data';

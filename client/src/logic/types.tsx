@@ -1,3 +1,6 @@
+import { ReactChild, ReactChildren } from 'react'; 
+
+type Children = ReactChild | ReactChildren | Array<ReactChild>;
 type Mode = 'light' | 'dark' | undefined;
 type DrawerVariant = 'persistent' | 'temporary';
 type Input =
@@ -216,7 +219,13 @@ interface NotificationProps {
     addNotification: any;
 }
 
+interface LinkTo {
+    name?: string,
+    path?: string
+}
+
 export type {
+    Children,
     DataItem,
     User,
     Mode,
@@ -248,4 +257,5 @@ export type {
     Landing,
     Notification,
     NotificationProps,
+    LinkTo,
 };

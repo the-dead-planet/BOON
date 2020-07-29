@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
-import { Link } from 'react-router-dom';
+import { Link } from '../../utils/Link';
 import { Drawer, List, ListItem, ListItemText, Divider, IconButton, Hidden } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 // import ChevronRightIcon from '@material-ui/icons/ChevronRight';

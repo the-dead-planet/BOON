@@ -13,6 +13,9 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+/* Below works well for Chrome, IE, Edge but not for Firefox,
+    A new wrapper component was created for Router Link in utils
+*/
 a,
 a:-webkit-any-link {
     text-decoration: none;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStyles } from '../../styles/landing';
-// import { Link } from 'react-router-dom';
+// import { Link } from '../../utils/Link';
 import { Container, Box, Grid, Typography } from '@material-ui/core';
 // import { Mode, User } from '../../logic/types';
 import bed from '../../img/content/interior/bed.jpg';

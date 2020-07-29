@@ -61,8 +61,10 @@ export const PostCard = ({
         setAnchorEl(null);
     };
 
+    const style = { marginBottom: '20px' };
+
     return (
-        <Card style={{ marginBottom: '20px' }}>
+        <Card id={object._id} style={style}>
             {mediaTop}
             <CardHeader
                 avatar={null}
