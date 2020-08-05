@@ -59,23 +59,27 @@ describe('app', () => {
     describe('register', () => {
         test('creates a new user object', async () => {
             const team = await Team.create({});
-            const publicName = 'publicName';
+
+            // Note, that field named `email` is saved in the `username` field.
+            // TODO: rename fields to make it a bit less confusing.
+            const username = 'username';
+            const email = 'some@email.com';
 
             return agent
                 .post('/api/auth/register')
-                .send(`email=some@email.com`)
+                .send(`email=${email}`)
                 .send(`password=password`)
                 .send(`team=${team._id}`)
-                .send(`publicName=${publicName}`)
+                .send(`username=${username}`)
                 .then(resp => {
-                    expect(resp).toMatchObject({
+                    return expect(resp).toMatchObject({
                         statusCode: 201,
-                        body: { user: { publicName } },
+                        body: { user: { username: email } },
                     });
                 })
                 .then(() => {
                     // Check if a new User object has been saved in the database.
-                    expect(User.find({ publicName })).resolves.toHaveLength(1);
+                    return expect(User.find({ username: email })).resolves.toHaveLength(1);
                 });
         });
 
@@ -85,7 +89,7 @@ describe('app', () => {
                 .send(`email=${userCredentials.email}`)
                 .send(`password=password`)
                 .send(`team=team`)
-                .send(`publicName=publicName`)
+                .send(`username=username`)
                 .expect(500);
         });
     });

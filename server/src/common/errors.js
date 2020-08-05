@@ -32,7 +32,23 @@ class NotFoundError extends BoonHttpError {
     }
 }
 
+class UnauthenticatedError extends BoonHttpError {
+    constructor() {
+        super(401, 'Unauthenticated');
+    }
+}
+
+// A generic class for any unspecified error kind.
+// If possible, prefer using specialized variants with more structured
+// messages.
+class InternalError extends BoonHttpError {
+    constructor(message) {
+        super(500, message);
+    }
+}
+
 module.exports = {
     BoonHttpError,
     NotFoundError,
+    UnauthenticatedError,
 };
