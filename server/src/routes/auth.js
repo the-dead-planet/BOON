@@ -1,6 +1,7 @@
 const passport = require('passport');
 const Route = require('../common/Route');
 const { RequestMethod } = require('../common/request');
+const { InternalError, UnauthenticatedError } = require('../common/errors');
 
 module.exports = modelRegistry => [
     new Route('/api/auth/whoami', RequestMethod.GET, (mongoose, req) => {
@@ -51,8 +52,17 @@ module.exports = modelRegistry => [
     new Route(
         '/api/auth/login',
         RequestMethod.POST,
-        (mongoose, req) => {
+        (mongoose, req, res, err) => {
             const { user } = req;
+
+            if (err) {
+                throw new InternalError(err);
+            }
+
+            if (!user) {
+                throw new UnauthenticatedError();
+            }
+
             return { statusCode: 200, data: { user } };
         },
         passport.authenticate('local')
