@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useStyles } from '../../styles/main';
 import { Formik, Form } from 'formik';
-import { Grid, Paper, Button, Typography, Hidden } from '@material-ui/core';
+import { Grid, Paper, Typography, Hidden } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { withValidationList } from '../../utils/withValidation';
 import image from '../../img/forms/Register.png';
@@ -16,7 +16,7 @@ interface Props {
     validate?: any;
     validationSchema?: any;
     children: any;
-    child?: any;
+    submitSection: any;
 }
 
 /* 
@@ -24,7 +24,7 @@ interface Props {
     Provide either validate or validationSchema
 */
 // TODO: handle providing both validate and validationSchema / provide validate as a function
-export const AppForm = ({ mode, initialValues, onSubmit, validationSchema, children }: Props) => {
+export const AppForm = ({ mode, initialValues, onSubmit, validationSchema, submitSection, children }: Props) => {
     const classes = useStyles();
 
     // Disable submit button if errors appear, enable if all input values meet validation criteria
@@ -48,15 +48,8 @@ export const AppForm = ({ mode, initialValues, onSubmit, validationSchema, child
                         */}
                             {withValidationList(children, errors, touched)}
 
-                            <Button
-                                disabled={submitDisabled}
-                                style={{ marginTop: '35px', width: '100%' }}
-                                variant={mode === 'dark' ? 'outlined' : 'contained'}
-                                color={mode === 'dark' ? undefined : 'primary'}
-                                type="submit"
-                            >
-                                Submit
-                            </Button>
+                            {/* This prop should receive at least a button with type submit */}
+                            {submitSection}
                         </Grid>
                     </Form>
                 );

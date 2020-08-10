@@ -1,8 +1,7 @@
 import React from 'react';
-import * as Yup from 'yup';
+import { TextField, Button } from '@material-ui/core';
 import { AppFormLayout, AppForm } from './App';
 import { GridField } from './GridFields';
-import { TextField } from '@material-ui/core';
 import { Mode, SprintSubmit } from '../../logic/types';
 
 interface Props {
@@ -13,18 +12,6 @@ interface Props {
 }
 
 const SprintForm = ({ mode, title, initialValues, onSubmit }: Props) => {
-    // TODO: Write validation schema
-    // const validationSchema = (values: any) => undefined;
-    // Yup.object().shape({
-    //     email: Yup.string()
-    //         .email()
-    //         .required('Required'),
-    //     password: Yup.string()
-    //         .required('No password provided.')
-    //         .min(8, 'Password is too short - should be 8 chars minimum.')
-    //         .matches(/(?=.*[0-9])/, 'Password must contain a number.'),
-    // });
-
     return (
         <AppFormLayout title={title ? title : 'Add sprint'}>
             <AppForm
@@ -32,6 +19,16 @@ const SprintForm = ({ mode, title, initialValues, onSubmit }: Props) => {
                 initialValues={initialValues}
                 onSubmit={onSubmit}
                 // validationSchema={validationSchema}
+                submitSection={
+                    <Button
+                        style={{ marginTop: '35px', width: '100%' }}
+                        variant={mode === 'dark' ? 'outlined' : 'contained'}
+                        color={mode === 'dark' ? undefined : 'primary'}
+                        type="submit"
+                    >
+                        Submit
+                    </Button>
+                }
             >
                 <GridField
                     required

@@ -1,6 +1,7 @@
 import React from 'react';
 // import EmailValidator from 'email-validator';
 import * as Yup from 'yup';
+import { Button } from '@material-ui/core';
 import { AppFormLayout, AppForm } from './App';
 import { GridField } from './GridFields';
 import { Mode } from '../../logic/types';
@@ -34,6 +35,16 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error }: Props) => 
                 initialValues={initialValues}
                 onSubmit={onSubmit}
                 validationSchema={register && validationSchema}
+                submitSection={
+                    <Button
+                        style={{ marginTop: '35px', width: '100%' }}
+                        variant={mode === 'dark' ? 'outlined' : 'contained'}
+                        color={mode === 'dark' ? undefined : 'primary'}
+                        type="submit"
+                    >
+                        Submit
+                    </Button>
+                }
             >
                 <GridField
                     mode={mode}

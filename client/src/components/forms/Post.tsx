@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import * as Yup from 'yup';
+import { TextField, Select, Button } from '@material-ui/core';
 import { AppFormLayout, AppForm } from './App';
 import { GridField, GridFieldSelect } from './GridFields';
-import { TextField, Select } from '@material-ui/core';
 import projectsService from '../../services/projectsService';
 import { Mode, PostSubmit } from '../../logic/types';
 
@@ -27,18 +26,6 @@ const PostForm = ({ mode, title, initialValues, onSubmit }: Props) => {
         }
     });
 
-    // TODO: Write validation schema
-    // const validationSchema = (values: any) => undefined;
-    // Yup.object().shape({
-    //     email: Yup.string()
-    //         .email()
-    //         .required('Required'),
-    //     password: Yup.string()
-    //         .required('No password provided.')
-    //         .min(8, 'Password is too short - should be 8 chars minimum.')
-    //         .matches(/(?=.*[0-9])/, 'Password must contain a number.'),
-    // });
-
     return (
         <AppFormLayout title={title ? title : 'Add project'}>
             <AppForm
@@ -46,6 +33,16 @@ const PostForm = ({ mode, title, initialValues, onSubmit }: Props) => {
                 initialValues={initialValues}
                 onSubmit={onSubmit}
                 // validationSchema={validationSchema}
+                submitSection={
+                    <Button
+                        style={{ marginTop: '35px', width: '100%' }}
+                        variant={mode === 'dark' ? 'outlined' : 'contained'}
+                        color={mode === 'dark' ? undefined : 'primary'}
+                        type="submit"
+                    >
+                        Submit
+                    </Button>
+                }
             >
                 <GridFieldSelect
                     required
