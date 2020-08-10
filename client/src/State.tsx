@@ -1,5 +1,6 @@
 import { depopulate, mergeStateData, initialState as initialStateData } from './logic/StateData';
-import { Mode, StateType, User, Notification, Sprint, MongoObject, Path } from './logic/types';
+import { Mode, StateType, User, Notification, Sprint, MongoObject, Path, StateDataKeys, Model } from './logic/types';
+
 // Module containing global state definition and functions for manipulating it.
 // Each state modifying function takes the current state as the first argument
 // and returns subset of the new state as a result.
@@ -45,10 +46,49 @@ export const setSprints = (state: StateType) => (sprints: Array<Sprint>) => {
     return { data: mergedData };
 };
 
-// FIXME: State is updated
-// Update state after posting an object to db
-export const updateData = (state: StateType) => ({ _id, ...args }: MongoObject, prop: Path) => {
-    // state.data[prop].set(_id, { _id, ...args }); // TODO: delete _id once sprint drawer issue resolved
-    // TODO:
-    return state;
+const modelPaths = {
+    Sprint: 'sprints',
+    Post: 'posts',
+    Comment: 'comments',
+    Like: 'likes',
+    Project: 'projects',
+    User: 'users',
+    Team: 'teams',
+};
+
+// Update relevant map and insert reference _id in parent object
+export const updateData = (state: StateType) => (
+    { _id, ...args }: any,
+    path: StateDataKeys,
+    obj?: { _id: string; model: Model }
+) => {
+    // let data = { ...state }.data;
+    // data[path].set(_id, { _id, ...args })
+    const newData = Object.fromEntries(Object.entries(state.data));
+    newData.comments.set(_id, { _id, ...args });
+    const mergedData = mergeStateData(state.data, newData);
+
+    // If new object has a parent, update the reference in parent object
+    if (obj) {
+        const updatedObject = newData[modelPaths[obj.model]].get(obj._id);
+
+        // TODO: fix this eh
+        if (updatedObject) {
+            for (const [key, value] of Object.entries(updatedObject)) {
+                if (key === path) {
+                    // value.push(_id)
+                    updatedObject[key].push(_id);
+                }
+            }
+
+            newData[modelPaths[obj.model]].set(obj._id, updatedObject);
+        }
+
+        return { data: updatedObject };
+    }
+
+    console.log(mergedData);
+    console.log(state.data == newData);
+
+    return { data: mergedData };
 };

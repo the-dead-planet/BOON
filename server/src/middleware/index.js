@@ -1,4 +1,4 @@
-// const models = require('../common/models');
+// const { models } = require('../common/models');
 var Sprint = require('../models/Sprint');
 var Project = require('../models/Project');
 var Post = require('../models/Post');

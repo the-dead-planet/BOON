@@ -1,4 +1,4 @@
-import { ReactChild, ReactChildren } from 'react'; 
+import { ReactChild, ReactChildren } from 'react';
 
 type Children = ReactChild | ReactChildren | Array<ReactChild>;
 type Mode = 'light' | 'dark' | undefined;
@@ -27,14 +27,15 @@ type Input =
     | 'url'
     | 'week';
 
-type User =
-    | {
-          _id: string;
-          email: string;
-          publicName: string;
-          darkMode: boolean | undefined;
-      }
-    | undefined | null;
+interface UserObject { 
+    _id: string;
+    email: string; 
+    publicName: string; 
+    darkMode: boolean | undefined; 
+}
+
+
+type User = UserObject | undefined | null;
 
 interface StateType {
     user: User | null;
@@ -55,6 +56,8 @@ type StateData = {
     users: Map<string, User>;
     likes: Map<string, Like>;
 };
+
+type StateDataKeys = 'posts' | 'comments' | 'likes' | 'sprints' | 'projects' | 'teams' | 'users';
 
 interface DataItem {
     title: string;
@@ -152,9 +155,10 @@ interface Team {
     edited: Date;
 }
 
-type MongoObject = Post | Sprint | Project | Comment | Like;
+type MongoObject = Post | Sprint | Project | Comment | Like | UserObject | Team;
 type Model = 'Sprint' | 'Post' | 'Project' | 'Team' | 'Comment' | 'Like';
-type Path = 'author' | 'posts' | 'comments' | 'likes' | 'sprints' | 'projects';
+type Path = 'author' | 'posts' | 'comments' | 'likes' | 'sprints' | 'projects' | 'teams' | 'users';
+
 
 interface SprintSubmit {
     number: number;
@@ -235,6 +239,7 @@ export type {
     StateType,
     StateDataFunc,
     StateData,
+    StateDataKeys,
     Action,
     Jumbotron,
     Comment,

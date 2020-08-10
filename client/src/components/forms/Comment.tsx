@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppFormLayout, AppForm } from './App';
+import { AppForm } from './App';
 import { GridField } from './GridFields';
 import { TextField, Typography, Button } from '@material-ui/core';
 import commentsService from '../../services/commentsService';
@@ -26,7 +26,8 @@ export const AddComment = ({ user, mode, _id, model, updateStateData, updatepush
                     model: model,
                 };
                 return commentsService.add(extendedData).then(service => {
-                    updateStateData(service.data.comment, 'comments');
+                    console.log(model, 'comment', service.data);
+                    updateStateData(service.data, 'comments', { model: model, _id: _id });
                 });
             }}
             submitSection={
@@ -46,7 +47,7 @@ export const AddComment = ({ user, mode, _id, model, updateStateData, updatepush
                 required
                 fullWidth
                 multiline
-                rows={3}
+                rows={2}
                 variant="outlined"
                 name="body"
                 id="add-comment-body"

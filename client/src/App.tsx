@@ -45,7 +45,6 @@ class App extends Component<{}, StateType> {
         // The resulting function will forward all arguments to `stateUpdater` and
         // invoke `setState` with the result.
         const updateState = (stateUpdater: any) => (...args: any) => {
-            console.log(stateUpdater);
             return this.setState(stateUpdater(this.state)(...args));
         };
 
