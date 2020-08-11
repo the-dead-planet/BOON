@@ -126,7 +126,8 @@ class App extends Component<{}, StateType> {
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setState={updateState(State.setSprints)}
-                                    updateStateData={updateState(State.updateData)}
+                                    addSprintComment={updateState(State.addCommentToSprint)}
+                                    addPostComment={updateState(State.addCommentToPost)}
                                     data={this.state.data}
                                     notificationsProps={notificationsProps}
                                 />
@@ -138,7 +139,8 @@ class App extends Component<{}, StateType> {
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setState={updateState(State.setSprints)}
-                                    updateStateData={updateState(State.updateData)}
+                                    addSprintComment={updateState(State.addCommentToSprint)}
+                                    addPostComment={updateState(State.addCommentToPost)}
                                     data={this.state.data}
                                     notificationsProps={notificationsProps}
                                 />

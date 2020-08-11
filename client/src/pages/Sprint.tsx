@@ -15,7 +15,8 @@ interface SprintProps {
     setMode: any;
     data: StateData;
     setState: any;
-    updateStateData: any;
+    addPostComment: any;
+    addSprintComment: any;
     notificationsProps: NotificationProps;
     showError: any;
 }
@@ -27,7 +28,8 @@ const Sprint = ({
     setMode,
     data,
     setState,
-    updateStateData,
+    addPostComment,
+    addSprintComment,
     notificationsProps,
     showError,
 }: SprintProps & WithShowErrorInjectedProps) => {
@@ -67,13 +69,7 @@ const Sprint = ({
     return sprintToDisplayId && sprintToDisplayId !== id ? (
         <Redirect to={`/sprints/${sprintToDisplayId}`} />
     ) : (
-        <AppLayout 
-            user={user} 
-            mode={mode} 
-            setMode={setMode} 
-            appBar={true}
-            {...notificationsProps}
-        >
+        <AppLayout user={user} mode={mode} setMode={setMode} appBar={true} {...notificationsProps}>
             {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
             {sprintToDisplayId && (
                 <SprintView
@@ -84,7 +80,8 @@ const Sprint = ({
                     likes={likes}
                     users={users}
                     sprintId={id}
-                    updateStateData={updateStateData}
+                    addPostComment={addPostComment}
+                    addSprintComment={addSprintComment}
                     onError={showError}
                     showError={showError}
                 />
@@ -95,4 +92,3 @@ const Sprint = ({
 
 // export default (withShowError as any)(Sprint);
 export default authenticatedPage(withPush(Sprint));
-

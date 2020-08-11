@@ -25,7 +25,7 @@ interface Props {
     mediaTop?: any;
     mediaMiddle?: any;
     menuItems: Array<{ name: string; path: string }>;
-    updateStateData: any;
+    addComment: any;
 }
 
 // Pass a component to mediaTop or mediaBottom depending on which location it is needed in
@@ -42,7 +42,7 @@ export const PostCard = ({
     mediaTop,
     mediaMiddle,
     menuItems,
-    updateStateData,
+    addComment,
 }: Props) => {
     const classes = useStyles();
 
@@ -106,7 +106,7 @@ export const PostCard = ({
                     model={model}
                     comments={comments}
                     users={users}
-                    updateStateData={updateStateData}
+                    addComment={addComment.bind(object._id)}
                 />
             </CardContent>
         </Card>

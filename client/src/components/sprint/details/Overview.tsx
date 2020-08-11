@@ -16,11 +16,11 @@ interface Props {
     comments: Array<Comment | undefined>;
     likes: Array<Like | undefined>;
     users: Map<string, User>;
-    updateStateData: any;
+    addComment: any;
     onError: any;
 }
 
-export const SprintOverview = ({ user, sprint, comments, likes, users, updateStateData, onError }: Props) => {
+export const SprintOverview = ({ user, sprint, comments, likes, users, addComment, onError }: Props) => {
     const classes = useStyles();
 
     const author: User | null = users.get(sprint.author as any); // FIXME: types are probably incompatible.
@@ -44,7 +44,7 @@ export const SprintOverview = ({ user, sprint, comments, likes, users, updateSta
             // mediaTop={<CardMedia className={classes.height200} image={sprint.image} />}
             // mediaTop={<CardMedia className={classes.height200} image={require('../../../img/landing/landing-1.png')} />}
             menuItems={[{ name: 'Cos tu wymyslimy', path: '/' }]}
-            updateStateData={updateStateData}
+            addComment={addComment}
         />
     ) : null;
 
