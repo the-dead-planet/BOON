@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { PostData } from '../logic/types';
 
 export default {
     getAll: async () => {
@@ -6,11 +7,11 @@ export default {
         return res.data || [];
     },
 
-    add: data => {
+    add: (data: PostData) => {
         return axios.post('/api/posts', data);
     },
 
-    delete: data => {
+    delete: (data: any) => {
         return axios.delete(`/api/posts/${data.objectId}`, data);
     },
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStyles } from '../styles/main';
-import { Container, Typography, LinearProgress, CircularProgress } from '@material-ui/core';
+import { Container, Typography, Grid, LinearProgress, CircularProgress } from '@material-ui/core';
 
 export const Loading = () => {
     const classes = useStyles();
@@ -17,8 +17,14 @@ export const Empty = () => {
 
     return (
         <Container className={classes.loading}>
-            <i className="optin monster icon" />
-            <Typography variant="h5">Oops... No sprints found. Lazy, lazy...</Typography>
+            <Grid container direction="column" alignItems="center">
+                <Grid item>
+                    <i className="optin monster icon" />
+                </Grid>
+                <Grid item>
+                    <Typography variant="h5">Oops... No sprints found. Lazy, lazy...</Typography>
+                </Grid>
+            </Grid>
         </Container>
     );
 };

@@ -5,7 +5,7 @@ import Layout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import authService from '../services/authService';
 import usersService from '../services/usersService';
-import { Mode, User, NotificationProps } from '../logic/types';
+import { Mode, User, NotificationProps, Auth } from '../logic/types';
 
 /* 
     Users can log in using either their e-mail (passport 'username') or their publicName
@@ -39,9 +39,9 @@ const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, sh
                     email: '',
                     password: '',
                 }}
-                onSubmit={({ username, password, email }: { username: string; password: string; email: string }) => {
+                onSubmit={({ username, password, email, team }: Auth) => {
                     authService
-                        .register(username, password, email)
+                        .register(username, password, email, team)
                         .then(res => {
                             const { user } = res;
                             onSuccess(user);

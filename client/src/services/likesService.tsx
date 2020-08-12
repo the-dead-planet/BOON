@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Like } from '../logic/types';
 
 export default {
     getAll: async () => {
@@ -6,11 +7,11 @@ export default {
         return res.data || [];
     },
 
-    add: data => {
+    add: (data: Like) => {
         return axios.post('/api/likes', data);
     },
 
-    delete: data => {
+    delete: (data: any) => {
         return axios.delete(`/api/likes/${data.objectId}`, data);
     },
 };

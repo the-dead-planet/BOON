@@ -3,15 +3,21 @@ import { useStyles } from '../../../styles/main';
 import List from '@material-ui/core/List';
 import DrawerListItem from './DrawerListItem';
 import Drawer from '@material-ui/core/Drawer';
+import { Sprint } from '../../../logic/types';
 
-const DrawerSprintList = ({ sprints, currentSprintId }) => {
+interface Props {
+    sprints: Map<string, Sprint>;
+    currentSprintId: string;
+}
+
+const DrawerSprintList = ({ sprints, currentSprintId }: Props) => {
     const classes = useStyles();
 
     return (
         <Drawer
             variant="permanent"
             classes={{
-                paper: `${classes.drawerPaper} ${classes.bgColor}`,
+                paper: classes.drawerPaper,
             }}
         >
             <div className={classes.toolbar} />

@@ -14,7 +14,7 @@ const ContentsList = ({ items }: Props) => {
 
     return (
         <List>
-            <ListItem>JMP TO</ListItem>
+            <ListItem className={classes.bold}>JMP TO</ListItem>
             {items.map((item, i) => (
                 <HashLink key={`link-item-${i}`} to={`#${item.path}` || '/'} smooth={true}>
                     <ListItem key={`item-${i}`} className={classes.pageNavList} button>

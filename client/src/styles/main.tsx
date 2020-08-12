@@ -139,6 +139,15 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingTop: "0px !important",
             paddingBottom: "0px !important",
         },
+        bold: {
+            fontWeight: "bold",
+        },
+        selectedStyle: {
+            fontStyle: "italic"
+        },
+        selected: {
+            backgroundColor: "rgba(0, 0, 0, .03) !important",
+        }
     })
 );
 

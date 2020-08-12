@@ -34,6 +34,24 @@ interface UserObject {
     darkMode: boolean | undefined; 
 }
 
+interface UserData { 
+    objectId: string;
+    email: string; 
+    publicName: string; 
+    darkMode: boolean | undefined; 
+}
+
+interface Auth {
+    username: string;
+    password: string;
+    team: string;
+    email: string;
+}
+
+interface Login { 
+    email: string, 
+    password: string, 
+}
 
 type User = UserObject | undefined | null;
 
@@ -89,11 +107,21 @@ interface Comment {
     edited: Date;
 }
 
+interface CommentData {
+    objectId?: string;
+    body: string;
+}
+
 interface Like {
     _id: string;
     author: string;
     type: 'Thumb up' | 'Thumb down' | 'Heart';
     created: Date;
+}
+
+interface LikeData {
+    objectId?: string;
+    type: 'Thumb up' | 'Thumb down' | 'Heart';
 }
 
 interface ValidationError {
@@ -125,6 +153,15 @@ interface Sprint {
     edited: Date;
 }
 
+interface SprintData {
+    objectId?: string;
+    number: number;
+    dateFrom: string;
+    dateTo: string;
+    title: string;
+    body: string;
+}
+
 interface Post {
     _id: string;
     author: User;
@@ -134,6 +171,12 @@ interface Post {
     likes: Array<string>;
     created: Date;
     edited: Date;
+}
+
+interface PostData {
+    objectId?: string;
+    title: string;
+    body: string;
 }
 
 interface Project {
@@ -146,6 +189,12 @@ interface Project {
     edited: Date;
 }
 
+interface ProjectData {
+    objectId?: string;
+    title: string;
+    body: string;
+}
+
 interface Team {
     _id: string;
     title: string;
@@ -154,6 +203,13 @@ interface Team {
     created: Date;
     edited: Date;
 }
+
+interface TeamData {
+    objectId?: string;
+    title: string;
+    body: string;
+}
+
 
 type MongoObject = Post | Sprint | Project | Comment | Like | UserObject | Team;
 type Model = 'Sprint' | 'Post' | 'Project' | 'Team' | 'Comment' | 'Like';
@@ -231,7 +287,10 @@ interface LinkTo {
 export type {
     Children,
     DataItem,
+    Auth,
+    Login,
     User,
+    UserData,
     Mode,
     DrawerVariant,
     Input,
@@ -243,16 +302,22 @@ export type {
     Action,
     Jumbotron,
     Comment,
+    CommentData,
     Like,
+    LikeData,
     Team,
+    TeamData,
     ValidationError,
     PostLayout,
     Post,
+    PostData,
     Sprint,
+    SprintData,
     MongoObject,
     Model,
     Path,
     Project,
+    ProjectData,
     SprintSubmit,
     PostSubmit,
     ProjectSubmit,

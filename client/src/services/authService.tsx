@@ -1,7 +1,8 @@
 import axios from 'axios';
 import qs from 'qs';
+import { Auth, Login } from '../logic/types';
 
-const sendRawPostRequest = (url, data) =>
+const sendRawPostRequest = (url: string, data: Auth | Login) =>
     axios({
         method: 'post',
         url,
@@ -12,9 +13,9 @@ const sendRawPostRequest = (url, data) =>
     }).then(response => response.data);
 
 export default {
-    login: (password, email) => sendRawPostRequest('/api/auth/login', { password, email }),
+    login: (password: string, email: string) => sendRawPostRequest('/api/auth/login', { password, email }),
     logout: () => axios.post('/api/auth/logout').then(response => response.data),
-    register: (username, password, email, team) =>
+    register: (username: string, password: string, email: string, team: string) =>
         sendRawPostRequest('/api/auth/register', { username, password, email, team }),
     whoami: () =>
         axios
