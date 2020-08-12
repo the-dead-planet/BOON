@@ -15,11 +15,22 @@ interface Props {
     comments: Map<string, Comment>;
     likes: Map<string, Like>;
     users: Map<string, User>;
-    updateStateData: any;
+    addPostComment: any;
+    addSprintComment: any;
     onError: any;
 }
 
-export const SingleSprint = ({ user, sprint, posts, comments, likes, users, updateStateData, onError }: Props) => {
+export const SingleSprint = ({
+    user,
+    sprint,
+    posts,
+    comments,
+    likes,
+    users,
+    addPostComment,
+    addSprintComment,
+    onError,
+}: Props) => {
     return sprint ? (
         <React.Fragment>
             <SprintOverview
@@ -28,7 +39,7 @@ export const SingleSprint = ({ user, sprint, posts, comments, likes, users, upda
                 comments={sprint.comments.map(id => comments.get(id))}
                 likes={sprint.likes.map(id => likes.get(id))}
                 users={users}
-                updateStateData={updateStateData}
+                addComment={addSprintComment}
                 onError={onError}
             />
             <Posts
@@ -37,7 +48,7 @@ export const SingleSprint = ({ user, sprint, posts, comments, likes, users, upda
                 comments={comments}
                 likes={likes}
                 users={users}
-                updateStateData={updateStateData}
+                addComment={addPostComment}
             />
         </React.Fragment>
     ) : (

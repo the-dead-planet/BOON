@@ -17,7 +17,8 @@ interface Props {
     likes: Map<string, Like>;
     users: Map<string, User>;
     sprintId: string;
-    updateStateData: any;
+    addPostComment: any;
+    addSprintComment: any;
     onError: any;
     showError: any;
 }
@@ -30,7 +31,8 @@ const SprintView = ({
     likes,
     users,
     sprintId,
-    updateStateData,
+    addPostComment,
+    addSprintComment,
     onError,
     showError,
 }: Props) => {
@@ -59,7 +61,8 @@ const SprintView = ({
                         comments={comments}
                         likes={likes}
                         users={users}
-                        updateStateData={updateStateData}
+                        addPostComment={addPostComment}
+                        addSprintComment={addSprintComment}
                         onError={onError}
                     />
                 </Grid>

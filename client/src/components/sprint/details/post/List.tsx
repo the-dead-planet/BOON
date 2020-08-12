@@ -14,10 +14,10 @@ interface Props {
     comments: Map<string, Comment>;
     likes: Map<string, Like>;
     users: Array<User>;
-    updateStateData: any;
+    addComment: any;
     push: any;
 }
-export const PostsList = ({ user, posts, comments, likes, users, updateStateData, push }: Props) => {
+export const PostsList = ({ user, posts, comments, likes, users, addComment, push }: Props) => {
     const classes = useStyles();
 
     return (
@@ -39,7 +39,7 @@ export const PostsList = ({ user, posts, comments, likes, users, updateStateData
                         <CardMedia style={{ height: '200px' }} image={img} /> // TODO: read from db
                     }
                     menuItems={[{ name: 'Go to related project', path: '/' }]}
-                    updateStateData={updateStateData}
+                    addComment={addComment}
                 />
             ))}
         </List>

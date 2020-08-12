@@ -1,5 +1,17 @@
 import { depopulate, mergeStateData, initialState as initialStateData } from './logic/StateData';
-import { Mode, StateType, User, Notification, Sprint, MongoObject, Path, StateDataKeys, Model } from './logic/types';
+import {
+    Mode,
+    StateType,
+    User,
+    Notification,
+    Sprint,
+    Post,
+    Comment,
+    MongoObject,
+    Path,
+    StateDataKeys,
+    Model,
+} from './logic/types';
 
 // Module containing global state definition and functions for manipulating it.
 // Each state modifying function takes the current state as the first argument
@@ -36,6 +48,60 @@ export const popNotification = (state: StateType) => (notificationId: string) =>
     notifications: state.notifications.filter(n => n.id !== notificationId),
 });
 
+// Add a single comment to a commentable object.
+// Adds the comment object to `state.data.comments` and updates the commented object in `state.data`.
+//
+// To pass type checking, each commentable object (i.e. sprint / post) must implement its own method for commenting.
+export const addCommentToSprint = (state: StateType) => (sprintId: string, comment: Comment) => {
+    const [updatedCommentData, updatedSprintData] = addCommentImpl(
+        state.data.sprints,
+        sprintId,
+        state.data.comments,
+        comment
+    );
+    return { comments: updatedCommentData, sprints: updatedSprintData };
+};
+
+export const addCommentToPost = (state: StateType) => (postId: string, comment: Comment) => {
+    const [updatedCommentData, updatedPostData] = addCommentImpl(
+        state.data.posts,
+        postId,
+        state.data.comments,
+        comment
+    );
+    return { comments: updatedCommentData, posts: updatedPostData };
+};
+
+// A generic, type safe variant of a function responsible for adding a new comment.
+// Note, that the function is generic - it will work for any type that has the right interface, but the type is constant
+// for each invocation. This is different than using an algebraic data type (e.g. `"Post" | "Sprint"`) - in that case
+// the type is not guaranteed to stay the same during an invocation, which causes TS to reject such functions.
+const addCommentImpl = <Commented extends { comments: Array<string> }>(
+    commentedObjectData: Map<string, Commented>,
+    commentedObjectId: string,
+    commentData: Map<string, Comment>,
+    comment: Comment
+) => {
+    // Add the new comment to the comment storage.
+    const commentId = comment._id;
+    commentData.set(commentId, comment);
+
+    // Add the comment id to the commented object.
+    // Gracefully handle a corner case where the commented object is not found.
+    const maybeCommentedObject = commentedObjectData.get(commentedObjectId);
+    if (maybeCommentedObject === undefined) {
+        console.log(`Commenting an unknown object: ${{ commentedObjectId }}`);
+    } else {
+        const updatedCommentedObject = {
+            ...maybeCommentedObject,
+            comments: [...maybeCommentedObject.comments, commentId],
+        };
+        commentedObjectData.set(commentedObjectId, updatedCommentedObject);
+    }
+
+    return [commentData, commentedObjectData];
+};
+
 // Set populated objects, such as: posts, comments, likes
 // Depopulate objects and store them as originally stored in mongo (with references to id's only)
 export const setSprints = (state: StateType) => (sprints: Array<Sprint>) => {
@@ -54,41 +120,4 @@ const modelPaths = {
     Project: 'projects',
     User: 'users',
     Team: 'teams',
-};
-
-// Update relevant map and insert reference _id in parent object
-export const updateData = (state: StateType) => (
-    { _id, ...args }: any,
-    path: StateDataKeys,
-    obj?: { _id: string; model: Model }
-) => {
-    // let data = { ...state }.data;
-    // data[path].set(_id, { _id, ...args })
-    const newData = Object.fromEntries(Object.entries(state.data));
-    newData.comments.set(_id, { _id, ...args });
-    const mergedData = mergeStateData(state.data, newData);
-
-    // If new object has a parent, update the reference in parent object
-    if (obj) {
-        const updatedObject = newData[modelPaths[obj.model]].get(obj._id);
-
-        // TODO: fix this eh
-        if (updatedObject) {
-            for (const [key, value] of Object.entries(updatedObject)) {
-                if (key === path) {
-                    // value.push(_id)
-                    updatedObject[key].push(_id);
-                }
-            }
-
-            newData[modelPaths[obj.model]].set(obj._id, updatedObject);
-        }
-
-        return { data: updatedObject };
-    }
-
-    console.log(mergedData);
-    console.log(state.data == newData);
-
-    return { data: mergedData };
 };

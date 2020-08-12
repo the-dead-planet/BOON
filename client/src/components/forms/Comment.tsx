@@ -10,11 +10,11 @@ interface Props {
     mode: Mode;
     _id: string;
     model: Model;
-    updateStateData: any;
+    addComment: any;
     updatepush: any;
 }
 
-export const AddComment = ({ user, mode, _id, model, updateStateData, updatepush }: Props) => {
+export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: Props) => {
     return user ? (
         <AppForm
             mode={mode}
@@ -25,9 +25,8 @@ export const AddComment = ({ user, mode, _id, model, updateStateData, updatepush
                     id: _id, // add sprint id
                     model: model,
                 };
-                return commentsService.add(extendedData).then(service => {
-                    console.log(model, 'comment', service.data);
-                    updateStateData(service.data, 'comments', { model: model, _id: _id });
+                return commentsService.add(extendedData).then(response => {
+                    addComment(_id, response.data);
                 });
             }}
             submitSection={
