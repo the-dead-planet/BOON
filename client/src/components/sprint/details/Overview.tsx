@@ -21,12 +21,14 @@ interface Props {
 }
 
 export const SprintOverview = ({ user, sprint, comments, likes, users, addComment, onError }: Props) => {
-    const classes = useStyles();
+    // const classes = useStyles();
 
     const author: User | null = users.get(sprint.author as any); // FIXME: types are probably incompatible.
     const authorPublicName = author ? author.publicName : 'unknown';
+    const isAuthor = users.get(String(sprint?.author) || '')?.publicName === user?.publicName;
+    const deleteItem = isAuthor ? [{ name: 'Delete', path: '/' }] : [];
 
-    const content = sprint ? (
+    const content = sprint && (
         // TODO: Create a sprint card
         <PostCard
             user={user}
@@ -36,17 +38,14 @@ export const SprintOverview = ({ user, sprint, comments, likes, users, addCommen
             likes={likes}
             users={users}
             title={`No${sprint.number} // ${sprint.title}`}
-            subtitle={`${authorPublicName} // ${
-                // TODO: solve possiblyundefined
-                sprint.dateFrom ? moment(sprint.dateFrom).format(DATE_FORMAT) : null
-            } - ${sprint.dateTo ? moment(sprint.dateTo).format(DATE_FORMAT) : null}`}
+            subtitle={`${authorPublicName} // ${sprint.dateFrom &&
+                moment(sprint.dateFrom).format(DATE_FORMAT)} - ${sprint.dateTo &&
+                moment(sprint.dateTo).format(DATE_FORMAT)}`}
             body={sprint.body}
-            // mediaTop={<CardMedia className={classes.height200} image={sprint.image} />}
-            // mediaTop={<CardMedia className={classes.height200} image={require('../../../img/landing/landing-1.png')} />}
-            menuItems={[{ name: 'Cos tu wymyslimy', path: '/' }]}
+            menuItems={[...deleteItem, { name: 'Cos tu wymyslimy', path: '/' }]}
             addComment={addComment}
         />
-    ) : null;
+    );
 
     return (
         <Box>

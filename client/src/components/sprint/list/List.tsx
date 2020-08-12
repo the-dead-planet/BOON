@@ -27,7 +27,6 @@ const SprintList = ({ sprints, currentSprintId }: Props) => {
         ...new Set([...sprints.values()].map(sprint => moment(sprint.dateTo).format(YEAR_DATE_FORMAT))),
     ];
 
-    console.log(sprintYears);
     return (
         <Box>
             <List>
