@@ -4,6 +4,7 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom/extend-expect';
 import 'jest-extended';
+import 'intersection-observer';
 
 // Mock some browser specific functions.
 global.window.scrollTo = () => {};
