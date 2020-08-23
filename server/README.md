@@ -8,12 +8,10 @@ to rules specified in tsconfig.js.
 
 ## Compilation
 
-To compile the code, run `yarn build`.
-Remember, that you must always build the project before starting a server.
+`yarn start` will automatically compile the code. It _should_ also watch the src/
+folder and recompile on changes, but it doesn't seem to work yet.
 
-The built/ folder will be populated regardless of type checking status. You can
-still run the code, even if it contains type errors. It is recommended not to ignore
-them, though.
+To compile the code manually, run `yarn build`.
 
 ### JS -> TS migration
 
