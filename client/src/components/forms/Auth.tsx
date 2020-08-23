@@ -28,6 +28,7 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error }: Props) => 
                 .matches(/(?=.*[0-9])/, 'Password must contain a number.'),
         });
 
+    const style = { marginTop: '35px', width: '100%' };
     return (
         <AppFormLayout title={register ? 'Register' : 'Login'} error={error}>
             <AppForm
@@ -37,7 +38,7 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error }: Props) => 
                 validationSchema={register && validationSchema}
                 submitSection={
                     <Button
-                        style={{ marginTop: '35px', width: '100%' }}
+                        style={style}
                         variant={mode === 'dark' ? 'outlined' : 'contained'}
                         color={mode === 'dark' ? undefined : 'primary'}
                         type="submit"

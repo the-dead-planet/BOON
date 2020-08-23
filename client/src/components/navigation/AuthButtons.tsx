@@ -19,10 +19,12 @@ interface Props {
     style?: object;
 }
 
+const style = { margin: '0 15px' };
+
 export const AuthButtonsHorizontal = ({ user, style }: Props) => {
     let signUpButton = (
         <Link to={!user ? '/register' : '/'}>
-            <Button style={{ margin: '0 15px' }} color="inherit">
+            <Button style={style} color="inherit">
                 {getText(user).register}
             </Button>
         </Link>

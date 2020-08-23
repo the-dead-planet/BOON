@@ -8,26 +8,23 @@ interface Props {
 
 export const Logo = ({ handleDrawerToggle }: Props) => {
     const classes = useStyles();
+    const style = { marginRight: '1em' };
+    const style2 = { width: '100px' };
 
     return (
         <React.Fragment>
             <Hidden smDown>
-                <IconButton
-                    aria-label="open drawer"
-                    edge="start"
-                    onClick={handleDrawerToggle}
-                    style={{ marginRight: "1em" }}
-                >
+                <IconButton aria-label="open drawer" edge="start" onClick={handleDrawerToggle} style={style}>
                     <i className="optin monster icon" />
                 </IconButton>
             </Hidden>
 
             <Hidden mdUp>
-                <IconButton style={{ marginRight: "1em" }}>
+                <IconButton style={style}>
                     <i className="optin monster icon" />
                 </IconButton>
             </Hidden>
-            <Typography variant="h6" style={{ width: "100px" }}>
+            <Typography variant="h6" style={style2}>
                 BOON
             </Typography>
         </React.Fragment>

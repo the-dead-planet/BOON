@@ -8,10 +8,12 @@ import { RellaxWrapper } from 'react-rellax-wrapper';
 // TODO: there is an error with typescript - create a new js component which receives property speed, to use inside tsx files
 const Parallax = ({ user, mode, setDarkMode, title, subtitle, button }) => {
     const classes = useStyles();
+    const style = { marginTop: '20px' };
+    const style2 = { minHeight: '100vh' };
 
     return (
-        <Container maxWidth="lg" id="main-content" style={{ marginTop: '20px' }}>
-            <Grid container direction="row" style={{ minHeight: '100vh' }}>
+        <Container maxWidth="lg" id="main-content" style={style}>
+            <Grid container direction="row" style={style2}>
                 <Grid item xs={4}>
                     <RellaxWrapper speed={2}>
                         <Typography variant="h4" color="secondary">

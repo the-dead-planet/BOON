@@ -1,3 +1,5 @@
+const APP_NAME = 'BOON!';
+
 const PATHS = {
     root: '/',
     home: '/home',
@@ -10,4 +12,4 @@ const PATHS = {
     addProject: '/add_project',
 };
 
-export { PATHS };
+export { APP_NAME, PATHS };

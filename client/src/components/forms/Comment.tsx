@@ -15,6 +15,8 @@ interface Props {
 }
 
 export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: Props) => {
+    const style = { display: 'flex', marginLeft: 'auto' };
+
     return user ? (
         <AppForm
             mode={mode}
@@ -31,7 +33,7 @@ export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: P
             }}
             submitSection={
                 <Button
-                    style={{ display: 'flex', marginLeft: 'auto' }}
+                    style={style}
                     variant={mode === 'dark' ? 'outlined' : 'contained'}
                     color={mode === 'dark' ? undefined : 'primary'}
                     type="submit"

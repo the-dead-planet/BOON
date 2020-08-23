@@ -9,11 +9,13 @@ const { main } = PATHS;
 
 const Jumbotron = ({ img = '', title = 'Hello', subtitle = 'Welcome', actions = [], onClick }: JumbotronProps) => {
     const classes = useStyles();
+    const style = { margin: '0.5em' };
+    const imgstyle = { backgroundImage: `url(${img})` };
 
     return (
         <>
             {/* Background image */}
-            <div className={classes.jumbotronImg} style={{ backgroundImage: `url(${img})` }} />
+            <div className={classes.jumbotronImg} style={imgStyle} />
 
             {/* Main content */}
             <Grow timeout={2000} in={true}>
@@ -37,7 +39,7 @@ const Jumbotron = ({ img = '', title = 'Hello', subtitle = 'Welcome', actions = 
                                         <Link to={`${action.path}?next=${main}`}>
                                             <Button
                                                 key={`button-${i}`}
-                                                style={{ margin: '0.5em' }}
+                                                style={style}
                                                 variant="contained"
                                                 color="primary"
                                             >

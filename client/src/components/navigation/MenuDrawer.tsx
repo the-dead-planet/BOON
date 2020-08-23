@@ -30,6 +30,8 @@ const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDr
         },
     ];
 
+    const style = { marginLeft: 'auto' };
+
     return (
         <Drawer
             className={classes.drawer}
@@ -64,7 +66,7 @@ const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDr
             </Hidden>
 
             <Divider />
-            <DarkModeSwitch style={{ marginLeft: 'auto' }} mode={mode} setMode={setMode} />
+            <DarkModeSwitch style={style} mode={mode} setMode={setMode} />
         </Drawer>
     );
 };

@@ -26,6 +26,8 @@ const PostForm = ({ mode, title, initialValues, onSubmit }: Props) => {
         }
     });
 
+    const style = { marginTop: '35px', width: '100%' };
+
     return (
         <AppFormLayout title={title ? title : 'Add project'}>
             <AppForm
@@ -35,7 +37,7 @@ const PostForm = ({ mode, title, initialValues, onSubmit }: Props) => {
                 // validationSchema={validationSchema}
                 submitSection={
                     <Button
-                        style={{ marginTop: '35px', width: '100%' }}
+                        style={style}
                         variant={mode === 'dark' ? 'outlined' : 'contained'}
                         color={mode === 'dark' ? undefined : 'primary'}
                         type="submit"

@@ -6,6 +6,7 @@ import Jumbotron from '../components/navigation/Jumbotron';
 import MenuDrawer from '../components/navigation/MenuDrawer';
 import NavBar from '../components/navigation/NavBar';
 import { Drawer, Mode, Jumbotron as JumbotronType, User } from '../logic/types';
+import { APP_NAME } from '../constants/data';
 import NotificationsRenderer from '../components/NotificationsRenderer';
 
 /*
@@ -66,9 +67,10 @@ const AppLayout = ({
             {appBar && (
                 <NavBar
                     user={user}
-                    name="BOON!"
+                    name={APP_NAME}
                     mode={mode}
                     setMode={setMode}
+                    drawerVariant="persistent"
                     open={open}
                     handleDrawerOpen={handleDrawerOpen}
                     handleDrawerClose={handleDrawerClose}

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useStyles } from '../styles/main';
-import Typography from '@material-ui/core/Typography';
-import Switch from '@material-ui/core/Switch';
+import { Typography, Switch } from '@material-ui/core';
 import { Mode } from '../logic/types';
 
 // TODO: Add update user if user logged in and switches the dark mode on/off

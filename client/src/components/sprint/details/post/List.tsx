@@ -19,7 +19,7 @@ interface Props {
 }
 export const PostsList = ({ user, posts, comments, likes, users, addComment, push }: Props) => {
     const classes = useStyles();
-
+    const style = { height: '200px' };
     return (
         <List>
             {(posts || []).map((post: Post, index: number) => (
@@ -36,7 +36,7 @@ export const PostsList = ({ user, posts, comments, likes, users, addComment, pus
                     // subtitle={`${users.get(post.author).publicName} / ${moment(post.created).format(EXT_DATE_FORMAT)}`} // TODO: get users from state and filter
                     body={post.body}
                     mediaMiddle={
-                        <CardMedia style={{ height: '200px' }} image={img} /> // TODO: read from db
+                        <CardMedia style={style} image={img} /> // TODO: read from db
                     }
                     menuItems={[{ name: 'Go to related project', path: '/' }]}
                     addComment={addComment}
