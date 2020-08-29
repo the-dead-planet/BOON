@@ -22,10 +22,7 @@ describe('app', () => {
             },
         ]);
 
-        const { getByText, findByText, findAllByText } = render(<App />);
-
-        const enterButton = await findByText(/enter the boon/i);
-        fireEvent.click(enterButton);
+        const { findAllByText } = render(<App />);
 
         await expect(findAllByText(/sprint0Title/i)).resolves.not.toBeEmpty();
     });

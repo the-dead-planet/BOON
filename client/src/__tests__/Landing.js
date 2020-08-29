@@ -21,7 +21,7 @@ describe('landing page', () => {
         expect(getByText(/loading/i)).toBeInTheDocument();
 
         // Finalize the request. The app should transition to the landing page.
-        resolveHandle({ user: { username: 'username' } });
+        resolveHandle({ user: null });
         const enterButtonPromise = findByText(/enter the boon/i);
         return expect(enterButtonPromise).resolves.toBeInTheDocument();
     });
