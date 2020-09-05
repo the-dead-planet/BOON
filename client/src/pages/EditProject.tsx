@@ -9,7 +9,7 @@ import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import ProjectForm from '../components/forms/Project';
 import { Loading } from '../components/Loading';
-import withShowError from '../components/withShowError';
+import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, ProjectSubmit, Project } from '../logic/types';
 
 interface Props {

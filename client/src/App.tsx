@@ -71,10 +71,6 @@ class App extends Component<{}, StateType> {
                             The order matters - the most generic paths should
                             be at the very end.
                         */}
-
-                            <Route exact path={root}>
-                                <Redirect to={home} />
-                            </Route>
                             <Route path={login}>
                                 <Login
                                     mode={this.state.mode}
@@ -168,6 +164,10 @@ class App extends Component<{}, StateType> {
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}
                                 />
+                            </Route>
+
+                            <Route exact path={root}>
+                                <Redirect to={home} />
                             </Route>
                         </Switch>
                     </div>

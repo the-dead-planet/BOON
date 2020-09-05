@@ -5,7 +5,7 @@ import { withPush } from '../utils/routingDecorators';
 import sprintsService from '../services/sprintsService';
 import AppLayout from '../layouts/AppLayout';
 import SprintView from '../components/sprint/SprintView';
-import withShowError, { WithShowErrorInjectedProps } from '../components/withShowError';
+import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData } from '../logic/types';
 
 // TODO: see a comment in `Logout` regarding HOCs.

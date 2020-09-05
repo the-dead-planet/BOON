@@ -1,0 +1,19 @@
+version: '3'
+services:
+    web:
+        image: client
+        build: ./client
+        ports:
+            - '3000:80'
+        depends_on:
+            - 'api'
+        stdin_open: true
+    api:
+        image: server
+        build: ./server
+        expose:
+            - '5000'
+        depends_on:
+            - 'mongo'
+    mongo:
+        image: 'mongo'

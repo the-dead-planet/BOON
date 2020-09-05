@@ -8,7 +8,7 @@ import { withPush } from '../utils/routingDecorators';
 // import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';
 import { useParams } from 'react-router-dom';
-import withShowError from '../components/withShowError';
+import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, PostSubmit, Sprint } from '../logic/types';
 
 interface Props {

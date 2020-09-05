@@ -12,6 +12,7 @@ const header2 = require('../img/landing/header-2.jpg');
 // Misc const used in styles
 const drawerWidth = 240;
 const toolbarHeight = 50;
+const jumbotronHeight = '100vh';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -29,20 +30,20 @@ const useStyles = makeStyles((theme: Theme) =>
             Images
         */
         jumbotron: {
-            minHeight: '100vh',
+            minHeight: jumbotronHeight,
         },
         jumbotronContent: {
             marginTop: `${toolbarHeight}px`,
             position: 'absolute',
             color: '#fff',
-            height: `calc(100vh - ${toolbarHeight}px)`,
+            height: `calc(${jumbotronHeight} - ${toolbarHeight}px)`,
         },
         jumbotronImg: {
             position: 'absolute',
             top: 0,
             left: 0,
             width: '100%',
-            height: '100%',
+            height: jumbotronHeight,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             zIndex: -1,
@@ -132,22 +133,22 @@ const useStyles = makeStyles((theme: Theme) =>
             color: theme.palette.primary.light,
         },
         noDecoration: {
-            textDecoration: "none",
-            color: "inherit",
+            textDecoration: 'none',
+            color: 'inherit',
         },
         pageNavList: {
-            paddingTop: "0px !important",
-            paddingBottom: "0px !important",
+            paddingTop: '0px !important',
+            paddingBottom: '0px !important',
         },
         bold: {
-            fontWeight: "bold",
+            fontWeight: 'bold',
         },
         selectedStyle: {
-            fontStyle: "italic"
+            fontStyle: 'italic',
         },
         selected: {
-            backgroundColor: "rgba(0, 0, 0, .03) !important",
-        }
+            backgroundColor: 'rgba(0, 0, 0, .03) !important',
+        },
     })
 );
 

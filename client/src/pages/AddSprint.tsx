@@ -6,7 +6,7 @@ import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';
-import withShowError from '../components/withShowError';
+import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, SprintSubmit } from '../logic/types';
 
 interface Props {

@@ -5,7 +5,7 @@ import AppLayout from '../layouts/AppLayout';
 import { AppFormLayout } from '../components/forms/App';
 import { Typography, Fade } from '@material-ui/core';
 import authService from '../services/authService';
-import withShowError, { WithShowErrorInjectedProps } from '../components/withShowError';
+import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode } from '../logic/types';
 import { PATHS } from '../constants/data';
 const { home } = PATHS;

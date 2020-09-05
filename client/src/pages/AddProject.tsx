@@ -4,7 +4,7 @@ import ProjectForm from '../components/forms/Project';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
-import withShowError from '../components/withShowError';
+import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, ProjectSubmit } from '../logic/types';
 
 interface Props {
