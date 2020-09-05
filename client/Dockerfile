@@ -1,4 +1,4 @@
-FROM node:11.5.0 as builder
+FROM node:latest as builder
 
 WORKDIR /opt/app/
 ADD ./ /opt/app/
@@ -13,8 +13,10 @@ RUN npm install && \
 FROM nginx:1.16.0-alpine
 
 COPY --from=builder /opt/app/build/ /usr/share/nginx/html
-
 RUN rm -rf /etc/nginx/conf.d
+
+# Below requires a folder structure in client: 
+# '/client/conf/conf.d' with a file 'default.conf' with nginx config
 COPY conf /etc/nginx
 
 EXPOSE 80

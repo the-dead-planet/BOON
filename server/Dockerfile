@@ -1,6 +1,6 @@
-FROM node
+FROM node:12.14.0
 
-WORKDIR /server
+WORKDIR /opt/server
 
 COPY package.json .
 COPY yarn.lock .
@@ -11,4 +11,5 @@ COPY . .
 
 EXPOSE 5000
 
-CMD "node" "src/index.js"
+# CMD "ts-node" "src/index.js"
+CMD ["npm", "start"]

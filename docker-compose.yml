@@ -1,3 +1,5 @@
+# Run with command 'docker-compose up --build' to build
+# or 'docker-compose up' to start the app
 version: '3'
 services:
     web:

@@ -10,7 +10,7 @@ const { main } = PATHS;
 const Jumbotron = ({ img = '', title = 'Hello', subtitle = 'Welcome', actions = [], onClick }: JumbotronProps) => {
     const classes = useStyles();
     const style = { margin: '0.5em' };
-    const imgstyle = { backgroundImage: `url(${img})` };
+    const imgStyle = { backgroundImage: `url(${img})` };
 
     return (
         <>
