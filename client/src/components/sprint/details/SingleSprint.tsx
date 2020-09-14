@@ -32,9 +32,9 @@ export const SingleSprint = ({
     addSprintComment,
     removeObject,
     onError,
-}: Props) => {
-    return sprint ? (
-        <React.Fragment>
+}: Props) =>
+    sprint ? (
+        <>
             <SprintOverview
                 user={user}
                 sprint={sprint}
@@ -54,8 +54,7 @@ export const SingleSprint = ({
                 addComment={addPostComment}
                 removePost={(id: string) => removeObject(id, 'posts')}
             />
-        </React.Fragment>
+        </>
     ) : (
-        <React.Fragment />
+        <></>
     );
-};

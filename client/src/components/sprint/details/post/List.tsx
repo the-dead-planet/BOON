@@ -13,7 +13,7 @@ interface Props {
     posts: Array<Post>;
     comments: Map<string, Comment>;
     likes: Map<string, Like>;
-    users: Array<User>;
+    users: Map<string, User>;
     addComment: any;
     removePost: any;
     push: any;
@@ -21,9 +21,10 @@ interface Props {
 export const PostsList = ({ user, posts, comments, likes, users, addComment, removePost, push }: Props) => {
     const classes = useStyles();
     const style = { height: '200px' };
+
     return (
         <List>
-            {(posts || []).map((post: Post, index: number) => (
+            {posts.map((post: Post, index: number) => (
                 <PostCard
                     key={`${post._id}-${index}`}
                     user={user}
@@ -33,8 +34,9 @@ export const PostsList = ({ user, posts, comments, likes, users, addComment, rem
                     likes={post.likes.map(id => likes.get(id))}
                     users={users as any}
                     title={post.title}
-                    subtitle={` / ${moment(post.created).format(EXT_DATE_FORMAT)}`}
-                    // subtitle={`${users.get(post.author).publicName} / ${moment(post.created).format(EXT_DATE_FORMAT)}`} // TODO: get users from state and filter
+                    subtitle={`${users.get(post.author as any)?.publicName || 'Unknown user'} / ${moment(
+                        post.created
+                    ).format(EXT_DATE_FORMAT)}`}
                     body={post.body}
                     mediaMiddle={
                         <CardMedia style={style} image={img} /> // TODO: read from db

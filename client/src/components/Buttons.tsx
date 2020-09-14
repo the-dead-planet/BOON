@@ -52,8 +52,6 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError, removeO
                     .service.delete(extendedData)
                     .then(response => {
                         removeObject(response.data);
-
-                        return <Redirect to={{ pathname: main }} />;
                     })
                     .catch(onError);
             }}
