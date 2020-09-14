@@ -6,10 +6,11 @@ import { PostCard } from './Card';
 import moment from 'moment';
 import { EXT_DATE_FORMAT } from '../../../../utils/constants';
 import img from '../../../../img/landing/landing-1.png';
-import { User, Post, Comment, Like } from '../../../../logic/types';
+import { User, Post, Project, Comment, Like } from '../../../../logic/types';
 
 interface Props {
     user: User;
+    projects: Map<string, Project>;
     posts: Array<Post>;
     comments: Map<string, Comment>;
     likes: Map<string, Like>;
@@ -18,7 +19,7 @@ interface Props {
     removePost: any;
     push: any;
 }
-export const PostsList = ({ user, posts, comments, likes, users, addComment, removePost, push }: Props) => {
+export const PostsList = ({ user, projects, posts, comments, likes, users, addComment, removePost, push }: Props) => {
     const classes = useStyles();
     const style = { height: '200px' };
 
@@ -41,7 +42,17 @@ export const PostsList = ({ user, posts, comments, likes, users, addComment, rem
                     mediaMiddle={
                         <CardMedia style={style} image={img} /> // TODO: read from db
                     }
-                    menuItems={[{ name: 'Go to related project', path: '/' }]}
+                    menuItems={[
+                        {
+                            name: 'Go to related project',
+                            path: `/projects/${[...projects.entries()]
+                                .filter(([projectId, proj]) => {
+                                    console.log(proj.posts, post._id);
+                                    return proj.posts.includes(post._id);
+                                })
+                                .flat()[0] || ''}`,
+                        },
+                    ]}
                     addComment={addComment}
                     removeObject={removePost}
                 />

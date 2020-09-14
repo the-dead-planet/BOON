@@ -3,7 +3,7 @@ import { Posts } from './post/Posts';
 // import { Container } from '@material-ui/core';
 import { SprintOverview } from './Overview';
 // import usersService from '../../../services/usersService';
-import { User, Sprint, Post, Comment, Like } from '../../../logic/types';
+import { User, Sprint, Post, Project, Comment, Like } from '../../../logic/types';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -11,6 +11,7 @@ import { User, Sprint, Post, Comment, Like } from '../../../logic/types';
 interface Props {
     user: User | null | undefined;
     sprint: Sprint | undefined;
+    projects: Map<string, Project>;
     posts: Map<string, Post>;
     comments: Map<string, Comment>;
     likes: Map<string, Like>;
@@ -26,14 +27,15 @@ export const SingleSprint = ({
     sprint,
     posts,
     comments,
+    projects,
     likes,
     users,
     addPostComment,
     addSprintComment,
     removeObject,
     onError,
-}: Props) =>
-    sprint ? (
+}: Props) => {
+    return sprint ? (
         <>
             <SprintOverview
                 user={user}
@@ -47,6 +49,7 @@ export const SingleSprint = ({
             />
             <Posts
                 user={user}
+                projects={projects}
                 posts={sprint.posts.map(id => posts.get(id))}
                 comments={comments}
                 likes={likes}
@@ -58,3 +61,4 @@ export const SingleSprint = ({
     ) : (
         <></>
     );
+};

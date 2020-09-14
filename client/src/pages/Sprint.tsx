@@ -36,7 +36,7 @@ const Sprint = ({
     showError,
 }: SprintProps & WithShowErrorInjectedProps) => {
     const { id } = useParams();
-    const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users } = data;
+    const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
 
     let sprintToDisplayId = id;
     // If no specific `Sprint` has been specified, try to redirect to the
@@ -78,6 +78,7 @@ const Sprint = ({
                     user={user}
                     sprints={sprints}
                     posts={posts}
+                    projects={projects}
                     comments={comments}
                     likes={likes}
                     users={users}

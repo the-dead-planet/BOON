@@ -7,12 +7,13 @@ import { Loading, Empty } from '../Loading';
 import { SingleSprint } from './details/SingleSprint';
 import SprintList from './list/List';
 import ContentsList from '../navigation/ContentsList';
-import { User, Sprint, Post, Comment, Like } from '../../logic/types';
+import { User, Sprint, Post, Project, Comment, Like } from '../../logic/types';
 
 interface Props {
     user: User | null | undefined;
     sprints: Map<string, Sprint>;
     posts: Map<string, Post>;
+    projects: Map<string, Project>;
     comments: Map<string, Comment>;
     likes: Map<string, Like>;
     users: Map<string, User>;
@@ -27,6 +28,7 @@ interface Props {
 const SprintView = ({
     user,
     sprints,
+    projects,
     posts,
     comments,
     likes,
@@ -59,6 +61,7 @@ const SprintView = ({
                     <SingleSprint
                         user={user}
                         sprint={sprint}
+                        projects={projects}
                         posts={posts}
                         comments={comments}
                         likes={likes}
