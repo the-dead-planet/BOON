@@ -5,6 +5,7 @@ import commentsService from '../services/commentsService';
 import postsService from '../services/postsService';
 import sprintsService from '../services/sprintsService';
 import MenuItem from '@material-ui/core/MenuItem';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { User, Sprint, MongoObject, Model } from '../logic/types';
 import { PATHS } from '../constants/data';
 const { main } = PATHS;
@@ -58,6 +59,31 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError, removeO
         >
             Delete
         </MenuItem>
+    ) : null;
+};
+
+export const IconDelete = ({ user, model, object, push, onError, removeObject }: DeleteProps) => {
+    console.log(object);
+    return user && object && (object as any).author === user._id ? (
+        <DeleteIcon
+            fontSize="small"
+            color="inherit"
+            onClick={data => {
+                const extendedData = {
+                    ...data,
+                    objectId: object._id,
+                };
+
+                return models
+                    .reduce((acc, val) => (val.name === model ? val : acc))
+                    .service.delete(extendedData)
+                    .then(response => {
+                        console.log(response);
+                        removeObject(response.data);
+                    })
+                    .catch(onError);
+            }}
+        />
     ) : null;
 };
 

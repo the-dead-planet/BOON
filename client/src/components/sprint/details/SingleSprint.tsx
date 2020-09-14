@@ -45,6 +45,7 @@ export const SingleSprint = ({
                 users={users}
                 addComment={addSprintComment}
                 removeSprint={(id: string) => removeObject(id, 'sprints')}
+                removeComment={(id: string) => removeObject(id, 'comments')}
                 onError={onError}
             />
             <Posts
@@ -56,6 +57,7 @@ export const SingleSprint = ({
                 users={users}
                 addComment={addPostComment}
                 removePost={(id: string) => removeObject(id, 'posts')}
+                removeComment={(id: string) => removeObject(id, 'comments')}
             />
         </>
     ) : (

@@ -14,6 +14,7 @@ interface Props {
     comments: Array<Comment>;
     users: Map<string, User>;
     addComment: any;
+    removeComment: any;
     push: any;
 }
 
@@ -21,12 +22,19 @@ interface Props {
 // TODO: fix props instead.
 const anyProps: any = {};
 
-const CommentsImpl = ({ expanded, user, object, model, comments, users, addComment, push }: Props) => {
+const CommentsImpl = ({ expanded, user, object, model, comments, users, addComment, removeComment, push }: Props) => {
     return (
         <Box id="comments">
             <CollapsePanel expanded={expanded} title="Comments">
                 <Box>
-                    <CommentsList user={user} comments={comments} users={users} push={push} {...anyProps} />
+                    <CommentsList
+                        user={user}
+                        comments={comments}
+                        users={users}
+                        push={push}
+                        removeComment={removeComment}
+                        {...anyProps}
+                    />
                     <AddComment
                         user={user}
                         _id={object._id}

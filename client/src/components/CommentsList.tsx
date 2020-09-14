@@ -7,14 +7,15 @@ interface Props {
     user: User;
     comments: Array<CommentType>;
     users: Map<string, User>;
+    removeComment: any;
 }
 
-export const CommentsList = ({ user, comments, users }: Props) => {
+export const CommentsList = ({ user, comments, users, removeComment }: Props) => {
     return (
         <List>
             <Divider component="li" />
-            {(comments || []).map(comment => (
-                <Comment key={comment._id} user={user} comment={comment} users={users} />
+            {(comments || []).map((comment, i) => (
+                <Comment key={i} user={user} comment={comment} users={users} removeComment={removeComment} />
             ))}
         </List>
     );

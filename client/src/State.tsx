@@ -117,9 +117,10 @@ export const removeObject = (state: StateType) => (
     id: string,
     object: 'sprints' | 'posts' | 'comments' | 'projects' | 'likes' | 'users' | 'teams'
 ) => {
-    state.data[object].delete(id);
+    const stateData = state.data;
+    stateData[object].delete(id);
 
-    return { data: state.data };
+    return { data: mergeStateData(state.data, stateData) };
 };
 
 const modelPaths = {

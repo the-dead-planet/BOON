@@ -14,12 +14,24 @@ interface Props {
     users: Map<string, User>;
     addComment: any;
     removePost: any;
+    removeComment: any;
     push: any;
 }
 
 // Implementation of the component. Note, that it expects to receive a `push` property from the caller. It's injected throught the `withPush` HOF below.
 // Only the decorated instance is exported. The `*Impl` class is here for convenience only and is not directly used outside of this file.
-const PostsImpl = ({ user, posts, projects, comments, likes, users, addComment, removePost, push }: Props) => (
+const PostsImpl = ({
+    user,
+    posts,
+    projects,
+    comments,
+    likes,
+    users,
+    addComment,
+    removeComment,
+    removePost,
+    push,
+}: Props) => (
     <PostsList
         user={user}
         projects={projects}
@@ -29,6 +41,7 @@ const PostsImpl = ({ user, posts, projects, comments, likes, users, addComment, 
         users={users}
         addComment={addComment}
         removePost={removePost}
+        removeComment={removeComment}
         push={push}
     />
 );

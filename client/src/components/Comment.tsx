@@ -7,7 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import { IconDelete } from './Buttons';
 import Typography from '@material-ui/core/Typography';
 // import { ObjectDeleteButton } from './Buttons';
 import { User, Comment as CommentType } from '../logic/types';
@@ -16,12 +16,12 @@ interface Props {
     user: User;
     comment: CommentType;
     users: Map<string, User>;
+    removeComment: any;
 }
 
-export const Comment = ({ user, comment, users }: Props) => {
+export const Comment = ({ user, comment, users, removeComment }: Props) => {
     const classes = useStyles();
-    const author = users.get(comment.author)?.publicName;
-
+    const author = users.get(comment?.author)?.publicName;
     return (
         <React.Fragment>
             <ListItem alignItems="flex-start">
@@ -35,15 +35,18 @@ export const Comment = ({ user, comment, users }: Props) => {
                                 {author}
                             </Typography>
                             <Typography component="span" variant="caption" color="textPrimary">
-                                {` - ${moment(comment.created).fromNow()}`}
+                                {` - ${moment(comment?.created).fromNow()}`}
                             </Typography>
                         </React.Fragment>
                     }
-                    secondary={comment.body}
+                    secondary={comment?.body}
                 />
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                </IconButton>
+                {/* TODO: Removing works but the page is not re-rendered */}
+                {users.get(comment?.author)?.publicName === user?.publicName && (
+                    <IconButton aria-label="remove comment">
+                        <IconDelete user={user} model="Comment" object={comment} removeObject={removeComment} />
+                    </IconButton>
+                )}
             </ListItem>
             {/* <Divider variant="inset" component="li" /> */}
         </React.Fragment>
