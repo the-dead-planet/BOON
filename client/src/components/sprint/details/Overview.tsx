@@ -6,6 +6,7 @@ import { PostCard } from './post/Card';
 import moment from 'moment';
 import { DATE_FORMAT } from '../../../utils/constants';
 import { User, Sprint, Comment, Like } from '../../../logic/types';
+import { removeObject } from '../../../State';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -17,16 +18,16 @@ interface Props {
     likes: Array<Like | undefined>;
     users: Map<string, User>;
     addComment: any;
+    removeSprint: any;
     onError: any;
 }
 
-export const SprintOverview = ({ user, sprint, comments, likes, users, addComment, onError }: Props) => {
+export const SprintOverview = ({ user, sprint, comments, likes, users, addComment, removeSprint, onError }: Props) => {
     // const classes = useStyles();
 
     const author: User | null = users.get(sprint.author as any); // FIXME: types are probably incompatible.
     const authorPublicName = author ? author.publicName : 'unknown';
     const isAuthor = users.get(String(sprint?.author) || '')?.publicName === user?.publicName;
-    const deleteItem = isAuthor ? [{ name: 'Delete', path: '/' }] : [];
 
     const content = sprint && (
         // TODO: Create a sprint card
@@ -42,8 +43,9 @@ export const SprintOverview = ({ user, sprint, comments, likes, users, addCommen
                 moment(sprint.dateFrom).format(DATE_FORMAT)} - ${sprint.dateTo &&
                 moment(sprint.dateTo).format(DATE_FORMAT)}`}
             body={sprint.body}
-            menuItems={[...deleteItem, { name: 'Cos tu wymyslimy', path: '/' }]}
+            menuItems={[{ name: 'Share', path: '/' }]}
             addComment={addComment}
+            removeObject={removeSprint}
         />
     );
 

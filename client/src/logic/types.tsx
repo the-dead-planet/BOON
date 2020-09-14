@@ -284,6 +284,14 @@ interface LinkTo {
     path?: string
 }
 
+interface MenuItem { 
+    name: string; 
+    path?: string;
+    onClick?: any;
+};
+
+type MenuItems = Array<MenuItem>;
+
 export type {
     Children,
     DataItem,
@@ -328,4 +336,6 @@ export type {
     Notification,
     NotificationProps,
     LinkTo,
+    MenuItem,
+    MenuItems
 };

@@ -17,6 +17,7 @@ interface Props {
     users: Map<string, User>;
     addPostComment: any;
     addSprintComment: any;
+    removeObject: any;
     onError: any;
 }
 
@@ -29,6 +30,7 @@ export const SingleSprint = ({
     users,
     addPostComment,
     addSprintComment,
+    removeObject,
     onError,
 }: Props) => {
     return sprint ? (
@@ -40,6 +42,7 @@ export const SingleSprint = ({
                 likes={sprint.likes.map(id => likes.get(id))}
                 users={users}
                 addComment={addSprintComment}
+                removeSprint={(id: string) => removeObject(id, 'sprints')}
                 onError={onError}
             />
             <Posts
@@ -49,6 +52,7 @@ export const SingleSprint = ({
                 likes={likes}
                 users={users}
                 addComment={addPostComment}
+                removePost={(id: string) => removeObject(id, 'posts')}
             />
         </React.Fragment>
     ) : (

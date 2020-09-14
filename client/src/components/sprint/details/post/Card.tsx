@@ -21,6 +21,7 @@ interface Props {
     mediaMiddle?: any;
     menuItems: Array<{ name: string; path: string }>;
     addComment: any;
+    removeObject: any;
 }
 
 // Pass a component to mediaTop or mediaBottom depending on which location it is needed in
@@ -38,6 +39,7 @@ export const PostCard = ({
     mediaMiddle,
     menuItems,
     addComment,
+    removeObject,
 }: Props) => {
     const classes = useStyles();
 
@@ -83,6 +85,7 @@ export const PostCard = ({
                 anchorEl={anchorEl}
                 handleMenuClose={handleMenuClose}
                 menuItems={menuItems}
+                removeObject={removeObject}
             />
             {mediaMiddle}
             <CardContent>

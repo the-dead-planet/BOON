@@ -112,6 +112,16 @@ export const setSprints = (state: StateType) => (sprints: Array<Sprint>) => {
     return { data: mergedData };
 };
 
+// Delete object from state
+export const removeObject = (state: StateType) => (
+    id: string,
+    object: 'sprints' | 'posts' | 'comments' | 'projects' | 'likes' | 'users' | 'teams'
+) => {
+    state.data[object].delete(id);
+
+    return { data: state.data };
+};
+
 const modelPaths = {
     Sprint: 'sprints',
     Post: 'posts',

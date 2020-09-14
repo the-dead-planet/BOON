@@ -15,9 +15,10 @@ interface Props {
     likes: Map<string, Like>;
     users: Array<User>;
     addComment: any;
+    removePost: any;
     push: any;
 }
-export const PostsList = ({ user, posts, comments, likes, users, addComment, push }: Props) => {
+export const PostsList = ({ user, posts, comments, likes, users, addComment, removePost, push }: Props) => {
     const classes = useStyles();
     const style = { height: '200px' };
     return (
@@ -40,6 +41,7 @@ export const PostsList = ({ user, posts, comments, likes, users, addComment, pus
                     }
                     menuItems={[{ name: 'Go to related project', path: '/' }]}
                     addComment={addComment}
+                    removeObject={removePost}
                 />
             ))}
         </List>

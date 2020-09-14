@@ -124,6 +124,7 @@ class App extends Component<{}, StateType> {
                                     setState={updateState(State.setSprints)}
                                     addSprintComment={updateState(State.addCommentToSprint)}
                                     addPostComment={updateState(State.addCommentToPost)}
+                                    removeObject={updateState(State.removeObject)}
                                     data={this.state.data}
                                     notificationsProps={notificationsProps}
                                 />
@@ -137,6 +138,7 @@ class App extends Component<{}, StateType> {
                                     setState={updateState(State.setSprints)}
                                     addSprintComment={updateState(State.addCommentToSprint)}
                                     addPostComment={updateState(State.addCommentToPost)}
+                                    removeObject={updateState(State.removeObject)}
                                     data={this.state.data}
                                     notificationsProps={notificationsProps}
                                 />

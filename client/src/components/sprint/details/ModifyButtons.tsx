@@ -20,7 +20,13 @@ export const SprintModifyButtons = ({ user, sprint, model, onError }: Props) => 
         <React.Fragment>
             {sprint && user && sprint.author?._id === user._id ? (
                 <React.Fragment>
-                    <ObjectDeleteButton user={user} model={model} object={sprint} onError={onError} />
+                    <ObjectDeleteButton
+                        user={user}
+                        model={model}
+                        object={sprint}
+                        onError={onError}
+                        removeObject={() => {}}
+                    />
                     <ObjectEditButton user={user} model={model} object={sprint} />
                 </React.Fragment>
             ) : null}

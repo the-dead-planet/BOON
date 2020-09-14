@@ -1,10 +1,13 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import commentsService from '../services/commentsService';
 import postsService from '../services/postsService';
 import sprintsService from '../services/sprintsService';
 import MenuItem from '@material-ui/core/MenuItem';
 import { User, Sprint, MongoObject, Model } from '../logic/types';
+import { PATHS } from '../constants/data';
+const { main } = PATHS;
 
 const models = [
     {
@@ -30,11 +33,12 @@ interface DeleteProps {
     object: MongoObject;
     push?: any;
     onError?: any;
+    removeObject: any;
 }
 
 // TODO: delete those `any` casts. Typescript correctly detects type violations in the functions below.
-export const ObjectDeleteButton = ({ user, model, object, push, onError }: DeleteProps) => {
-    return user && object && (object as any).author._id === user._id ? (
+export const ObjectDeleteButton = ({ user, model, object, push, onError, removeObject }: DeleteProps) => {
+    return user && object && (object as any).author === user._id ? (
         <MenuItem
             color="inherit"
             onClick={data => {
@@ -46,6 +50,11 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError }: Delet
                 return models
                     .reduce((acc, val) => (val.name === model ? val : acc))
                     .service.delete(extendedData)
+                    .then(response => {
+                        removeObject(response.data);
+
+                        return <Redirect to={{ pathname: main }} />;
+                    })
                     .catch(onError);
             }}
         >

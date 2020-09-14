@@ -9,8 +9,8 @@ const app = require('./app');
 const mongoose = require('mongoose');
 
 // Connect to Mongo DB
-// const databaseUrl = process.env.DATABASEURL || 'mongodb://localhost:27017/boon';
-const databaseUrl = process.env.DATABASEURL || 'mongodb://mongo:27017/boon'; // For docker
+const databaseUrl = process.env.DATABASEURL || 'mongodb://localhost:27017/boon';
+// const databaseUrl = process.env.DATABASEURL || 'mongodb://mongo:27017/boon'; // For docker
 
 console.log(`Connecting to database:  ${databaseUrl}`);
 

@@ -19,6 +19,7 @@ interface Props {
     sprintId: string;
     addPostComment: any;
     addSprintComment: any;
+    removeObject: any;
     onError: any;
     showError: any;
 }
@@ -33,6 +34,7 @@ const SprintView = ({
     sprintId,
     addPostComment,
     addSprintComment,
+    removeObject,
     onError,
     showError,
 }: Props) => {
@@ -63,6 +65,7 @@ const SprintView = ({
                         users={users}
                         addPostComment={addPostComment}
                         addSprintComment={addSprintComment}
+                        removeObject={removeObject}
                         onError={onError}
                     />
                 </Grid>

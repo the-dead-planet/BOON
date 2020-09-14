@@ -17,6 +17,7 @@ interface SprintProps {
     setState: any;
     addPostComment: any;
     addSprintComment: any;
+    removeObject: any;
     notificationsProps: NotificationProps;
     showError: any;
 }
@@ -30,6 +31,7 @@ const Sprint = ({
     setState,
     addPostComment,
     addSprintComment,
+    removeObject,
     notificationsProps,
     showError,
 }: SprintProps & WithShowErrorInjectedProps) => {
@@ -82,6 +84,7 @@ const Sprint = ({
                     sprintId={id}
                     addPostComment={addPostComment}
                     addSprintComment={addSprintComment}
+                    removeObject={removeObject}
                     onError={showError}
                     showError={showError}
                 />
