@@ -292,6 +292,24 @@ interface MenuItem {
 
 type MenuItems = Array<MenuItem>;
 
+type DataPath = 'sprints' | 'posts' | 'comments' | 'projects' | 'likes' | 'users' | 'teams';
+type DataPathParent = 'sprints' | 'posts' | 'projects' | 'teams';
+
+// Used for deletion, pass deleted object as a child
+type DataPairs = 
+{ parent: 'sprints',    child: 'posts',     parentId?: string, childId: string } | 
+{ parent: 'sprints',    child: 'comments',  parentId?: string, childId: string } |
+{ parent: 'sprints',    child: 'likes',     parentId?: string, childId: string } |
+{ parent: 'posts',      child: 'comments',  parentId?: string, childId: string } |
+{ parent: 'posts',      child: 'likes',     parentId?: string, childId: string } |
+{ parent: 'projects',   child: 'comments',  parentId?: string, childId: string } |
+{ parent: 'projects',   child: 'likes',     parentId?: string, childId: string } |
+{ parent: 'teams',      child: 'users',     parentId?: string, childId: string } |
+{ parent: undefined,    child: 'sprints',   parentId?: string, childId: string } |
+{ parent: undefined,    child: 'projects',  parentId?: string, childId: string } |
+{ parent: undefined,    child: 'teams',     parentId?: string, childId: string } 
+
+
 export type {
     Children,
     DataItem,
@@ -337,5 +355,8 @@ export type {
     NotificationProps,
     LinkTo,
     MenuItem,
-    MenuItems
+    MenuItems,
+    DataPath,
+    DataPathParent,
+    DataPairs
 };

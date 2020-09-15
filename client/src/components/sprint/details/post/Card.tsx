@@ -107,7 +107,7 @@ export const PostCard = ({
                     comments={comments}
                     users={users}
                     addComment={addComment.bind(object._id)}
-                    removeComment={removeComment}
+                    removeComment={(id: string) => removeComment(id, object._id)}
                 />
             </CardContent>
         </Card>

@@ -18,22 +18,11 @@ interface Props {
     likes: Array<Like | undefined>;
     users: Map<string, User>;
     addComment: any;
-    removeSprint: any;
-    removeComment: any;
+    removeObject: any;
     onError: any;
 }
 
-export const SprintOverview = ({
-    user,
-    sprint,
-    comments,
-    likes,
-    users,
-    addComment,
-    removeSprint,
-    removeComment,
-    onError,
-}: Props) => {
+export const SprintOverview = ({ user, sprint, comments, likes, users, addComment, removeObject, onError }: Props) => {
     // const classes = useStyles();
 
     const author: User | null = users.get(sprint.author as any); // FIXME: types are probably incompatible.
@@ -56,8 +45,10 @@ export const SprintOverview = ({
             body={sprint.body}
             menuItems={[{ name: 'Share', path: '/' }]}
             addComment={addComment}
-            removeObject={removeSprint}
-            removeComment={removeComment}
+            removeObject={(id: string) => removeObject({ child: 'sprints', childId: id })}
+            removeComment={(id: string, sprintId: string) =>
+                removeObject({ child: 'comments', childId: id, parent: 'sprints', parentId: sprintId })
+            }
         />
     );
 

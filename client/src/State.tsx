@@ -11,6 +11,9 @@ import {
     Path,
     StateDataKeys,
     Model,
+    DataPath,
+    DataPathParent,
+    DataPairs,
 } from './logic/types';
 
 // Module containing global state definition and functions for manipulating it.
@@ -113,12 +116,20 @@ export const setSprints = (state: StateType) => (sprints: Array<Sprint>) => {
 };
 
 // Delete object from state
-export const removeObject = (state: StateType) => (
-    id: string,
-    object: 'sprints' | 'posts' | 'comments' | 'projects' | 'likes' | 'users' | 'teams'
-) => {
+export const removeObject = (state: StateType) => ({ child, parent, childId, parentId }: DataPairs) => {
     const stateData = state.data;
-    stateData[object].delete(id);
+
+    // Remove deleted object from the state
+    stateData[child].delete(childId);
+
+    // Remove from parent references
+    if (parentId && parent === 'posts' && child === 'comments') {
+        const parentObj = stateData.posts.get(parentId);
+        if (parentObj) {
+            parentObj.comments = parentObj.comments.filter(el => el !== childId);
+            stateData.posts.set(parentId, parentObj);
+        }
+    }
 
     return { data: mergeStateData(state.data, stateData) };
 };

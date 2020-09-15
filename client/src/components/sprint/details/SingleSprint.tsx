@@ -44,8 +44,7 @@ export const SingleSprint = ({
                 likes={sprint.likes.map(id => likes.get(id))}
                 users={users}
                 addComment={addSprintComment}
-                removeSprint={(id: string) => removeObject(id, 'sprints')}
-                removeComment={(id: string) => removeObject(id, 'comments')}
+                removeObject={removeObject}
                 onError={onError}
             />
             <Posts
@@ -56,8 +55,12 @@ export const SingleSprint = ({
                 likes={likes}
                 users={users}
                 addComment={addPostComment}
-                removePost={(id: string) => removeObject(id, 'posts')}
-                removeComment={(id: string) => removeObject(id, 'comments')}
+                removePost={(id: string) =>
+                    removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: sprint._id })
+                }
+                removeComment={(id: string, postId: string) =>
+                    removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: postId })
+                }
             />
         </>
     ) : (
