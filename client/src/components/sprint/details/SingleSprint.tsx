@@ -40,8 +40,8 @@ export const SingleSprint = ({
             <SprintOverview
                 user={user}
                 sprint={sprint}
-                comments={sprint.comments.map(id => comments.get(id))}
-                likes={sprint.likes.map(id => likes.get(id))}
+                comments={sprint.comments.map((id) => comments.get(id))}
+                likes={sprint.likes.map((id) => likes.get(id))}
                 users={users}
                 addComment={addSprintComment}
                 removeObject={removeObject}
@@ -50,7 +50,7 @@ export const SingleSprint = ({
             <Posts
                 user={user}
                 projects={projects}
-                posts={sprint.posts.map(id => posts.get(id))}
+                posts={sprint.posts.map((id) => posts.get(id))}
                 comments={comments}
                 likes={likes}
                 users={users}
@@ -58,8 +58,8 @@ export const SingleSprint = ({
                 removePost={(id: string) =>
                     removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: sprint._id })
                 }
-                removeComment={(id: string, postId: string) =>
-                    removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: postId })
+                removeComment={(id: string, sprintId: string) =>
+                    removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: sprintId })
                 }
             />
         </>
