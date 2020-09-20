@@ -27,18 +27,18 @@ type Input =
     | 'url'
     | 'week';
 
-interface UserObject { 
+interface UserObject {
     _id: string;
-    email: string; 
-    publicName: string; 
-    darkMode: boolean | undefined; 
+    email: string;
+    publicName: string;
+    darkMode: boolean | undefined;
 }
 
-interface UserData { 
+interface UserData {
     objectId: string;
-    email: string; 
-    publicName: string; 
-    darkMode: boolean | undefined; 
+    email: string;
+    publicName: string;
+    darkMode: boolean | undefined;
 }
 
 interface Auth {
@@ -48,9 +48,9 @@ interface Auth {
     email: string;
 }
 
-interface Login { 
-    email: string, 
-    password: string, 
+interface Login {
+    email: string;
+    password: string;
 }
 
 type User = UserObject | undefined | null;
@@ -75,6 +75,8 @@ type StateData = {
     likes: Map<string, Like>;
 };
 
+// TODO: consider using `keyof StateData` instead.
+// https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-1.html#keyof-and-lookup-types
 type StateDataKeys = 'posts' | 'comments' | 'likes' | 'sprints' | 'projects' | 'teams' | 'users';
 
 interface DataItem {
@@ -210,11 +212,9 @@ interface TeamData {
     body: string;
 }
 
-
 type MongoObject = Post | Sprint | Project | Comment | Like | UserObject | Team;
 type Model = 'Sprint' | 'Post' | 'Project' | 'Team' | 'Comment' | 'Like';
 type Path = 'author' | 'posts' | 'comments' | 'likes' | 'sprints' | 'projects' | 'teams' | 'users';
-
 
 interface SprintSubmit {
     number: number;
@@ -280,15 +280,15 @@ interface NotificationProps {
 }
 
 interface LinkTo {
-    name?: string,
-    path?: string
+    name?: string;
+    path?: string;
 }
 
-interface MenuItem { 
-    name: string; 
+interface MenuItem {
+    name: string;
     path?: string;
     onClick?: any;
-};
+}
 
 type MenuItems = Array<MenuItem>;
 
@@ -296,19 +296,18 @@ type DataPath = 'sprints' | 'posts' | 'comments' | 'projects' | 'likes' | 'users
 type DataPathParent = 'sprints' | 'posts' | 'projects' | 'teams';
 
 // Used for deletion, pass deleted object as a child
-type DataPairs = 
-{ parent: 'sprints',    child: 'posts',     parentId?: string, childId: string } | 
-{ parent: 'sprints',    child: 'comments',  parentId?: string, childId: string } |
-{ parent: 'sprints',    child: 'likes',     parentId?: string, childId: string } |
-{ parent: 'posts',      child: 'comments',  parentId?: string, childId: string } |
-{ parent: 'posts',      child: 'likes',     parentId?: string, childId: string } |
-{ parent: 'projects',   child: 'comments',  parentId?: string, childId: string } |
-{ parent: 'projects',   child: 'likes',     parentId?: string, childId: string } |
-{ parent: 'teams',      child: 'users',     parentId?: string, childId: string } |
-{ parent: undefined,    child: 'sprints',   parentId?: string, childId: string } |
-{ parent: undefined,    child: 'projects',  parentId?: string, childId: string } |
-{ parent: undefined,    child: 'teams',     parentId?: string, childId: string } 
-
+type DataPairs =
+    | { parent: 'sprints'; child: 'posts'; parentId?: string; childId: string }
+    | { parent: 'sprints'; child: 'comments'; parentId?: string; childId: string }
+    | { parent: 'sprints'; child: 'likes'; parentId?: string; childId: string }
+    | { parent: 'posts'; child: 'comments'; parentId?: string; childId: string }
+    | { parent: 'posts'; child: 'likes'; parentId?: string; childId: string }
+    | { parent: 'projects'; child: 'comments'; parentId?: string; childId: string }
+    | { parent: 'projects'; child: 'likes'; parentId?: string; childId: string }
+    | { parent: 'teams'; child: 'users'; parentId?: string; childId: string }
+    | { parent: undefined; child: 'sprints'; parentId?: string; childId: string }
+    | { parent: undefined; child: 'projects'; parentId?: string; childId: string }
+    | { parent: undefined; child: 'teams'; parentId?: string; childId: string };
 
 export type {
     Children,
@@ -358,5 +357,5 @@ export type {
     MenuItems,
     DataPath,
     DataPathParent,
-    DataPairs
+    DataPairs,
 };
