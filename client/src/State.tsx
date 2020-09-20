@@ -115,20 +115,54 @@ export const setSprints = (state: StateType) => (sprints: Array<Sprint>) => {
     return { data: mergedData };
 };
 
-// Delete object from state
-export const removeObject = (state: StateType) => ({ child, parent, childId, parentId }: DataPairs) => {
+// Delete object from state.
+// The function can be called for any combination of parent <-> child relations. Relation names are provided as strings and validated dynamically, rather than through types.
+// TODO:
+//  - move logic to `StateData.tsx`, add tests.
+//    Only an adapter function should remain in this file.
+//    - the logic can be split into two, type safe functions:
+//      - deleteItem(path: string, id: string);  // deletes the object itself
+//      - deleteChildren<ParentType, K extends keyof ParentType>(parentPath: string, childPath: K, id: string);  // deletes the parent objects children ids
+//    Note, that `deleteItem` and `deleteChildren` are (somewhat) type safe and wouldn't require any type casting. Moreover, they can be easily tested, by simply
+//    extending StateData.test.js. Only the simple bit that will be left in State.tsx will require some casting and unsafe operations. That way, we minimize
+//    the amount of type-unchecked code, making the whole codebase safer.
+//  - allow multiple parent -> child relationships
+//  - generate paths automatically. Depopulation logic and backend models operate on the same models.
+//    Define models only once.
+//  - find some magic TS way of enforcing more type safety.
+export const removeObject = (state: StateType) => ({
+    child,
+    parent,
+    childId,
+    parentId,
+}: {
+    child: StateDataKeys;
+    parent: StateDataKeys;
+    childId: string;
+    parentId: string;
+}) => {
     const stateData = state.data;
 
     // Remove deleted object from the state
-    stateData[child].delete(childId);
+    const childData = stateData[child];
+    if (!childData) {
+        console.log(`Tried to delete an object of unknown type: ${JSON.stringify({ child, childId })}`);
+        return;
+    }
+
+    childData.delete(childId);
 
     // Remove from parent references
-    if (parentId && parent === 'posts' && child === 'comments') {
-        const parentObj = stateData.posts.get(parentId);
-        if (parentObj) {
-            parentObj.comments = parentObj.comments.filter(el => el !== childId);
-            stateData.posts.set(parentId, parentObj);
-        }
+    // Cast `parentObj` to a less strict version to allow indexing by dynamic strings.
+    // It would only allow indexing by poperty names otherwise, which, unfortunately, depend on the passed in values.
+    // TODO: find a smart way to make it type safe.
+    const parentObj: null | { [key: string]: any } = stateData[parent]?.get(parentId) as any;
+    if (!parentObj) {
+        console.log(`Tried to delete an unknown child object: ${JSON.stringify({ child, childId, parent, parentId })}`);
+    } else {
+        const currentChildren: Array<String> = parentObj[child];
+        parentObj[child] = currentChildren.filter(el => el !== childId);
+        stateData[parent].set(parentId, parentObj as any);
     }
 
     return { data: mergeStateData(state.data, stateData) };
