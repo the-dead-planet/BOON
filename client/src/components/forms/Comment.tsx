@@ -1,7 +1,8 @@
 import React from 'react';
 import { AppForm } from './App';
 import { GridField } from './GridFields';
-import { TextField, Typography, Button } from '@material-ui/core';
+import { TextField, Typography, IconButton } from '@material-ui/core';
+import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
 import commentsService from '../../services/commentsService';
 import { Mode, CommentSubmit, User, Model } from '../../logic/types';
 
@@ -27,19 +28,14 @@ export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: P
                     id: _id, // add sprint id
                     model: model,
                 };
-                return commentsService.add(extendedData).then(response => {
+                return commentsService.add(extendedData).then((response) => {
                     addComment(_id, response.data);
                 });
             }}
             submitSection={
-                <Button
-                    style={style}
-                    variant={mode === 'dark' ? 'outlined' : 'contained'}
-                    color={mode === 'dark' ? undefined : 'primary'}
-                    type="submit"
-                >
-                    Add comment
-                </Button>
+                <IconButton aria-label="add comment" style={style} type="submit">
+                    <SendOutlinedIcon type="submit" />
+                </IconButton>
             }
             // validationSchema={validationSchema}
         >
