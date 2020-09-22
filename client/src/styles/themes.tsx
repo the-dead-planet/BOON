@@ -18,13 +18,13 @@ const createTheme = (type: Mode) => {
         palette: {
             type: type,
             primary: {
-                light: '#6B498C',
-                main: '#372549',
-                dark: '#1A1423',
+                light: '#403D39',
+                main: '#252422',
+                dark: '#252422',
                 // contrastText: "#EAE2B7",
             },
             secondary: {
-                light: '#FF9B54',
+                light: '#CE4257',
                 main: '#CE4257',
                 dark: '#720026',
                 // contrastText: color4,
@@ -34,8 +34,8 @@ const createTheme = (type: Mode) => {
                 white: '#fff',
             },
             background: {
-                paper: type === 'dark' ? '#372549' : '#fff',
-                default: type === 'dark' ? '#1A1423' : '#fafafa',
+                paper: type === 'dark' ? '#252422' : '#F4F2EF',
+                default: type === 'dark' ? '#000' : '#EAE0D5',
             },
             error: {
                 light: '#e57373',
@@ -62,8 +62,8 @@ const createTheme = (type: Mode) => {
                 contrastText: '#rgba(0, 0, 0, 0.87',
             },
             text: {
-                primary: type === 'dark' ? '#fff' : '#540D6E',
-                secondary: type === 'dark' ? '#fff' : '#540D6E',
+                primary: type === 'dark' ? '#fff' : '#252422',
+                secondary: type === 'dark' ? '#fff' : '#403D39',
                 disabled: 'rgba(133, 30, 30, 0.38)',
                 hint: 'rgba(0, 0, 0, 0.38)',
             },
