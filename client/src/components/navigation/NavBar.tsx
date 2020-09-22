@@ -56,7 +56,7 @@ const NavBar = ({
                 <Toolbar className={classes.toolbar}>
                     <Grid container justify="center">
                         <div className={`${classes.fix} ${classes.left}`}>
-                            <Hidden smUp>
+                            <Hidden mdUp>
                                 <IconButton
                                     color="inherit"
                                     aria-label="open drawer"
@@ -75,6 +75,7 @@ const NavBar = ({
                             <Hidden smDown>
                                 <Grid container>
                                     {[
+                                        { name: 'Sprints', path: home },
                                         { name: 'Projects', path: home },
                                         { name: 'Teams', path: home },
                                     ].map((item) => (
@@ -94,18 +95,19 @@ const NavBar = ({
                         </Typography>
 
                         {/* TODO: change texts to icons or something nicer */}
+
                         <div className={`${classes.fix} ${classes.right}`}>
-                            <AuthButtonsHorizontal style={style} user={user} />
+                            <Hidden smDown>
+                                <AuthButtonsHorizontal style={style} user={user} />
+                            </Hidden>
                         </div>
                     </Grid>
                 </Toolbar>
                 <Toolbar className={classes.toolbar}>
                     <Grid container justify="space-around">
-                        <Link to={home}>
-                            <Typography variant="h4" noWrap>
-                                {name}
-                            </Typography>
-                        </Link>
+                        <Typography variant="h4" noWrap>
+                            {name}
+                        </Typography>
                     </Grid>
                 </Toolbar>
 

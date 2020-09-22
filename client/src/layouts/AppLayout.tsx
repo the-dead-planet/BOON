@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { useStyles } from '../styles/main';
+import { BottomNav } from '../components/navigation/BottomNav';
 import ThemeWrapper from '../components/navigation/ThemeWrapper';
 import Jumbotron from '../components/navigation/Jumbotron';
 import MenuDrawer from '../components/navigation/MenuDrawer';
@@ -24,6 +25,8 @@ interface Props {
     mode: Mode;
     setMode: any;
     page?: Page;
+    nextId?: string;
+    previousId?: string;
     notifications: any;
     onNotificationShown: any;
 }
@@ -97,6 +100,9 @@ const AppLayout = ({
 
                 {children}
             </main>
+
+            {/* TODO: style it nicer and allow moving to next/previous sprint */}
+            <BottomNav user={user} />
             <NotificationsRenderer notifications={notifications} onShown={onNotificationShown} />
         </ThemeWrapper>
     );

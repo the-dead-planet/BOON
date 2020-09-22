@@ -34,7 +34,7 @@ export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: P
             }}
             submitSection={
                 <IconButton aria-label="add comment" style={style} type="submit">
-                    <SendOutlinedIcon type="submit" />
+                    <SendOutlinedIcon />
                 </IconButton>
             }
             // validationSchema={validationSchema}

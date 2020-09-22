@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,
             }),
-            backgroundColor: '#fff !important',
+            backgroundColor: `${theme.palette.background.default} !important`,
             boxShadow: 'none !important',
             // boxShadow: "0px 2px 4px -1px #fff, 0px 4px 5px 0px #fff, 0px 1px 10px 0px #fff !important",
         },
@@ -174,6 +174,29 @@ const useStyles = makeStyles((theme: Theme) =>
                 transform: 'scale(1.1)',
                 transition: 'transform .4s',
             },
+        },
+        fabContainer: {
+            position: 'fixed',
+            left: 0,
+            right: 0,
+            width: '100vw',
+            top: `calc(100vh - 70px)`,
+        },
+        fab: {
+            // position: 'relative',
+            '&$next': {
+                right: theme.spacing(4),
+                position: 'absolute',
+            },
+            '&$previous': {
+                position: 'absolute',
+                left: theme.spacing(2),
+            },
+        },
+        next: {},
+        previous: {},
+        rotate: {
+            transform: 'rotate(180deg)',
         },
     })
 );
