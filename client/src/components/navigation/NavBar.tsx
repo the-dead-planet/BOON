@@ -3,11 +3,12 @@ import { useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { useStyles } from '../../styles/main';
 import { Link } from '../../utils/Link';
-import { Grid, Button, AppBar, Toolbar, Typography, IconButton, Hidden } from '@material-ui/core';
+import { Grid, AppBar, Toolbar, Typography, IconButton, Hidden } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
+import Pagination from './Pagination';
 import HideOnScroll from '../../utils/HideOnScroll';
 import { AuthButtonsHorizontal } from './AuthButtons';
-import { Mode, User, DrawerVariant } from '../../logic/types';
+import { Mode, User, DrawerVariant, Page } from '../../logic/types';
 import { PATHS } from '../../constants/data';
 const { home, login, logout, register } = PATHS;
 
@@ -20,9 +21,20 @@ interface Props {
     open: boolean;
     handleDrawerOpen: any;
     handleDrawerClose: any;
+    page?: Page;
 }
 
-const NavBar = ({ user, name, mode, setMode, drawerVariant, open, handleDrawerOpen, handleDrawerClose }: Props) => {
+const NavBar = ({
+    user,
+    name,
+    mode,
+    setMode,
+    drawerVariant,
+    open,
+    handleDrawerOpen,
+    handleDrawerClose,
+    page,
+}: Props) => {
     const classes = useStyles();
     const location = useLocation();
     const path = location.pathname;
@@ -81,6 +93,7 @@ const NavBar = ({ user, name, mode, setMode, drawerVariant, open, handleDrawerOp
                             The
                         </Typography>
 
+                        {/* TODO: change texts to icons or something nicer */}
                         <div className={`${classes.fix} ${classes.right}`}>
                             <AuthButtonsHorizontal style={style} user={user} />
                         </div>
@@ -96,16 +109,7 @@ const NavBar = ({ user, name, mode, setMode, drawerVariant, open, handleDrawerOp
                     </Grid>
                 </Toolbar>
 
-                <Toolbar className={classes.toolbar}>
-                    <Grid container justify="space-between" className={classes.pagination}>
-                        <Typography color="primary" variant="h6" noWrap>
-                            Sprint 2
-                        </Typography>
-                        <Typography color="primary" variant="h6" noWrap>
-                            November 2033
-                        </Typography>
-                    </Grid>
-                </Toolbar>
+                <Pagination name={page?.name} date={page?.date} />
             </AppBar>
         </HideOnScroll>
     );

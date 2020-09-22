@@ -5,7 +5,7 @@ import ThemeWrapper from '../components/navigation/ThemeWrapper';
 import Jumbotron from '../components/navigation/Jumbotron';
 import MenuDrawer from '../components/navigation/MenuDrawer';
 import NavBar from '../components/navigation/NavBar';
-import { Drawer, Mode, Jumbotron as JumbotronType, User } from '../logic/types';
+import { Drawer, Mode, Jumbotron as JumbotronType, User, Page } from '../logic/types';
 import { APP_NAME } from '../constants/data';
 import NotificationsRenderer from '../components/NotificationsRenderer';
 
@@ -23,6 +23,7 @@ interface Props {
     appBar?: boolean;
     mode: Mode;
     setMode: any;
+    page?: Page;
     notifications: any;
     onNotificationShown: any;
 }
@@ -35,6 +36,7 @@ const AppLayout = ({
     appBar,
     mode,
     setMode,
+    page,
     notifications,
     onNotificationShown,
 }: Props) => {
@@ -74,6 +76,7 @@ const AppLayout = ({
                     open={open}
                     handleDrawerOpen={handleDrawerOpen}
                     handleDrawerClose={handleDrawerClose}
+                    page={page}
                 />
             )}
 

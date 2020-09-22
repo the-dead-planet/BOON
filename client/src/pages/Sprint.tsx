@@ -7,6 +7,8 @@ import AppLayout from '../layouts/AppLayout';
 import SprintView from '../components/sprint/SprintView';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData } from '../logic/types';
+import moment from 'moment';
+import { MONTH_YEAR_FORMAT } from '../utils/constants';
 
 // TODO: see a comment in `Logout` regarding HOCs.
 interface SprintProps {
@@ -68,10 +70,23 @@ const Sprint = ({
         getSprints();
     }, []); // TODO: Investigate warning 'React Hook useEffect has a missing dependency: 'getSprints''
 
+    // Get current sprint
+    const sprint = sprints.get(id);
+
     return sprintToDisplayId && sprintToDisplayId !== id ? (
         <Redirect to={`/sprints/${sprintToDisplayId}`} />
     ) : (
-        <AppLayout user={user} mode={mode} setMode={setMode} appBar={true} {...notificationsProps}>
+        <AppLayout
+            user={user}
+            mode={mode}
+            setMode={setMode}
+            appBar={true}
+            {...notificationsProps}
+            page={{
+                name: `Sprint ${sprint?.number || ''}`,
+                date: moment(sprint?.dateTo).format(MONTH_YEAR_FORMAT),
+            }}
+        >
             {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
             {sprintToDisplayId && (
                 <SprintView

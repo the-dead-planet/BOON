@@ -309,6 +309,11 @@ type DataPairs =
     | { parent: undefined; child: 'projects'; parentId?: string; childId: string }
     | { parent: undefined; child: 'teams'; parentId?: string; childId: string };
 
+interface Page {
+    name: string;
+    date: string;
+}
+
 export type {
     Children,
     DataItem,
@@ -358,4 +363,5 @@ export type {
     DataPath,
     DataPathParent,
     DataPairs,
+    Page,
 };
