@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import commentsService from '../services/commentsService';
 import postsService from '../services/postsService';
@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { User, Sprint, MongoObject, Model } from '../logic/types';
 import { PATHS } from '../constants/data';
-const { main } = PATHS;
+// const { main } = PATHS;
 
 const models = [
     {
@@ -42,7 +42,7 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError, removeO
     return user && object && (object as any).author === user._id ? (
         <MenuItem
             color="inherit"
-            onClick={data => {
+            onClick={(data) => {
                 const extendedData = {
                     ...data,
                     objectId: object._id,
@@ -51,7 +51,7 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError, removeO
                 return models
                     .reduce((acc, val) => (val.name === model ? val : acc))
                     .service.delete(extendedData)
-                    .then(response => {
+                    .then((response) => {
                         removeObject(response.data);
                     })
                     .catch(onError);
@@ -68,7 +68,7 @@ export const IconDelete = ({ user, model, object, push, onError, removeObject }:
         <DeleteIcon
             fontSize="small"
             color="inherit"
-            onClick={data => {
+            onClick={(data) => {
                 const extendedData = {
                     ...data,
                     objectId: object._id,
@@ -77,7 +77,7 @@ export const IconDelete = ({ user, model, object, push, onError, removeObject }:
                 return models
                     .reduce((acc, val) => (val.name === model ? val : acc))
                     .service.delete(extendedData)
-                    .then(response => {
+                    .then((response) => {
                         console.log(response);
                         removeObject(response.data);
                     })

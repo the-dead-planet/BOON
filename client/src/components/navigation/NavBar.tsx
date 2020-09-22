@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { useStyles } from '../../styles/main';
 import { Link } from '../../utils/Link';
-import { AppBar, Toolbar, Typography, IconButton, Hidden } from '@material-ui/core';
+import { Grid, Button, AppBar, Toolbar, Typography, IconButton, Hidden } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import HideOnScroll from '../../utils/HideOnScroll';
 import { AuthButtonsHorizontal } from './AuthButtons';
@@ -31,7 +31,7 @@ const NavBar = ({ user, name, mode, setMode, drawerVariant, open, handleDrawerOp
     return (
         <HideOnScroll>
             <AppBar
-                color="primary"
+                color="transparent"
                 // position="absolute"
                 className={
                     drawerVariant === 'persistent'
@@ -42,29 +42,69 @@ const NavBar = ({ user, name, mode, setMode, drawerVariant, open, handleDrawerOp
                 }
             >
                 <Toolbar className={classes.toolbar}>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        className={
-                            drawerVariant === 'persistent' ? clsx(classes.menuButton, open && classes.hide) : undefined
-                        }
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Link to={home}>
-                        <Typography variant="h6" noWrap>
-                            {name}
-                        </Typography>
-                    </Link>
+                    <Grid container justify="center">
+                        <div className={`${classes.fix} ${classes.left}`}>
+                            <Hidden smUp>
+                                <IconButton
+                                    color="inherit"
+                                    aria-label="open drawer"
+                                    onClick={handleDrawerOpen}
+                                    edge="start"
+                                    className={
+                                        drawerVariant === 'persistent'
+                                            ? clsx(classes.menuButton, open && classes.hide)
+                                            : undefined
+                                    }
+                                >
+                                    <MenuIcon />
+                                </IconButton>
+                            </Hidden>
 
-                    {/* Show auth buttons only on other pages than authentication or home (includes those buttons on the jumbotron) */}
-                    {![home, login, logout, register].includes(path) && (
-                        <Hidden smDown>
+                            <Hidden smDown>
+                                <Grid container>
+                                    {[
+                                        { name: 'Projects', path: home },
+                                        { name: 'Teams', path: home },
+                                    ].map((item) => (
+                                        <Link to={item.path}>
+                                            <Typography variant="body1" className={classes.navButton}>
+                                                {item.name}
+                                            </Typography>
+                                        </Link>
+                                    ))}
+                                </Grid>
+                            </Hidden>
+                        </div>
+
+                        {/* Centered text */}
+                        <Typography variant="h6" noWrap>
+                            The
+                        </Typography>
+
+                        <div className={`${classes.fix} ${classes.right}`}>
                             <AuthButtonsHorizontal style={style} user={user} />
-                        </Hidden>
-                    )}
+                        </div>
+                    </Grid>
+                </Toolbar>
+                <Toolbar className={classes.toolbar}>
+                    <Grid container justify="space-around">
+                        <Link to={home}>
+                            <Typography variant="h4" noWrap>
+                                {name}
+                            </Typography>
+                        </Link>
+                    </Grid>
+                </Toolbar>
+
+                <Toolbar className={classes.toolbar}>
+                    <Grid container justify="space-between" className={classes.pagination}>
+                        <Typography color="primary" variant="h6" noWrap>
+                            Sprint 2
+                        </Typography>
+                        <Typography color="primary" variant="h6" noWrap>
+                            November 2033
+                        </Typography>
+                    </Grid>
                 </Toolbar>
             </AppBar>
         </HideOnScroll>

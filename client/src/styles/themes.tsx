@@ -10,7 +10,7 @@ import AppBar from '@material-ui/core/AppBar';
 import IconButton from '@material-ui/core/IconButton';
 const header = require('../img/landing/header-1.jpg');
 const header2 = require('../img/landing/header-2.jpg');
-
+// font-family: 'Libre Baskerville', serif;
 // Wrapper for the function in order to pass type parameter.
 // Requires defining 'const theme' in components which make use of it. See Layout.tsx
 const createTheme = (type: Mode) => {
@@ -18,7 +18,7 @@ const createTheme = (type: Mode) => {
         palette: {
             type: type,
             primary: {
-                light: '#B75D69',
+                light: '#6B498C',
                 main: '#372549',
                 dark: '#1A1423',
                 // contrastText: "#EAE2B7",
@@ -69,7 +69,15 @@ const createTheme = (type: Mode) => {
             },
         },
         typography: {
-            fontFamily: 'Raleway, sans-serif',
+            // fontFamily: 'Raleway, sans-serif',
+            fontFamily: 'Libre Baskerville, serif',
+            // fontFamily: 'Courier Prime, monospace',
+            // fontFamily: 'Permanent Marker, cursive',
+            // fontFamily: 'Old Standard TT, serif',
+            // fontFamily: 'Neuton, serif',
+            // fontFamily: 'Rock Salt, cursiva',
+            // fontFamily: 'Caudex, serif',
+            // fontFamily: 'Halant, serif',
             fontSize: 14,
         },
     });

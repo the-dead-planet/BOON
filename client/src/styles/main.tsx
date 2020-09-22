@@ -11,7 +11,7 @@ const header2 = require('../img/landing/header-2.jpg');
 
 // Misc const used in styles
 const drawerWidth = 240;
-const toolbarHeight = 50;
+const toolbarHeight = 40;
 const jumbotronHeight = '100vh';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -66,6 +66,9 @@ const useStyles = makeStyles((theme: Theme) =>
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,
             }),
+            backgroundColor: '#fff !important',
+            boxShadow: 'none !important',
+            // boxShadow: "0px 2px 4px -1px #fff, 0px 4px 5px 0px #fff, 0px 1px 10px 0px #fff !important",
         },
         appBarShift: {
             width: `calc(100% - ${drawerWidth}px)`,
@@ -97,7 +100,7 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: theme.spacing(0, 1),
             // // necessary for content to be below app bar
             // ...theme.mixins.toolbar,
-            minHeight: `${toolbarHeight}px !important`,
+            minHeight: `${toolbarHeight * 3}px !important`,
             justifyContent: 'flex-end',
         },
         contentPadding: {
@@ -148,6 +151,29 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         selected: {
             backgroundColor: 'rgba(0, 0, 0, .03) !important',
+        },
+        pagination: {
+            borderTop: `solid 2px ${theme.palette.primary.light}`,
+            borderBottom: `solid 2px ${theme.palette.primary.light}`,
+        },
+        fix: {
+            position: 'fixed',
+            '&$right': {
+                right: '2em',
+            },
+            '&$left': {
+                left: '2em',
+            },
+        },
+        right: {},
+        left: {},
+        navButton: {
+            padding: '.2em .8em',
+            transition: 'transform .4s',
+            '&:hover': {
+                transform: 'scale(1.1)',
+                transition: 'transform .4s',
+            },
         },
     })
 );

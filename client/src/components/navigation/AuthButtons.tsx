@@ -1,7 +1,8 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
 import { Link } from '../../utils/Link';
-import { Box, Button, List, ListItem, ListItemText, Typography } from '@material-ui/core';
+import { Grid, List, ListItem, ListItemText, Typography } from '@material-ui/core';
+import { IconUserSecret } from '../Icons';
 import { User } from '../../logic/types';
 // import { PATHS } from '../../constants/data';
 // const { home, login, logout, register } = PATHS; // TODO:
@@ -9,7 +10,7 @@ import { User } from '../../logic/types';
 // Set text on auth buttons dependent on whether a user is logged in or not
 const getText = (user: User | null | undefined) => {
     return {
-        register: !user ? 'Sign up' : `Hey there, ${user.publicName}`,
+        register: !user ? 'Sign up' : `Howdy, ${user.publicName}!`,
         login: !user ? 'Login' : 'Logout',
     };
 };
@@ -19,30 +20,30 @@ interface Props {
     style?: object;
 }
 
-const style = { margin: '0 15px' };
-
 export const AuthButtonsHorizontal = ({ user, style }: Props) => {
+    const classes = useStyles();
     let signUpButton = (
         <Link to={!user ? '/register' : '/'}>
-            <Button style={style} color="inherit">
+            <Typography className={classes.navButton} color="inherit">
                 {getText(user).register}
-            </Button>
+            </Typography>
         </Link>
     );
 
     let loginButton = (
         <Link to={!user ? '/login' : '/logout'}>
-            <Button variant="outlined" color="secondary">
+            <Typography className={classes.navButton} color="secondary">
                 {getText(user).login}
-            </Button>
+            </Typography>
         </Link>
     );
 
     return (
-        <Box style={style}>
+        <Grid container>
             {signUpButton}
             {loginButton}
-        </Box>
+            <IconUserSecret size="2x" />
+        </Grid>
     );
 };
 

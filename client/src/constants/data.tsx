@@ -1,4 +1,4 @@
-const APP_NAME = 'BOON!';
+const APP_NAME = 'BOON';
 
 const PATHS = {
     root: '/',
