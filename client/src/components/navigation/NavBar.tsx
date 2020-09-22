@@ -10,7 +10,7 @@ import HideOnScroll from '../../utils/HideOnScroll';
 import { AuthButtonsHorizontal } from './AuthButtons';
 import { Mode, User, DrawerVariant, Page } from '../../logic/types';
 import { PATHS } from '../../constants/data';
-const { home, login, logout, register } = PATHS;
+const { home, sprints, projects, teams, login, logout, register } = PATHS;
 
 interface Props {
     user: User;
@@ -75,9 +75,9 @@ const NavBar = ({
                             <Hidden smDown>
                                 <Grid container>
                                     {[
-                                        { name: 'Sprints', path: home },
-                                        { name: 'Projects', path: home },
-                                        { name: 'Teams', path: home },
+                                        { name: 'Sprints', path: sprints },
+                                        { name: 'Projects', path: projects },
+                                        { name: 'Teams', path: teams },
                                     ].map((item) => (
                                         <Link to={item.path}>
                                             <Typography variant="body1" className={classes.navButton}>

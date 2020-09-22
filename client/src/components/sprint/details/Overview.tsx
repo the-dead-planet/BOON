@@ -1,12 +1,13 @@
 import React from 'react';
-import { useStyles } from '../../../styles/main';
+// import { useStyles } from '../../../styles/main';
 import { Box } from '@material-ui/core';
 import { PostCard } from './post/Card';
 // import CardMedia from '@material-ui/core/CardMedia';
 import moment from 'moment';
 import { DATE_FORMAT } from '../../../utils/constants';
 import { User, Sprint, Comment, Like } from '../../../logic/types';
-import { removeObject } from '../../../State';
+import { PATHS } from '../../../constants/data';
+const { home } = PATHS;
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -39,11 +40,14 @@ export const SprintOverview = ({ user, sprint, comments, likes, users, addCommen
             likes={likes}
             users={users}
             title={`No${sprint.number} // ${sprint.title}`}
-            subtitle={`${authorPublicName} // ${sprint.dateFrom &&
-                moment(sprint.dateFrom).format(DATE_FORMAT)} - ${sprint.dateTo &&
-                moment(sprint.dateTo).format(DATE_FORMAT)}`}
+            subtitle={`${authorPublicName} // ${sprint.dateFrom && moment(sprint.dateFrom).format(DATE_FORMAT)} - ${
+                sprint.dateTo && moment(sprint.dateTo).format(DATE_FORMAT)
+            }`}
             body={sprint.body}
-            menuItems={[{ name: 'Share', path: '/' }]}
+            menuItems={[
+                { name: 'Share', path: '/' },
+                { name: 'Add post', path: `${sprint._id}/add_post` },
+            ]}
             addComment={addComment}
             removeObject={(id: string) => removeObject({ child: 'sprints', childId: id })}
             removeComment={(id: string, sprintId: string) =>

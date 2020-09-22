@@ -1,8 +1,7 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
-import Hidden from '@material-ui/core/Hidden';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import { Link } from '../../utils/Link';
+import { Button, Hidden, Grid } from '@material-ui/core';
 import { Loading, Empty } from '../Loading';
 import { SingleSprint } from './details/SingleSprint';
 import SprintList from './list/List';
@@ -48,8 +47,17 @@ const SprintView = ({
     ) : sprints.size === 0 ? (
         <Empty />
     ) : (
-        <Container>
-            <div className={classes.toolbar} />
+        <>
+            {/* TODO: Move to a better place */}
+            <Grid container justify="center" style={{ width: '100%' }}>
+                <Link to="/add_sprint">
+                    <Button>Add sprint</Button>
+                </Link>
+                <Link to="/add_project">
+                    <Button>Add project</Button>
+                </Link>
+            </Grid>
+
             <Grid container spacing={3}>
                 <Grid item xs={2}>
                     <Hidden only="xs">
@@ -78,14 +86,14 @@ const SprintView = ({
                         {sprint ? (
                             <ContentsList
                                 items={sprint.posts
-                                    .map(id => posts.get(id))
-                                    .map(post => ({ name: post?.title, path: post?._id }))}
+                                    .map((id) => posts.get(id))
+                                    .map((post) => ({ name: post?.title, path: post?._id }))}
                             />
                         ) : null}
                     </Hidden>
                 </Grid>
             </Grid>
-        </Container>
+        </>
     );
 };
 

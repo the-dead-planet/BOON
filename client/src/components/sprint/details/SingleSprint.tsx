@@ -1,6 +1,6 @@
 import React from 'react';
+import { useStyles } from '../../../styles/main';
 import { Posts } from './post/Posts';
-// import { Container } from '@material-ui/core';
 import { SprintOverview } from './Overview';
 // import usersService from '../../../services/usersService';
 import { User, Sprint, Post, Project, Comment, Like } from '../../../logic/types';
@@ -35,6 +35,8 @@ export const SingleSprint = ({
     removeObject,
     onError,
 }: Props) => {
+    const classes = useStyles();
+
     return sprint ? (
         <>
             <SprintOverview

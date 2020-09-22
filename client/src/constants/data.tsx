@@ -3,6 +3,9 @@ const APP_NAME = 'BOON';
 const PATHS = {
     root: '/',
     home: '/home',
+    sprints: '/sprints',
+    projects: '/projects',
+    teams: '/teams',
     login: '/login',
     logout: '/logout',
     register: '/register',

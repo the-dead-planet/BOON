@@ -10,13 +10,15 @@ import AddProject from './pages/AddProject';
 import AddPost from './pages/AddPost';
 import EditSprint from './pages/EditSprint';
 import Sprint from './pages/Sprint';
+import Project from './pages/Project';
+import Teams from './pages/Teams';
 import './App.css';
 import authService from './services/authService';
 import ScrollToTop from './utils/ScrollToTop';
 import { StateType, Mode } from './logic/types';
 import { PATHS } from './constants/data';
 
-const { root, home, main, login, logout, register, addSprint, addPost, addProject } = PATHS;
+const { root, home, sprints, projects, teams, main, login, logout, register, addSprint, addPost, addProject } = PATHS;
 
 class App extends Component<{}, StateType> {
     constructor(props: any) {
@@ -118,6 +120,32 @@ class App extends Component<{}, StateType> {
                             </Route>
                             <Route path={'/sprints/:id'}>
                                 <Sprint
+                                    user={user}
+                                    mode={this.state.mode}
+                                    setMode={this.setMode}
+                                    setState={updateState(State.setSprints)}
+                                    addSprintComment={updateState(State.addCommentToSprint)}
+                                    addPostComment={updateState(State.addCommentToPost)}
+                                    removeObject={updateState(State.removeObject)}
+                                    data={this.state.data}
+                                    notificationsProps={notificationsProps}
+                                />
+                            </Route>
+                            <Route path={projects}>
+                                <Project
+                                    user={user}
+                                    mode={this.state.mode}
+                                    setMode={this.setMode}
+                                    setState={updateState(State.setSprints)}
+                                    addSprintComment={updateState(State.addCommentToSprint)}
+                                    addPostComment={updateState(State.addCommentToPost)}
+                                    removeObject={updateState(State.removeObject)}
+                                    data={this.state.data}
+                                    notificationsProps={notificationsProps}
+                                />
+                            </Route>
+                            <Route path={teams}>
+                                <Teams
                                     user={user}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
