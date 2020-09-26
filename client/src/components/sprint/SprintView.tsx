@@ -51,8 +51,24 @@ const SprintView = ({
             <Grid container spacing={2}>
                 <Grid item xs={2}>
                     <Hidden smDown>
+                        <Typography variant="body2">Sprints</Typography>
+
                         {sprints ? <SprintList sprints={sprints} currentSprintId={sprintId} /> : null}
+
                         <Divider className={classes.divider} />
+
+                        <Typography variant="body2">Related projects</Typography>
+                        {/* TODO: replace below with a list of projects */}
+                        {sprint ? (
+                            <ContentsList
+                                items={sprint.posts
+                                    .map((id) => posts.get(id))
+                                    .map((post) => ({ name: post?.title, path: post?._id }))}
+                            />
+                        ) : null}
+
+                        <Divider className={classes.divider} />
+
                         {[
                             { name: 'Add sprint', path: '/add_sprint' },
                             { name: 'Add project', path: '/add_project' },

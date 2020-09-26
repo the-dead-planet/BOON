@@ -27,10 +27,12 @@ const SprintList = ({ sprints, currentSprintId }: Props) => {
         ...new Set([...sprints.values()].map((sprint) => moment(sprint.dateTo).format(YEAR_DATE_FORMAT))),
     ];
 
+    // TODO: Style this component better, its ugly now
+    // Or move this to an expandable list on hover of Sprint N title
     return (
         <Box>
             <List>
-                <ListItem className={classes.bold}>DVLPMNTS</ListItem>
+                {/* <ListItem className={classes.bold}>Sprints in</ListItem> */}
                 {/* <Divider component="li" /> */}
                 {/* TODO: sort a map, remove _id from values */}
                 <TreeView
