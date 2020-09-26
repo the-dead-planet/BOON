@@ -205,6 +205,21 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         vertical: {},
         horizontal: {},
+        navContainer: {
+            width: '200px',
+            position: 'absolute',
+            [theme.breakpoints.down('sm')]: {
+                display: 'none',
+                visibility: 'hidden',
+            },
+        },
+        mainContent: {
+            marginLeft: '200px',
+            top: 0,
+            [theme.breakpoints.down('sm')]: {
+                marginLeft: 0,
+            },
+        },
     })
 );
 

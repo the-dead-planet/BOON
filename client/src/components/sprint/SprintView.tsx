@@ -49,7 +49,7 @@ const SprintView = ({
     ) : (
         <>
             <Hidden smDown>
-                <Box style={{ width: '200px', position: 'absolute' }}>
+                <Box className={classes.navContainer}>
                     <Typography variant="body2">Sprints</Typography>
 
                     {sprints ? <SprintList sprints={sprints} currentSprintId={sprintId} /> : null}
@@ -57,6 +57,7 @@ const SprintView = ({
                     <Divider variant="middle" className={classes.divider} />
 
                     <Typography variant="body2">Related projects</Typography>
+
                     {/* TODO: replace below with a list of projects */}
                     {sprint ? (
                         <ContentsList
@@ -81,7 +82,7 @@ const SprintView = ({
                     ))}
                 </Box>
             </Hidden>
-            <Box style={{ marginLeft: '200px', top: 0 }}>
+            <Box className={classes.mainContent}>
                 <SingleSprint
                     user={user}
                     sprint={sprint}
