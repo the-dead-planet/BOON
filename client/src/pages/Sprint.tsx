@@ -37,7 +37,7 @@ const Sprint = ({
     notificationsProps,
     showError,
 }: SprintProps & WithShowErrorInjectedProps) => {
-    const { id } = useParams();
+    const { id }: { id: string } = useParams();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
 
     let sprintToDisplayId = id;

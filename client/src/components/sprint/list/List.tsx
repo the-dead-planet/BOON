@@ -24,7 +24,7 @@ const SprintList = ({ sprints, currentSprintId }: Props) => {
 
     // Find unique dateTo years
     let sprintYears: Array<string> = [
-        ...new Set([...sprints.values()].map(sprint => moment(sprint.dateTo).format(YEAR_DATE_FORMAT))),
+        ...new Set([...sprints.values()].map((sprint) => moment(sprint.dateTo).format(YEAR_DATE_FORMAT))),
     ];
 
     return (
@@ -44,11 +44,11 @@ const SprintList = ({ sprints, currentSprintId }: Props) => {
                     {sprintYears
                         .sort((a, b) => Number(b) - Number(a))
                         .map((year, index) => (
-                            <TreeItem key={`${year}-${index}`} nodeId={year} label={<Typography>{year}</Typography>}>
+                            <TreeItem key={`${year}-${index}`} nodeId={year} label={year}>
                                 {[...sprints.values()]
-                                    .filter(sprint => moment(sprint.dateTo).format(YEAR_DATE_FORMAT) === year)
+                                    .filter((sprint) => moment(sprint.dateTo).format(YEAR_DATE_FORMAT) === year)
                                     .sort((a, b) => b.number - a.number)
-                                    .map(sprint => (
+                                    .map((sprint) => (
                                         <SprintListItem
                                             key={`sprint-${sprint.number}`}
                                             currentSprintId={currentSprintId}

@@ -197,6 +197,14 @@ const useStyles = makeStyles((theme: Theme) =>
         rotate: {
             transform: 'rotate(180deg)',
         },
+        divider: {
+            backgroundColor: theme.palette.primary.dark,
+            opacity: 0.12,
+            '&$vertical': {},
+            '&$horizontal': {},
+        },
+        vertical: {},
+        horizontal: {},
     })
 );
 

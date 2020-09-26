@@ -89,6 +89,8 @@ const createTheme = (type: Mode) => {
             MuiCssBaseline: {
                 '@global': {
                     body: {
+                        minHeight: '100vh',
+                        minWidth: '100%',
                         backgroundColor: '#F2E5D4',
                         boxShadow: '2px 3px 20px black, 0 0 100px #8F5922 inset',
                         // backgroundImage: "url('https://www.transparenttextures.com/patterns/paper-2.png')"

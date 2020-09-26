@@ -26,10 +26,12 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, currentSpr
         <React.Fragment>
             <Link to={`/sprints/${_id}`}>
                 <ListItem
-                    button
-                    className={`${currentSprintId === _id && classes.selectedStyle} ${classes.pageNavList}`}
+                    // button
+                    className={`${currentSprintId === _id && classes.selectedStyle} ${classes.pageNavList} ${
+                        classes.navButton
+                    }`}
                 >
-                    {`${number}. ${moment(dateTo).format(MONTH_DATE_FORMAT)}`}
+                    {`#${number} ${moment(dateTo).format(MONTH_DATE_FORMAT)}`}
                 </ListItem>
             </Link>
         </React.Fragment>

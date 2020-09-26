@@ -1,7 +1,7 @@
 import React from 'react';
-import { useStyles } from '../../../../styles/main';
+// import { useStyles } from '../../../../styles/main';
 import { CommentsSection } from '../../../CommentsSection';
-import { Card, CardHeader, CardContent, CardActions, IconButton, Typography } from '@material-ui/core';
+import { Box, Card, CardHeader, CardContent, CardActions, IconButton, Typography, Divider } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ActionButtons } from './ActionButtons';
 import { CardMenu } from './Menu';
@@ -17,6 +17,7 @@ interface Props {
     title: string;
     subtitle: string;
     body: string;
+    maxLen?: number;
     mediaTop?: any;
     mediaMiddle?: any;
     menuItems: Array<{ name: string; path: string }>;
@@ -36,6 +37,7 @@ export const PostCard = ({
     title,
     subtitle,
     body,
+    maxLen,
     mediaTop,
     mediaMiddle,
     menuItems,
@@ -43,7 +45,7 @@ export const PostCard = ({
     removeObject,
     removeComment,
 }: Props) => {
-    const classes = useStyles();
+    // const classes = useStyles();
 
     const [expanded, setExpanded] = React.useState(false);
     const handleExpandClick = () => {
@@ -60,26 +62,19 @@ export const PostCard = ({
         setAnchorEl(null);
     };
 
-    const style = { marginBottom: '20px' };
+    // If maxLen not provided, show the whole text
+    maxLen = maxLen || body.length;
 
     return (
-        <Card id={object._id} style={style}>
+        <Box
+            id={object._id}
+            // style={{ maxHeight: "500px", overflow: "auto"}}
+        >
             {mediaTop}
-            <CardHeader
-                avatar={null}
-                action={
-                    <IconButton
-                        aria-label="more"
-                        aria-controls="long-menu"
-                        aria-haspopup="true"
-                        onClick={handleMenuClick}
-                    >
-                        <MoreVertIcon />
-                    </IconButton>
-                }
-                title={title}
-                subheader={subtitle}
-            />
+            <CardContent>
+                <Typography variant="h6">{title}</Typography>
+                <Typography variant="caption">{subtitle}</Typography>
+            </CardContent>
             <CardMenu
                 user={user}
                 object={object}
@@ -92,12 +87,13 @@ export const PostCard = ({
             {mediaMiddle}
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    {body}
+                    {body.length <= maxLen ? body : `${body.substring(0, maxLen)}...`}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
                 <ActionButtons comments={comments} likes={likes} handleExpandClick={handleExpandClick} />
             </CardActions>
+            {/* TODO: on click show dialog window on the right with the list of related comments */}
             <CardContent>
                 <CommentsSection
                     expanded={expanded}
@@ -110,6 +106,8 @@ export const PostCard = ({
                     removeComment={(id: string) => removeComment(id, object._id)}
                 />
             </CardContent>
-        </Card>
+
+            {/* <Divider /> */}
+        </Box>
     );
 };

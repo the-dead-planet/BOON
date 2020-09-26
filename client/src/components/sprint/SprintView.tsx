@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
 import { Link } from '../../utils/Link';
-import { Button, Hidden, Grid } from '@material-ui/core';
+import { Typography, Hidden, Grid, Divider } from '@material-ui/core';
 import { Loading, Empty } from '../Loading';
 import { SingleSprint } from './details/SingleSprint';
 import SprintList from './list/List';
@@ -48,24 +48,28 @@ const SprintView = ({
         <Empty />
     ) : (
         <>
-            {/* TODO: Move to a better place */}
-            <Grid container justify="center" style={{ width: '100%' }}>
-                <Link to="/add_sprint">
-                    <Button>Add sprint</Button>
-                </Link>
-                <Link to="/add_project">
-                    <Button>Add project</Button>
-                </Link>
-            </Grid>
-
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
                 <Grid item xs={2}>
-                    <Hidden only="xs">
+                    <Hidden smDown>
                         {sprints ? <SprintList sprints={sprints} currentSprintId={sprintId} /> : null}
+                        <Divider className={classes.divider} />
+                        {[
+                            { name: 'Add sprint', path: '/add_sprint' },
+                            { name: 'Add project', path: '/add_project' },
+                            { name: 'Add post', path: '/add_post' },
+                        ].map((item, i) => (
+                            <Link to={item.path}>
+                                <Typography variant="body2" className={classes.navButton}>
+                                    {item.name}
+                                </Typography>
+                            </Link>
+                        ))}
                     </Hidden>
                 </Grid>
 
-                <Grid item xs={8}>
+                {/* <Divider orientation="vertical" flexItem className={classes.divider} /> */}
+
+                <Grid item xs={12} md={8}>
                     <SingleSprint
                         user={user}
                         sprint={sprint}
@@ -82,7 +86,7 @@ const SprintView = ({
                 </Grid>
 
                 <Grid item xs={2}>
-                    <Hidden only="xs">
+                    <Hidden smDown>
                         {sprint ? (
                             <ContentsList
                                 items={sprint.posts

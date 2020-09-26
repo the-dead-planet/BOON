@@ -1,5 +1,6 @@
 import React from 'react';
 import { useStyles } from '../../../styles/main';
+import { Divider } from '@material-ui/core';
 import { Posts } from './post/Posts';
 import { SprintOverview } from './Overview';
 // import usersService from '../../../services/usersService';
@@ -49,6 +50,7 @@ export const SingleSprint = ({
                 removeObject={removeObject}
                 onError={onError}
             />
+            <Divider className={classes.divider} />
             <Posts
                 user={user}
                 projects={projects}
