@@ -1,12 +1,14 @@
 import React from 'react';
+import { Img } from 'react-image';
 // import { useStyles } from '../../../styles/main';
-import { Box } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { PostCard } from './post/Card';
 // import CardMedia from '@material-ui/core/CardMedia';
 import moment from 'moment';
 import { DATE_FORMAT } from '../../../utils/constants';
 import { User, Sprint, Comment, Like } from '../../../logic/types';
 import { PATHS } from '../../../constants/data';
+import img from '../../../img/content/vintage/typewriter.jpg';
 const { home } = PATHS;
 
 // Detailed view of a sprint object.
@@ -39,7 +41,7 @@ export const SprintOverview = ({ user, sprint, comments, likes, users, addCommen
             comments={comments}
             likes={likes}
             users={users}
-            title={`No${sprint.number} // ${sprint.title}`}
+            title={`${sprint.title}`}
             subtitle={`${authorPublicName} // ${sprint.dateFrom && moment(sprint.dateFrom).format(DATE_FORMAT)} - ${
                 sprint.dateTo && moment(sprint.dateTo).format(DATE_FORMAT)
             }`}
@@ -57,11 +59,22 @@ export const SprintOverview = ({ user, sprint, comments, likes, users, addCommen
     );
 
     return (
-        <Box>
-            {/* <SprintHeader {...sprint} />
-        <SprintContent {...sprint} />
-        <SprintModifyButtons user={user} sprint={sprint} model={'Sprint'} onError={onError} /> */}
-            {content}
-        </Box>
+        <Grid container style={{ border: '1px solid rgba(0, 0, 0, .13)', padding: '.5em' }}>
+            <Grid item xs={12} md={8}>
+                <Img
+                    src={img}
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        maxHeight: '400px',
+                        objectFit: 'cover',
+                        objectPosition: '50% 50%',
+                    }}
+                />
+            </Grid>
+            <Grid item xs={12} md={4}>
+                {content}
+            </Grid>
+        </Grid>
     );
 };

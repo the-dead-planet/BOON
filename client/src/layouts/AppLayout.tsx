@@ -102,7 +102,7 @@ const AppLayout = ({
             </main>
 
             {/* TODO: style it nicer and allow moving to next/previous sprint */}
-            <BottomNav user={user} />
+            {/* <BottomNav user={user} /> */}
             <NotificationsRenderer notifications={notifications} onShown={onNotificationShown} />
         </ThemeWrapper>
     );

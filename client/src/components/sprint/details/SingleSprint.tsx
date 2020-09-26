@@ -50,7 +50,7 @@ export const SingleSprint = ({
                 removeObject={removeObject}
                 onError={onError}
             />
-            <Divider className={classes.divider} />
+            {/* <Divider className={classes.divider} /> */}
             <Posts
                 user={user}
                 projects={projects}

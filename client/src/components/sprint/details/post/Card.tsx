@@ -68,10 +68,7 @@ export const PostCard = ({
     const showMoreRequired = body.length > maxLen;
 
     return (
-        <Box
-            id={object._id}
-            // style={{ maxHeight: "500px", overflow: "auto"}}
-        >
+        <Box id={object._id}>
             {mediaTop}
             <CardContent>
                 <Typography variant="h6">{title}</Typography>
@@ -102,7 +99,7 @@ export const PostCard = ({
                 )}
             </CardActions>
             {/* TODO: on click show dialog window on the right with the list of related comments */}
-            <CardContent>
+            {/* <CardContent>
                 <CommentsSection
                     expanded={expanded}
                     user={user}
@@ -113,7 +110,7 @@ export const PostCard = ({
                     addComment={addComment.bind(object._id)}
                     removeComment={(id: string) => removeComment(id, object._id)}
                 />
-            </CardContent>
+            </CardContent> */}
 
             {/* <Divider /> */}
         </Box>

@@ -38,7 +38,7 @@ export const PostsList = ({
         <Grid container>
             {posts.map((post: Post, index: number) => (
                 <>
-                    <Grid item xs={12} sm={6} md={4} xl={3}>
+                    <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
                         <PostCard
                             key={`${post._id}-${index}`}
                             user={user}
@@ -48,9 +48,10 @@ export const PostsList = ({
                             likes={post.likes.map((id) => likes.get(id))}
                             users={users as any}
                             title={post.title}
-                            subtitle={`${users.get(post.author as any)?.publicName || 'Unknown user'} / ${moment(
-                                post.created
-                            ).format(EXT_DATE_FORMAT)}`}
+                            subtitle={users.get(post.author as any)?.publicName || 'Unknown user'}
+                            // subtitle={`${users.get(post.author as any)?.publicName || 'Unknown user'} / ${moment(
+                            //     post.created
+                            // ).format(EXT_DATE_FORMAT)}`}
                             body={post.body}
                             maxLen={400}
                             // mediaMiddle={
