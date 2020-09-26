@@ -80,6 +80,28 @@ const createTheme = (type: Mode) => {
             // fontFamily: 'Halant, serif',
             fontSize: 14,
         },
+        // Below override material ui default classes
+        // Background of the app should resemble an old newspaper
+        // This is achieved by adding darker shadows on the sides of the page
+        // And using a transparent noise texture found here:
+        // https://www.transparenttextures.com/
+        overrides: {
+            MuiCssBaseline: {
+                '@global': {
+                    body: {
+                        backgroundColor: '#F2E5D4',
+                        boxShadow: '2px 3px 20px black, 0 0 100px #8F5922 inset',
+                        // backgroundImage: "url('https://www.transparenttextures.com/patterns/paper-2.png')"
+                        // backgroundImage: "url('https://www.transparenttextures.com/patterns/paper-fibers.png')"
+                        // backgroundImage: "url('https://www.transparenttextures.com/patterns/clean-gray-paper.png')"
+                        // backgroundImage: "url('https://www.transparenttextures.com/patterns/handmade-paper.png')"
+                        backgroundImage: `url('https://www.transparenttextures.com/patterns/paper-fibers.png'), 
+                                            url('https://www.transparenttextures.com/patterns/natural-paper.png')`,
+                        /* This is mostly intended for prototyping; please download the pattern and re-host for production */
+                    },
+                },
+            },
+        },
     });
 
     return responsiveFontSizes(theme);

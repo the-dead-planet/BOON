@@ -1,5 +1,4 @@
 import React from 'react';
-import { useStyles } from '../../styles/main';
 import { createTheme } from '../../styles/themes';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,7 +15,6 @@ interface Props {
 }
 
 const ThemeWrapper = ({ mode, children }: Props) => {
-    const classes = useStyles();
     const theme = createTheme(mode);
 
     return (

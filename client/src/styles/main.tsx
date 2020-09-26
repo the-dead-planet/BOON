@@ -3,9 +3,6 @@
 */
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
-// Below components need to be imported to correctly overwrite styles with classes in useStyle
-import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
 const header = require('../img/landing/header-1.jpg');
 const header2 = require('../img/landing/header-2.jpg');
 
@@ -14,6 +11,9 @@ const drawerWidth = 240;
 const toolbarHeight = 40;
 const jumbotronHeight = '100vh';
 
+// TODO: See ways to procedurally generate a vintage newspaper background
+// See http://api.thumbr.it/whitenoise-361x370.png?background=f2e8d5ff&noise=626262&density=15&opacity=15
+// And https://codepen.io/AgnusDei/pen/NWPbOxL
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         /* 
@@ -66,7 +66,6 @@ const useStyles = makeStyles((theme: Theme) =>
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,
             }),
-            backgroundColor: `${theme.palette.background.default} !important`,
             boxShadow: 'none !important',
             // boxShadow: "0px 2px 4px -1px #fff, 0px 4px 5px 0px #fff, 0px 1px 10px 0px #fff !important",
         },
@@ -157,7 +156,7 @@ const useStyles = makeStyles((theme: Theme) =>
             borderBottom: `solid 2px ${theme.palette.primary.light}`,
         },
         fix: {
-            position: 'fixed',
+            position: 'absolute',
             '&$right': {
                 right: '2em',
             },
