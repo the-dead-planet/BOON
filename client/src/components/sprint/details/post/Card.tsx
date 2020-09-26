@@ -1,5 +1,6 @@
 import React from 'react';
-// import { useStyles } from '../../../../styles/main';
+import { useStyles } from '../../../../styles/main';
+import { Link } from '../../../../utils/Link';
 import { CommentsSection } from '../../../CommentsSection';
 import { Box, Card, CardHeader, CardContent, CardActions, IconButton, Typography, Divider } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -45,7 +46,7 @@ export const PostCard = ({
     removeObject,
     removeComment,
 }: Props) => {
-    // const classes = useStyles();
+    const classes = useStyles();
 
     const [expanded, setExpanded] = React.useState(false);
     const handleExpandClick = () => {
@@ -64,6 +65,7 @@ export const PostCard = ({
 
     // If maxLen not provided, show the whole text
     maxLen = maxLen || body.length;
+    const showMoreRequired = body.length > maxLen;
 
     return (
         <Box
@@ -87,11 +89,17 @@ export const PostCard = ({
             {mediaMiddle}
             <CardContent>
                 <Typography variant="body2" color="textSecondary" component="p">
-                    {body.length <= maxLen ? body : `${body.substring(0, maxLen)}...`}
+                    {showMoreRequired ? `${body.substring(0, maxLen)}...` : body}
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <ActionButtons comments={comments} likes={likes} handleExpandClick={handleExpandClick} />
+                {/* <ActionButtons comments={comments} likes={likes} handleExpandClick={handleExpandClick} /> */}
+                {/* TODO: Create a single post page */}
+                {showMoreRequired && (
+                    <Typography variant="caption" style={{ marginLeft: 'auto' }} className={classes.navButton}>
+                        <Link to={`/posts/${object._id}`}>Show more...</Link>
+                    </Typography>
+                )}
             </CardActions>
             {/* TODO: on click show dialog window on the right with the list of related comments */}
             <CardContent>
