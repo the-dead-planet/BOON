@@ -5,6 +5,7 @@ import { withPush } from '../utils/routingDecorators';
 import sprintsService from '../services/sprintsService';
 import AppLayout from '../layouts/AppLayout';
 import SprintView from '../components/sprint/SprintView';
+import LeftBar from '../components/navigation/LeftBar';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData } from '../logic/types';
 import moment from 'moment';
@@ -88,23 +89,26 @@ const Sprint = ({
             }}
         >
             {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
-            {sprintToDisplayId && (
-                <SprintView
-                    user={user}
-                    sprints={sprints}
-                    posts={posts}
-                    projects={projects}
-                    comments={comments}
-                    likes={likes}
-                    users={users}
-                    sprintId={id}
-                    addPostComment={addPostComment}
-                    addSprintComment={addSprintComment}
-                    removeObject={removeObject}
-                    onError={showError}
-                    showError={showError}
-                />
-            )}
+            <>
+                <LeftBar posts={posts} sprint={sprints.get(id)} />
+                {sprintToDisplayId && (
+                    <SprintView
+                        user={user}
+                        sprints={sprints}
+                        posts={posts}
+                        projects={projects}
+                        comments={comments}
+                        likes={likes}
+                        users={users}
+                        sprintId={id}
+                        addPostComment={addPostComment}
+                        addSprintComment={addSprintComment}
+                        removeObject={removeObject}
+                        onError={showError}
+                        showError={showError}
+                    />
+                )}
+            </>
         </AppLayout>
     );
 };

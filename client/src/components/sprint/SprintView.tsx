@@ -6,7 +6,6 @@ import { SingleSprint } from './details/SingleSprint';
 import SprintList from './list/List';
 import ContentsList from '../navigation/ContentsList';
 import { User, Sprint, Post, Project, Comment, Like } from '../../logic/types';
-import LeftBar from '../navigation/LeftBar';
 
 interface Props {
     user: User | null | undefined;
@@ -34,13 +33,10 @@ const SprintView = (props: Props) => {
     ) : sprints.size === 0 ? (
         <Empty />
     ) : (
-        <>
-            <LeftBar posts={props.posts} sprint={sprint} />
-            <Box className={classes.mainContent}>
-                {/* NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator */}
-                <SingleSprint sprint={sprint} {...props} />
-            </Box>
-        </>
+        <Box className={classes.mainContent}>
+            {/* NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator */}
+            <SingleSprint sprint={sprint} {...props} />
+        </Box>
     );
 };
 
