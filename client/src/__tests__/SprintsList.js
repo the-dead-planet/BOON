@@ -15,6 +15,7 @@ describe('app', () => {
                 _id: 'sprint0Id',
                 number: 0,
                 title: 'sprint0Title',
+                body: 'sprint0Body',
                 author: { _id: 'user0Id' },
                 likes: [],
                 comments: [],
