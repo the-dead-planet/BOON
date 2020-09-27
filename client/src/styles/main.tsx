@@ -213,14 +213,17 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         vertical: {},
         horizontal: {},
-        navContainer: {
-            padding: 0,
-            width: '200px',
+        sideCol: {
             position: 'absolute',
+            width: '200px',
             [theme.breakpoints.down('sm')]: {
                 display: 'none',
                 visibility: 'hidden',
             },
+        },
+        navContainer: {
+            padding: 0,
+            width: '100%',
             border: `solid 2px ${theme.palette.primary.main}`,
             // borderTopWidth: "20px"
         },
@@ -271,6 +274,29 @@ const useStyles = makeStyles((theme: Theme) =>
             marginLeft: 'auto',
             marginTop: '1em',
             fontStyle: 'italic',
+        },
+        gossColContainer: {
+            marginTop: '2em',
+            marginBottom: '1em',
+            padding: '.4em',
+            position: 'relative',
+            '&::after': {
+                content: "''",
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                border: `solid 2px ${theme.palette.primary.main}`,
+            },
+        },
+        gossColTitle: {
+            paddingTop: '.5em',
+            paddingBottom: '.5em',
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.secondary.main,
         },
     })
 );

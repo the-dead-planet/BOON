@@ -99,6 +99,10 @@ const createTheme = (type: Mode) => {
                         // backgroundImage: "url('https://www.transparenttextures.com/patterns/handmade-paper.png')"
                         backgroundImage: `url('https://www.transparenttextures.com/patterns/paper-fibers.png'), 
                                             url('https://www.transparenttextures.com/patterns/natural-paper.png')`,
+                        // backgroundImage: `url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
+                        //                     url('https://www.transparenttextures.com/patterns/lined-paper.png')`,
+                        // backgroundImage: `url('https://www.transparenttextures.com/patterns/natural-paper.png'),
+                        //                     url('https://www.transparenttextures.com/patterns/paper-3.png')`,
                         /* This is mostly intended for prototyping; please download the pattern and re-host for production */
                     },
                 },
