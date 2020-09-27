@@ -26,6 +26,10 @@ const useStyles = makeStyles((theme: Theme) =>
             minWidth: '400px',
             margin: '0 auto',
         },
+        col: {
+            display: 'flex',
+            flexDirection: 'column',
+        },
         /* 
             Images
         */
@@ -270,10 +274,27 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         hover: {},
+        postBody: {
+            textAlign: 'justify',
+        },
         signature: {
             marginLeft: 'auto',
             marginTop: '1em',
             fontStyle: 'italic',
+        },
+        // TODO: Checkout nicer border styles
+        quoteContainer: {
+            border: `solid 2px ${theme.palette.primary.main}`,
+            position: 'relative',
+            '&::after': {
+                content: "''",
+                position: 'absolute',
+                left: '5px',
+                right: '5px',
+                top: '5px',
+                bottom: '5px',
+                border: `solid 2px ${theme.palette.primary.light}`,
+            },
         },
         gossColContainer: {
             marginTop: '2em',

@@ -90,8 +90,14 @@ export const PostCard = ({
                 removeObject={removeObject}
             />
             {mediaMiddle}
-            <CardContent style={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant="body2" color="textSecondary" component="p" gutterBottom>
+            <CardContent className={classes.col}>
+                <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    component="p"
+                    gutterBottom
+                    className={classes.postBody}
+                >
                     {showMoreRequired ? `${body.substring(0, maxLen)}...` : body}
                 </Typography>
 
