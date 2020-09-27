@@ -77,7 +77,7 @@ export const PostsList = ({
 
                     {/* Add quote tile in the middle, which takes up more space */}
                     {/* TODO: Prepare a tile for the quote with a vintage image and large text */}
-                    {i === 5 && (
+                    {i === 3 && (
                         <Grid
                             item
                             xs={12}
