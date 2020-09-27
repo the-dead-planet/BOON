@@ -29,6 +29,7 @@ const SprintList = ({ sprints, currentSprintId }: Props) => {
 
     // TODO: Style this component better, its ugly now
     // Or move this to an expandable list on hover of Sprint N title
+    // TODO: replace this component with a calendar view
     return (
         <Box>
             <List>

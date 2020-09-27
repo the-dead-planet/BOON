@@ -75,9 +75,9 @@ const NavBar = ({
                         <Hidden smDown>
                             <Grid container>
                                 {[
-                                    { name: 'Sprints', path: sprints },
-                                    { name: 'Projects', path: projects },
-                                    { name: 'Teams', path: teams },
+                                    { name: ' - Sprints - ', path: sprints },
+                                    { name: ' - Projects - ', path: projects },
+                                    { name: ' - Teams - ', path: teams },
                                 ].map((item, i) => (
                                     <Link to={item.path}>
                                         <Typography
@@ -95,7 +95,7 @@ const NavBar = ({
 
                     {/* Centered text */}
                     <Typography variant="h6" noWrap>
-                        The
+                        — The —
                     </Typography>
 
                     {/* TODO: change texts to icons or something nicer */}

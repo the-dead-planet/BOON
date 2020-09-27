@@ -18,16 +18,16 @@ const createTheme = (type: Mode) => {
         palette: {
             type: type,
             primary: {
-                light: '#403D39',
-                main: '#252422',
+                light: 'rgba(37, 36, 34, .6)', // light is the same color as main but with less opacity
+                main: 'rgba(37, 36, 34)',
                 dark: '#252422',
-                // contrastText: "#EAE2B7",
+                contrastText: 'rgba(255, 255, 255, .87)',
             },
             secondary: {
                 light: '#CE4257',
                 main: '#CE4257',
                 dark: '#720026',
-                // contrastText: color4,
+                contrastText: 'rgba(255, 255, 255, .87)',
             },
             common: {
                 black: '#000',

@@ -25,6 +25,7 @@ interface Props {
     addComment: any;
     removeObject: any;
     removeComment: any;
+    divider?: boolean;
 }
 
 // Pass a component to mediaTop or mediaBottom depending on which location it is needed in
@@ -45,6 +46,7 @@ export const PostCard = ({
     addComment,
     removeObject,
     removeComment,
+    divider,
 }: Props) => {
     const classes = useStyles();
 
@@ -68,7 +70,7 @@ export const PostCard = ({
     const showMoreRequired = body.length > maxLen;
 
     return (
-        <Box id={object._id}>
+        <Box id={object._id} className={classes.post}>
             {mediaTop}
             <CardContent>
                 <Typography variant="h6">{title}</Typography>
@@ -89,15 +91,16 @@ export const PostCard = ({
                     {showMoreRequired ? `${body.substring(0, maxLen)}...` : body}
                 </Typography>
             </CardContent>
-            <CardActions disableSpacing>
-                {/* <ActionButtons comments={comments} likes={likes} handleExpandClick={handleExpandClick} /> */}
+            <CardActions disableSpacing style={{ marginTop: 'auto' }}>
+                <ActionButtons comments={comments} likes={likes} handleExpandClick={handleExpandClick} />
                 {/* TODO: Create a single post page */}
                 {showMoreRequired && (
-                    <Typography variant="caption" style={{ marginLeft: 'auto' }} className={classes.navButton}>
+                    <Typography variant="caption" className={`${classes.navButton} ${classes.flexRight}`}>
                         <Link to={`/posts/${object._id}`}>Show more...</Link>
                     </Typography>
                 )}
             </CardActions>
+            {divider && <Divider variant="middle" className={classes.divider} />}
             {/* TODO: on click show dialog window on the right with the list of related comments */}
             {/* <CardContent>
                 <CommentsSection

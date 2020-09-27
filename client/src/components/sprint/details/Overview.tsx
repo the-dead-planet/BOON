@@ -1,6 +1,6 @@
 import React from 'react';
 import { Img } from 'react-image';
-// import { useStyles } from '../../../styles/main';
+import { useStyles } from '../../../styles/main';
 import { Grid } from '@material-ui/core';
 import { PostCard } from './post/Card';
 // import CardMedia from '@material-ui/core/CardMedia';
@@ -26,7 +26,7 @@ interface Props {
 }
 
 export const SprintOverview = ({ user, sprint, comments, likes, users, addComment, removeObject, onError }: Props) => {
-    // const classes = useStyles();
+    const classes = useStyles();
 
     const author: User | null = users.get(sprint.author as any); // FIXME: types are probably incompatible.
     const authorPublicName = author ? author.publicName : 'unknown';
@@ -59,18 +59,9 @@ export const SprintOverview = ({ user, sprint, comments, likes, users, addCommen
     );
 
     return (
-        <Grid container style={{ border: '1px solid rgba(0, 0, 0, .13)', padding: '.5em' }}>
+        <Grid container className={classes.mainPost}>
             <Grid item xs={12} md={8}>
-                <Img
-                    src={img}
-                    style={{
-                        width: '100%',
-                        height: '100%',
-                        maxHeight: '400px',
-                        objectFit: 'cover',
-                        objectPosition: '50% 50%',
-                    }}
-                />
+                <Img src={img} className={classes.mainImg} />
             </Grid>
             <Grid item xs={12} md={4}>
                 {content}

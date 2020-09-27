@@ -5,16 +5,18 @@ import { List, ListItem, Typography } from '@material-ui/core';
 import { LinkTo } from '../../logic/types';
 
 interface Props {
+    title?: string;
     items: Array<LinkTo>;
 }
 
 // TODO: investigate why Link from router does not handle hashes #
-const ContentsList = ({ items }: Props) => {
+const ContentsList = ({ title, items }: Props) => {
     const classes = useStyles();
 
     return (
         <List>
-            <ListItem className={classes.bold}>JMP TO</ListItem>
+            {title && <ListItem className={classes.bold}>{title}</ListItem>}
+
             {items.map((item, i) => (
                 <HashLink key={`link-item-${i}`} to={`#${item.path}` || '/'} smooth={true}>
                     <ListItem key={`item-${i}`} className={classes.pageNavList} button>

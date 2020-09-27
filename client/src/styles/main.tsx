@@ -166,6 +166,12 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         right: {},
         left: {},
+        flexRight: {
+            marginLeft: 'auto',
+        },
+        flexLeft: {
+            marginRight: 'auto',
+        },
         navButton: {
             padding: '.2em .8em',
             transition: 'transform .4s',
@@ -206,18 +212,54 @@ const useStyles = makeStyles((theme: Theme) =>
         vertical: {},
         horizontal: {},
         navContainer: {
+            padding: 0,
             width: '200px',
             position: 'absolute',
             [theme.breakpoints.down('sm')]: {
                 display: 'none',
                 visibility: 'hidden',
             },
+            border: `solid 2px ${theme.palette.primary.main}`,
+            // borderTopWidth: "20px"
+        },
+        navTitle: {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.background.default,
+
+            margin: '-1px',
+            padding: '.2em',
+            textAlign: 'center',
+            textTransform: 'uppercase',
         },
         mainContent: {
-            marginLeft: '200px',
+            marginLeft: '210px',
             top: 0,
             [theme.breakpoints.down('sm')]: {
                 marginLeft: 0,
+            },
+        },
+        mainPost: {
+            border: `1px solid ${theme.palette.primary.light}`,
+            padding: '.5em',
+        },
+        mainImg: {
+            width: '100%',
+            minHeight: '100%',
+            maxHeight: '400px',
+            objectFit: 'cover',
+            objectPosition: '50% 50%',
+        },
+        postContainer: {
+            marginTop: '1em',
+        },
+        post: {
+            minHeight: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            border: `solid 1px transparent`,
+            '&:hover': {
+                borderColor: theme.palette.primary.light,
+                backgroundColor: 'rgba(255, 255, 255, .13)',
             },
         },
     })

@@ -50,13 +50,9 @@ const SprintView = ({
         <>
             <Hidden smDown>
                 <Box className={classes.navContainer}>
-                    <Typography variant="body2">Sprints</Typography>
-
-                    {sprints ? <SprintList sprints={sprints} currentSprintId={sprintId} /> : null}
-
-                    <Divider variant="middle" className={classes.divider} />
-
-                    <Typography variant="body2">Related projects</Typography>
+                    <Typography variant="body2" className={classes.navTitle}>
+                        Highlights
+                    </Typography>
 
                     {/* TODO: replace below with a list of projects */}
                     {sprint ? (
@@ -67,12 +63,20 @@ const SprintView = ({
                         />
                     ) : null}
 
-                    <Divider variant="middle" className={classes.divider} />
+                    <Typography variant="body2" className={classes.navTitle}>
+                        Sprints
+                    </Typography>
+
+                    {sprints ? <SprintList sprints={sprints} currentSprintId={sprintId} /> : null}
+
+                    <Typography variant="body2" className={classes.navTitle}>
+                        Add Stuff
+                    </Typography>
 
                     {[
-                        { name: 'Add sprint', path: '/add_sprint' },
-                        { name: 'Add project', path: '/add_project' },
-                        { name: 'Add post', path: '/add_post' },
+                        { name: 'New sprint', path: '/add_sprint' },
+                        { name: 'New project', path: '/add_project' },
+                        { name: 'New post', path: '/add_post' },
                     ].map((item, i) => (
                         <Link to={item.path}>
                             <Typography variant="body2" className={classes.navButton}>
