@@ -16,7 +16,7 @@ describe('app', () => {
         // Initial sprints state - empty.
         sprintsService.getAll.mockResolvedValue([]);
 
-        sprintsService.add.mockImplementation(instance => {
+        sprintsService.add.mockImplementation((instance) => {
             // Upon calling `add`, the service will add the freshly added instance to its list.
             sprintsService.getAll.mockResolvedValue([
                 { ...instance, _id: 'abcd', likes: [], comments: [], posts: [], author: { _id: 'userId' } },
@@ -25,7 +25,7 @@ describe('app', () => {
             return Promise.resolve();
         });
 
-        sprintsService.delete.mockImplementation(instance => {
+        sprintsService.delete.mockImplementation((instance) => {
             // Upon calling `delete`, the service will remove the instance from the list.
             sprintsService.getAll.mockResolvedValue([]);
 
@@ -34,13 +34,9 @@ describe('app', () => {
 
         const { container, getByLabelText, getByRole, findByText, findAllByText } = render(<App />);
 
-        // Landing page.
-        await act(async () => fireEvent.click(await findByText(/enter the boon/i)));
+        // Landing page skipped for logged in users.
 
-        // Sprints list. Initially empty.
-        expect(sprintsService.getAll).toHaveBeenCalled();
-
-        await act(async () => fireEvent.click(await findByText(/ADD SPRINT/i)));
+        await act(async () => fireEvent.click(await findByText(/new sprint/i)));
 
         // Sprint form.
         await act(async () =>
@@ -63,7 +59,12 @@ describe('app', () => {
         expect(sprintsService.getAll).toHaveBeenCalled();
 
         await act(async () => fireEvent.click(await findByText(/Some Title/i)));
+
+        // TODO - uncomment after clicking on a sprint leads to a detail page.
+        /*
         await act(async () => fireEvent.click(await getByLabelText(/more/i)));
+        */
+
         // TODO - uncomment after sprint deletion is reintroduced
         /*
         await act(async () => fireEvent.click(await findByText(/Delete/i)));
