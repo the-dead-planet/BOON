@@ -35,7 +35,7 @@ export const PostsList = ({
     const style = { height: '100px', marginLeft: '1.1em', marginRight: '1.1em' };
 
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={1}>
             {posts.map((post: Post, i: number) => (
                 <>
                     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} className={classes.postContainer}>
@@ -77,12 +77,12 @@ export const PostsList = ({
 
                     {/* Add quote tile in the middle, which takes up more space */}
                     {/* TODO: Prepare a tile for the quote with a vintage image and large text */}
-                    {i === Math.floor(posts.length / 2 + 1) && (
+                    {i === 4 && (
                         <Grid
                             item
                             xs={12}
                             sm={12}
-                            md={4}
+                            md={8}
                             lg={6}
                             xl={4}
                             className={`${classes.postContainer} ${classes.quoteContainer}`}
@@ -91,13 +91,10 @@ export const PostsList = ({
                             justify="center"
                             alignItems="center"
                         >
-                            <Typography
-                                variant="h3"
-                                style={{ textAlign: 'center', fontStyle: 'italic', padding: '0 1em' }}
-                            >
+                            <Typography variant="h3" className={classes.quote}>
                                 I am not a fan of books. I would never want a book's autograph.
                             </Typography>
-                            <Typography variant="body2" style={{ marginTop: '1em' }}>
+                            <Typography variant="body2" className={classes.quoteAuthor}>
                                 ~ Kanye West
                             </Typography>
                         </Grid>

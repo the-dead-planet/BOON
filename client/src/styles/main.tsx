@@ -296,6 +296,17 @@ const useStyles = makeStyles((theme: Theme) =>
                 border: `solid 2px ${theme.palette.primary.light}`,
             },
         },
+        quote: {
+            textAlign: 'center',
+            fontStyle: 'italic',
+            marginTop: '1em',
+            marginLeft: '1em',
+            marginRight: '1em',
+        },
+        quoteAuthor: {
+            marginTop: '1em',
+            marginBottom: '2em',
+        },
         gossColContainer: {
             marginTop: '2em',
             marginBottom: '1em',
