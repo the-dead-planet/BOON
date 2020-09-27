@@ -54,7 +54,6 @@ const SprintView = ({
                         Highlights
                     </Typography>
 
-                    {/* TODO: replace below with a list of projects */}
                     {sprint ? (
                         <ContentsList
                             items={sprint.posts
@@ -64,10 +63,19 @@ const SprintView = ({
                     ) : null}
 
                     <Typography variant="body2" className={classes.navTitle}>
-                        Sprints
+                        Related Projects
                     </Typography>
 
-                    {sprints ? <SprintList sprints={sprints} currentSprintId={sprintId} /> : null}
+                    {/* TODO: replace below with a list of projects */}
+                    {sprint ? (
+                        <ContentsList
+                            items={sprint.posts
+                                .map((id) => posts.get(id))
+                                .map((post) => ({ name: post?.title, path: post?._id }))}
+                        />
+                    ) : null}
+
+                    {/* {sprints ? <SprintList sprints={sprints} currentSprintId={sprintId} /> : null} */}
 
                     <Typography variant="body2" className={classes.navTitle}>
                         Add Stuff

@@ -257,11 +257,14 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             flexDirection: 'column',
             border: `solid 1px transparent`,
-            '&:hover': {
-                borderColor: theme.palette.primary.light,
-                backgroundColor: 'rgba(255, 255, 255, .13)',
+            '&$hover': {
+                '&:hover': {
+                    borderColor: theme.palette.primary.light,
+                    backgroundColor: 'rgba(255, 255, 255, .13)',
+                },
             },
         },
+        hover: {},
     })
 );
 

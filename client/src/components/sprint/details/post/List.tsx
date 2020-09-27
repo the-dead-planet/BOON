@@ -73,6 +73,7 @@ export const PostsList = ({
                         removeObject={removePost}
                         removeComment={removeComment}
                         divider={true}
+                        hover={true}
                     />
                 </Grid>
             ))}

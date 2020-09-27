@@ -26,6 +26,7 @@ interface Props {
     removeObject: any;
     removeComment: any;
     divider?: boolean;
+    hover?: boolean;
 }
 
 // Pass a component to mediaTop or mediaBottom depending on which location it is needed in
@@ -47,6 +48,7 @@ export const PostCard = ({
     removeObject,
     removeComment,
     divider,
+    hover,
 }: Props) => {
     const classes = useStyles();
 
@@ -70,7 +72,7 @@ export const PostCard = ({
     const showMoreRequired = body.length > maxLen;
 
     return (
-        <Box id={object._id} className={classes.post}>
+        <Box id={object._id} className={`${classes.post} ${hover ? classes.hover : undefined}`}>
             {mediaTop}
             <CardContent>
                 <Typography variant="h6">{title}</Typography>
