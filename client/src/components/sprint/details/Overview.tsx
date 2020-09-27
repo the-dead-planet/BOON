@@ -41,8 +41,9 @@ export const SprintOverview = ({ user, sprint, comments, likes, users, addCommen
             comments={comments}
             likes={likes}
             users={users}
+            author={authorPublicName}
             title={`${sprint.title}`}
-            subtitle={`${authorPublicName} // ${sprint.dateFrom && moment(sprint.dateFrom).format(DATE_FORMAT)} - ${
+            subtitle={`${sprint.dateFrom && moment(sprint.dateFrom).format(DATE_FORMAT)} - ${
                 sprint.dateTo && moment(sprint.dateTo).format(DATE_FORMAT)
             }`}
             body={sprint.body}

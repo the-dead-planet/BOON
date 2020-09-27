@@ -35,7 +35,7 @@ const createTheme = (type: Mode) => {
             },
             background: {
                 paper: type === 'dark' ? '#252422' : '#F4F2EF',
-                default: type === 'dark' ? '#000' : '#EAE0D5',
+                default: type === 'dark' ? '#000' : '#F2E5E4',
             },
             error: {
                 light: '#e57373',
@@ -92,7 +92,7 @@ const createTheme = (type: Mode) => {
                         minHeight: '100vh',
                         minWidth: '100%',
                         backgroundColor: '#F2E5D4',
-                        boxShadow: '2px 3px 20px black, 0 0 100px #8F5922 inset',
+                        boxShadow: '2px 3px 20px black, 0 0 100px #a89782 inset',
                         // backgroundImage: "url('https://www.transparenttextures.com/patterns/paper-2.png')"
                         // backgroundImage: "url('https://www.transparenttextures.com/patterns/paper-fibers.png')"
                         // backgroundImage: "url('https://www.transparenttextures.com/patterns/clean-gray-paper.png')"

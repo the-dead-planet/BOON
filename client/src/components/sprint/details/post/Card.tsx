@@ -15,6 +15,7 @@ interface Props {
     comments: Array<Comment | undefined>;
     likes: Array<Like | undefined>;
     users: Map<string, User>;
+    author: string;
     title: string;
     subtitle: string;
     body: string;
@@ -37,6 +38,7 @@ export const PostCard = ({
     comments,
     likes,
     users,
+    author,
     title,
     subtitle,
     body,
@@ -88,11 +90,17 @@ export const PostCard = ({
                 removeObject={removeObject}
             />
             {mediaMiddle}
-            <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
+            <CardContent style={{ display: 'flex', flexDirection: 'column' }}>
+                <Typography variant="body2" color="textSecondary" component="p" gutterBottom>
                     {showMoreRequired ? `${body.substring(0, maxLen)}...` : body}
                 </Typography>
+
+                {/* Add link to go to the author page */}
+                <Typography variant="caption" className={classes.signature}>
+                    By {author}
+                </Typography>
             </CardContent>
+
             <CardActions disableSpacing style={{ marginTop: 'auto' }}>
                 <ActionButtons comments={comments} likes={likes} handleExpandClick={handleExpandClick} />
                 {/* TODO: Create a single post page */}
@@ -102,6 +110,7 @@ export const PostCard = ({
                     </Typography>
                 )}
             </CardActions>
+
             {divider && <Divider variant="middle" className={classes.divider} />}
             {/* TODO: on click show dialog window on the right with the list of related comments */}
             {/* <CardContent>

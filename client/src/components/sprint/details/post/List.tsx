@@ -46,11 +46,9 @@ export const PostsList = ({
                         comments={post.comments.map((id) => comments.get(id))}
                         likes={post.likes.map((id) => likes.get(id))}
                         users={users as any}
+                        author={users.get(post.author as any)?.publicName || 'Unknown user'}
                         title={post.title}
-                        subtitle={users.get(post.author as any)?.publicName || 'Unknown user'}
-                        // subtitle={`${users.get(post.author as any)?.publicName || 'Unknown user'} / ${moment(
-                        //     post.created
-                        // ).format(EXT_DATE_FORMAT)}`}
+                        subtitle={moment(post.created).format(EXT_DATE_FORMAT)}
                         body={post.body}
                         maxLen={400}
                         // mediaMiddle={

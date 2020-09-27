@@ -176,8 +176,10 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: '.2em .8em',
             transition: 'transform .4s',
             '&:hover': {
-                transform: 'scale(1.1)',
+                transform: 'scale(1.05)',
                 transition: 'transform .4s',
+                textShadow: '1px 2px 3px rgba(0, 0, 0, .06)',
+                borderRadius: '5px',
             },
         },
         fabContainer: {
@@ -265,6 +267,11 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         hover: {},
+        signature: {
+            marginLeft: 'auto',
+            marginTop: '1em',
+            fontStyle: 'italic',
+        },
     })
 );
 
