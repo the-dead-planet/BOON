@@ -7,6 +7,7 @@ import { SingleSprint } from './details/SingleSprint';
 import SprintList from './list/List';
 import ContentsList from '../navigation/ContentsList';
 import { User, Sprint, Post, Project, Comment, Like } from '../../logic/types';
+import LeftBar from '../navigation/LeftBar';
 
 interface Props {
     user: User | null | undefined;
@@ -48,60 +49,7 @@ const SprintView = ({
         <Empty />
     ) : (
         <>
-            <Hidden smDown>
-                <Box className={classes.sideCol}>
-                    <Box className={classes.navContainer}>
-                        <Typography variant="body2" className={classes.navTitle}>
-                            Highlights
-                        </Typography>
-
-                        {sprint ? (
-                            <ContentsList
-                                items={sprint.posts
-                                    .map((id) => posts.get(id))
-                                    .map((post) => ({ name: post?.title, path: post?._id }))}
-                            />
-                        ) : null}
-
-                        <Typography variant="body2" className={classes.navTitle}>
-                            Related Projects
-                        </Typography>
-
-                        {/* TODO: replace below with a list of projects */}
-                        {sprint ? (
-                            <ContentsList
-                                items={sprint.posts
-                                    .map((id) => posts.get(id))
-                                    .map((post) => ({ name: post?.title, path: post?._id }))}
-                            />
-                        ) : null}
-
-                        {/* {sprints ? <SprintList sprints={sprints} currentSprintId={sprintId} /> : null} */}
-
-                        <Typography variant="body2" className={classes.navTitle}>
-                            Add Stuff
-                        </Typography>
-
-                        {[
-                            { name: 'New sprint', path: '/add_sprint' },
-                            { name: 'New project', path: '/add_project' },
-                            { name: 'New post', path: '/add_post' },
-                        ].map((item, i) => (
-                            <Link to={item.path}>
-                                <Typography variant="body2" className={classes.navButton}>
-                                    {item.name}
-                                </Typography>
-                            </Link>
-                        ))}
-                    </Box>
-
-                    <Box className={classes.gossColContainer}>
-                        <Typography variant="h5" className={classes.gossColTitle}>
-                            _goss
-                        </Typography>
-                    </Box>
-                </Box>
-            </Hidden>
+            <LeftBar posts={posts} sprint={sprint} />
             <Box className={classes.mainContent}>
                 <SingleSprint
                     user={user}
