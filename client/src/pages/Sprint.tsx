@@ -4,7 +4,8 @@ import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import sprintsService from '../services/sprintsService';
 import AppLayout from '../layouts/AppLayout';
-import SprintView from '../components/sprint/SprintView';
+import { Loading, Empty } from '../components/Loading';
+import { SingleSprint } from '../components/sprint/details/SingleSprint';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData } from '../logic/types';
 import moment from 'moment';
@@ -107,23 +108,28 @@ const Sprint = ({
             {...notificationsProps}
         >
             {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
-            {sprintToDisplayId && (
-                <SprintView
-                    user={user}
-                    sprints={sprints}
-                    posts={posts}
-                    projects={projects}
-                    comments={comments}
-                    likes={likes}
-                    users={users}
-                    sprintId={id}
-                    addPostComment={addPostComment}
-                    addSprintComment={addSprintComment}
-                    removeObject={removeObject}
-                    onError={showError}
-                    showError={showError}
-                />
-            )}
+            {sprintToDisplayId &&
+                (!sprints ? (
+                    <Loading />
+                ) : sprints.size === 0 ? (
+                    <Empty />
+                ) : (
+                    // NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator
+                    <SingleSprint
+                        user={user}
+                        sprint={sprint}
+                        posts={posts}
+                        projects={projects}
+                        comments={comments}
+                        likes={likes}
+                        users={users}
+                        addPostComment={addPostComment}
+                        addSprintComment={addSprintComment}
+                        removeObject={removeObject}
+                        onError={showError}
+                        // showError={showError}
+                    />
+                ))}
         </AppLayout>
     );
 };
