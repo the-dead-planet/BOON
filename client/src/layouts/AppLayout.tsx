@@ -5,6 +5,7 @@ import { Hidden, Box } from '@material-ui/core';
 import ThemeWrapper from '../components/navigation/ThemeWrapper';
 import Jumbotron from '../components/navigation/Jumbotron';
 import MenuDrawer from '../components/navigation/MenuDrawer';
+import SecondaryDrawer from '../components/navigation/SecondaryDrawer';
 import NavBarLeft from '../components/navigation/NavBarLeft';
 import NavBarTop from '../components/navigation/NavBarTop';
 import { Drawer, Mode, Jumbotron as JumbotronType, User, Page, NavContent, SideColumn } from '../logic/types';
@@ -27,6 +28,9 @@ interface Props {
     setMode: any;
     navLeftContent?: NavContent;
     sideColumn?: SideColumn;
+    secondaryDrawer?: any;
+    secondaryDrawerOpen?: boolean;
+    toggleSecondaryDrawer?: any;
     pagination?: Page;
     nextId?: string;
     previousId?: string;
@@ -45,21 +49,16 @@ const AppLayout = ({
     pagination,
     navLeftContent,
     sideColumn,
+    secondaryDrawer,
+    secondaryDrawerOpen = false,
+    toggleSecondaryDrawer,
     notifications,
     onNotificationShown,
 }: Props) => {
     const classes = useStyles();
 
     // Drawer functions
-    const [open, setOpen] = useState(false);
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
+    const [openMenu, setOpenMenu] = useState(false);
 
     const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
         if (
@@ -69,7 +68,7 @@ const AppLayout = ({
             return;
         }
 
-        setOpen(open);
+        setOpenMenu(open);
     };
 
     return (
@@ -81,14 +80,26 @@ const AppLayout = ({
                     mode={mode}
                     setMode={setMode}
                     drawerVariant="persistent"
-                    open={open}
-                    handleDrawerOpen={handleDrawerOpen}
-                    handleDrawerClose={handleDrawerClose}
+                    open={false}
+                    toggleDrawer={toggleDrawer}
                     pagination={pagination}
                 />
             )}
 
-            <MenuDrawer user={user} {...drawer} mode={mode} setMode={setMode} open={open} toggleDrawer={toggleDrawer} />
+            {/* Menu drawer should include basic navigation buttons on small screens */}
+            <MenuDrawer
+                user={user}
+                {...drawer}
+                mode={mode}
+                setMode={setMode}
+                open={openMenu}
+                toggleDrawer={toggleDrawer}
+            />
+
+            {/* Secondary drawer can include additional content like comments */}
+            {secondaryDrawer && secondaryDrawerOpen && toggleSecondaryDrawer && (
+                <SecondaryDrawer user={user} open={secondaryDrawerOpen} toggleDrawer={toggleSecondaryDrawer} />
+            )}
 
             {jumbotron && <Jumbotron {...jumbotron} />}
 
@@ -96,13 +107,15 @@ const AppLayout = ({
                 className={
                     drawer && drawer.variant === 'persistent'
                         ? clsx(classes.content, {
-                              [classes.contentShift]: open,
+                              [classes.contentShift]: false,
                           })
                         : classes.contentPadding
                 }
             >
+                {/* Either display jumbotron or apply class to display contents under the NavBar */}
                 <div className={jumbotron ? classes.jumbotron : classes.drawerHeader} />
 
+                {/* Left panel serving as navigation - contents lists */}
                 {navLeftContent && (
                     <Hidden smDown>
                         <NavBarLeft contents={navLeftContent} sideColumn={sideColumn} />

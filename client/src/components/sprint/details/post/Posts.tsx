@@ -16,6 +16,7 @@ interface Props {
     removePost: any;
     removeComment: any;
     push: any;
+    toggleCommentsPanel: any;
 }
 
 // Implementation of the component. Note, that it expects to receive a `push` property from the caller. It's injected throught the `withPush` HOF below.
@@ -31,6 +32,7 @@ const PostsImpl = ({
     removeComment,
     removePost,
     push,
+    toggleCommentsPanel,
 }: Props) => (
     <PostsList
         user={user}
@@ -43,6 +45,7 @@ const PostsImpl = ({
         removePost={removePost}
         removeComment={removeComment}
         push={push}
+        toggleCommentsPanel={toggleCommentsPanel}
     />
 );
 

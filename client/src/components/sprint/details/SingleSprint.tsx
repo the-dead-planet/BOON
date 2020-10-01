@@ -19,6 +19,7 @@ interface Props {
     users: Map<string, User>;
     addPostComment: any;
     addSprintComment: any;
+    toggleCommentsPanel: any;
     removeObject: any;
     onError: any;
 }
@@ -34,6 +35,7 @@ export const SingleSprint = ({
     addPostComment,
     addSprintComment,
     removeObject,
+    toggleCommentsPanel,
     onError,
 }: Props) => {
     const classes = useStyles();
@@ -48,6 +50,7 @@ export const SingleSprint = ({
                 users={users}
                 addComment={addSprintComment}
                 removeObject={removeObject}
+                toggleCommentsPanel={toggleCommentsPanel}
                 onError={onError}
             />
             {/* <Divider className={classes.divider} /> */}
@@ -65,6 +68,7 @@ export const SingleSprint = ({
                 removeComment={(id: string, sprintId: string) =>
                     removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: sprintId })
                 }
+                toggleCommentsPanel={toggleCommentsPanel}
             />
         </>
     ) : (

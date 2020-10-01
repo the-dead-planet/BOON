@@ -6,7 +6,7 @@ import { Link } from '../../utils/Link';
 import { Grid, AppBar, Toolbar, Typography, IconButton, Hidden } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Pagination from './Pagination';
-import HideOnScroll from '../../utils/HideOnScroll';
+// import HideOnScroll from '../../utils/HideOnScroll';
 import { AuthButtonsHorizontal } from './AuthButtons';
 import { Mode, User, DrawerVariant, Page } from '../../logic/types';
 import { PATHS } from '../../constants/data';
@@ -19,22 +19,11 @@ interface Props {
     setMode: any;
     drawerVariant: DrawerVariant;
     open: boolean;
-    handleDrawerOpen: any;
-    handleDrawerClose: any;
+    toggleDrawer: any;
     pagination?: Page;
 }
 
-const NavBarTop = ({
-    user,
-    name,
-    mode,
-    setMode,
-    drawerVariant,
-    open,
-    handleDrawerOpen,
-    handleDrawerClose,
-    pagination,
-}: Props) => {
+const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawer, pagination }: Props) => {
     const classes = useStyles();
     const location = useLocation();
     const path = location.pathname;
@@ -48,7 +37,7 @@ const NavBarTop = ({
             className={
                 drawerVariant === 'persistent'
                     ? clsx(classes.appBar, {
-                          [classes.appBarShift]: open,
+                          [classes.appBarShift]: false,
                       })
                     : undefined
             }
@@ -60,7 +49,7 @@ const NavBarTop = ({
                             <IconButton
                                 color="inherit"
                                 aria-label="open drawer"
-                                onClick={handleDrawerOpen}
+                                onClick={toggleDrawer(true)}
                                 edge="start"
                                 className={
                                     drawerVariant === 'persistent'

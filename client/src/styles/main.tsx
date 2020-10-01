@@ -107,6 +107,12 @@ const useStyles = makeStyles((theme: Theme) =>
             minHeight: `${toolbarHeight * 3}px !important`,
             justifyContent: 'flex-end',
         },
+        secondaryDrawerBg: {
+            width: '100%',
+            minHeight: '100vh',
+            position: 'fixed',
+            backgroundColor: 'rgba(0, 0, 0, .13)',
+        },
         contentPadding: {
             flexGrow: 1,
             padding: theme.spacing(3),

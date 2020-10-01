@@ -18,6 +18,7 @@ interface Props {
     removeComment: any;
     removePost: any;
     push: any;
+    toggleCommentsPanel: any;
 }
 export const PostsList = ({
     user,
@@ -30,6 +31,7 @@ export const PostsList = ({
     removeComment,
     removePost,
     push,
+    toggleCommentsPanel,
 }: Props) => {
     const classes = useStyles();
     const style = { height: '100px', marginLeft: '1.1em', marginRight: '1.1em' };
@@ -67,6 +69,7 @@ export const PostsList = ({
                             addComment={addComment}
                             removeObject={removePost}
                             removeComment={removeComment}
+                            toggleCommentsPanel={toggleCommentsPanel}
                             divider={true}
                             hover={true}
                         />

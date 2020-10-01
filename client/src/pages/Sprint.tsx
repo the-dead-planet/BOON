@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
@@ -86,6 +86,20 @@ const Sprint = ({
 
     const navPlaceholder = [{ id: '', name: 'Printing...', path: '/' }];
 
+    // Secondary TODO: create a generic method and reuse for each drawer
+    const [openSecondaryDrawer, setOpenSecondaryDrawer] = useState(false);
+
+    const toggleSecondaryDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+        if (
+            event.type === 'keydown' &&
+            ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
+        ) {
+            return;
+        }
+
+        setOpenSecondaryDrawer(open);
+    };
+
     return sprintToDisplayId && sprintToDisplayId !== id ? (
         <Redirect to={`/sprints/${sprintToDisplayId}`} />
     ) : (
@@ -105,31 +119,34 @@ const Sprint = ({
                 { header: 'Add stuff', list: navAdd || navPlaceholder },
             ]}
             sideColumn={{ header: '_goss', body: '' }}
+            secondaryDrawer="a" // TODO: fill with comments from related object
+            secondaryDrawerOpen={openSecondaryDrawer}
+            toggleSecondaryDrawer={toggleSecondaryDrawer}
             {...notificationsProps}
         >
             {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
-            {sprintToDisplayId &&
-                (!sprints ? (
-                    <Loading />
-                ) : sprints.size === 0 ? (
-                    <Empty />
-                ) : (
-                    // NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator
-                    <SingleSprint
-                        user={user}
-                        sprint={sprint}
-                        posts={posts}
-                        projects={projects}
-                        comments={comments}
-                        likes={likes}
-                        users={users}
-                        addPostComment={addPostComment}
-                        addSprintComment={addSprintComment}
-                        removeObject={removeObject}
-                        onError={showError}
-                        // showError={showError}
-                    />
-                ))}
+            {!sprints ? (
+                <Loading />
+            ) : sprints.size === 0 ? (
+                <Empty />
+            ) : (
+                // NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator
+                <SingleSprint
+                    user={user}
+                    sprint={sprint}
+                    posts={posts}
+                    projects={projects}
+                    comments={comments}
+                    likes={likes}
+                    users={users}
+                    addPostComment={addPostComment}
+                    addSprintComment={addSprintComment}
+                    removeObject={removeObject}
+                    toggleCommentsPanel={toggleSecondaryDrawer}
+                    onError={showError}
+                    // showError={showError}
+                />
+            )}
         </AppLayout>
     );
 };

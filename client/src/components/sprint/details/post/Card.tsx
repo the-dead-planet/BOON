@@ -26,6 +26,7 @@ interface Props {
     addComment: any;
     removeObject: any;
     removeComment: any;
+    toggleCommentsPanel: any;
     divider?: boolean;
     hover?: boolean;
 }
@@ -49,6 +50,7 @@ export const PostCard = ({
     addComment,
     removeObject,
     removeComment,
+    toggleCommentsPanel,
     divider,
     hover,
 }: Props) => {
@@ -108,7 +110,12 @@ export const PostCard = ({
             </CardContent>
 
             <CardActions disableSpacing style={{ marginTop: 'auto' }}>
-                <ActionButtons comments={comments} likes={likes} handleExpandClick={handleExpandClick} />
+                <ActionButtons
+                    comments={comments}
+                    likes={likes}
+                    handleExpandClick={handleExpandClick}
+                    toggleCommentsPanel={toggleCommentsPanel}
+                />
                 {/* TODO: Create a single post page */}
                 {showMoreRequired && (
                     <Typography variant="caption" className={`${classes.navButton} ${classes.flexRight}`}>
