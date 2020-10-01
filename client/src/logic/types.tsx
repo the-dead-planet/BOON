@@ -314,6 +314,26 @@ interface Page {
     secondary?: string;
 }
 
+interface NavContentItem {
+    header: string;
+    list: Array<NavListItem>;
+    activeId?: string;
+}
+
+interface NavListItem {
+    id: string;
+    name: string;
+    path: string;
+    hash?: boolean; // if path is refering to an id of any of the html components on the page, use HashLink, otherwise use Link
+}
+
+type NavContent = Array<NavContentItem>;
+
+interface SideColumn {
+    header: string;
+    body: string;
+}
+
 export type {
     Children,
     DataItem,
@@ -364,4 +384,6 @@ export type {
     DataPathParent,
     DataPairs,
     Page,
+    NavContent,
+    SideColumn,
 };

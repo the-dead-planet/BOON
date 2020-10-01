@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { useStyles } from '../styles/main';
-import { BottomNav } from '../components/navigation/BottomNav';
+import { Hidden, Box } from '@material-ui/core';
 import ThemeWrapper from '../components/navigation/ThemeWrapper';
 import Jumbotron from '../components/navigation/Jumbotron';
 import MenuDrawer from '../components/navigation/MenuDrawer';
 import NavBarLeft from '../components/navigation/NavBarLeft';
 import NavBarTop from '../components/navigation/NavBarTop';
-import { Drawer, Mode, Jumbotron as JumbotronType, User, Page } from '../logic/types';
+import { Drawer, Mode, Jumbotron as JumbotronType, User, Page, NavContent, SideColumn } from '../logic/types';
 import { APP_NAME } from '../constants/data';
 import NotificationsRenderer from '../components/NotificationsRenderer';
 
@@ -25,20 +25,8 @@ interface Props {
     appBar?: boolean;
     mode: Mode;
     setMode: any;
-    navLeftContent?: Array<{
-        header: string;
-        list: Array<{
-            id: string;
-            name: string;
-            path: string;
-            hash?: boolean; // if path is refering to an id of any of the html components on the page, use HashLink, otherwise use Link
-        }>;
-        activeId?: string;
-    }>;
-    sideColumn?: {
-        header: string;
-        body: string;
-    };
+    navLeftContent?: NavContent;
+    sideColumn?: SideColumn;
     pagination?: Page;
     nextId?: string;
     previousId?: string;
@@ -115,13 +103,17 @@ const AppLayout = ({
             >
                 <div className={jumbotron ? classes.jumbotron : classes.drawerHeader} />
 
-                {navLeftContent && <NavBarLeft contents={navLeftContent} sideColumn={sideColumn} />}
+                {navLeftContent && (
+                    <Hidden smDown>
+                        <NavBarLeft contents={navLeftContent} sideColumn={sideColumn} />
+                    </Hidden>
+                )}
 
-                {children}
+                {/* Class 'mainContent' changes leftMargin to 0 in size sm */}
+                <Box className={classes.mainContent}>{children}</Box>
             </main>
 
             {/* TODO: style it nicer and allow moving to next/previous sprint */}
-            {/* <BottomNav user={user} /> */}
             <NotificationsRenderer notifications={notifications} onShown={onNotificationShown} />
         </ThemeWrapper>
     );

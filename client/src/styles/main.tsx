@@ -8,6 +8,7 @@ const header2 = require('../img/landing/header-2.jpg');
 
 // Misc const used in styles
 const drawerWidth = 240;
+const navBarLeftWidth = 200;
 const toolbarHeight = 40;
 const jumbotronHeight = '100vh';
 
@@ -220,7 +221,7 @@ const useStyles = makeStyles((theme: Theme) =>
         horizontal: {},
         sideCol: {
             position: 'absolute',
-            width: '200px',
+            width: `${navBarLeftWidth}px`,
             [theme.breakpoints.down('sm')]: {
                 display: 'none',
                 visibility: 'hidden',
@@ -242,7 +243,7 @@ const useStyles = makeStyles((theme: Theme) =>
             textTransform: 'uppercase',
         },
         mainContent: {
-            marginLeft: '210px',
+            marginLeft: `calc(${navBarLeftWidth}px + 10px)`,
             top: 0,
             [theme.breakpoints.down('sm')]: {
                 marginLeft: 0,

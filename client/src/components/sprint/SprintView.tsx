@@ -1,10 +1,7 @@
 import React from 'react';
-import { useStyles } from '../../styles/main';
-import { Box } from '@material-ui/core';
+// import { useStyles } from '../../styles/main';
 import { Loading, Empty } from '../Loading';
 import { SingleSprint } from './details/SingleSprint';
-import SprintList from './list/List';
-import ContentsList from '../navigation/ContentsList';
 import { User, Sprint, Post, Project, Comment, Like } from '../../logic/types';
 
 interface Props {
@@ -24,7 +21,7 @@ interface Props {
 }
 
 const SprintView = (props: Props) => {
-    const classes = useStyles();
+    // const classes = useStyles();
     const { sprints, sprintId } = props;
     const sprint = sprints ? sprints.get(sprintId) : undefined;
 
@@ -33,10 +30,8 @@ const SprintView = (props: Props) => {
     ) : sprints.size === 0 ? (
         <Empty />
     ) : (
-        <Box className={classes.mainContent}>
-            {/* NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator */}
-            <SingleSprint sprint={sprint} {...props} />
-        </Box>
+        // NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator
+        <SingleSprint sprint={sprint} {...props} />
     );
 };
 
