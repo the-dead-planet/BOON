@@ -1,7 +1,6 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
-import { Link } from '../../utils/Link';
-import { Typography, Hidden, Box, Grid, Divider } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { Loading, Empty } from '../Loading';
 import { SingleSprint } from './details/SingleSprint';
 import SprintList from './list/List';
@@ -24,22 +23,9 @@ interface Props {
     showError: any;
 }
 
-const SprintView = ({
-    user,
-    sprints,
-    projects,
-    posts,
-    comments,
-    likes,
-    users,
-    sprintId,
-    addPostComment,
-    addSprintComment,
-    removeObject,
-    onError,
-    showError,
-}: Props) => {
+const SprintView = (props: Props) => {
     const classes = useStyles();
+    const { sprints, sprintId } = props;
     const sprint = sprints ? sprints.get(sprintId) : undefined;
 
     return !sprints ? (
@@ -47,77 +33,10 @@ const SprintView = ({
     ) : sprints.size === 0 ? (
         <Empty />
     ) : (
-        <>
-            <Hidden smDown>
-                <Box className={classes.sideCol}>
-                    <Box className={classes.navContainer}>
-                        <Typography variant="body2" className={classes.navTitle}>
-                            Highlights
-                        </Typography>
-
-                        {sprint ? (
-                            <ContentsList
-                                items={sprint.posts
-                                    .map((id) => posts.get(id))
-                                    .map((post) => ({ name: post?.title, path: post?._id }))}
-                            />
-                        ) : null}
-
-                        <Typography variant="body2" className={classes.navTitle}>
-                            Related Projects
-                        </Typography>
-
-                        {/* TODO: replace below with a list of projects */}
-                        {sprint ? (
-                            <ContentsList
-                                items={sprint.posts
-                                    .map((id) => posts.get(id))
-                                    .map((post) => ({ name: post?.title, path: post?._id }))}
-                            />
-                        ) : null}
-
-                        {/* {sprints ? <SprintList sprints={sprints} currentSprintId={sprintId} /> : null} */}
-
-                        <Typography variant="body2" className={classes.navTitle}>
-                            Add Stuff
-                        </Typography>
-
-                        {[
-                            { name: 'New sprint', path: '/add_sprint' },
-                            { name: 'New project', path: '/add_project' },
-                            { name: 'New post', path: '/add_post' },
-                        ].map((item, i) => (
-                            <Link to={item.path}>
-                                <Typography variant="body2" className={classes.navButton}>
-                                    {item.name}
-                                </Typography>
-                            </Link>
-                        ))}
-                    </Box>
-
-                    <Box className={classes.gossColContainer}>
-                        <Typography variant="h5" className={classes.gossColTitle}>
-                            _goss
-                        </Typography>
-                    </Box>
-                </Box>
-            </Hidden>
-            <Box className={classes.mainContent}>
-                <SingleSprint
-                    user={user}
-                    sprint={sprint}
-                    projects={projects}
-                    posts={posts}
-                    comments={comments}
-                    likes={likes}
-                    users={users}
-                    addPostComment={addPostComment}
-                    addSprintComment={addSprintComment}
-                    removeObject={removeObject}
-                    onError={onError}
-                />
-            </Box>
-        </>
+        <Box className={classes.mainContent}>
+            {/* NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator */}
+            <SingleSprint sprint={sprint} {...props} />
+        </Box>
     );
 };
 

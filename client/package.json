@@ -79,6 +79,7 @@
         ]
     },
     "devDependencies": {
+        "css-mediaquery": "^0.1.2",
         "intersection-observer": "^0.11.0",
         "jest-extended": "^0.11.5",
         "jest-matcher-utils": "^25.3.0"
