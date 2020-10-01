@@ -37,7 +37,7 @@ const Teams = ({
     notificationsProps,
     showError,
 }: SprintProps & WithShowErrorInjectedProps) => {
-    const { id } = useParams();
+    const { id }: { id: string } = useParams();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
 
     let sprintToDisplayId = id;
@@ -80,9 +80,9 @@ const Teams = ({
             setMode={setMode}
             appBar={true}
             {...notificationsProps}
-            page={{
-                name: `Team ${sprint?.number || ''}`,
-                date: moment(sprint?.dateTo).format(MONTH_YEAR_FORMAT),
+            pagination={{
+                primary: `Team ${sprint?.number || ''}`,
+                secondary: moment(sprint?.dateTo).format(MONTH_YEAR_FORMAT),
             }}
         >
             {/* TODO:  */}

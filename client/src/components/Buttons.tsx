@@ -63,7 +63,6 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError, removeO
 };
 
 export const IconDelete = ({ user, model, object, push, onError, removeObject }: DeleteProps) => {
-    console.log(object);
     return user && object && (object as any).author === user._id ? (
         <DeleteIcon
             fontSize="small"
@@ -78,7 +77,6 @@ export const IconDelete = ({ user, model, object, push, onError, removeObject }:
                     .reduce((acc, val) => (val.name === model ? val : acc))
                     .service.delete(extendedData)
                     .then((response) => {
-                        console.log(response);
                         removeObject(response.data);
                     })
                     .catch(onError);

@@ -1,23 +1,24 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
 import { Grid, Toolbar, Typography } from '@material-ui/core';
+import { Page } from '../../logic/types';
 
 interface Props {
-    name?: string;
-    date?: string;
+    left: string;
+    right?: string;
 }
 
-const Pagination = ({ name, date }: Props) => {
+const Pagination = ({ primary, secondary }: Page) => {
     const classes = useStyles();
 
     return (
         <Toolbar className={classes.toolbar}>
             <Grid container justify="space-between" className={classes.pagination}>
                 <Typography variant="h6" noWrap>
-                    {name}
+                    {primary}
                 </Typography>
                 <Typography variant="h6" noWrap>
-                    {date}
+                    {secondary || '-'}
                 </Typography>
             </Grid>
         </Toolbar>

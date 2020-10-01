@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import sprintsService from '../services/sprintsService';
 import AppLayout from '../layouts/AppLayout';
-import SprintView from '../components/sprint/SprintView';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData } from '../logic/types';
 import moment from 'moment';
@@ -37,7 +36,7 @@ const Project = ({
     notificationsProps,
     showError,
 }: SprintProps & WithShowErrorInjectedProps) => {
-    const { id } = useParams();
+    const { id }: { id: string } = useParams();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
 
     let sprintToDisplayId = id;
@@ -80,9 +79,9 @@ const Project = ({
             setMode={setMode}
             appBar={true}
             {...notificationsProps}
-            page={{
-                name: `Project ${sprint?.number || ''}`,
-                date: moment(sprint?.dateTo).format(MONTH_YEAR_FORMAT),
+            pagination={{
+                primary: `Project ${sprint?.number || ''}`,
+                secondary: moment(sprint?.dateTo).format(MONTH_YEAR_FORMAT),
             }}
         >
             {/* TODO:  */}

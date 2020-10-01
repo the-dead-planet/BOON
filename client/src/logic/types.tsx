@@ -310,8 +310,8 @@ type DataPairs =
     | { parent: undefined; child: 'teams'; parentId?: string; childId: string };
 
 interface Page {
-    name: string;
-    date: string;
+    primary: string;
+    secondary?: string;
 }
 
 export type {

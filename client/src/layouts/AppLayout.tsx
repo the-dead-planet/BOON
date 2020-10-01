@@ -5,7 +5,8 @@ import { BottomNav } from '../components/navigation/BottomNav';
 import ThemeWrapper from '../components/navigation/ThemeWrapper';
 import Jumbotron from '../components/navigation/Jumbotron';
 import MenuDrawer from '../components/navigation/MenuDrawer';
-import NavBar from '../components/navigation/NavBar';
+import NavBarLeft from '../components/navigation/NavBarLeft';
+import NavBarTop from '../components/navigation/NavBarTop';
 import { Drawer, Mode, Jumbotron as JumbotronType, User, Page } from '../logic/types';
 import { APP_NAME } from '../constants/data';
 import NotificationsRenderer from '../components/NotificationsRenderer';
@@ -24,7 +25,17 @@ interface Props {
     appBar?: boolean;
     mode: Mode;
     setMode: any;
-    page?: Page;
+    navLeftContent?: Array<{
+        header: string;
+        list: Array<{
+            id: string;
+            name: string;
+            path: string;
+            hash?: boolean; // if path is refering to an id of any of the html components on the page, use HashLink, otherwise use Link
+        }>;
+        activeId?: string;
+    }>;
+    pagination?: Page;
     nextId?: string;
     previousId?: string;
     notifications: any;
@@ -39,7 +50,8 @@ const AppLayout = ({
     appBar,
     mode,
     setMode,
-    page,
+    pagination,
+    navLeftContent,
     notifications,
     onNotificationShown,
 }: Props) => {
@@ -70,7 +82,7 @@ const AppLayout = ({
     return (
         <ThemeWrapper mode={mode}>
             {appBar && (
-                <NavBar
+                <NavBarTop
                     user={user}
                     name={APP_NAME}
                     mode={mode}
@@ -79,7 +91,7 @@ const AppLayout = ({
                     open={open}
                     handleDrawerOpen={handleDrawerOpen}
                     handleDrawerClose={handleDrawerClose}
-                    page={page}
+                    pagination={pagination}
                 />
             )}
 
@@ -97,6 +109,8 @@ const AppLayout = ({
                 }
             >
                 <div className={jumbotron ? classes.jumbotron : classes.drawerHeader} />
+
+                {navLeftContent && <NavBarLeft contents={navLeftContent} />}
 
                 {children}
             </main>

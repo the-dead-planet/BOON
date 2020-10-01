@@ -154,6 +154,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         selected: {
             backgroundColor: 'rgba(0, 0, 0, .03) !important',
+            fontStyle: 'italic',
         },
         pagination: {
             borderTop: `solid 2px ${theme.palette.primary.light}`,

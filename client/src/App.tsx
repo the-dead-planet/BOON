@@ -40,7 +40,7 @@ class App extends Component<{}, StateType> {
 
     render() {
         const { whoamiRequestDone, user, notifications } = this.state;
-        console.log(this.state.data);
+
         // Each function in the `State` module should be wrapped in `setState`
         // and passed `state` as the first argument.
         // Build a HOF performing these 2 steps to reduce boilerplate.

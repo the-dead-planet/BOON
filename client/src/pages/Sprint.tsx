@@ -5,7 +5,7 @@ import { withPush } from '../utils/routingDecorators';
 import sprintsService from '../services/sprintsService';
 import AppLayout from '../layouts/AppLayout';
 import SprintView from '../components/sprint/SprintView';
-import LeftBar from '../components/navigation/LeftBar';
+import NavBarLeft from '../components/navigation/NavBarLeft';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData } from '../logic/types';
 import moment from 'moment';
@@ -82,33 +82,35 @@ const Sprint = ({
             mode={mode}
             setMode={setMode}
             appBar={true}
-            {...notificationsProps}
-            page={{
-                name: `Sprint ${sprint?.number || ''}`,
-                date: moment(sprint?.dateTo).format(MONTH_YEAR_FORMAT),
+            pagination={{
+                primary: `Sprint ${sprint?.number || ''}`,
+                secondary: moment(sprint?.dateTo).format(MONTH_YEAR_FORMAT),
             }}
+            navLeftContent={[
+                { header: 'Highlights', list: [{ id: '', name: '1', path: '/' }] },
+                { header: 'Related projects', list: [{ id: '', name: '1', path: '/' }] },
+                { header: 'Add stuff', list: [{ id: '', name: '1', path: '/' }] },
+            ]}
+            {...notificationsProps}
         >
             {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
-            <>
-                <LeftBar posts={posts} sprint={sprints.get(id)} />
-                {sprintToDisplayId && (
-                    <SprintView
-                        user={user}
-                        sprints={sprints}
-                        posts={posts}
-                        projects={projects}
-                        comments={comments}
-                        likes={likes}
-                        users={users}
-                        sprintId={id}
-                        addPostComment={addPostComment}
-                        addSprintComment={addSprintComment}
-                        removeObject={removeObject}
-                        onError={showError}
-                        showError={showError}
-                    />
-                )}
-            </>
+            {sprintToDisplayId && (
+                <SprintView
+                    user={user}
+                    sprints={sprints}
+                    posts={posts}
+                    projects={projects}
+                    comments={comments}
+                    likes={likes}
+                    users={users}
+                    sprintId={id}
+                    addPostComment={addPostComment}
+                    addSprintComment={addSprintComment}
+                    removeObject={removeObject}
+                    onError={showError}
+                    showError={showError}
+                />
+            )}
         </AppLayout>
     );
 };

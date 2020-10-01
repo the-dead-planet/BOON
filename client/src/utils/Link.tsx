@@ -39,3 +39,18 @@ export const HashLink = ({ children, ...props }: HashProps) => (
         {children}
     </RouterHashLink>
 );
+
+interface LinkComponentProps {
+    hash: boolean;
+    children: Children;
+    to: string;
+    className?: any;
+    smooth?: boolean;
+}
+
+export const LinkComponent = ({ hash, ...props }: LinkComponentProps) => {
+    const { children, ...linkProps } = props;
+    const Component = hash ? HashLink : Link;
+
+    return <Component {...linkProps}>{children}</Component>;
+};

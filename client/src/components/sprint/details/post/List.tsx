@@ -59,10 +59,7 @@ export const PostsList = ({
                                     name: 'Go to related project',
                                     path: `/projects/${
                                         [...projects.entries()]
-                                            .filter(([projectId, proj]) => {
-                                                console.log(proj.posts, post._id);
-                                                return proj.posts.includes(post._id);
-                                            })
+                                            .filter(([projectId, proj]) => proj.posts.includes(post._id))
                                             .flat()[0] || ''
                                     }`,
                                 },

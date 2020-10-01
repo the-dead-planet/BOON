@@ -21,10 +21,10 @@ interface Props {
     open: boolean;
     handleDrawerOpen: any;
     handleDrawerClose: any;
-    page?: Page;
+    pagination?: Page;
 }
 
-const NavBar = ({
+const NavBarTop = ({
     user,
     name,
     mode,
@@ -33,7 +33,7 @@ const NavBar = ({
     open,
     handleDrawerOpen,
     handleDrawerClose,
-    page,
+    pagination,
 }: Props) => {
     const classes = useStyles();
     const location = useLocation();
@@ -115,10 +115,10 @@ const NavBar = ({
                 </Grid>
             </Toolbar>
 
-            <Pagination name={page?.name} date={page?.date} />
+            <Pagination primary={pagination?.primary || '-'} secondary={pagination?.secondary || '-'} />
         </AppBar>
         // </HideOnScroll>
     );
 };
 
-export default NavBar;
+export default NavBarTop;
