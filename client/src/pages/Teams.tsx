@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import sprintsService from '../services/sprintsService';
 import AppLayout from '../layouts/AppLayout';
-import SprintView from '../components/sprint/SprintView';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData } from '../logic/types';
 import moment from 'moment';
