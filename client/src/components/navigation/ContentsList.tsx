@@ -18,7 +18,7 @@ const ContentsList = ({ title, items }: Props) => {
             {title && <ListItem className={classes.bold}>{title}</ListItem>}
 
             {items.map((item, i) => (
-                <HashLink key={`link-item-${i}`} to={`#${item.path}` || '/'} smooth={true}>
+                <HashLink key={`link-item-${i}`} to={`#${item.path}` || '/'}>
                     <ListItem key={`item-${i}`} className={classes.pageNavList} button>
                         <Typography key={`item-text-${i}`} variant="body2" title={item.name} gutterBottom noWrap>
                             {item.name}

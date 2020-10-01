@@ -34,7 +34,7 @@ const Header = ({ user, mode, setMode, title, subtitle, button }: Landing) => {
                 <li></li>
             </ul>
 
-            <HashLink to="#main-content" smooth={true}>
+            <HashLink to="#main-content">
                 <img className={classes.headerDownArrow} src={arrow} width="50" />
             </HashLink>
         </Box>

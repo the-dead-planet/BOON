@@ -26,29 +26,20 @@ export const Link = ({ children, ...props }: Props) => (
     </RouterLink>
 );
 
-// Hashlinks are used in navigation components which scroll the page to a given #id
-interface HashProps {
-    children: Children;
-    to: string;
-    className?: any;
-    smooth?: boolean;
-}
-
-export const HashLink = ({ children, ...props }: HashProps) => (
-    <RouterHashLink style={styles} {...props}>
+export const HashLink = ({ children, ...props }: Props) => (
+    <RouterHashLink style={styles} smooth={true} {...props}>
         {children}
     </RouterHashLink>
 );
 
-interface LinkComponentProps {
+interface LinkProps {
     hash: boolean;
     children: Children;
     to: string;
     className?: any;
-    smooth?: boolean;
 }
 
-export const LinkComponent = ({ hash, ...props }: LinkComponentProps) => {
+export const LinkComponent = ({ hash, ...props }: LinkProps) => {
     const { children, ...linkProps } = props;
     const Component = hash ? HashLink : Link;
 

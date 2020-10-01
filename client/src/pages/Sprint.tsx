@@ -74,6 +74,18 @@ const Sprint = ({
     // Get current sprint
     const sprint = sprints.get(id);
 
+    const navPosts = sprint?.posts
+        .map((id) => posts.get(id))
+        .map((post) => ({ hash: true, id: post?._id || '', name: post?.title || '', path: `#${post?._id}` || '#' }));
+
+    const navAdd = [
+        { id: 'new-sprint', name: 'New sprint', path: '/add_sprint' },
+        { id: 'new-project', name: 'New project', path: '/add_project' },
+        { id: 'new-post', name: 'New post', path: '/add_post' },
+    ];
+
+    const navPlaceholder = [{ id: '', name: 'Printing...', path: '/' }];
+
     return sprintToDisplayId && sprintToDisplayId !== id ? (
         <Redirect to={`/sprints/${sprintToDisplayId}`} />
     ) : (
@@ -87,9 +99,10 @@ const Sprint = ({
                 secondary: moment(sprint?.dateTo).format(MONTH_YEAR_FORMAT),
             }}
             navLeftContent={[
-                { header: 'Highlights', list: [{ id: '', name: '1', path: '/' }] },
-                { header: 'Related projects', list: [{ id: '', name: '1', path: '/' }] },
-                { header: 'Add stuff', list: [{ id: '', name: '1', path: '/' }] },
+                { header: 'Highlights', list: navPosts || navPlaceholder },
+                // TODO: Get a list of projects related to the posts related to currently displayed sprint
+                { header: 'Related projects', list: navPosts || navPlaceholder },
+                { header: 'Add stuff', list: navAdd || navPlaceholder },
             ]}
             {...notificationsProps}
         >
