@@ -79,7 +79,7 @@ const NavBar = ({
                                     { name: ' - Projects - ', path: projects },
                                     { name: ' - Teams - ', path: teams },
                                 ].map((item, i) => (
-                                    <Link to={item.path}>
+                                    <Link key={i} to={item.path}>
                                         <Typography
                                             variant="body1"
                                             color={i === 0 ? 'secondary' : 'inherit'}

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { useStyles } from '../../../../styles/main';
-import { Grid, CardMedia, Divider, Typography } from '@material-ui/core';
+import { Grid, CardMedia, Typography } from '@material-ui/core';
 import { PostCard } from './Card';
 import moment from 'moment';
 import { EXT_DATE_FORMAT } from '../../../../utils/constants';
@@ -37,7 +37,7 @@ export const PostsList = ({
     return (
         <Grid container spacing={1}>
             {posts.map((post: Post, i: number) => (
-                <>
+                <Fragment key={i}>
                     <Grid item xs={12} sm={6} md={4} lg={3} xl={2} className={classes.postContainer}>
                         <PostCard
                             key={`${post._id}-${i}`}
@@ -99,7 +99,7 @@ export const PostsList = ({
                             </Typography>
                         </Grid>
                     )}
-                </>
+                </Fragment>
             ))}
         </Grid>
     );

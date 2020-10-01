@@ -21,17 +21,17 @@ export const CardMenu = ({ user, model, _id, object, anchorEl, handleMenuClose, 
         <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose}>
             {/* TODO: implement action to go to projects page and change state for current project */}
             {menuItems.map((item, i) => (
-                <Link key={i} to={item.path || '/'}>
-                    <MenuItem
-                        key={i}
-                        onClick={() => {
-                            // item.onClick();
-                            handleMenuClose();
-                        }}
-                    >
+                <MenuItem
+                    key={i}
+                    onClick={() => {
+                        // item.onClick();
+                        handleMenuClose();
+                    }}
+                >
+                    <Link key={i} to={item.path || '/'}>
                         {item.name}
-                    </MenuItem>
-                </Link>
+                    </Link>
+                </MenuItem>
             ))}
 
             {/* Delete button will be visible only if object author is the same as logged in user */}
