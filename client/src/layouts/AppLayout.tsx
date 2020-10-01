@@ -35,6 +35,10 @@ interface Props {
         }>;
         activeId?: string;
     }>;
+    sideColumn?: {
+        header: string;
+        body: string;
+    };
     pagination?: Page;
     nextId?: string;
     previousId?: string;
@@ -52,6 +56,7 @@ const AppLayout = ({
     setMode,
     pagination,
     navLeftContent,
+    sideColumn,
     notifications,
     onNotificationShown,
 }: Props) => {
@@ -110,7 +115,7 @@ const AppLayout = ({
             >
                 <div className={jumbotron ? classes.jumbotron : classes.drawerHeader} />
 
-                {navLeftContent && <NavBarLeft contents={navLeftContent} />}
+                {navLeftContent && <NavBarLeft contents={navLeftContent} sideColumn={sideColumn} />}
 
                 {children}
             </main>

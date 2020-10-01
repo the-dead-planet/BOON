@@ -104,6 +104,7 @@ const Sprint = ({
                 { header: 'Related projects', list: navPosts || navPlaceholder },
                 { header: 'Add stuff', list: navAdd || navPlaceholder },
             ]}
+            sideColumn={{ header: '_goss', body: '' }}
             {...notificationsProps}
         >
             {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}

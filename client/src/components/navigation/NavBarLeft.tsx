@@ -18,10 +18,14 @@ interface NavBarLeftProps {
         }>;
         activeId?: string;
     }>;
+    sideColumn?: {
+        header: string;
+        body: string;
+    };
 }
 
 // A temporary component that is going to be implemented in Layout in the long run.
-const NavBarLeft = ({ contents }: NavBarLeftProps) => {
+const NavBarLeft = ({ contents, sideColumn }: NavBarLeftProps) => {
     const classes = useStyles();
 
     return (
@@ -52,50 +56,17 @@ const NavBarLeft = ({ contents }: NavBarLeftProps) => {
                 </Box>
 
                 {/* Additional / optional column under the navigation panel */}
-                <Box className={classes.gossColContainer}>
-                    <Typography variant="h5" className={classes.gossColTitle}>
-                        _goss
-                    </Typography>
-                </Box>
+                {sideColumn && (
+                    <Box className={classes.gossColContainer}>
+                        <Typography variant="h5" className={classes.gossColTitle}>
+                            {sideColumn.header}
+                        </Typography>
+                        <Typography variant="body2">{sideColumn.body}</Typography>
+                    </Box>
+                )}
             </Box>
         </Hidden>
     );
 };
 
 export default NavBarLeft;
-
-// {sprint ? (
-//     <ContentsList
-//         items={sprint.posts
-//             .map((id) => posts.get(id))
-//             .map((post) => ({ name: post?.title, path: post?._id }))}
-//     />
-// ) : null}
-
-// <Typography variant="body2" className={classes.navTitle}>
-//     Related Projects
-// </Typography>
-
-// {sprint ? (
-//     <ContentsList
-//         items={sprint.posts
-//             .map((id) => posts.get(id))
-//             .map((post) => ({ name: post?.title, path: post?._id }))}
-//     />
-// ) : null}
-
-// <Typography variant="body2" className={classes.navTitle}>
-//     Add Stuff
-// </Typography>
-
-// {[
-//     { name: 'New sprint', path: '/add_sprint' },
-//     { name: 'New project', path: '/add_project' },
-//     { name: 'New post', path: '/add_post' },
-// ].map((item, i) => (
-// <Link key={i} to={item.path}>
-//     <Typography variant="body2" className={classes.navButton}>
-//         {item.name}
-//     </Typography>
-// </Link>
-// ))}
