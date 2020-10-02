@@ -19,13 +19,12 @@ const SecondaryDrawer = ({ user, open, toggleDrawer }: Props) => {
             {open && <div className={classes.secondaryDrawerBg} onClick={toggleDrawer(false)} />}
             {/* TODO: repair css to transition nicely */}
             <Drawer
-                className={classes.drawer}
+                className={classes.drawerSecondary}
                 variant="persistent"
-                anchor="right" // TODO: on small screen change this to 'bottom' - also update className, or create a bottom drawer and use Hidden component
+                anchor="right"
                 open={open}
-                onClose={toggleDrawer(false)}
                 classes={{
-                    paper: classes.drawerPaper,
+                    paper: classes.drawerSecondaryPaper,
                 }}
             >
                 <div className={classes.drawerHeader}>

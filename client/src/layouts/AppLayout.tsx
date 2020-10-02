@@ -97,7 +97,7 @@ const AppLayout = ({
             />
 
             {/* Secondary drawer can include additional content like comments */}
-            {secondaryDrawer && secondaryDrawerOpen && toggleSecondaryDrawer && (
+            {secondaryDrawer && (
                 <SecondaryDrawer user={user} open={secondaryDrawerOpen} toggleDrawer={toggleSecondaryDrawer} />
             )}
 
