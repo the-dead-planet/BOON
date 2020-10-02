@@ -252,13 +252,18 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         panelButton: {
             padding: '.2em .8em',
+            // transition: "background-color .6s ease-out, color .1s ease-out",
             '&:hover': {
-                backgroundColor: theme.palette.primary.light,
-                color: theme.palette.primary.contrastText,
+                // backgroundColor: theme.palette.primary.light,
+                // color: theme.palette.primary.contrastText,
+                backgroundColor: 'rgba(0, 0, 0, .06)',
+                // transition: "background-color .6s ease-out, color .1s ease-out",
             },
             '&:active': {
-                backgroundColor: theme.palette.primary.main,
-                color: theme.palette.primary.contrastText,
+                // backgroundColor: theme.palette.primary.main,
+                // color: theme.palette.primary.contrastText,
+                backgroundColor: 'rgba(0, 0, 0, .1)',
+                // transition: "background-color .1s ease-out, color .6s ease-out",
             },
         },
         navContainer: {
