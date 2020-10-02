@@ -8,7 +8,18 @@ import MenuDrawer from '../components/navigation/MenuDrawer';
 import SecondaryDrawer from '../components/navigation/SecondaryDrawer';
 import NavBarLeft from '../components/navigation/NavBarLeft';
 import NavBarTop from '../components/navigation/NavBarTop';
-import { Drawer, Mode, Jumbotron as JumbotronType, User, Page, NavContent, SideColumn } from '../logic/types';
+import {
+    Drawer,
+    Mode,
+    Jumbotron as JumbotronType,
+    User,
+    Page,
+    NavContent,
+    SideColumn,
+    MongoObject,
+    Model,
+    Comment as CommentType,
+} from '../logic/types';
 import { APP_NAME } from '../constants/data';
 import NotificationsRenderer from '../components/NotificationsRenderer';
 
@@ -31,6 +42,7 @@ interface Props {
     secondaryDrawer?: any;
     secondaryDrawerOpen?: boolean;
     toggleSecondaryDrawer?: any;
+    secondaryDrawerContent?: any;
     pagination?: Page;
     nextId?: string;
     previousId?: string;
@@ -52,6 +64,7 @@ const AppLayout = ({
     secondaryDrawer,
     secondaryDrawerOpen = false,
     toggleSecondaryDrawer,
+    secondaryDrawerContent,
     notifications,
     onNotificationShown,
 }: Props) => {
@@ -98,7 +111,9 @@ const AppLayout = ({
 
             {/* Secondary drawer can include additional content like comments */}
             {secondaryDrawer && (
-                <SecondaryDrawer user={user} open={secondaryDrawerOpen} toggleDrawer={toggleSecondaryDrawer} />
+                <SecondaryDrawer user={user} open={secondaryDrawerOpen} toggleDrawer={toggleSecondaryDrawer}>
+                    {secondaryDrawerContent}
+                </SecondaryDrawer>
             )}
 
             {jumbotron && <Jumbotron {...jumbotron} />}

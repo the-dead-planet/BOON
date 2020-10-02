@@ -25,26 +25,26 @@ const anyProps: any = {};
 const CommentsImpl = ({ expanded, user, object, model, comments, users, addComment, removeComment, push }: Props) => {
     return (
         <Box id="comments">
-            <CollapsePanel expanded={expanded} title="Comments">
-                <Box>
-                    <CommentsList
-                        user={user}
-                        comments={comments}
-                        users={users}
-                        push={push}
-                        removeComment={removeComment}
-                        {...anyProps}
-                    />
-                    <AddComment
-                        user={user}
-                        _id={object._id}
-                        model={model}
-                        addComment={addComment}
-                        push={push}
-                        {...anyProps}
-                    />
-                </Box>
-            </CollapsePanel>
+            {/* <CollapsePanel expanded={expanded} title="Comments"> */}
+            <Box>
+                <AddComment
+                    user={user}
+                    _id={object._id}
+                    model={model}
+                    addComment={addComment}
+                    push={push}
+                    {...anyProps}
+                />
+                <CommentsList
+                    user={user}
+                    comments={comments}
+                    users={users}
+                    push={push}
+                    removeComment={removeComment}
+                    {...anyProps}
+                />
+            </Box>
+            {/* </CollapsePanel> */}
         </Box>
     );
 };

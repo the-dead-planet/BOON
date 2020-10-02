@@ -6,6 +6,7 @@ import sprintsService from '../services/sprintsService';
 import AppLayout from '../layouts/AppLayout';
 import { Loading, Empty } from '../components/Loading';
 import { SingleSprint } from '../components/sprint/details/SingleSprint';
+import { CommentsSection } from '../components/CommentsSection';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData } from '../logic/types';
 import moment from 'moment';
@@ -121,6 +122,21 @@ const Sprint = ({
             sideColumn={{ header: '_goss', body: '' }}
             secondaryDrawer="a" // TODO: fill with comments from related object
             secondaryDrawerOpen={openSecondaryDrawer}
+            secondaryDrawerContent={
+                sprint && (
+                    <CommentsSection
+                        expanded={true}
+                        user={user}
+                        object={sprint}
+                        comments={sprint?.comments.map((id) => comments.get(id))}
+                        users={users}
+                        addComment={addSprintComment}
+                        removeComment={(id: string, sprintId: string) =>
+                            removeObject({ child: 'comments', childId: id, parent: 'sprints', parentId: sprintId })
+                        }
+                    />
+                )
+            }
             toggleSecondaryDrawer={toggleSecondaryDrawer}
             {...notificationsProps}
         >

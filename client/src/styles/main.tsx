@@ -8,7 +8,7 @@ const header2 = require('../img/landing/header-2.jpg');
 
 // Misc const used in styles
 const drawerWidth = 240;
-const drawerSecondaryWidth = 350;
+const drawerSecondaryWidth = 400;
 const navBarLeftWidth = 200;
 const toolbarHeight = 40;
 const jumbotronHeight = '100vh';
@@ -117,16 +117,20 @@ const useStyles = makeStyles((theme: Theme) =>
         drawerSecondaryPaper: {
             maxWidth: '100%',
             width: drawerSecondaryWidth,
+            boxShadow: `0 4px 12px ${theme.palette.primary.light} !important`,
+            // backgroundColor: theme.palette.primary.main,
+            // color: theme.palette.primary.contrastText,
         },
         secondaryDrawerBg: {
             width: '100%',
             minHeight: '100vh',
             position: 'fixed',
-            backgroundColor: 'rgba(0, 0, 0, .13)',
+            backgroundColor: theme.palette.primary.main,
+            opacity: 0.1,
             cursor: 'pointer',
             display: 'block',
             boxSizing: 'border-box',
-            opacity: 1,
+            // opacity: 1,
             pointerEvents: 'all',
             zIndex: 10,
         },

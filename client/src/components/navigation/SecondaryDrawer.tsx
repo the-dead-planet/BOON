@@ -1,18 +1,20 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
-import { Drawer, Divider, IconButton, Typography } from '@material-ui/core';
+import { Drawer, Grid, Divider, Typography, IconButton } from '@material-ui/core';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { User } from '../../logic/types';
+import { User, Children } from '../../logic/types';
 
 interface Props {
     user: User;
     open: boolean;
     toggleDrawer: any;
+    children?: Children;
 }
 
 // This component can be either temporary or persistent. By default temporary. use prop 'variant' to change to "persistent"
-const SecondaryDrawer = ({ user, open, toggleDrawer }: Props) => {
+const SecondaryDrawer = ({ user, open, toggleDrawer, children }: Props) => {
     const classes = useStyles();
+    const anyProps: any = {};
 
     return (
         <>
@@ -27,15 +29,18 @@ const SecondaryDrawer = ({ user, open, toggleDrawer }: Props) => {
                     paper: classes.drawerSecondaryPaper,
                 }}
             >
-                <div className={classes.drawerHeader}>
+                <Grid container justify="space-between">
+                    <Typography color="secondary" variant="h6">
+                        Opinions
+                    </Typography>
                     <IconButton onClick={toggleDrawer(false)}>
-                        <ChevronRightIcon />
+                        <ChevronRightIcon color="inherit" />
                     </IconButton>
-                </div>
+                </Grid>
 
                 <Divider />
 
-                <Typography>Comments section</Typography>
+                {children}
             </Drawer>
         </>
     );
