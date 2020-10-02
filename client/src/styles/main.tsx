@@ -250,6 +250,17 @@ const useStyles = makeStyles((theme: Theme) =>
                 visibility: 'hidden',
             },
         },
+        panelButton: {
+            padding: '.2em .8em',
+            '&:hover': {
+                backgroundColor: theme.palette.primary.light,
+                color: theme.palette.primary.contrastText,
+            },
+            '&:active': {
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.primary.contrastText,
+            },
+        },
         navContainer: {
             padding: 0,
             width: '100%',

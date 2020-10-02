@@ -18,7 +18,7 @@ const createTheme = (type: Mode) => {
         palette: {
             type: type,
             primary: {
-                light: 'rgba(37, 36, 34, .6)', // light is the same color as main but with less opacity
+                light: 'rgba(37, 36, 34, .8)', // light is the same color as main but with less opacity
                 main: 'rgba(37, 36, 34)',
                 dark: '#252422',
                 contrastText: 'rgba(255, 255, 255, .87)',

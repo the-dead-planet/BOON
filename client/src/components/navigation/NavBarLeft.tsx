@@ -27,7 +27,7 @@ const NavBarLeft = ({ contents, sideColumn }: NavBarLeftProps) => {
                             <LinkComponent key={i} hash={item.hash || false} to={item.path}>
                                 <Typography
                                     variant="body2"
-                                    className={`${classes.navButton} ${
+                                    className={`${classes.panelButton} ${
                                         item.id === content.activeId ? classes.selected : undefined
                                     }`}
                                 >
