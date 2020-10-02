@@ -128,11 +128,12 @@ const Sprint = ({
                         expanded={true}
                         user={user}
                         object={sprint}
+                        model="Sprint"
                         comments={sprint?.comments.map((id) => comments.get(id))}
                         users={users}
                         addComment={addSprintComment}
-                        removeComment={(id: string, sprintId: string) =>
-                            removeObject({ child: 'comments', childId: id, parent: 'sprints', parentId: sprintId })
+                        removeComment={(commentId: string) =>
+                            removeObject({ child: 'comments', childId: commentId, parent: 'sprints', parentId: id })
                         }
                     />
                 )
