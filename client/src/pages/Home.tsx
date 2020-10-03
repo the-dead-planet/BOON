@@ -17,31 +17,29 @@ interface Props {
     push: string;
 }
 
-const LandingSimple = ({ user, mode, setMode, push }: Props) => {
+const Home = ({ user, mode, setMode, push }: Props) => {
     const classes = useStyles();
 
     return (
         <ThemeWrapper mode={mode}>
-            <Box className={classes.background}>
-                <Header
-                    user={user}
-                    mode={mode}
-                    setMode={setMode}
-                    title="Awesome landing page"
-                    subtitle="Start of the coolest project"
-                    button={{ name: 'Get started', path: register }}
-                />
-                <Content
-                    user={user}
-                    mode={mode}
-                    setMode={setMode}
-                    title="Awesome landing page"
-                    subtitle="Start of the coolest project"
-                    button={{ name: 'Get started', path: register }}
-                />
-            </Box>
+            <Header
+                user={user}
+                mode={mode}
+                setMode={setMode}
+                title="Awesome landing page"
+                subtitle="Start of the coolest project"
+                button={{ name: 'Get started', path: register }}
+            />
+            <Content
+                user={user}
+                mode={mode}
+                setMode={setMode}
+                title="Awesome landing page"
+                subtitle="Start of the coolest project"
+                button={{ name: 'Get started', path: register }}
+            />
         </ThemeWrapper>
     );
 };
 
-export default guestPage(withPush(LandingSimple));
+export default guestPage(withPush(Home));

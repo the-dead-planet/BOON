@@ -193,6 +193,20 @@ const useStyles = makeStyles((theme: Theme) =>
                 animationPlayState: 'paused !important',
             },
         },
+        headerText: {
+            padding: '2em 0',
+            textAlign: 'center',
+        },
+        definitions: {
+            padding: '1em',
+        },
+        textDecor: {
+            fontStyle: 'italic',
+        },
+        example: {
+            padding: '.5em 2em 1em 2em',
+            fontStyle: 'italic',
+        },
         background: {
             backgroundColor: '#000',
         },
