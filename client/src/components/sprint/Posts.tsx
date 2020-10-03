@@ -1,9 +1,9 @@
 import React from 'react';
-import { PostsList } from './List';
+import { PostsList } from './PostList';
 // import { SprintAddPost } from './SprintAddPost';
 // import { authenticatedPage } from '../../components/authenticatedPage';
-import { withPush } from '../../../../utils/routingDecorators';
-import { User, Post, Project, Comment, Like } from '../../../../logic/types';
+import { withPush } from '../../utils/routingDecorators';
+import { User, Post, Project, Comment, Like } from '../../logic/types';
 
 interface Props {
     user: User;

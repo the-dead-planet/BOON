@@ -1,12 +1,12 @@
 import React from 'react';
-import { useStyles } from '../../../../styles/main';
-import { Link } from '../../../../utils/Link';
-import { CommentsSection } from '../../../CommentsSection';
-import { Box, Card, CardHeader, CardContent, CardActions, IconButton, Typography, Divider } from '@material-ui/core';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { useStyles } from '../../styles/main';
+import { Link } from '../../utils/Link';
+// import { CommentsSection } from '../CommentsSection';
+import { Box, CardContent, CardActions, Typography, Divider } from '@material-ui/core';
+// import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ActionButtons } from './ActionButtons';
-import { CardMenu } from './Menu';
-import { User, Comment, Like, MongoObject, Model } from '../../../../logic/types';
+import { CardMenu } from './CardMenu';
+import { User, Comment, Like, MongoObject, Model } from '../../logic/types';
 
 interface Props {
     user: User | null | undefined;
@@ -125,7 +125,10 @@ export const PostCard = ({
             </CardActions>
 
             {divider && <Divider variant="middle" className={classes.divider} />}
-            {/* TODO: on click show dialog window on the right with the list of related comments */}
+            {/* TODO: add a boolean prop to show or hide below. 
+                This part of the card can be used in a card which takes full width.
+                If several cards in a row are displayed - use the right drawer to display comments
+            */}
             {/* <CardContent>
                 <CommentsSection
                     expanded={expanded}

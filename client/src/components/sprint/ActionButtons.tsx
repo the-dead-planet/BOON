@@ -3,7 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined';
-import { User, Comment, Like } from '../../../../logic/types';
+import { Comment, Like } from '../../logic/types';
 
 interface Props {
     comments: Array<Comment | undefined>;
@@ -29,6 +29,7 @@ export const ActionButtons = ({ comments, likes, handleExpandClick, toggleCommen
                 // aria-label="show more"
             >
                 <ModeCommentOutlinedIcon />
+
                 <Typography variant="caption">{comments.length}</Typography>
             </IconButton>
         </Fragment>

@@ -1,9 +1,9 @@
 import React from 'react';
-import { useStyles } from '../../../styles/main';
-import { Link } from '../../../utils/Link';
+import { useStyles } from '../../styles/main';
+import { Link } from '../../utils/Link';
 import { ListItem } from '@material-ui/core';
 import moment from 'moment';
-import { MONTH_DATE_FORMAT } from '../../../utils/constants';
+import { MONTH_DATE_FORMAT } from '../../utils/constants';
 
 interface Props {
     _id: string;

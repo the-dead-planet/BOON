@@ -1,9 +1,9 @@
 import React from 'react';
-import { useStyles } from '../../../styles/main';
+import { useStyles } from '../../styles/main';
 import List from '@material-ui/core/List';
 import DrawerListItem from './DrawerListItem';
 import Drawer from '@material-ui/core/Drawer';
-import { Sprint } from '../../../logic/types';
+import { Sprint } from '../../logic/types';
 
 interface Props {
     sprints: Map<string, Sprint>;
@@ -25,7 +25,7 @@ const DrawerSprintList = ({ sprints, currentSprintId }: Props) => {
                 {/* TODO: sort a map, remove _id from values */}
                 {[...sprints.values()]
                     .sort((a, b) => b.number - a.number)
-                    .map(sprint => (
+                    .map((sprint) => (
                         <DrawerListItem key={sprint.title} currentSprintId={currentSprintId} {...sprint} />
                     ))}
             </List>

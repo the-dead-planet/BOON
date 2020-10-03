@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
-import { useStyles } from '../../../../styles/main';
+import { useStyles } from '../../styles/main';
 import { Grid, CardMedia, Typography } from '@material-ui/core';
 import { PostCard } from './Card';
 import moment from 'moment';
-import { EXT_DATE_FORMAT } from '../../../../utils/constants';
-import img from '../../../../img/landing/landing-1.png';
-import { User, Post, Project, Comment, Like } from '../../../../logic/types';
+import { EXT_DATE_FORMAT } from '../../utils/constants';
+import img from '../../img/landing/landing-1.png';
+import { User, Post, Project, Comment, Like } from '../../logic/types';
 
 interface Props {
     user: User;

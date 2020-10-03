@@ -1,7 +1,6 @@
 import React from 'react';
-import { ObjectDeleteButton, ObjectEditButton, AddPostButton } from '../../Buttons';
-import { userInfo } from 'os';
-import { User, Sprint, Mode, Model } from '../../../logic/types';
+import { ObjectDeleteButton, ObjectEditButton, AddPostButton } from '../Buttons';
+import { User, Sprint, Model } from '../../logic/types';
 
 /*  
     Allow Edit and Delete only if user is logged in and is the author of the sprint

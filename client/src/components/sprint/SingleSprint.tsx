@@ -1,10 +1,10 @@
 import React from 'react';
-import { useStyles } from '../../../styles/main';
-import { Divider } from '@material-ui/core';
-import { Posts } from './post/Posts';
-import { SprintOverview } from './Overview';
+import { useStyles } from '../../styles/main';
+// import { Divider } from '@material-ui/core';
+import { Posts } from './Posts';
+import { SprintOverview } from './SprintOverview';
 // import usersService from '../../../services/usersService';
-import { User, Sprint, Post, Project, Comment, Like } from '../../../logic/types';
+import { User, Sprint, Post, Project, Comment, Like } from '../../logic/types';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -45,8 +45,8 @@ export const SingleSprint = ({
             <SprintOverview
                 user={user}
                 sprint={sprint}
-                comments={sprint.comments.map((id) => comments.get(id))}
-                likes={sprint.likes.map((id) => likes.get(id))}
+                comments={sprint.comments.map((id: string) => comments.get(id))}
+                likes={sprint.likes.map((id: string) => likes.get(id))}
                 users={users}
                 addComment={addSprintComment}
                 removeObject={removeObject}

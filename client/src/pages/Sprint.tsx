@@ -5,7 +5,7 @@ import { withPush } from '../utils/routingDecorators';
 import sprintsService from '../services/sprintsService';
 import AppLayout from '../layouts/AppLayout';
 import { Loading, Empty } from '../components/Loading';
-import { SingleSprint } from '../components/sprint/details/SingleSprint';
+import { SingleSprint } from '../components/sprint/SingleSprint';
 import { CommentsSection } from '../components/CommentsSection';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData } from '../logic/types';

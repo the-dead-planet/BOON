@@ -1,11 +1,11 @@
 import React from 'react';
-import { useStyles } from '../../../styles/main';
-import { Link } from '../../../utils/Link';
+import { useStyles } from '../../styles/main';
+import { Link } from '../../utils/Link';
 import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import moment from 'moment';
-import { DATE_FORMAT } from '../../../utils/constants';
+import { DATE_FORMAT } from '../../utils/constants';
 
 interface Props {
     _id: string;
