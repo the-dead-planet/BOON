@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStyles } from '../../styles/landing';
-// import { Link } from '../../utils/Link';
-import { Container, Box, Grid, Typography } from '@material-ui/core';
+import { Link } from '../../utils/Link';
+import { Container, Grid, Typography } from '@material-ui/core';
 // import { Mode, User } from '../../logic/types';
 import bed from '../../img/content/interior/bed.jpg';
 import couch from '../../img/content/interior/couch.jpg';
@@ -17,83 +17,64 @@ const Content = ({ user, mode, setMode, title, subtitle, button }: Landing) => {
     const classes = useStyles();
     const contents = [
         {
-            title: 'Pastry I love cotton candy cake halvah',
-            text:
-                'Sweet tootsie roll dessert bonbon tart. Tiramisu chocolate cake cotton candy ice cream croissant icing. Topping icing topping gummies.',
+            title: 'BRAG',
+            text: 'about all the cool stuff you developed last sprint.',
             img: table,
+            link: 'Sprint news',
+            path: '/sprints',
         },
         {
-            title: 'Carrot cake I love sweet roll macaroon gummies',
-            text:
-                'Ice cream sesame snaps pastry. Tootsie roll tootsie roll lollipop cotton candy soufflé cupcake marzipan gummies. Cake lemon drops bear claw cupcake.',
+            title: 'HELP',
+            text: 'the ones who need your help to get transparency of your project developments.',
             img: tableDecoration,
+            link: 'Projects overview',
+            path: '/projects',
         },
         {
-            title: 'Tart croissant powder',
-            text:
-                'Chupa chups ice cream jelly. Wafer lollipop chocolate bar. Tiramisu lemon drops oat cake sweet sesame snaps marshmallow. Macaroon sweet sweet roll lemon drops toffee.',
+            title: 'GOSS',
+            text: 'about about the super stars behind productivity in your team.',
             img: bed,
-        },
-        {
-            title: 'Lollipop dessert halvah bear claw',
-            text:
-                'Jujubes cake wafer sweet pudding topping candy canes. Tiramisu bonbon carrot cake lemon drops powder. Danish marshmallow apple pie pudding danish chupa chups. Marzipan danish toffee oat cake chocolate liquorice chocolate.',
-            img: couch,
-        },
-        {
-            title: 'Jelly chupa chups toffee icing',
-            text:
-                'Tootsie roll lemon drops pie jujubes cotton candy liquorice. Sugar plum biscuit marshmallow icing candy bear claw. Wafer marshmallow marshmallow.',
-            img: lightBulbs,
-        },
-        {
-            title: 'Fruitcake soufflé jelly-o powder bear claw icing chocolate cake',
-            text:
-                'Chocolate icing apple pie marzipan. Marshmallow sugar plum cake marzipan tootsie roll tiramisu candy. Jujubes chocolate cake sesame snaps dragée pastry candy canes jelly-o cake. Jelly-o icing dragée jelly-o.',
-            img: wall,
-        },
-        {
-            title: 'I love marzipan apple pie',
-            text:
-                'Gummi bears jujubes chocolate topping. Tart marzipan sesame snaps croissant caramels chocolate dessert. Lemon drops sesame snaps donut. Tart dessert macaroon cake cotton candy apple pie liquorice lollipop donut.',
-            img: hall,
+            link: 'Meet the teams',
+            path: '/teams',
         },
     ];
     // TODO: Change this content to something which makes more sense, now it's quite a mess
     return (
-        <>
-            <Container maxWidth="md" id="main-content" className={classes.contentContainer}>
-                <Grid container direction="column" justify="center" alignItems="center" className={classes.gridContent}>
-                    <ShowInViewport>
-                        <Typography variant="h1" gutterBottom className={classes.contentTitle}>
-                            Cupcake halvah toffee bonbon
+        <Container maxWidth="md" id="main-content" className={classes.contentContainer}>
+            <Link to={'/sprints'}>
+                <Typography color="secondary" variant="h1" className={classes.enterButton}>
+                    ENTER THE DEMO
+                </Typography>
+            </Link>
+
+            <Grid container justify="space-around">
+                {contents.map((item, i) => (
+                    <Grid
+                        item
+                        xs={12}
+                        sm={4}
+                        key={i}
+                        className={classes.gridContentItem}
+                        container
+                        direction="column"
+                        alignItems="center"
+                    >
+                        <Typography color="primary" variant="h3" gutterBottom>
+                            {item.title}
                         </Typography>
-                    </ShowInViewport>
 
-                    {contents.map((item, i) => (
-                        <React.Fragment key={i}>
-                            <Typography variant="h3" gutterBottom className={classes.contentItemTitle}>
-                                {item.title}
-                            </Typography>
-                            <Typography variant="h4" gutterBottom className={classes.contentItemBody}>
-                                {item.text}
-                            </Typography>
+                        <Typography color="primary" variant="h5" gutterBottom className={classes.contentItemBody}>
+                            {item.text}
+                        </Typography>
 
-                            <ViewportImage src={item.img} />
-                        </React.Fragment>
-                    ))}
-                </Grid>
-            </Container>
-            <ShowSlideInViewport>
-                <Typography gutterBottom className={classes.messageTitle}>
-                    Fruitcake cotton candy jelly beans croissant.
-                </Typography>
-                <Typography className={classes.messageSubtitle}>Cake bear claw donut gummi bears.</Typography>
-                <Typography gutterBottom className={classes.messageBody}>
-                    Caramels sesame snaps topping pastry muffin chupa chups gummies cake.
-                </Typography>
-            </ShowSlideInViewport>
-        </>
+                        <Typography color="primary" variant="body1" className={classes.button}>
+                            <Link to={item.path}>{item.link}</Link>
+                        </Typography>
+                        {/* <ViewportImage src={item.img} /> */}
+                    </Grid>
+                ))}
+            </Grid>
+        </Container>
     );
 };
 

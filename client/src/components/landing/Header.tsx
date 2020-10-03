@@ -1,9 +1,6 @@
 import React from 'react';
 import { useStyles } from '../../styles/landing';
-import {
-    Link,
-    // HashLink
-} from '../../utils/Link';
+import { HashLink, Link } from '../../utils/Link';
 import { Box, Grid, Typography, Divider } from '@material-ui/core';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import { Landing } from '../../logic/types';
@@ -35,21 +32,23 @@ const Header = ({ user, mode, setMode, title, subtitle, button }: Landing) => {
     return (
         <Grid container justify="center" style={{ padding: '0 1em' }}>
             <Grid item xs={12} className={classes.headerText}>
-                <Typography color="primary" variant="h4">
-                    — The —
-                </Typography>
-                <Typography color="primary" variant="h1">
-                    BOON
-                </Typography>
-                <Typography color="primary" className={classes.offset} variant="body1" gutterBottom>
-                    UK <VolumeUpIcon fontSize="small" />
-                    /bu:n/ | US <VolumeUpIcon fontSize="small" /> /bu:n/
-                </Typography>
+                <HashLink to="#main-content">
+                    <Typography color="primary" variant="h4">
+                        — The —
+                    </Typography>
+                    <Typography color="primary" variant="h1">
+                        BOON
+                    </Typography>
+                    <Typography color="primary" className={classes.offset} variant="body1" gutterBottom>
+                        UK <VolumeUpIcon fontSize="small" />
+                        /bu:n/ | US <VolumeUpIcon fontSize="small" /> /bu:n/
+                    </Typography>
+                </HashLink>
             </Grid>
 
             <Grid item xs={12} sm={8}>
                 {dictionary.definitions.map((item, i) => (
-                    <Box className={classes.definitions}>
+                    <Box key={i} className={classes.definitions}>
                         <Typography color="primary" variant="caption" className={classes.textDecor}>
                             {item.clause}
                         </Typography>
@@ -73,12 +72,6 @@ const Header = ({ user, mode, setMode, title, subtitle, button }: Landing) => {
                 <Typography color="primary" variant="body2" gutterBottom className={classes.definitions}>
                     {dictionary.explanation}
                 </Typography>
-
-                {/* <Typography color="secondary" variant="h6">
-                    <Link to={'/sprints'}>
-                        ENTER THE BOON
-                    </Link>
-                </Typography> */}
             </Grid>
         </Grid>
     );

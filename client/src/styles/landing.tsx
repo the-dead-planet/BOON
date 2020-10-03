@@ -207,6 +207,15 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: '.5em 2em 1em 2em',
             fontStyle: 'italic',
         },
+        enterButton: {
+            padding: '.5em',
+            textAlign: 'center',
+            border: `solid .2em ${theme.palette.secondary.main}`,
+            '&:hover': {
+                cursor: 'pointer',
+                boxShadow: `.2em .2em ${theme.palette.secondary.dark}`,
+            },
+        },
         background: {
             backgroundColor: '#000',
         },
@@ -420,7 +429,31 @@ const useStyles = makeStyles((theme: Theme) =>
             color: 'rgba(255, 255, 255, .87)',
         },
         gridContent: {
-            minHeight: '100vh',
+            marginTop: '5em',
+            // minHeight: '100vh',
+        },
+        gridContentItem: {
+            marginTop: '5em',
+            padding: '5em 2em',
+            // border: `2px solid ${theme.palette.primary.main}`,
+            textAlign: 'center',
+            position: 'relative',
+        },
+        button: {
+            padding: '.5em 1em',
+            borderRadius: '5px',
+            border: `2px solid ${theme.palette.primary.main}`,
+            bottom: '1em',
+            position: 'absolute',
+            textAlign: 'center',
+            '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, .06)',
+                cursor: 'pointer',
+            },
+            '&:active': {
+                backgroundColor: 'rgba(0, 0, 0, .1)',
+                cursor: 'pointer',
+            },
         },
         contentTitle: {
             textAlign: 'center',
@@ -431,7 +464,7 @@ const useStyles = makeStyles((theme: Theme) =>
             fontWeight: 'bold',
         },
         contentItemBody: {
-            textAlign: 'center',
+            marginBottom: '2em !important',
         },
         // Images
         inlinePhoto: {
