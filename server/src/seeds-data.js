@@ -1,4 +1,6 @@
 // Below file is in .gitignore, generate your own file with content: 'module.exports = <password>'
+// TODO: use .env instead:
+// https://www.npmjs.com/package/dotenv
 const password = require('./seeds-data-password');
 
 // TODO: automate generation

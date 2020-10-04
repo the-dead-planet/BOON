@@ -1,1 +1,5 @@
+# Build results.
 built/
+
+# Some mongo stuff.
+globalConfig.json
