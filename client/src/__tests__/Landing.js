@@ -6,23 +6,24 @@ import authService from '../services/authService';
 jest.mock('../services/authService');
 
 describe('landing page', () => {
-    test('Waits from whoami and renders an enter button', () => {
+    test('Waits from whoami and renders some content', () => {
         let resolveHandle;
         authService.whoami.mockImplementation(
             () =>
-                new Promise(resolve => {
+                new Promise((resolve) => {
                     resolveHandle = resolve;
                 })
         );
 
-        const { getByText, findByText } = render(<App />);
+        const { getByText, findAllByText } = render(<App />);
 
         // The whoami request is pending - app shows a loading screen.
         expect(getByText(/loading/i)).toBeInTheDocument();
 
         // Finalize the request. The app should transition to the landing page.
+        // Check that at least one item with the work "boon" is rendered in the document.
         resolveHandle({ user: null });
-        const enterButtonPromise = findByText(/enter the boon/i);
-        return expect(enterButtonPromise).resolves.toBeInTheDocument();
+        const boonItemsPromise = findAllByText(/boon/i);
+        return expect(boonItemsPromise).resolves.not.toBeEmpty();
     });
 });
