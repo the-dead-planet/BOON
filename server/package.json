@@ -5,7 +5,7 @@
     "main": "built/index.js",
     "scripts": {
         "build": "tsc",
-        "clean": "rm -rf built/",
+        "clean": "shx rm -rf built/ node_modules/",
         "test": "jest --detectOpenHandles",
         "start": "ts-node-dev src/index.js"
     },
@@ -28,6 +28,7 @@
         "@types/jest": "^26.0.14",
         "@types/node": "^14.11",
         "jest": "^26.4",
+        "shx": "^0.3.2",
         "supertest": "^5.0",
         "ts-jest": "^26.4",
         "ts-node": "^9.0",
