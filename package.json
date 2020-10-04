@@ -17,10 +17,6 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "dependencies": {
-        "@material-ui/lab": "^4.0.0-alpha.53",
-        "@material-ui/pickers": "^3.2.10"
-    },
     "devDependencies": {
         "concurrently": "^5.0.2",
         "husky": "^3.1.0",

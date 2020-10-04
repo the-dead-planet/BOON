@@ -21,8 +21,12 @@ interface Props {
     showError: any;
 }
 
+interface Params {
+    id: string;
+}
+
 const EditProject = ({ user, mode, setMode, push, notificationsProps, showError }: Props) => {
-    const { id } = useParams();
+    const { id } = useParams<Params>();
 
     const [project, setProject] = useState<Project | null>(null);
 

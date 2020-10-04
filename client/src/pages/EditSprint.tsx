@@ -20,8 +20,12 @@ interface Props {
     showError: any;
 }
 
+interface Params {
+    id: string;
+}
+
 const EditSprint = ({ user, mode, setMode, push, notificationsProps, showError }: Props) => {
-    const { id } = useParams();
+    const { id } = useParams<Params>();
 
     const [sprint, setSprint] = useState<Sprint | null>(null);
 
