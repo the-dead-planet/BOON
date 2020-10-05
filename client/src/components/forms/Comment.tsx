@@ -1,4 +1,5 @@
 import React from 'react';
+import { useStyles } from '../../styles/main';
 import { AppForm } from './App';
 import { GridField } from './GridFields';
 import { TextField, Typography, IconButton } from '@material-ui/core';
@@ -16,7 +17,7 @@ interface Props {
 }
 
 export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: Props) => {
-    const style = { display: 'flex', marginLeft: 'auto' };
+    const classes = useStyles();
 
     return user ? (
         <AppForm
@@ -33,7 +34,7 @@ export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: P
                 });
             }}
             submitSection={
-                <IconButton aria-label="add comment" style={style} type="submit">
+                <IconButton aria-label="add comment" type="submit" className={classes.submitComment}>
                     <SendOutlinedIcon />
                 </IconButton>
             }

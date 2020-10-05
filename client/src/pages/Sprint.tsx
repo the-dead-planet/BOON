@@ -52,10 +52,9 @@ const Sprint = ({
         if (sprints && sprints.size > 0) {
             // If no sprints exists, there's nowhere to redirect to.
             // TODO: consider handling this case by rendering a message.
-            const mostRecentSprint = [...sprints.values()].reduce((
-                a,
-                b // TODO: check this typescript error
-            ) => (new Date(a.dateTo) > new Date(b.dateTo) ? a : b));
+            const mostRecentSprint = [...sprints.values()].reduce((a, b) =>
+                new Date(a.dateTo) > new Date(b.dateTo) ? a : b
+            );
             sprintToDisplayId = mostRecentSprint._id;
         }
     }
@@ -70,7 +69,7 @@ const Sprint = ({
     // This way, the user has a way of refreshing sprints data.
     useEffect(() => {
         getSprints();
-    }, []); // TODO: Investigate warning 'React Hook useEffect has a missing dependency: 'getSprints''
+    }, []);
 
     // Get current sprint
     const sprint = sprints.get(id);
@@ -90,7 +89,9 @@ const Sprint = ({
     // Secondary TODO: create a generic method and reuse for each drawer
     const [openSecondaryDrawer, setOpenSecondaryDrawer] = useState(false);
 
-    const toggleSecondaryDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+    const toggleSecondaryDrawer = (commentsSection: any, open: boolean) => (
+        event: React.KeyboardEvent | React.MouseEvent
+    ) => {
         if (
             event.type === 'keydown' &&
             ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
@@ -98,8 +99,15 @@ const Sprint = ({
             return;
         }
 
+        // Change content and open drawer
+        setCommentsSection(commentsSection);
         setOpenSecondaryDrawer(open);
     };
+
+    // Initialize state value with the ComponentsSection as undefined.
+    // Once current sprint is loaded to state, set this value to the sprint comments
+    // Pass the 'setCommentsSection' up to each Card component
+    const [commentsSection, setCommentsSection]: Array<any> = useState();
 
     return sprintToDisplayId && sprintToDisplayId !== id ? (
         <Redirect to={`/sprints/${sprintToDisplayId}`} />
@@ -122,22 +130,7 @@ const Sprint = ({
             sideColumn={{ header: '_goss', body: '' }}
             secondaryDrawer="a" // TODO: fill with comments from related object
             secondaryDrawerOpen={openSecondaryDrawer}
-            secondaryDrawerContent={
-                sprint && (
-                    <CommentsSection
-                        expanded={true}
-                        user={user}
-                        object={sprint}
-                        model="Sprint"
-                        comments={sprint?.comments.map((id) => comments.get(id))}
-                        users={users}
-                        addComment={addSprintComment}
-                        removeComment={(commentId: string) =>
-                            removeObject({ child: 'comments', childId: commentId, parent: 'sprints', parentId: id })
-                        }
-                    />
-                )
-            }
+            secondaryDrawerContent={sprint ? commentsSection : undefined}
             toggleSecondaryDrawer={toggleSecondaryDrawer}
             {...notificationsProps}
         >

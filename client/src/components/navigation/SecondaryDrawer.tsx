@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
-import { Drawer, Grid, Divider, Typography, IconButton } from '@material-ui/core';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { Drawer, Grid, IconButton } from '@material-ui/core';
+import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import { User, Children } from '../../logic/types';
 
 interface Props {
@@ -14,7 +14,6 @@ interface Props {
 // This component can be either temporary or persistent. By default temporary. use prop 'variant' to change to "persistent"
 const SecondaryDrawer = ({ user, open, toggleDrawer, children }: Props) => {
     const classes = useStyles();
-    const anyProps: any = {};
 
     return (
         <>
@@ -29,16 +28,11 @@ const SecondaryDrawer = ({ user, open, toggleDrawer, children }: Props) => {
                     paper: classes.drawerSecondaryPaper,
                 }}
             >
-                <Grid container justify="space-between">
-                    <Typography color="secondary" variant="h6">
-                        Opinions
-                    </Typography>
+                <Grid container justify="flex-end">
                     <IconButton onClick={toggleDrawer(false)}>
-                        <ChevronRightIcon color="inherit" />
+                        <CloseRoundedIcon color="inherit" />
                     </IconButton>
                 </Grid>
-
-                <Divider />
 
                 {children}
             </Drawer>

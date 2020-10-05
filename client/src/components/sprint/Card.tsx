@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
 import { Link } from '../../utils/Link';
-// import { CommentsSection } from '../CommentsSection';
+import { CommentsSection } from '../CommentsSection';
 import { Box, CardContent, CardActions, Typography, Divider } from '@material-ui/core';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ActionButtons } from './ActionButtons';
@@ -75,9 +75,12 @@ export const PostCard = ({
     maxLen = maxLen || body.length;
     const showMoreRequired = body.length > maxLen;
 
+    const style = { marginTop: 'auto' };
+
     return (
         <Box id={object._id} className={`${classes.post} ${hover ? classes.hover : undefined}`}>
             {mediaTop}
+
             <CardContent>
                 <Typography variant="h6">{title}</Typography>
                 <Typography variant="caption">{subtitle}</Typography>
@@ -91,7 +94,9 @@ export const PostCard = ({
                 menuItems={menuItems}
                 removeObject={removeObject}
             />
+
             {mediaMiddle}
+
             <CardContent className={classes.col}>
                 <Typography
                     variant="body2"
@@ -109,12 +114,27 @@ export const PostCard = ({
                 </Typography>
             </CardContent>
 
-            <CardActions disableSpacing style={{ marginTop: 'auto' }}>
+            <CardActions disableSpacing style={style}>
                 <ActionButtons
                     comments={comments}
                     likes={likes}
                     handleExpandClick={handleExpandClick}
-                    toggleCommentsPanel={toggleCommentsPanel}
+                    // TODO: Repair add and remove comment from state
+                    toggleCommentsPanel={(open: boolean) =>
+                        toggleCommentsPanel(
+                            <CommentsSection
+                                expanded={true}
+                                user={user}
+                                object={object}
+                                model={model}
+                                comments={comments}
+                                users={users}
+                                addComment={addComment}
+                                removeComment={(id: string) => removeComment(id, object._id)}
+                            />,
+                            open
+                        )
+                    }
                 />
                 {/* TODO: Create a single post page */}
                 {showMoreRequired && (

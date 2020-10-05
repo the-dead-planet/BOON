@@ -224,19 +224,19 @@ const useStyles = makeStyles((theme: Theme) =>
         right: {},
         left: {},
         flexRight: {
-            marginLeft: 'auto',
+            marginLeft: 'auto !important',
         },
         flexLeft: {
             marginRight: 'auto',
         },
         navButton: {
             padding: '.2em .8em',
-            transition: 'transform .4s',
+            transition: 'transform .2s ease-in',
             '&:hover': {
                 transform: 'scale(1.05)',
-                transition: 'transform .4s',
-                textShadow: '1px 2px 3px rgba(0, 0, 0, .06)',
-                borderRadius: '5px',
+                transition: 'transform .2s ease-out',
+                // textShadow: '1px 1px 2px rgba(0, 0, 0, .03)',
+                // borderRadius: '5px',
             },
         },
         fabContainer: {
@@ -347,8 +347,8 @@ const useStyles = makeStyles((theme: Theme) =>
             textAlign: 'justify',
         },
         signature: {
-            marginLeft: 'auto',
-            marginTop: '1em',
+            marginLeft: 'auto !important',
+            marginTop: '1em !important',
             fontStyle: 'italic',
         },
         // TODO: Checkout nicer border styles
@@ -398,6 +398,17 @@ const useStyles = makeStyles((theme: Theme) =>
             textTransform: 'uppercase',
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.secondary.main,
+        },
+        // Comments section
+        commentsTitle: {
+            margin: '1em !important',
+        },
+        addComment: {
+            margin: '1em',
+        },
+        submitComment: {
+            display: 'flex !important',
+            marginLeft: 'auto !important',
         },
     })
 );

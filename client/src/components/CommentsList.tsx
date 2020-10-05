@@ -13,7 +13,7 @@ interface Props {
 export const CommentsList = ({ user, comments, users, removeComment }: Props) => {
     return (
         <List>
-            <Divider component="li" />
+            <Divider variant="middle" />
             {(comments || []).map((comment, i) => (
                 <Comment key={i} user={user} comment={comment} users={users} removeComment={removeComment} />
             ))}
