@@ -1,3 +1,19 @@
+# Boon Specific Section
+
+## Notes
+
+### test --env flag
+
+Jest seems to have an issue with an incompatible jsdom version, which surfaces as a
+
+> MutationObserver is not a constructor
+> error. The `--env=jsdom-sixteen` flag solves the issue.
+> Remove the flag, and its dependency, once jest / react-scripts work without
+> explicitly specifying the environment.
+> See this [SO thread](https://stackoverflow.com/questions/61036156/react-typescript-testing-typeerror-mutationobserver-is-not-a-constructor) for details.
+
+# Create React App Section
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

@@ -21,8 +21,12 @@ interface Props {
     showError: any;
 }
 
+interface Params {
+    id: string;
+}
+
 const AddPost = ({ user, mode, setMode, sprintId, push, notificationsProps, showError }: Props) => {
-    const { id } = useParams();
+    const { id } = useParams<Params>();
 
     const [sprint, setSprint] = useState<Sprint | null>(null);
 

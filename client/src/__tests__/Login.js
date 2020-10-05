@@ -15,7 +15,7 @@ test('login screen', async () => {
     const { getByText, getByLabelText, findByText } = render(<App />);
 
     // Landing page.
-    await act(async () => fireEvent.click(await findByText(/enter the boon/i)));
+    await act(async () => fireEvent.click(await findByText(/enter the demo/i)));
     // Sprints view.
     await act(async () => fireEvent.click(await findByText(/login/i)));
 

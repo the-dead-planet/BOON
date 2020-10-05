@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "install-all": "yarn install && yarn --cwd client install && yarn --cwd server install",
-        "clean": "rm -rf node_modules && rm -rf client/node_modules && rm -rf server/node_modules",
+        "clean": "shx rm -rf node_modules && yarn --cwd client clean && yarn --cwd server clean",
         "test": "run-s test_server test_client",
         "test_client": "yarn --cwd client test --watch-all=false",
         "test_server": "yarn --cwd server test --watch-all=false",
@@ -17,16 +17,13 @@
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "dependencies": {
-        "@material-ui/lab": "^4.0.0-alpha.53",
-        "@material-ui/pickers": "^3.2.10"
-    },
     "devDependencies": {
         "concurrently": "^5.0.2",
         "husky": "^3.1.0",
         "nodemon": "^2.0.2",
         "prettier": "2.1",
         "pretty-quick": "^2.0.1",
+        "shx": "^0.3.2",
         "yarn-run-all": "^3.1.1"
     },
     "husky": {

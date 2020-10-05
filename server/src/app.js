@@ -11,7 +11,6 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
-    methodOverride = require('method-override'),
     User = require('./models/User');
 seedDB = require('./seeds');
 
@@ -32,7 +31,6 @@ var handleErrors = require('./middleware').handleErrors;
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(methodOverride('_method'));
 
 // Passport config - authentication
 app.use(
@@ -72,10 +70,10 @@ const modelRegistry = new ModelRegistry({
         },
         {
             [RequestMethod.POST]: {
-                author: req => req.user._id,
-                commentedObject: req => new Link(req.body.model, req.body.id, 'comments'),
+                author: (req) => req.user._id,
+                commentedObject: (req) => new Link(req.body.model, req.body.id, 'comments'),
             },
-            [RequestMethod.PUT]: { edited: req => Date.now() },
+            [RequestMethod.PUT]: { edited: (req) => Date.now() },
         }
     ),
 
@@ -84,7 +82,7 @@ const modelRegistry = new ModelRegistry({
             author: new SingleModelField('User'),
         },
         {
-            [RequestMethod.POST]: { author: req => req.user._id },
+            [RequestMethod.POST]: { author: (req) => req.user._id },
         }
     ),
 
@@ -95,8 +93,8 @@ const modelRegistry = new ModelRegistry({
             likes: new ManyModelField('Like'),
         },
         {
-            [RequestMethod.POST]: { author: req => req.user._id },
-            [RequestMethod.PUT]: { edited: req => Date.now() },
+            [RequestMethod.POST]: { author: (req) => req.user._id },
+            [RequestMethod.PUT]: { edited: (req) => Date.now() },
         }
     ),
 
@@ -107,8 +105,8 @@ const modelRegistry = new ModelRegistry({
             likes: new ManyModelField('Like'),
         },
         {
-            [RequestMethod.POST]: { author: req => req.user._id },
-            [RequestMethod.PUT]: { edited: req => Date.now() },
+            [RequestMethod.POST]: { author: (req) => req.user._id },
+            [RequestMethod.PUT]: { edited: (req) => Date.now() },
         }
     ),
 
@@ -120,8 +118,8 @@ const modelRegistry = new ModelRegistry({
             posts: new ManyModelField('Post'),
         },
         {
-            [RequestMethod.POST]: { author: req => req.user._id },
-            [RequestMethod.PUT]: { edited: req => Date.now() },
+            [RequestMethod.POST]: { author: (req) => req.user._id },
+            [RequestMethod.PUT]: { edited: (req) => Date.now() },
         }
     ),
 
@@ -144,7 +142,7 @@ const routes = new Routes(
         require('./routes/team'),
         require('./routes/user'),
     ]
-        .map(routesModule => routesModule(modelRegistry))
+        .map((routesModule) => routesModule(modelRegistry))
         .flat()
 );
 
@@ -159,7 +157,7 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static('./build'));
 
     const path = require('path');
-    app.get('*', function(req, res) {
+    app.get('*', function (req, res) {
         res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
     });
 }
