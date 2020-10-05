@@ -327,8 +327,10 @@ const useStyles = makeStyles((theme: Theme) =>
             objectFit: 'cover',
             objectPosition: '50% 50%',
         },
+        // TODO: Something happened and a lot of css classes require "!important" now - check what's causing it
+        // Especially margin or display flex
         postContainer: {
-            marginTop: '1em',
+            marginTop: '1em !important',
         },
         post: {
             minHeight: '100%',
