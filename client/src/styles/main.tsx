@@ -137,6 +137,7 @@ const useStyles = makeStyles((theme: Theme) =>
         contentPadding: {
             flexGrow: 1,
             padding: theme.spacing(3),
+            paddingBottom: '5em',
         },
         content: {
             flexGrow: 1,
@@ -146,6 +147,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 duration: theme.transitions.duration.leavingScreen,
             }),
             marginLeft: -drawerWidth,
+            paddingBottom: '5em',
         },
         contentShift: {
             transition: theme.transitions.create('margin', {
@@ -153,6 +155,28 @@ const useStyles = makeStyles((theme: Theme) =>
                 duration: theme.transitions.duration.enteringScreen,
             }),
             marginLeft: 0,
+        },
+        footer: {
+            marginTop: '5em',
+            minHeight: '200px',
+            width: '100%',
+            backgroundColor: theme.palette.primary.main,
+            color: 'rgba(255, 255, 255, .6)',
+            borderRadius: '20px 20px 0 0',
+            position: 'relative',
+            '&::after': {
+                content: "''",
+                position: 'absolute',
+                top: '-50px',
+                bottom: '100%',
+                left: 0,
+                right: 0,
+                borderStyle: 'solid',
+                borderWidth: '0 0 2px 0',
+                borderColor: theme.palette.primary.main,
+                borderRadius: '20px',
+                zIndex: 10,
+            },
         },
 
         // Misc
@@ -285,7 +309,7 @@ const useStyles = makeStyles((theme: Theme) =>
             textAlign: 'center',
             textTransform: 'uppercase',
         },
-        mainContent: {
+        moveContent: {
             marginLeft: `calc(${navBarLeftWidth}px + 10px)`,
             top: 0,
             [theme.breakpoints.down('sm')]: {

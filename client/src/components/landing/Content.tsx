@@ -1,54 +1,25 @@
 import React from 'react';
 import { useStyles } from '../../styles/landing';
 import { Link } from '../../utils/Link';
-import { Container, Grid, Typography } from '@material-ui/core';
-// import { Mode, User } from '../../logic/types';
-import bed from '../../img/content/interior/bed.jpg';
-import couch from '../../img/content/interior/couch.jpg';
-import hall from '../../img/content/interior/hall.jpg';
-import lightBulbs from '../../img/content/interior/light-bulbs.jpg';
-import tableDecoration from '../../img/content/interior/table-decoration.jpg';
-import table from '../../img/content/interior/table.jpg';
-import wall from '../../img/content/interior/wall.jpg';
+import { Container, Grid, Typography, Box } from '@material-ui/core';
 import { Landing } from '../../logic/types';
-import { ShowInViewport, ShowSlideInViewport, ViewportImage } from '../../utils/InViewPort';
+import { LANDING_CONTENTS } from '../../constants/data';
 
 const Content = ({ user, mode, setMode, title, subtitle, button }: Landing) => {
     const classes = useStyles();
-    const contents = [
-        {
-            title: 'BRAG',
-            text: 'about all the cool stuff you developed last sprint.',
-            img: table,
-            link: 'Sprint news',
-            path: '/sprints',
-        },
-        {
-            title: 'HELP',
-            text: 'the ones who need your help to get transparency of your project developments.',
-            img: tableDecoration,
-            link: 'Projects overview',
-            path: '/projects',
-        },
-        {
-            title: 'GOSS',
-            text: 'about about the super stars behind productivity in your team.',
-            img: bed,
-            link: 'Meet the teams',
-            path: '/teams',
-        },
-    ];
     // TODO: Change this content to something which makes more sense, now it's quite a mess
     return (
         <Container maxWidth="md" id="main-content" className={classes.contentContainer}>
-            <Link to={'/sprints'}>
-                <Typography color="secondary" variant="h1" className={classes.enterButton}>
-                    ENTER THE DEMO
-                </Typography>
-            </Link>
+            <Box className={classes.enterContainer}>
+                <Link to={'/sprints'}>
+                    <Typography color="secondary" variant="h1" className={classes.enterButton}>
+                        ENTER THE DEMO
+                    </Typography>
+                </Link>
+            </Box>
 
-            <Grid container justify="space-around">
-                {contents.map((item, i) => (
+            <Grid container justify="space-around" className={classes.contents}>
+                {LANDING_CONTENTS.map((item, i) => (
                     <Grid
                         item
                         xs={12}

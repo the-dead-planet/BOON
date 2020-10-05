@@ -193,12 +193,43 @@ const useStyles = makeStyles((theme: Theme) =>
                 animationPlayState: 'paused !important',
             },
         },
+        headerContainer: {
+            position: 'relative',
+        },
+        navButtons: {
+            position: 'absolute',
+            right: 0,
+            top: 0,
+        },
         headerText: {
             padding: '2em 0',
             textAlign: 'center',
         },
+        headerDivider: {
+            overflow: 'visible' /* For IE */,
+            width: '90%',
+            height: '30px',
+            borderStyle: 'solid',
+            borderColor: theme.palette.primary.main,
+            borderWidth: '1px 0 0 0',
+            borderRadius: '20px',
+            '&::before': {
+                display: 'block',
+                content: "''",
+                height: '30px',
+                marginTop: '-31px',
+                borderStyle: 'solid',
+                borderColor: theme.palette.primary.main,
+                borderWidth: '0 0 1px 0',
+                borderRadius: '20px',
+            },
+        },
+        divider: {
+            margin: '1em !important',
+            backgroundColor: theme.palette.primary.main,
+        },
         definitions: {
-            padding: '1em',
+            padding: '0 1em',
         },
         textDecor: {
             fontStyle: 'italic',
@@ -206,6 +237,9 @@ const useStyles = makeStyles((theme: Theme) =>
         example: {
             padding: '.5em 2em 1em 2em',
             fontStyle: 'italic',
+        },
+        enterContainer: {
+            margin: '5em 0',
         },
         enterButton: {
             padding: '.5em',
@@ -215,6 +249,9 @@ const useStyles = makeStyles((theme: Theme) =>
                 cursor: 'pointer',
                 boxShadow: `.2em .2em ${theme.palette.secondary.dark}`,
             },
+        },
+        contents: {
+            marginTop: '5em',
         },
         background: {
             backgroundColor: '#000',
@@ -438,6 +475,16 @@ const useStyles = makeStyles((theme: Theme) =>
             // border: `2px solid ${theme.palette.primary.main}`,
             textAlign: 'center',
             position: 'relative',
+            borderStyle: 'solid',
+            borderWidth: '0 2px 0 2px',
+            borderColor: 'transparent',
+            borderRadius: '20px',
+            '&:hover': {
+                borderStyle: 'solid',
+                borderWidth: '0 2px 0 2px',
+                borderColor: theme.palette.primary.main,
+                borderRadius: '20px',
+            },
         },
         button: {
             padding: '.5em 1em',

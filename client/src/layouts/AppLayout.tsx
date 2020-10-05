@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { useStyles } from '../styles/main';
-import { Hidden, Box } from '@material-ui/core';
+import { Hidden, Box, CssBaseline } from '@material-ui/core';
 import ThemeWrapper from '../components/navigation/ThemeWrapper';
 import Jumbotron from '../components/navigation/Jumbotron';
 import MenuDrawer from '../components/navigation/MenuDrawer';
 import SecondaryDrawer from '../components/navigation/SecondaryDrawer';
 import NavBarLeft from '../components/navigation/NavBarLeft';
 import NavBarTop from '../components/navigation/NavBarTop';
+import Footer from '../components/navigation/Footer';
 import {
     Drawer,
     Mode,
@@ -86,6 +87,8 @@ const AppLayout = ({
 
     return (
         <ThemeWrapper mode={mode}>
+            <CssBaseline />
+
             {appBar && (
                 <NavBarTop
                     user={user}
@@ -128,7 +131,8 @@ const AppLayout = ({
                 }
             >
                 {/* Either display jumbotron or apply class to display contents under the NavBar */}
-                <div className={jumbotron ? classes.jumbotron : classes.drawerHeader} />
+                {jumbotron && <div className={classes.jumbotron} />}
+                {appBar && <div className={classes.drawerHeader} />}
 
                 {/* Left panel serving as navigation - contents lists */}
                 {navLeftContent && (
@@ -138,8 +142,10 @@ const AppLayout = ({
                 )}
 
                 {/* Class 'mainContent' changes leftMargin to 0 in size sm */}
-                <Box className={classes.mainContent}>{children}</Box>
+                <Box className={navLeftContent ? classes.moveContent : undefined}>{children}</Box>
             </main>
+
+            <Footer />
 
             {/* TODO: style it nicer and allow moving to next/previous sprint */}
             <NotificationsRenderer notifications={notifications} onShown={onNotificationShown} />

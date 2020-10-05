@@ -9,8 +9,7 @@ import Pagination from './Pagination';
 // import HideOnScroll from '../../utils/HideOnScroll';
 import { AuthButtonsHorizontal } from './AuthButtons';
 import { Mode, User, DrawerVariant, Page } from '../../logic/types';
-import { PATHS } from '../../constants/data';
-const { home, sprints, projects, teams, login, logout, register } = PATHS;
+import { NAV_LINKS } from '../../constants/data';
 
 interface Props {
     user: User;
@@ -26,7 +25,6 @@ interface Props {
 const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawer, pagination }: Props) => {
     const classes = useStyles();
     const location = useLocation();
-    const path = location.pathname;
     const style = { marginLeft: 'auto' };
 
     return (
@@ -63,11 +61,7 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
 
                         <Hidden smDown>
                             <Grid container>
-                                {[
-                                    { name: ' - Sprints - ', path: sprints },
-                                    { name: ' - Projects - ', path: projects },
-                                    { name: ' - Teams - ', path: teams },
-                                ].map((item, i) => (
+                                {NAV_LINKS.map((item, i) => (
                                     <Link key={i} to={item.path}>
                                         <Typography
                                             variant="body1"

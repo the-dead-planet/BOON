@@ -100,7 +100,12 @@ class App extends Component<{}, StateType> {
                                 />
                             </Route>
                             <Route path={home}>
-                                <Home user={this.state.user} mode={this.state.mode} setMode={this.setMode} />
+                                <Home
+                                    user={this.state.user}
+                                    mode={this.state.mode}
+                                    setMode={this.setMode}
+                                    notificationsProps={notificationsProps}
+                                />
                             </Route>
                             <Route path="/sprints/:id/edit">
                                 <EditSprint
