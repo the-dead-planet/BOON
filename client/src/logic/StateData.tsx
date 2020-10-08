@@ -31,7 +31,7 @@ export const mergeStateData = (left: any, right: any) => {
     }
 
     return Object.fromEntries(
-        Object.keys(left).map(key => {
+        Object.keys(left).map((key) => {
             const mergedValue = concatMaps([left[key], right[key]]);
             return [key, mergedValue];
         })
@@ -61,6 +61,10 @@ const PATHS_DATA = {
         paths: [],
         state: 'users',
     },
+    projects: {
+        paths: ['author', 'posts'],
+        state: 'projects',
+    },
 };
 
 // This function receives a nested (populated) object as the first parameter
@@ -83,7 +87,7 @@ export const depopulate = (obj: MongoObject, modelName: Path) => {
 // Implementation of `depopulate`. Not to be exported.
 // This function differs from `depopulate` in its signature, allowing more fine grained invocations.
 export const depopulateImpl = (obj: MongoObject, paths: Array<Path>, stateData: StateData) => {
-    paths.map(path => {
+    paths.map((path) => {
         if (!(path in obj)) {
             throw new Error(`Unknown depopulation path: ${JSON.stringify({ path, obj })}`);
         }
@@ -117,4 +121,4 @@ const setAndDepopulateOne = ({ _id, ...args }: MongoObject, path: Path | string,
 
 // The same as setAndDepopulateOne for an array of objects of the same model
 const setAndDepopulateMany = (list: Array<MongoObject>, path: Path, stateData: StateData) =>
-    list.map(obj => setAndDepopulateOne(obj, path, stateData));
+    list.map((obj) => setAndDepopulateOne(obj, path, stateData));

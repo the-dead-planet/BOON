@@ -18,7 +18,7 @@ import ScrollToTop from './utils/ScrollToTop';
 import { StateType, Mode } from './logic/types';
 import { PATHS } from './constants/data';
 
-const { root, home, sprints, projects, teams, main, login, logout, register, addSprint, addPost, addProject } = PATHS;
+const { root, home, sprints, projects, teams, posts, login, logout, register, add, edit, addPost } = PATHS;
 
 class App extends Component<{}, StateType> {
     constructor(props: any) {
@@ -73,6 +73,8 @@ class App extends Component<{}, StateType> {
                             The order matters - the most generic paths should
                             be at the very end.
                         */}
+
+                            {/* Authentication */}
                             <Route path={login}>
                                 <Login
                                     mode={this.state.mode}
@@ -99,23 +101,9 @@ class App extends Component<{}, StateType> {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
-                            <Route path={home}>
-                                <Home
-                                    user={this.state.user}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path="/sprints/:id/edit">
-                                <EditSprint
-                                    user={user}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path="/sprints/:id/add_post">
+
+                            {/* Posts - add to sprint, display single */}
+                            <Route path={`${sprints}/:id${addPost}`}>
                                 <AddPost
                                     user={user}
                                     mode={this.state.mode}
@@ -123,16 +111,77 @@ class App extends Component<{}, StateType> {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
-                            <Route path={'/sprints/:id'}>
-                                <Sprint
+                            <Route path={[`${sprints}/:id/:postId`, `${projects}/:id/:postId`, `${posts}/:postId`]}>
+                                <Project
                                     user={user}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
-                                    setState={updateState(State.setSprints)}
+                                    setState={updateState(State.setStateData)}
                                     addSprintComment={updateState(State.addCommentToSprint)}
                                     addPostComment={updateState(State.addCommentToPost)}
                                     removeObject={updateState(State.removeObject)}
                                     data={this.state.data}
+                                    notificationsProps={notificationsProps}
+                                />
+                            </Route>
+
+                            <Route path={`${sprints}${add}`}>
+                                <AddSprint
+                                    user={user}
+                                    mode={this.state.mode}
+                                    setMode={this.setMode}
+                                    notificationsProps={notificationsProps}
+                                />
+                            </Route>
+                            <Route path={`${sprints}/:id${edit}`}>
+                                <EditSprint
+                                    user={user}
+                                    mode={this.state.mode}
+                                    setMode={this.setMode}
+                                    notificationsProps={notificationsProps}
+                                />
+                            </Route>
+                            <Route path={`${sprints}/:id`}>
+                                <Sprint
+                                    user={user}
+                                    mode={this.state.mode}
+                                    setMode={this.setMode}
+                                    setState={updateState(State.setStateData)}
+                                    addSprintComment={updateState(State.addCommentToSprint)}
+                                    addPostComment={updateState(State.addCommentToPost)}
+                                    removeObject={updateState(State.removeObject)}
+                                    data={this.state.data}
+                                    notificationsProps={notificationsProps}
+                                />
+                            </Route>
+                            <Route path={sprints}>
+                                <Sprint
+                                    user={user}
+                                    mode={this.state.mode}
+                                    setMode={this.setMode}
+                                    setState={updateState(State.setStateData)}
+                                    addSprintComment={updateState(State.addCommentToSprint)}
+                                    addPostComment={updateState(State.addCommentToPost)}
+                                    removeObject={updateState(State.removeObject)}
+                                    data={this.state.data}
+                                    notificationsProps={notificationsProps}
+                                />
+                            </Route>
+
+                            {/* Projects */}
+                            <Route path={`${projects}${add}`}>
+                                <AddProject
+                                    user={user}
+                                    mode={this.state.mode}
+                                    setMode={this.setMode}
+                                    notificationsProps={notificationsProps}
+                                />
+                            </Route>
+                            <Route path={`${projects}${edit}`}>
+                                <AddProject
+                                    user={user}
+                                    mode={this.state.mode}
+                                    setMode={this.setMode}
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
@@ -141,7 +190,7 @@ class App extends Component<{}, StateType> {
                                     user={user}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
-                                    setState={updateState(State.setSprints)}
+                                    setState={updateState(State.setStateData)}
                                     addSprintComment={updateState(State.addCommentToSprint)}
                                     addPostComment={updateState(State.addCommentToPost)}
                                     removeObject={updateState(State.removeObject)}
@@ -149,12 +198,14 @@ class App extends Component<{}, StateType> {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
+
+                            {/* Teams and users */}
                             <Route path={teams}>
                                 <Teams
                                     user={user}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
-                                    setState={updateState(State.setSprints)}
+                                    setState={updateState(State.setStateData)}
                                     addSprintComment={updateState(State.addCommentToSprint)}
                                     addPostComment={updateState(State.addCommentToPost)}
                                     removeObject={updateState(State.removeObject)}
@@ -162,45 +213,18 @@ class App extends Component<{}, StateType> {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
-                            {/* /sprints - redirect to the sprint page with  */}
-                            <Route path={main}>
-                                <Sprint
-                                    user={user}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    setState={updateState(State.setSprints)}
-                                    addSprintComment={updateState(State.addCommentToSprint)}
-                                    addPostComment={updateState(State.addCommentToPost)}
-                                    removeObject={updateState(State.removeObject)}
-                                    data={this.state.data}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path={addSprint}>
-                                <AddSprint
-                                    user={user}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path={addProject}>
-                                <AddProject
-                                    user={user}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path={addPost}>
-                                <AddPost
-                                    user={user}
+
+                            {/* Home */}
+                            <Route path={home}>
+                                <Home
+                                    user={this.state.user}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
 
+                            {/* On root '/' redirect to the home page */}
                             <Route exact path={root}>
                                 <Redirect to={home} />
                             </Route>

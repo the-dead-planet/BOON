@@ -45,15 +45,16 @@ const PATHS = {
     root: '/',
     home: '/home',
     sprints: '/sprints',
+    posts: '/posts',
     projects: '/projects',
     teams: '/teams',
     login: '/login',
     logout: '/logout',
     register: '/register',
     main: '/sprints',
-    addSprint: '/add_sprint',
-    addPost: '/add_post',
-    addProject: '/add_project',
+    addPost: '/add-post',
+    add: '/add',
+    edit: '/edit',
 };
 
 const NAV_LINKS = [

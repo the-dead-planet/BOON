@@ -3,11 +3,14 @@ import { useParams, Redirect } from 'react-router-dom';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import sprintsService from '../services/sprintsService';
+import projectsService from '../services/projectsService';
 import AppLayout from '../layouts/AppLayout';
 import { Loading, Empty } from '../components/Loading';
 import { SingleSprint } from '../components/sprint/SingleSprint';
-import { CommentsSection } from '../components/CommentsSection';
-import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
+import {
+    // withShowError,
+    WithShowErrorInjectedProps,
+} from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData } from '../logic/types';
 import moment from 'moment';
 import { MONTH_YEAR_FORMAT } from '../utils/constants';
@@ -61,9 +64,10 @@ const Sprint = ({
 
     const getSprints = async () => {
         let res = await sprintsService.getAll().catch(showError);
-        await setState(res);
-    };
+        let resProj = await projectsService.getAll().catch(showError);
 
+        await setState(res, resProj);
+    };
     // Fetch sprints on the first render.
     // It will send a request when the user re-enters the sprints list page from some other page (e.g. form).
     // This way, the user has a way of refreshing sprints data.

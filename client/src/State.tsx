@@ -5,6 +5,7 @@ import {
     User,
     Notification,
     Sprint,
+    Project,
     Post,
     Comment,
     MongoObject,
@@ -48,7 +49,7 @@ export const addNotification = (state: StateType) => (notification: Notification
 });
 
 export const popNotification = (state: StateType) => (notificationId: string) => ({
-    notifications: state.notifications.filter(n => n.id !== notificationId),
+    notifications: state.notifications.filter((n) => n.id !== notificationId),
 });
 
 // Add a single comment to a commentable object.
@@ -107,11 +108,14 @@ const addCommentImpl = <Commented extends { comments: Array<string> }>(
 
 // Set populated objects, such as: posts, comments, likes
 // Depopulate objects and store them as originally stored in mongo (with references to id's only)
-export const setSprints = (state: StateType) => (sprints: Array<Sprint>) => {
-    const stateDataUpdates = depopulate(sprints as any, 'sprints');
+export const setStateData = (state: StateType) => (sprints: Array<Sprint>, projects: Array<Project>) => {
+    const stateSprints = depopulate(sprints as any, 'sprints');
+    const stateProjects = depopulate(projects as any, 'projects');
+
     // Merge current state with updates.
     // The second argument takes precedence -> pass updates as the second argument.
-    const mergedData = mergeStateData(state.data, stateDataUpdates);
+    const mergedSprintsData = mergeStateData(state.data, stateSprints);
+    const mergedData = mergeStateData(mergedSprintsData, stateProjects);
     return { data: mergedData };
 };
 
@@ -161,7 +165,7 @@ export const removeObject = (state: StateType) => ({
         console.log(`Tried to delete an unknown child object: ${JSON.stringify({ child, childId, parent, parentId })}`);
     } else {
         const currentChildren: Array<String> = parentObj[child];
-        parentObj[child] = currentChildren.filter(el => el !== childId);
+        parentObj[child] = currentChildren.filter((el) => el !== childId);
         stateData[parent].set(parentId, parentObj as any);
     }
 
