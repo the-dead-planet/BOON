@@ -11,9 +11,12 @@ import {
     // withShowError,
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, Mode, StateData } from '../logic/types';
+import { User, NotificationProps, Mode, StateData, Sprint as SprintType } from '../logic/types';
 import moment from 'moment';
 import { MONTH_YEAR_FORMAT } from '../utils/constants';
+import { PATHS } from '../constants/data';
+const { sprints } = PATHS;
+const sprintsPath = sprints;
 
 // TODO: see a comment in `Logout` regarding HOCs.
 interface SprintProps {
@@ -82,6 +85,7 @@ const Sprint = ({
         .map((id) => posts.get(id))
         .map((post) => ({ hash: true, id: post?._id || '', name: post?.title || '', path: `#${post?._id}` || '#' }));
 
+    // TODO: find a better place for these
     const navAdd = [
         { id: 'new-sprint', name: 'New sprint', path: '/add_sprint' },
         { id: 'new-project', name: 'New project', path: '/add_project' },
@@ -113,6 +117,14 @@ const Sprint = ({
     // Pass the 'setCommentsSection' up to each Card component
     const [commentsSection, setCommentsSection]: Array<any> = useState();
 
+    const sortedSprints = sprints ? [...sprints.values()].sort((a, b) => b.number - a.number) : [];
+    let currentInd = 0;
+    sortedSprints.forEach((spr, i) => {
+        if (spr._id === id) {
+            currentInd = i;
+        }
+    });
+
     return sprintToDisplayId && sprintToDisplayId !== id ? (
         <Redirect to={`/sprints/${sprintToDisplayId}`} />
     ) : (
@@ -122,8 +134,20 @@ const Sprint = ({
             setMode={setMode}
             appBar={true}
             pagination={{
+                path: sprintsPath,
+                currentId: id,
+                nextId: currentInd > 0 ? sortedSprints[currentInd - 1]._id : undefined,
+                previousId: currentInd < sortedSprints.length - 1 ? sortedSprints[currentInd + 1]._id : undefined,
                 primary: `Sprint ${sprint?.number || ''}`,
                 secondary: moment(sprint?.dateTo).format(MONTH_YEAR_FORMAT),
+                list: sprints
+                    ? [...sprints.values()].map((spr: SprintType) => ({
+                          name: spr?.title,
+                          path: sprintsPath,
+                          id: spr._id,
+                          number: spr.number,
+                      }))
+                    : undefined,
             }}
             navLeftContent={[
                 { header: 'Highlights', list: navPosts || navPlaceholder },

@@ -310,8 +310,20 @@ type DataPairs =
     | { parent: undefined; child: 'teams'; parentId?: string; childId: string };
 
 interface Page {
-    primary: string;
+    path?: string;
+    currentId?: string;
+    nextId?: string;
+    previousId?: string;
+    primary?: string;
     secondary?: string;
+    list?: Array<PageListItem>;
+}
+
+interface PageListItem {
+    path: string;
+    id: string;
+    name: string;
+    number?: number;
 }
 
 interface NavContentItem {

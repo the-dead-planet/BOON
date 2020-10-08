@@ -82,6 +82,9 @@ const Project = ({
             pagination={{
                 primary: `Project ${sprint?.number || ''}`,
                 secondary: moment(sprint?.dateTo).format(MONTH_YEAR_FORMAT),
+                currentId: id,
+                nextId: id,
+                previousId: id,
             }}
         >
             {/* TODO:  */}

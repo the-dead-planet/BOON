@@ -1,5 +1,4 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import { useStyles } from '../../styles/main';
 import { Link } from '../../utils/Link';
@@ -24,7 +23,6 @@ interface Props {
 
 const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawer, pagination }: Props) => {
     const classes = useStyles();
-    const location = useLocation();
     const style = { marginLeft: 'auto' };
 
     return (
@@ -98,7 +96,7 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
                 </Grid>
             </Toolbar>
 
-            <Pagination primary={pagination?.primary || '-'} secondary={pagination?.secondary || '-'} />
+            <Pagination {...pagination} />
         </AppBar>
         // </HideOnScroll>
     );
