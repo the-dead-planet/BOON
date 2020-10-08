@@ -2,10 +2,16 @@ import React from 'react';
 import { useStyles } from '../../styles/landing';
 import { Link } from '../../utils/Link';
 import { Container, Grid, Typography, Box } from '@material-ui/core';
-import { Landing } from '../../logic/types';
 import { LANDING_CONTENTS } from '../../constants/data';
+import { User, Mode } from '../../logic/types';
 
-const Content = ({ user, mode, setMode, title, subtitle, button }: Landing) => {
+interface Props {
+    user: User;
+    mode: Mode;
+    setMode: any;
+}
+
+const Content = ({ user, mode, setMode }: Props) => {
     const classes = useStyles();
     // TODO: Change this content to something which makes more sense, now it's quite a mess
     return (

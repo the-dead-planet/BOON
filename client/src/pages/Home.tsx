@@ -6,8 +6,6 @@ import AppLayout from '../layouts/AppLayout';
 import Content from '../components/landing/Content';
 import Header from '../components/landing/Header';
 import { Mode, User, NotificationProps } from '../logic/types';
-import { PATHS } from '../constants/data';
-const { register } = PATHS;
 
 interface Props {
     user: User;
@@ -23,16 +21,9 @@ const Home = ({ user, mode, setMode, push, notificationsProps }: Props) => {
 
     return (
         <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
-            <Header />
+            <Header user={user} />
 
-            <Content
-                user={user}
-                mode={mode}
-                setMode={setMode}
-                title="Awesome landing page"
-                subtitle="Start of the coolest project"
-                button={{ name: 'Get started', path: register }}
-            />
+            <Content user={user} mode={mode} setMode={setMode} />
         </AppLayout>
     );
 };

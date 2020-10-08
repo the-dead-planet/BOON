@@ -1,9 +1,7 @@
 /* 
     The purpose of this file is to integrate all styles in one place and reuse classes in various components
 */
-import { Mode } from '../logic/types';
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
-import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 // Below components need to be imported to correctly overwrite styles with classes in useStyle
 const landing1 = require('../img/landing/landing-1.png');
@@ -11,158 +9,6 @@ const landing2 = require('../img/landing/landing-2.png');
 const landing3 = require('../img/landing/landing-3.png');
 const landing4 = require('../img/landing/landing-4.png');
 const landing5 = require('../img/landing/landing-5.png');
-
-// // Custom palette - colors should be defined here and referenced in classes
-// const color1 = '#1A1A1D'; // black
-// const color2 = '#950740'; // dark purple
-// const color3 = '#F0F0F0'; // light grey
-// const color4 = '#6e6e6e'; // lighter black
-// const colorHoverLighter = 'rgba(255, 255, 255, 0.075)';
-// const colorHoverDarker = 'rgba(0, 0, 0, 0.075)';
-
-// Wrapper for the function in order to pass type parameter.
-// Requires defining 'const theme' in components which make use of it. See Layout.tsx
-const createTheme = (type: Mode) => {
-    let theme = createMuiTheme({
-        // For more customization options see https://material-ui.com/customization/default-theme/
-        // mixins: {
-        //     toolbar: {
-        //         // minHeight: "56px", // default
-        //         minHeight: "112px",
-        //         '@media (min-width:0px) and (orientation: landscape)': {
-        //             // minHeight: "48px", // default
-        //             minHeight: "96px",
-        //         },
-        //         '@media (min-width:600px)': {
-        //             // minHeight: "64px",   // default
-        //             minHeight: "128px",
-        //         }
-        //     },
-        // },
-        // TODO: Think if modifying default dark mode backgrounds makes sense, if yes create a separate color palette for dark
-        palette: {
-            type: type,
-            primary: {
-                light: '#B75D69',
-                main: '#372549',
-                dark: '#1A1423',
-                // contrastText: "#EAE2B7",
-            },
-            secondary: {
-                light: '#FF9B54',
-                main: '#CE4257',
-                dark: '#720026',
-                // contrastText: color4,
-            },
-            common: {
-                black: '#000',
-                white: '#fff',
-            },
-            background: {
-                paper: type === 'light' ? '#fff' : '#372549',
-                default: type === 'light' ? '#fafafa' : '#1A1423',
-            },
-            error: {
-                light: '#e57373',
-                main: '#CE4257',
-                dark: '#d32f2f',
-                contrastText: '#fff',
-            },
-            warning: {
-                light: '#ffb74d',
-                main: '#ff9800',
-                dark: '#f57c00',
-                contrastText: '#rgba(0, 0, 0, 0.87',
-            },
-            info: {
-                light: '#64b5f6',
-                main: '#2196f3',
-                dark: '#1976d2',
-                contrastText: '#fff',
-            },
-            success: {
-                light: '#81c784',
-                main: '#4caf50',
-                dark: '#388e3c',
-                contrastText: '#rgba(0, 0, 0, 0.87',
-            },
-            // grey: {
-            //     50: "#fafafa",
-            //     100: "#f5f5f5",
-            //     200: "#eeeeee",
-            //     300: "#e0e0e0",
-            //     400: "#bdbdbd",
-            //     500: "#9e9e9e",
-            //     600: "#757575",
-            //     700: "#616161",
-            //     800: "#424242",
-            //     900: "#212121",
-            //     A100: "#d5d5d5",
-            //     A200: "#aaaaaa",
-            //     A400: "#303030",
-            //     A700: "#616161",
-            // },
-            text: {
-                primary: type === 'light' ? '#540D6E' : '#fff',
-                secondary: type === 'light' ? '#540D6E' : '#fff',
-                disabled: 'rgba(133, 30, 30, 0.38)',
-                hint: 'rgba(0, 0, 0, 0.38)',
-            },
-        },
-        typography: {
-            fontFamily: 'Raleway, sans-serif',
-            // [
-            //     '-apple-system',
-            //     'BlinkMacSystemFont',
-            //     '"Segoe UI"',
-            //     'Roboto',
-            //     '"Helvetica Neue"',
-            //     'Arial',
-            //     'sans-serif',
-            //     '"Apple Color Emoji"',
-            //     '"Segoe UI Emoji"',
-            //     '"Segoe UI Symbol"',
-            // ].join(','),
-            // Base font size to which variants are relative. Default material-ui is 16px
-            fontSize: 14,
-            // Modify variants here if needed
-            // h6: {
-            //     fontSize: "0.5rem",
-            //     '@media (min-width:600px)': {
-            //       fontSize: '1rem',
-            //     },
-            // }
-        },
-    });
-
-    theme = responsiveFontSizes(theme);
-
-    theme.typography.h1 = {
-        ...theme.typography.h1,
-        [theme.breakpoints.down('sm')]: {
-            fontSize: '3.25rem',
-        },
-        [theme.breakpoints.only('xs')]: {
-            fontSize: '2.25rem',
-        },
-    };
-
-    theme.typography.h2 = {
-        ...theme.typography.h2,
-        [theme.breakpoints.down('sm')]: {
-            fontSize: '2.75rem',
-        },
-        [theme.breakpoints.only('xs')]: {
-            fontSize: '1.75rem',
-        },
-    };
-
-    return theme;
-};
-
-// Misc const used in styles
-const drawerWidth = 240;
-const toolbarHeight = 50;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -228,6 +74,20 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: '1em !important',
             backgroundColor: theme.palette.primary.main,
         },
+        topButtons: {
+            position: 'absolute',
+            top: 0,
+            '&$right': {
+                right: '2em',
+                left: 'auto',
+            },
+            '&$left': {
+                left: '2em',
+                right: 'auto',
+            },
+        },
+        left: {},
+        right: {},
         definitions: {
             padding: '0 1em',
         },
@@ -489,7 +349,8 @@ const useStyles = makeStyles((theme: Theme) =>
         button: {
             padding: '.5em 1em',
             borderRadius: '5px',
-            border: `2px solid ${theme.palette.primary.main}`,
+            borderWidth: `2px`,
+            borderStyle: `solid`,
             bottom: '1em',
             position: 'absolute',
             textAlign: 'center',
@@ -580,4 +441,4 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-export { useStyles, createTheme };
+export { useStyles };

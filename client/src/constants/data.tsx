@@ -35,7 +35,7 @@ const LANDING_CONTENTS = [
     },
     {
         title: 'GOSS',
-        text: 'about the stars behind productivity in your team.',
+        text: "about the superstars behind your team's success.",
         link: 'Meet the teams',
         path: '/teams',
     },

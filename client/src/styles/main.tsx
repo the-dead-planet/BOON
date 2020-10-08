@@ -138,6 +138,7 @@ const useStyles = makeStyles((theme: Theme) =>
             flexGrow: 1,
             padding: theme.spacing(3),
             paddingBottom: '5em',
+            minHeight: '100vh',
         },
         content: {
             flexGrow: 1,
@@ -148,6 +149,7 @@ const useStyles = makeStyles((theme: Theme) =>
             }),
             marginLeft: -drawerWidth,
             paddingBottom: '5em',
+            minHeight: '100vh',
         },
         contentShift: {
             transition: theme.transitions.create('margin', {
@@ -230,14 +232,22 @@ const useStyles = makeStyles((theme: Theme) =>
             marginRight: 'auto',
         },
         navButton: {
-            padding: '.2em .8em',
-            transition: 'transform .2s ease-in',
+            margin: '0 .4em !important',
+            padding: '.2em 1em !important',
+            borderWidth: '1.4px',
+            borderStyle: 'solid',
+            borderRadius: '5px',
             '&:hover': {
-                transform: 'scale(1.05)',
-                transition: 'transform .2s ease-out',
-                // textShadow: '1px 1px 2px rgba(0, 0, 0, .03)',
-                // borderRadius: '5px',
+                backgroundColor: 'rgba(0, 0, 0, .06)',
+                cursor: 'pointer',
             },
+            '&:active': {
+                backgroundColor: 'rgba(0, 0, 0, .1)',
+                cursor: 'pointer',
+            },
+        },
+        userIcon: {
+            margin: '0 .5em',
         },
         fabContainer: {
             position: 'fixed',

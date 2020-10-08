@@ -42,7 +42,9 @@ export const AuthButtonsHorizontal = ({ user, style }: Props) => {
         <Grid container>
             {signUpButton}
             {loginButton}
-            <IconUserSecret size="2x" />
+            <div className={classes.userIcon}>
+                <IconUserSecret size="2x" />
+            </div>
         </Grid>
     );
 };
