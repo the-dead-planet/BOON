@@ -7,7 +7,7 @@ import sprintsService from '../services/sprintsService';
 import MenuItem from '@material-ui/core/MenuItem';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { User, Sprint, MongoObject, Model } from '../logic/types';
-import { PATHS } from '../constants/data';
+// import { PATHS } from '../constants/data';
 // const { main } = PATHS;
 
 const models = [

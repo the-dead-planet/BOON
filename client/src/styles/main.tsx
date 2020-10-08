@@ -232,6 +232,20 @@ const useStyles = makeStyles((theme: Theme) =>
             marginRight: 'auto',
         },
         navButton: {
+            padding: '.2em .8em',
+            transition: 'transform .2s ease-in',
+            '&:hover': {
+                transform: 'scale(1.05)',
+                transition: 'transform .2s ease-out',
+                // textShadow: '1px 1px 2px rgba(0, 0, 0, .03)',
+                // borderRadius: '5px',
+            },
+            '&$disabled': {
+                pointerEvents: 'none',
+            },
+        },
+        disabled: {},
+        button: {
             margin: '0 .4em !important',
             padding: '.2em 1em !important',
             borderWidth: '1.4px',

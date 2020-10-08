@@ -3,7 +3,7 @@ import { useStyles } from '../../styles/main';
 import { Link } from '../../utils/Link';
 import { Button, Grid, List, ListItem, ListItemText } from '@material-ui/core';
 import { menuItems } from './items';
-import { AuthButtonsHorizontal } from './AuthButtons';
+import { AuthButtonsHorizontal } from './NavButtons';
 import { User } from '../../logic/types';
 
 interface Props {
@@ -34,7 +34,7 @@ export const MenuItemsVertical = ({ user }: Props) => {
 
     return (
         <List>
-            {menuItems.map(item => (
+            {menuItems.map((item) => (
                 <ListItem button component={Link} to={item.path} key={item.name}>
                     {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
                     <ListItemText primary={item.name} />

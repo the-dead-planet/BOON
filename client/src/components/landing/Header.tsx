@@ -1,8 +1,8 @@
 import React from 'react';
 import { useStyles } from '../../styles/landing';
-import { Box, Grid, Typography, Divider } from '@material-ui/core';
+import { Box, Grid, Typography, Divider, Hidden } from '@material-ui/core';
 import { Logo } from './Logo';
-import { AuthButtonsHorizontal } from '../navigation/AuthButtons';
+import { AuthButtonsHorizontal, BrowseButton } from '../navigation/NavButtons';
 import { Dictionary } from './Dictionary';
 import { DICTIONARY } from '../../constants/data';
 import { User } from '../../logic/types';
@@ -17,9 +17,18 @@ const Header = ({ user }: Props) => {
 
     return (
         <Grid container justify="center" className={classes.headerContainer}>
-            <Box className={`${classes.topButtons} ${classes.right}`}>
-                <AuthButtonsHorizontal user={user} />
-            </Box>
+            <Hidden smDown>
+                <Box className={`${classes.topButtons} ${classes.right}`}>
+                    <AuthButtonsHorizontal user={user} />
+                </Box>
+            </Hidden>
+
+            <Hidden smDown>
+                <Box className={`${classes.topButtons} ${classes.left}`}>
+                    <BrowseButton user={user} />
+                </Box>
+            </Hidden>
+
             <Grid item xs={12} className={classes.headerText}>
                 <Logo />
             </Grid>

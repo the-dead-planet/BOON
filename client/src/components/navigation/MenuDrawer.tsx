@@ -5,9 +5,10 @@ import { Drawer, List, ListItem, ListItemText, Divider, IconButton, Hidden } fro
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 // import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import DarkModeSwitch from '../DarkModeSwitch';
-import { AuthButtonsVertical } from './AuthButtons';
-import { PATHS } from '../../constants/data';
+import { AuthButtonsVertical } from './NavButtons';
 import { DrawerVariant, Mode, User } from '../../logic/types';
+import { PATHS } from '../../constants/data';
+const { home, sprints, projects, teams } = PATHS;
 
 interface Props {
     user: User;
@@ -21,12 +22,23 @@ interface Props {
 // This component can be either temporary or persistent. By default temporary. use prop 'variant' to change to "persistent"
 const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDrawer }: Props) => {
     const classes = useStyles();
-    const { home } = PATHS;
 
     const items = [
         {
             name: 'Home',
             path: home,
+        },
+        {
+            name: 'Sprints',
+            path: sprints,
+        },
+        {
+            name: 'Projects',
+            path: projects,
+        },
+        {
+            name: 'Teams',
+            path: teams,
         },
     ];
 
@@ -49,7 +61,7 @@ const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDr
                 </IconButton>
             </div>
 
-            <Divider />
+            {/* <Divider /> */}
 
             <List>
                 {items.map((item, i) => (
@@ -65,8 +77,9 @@ const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDr
                 <AuthButtonsVertical user={user} />
             </Hidden>
 
-            <Divider />
-            <DarkModeSwitch style={style} mode={mode} setMode={setMode} />
+            {/* <Divider /> */}
+            {/* TODO: Add mode modes and change this component to another one */}
+            {/* <DarkModeSwitch style={style} mode={mode} setMode={setMode} /> */}
         </Drawer>
     );
 };

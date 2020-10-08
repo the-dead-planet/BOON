@@ -4,8 +4,8 @@ import { Link } from '../../utils/Link';
 import { Grid, List, ListItem, ListItemText, Typography } from '@material-ui/core';
 import { IconUserSecret } from '../Icons';
 import { User } from '../../logic/types';
-// import { PATHS } from '../../constants/data';
-// const { home, login, logout, register } = PATHS; // TODO:
+import { PATHS } from '../../constants/data';
+const { browse, login, logout, register, account } = PATHS;
 
 // Set text on auth buttons dependent on whether a user is logged in or not
 const getText = (user: User | null | undefined) => {
@@ -20,18 +20,19 @@ interface Props {
     style?: object;
 }
 
-export const AuthButtonsHorizontal = ({ user, style }: Props) => {
+export const AuthButtonsHorizontal = ({ user }: Props) => {
     const classes = useStyles();
-    let signUpButton = (
-        <Link to={!user ? '/register' : '/'}>
-            <Typography className={classes.navButton} color="inherit">
-                {getText(user).register}
-            </Typography>
-        </Link>
+    const signUpText = (
+        <Typography className={`${classes.navButton} ${user ? classes.disabled : undefined}`} color="inherit">
+            {getText(user).register}
+        </Typography>
     );
 
+    let signUpButton = !user ? <Link to={register}>{signUpText}</Link> : signUpText;
+
+    // TODO: hide this button, instead open a menu after clicking on the icon with options: "settings, logout etc"
     let loginButton = (
-        <Link to={!user ? '/login' : '/logout'}>
+        <Link to={!user ? login : logout}>
             <Typography className={classes.navButton} color="secondary">
                 {getText(user).login}
             </Typography>
@@ -43,7 +44,9 @@ export const AuthButtonsHorizontal = ({ user, style }: Props) => {
             {signUpButton}
             {loginButton}
             <div className={classes.userIcon}>
-                <IconUserSecret size="2x" />
+                <Link to={!user ? login : account}>
+                    <IconUserSecret size="2x" />
+                </Link>
             </div>
         </Grid>
     );
@@ -53,14 +56,14 @@ export const AuthButtonsVertical = ({ user, style }: Props) => {
     const classes = useStyles();
     // TODO: resolve error 'div cannot be child of p'
     let signUpButton = (
-        <ListItem button component={!user ? Link : Typography} to={!user ? '/register' : ''}>
+        <ListItem button component={!user ? Link : Typography} to={!user ? register : ''}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText primary={getText(user).register} />
         </ListItem>
     );
 
     let loginButton = (
-        <ListItem button component={Link} to={!user ? '/login' : '/logout'}>
+        <ListItem button component={Link} to={!user ? login : logout}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText primary={getText(user).login} />
         </ListItem>
@@ -71,5 +74,17 @@ export const AuthButtonsVertical = ({ user, style }: Props) => {
             {signUpButton}
             {loginButton}
         </List>
+    );
+};
+
+export const BrowseButton = ({ user, style }: Props) => {
+    const classes = useStyles();
+
+    return (
+        <Link to={browse}>
+            <Typography className={classes.navButton} color="primary">
+                {getText(user).login}
+            </Typography>
+        </Link>
     );
 };

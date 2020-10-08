@@ -44,6 +44,8 @@ const LANDING_CONTENTS = [
 const PATHS = {
     root: '/',
     home: '/home',
+    account: '/account',
+    browse: '/browse',
     sprints: '/sprints',
     posts: '/posts',
     projects: '/projects',

@@ -7,7 +7,7 @@ import { Grid, AppBar, Toolbar, Typography, IconButton, Hidden } from '@material
 import MenuIcon from '@material-ui/icons/Menu';
 import Pagination from './Pagination';
 // import HideOnScroll from '../../utils/HideOnScroll';
-import { AuthButtonsHorizontal } from './AuthButtons';
+import { AuthButtonsHorizontal } from './NavButtons';
 import { Mode, User, DrawerVariant, Page } from '../../logic/types';
 import { NAV_LINKS } from '../../constants/data';
 
