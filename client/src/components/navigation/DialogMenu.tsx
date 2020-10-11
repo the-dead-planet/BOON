@@ -11,18 +11,8 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const DialogMenu = ({ open, handleClose, message, contextText, buttonOk, buttonCancel }: DialogProps) => {
-    // const classes = useStyles();
-    // const [open, setOpen] = React.useState(false);
-
-    // const handleClickOpen = () => {
-    //     setOpen(true);
-    // };
-
-    // const handleClose = () => {
-    //     setOpen(false);
-    // };
-
+const DialogMenu = ({ open, handleClose, message, contextText, buttonOk }: DialogProps) => {
+    // TODO: style it nicer
     return (
         <div>
             <Dialog
@@ -38,8 +28,8 @@ const DialogMenu = ({ open, handleClose, message, contextText, buttonOk, buttonC
                     <DialogContentText id="alert-dialog-slide-description">{contextText}</DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={buttonCancel.onClick} color="primary">
-                        {buttonCancel.text}
+                    <Button onClick={handleClose} color="primary">
+                        Cancel
                     </Button>
                     <Button onClick={buttonOk.onClick} color="primary">
                         {buttonOk.text}

@@ -7,17 +7,23 @@ interface Props {
     user: User;
     comments: Array<CommentType>;
     users: Map<string, User>;
-    removeComment: any;
+    setCommentToBeDeletedId: any;
 }
 
-export const CommentsList = ({ user, comments, users, removeComment }: Props) => {
+export const CommentsList = ({ user, comments, users, setCommentToBeDeletedId }: Props) => {
     return (
         <List>
             <Divider variant="middle" />
             {comments
                 ?.sort((a, b) => new Date(b?.created).getTime() - new Date(a?.created).getTime())
                 .map((comment, i) => (
-                    <Comment key={i} user={user} comment={comment} users={users} removeComment={removeComment} />
+                    <Comment
+                        key={i}
+                        user={user}
+                        comment={comment}
+                        users={users}
+                        setCommentToBeDeletedId={setCommentToBeDeletedId}
+                    />
                 ))}
         </List>
     );

@@ -42,20 +42,15 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError, removeO
     return user && object && (object as any).author === user._id ? (
         <MenuItem
             color="inherit"
-            onClick={(data) => {
-                const extendedData = {
-                    ...data,
-                    objectId: object._id,
-                };
-
-                return models
+            onClick={() =>
+                models
                     .reduce((acc, val) => (val.name === model ? val : acc))
-                    .service.delete(extendedData)
+                    .service.delete({ objectId: object._id })
                     .then((response) => {
                         removeObject(response.data);
                     })
-                    .catch(onError);
-            }}
+                    .catch(onError)
+            }
         >
             Delete
         </MenuItem>
@@ -67,20 +62,15 @@ export const IconDelete = ({ user, model, object, push, onError, removeObject }:
         <DeleteIcon
             fontSize="small"
             color="inherit"
-            onClick={(data) => {
-                const extendedData = {
-                    ...data,
-                    objectId: object._id,
-                };
-
-                return models
+            onClick={() =>
+                models
                     .reduce((acc, val) => (val.name === model ? val : acc))
-                    .service.delete(extendedData)
+                    .service.delete({ objectId: object._id })
                     .then((response) => {
                         removeObject(response.data);
                     })
-                    .catch(onError);
-            }}
+                    .catch(onError)
+            }
         />
     ) : null;
 };

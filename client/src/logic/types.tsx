@@ -364,7 +364,6 @@ interface DialogProps {
     message: string;
     contextText?: string;
     buttonOk: DialogButton;
-    buttonCancel: DialogButton;
 }
 
 export type {

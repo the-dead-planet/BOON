@@ -168,6 +168,11 @@ const Sprint = ({
         setOpenSecondaryDrawer(open);
     };
 
+    /* 
+        DIALOG WINDOW
+    */
+    //    TODO: Is it better to add it here and pass to Layout or use in single components, which require a dialog
+
     return sprintToDisplayId && sprintToDisplayId !== id ? (
         <Redirect to={`/sprints/${sprintToDisplayId}`} />
     ) : (

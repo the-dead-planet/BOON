@@ -1,26 +1,19 @@
 import React from 'react';
-import { useStyles } from '../styles/main';
+// import { useStyles } from '../styles/main';
 import moment from 'moment';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import { IconDelete } from './Buttons';
-import Typography from '@material-ui/core/Typography';
-// import { ObjectDeleteButton } from './Buttons';
+import { ListItem, ListItemText, ListItemAvatar, Avatar, IconButton, Typography } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { User, Comment as CommentType } from '../logic/types';
 
 interface Props {
     user: User;
     comment: CommentType;
     users: Map<string, User>;
-    removeComment: any;
+    setCommentToBeDeletedId: any;
 }
 
-export const Comment = ({ user, comment, users, removeComment }: Props) => {
-    const classes = useStyles();
+export const Comment = ({ user, comment, users, setCommentToBeDeletedId }: Props) => {
+    // const classes = useStyles();
     const author = users.get(comment?.author)?.publicName;
     return (
         <React.Fragment>
@@ -44,7 +37,14 @@ export const Comment = ({ user, comment, users, removeComment }: Props) => {
                 {/* TODO: Removing works but the page is not re-rendered */}
                 {users.get(comment?.author)?.publicName === user?.publicName && (
                     <IconButton aria-label="remove comment">
-                        <IconDelete user={user} model="Comment" object={comment} removeObject={removeComment} />
+                        {/* <IconDelete user={user} model="Comment" object={comment} setCommentToBeDeletedId={setCommentToBeDeletedId} /> */}
+                        {user && comment.author === user._id ? (
+                            <DeleteIcon
+                                fontSize="small"
+                                color="inherit"
+                                onClick={() => setCommentToBeDeletedId(comment._id)}
+                            />
+                        ) : undefined}
                     </IconButton>
                 )}
             </ListItem>
