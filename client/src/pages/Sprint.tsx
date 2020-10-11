@@ -49,9 +49,12 @@ const Sprint = ({
     const { id }: { id: string } = useParams();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
 
+    /* 
+        DETERMINE SPRINT ID
+        If no specific `Sprint` has been specified, try to redirect to the
+        detail page of the most recent sprint
+    */
     let sprintToDisplayId = id;
-    // If no specific `Sprint` has been specified, try to redirect to the
-    // detail page of the most recent sprint.
     if (sprintToDisplayId === undefined) {
         // Wait for the sprints to load.
         // TODO: consider adding a HOC waiting for pending requests and rendering a spinner.
@@ -66,6 +69,9 @@ const Sprint = ({
         }
     }
 
+    /* 
+        GET DATA FROM DATA BASE AND WRITE TO APP STATE
+    */
     const getSprints = async () => {
         let res = await sprintsService.getAll().catch(showError);
         let resProj = await projectsService.getAll().catch(showError);
@@ -79,9 +85,25 @@ const Sprint = ({
         getSprints();
     }, []);
 
-    // Get current sprint
+    /* 
+        GET CURRENT SPRINT ID DATA FROM APP STATE
+    */
     const sprint = sprints.get(id);
 
+    /*
+        SORT SPRINTS FOR PAGINATION
+    */
+    const sortedSprints = sprints ? [...sprints.values()].sort((a, b) => b.number - a.number) : [];
+    let currentInd = 0;
+    sortedSprints.forEach((spr, i) => {
+        if (spr._id === id) {
+            currentInd = i;
+        }
+    });
+
+    /* 
+        NAVIGATION ITEMS
+    */
     const navPosts = sprint?.posts
         .map((id) => posts.get(id))
         .map((post) => ({ hash: true, id: post?._id || '', name: post?.title || '', path: `#${post?._id}` || '#' }));
@@ -95,6 +117,9 @@ const Sprint = ({
 
     const navPlaceholder = [{ id: '', name: 'Printing...', path: '/' }];
 
+    /* 
+        PREPARE COMMENTS SECTION COMPONENT TO FEED TO THE RIGHT (SECONDARY) DRAWER
+    */
     // Initialize state value with the ComponentsSection as undefined.
     // Once current sprint is loaded to state, set this value to the sprint comments
     // Pass the 'setCommentsSection' up to each Card component
@@ -110,8 +135,6 @@ const Sprint = ({
                 : posts.get(commentsProps.parentId)
             )?.comments.map((comment) => comments.get(comment))}
             users={data.users}
-            // comments={(commentsProps.model === "Sprint" ? sprints.get(commentsProps.object._id) : posts.get(commentsProps.object._id))
-            //     ?.comments.map(comment => comments.get(comment))}
             addComment={commentsProps.addComment}
             removeComment={commentsProps.removeComment}
         />
@@ -144,14 +167,6 @@ const Sprint = ({
             });
         setOpenSecondaryDrawer(open);
     };
-
-    const sortedSprints = sprints ? [...sprints.values()].sort((a, b) => b.number - a.number) : [];
-    let currentInd = 0;
-    sortedSprints.forEach((spr, i) => {
-        if (spr._id === id) {
-            currentInd = i;
-        }
-    });
 
     return sprintToDisplayId && sprintToDisplayId !== id ? (
         <Redirect to={`/sprints/${sprintToDisplayId}`} />
