@@ -63,6 +63,7 @@ export const addCommentToSprint = (state: StateType) => (sprintId: string, comme
         state.data.comments,
         comment
     );
+    console.log({ comments: updatedCommentData, sprints: updatedSprintData });
     return { comments: updatedCommentData, sprints: updatedSprintData };
 };
 

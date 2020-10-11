@@ -83,7 +83,7 @@ export const BrowseButton = ({ user, style }: Props) => {
     return (
         <Link to={browse}>
             <Typography className={classes.navButton} color="primary">
-                {getText(user).login}
+                Browse
             </Typography>
         </Link>
     );

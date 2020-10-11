@@ -21,7 +21,8 @@ interface Props {
     likes: Array<Like | undefined>;
     users: Map<string, User>;
     addComment: any;
-    removeObject: any;
+    removeSprint: any;
+    removeComment: any;
     toggleCommentsPanel: any;
     onError: any;
 }
@@ -33,7 +34,8 @@ export const SprintOverview = ({
     likes,
     users,
     addComment,
-    removeObject,
+    removeSprint,
+    removeComment,
     toggleCommentsPanel,
     onError,
 }: Props) => {
@@ -63,10 +65,8 @@ export const SprintOverview = ({
                 { name: 'Add post', path: `${sprint._id}/add_post` },
             ]}
             addComment={addComment}
-            removeObject={(id: string) => removeObject({ child: 'sprints', childId: id })}
-            removeComment={(id: string, sprintId: string) =>
-                removeObject({ child: 'comments', childId: id, parent: 'sprints', parentId: sprintId })
-            }
+            removeObject={(id: string) => removeSprint(id)}
+            removeComment={(id: string) => removeComment(id)}
             toggleCommentsPanel={toggleCommentsPanel}
         />
     );

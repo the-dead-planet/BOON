@@ -17,7 +17,7 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                 <Typography variant="h6" noWrap>
                     {previousId && (
                         <Link to={`${path}/${previousId}`}>
-                            <IconButton style={style} title="Previous" aria-aria-label="previous">
+                            <IconButton style={style} title="Previous" aria-label="previous">
                                 <ChevronLeftIcon color="primary" />
                             </IconButton>
                         </Link>

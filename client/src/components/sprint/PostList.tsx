@@ -68,7 +68,7 @@ export const PostsList = ({
                             ]}
                             addComment={addComment}
                             removeObject={removePost}
-                            removeComment={removeComment}
+                            removeComment={(id: string) => removeComment(id, post._id)}
                             toggleCommentsPanel={toggleCommentsPanel}
                             divider={true}
                             hover={true}

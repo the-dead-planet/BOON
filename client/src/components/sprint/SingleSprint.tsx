@@ -49,7 +49,10 @@ export const SingleSprint = ({
                 likes={sprint.likes.map((id: string) => likes.get(id))}
                 users={users}
                 addComment={addSprintComment}
-                removeObject={removeObject}
+                removeSprint={(id: string) => removeObject({ child: 'sprints', childId: id })}
+                removeComment={(id: string) =>
+                    removeObject({ child: 'comments', childId: id, parent: 'sprints', parentId: sprint._id })
+                }
                 toggleCommentsPanel={toggleCommentsPanel}
                 onError={onError}
             />
@@ -65,8 +68,8 @@ export const SingleSprint = ({
                 removePost={(id: string) =>
                     removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: sprint._id })
                 }
-                removeComment={(id: string, sprintId: string) =>
-                    removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: sprintId })
+                removeComment={(id: string, postId: string) =>
+                    removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })
                 }
                 toggleCommentsPanel={toggleCommentsPanel}
             />

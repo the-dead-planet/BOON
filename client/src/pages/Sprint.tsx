@@ -6,12 +6,13 @@ import sprintsService from '../services/sprintsService';
 import projectsService from '../services/projectsService';
 import AppLayout from '../layouts/AppLayout';
 import { Loading, Empty } from '../components/Loading';
+import { CommentsSection } from '../components/CommentsSection';
 import { SingleSprint } from '../components/sprint/SingleSprint';
 import {
     // withShowError,
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, Mode, StateData, Sprint as SprintType } from '../logic/types';
+import { User, NotificationProps, Mode, StateData, Sprint as SprintType, Model, MongoObject } from '../logic/types';
 import moment from 'moment';
 import { MONTH_YEAR_FORMAT } from '../utils/constants';
 import { PATHS } from '../constants/data';
@@ -94,10 +95,32 @@ const Sprint = ({
 
     const navPlaceholder = [{ id: '', name: 'Printing...', path: '/' }];
 
+    // Initialize state value with the ComponentsSection as undefined.
+    // Once current sprint is loaded to state, set this value to the sprint comments
+    // Pass the 'setCommentsSection' up to each Card component
+    const [commentsProps, setCommentsProps]: any = useState(undefined);
+    const commentsSection = commentsProps ? (
+        <CommentsSection
+            expanded={true}
+            user={user}
+            object={commentsProps.object}
+            model={commentsProps.model}
+            comments={(commentsProps.model === 'Sprint'
+                ? sprints.get(commentsProps.object._id)
+                : posts.get(commentsProps.object._id)
+            )?.comments.map((comment) => comments.get(comment))}
+            users={data.users}
+            // comments={(commentsProps.model === "Sprint" ? sprints.get(commentsProps.object._id) : posts.get(commentsProps.object._id))
+            //     ?.comments.map(comment => comments.get(comment))}
+            addComment={commentsProps.addComment}
+            removeComment={commentsProps.removeComment}
+        />
+    ) : undefined;
+
     // Secondary TODO: create a generic method and reuse for each drawer
     const [openSecondaryDrawer, setOpenSecondaryDrawer] = useState(false);
 
-    const toggleSecondaryDrawer = (commentsSection: any, open: boolean) => (
+    const toggleSecondaryDrawer = (open: boolean, model: Model, object: any, add: any, remove: any) => (
         event: React.KeyboardEvent | React.MouseEvent
     ) => {
         if (
@@ -107,15 +130,16 @@ const Sprint = ({
             return;
         }
 
-        // Change content and open drawer
-        setCommentsSection(commentsSection);
+        // Rewrite this logic completely
+        if (open)
+            setCommentsProps({
+                model: model,
+                object: object,
+                addComment: add,
+                removeComment: remove,
+            });
         setOpenSecondaryDrawer(open);
     };
-
-    // Initialize state value with the ComponentsSection as undefined.
-    // Once current sprint is loaded to state, set this value to the sprint comments
-    // Pass the 'setCommentsSection' up to each Card component
-    const [commentsSection, setCommentsSection]: Array<any> = useState();
 
     const sortedSprints = sprints ? [...sprints.values()].sort((a, b) => b.number - a.number) : [];
     let currentInd = 0;
