@@ -9,6 +9,7 @@ import SecondaryDrawer from '../components/navigation/SecondaryDrawer';
 import NavBarLeft from '../components/navigation/NavBarLeft';
 import NavBarTop from '../components/navigation/NavBarTop';
 import Footer from '../components/navigation/Footer';
+import DialogMenu from '../components/navigation/DialogMenu';
 import {
     Drawer,
     Mode,
@@ -17,9 +18,7 @@ import {
     Page,
     NavContent,
     SideColumn,
-    MongoObject,
-    Model,
-    Comment as CommentType,
+    DialogProps,
 } from '../logic/types';
 import { APP_NAME } from '../constants/data';
 import NotificationsRenderer from '../components/NotificationsRenderer';
@@ -33,20 +32,28 @@ import NotificationsRenderer from '../components/NotificationsRenderer';
 interface Props {
     user: User;
     children: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | undefined;
-    jumbotron?: JumbotronType;
-    drawer?: Drawer;
-    appBar?: boolean;
     mode: Mode;
     setMode: any;
-    navLeftContent?: NavContent;
-    sideColumn?: SideColumn;
-    secondaryDrawer?: any;
-    secondaryDrawerOpen?: boolean;
-    toggleSecondaryDrawer?: any;
-    secondaryDrawerContent?: any;
+    // Appbar and jumbotron
+    appBar?: boolean;
+    jumbotron?: JumbotronType;
+    // Pagination
     pagination?: Page;
     nextId?: string;
     previousId?: string;
+    // Left navigation panel
+    navLeftContent?: NavContent;
+    // Side newspaper column
+    sideColumn?: SideColumn;
+    // Secondary drawer
+    drawer?: Drawer;
+    secondaryDrawer?: any;
+    secondaryDrawerOpen?: boolean;
+    secondaryDrawerContent?: any;
+    toggleSecondaryDrawer?: any;
+    // Dialog Alert window
+    dialog?: DialogProps;
+    // Notifications
     notifications: any;
     onNotificationShown: any;
 }
@@ -54,18 +61,28 @@ interface Props {
 const AppLayout = ({
     user,
     children,
-    jumbotron,
-    drawer,
-    appBar,
     mode,
     setMode,
+    // Appbar and jumbotron
+    appBar,
+    jumbotron,
+    // Pagination
     pagination,
+    nextId, //TODO: check if still required
+    previousId, //TODO: check if still required
+    // Left navigation panel
     navLeftContent,
+    // Side newspaper column
     sideColumn,
+    // Secondary drawer
+    drawer,
     secondaryDrawer,
     secondaryDrawerOpen = false,
-    toggleSecondaryDrawer,
     secondaryDrawerContent,
+    toggleSecondaryDrawer,
+    // Dialog Alert window
+    dialog,
+    // Notifications
     notifications,
     onNotificationShown,
 }: Props) => {
@@ -147,6 +164,7 @@ const AppLayout = ({
 
             <Footer />
 
+            {dialog && <DialogMenu {...dialog} />}
             {/* TODO: style it nicer and allow moving to next/previous sprint */}
             <NotificationsRenderer notifications={notifications} onShown={onNotificationShown} />
         </ThemeWrapper>

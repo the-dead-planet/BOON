@@ -353,6 +353,20 @@ interface CommentsProps {
     removeComment: any;
 }
 
+interface DialogButton {
+    text: string;
+    onClick: any;
+}
+
+interface DialogProps {
+    open: boolean;
+    handleClose: any;
+    message: string;
+    contextText?: string;
+    buttonOk: DialogButton;
+    buttonCancel: DialogButton;
+}
+
 export type {
     Children,
     DataItem,
@@ -406,4 +420,6 @@ export type {
     NavContent,
     SideColumn,
     CommentsProps,
+    DialogButton,
+    DialogProps,
 };
