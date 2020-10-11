@@ -14,9 +14,11 @@ export const CommentsList = ({ user, comments, users, removeComment }: Props) =>
     return (
         <List>
             <Divider variant="middle" />
-            {(comments || []).map((comment, i) => (
-                <Comment key={i} user={user} comment={comment} users={users} removeComment={removeComment} />
-            ))}
+            {comments
+                ?.sort((a, b) => new Date(b?.created).getTime() - new Date(a?.created).getTime())
+                .map((comment, i) => (
+                    <Comment key={i} user={user} comment={comment} users={users} removeComment={removeComment} />
+                ))}
         </List>
     );
 };

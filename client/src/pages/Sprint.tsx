@@ -103,11 +103,11 @@ const Sprint = ({
         <CommentsSection
             expanded={true}
             user={user}
-            object={commentsProps.object}
-            model={commentsProps.model}
-            comments={(commentsProps.model === 'Sprint'
-                ? sprints.get(commentsProps.object._id)
-                : posts.get(commentsProps.object._id)
+            parentId={commentsProps.parentId}
+            parentModel={commentsProps.parentModel}
+            comments={(commentsProps.parentModel === 'Sprint'
+                ? sprints.get(commentsProps.parentId)
+                : posts.get(commentsProps.parentId)
             )?.comments.map((comment) => comments.get(comment))}
             users={data.users}
             // comments={(commentsProps.model === "Sprint" ? sprints.get(commentsProps.object._id) : posts.get(commentsProps.object._id))
@@ -120,9 +120,13 @@ const Sprint = ({
     // Secondary TODO: create a generic method and reuse for each drawer
     const [openSecondaryDrawer, setOpenSecondaryDrawer] = useState(false);
 
-    const toggleSecondaryDrawer = (open: boolean, model: Model, object: any, add: any, remove: any) => (
-        event: React.KeyboardEvent | React.MouseEvent
-    ) => {
+    const toggleSecondaryDrawer = (
+        open: boolean,
+        parentModel: Model,
+        parentId: any,
+        addComment: any,
+        removeComment: any
+    ) => (event: React.KeyboardEvent | React.MouseEvent) => {
         if (
             event.type === 'keydown' &&
             ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
@@ -133,10 +137,10 @@ const Sprint = ({
         // Rewrite this logic completely
         if (open)
             setCommentsProps({
-                model: model,
-                object: object,
-                addComment: add,
-                removeComment: remove,
+                parentModel,
+                parentId,
+                addComment,
+                removeComment,
             });
         setOpenSecondaryDrawer(open);
     };

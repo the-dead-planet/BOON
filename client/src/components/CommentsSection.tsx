@@ -10,8 +10,8 @@ import { User, Comment as CommentType, MongoObject, Model } from '../logic/types
 interface Props {
     expanded: boolean;
     user: User;
-    object: MongoObject;
-    model: Model;
+    parentId: string;
+    parentModel: Model;
     comments: Array<Comment>;
     users: Map<string, User>;
     addComment: any;
@@ -23,7 +23,17 @@ interface Props {
 // TODO: fix props instead.
 const anyProps: any = {};
 
-const CommentsImpl = ({ expanded, user, object, model, comments, users, addComment, removeComment, push }: Props) => {
+const CommentsImpl = ({
+    expanded,
+    user,
+    parentId,
+    parentModel,
+    comments,
+    users,
+    addComment,
+    removeComment,
+    push,
+}: Props) => {
     const classes = useStyles();
 
     return (
@@ -37,8 +47,8 @@ const CommentsImpl = ({ expanded, user, object, model, comments, users, addComme
             <Box className={classes.addComment}>
                 <AddComment
                     user={user}
-                    _id={object._id}
-                    model={model}
+                    _id={parentId}
+                    model={parentModel}
                     addComment={addComment}
                     push={push}
                     {...anyProps}

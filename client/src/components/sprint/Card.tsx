@@ -121,7 +121,7 @@ export const PostCard = ({
                     handleExpandClick={handleExpandClick}
                     // TODO: Repair add and remove comment from state
                     toggleCommentsPanel={(open: boolean) =>
-                        toggleCommentsPanel(open, model, object, addComment, removeComment)
+                        toggleCommentsPanel(open, model, object._id, addComment, removeComment)
                     }
                 />
                 {/* TODO: Create a single post page */}

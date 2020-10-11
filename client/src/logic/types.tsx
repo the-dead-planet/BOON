@@ -346,6 +346,13 @@ interface SideColumn {
     body: string;
 }
 
+interface CommentsProps {
+    parentModel: Model;
+    parentId: string;
+    addComment: any;
+    removeComment: any;
+}
+
 export type {
     Children,
     DataItem,
@@ -398,4 +405,5 @@ export type {
     Page,
     NavContent,
     SideColumn,
+    CommentsProps,
 };
