@@ -1,21 +1,5 @@
 import { depopulate, mergeStateData, initialState as initialStateData } from './logic/StateData';
-import {
-    Mode,
-    StateType,
-    User,
-    Notification,
-    Sprint,
-    Project,
-    Post,
-    Comment,
-    MongoObject,
-    Path,
-    StateDataKeys,
-    Model,
-    DataPath,
-    DataPathParent,
-    DataPairs,
-} from './logic/types';
+import { StateType, User, Notification, Sprint, Project, Comment, StateDataKeys } from './logic/types';
 
 // Module containing global state definition and functions for manipulating it.
 // Each state modifying function takes the current state as the first argument

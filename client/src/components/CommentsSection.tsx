@@ -3,7 +3,7 @@ import { useStyles } from '../styles/main';
 import { Box, Typography } from '@material-ui/core';
 import { CommentsList } from './CommentsList';
 import { withPush } from '../utils/routingDecorators';
-import { AddComment } from './forms/Comment';
+import { AddComment } from './forms/AddComment';
 // import CollapsePanel from './transitions/CollapsePanel';
 import DialogMenu from './navigation/DialogMenu';
 import commentsService from '../services/commentsService';

@@ -23,18 +23,22 @@ export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: P
         <AppForm
             mode={mode}
             initialValues={{}}
-            onSubmit={(data: CommentSubmit) => {
+            onSubmit={(data: CommentSubmit, { resetForm }: any) => {
                 const extendedData = {
                     ...data, // copy form values
                     id: _id, // add sprint id
                     model: model,
                 };
+
+                // TODO: repair warning "Failed prop type: Material-UI: You are providing an onClick event listener to a child of a button element. Firefox will never trigger the event."
+                resetForm({ values: '' });
+
                 return commentsService.add(extendedData).then((response) => {
                     addComment(_id, response.data);
                 });
             }}
             submitSection={
-                <IconButton aria-label="add comment" type="submit" className={classes.submitComment}>
+                <IconButton aria-label="add comment" className={classes.submitComment}>
                     <SendOutlinedIcon />
                 </IconButton>
             }
