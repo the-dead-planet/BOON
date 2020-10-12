@@ -13,7 +13,7 @@ interface Props {
 export const CommentsList = ({ user, comments, users, setCommentToBeDeletedId }: Props) => {
     return (
         <List>
-            <Divider variant="middle" />
+            {/* <Divider variant="middle" /> */}
             {comments
                 ?.sort((a, b) => new Date(b?.created).getTime() - new Date(a?.created).getTime())
                 .map((comment, i) => (

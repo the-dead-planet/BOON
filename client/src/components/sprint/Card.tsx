@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
 import { Link } from '../../utils/Link';
-import { CommentsSection } from '../CommentsSection';
+// import { CommentsSection } from '../CommentsSection';
 import { Box, CardContent, CardActions, Typography, Divider } from '@material-ui/core';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ActionButtons } from './ActionButtons';
@@ -121,7 +121,7 @@ export const PostCard = ({
                     handleExpandClick={handleExpandClick}
                     // TODO: Repair add and remove comment from state
                     toggleCommentsPanel={(open: boolean) =>
-                        toggleCommentsPanel(open, model, object._id, addComment, removeComment)
+                        toggleCommentsPanel(open, title, model, object._id, addComment, removeComment)
                     }
                 />
                 {/* TODO: Create a single post page */}

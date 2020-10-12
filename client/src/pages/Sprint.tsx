@@ -132,6 +132,7 @@ const Sprint = ({
         <CommentsSection
             expanded={true}
             user={user}
+            title={commentsProps.title}
             parentId={commentsProps.parentId}
             parentModel={commentsProps.parentModel}
             comments={(commentsProps.parentModel === 'Sprint'
@@ -149,6 +150,7 @@ const Sprint = ({
 
     const toggleSecondaryDrawer = (
         open: boolean,
+        title: string,
         parentModel: Model,
         parentId: any,
         addComment: any,
@@ -164,6 +166,7 @@ const Sprint = ({
         // Rewrite this logic completely
         if (open)
             setCommentsProps({
+                title,
                 parentModel,
                 parentId,
                 addComment,

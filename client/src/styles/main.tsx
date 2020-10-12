@@ -426,11 +426,11 @@ const useStyles = makeStyles((theme: Theme) =>
             color: theme.palette.secondary.main,
         },
         // Comments section
-        commentsTitle: {
-            margin: '1em !important',
+        commentsSection: {
+            margin: '0 1em',
         },
-        addComment: {
-            margin: '1em',
+        commentstitle: {
+            marginBottom: '1em !important',
         },
         submitComment: {
             display: 'flex !important',

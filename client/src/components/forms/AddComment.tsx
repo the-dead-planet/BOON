@@ -38,10 +38,11 @@ export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: P
                 });
             }}
             submitSection={
-                <IconButton aria-label="add comment" className={classes.submitComment}>
+                <IconButton type="submit" aria-label="add comment" className={classes.submitComment}>
                     <SendOutlinedIcon />
                 </IconButton>
             }
+            submitPos="right"
             // validationSchema={validationSchema}
         >
             <GridField
@@ -54,7 +55,7 @@ export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: P
                 name="body"
                 id="add-comment-body"
                 placeholder="Express your fabulous opinion"
-                xs={12}
+                xs={10}
             />
         </AppForm>
     ) : (

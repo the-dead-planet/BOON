@@ -17,6 +17,7 @@ interface Props {
     validationSchema?: any;
     children: any;
     submitSection: any;
+    submitPos?: 'bottom' | 'right';
 }
 
 /* 
@@ -24,7 +25,15 @@ interface Props {
     Provide either validate or validationSchema
 */
 // TODO: handle providing both validate and validationSchema / provide validate as a function
-export const AppForm = ({ mode, initialValues, onSubmit, validationSchema, submitSection, children }: Props) => {
+export const AppForm = ({
+    mode,
+    initialValues,
+    onSubmit,
+    validationSchema,
+    submitSection,
+    submitPos = 'bottom',
+    children,
+}: Props) => {
     const classes = useStyles();
 
     // Disable submit button if errors appear, enable if all input values meet validation criteria
@@ -40,7 +49,7 @@ export const AppForm = ({ mode, initialValues, onSubmit, validationSchema, submi
             {({ errors, touched }) => {
                 return (
                     <Form>
-                        <Grid item>
+                        <Grid container>
                             {/* 
                             [].flat applied as 'children' might be an array of components (Login, Register) or a single component (Logout) 
                             Extra check if child is not undefined as the Login form includes 'undefined' in place of other fields from "Register" page.
