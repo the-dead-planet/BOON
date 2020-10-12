@@ -7,6 +7,8 @@ import sprintsService from '../services/sprintsService';
 jest.mock('../services/authService');
 jest.mock('../services/sprintsService');
 
+// TODO: This test is temporarily failing due to the deletion of the "sprints contents list" component
+// The component will be added back again once the designer finds inspiration to find an appropriate place for it.
 describe('app', () => {
     test('Displays a list of sprints', async () => {
         authService.whoami.mockResolvedValue({ user: { username: 'username' } });

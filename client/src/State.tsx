@@ -44,6 +44,13 @@ export const clearUser = (state: StateType) => () => ({ user: null });
 
 export const setUser = (state: StateType) => (user: User | null) => ({ user });
 
+export const addUser = (state: StateType) => (user: User | null) => {
+    const stateUsers = depopulate([user] as any, 'users');
+    const stateData = mergeStateData(state.data, { users: stateUsers });
+
+    return { data: stateData };
+};
+
 export const addNotification = (state: StateType) => (notification: Notification) => ({
     notifications: state.notifications.concat([notification]),
 });
@@ -63,7 +70,7 @@ export const addCommentToSprint = (state: StateType) => (sprintId: string, comme
         state.data.comments,
         comment
     );
-    console.log({ comments: updatedCommentData, sprints: updatedSprintData });
+
     return { comments: updatedCommentData, sprints: updatedSprintData };
 };
 
@@ -74,6 +81,7 @@ export const addCommentToPost = (state: StateType) => (postId: string, comment: 
         state.data.comments,
         comment
     );
+
     return { comments: updatedCommentData, posts: updatedPostData };
 };
 
@@ -109,14 +117,21 @@ const addCommentImpl = <Commented extends { comments: Array<string> }>(
 
 // Set populated objects, such as: posts, comments, likes
 // Depopulate objects and store them as originally stored in mongo (with references to id's only)
-export const setStateData = (state: StateType) => (sprints: Array<Sprint>, projects: Array<Project>) => {
+export const setStateData = (state: StateType) => (
+    sprints: Array<Sprint>,
+    projects: Array<Project>,
+    users: Array<User>
+) => {
     const stateSprints = depopulate(sprints as any, 'sprints');
     const stateProjects = depopulate(projects as any, 'projects');
+    const stateUsers = depopulate(users as any, 'users');
 
     // Merge current state with updates.
     // The second argument takes precedence -> pass updates as the second argument.
     const mergedSprintsData = mergeStateData(state.data, stateSprints);
-    const mergedData = mergeStateData(mergedSprintsData, stateProjects);
+    const mergedProjectsData = mergeStateData(mergedSprintsData, stateProjects);
+    const mergedData = mergeStateData(mergedProjectsData, stateUsers);
+
     return { data: mergedData };
 };
 

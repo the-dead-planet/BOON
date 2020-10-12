@@ -65,6 +65,10 @@ const PATHS_DATA = {
         paths: ['author', 'posts'],
         state: 'projects',
     },
+    users: {
+        paths: [],
+        state: 'users',
+    },
 };
 
 // This function receives a nested (populated) object as the first parameter

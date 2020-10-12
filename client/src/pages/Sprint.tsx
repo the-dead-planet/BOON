@@ -4,6 +4,7 @@ import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import sprintsService from '../services/sprintsService';
 import projectsService from '../services/projectsService';
+import usersService from '../services/usersService';
 import AppLayout from '../layouts/AppLayout';
 import { Loading, Empty } from '../components/Loading';
 import { CommentsSection } from '../components/CommentsSection';
@@ -12,7 +13,7 @@ import {
     // withShowError,
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, Mode, StateData, Sprint as SprintType, Model, MongoObject } from '../logic/types';
+import { User, NotificationProps, Mode, StateData, Sprint as SprintType, Model } from '../logic/types';
 import moment from 'moment';
 import { MONTH_YEAR_FORMAT } from '../utils/constants';
 import { PATHS } from '../constants/data';
@@ -25,7 +26,7 @@ interface SprintProps {
     mode: Mode;
     setMode: any;
     data: StateData;
-    setState: any;
+    setStateData: any;
     addPostComment: any;
     addSprintComment: any;
     removeObject: any;
@@ -39,7 +40,7 @@ const Sprint = ({
     mode,
     setMode,
     data,
-    setState,
+    setStateData,
     addPostComment,
     addSprintComment,
     removeObject,
@@ -75,8 +76,11 @@ const Sprint = ({
     const getSprints = async () => {
         let res = await sprintsService.getAll().catch(showError);
         let resProj = await projectsService.getAll().catch(showError);
+        // Temp - see comment in ComponentDidMount in App.tsx
+        let users = await usersService.getAll().catch(showError);
 
-        await setState(res, resProj);
+        // TODO: Is there a better solution to handle pulling all required data
+        await setStateData(res, resProj, users);
     };
     // Fetch sprints on the first render.
     // It will send a request when the user re-enters the sprints list page from some other page (e.g. form).
