@@ -35,6 +35,7 @@ export const PostsList = ({
 }: Props) => {
     const classes = useStyles();
     const style = { height: '100px', marginLeft: '1.1em', marginRight: '1.1em' };
+    const getProject = (id: string) => [...projects.values()]?.filter((project) => project.posts.includes(id))[0];
 
     return (
         <Grid container spacing={1}>
@@ -51,7 +52,10 @@ export const PostsList = ({
                             users={users as any}
                             author={users.get(post.author as any)?.publicName || 'Unknown user'}
                             title={post.title}
-                            subtitle={moment(post.created).format(EXT_DATE_FORMAT)}
+                            titleLink={`/posts/${post._id}`}
+                            // subtitle={moment(post.created).format(EXT_DATE_FORMAT)}
+                            subtitle={getProject(post._id).title}
+                            subtitleLink={`/projects/${getProject(post._id)._id}`}
                             body={post.body}
                             // TODO: if image for post, shorten the 'maxLen' and display image
                             maxLen={i % 3 === 1 ? 250 : 400}

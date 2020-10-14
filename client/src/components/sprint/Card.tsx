@@ -2,7 +2,7 @@ import React from 'react';
 import { useStyles } from '../../styles/main';
 import { Link } from '../../utils/Link';
 // import { CommentsSection } from '../CommentsSection';
-import { Box, CardContent, CardActions, Typography, Divider } from '@material-ui/core';
+import { Box, Button, CardContent, CardActions, Typography, Divider } from '@material-ui/core';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ActionButtons } from './ActionButtons';
 import { CardMenu } from './CardMenu';
@@ -17,7 +17,10 @@ interface Props {
     users: Map<string, User>;
     author: string;
     title: string;
+    titleLink?: string; // path on title click
     subtitle: string;
+    subtitleLink?: string; // path on subtitle click
+    category?: { _id: string; title: string };
     body: string;
     maxLen?: number;
     mediaTop?: any;
@@ -41,7 +44,10 @@ export const PostCard = ({
     users,
     author,
     title,
+    titleLink,
     subtitle,
+    subtitleLink,
+    category,
     body,
     maxLen,
     mediaTop,
@@ -75,15 +81,23 @@ export const PostCard = ({
     maxLen = maxLen || body.length;
     const showMoreRequired = body.length > maxLen;
 
-    const style = { marginTop: 'auto' };
+    const style = { marginTop: 'auto', display: 'flex', justifyContent: 'flex-end' };
+
+    // If path is provided then wrap in the link component, otherwise display typography only
+    const linkWrapper = (component: any, path?: string) => (path ? <Link to={path}>{component}</Link> : component);
 
     return (
         <Box id={object._id} className={`${classes.post} ${hover ? classes.hover : undefined}`}>
             {mediaTop}
 
             <CardContent>
-                <Typography variant="h6">{title}</Typography>
-                <Typography variant="caption">{subtitle}</Typography>
+                {linkWrapper(<Typography variant="h6">{title}</Typography>, titleLink)}
+                {linkWrapper(
+                    <Typography variant="caption" gutterBottom>
+                        {subtitle}
+                    </Typography>,
+                    subtitleLink
+                )}
             </CardContent>
             <CardMenu
                 user={user}
@@ -105,7 +119,8 @@ export const PostCard = ({
                     gutterBottom
                     className={classes.postBody}
                 >
-                    {showMoreRequired ? `${body.substring(0, maxLen)}...` : body}
+                    {showMoreRequired ? `${body.substring(0, maxLen)}` : body}
+                    {showMoreRequired && titleLink ? <Link to={titleLink}>...</Link> : undefined}
                 </Typography>
 
                 {/* Add link to go to the author page */}
@@ -115,21 +130,16 @@ export const PostCard = ({
             </CardContent>
 
             <CardActions disableSpacing style={style}>
-                <ActionButtons
-                    comments={comments}
-                    likes={likes}
-                    handleExpandClick={handleExpandClick}
-                    // TODO: Repair add and remove comment from state
-                    toggleCommentsPanel={(open: boolean) =>
-                        toggleCommentsPanel(open, title, model, object._id, addComment, removeComment)
-                    }
-                />
-                {/* TODO: Create a single post page */}
-                {showMoreRequired && (
-                    <Typography variant="caption" className={`${classes.navButton} ${classes.flexRight}`}>
-                        <Link to={`/posts/${object._id}`}>Show more...</Link>
-                    </Typography>
-                )}
+                <div>
+                    <ActionButtons
+                        comments={comments}
+                        likes={likes}
+                        handleExpandClick={handleExpandClick}
+                        toggleCommentsPanel={(open: boolean) =>
+                            toggleCommentsPanel(open, title, model, object._id, addComment, removeComment)
+                        }
+                    />
+                </div>
             </CardActions>
 
             {divider && <Divider variant="middle" className={classes.divider} />}
