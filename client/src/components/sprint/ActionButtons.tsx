@@ -1,37 +1,57 @@
 import React, { Fragment } from 'react';
+import { Link } from '../../utils/Link';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined';
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import { Comment, Like } from '../../logic/types';
 
 interface Props {
-    comments: Array<Comment | undefined>;
-    likes: Array<Like | undefined>;
+    comments?: Array<Comment | undefined>;
+    likes?: Array<Like | undefined>;
+    showMorePath?: string;
     handleExpandClick: any;
     toggleCommentsPanel: any;
 }
 
-export const ActionButtons = ({ comments, likes, handleExpandClick, toggleCommentsPanel }: Props) => {
+// TODO: Overwrite classes for IconButton to remove the round background color on hover
+export const ActionButtons = ({ comments, likes, showMorePath, handleExpandClick, toggleCommentsPanel }: Props) => {
     return (
         <Fragment>
-            <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
+            {likes && (
+                <IconButton aria-label="add to favorites">
+                    <FavoriteBorderIcon fontSize="small" />
 
-                <Typography variant="caption">{likes.length}</Typography>
-            </IconButton>
+                    <Typography variant="caption">{likes.length}</Typography>
+                </IconButton>
+            )}
             {/* <IconButton aria-label="share">
                                 <ShareIcon />
                             </IconButton> */}
-            <IconButton
-                onClick={toggleCommentsPanel(true)} // TODO: pass object id to get the list of comments
-                // aria-expanded={expanded}
-                // aria-label="show more"
-            >
-                <ModeCommentOutlinedIcon />
+            {comments && (
+                <IconButton
+                    onClick={toggleCommentsPanel(true)}
+                    // aria-expanded={expanded}
+                    aria-label="show comments"
+                >
+                    <ModeCommentOutlinedIcon fontSize="small" />
 
-                <Typography variant="caption">{comments.length}</Typography>
-            </IconButton>
+                    <Typography variant="caption">{comments.length}</Typography>
+                </IconButton>
+            )}
+
+            {showMorePath && (
+                <Link to={showMorePath}>
+                    <IconButton
+                        // onClick={toggleCommentsPanel(true)}
+                        // aria-expanded={expanded}
+                        aria-label="show more"
+                    >
+                        <ArrowRightAltIcon fontSize="small" />
+                    </IconButton>
+                </Link>
+            )}
         </Fragment>
     );
 };

@@ -108,7 +108,7 @@ class App extends Component<{}, StateType> {
 
                             {/* Posts - add to sprint, display single */}
                             {/* TODO: consider leaving only /posts/add ; /posts/:id and passing related sprint/project id as optional url parameters */}
-                            <Route path={[`${sprints}/:id${addPost}`, `${projects}/:id${addPost}`, `${posts}${add}`]}>
+                            <Route path={`${posts}${add}`}>
                                 <AddPost
                                     user={user}
                                     mode={this.state.mode}
@@ -116,7 +116,7 @@ class App extends Component<{}, StateType> {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
-                            <Route path={[`${sprints}/:id/:postId`, `${projects}/:id/:postId`, `${posts}/:postId`]}>
+                            <Route path={`${posts}/:postId`}>
                                 <Project
                                     user={user}
                                     mode={this.state.mode}
