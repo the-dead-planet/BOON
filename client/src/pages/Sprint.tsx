@@ -108,15 +108,30 @@ const Sprint = ({
     /* 
         NAVIGATION ITEMS
     */
-    const navPosts = sprint?.posts
-        .map((id) => posts.get(id))
+    const sprintPosts = sprint?.posts;
+    const navPosts = sprintPosts
+        ?.map((postId) => posts.get(postId))
         .map((post) => ({ hash: true, id: post?._id || '', name: post?.title || '', path: `#${post?._id}` || '#' }));
+
+    const navProjects = [
+        ...new Set(
+            sprintPosts
+                ?.map((postId) =>
+                    [...projects.values()].reduce((acc, project) => (project.posts.includes(postId) ? project : acc))
+                )
+                .map((project) => project._id)
+        ),
+    ].map((projectId) => ({
+        id: projectId || '',
+        name: projects.get(projectId)?.title || '',
+        path: `/projects/${projectId}`,
+    }));
 
     // TODO: find a better place for these
     const navAdd = [
-        { id: 'new-sprint', name: 'New sprint', path: '/add_sprint' },
-        { id: 'new-project', name: 'New project', path: '/add_project' },
-        { id: 'new-post', name: 'New post', path: '/add_post' },
+        { id: 'new-sprint', name: 'New sprint', path: '/sprints/add' },
+        { id: 'new-project', name: 'New project', path: '/projects/add' },
+        { id: 'new-post', name: 'New post', path: '/posts/add' },
     ];
 
     const navPlaceholder = [{ id: '', name: 'Printing...', path: '/' }];
@@ -207,7 +222,7 @@ const Sprint = ({
             navLeftContent={[
                 { header: 'Highlights', list: navPosts || navPlaceholder },
                 // TODO: Get a list of projects related to the posts related to currently displayed sprint
-                { header: 'Related projects', list: navPosts || navPlaceholder },
+                { header: 'Related projects', list: navProjects || navPlaceholder },
                 { header: 'Add stuff', list: navAdd || navPlaceholder },
             ]}
             sideColumn={{ header: '_goss', body: '' }}

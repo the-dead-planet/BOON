@@ -35,7 +35,8 @@ export const PostsList = ({
 }: Props) => {
     const classes = useStyles();
     const style = { height: '100px', marginLeft: '1.1em', marginRight: '1.1em' };
-    const getProject = (id: string) => [...projects.values()]?.filter((project) => project.posts.includes(id))[0];
+    const getProject = (id: string) =>
+        [...projects.values()]?.reduce((acc, project) => (project.posts.includes(id) ? project : acc));
 
     return (
         <Grid container spacing={1}>

@@ -87,6 +87,7 @@ export const PostCard = ({
     const linkWrapper = (component: any, path?: string) => (path ? <Link to={path}>{component}</Link> : component);
 
     return (
+        // TODO: Remove the hover class and reuse it for on panel click
         <Box id={object._id} className={`${classes.post} ${hover ? classes.hover : undefined}`}>
             {mediaTop}
 
