@@ -16,7 +16,7 @@ import {
 import { User, NotificationProps, Mode, StateData, Sprint as SprintType, Model } from '../logic/types';
 import moment from 'moment';
 import { MONTH_YEAR_FORMAT } from '../utils/constants';
-import { PATHS } from '../constants/data';
+import { PATHS, QUOTES } from '../constants/data';
 const { sprints } = PATHS;
 const sprintsPath = sprints;
 
@@ -49,7 +49,7 @@ const Sprint = ({
 }: SprintProps & WithShowErrorInjectedProps) => {
     const { id }: { id: string } = useParams();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
-
+    const [quote, setQuote] = useState('');
     /* 
         DETERMINE SPRINT ID
         If no specific `Sprint` has been specified, try to redirect to the
@@ -87,6 +87,7 @@ const Sprint = ({
     // This way, the user has a way of refreshing sprints data.
     useEffect(() => {
         getSprints();
+        setQuote(QUOTES[Math.floor(Math.random() * QUOTES.length)]);
     }, []);
 
     /* 
@@ -203,6 +204,7 @@ const Sprint = ({
             mode={mode}
             setMode={setMode}
             appBar={true}
+            quote={quote}
             pagination={{
                 path: sprintsPath,
                 currentId: id,

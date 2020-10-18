@@ -317,6 +317,7 @@ interface Page {
     primary?: string;
     secondary?: string;
     list?: Array<PageListItem>;
+    links?: any;
 }
 
 interface PageListItem {

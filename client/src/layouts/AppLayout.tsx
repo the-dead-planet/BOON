@@ -37,6 +37,7 @@ interface Props {
     // Appbar and jumbotron
     appBar?: boolean;
     jumbotron?: JumbotronType;
+    quote?: string;
     // Pagination
     pagination?: Page;
     nextId?: string;
@@ -66,6 +67,7 @@ const AppLayout = ({
     // Appbar and jumbotron
     appBar,
     jumbotron,
+    quote,
     // Pagination
     pagination,
     nextId, //TODO: check if still required
@@ -116,6 +118,7 @@ const AppLayout = ({
                     open={false}
                     toggleDrawer={toggleDrawer}
                     pagination={pagination}
+                    quote={quote}
                 />
             )}
 

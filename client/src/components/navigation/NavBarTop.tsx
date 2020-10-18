@@ -1,14 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
 import { useStyles } from '../../styles/main';
-import { Link } from '../../utils/Link';
+// import { Link } from '../../utils/Link';
 import { Grid, AppBar, Toolbar, Typography, IconButton, Hidden } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import Pagination from './Pagination';
 // import HideOnScroll from '../../utils/HideOnScroll';
 import { AuthButtonsHorizontal } from './NavButtons';
 import { Mode, User, DrawerVariant, Page } from '../../logic/types';
-import { NAV_LINKS } from '../../constants/data';
+import { QUOTES } from '../../constants/data';
 
 interface Props {
     user: User;
@@ -19,9 +19,10 @@ interface Props {
     open: boolean;
     toggleDrawer: any;
     pagination?: Page;
+    quote?: string;
 }
 
-const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawer, pagination }: Props) => {
+const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawer, pagination, quote }: Props) => {
     const classes = useStyles();
     const style = { marginLeft: 'auto' };
 
@@ -57,21 +58,13 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
                             </IconButton>
                         </Hidden>
 
-                        <Hidden smDown>
-                            <Grid container>
-                                {NAV_LINKS.map((item, i) => (
-                                    <Link key={i} to={item.path}>
-                                        <Typography
-                                            variant="body1"
-                                            color={i === 0 ? 'secondary' : 'inherit'}
-                                            className={classes.navButton}
-                                        >
-                                            {item.name}
-                                        </Typography>
-                                    </Link>
-                                ))}
-                            </Grid>
-                        </Hidden>
+                        {quote && (
+                            <Hidden smDown>
+                                <div style={{ width: '250px' }}>
+                                    <Typography variant="caption">{quote}</Typography>
+                                </div>
+                            </Hidden>
+                        )}
                     </div>
 
                     {/* Centered text */}
