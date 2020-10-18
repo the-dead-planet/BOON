@@ -72,8 +72,6 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
                         — The —
                     </Typography>
 
-                    {/* TODO: change texts to icons or something nicer */}
-
                     <div className={`${classes.fix} ${classes.right}`}>
                         <Hidden smDown>
                             <AuthButtonsHorizontal style={style} user={user} />

@@ -3,10 +3,11 @@ import { MenuList, MenuItem, ClickAwayListener, Popper, Paper, Grow, IconButton 
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 interface Props {
-    items: Array<{ name: string; onClick: any }>;
+    items: Array<{ name: any; onClick: any }>;
+    icon?: any;
 }
 
-export const ItemMenu = ({ items }: Props) => {
+export const ItemMenu = ({ items, icon }: Props) => {
     // For menu with options: delete, report etc
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -46,12 +47,13 @@ export const ItemMenu = ({ items }: Props) => {
         <>
             <IconButton
                 ref={anchorRef}
+                color="primary"
                 aria-label="comment options"
                 aria-controls="long-menu"
                 aria-haspopup="true"
                 onClick={handleToggle}
             >
-                <MoreHorizIcon />
+                {icon ? icon : <MoreHorizIcon />}
             </IconButton>
 
             <Popper

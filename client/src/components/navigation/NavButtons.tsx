@@ -1,7 +1,9 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
 import { Link } from '../../utils/Link';
-import { Grid, List, ListItem, ListItemText, Typography } from '@material-ui/core';
+import { Grid, List, ListItem, ListItemText, Typography, InputBase } from '@material-ui/core';
+import { ItemMenu } from '../ItemMenu';
+import SearchIcon from '@material-ui/icons/Search';
 import { IconUserSecret } from '../Icons';
 import { User } from '../../logic/types';
 import { PATHS } from '../../constants/data';
@@ -23,7 +25,11 @@ interface Props {
 export const AuthButtonsHorizontal = ({ user }: Props) => {
     const classes = useStyles();
     const signUpText = (
-        <Typography className={`${classes.navButton} ${user ? classes.disabled : undefined}`} color="inherit">
+        <Typography
+            variant="body2"
+            className={`${classes.navButton} ${user ? classes.disabled : undefined}`}
+            color="inherit"
+        >
             {getText(user).register}
         </Typography>
     );
@@ -31,22 +37,43 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
     let signUpButton = !user ? <Link to={register}>{signUpText}</Link> : signUpText;
 
     // TODO: hide this button, instead open a menu after clicking on the icon with options: "settings, logout etc"
-    let loginButton = (
-        <Link to={!user ? login : logout}>
-            <Typography className={classes.navButton} color="secondary">
+    let loginButton = !user ? (
+        <Link to={login}>
+            <Typography variant="body2" className={classes.navButton} color="secondary">
                 {getText(user).login}
             </Typography>
         </Link>
-    );
+    ) : undefined;
 
     return (
-        <Grid container>
+        <Grid container alignItems="center">
             {signUpButton}
             {loginButton}
             <div className={classes.userIcon}>
-                <Link to={!user ? login : account}>
-                    <IconUserSecret size="2x" />
-                </Link>
+                {/* <Link to={!user ? login : account}> */}
+                {/* <IconButton color="primary" size="small" aria-label="user menu" style={{ height: 30, width: 30 }}>
+                        <IconUserSecret size="1x" />
+                    </IconButton> */}
+                {/* TODO: Replace with a nice menu with user avatar etc */}
+                {user && (
+                    <ItemMenu
+                        icon={<IconUserSecret size="1x" />}
+                        items={[
+                            {
+                                name: user ? (
+                                    <Link to={logout}>
+                                        <Typography variant="body2" className={classes.navButton} color="secondary">
+                                            {getText(user).login}
+                                        </Typography>
+                                    </Link>
+                                ) : (
+                                    'Login'
+                                ),
+                                onClick: () => '',
+                            },
+                        ]}
+                    />
+                )}
             </div>
         </Grid>
     );
@@ -81,10 +108,23 @@ export const BrowseButton = ({ user, style }: Props) => {
     const classes = useStyles();
 
     return (
-        <Link to={browse}>
-            <Typography className={classes.navButton} color="primary">
-                Browse
-            </Typography>
-        </Link>
+        // <Link to={browse}>
+        //     <Typography variant="body2" className={classes.navButton} color="primary">
+        //         Browse
+        //     </Typography>
+        // </Link>
+        <div className={classes.search}>
+            <div className={classes.searchIcon}>
+                <SearchIcon />
+            </div>
+            <InputBase
+                placeholder="Browse workspaces..."
+                classes={{
+                    root: classes.searchInputRoot,
+                    input: classes.searchInputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+            />
+        </div>
     );
 };

@@ -1,7 +1,7 @@
 /* 
     The purpose of this file is to integrate all styles in one place and reuse classes in various components
 */
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
 const header = require('../img/landing/header-1.jpg');
 const header2 = require('../img/landing/header-2.jpg');
@@ -214,6 +214,15 @@ const useStyles = makeStyles((theme: Theme) =>
             borderTop: `solid 2px ${theme.palette.primary.light}`,
             borderBottom: `solid 2px ${theme.palette.primary.light}`,
         },
+        paginationLink: {
+            width: '50%',
+            maxWidth: '200px',
+            '&$right': {
+                textAlign: 'right',
+            },
+        },
+        left: {},
+        right: {},
         fix: {
             position: 'absolute',
             '&$right': {
@@ -223,8 +232,6 @@ const useStyles = makeStyles((theme: Theme) =>
                 left: '2em',
             },
         },
-        right: {},
-        left: {},
         flexRight: {
             marginLeft: 'auto !important',
         },
@@ -435,6 +442,45 @@ const useStyles = makeStyles((theme: Theme) =>
         submitComment: {
             display: 'flex !important',
             marginLeft: 'auto !important',
+        },
+        search: {
+            position: 'relative',
+            borderRadius: theme.shape.borderRadius,
+            border: `1px solid ${theme.palette.primary.main}`,
+            backgroundColor: fade(theme.palette.common.white, 0.15),
+            '&:hover': {
+                backgroundColor: fade(theme.palette.common.white, 0.25),
+            },
+            marginRight: theme.spacing(2),
+            marginLeft: 0,
+            width: '100%',
+            [theme.breakpoints.up('sm')]: {
+                marginLeft: theme.spacing(3),
+                width: 'auto',
+            },
+        },
+        searchIcon: {
+            padding: theme.spacing(0, 2),
+            height: '100%',
+            position: 'absolute',
+            pointerEvents: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        searchInputRoot: {
+            color: 'inherit',
+        },
+        searchInputInput: {
+            fontSize: `${theme.typography.body2.fontSize} !important`,
+            padding: theme.spacing(1, 1, 1, 0),
+            // vertical padding + font size from searchIcon
+            paddingLeft: `calc(1em + ${theme.spacing(4)}px) !important`,
+            transition: theme.transitions.create('width'),
+            width: '100%',
+            [theme.breakpoints.up('md')]: {
+                width: '20ch',
+            },
         },
     })
 );

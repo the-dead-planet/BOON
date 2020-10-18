@@ -70,7 +70,7 @@ const QUOTES = [
     "Design won't save the world. But damn sure makes it look good.",
     'Formal education will make you a living. Self-education will make you a fortune.',
     "Don't deliver a product. Deliver an experience.",
-    'simplicity is not the goal. It is the by-product of a good idea and modest expectations.',
+    'Simplicity is not the goal. It is the by-product of a good idea and modest expectations.',
     'Successful brands are an experience, not an entity.',
     'Your brand is what people say about you when you are not in the room.',
 ];

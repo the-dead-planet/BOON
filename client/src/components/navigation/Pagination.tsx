@@ -11,11 +11,13 @@ import { NAV_LINKS } from '../../constants/data';
 const Pagination = ({ path, primary, secondary, list, currentId, previousId, nextId, links }: Page) => {
     const classes = useStyles();
     const style = { padding: '.15em .2em' };
+    const flex = { display: 'flex' };
+    const width = { width: '120px' };
 
     return (
         <Toolbar className={classes.toolbar}>
             <Grid container justify="space-between" alignItems="center" className={classes.pagination}>
-                <Typography noWrap style={{ width: '50%', maxWidth: '200px' }}>
+                <Typography noWrap className={classes.paginationLink}>
                     {previousId && (
                         <Link to={`${path}/${previousId}`}>
                             <IconButton style={style} title="Previous" aria-label="previous">
@@ -27,13 +29,13 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                 </Typography>
 
                 <Hidden smDown>
-                    <Grid item style={{ display: 'flex' }}>
+                    <Grid item style={flex}>
                         {NAV_LINKS.map((item, i) => (
                             <Link key={i} to={item.path}>
                                 <Typography
                                     color={i === 0 ? 'secondary' : 'inherit'}
                                     className={classes.navButton}
-                                    style={{ width: '120px' }}
+                                    style={width}
                                 >
                                     {item.name}
                                 </Typography>
@@ -42,7 +44,7 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                     </Grid>
                 </Hidden>
 
-                <Typography noWrap style={{ width: '50%', maxWidth: '200px', textAlign: 'right' }}>
+                <Typography noWrap className={`${classes.paginationLink} ${classes.right}`}>
                     <Hidden smDown>{secondary || '-'}</Hidden>
                     {nextId && (
                         <Link to={`${path}/${nextId}`}>
