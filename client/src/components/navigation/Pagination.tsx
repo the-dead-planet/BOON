@@ -33,11 +33,15 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                         {NAV_LINKS.map((item, i) => (
                             <Link key={i} to={item.path}>
                                 <Typography
-                                    color={i === 0 ? 'secondary' : 'inherit'}
+                                    color={
+                                        path?.toUpperCase()?.indexOf(item.name.toUpperCase()) !== -1
+                                            ? 'secondary'
+                                            : 'inherit'
+                                    }
                                     className={classes.navButton}
                                     style={width}
                                 >
-                                    {item.name}
+                                    - {item.name} -
                                 </Typography>
                             </Link>
                         ))}

@@ -76,9 +76,9 @@ const QUOTES = [
 ];
 
 const NAV_LINKS = [
-    { name: ' - Sprints - ', path: PATHS.sprints },
-    { name: ' - Projects - ', path: PATHS.projects },
-    { name: ' - Teams - ', path: PATHS.teams },
+    { name: 'Sprints', path: PATHS.sprints },
+    { name: 'Projects', path: PATHS.projects },
+    { name: 'Teams', path: PATHS.teams },
 ];
 
 export { APP_NAME, DICTIONARY, LANDING_CONTENTS, PATHS, NAV_LINKS, QUOTES };
