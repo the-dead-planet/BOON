@@ -143,7 +143,7 @@ export const PostCard = ({
                 </div>
             </CardActions>
 
-            {divider && <Divider variant="middle" className={classes.divider} />}
+            {divider && <Divider variant="middle" />}
             {/* TODO: add a boolean prop to show or hide below. 
                 This part of the card can be used in a card which takes full width.
                 If several cards in a row are displayed - use the right drawer to display comments
@@ -160,8 +160,6 @@ export const PostCard = ({
                     removeComment={(id: string) => removeComment(id, object._id)}
                 />
             </CardContent> */}
-
-            {/* <Divider /> */}
         </Box>
     );
 };

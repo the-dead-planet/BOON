@@ -25,7 +25,7 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                             </IconButton>
                         </Link>
                     )}
-                    {primary || '-'}
+                    {primary || ''}
                 </Typography>
 
                 <Hidden smDown>
@@ -45,7 +45,7 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                 </Hidden>
 
                 <Typography noWrap className={`${classes.paginationLink} ${classes.right}`}>
-                    <Hidden smDown>{secondary || '-'}</Hidden>
+                    <Hidden smDown>{secondary || ''}</Hidden>
                     {nextId && (
                         <Link to={`${path}/${nextId}`}>
                             <IconButton style={style} title="Next" aria-label="next">

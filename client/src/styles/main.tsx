@@ -368,11 +368,13 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             flexDirection: 'column',
             border: `solid 1px transparent`,
+            // borderBottomColor: theme.palette.primary.main,
+            // borderRadius: "20px",
             '&$hover': {
-                '&:hover': {
-                    borderColor: theme.palette.primary.light,
-                    backgroundColor: 'rgba(255, 255, 255, .13)',
-                },
+                // '&:hover': {
+                //     borderColor: theme.palette.primary.light,
+                //     backgroundColor: 'rgba(255, 255, 255, .13)',
+                // },
             },
         },
         hover: {},
@@ -401,17 +403,17 @@ const useStyles = makeStyles((theme: Theme) =>
         quote: {
             textAlign: 'center',
             fontStyle: 'italic',
-            marginTop: '1em',
-            marginLeft: '1em',
-            marginRight: '1em',
+            marginTop: '1em !important',
+            marginLeft: '1em !important',
+            marginRight: '1em !important',
         },
         quoteAuthor: {
-            marginTop: '1em',
-            marginBottom: '2em',
+            marginTop: '1em !important',
+            marginBottom: '2em !important',
         },
         gossColContainer: {
-            marginTop: '2em',
-            marginBottom: '1em',
+            marginTop: '2em !important',
+            marginBottom: '1em !important',
             padding: '.4em',
             position: 'relative',
             '&::after': {

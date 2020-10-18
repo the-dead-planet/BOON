@@ -73,7 +73,7 @@ const Sprint = ({
     /* 
         GET DATA FROM DATA BASE AND WRITE TO APP STATE
     */
-    const getSprints = async () => {
+    const getData = async () => {
         let res = await sprintsService.getAll().catch(showError);
         let resProj = await projectsService.getAll().catch(showError);
         // Temp - see comment in ComponentDidMount in App.tsx
@@ -86,7 +86,7 @@ const Sprint = ({
     // It will send a request when the user re-enters the sprints list page from some other page (e.g. form).
     // This way, the user has a way of refreshing sprints data.
     useEffect(() => {
-        getSprints();
+        getData();
         setQuote(QUOTES[Math.floor(Math.random() * QUOTES.length)]);
     }, []);
 

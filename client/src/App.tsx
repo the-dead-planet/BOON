@@ -121,7 +121,7 @@ class App extends Component<{}, StateType> {
                                     user={user}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
-                                    setState={updateState(State.setStateData)}
+                                    setStateData={updateState(State.setStateData)}
                                     addSprintComment={updateState(State.addCommentToSprint)}
                                     addPostComment={updateState(State.addCommentToPost)}
                                     removeObject={updateState(State.removeObject)}
@@ -190,12 +190,25 @@ class App extends Component<{}, StateType> {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
+                            <Route path={`${projects}/:id`}>
+                                <Project
+                                    user={user}
+                                    mode={this.state.mode}
+                                    setMode={this.setMode}
+                                    setStateData={updateState(State.setStateData)}
+                                    addSprintComment={updateState(State.addCommentToSprint)}
+                                    addPostComment={updateState(State.addCommentToPost)}
+                                    removeObject={updateState(State.removeObject)}
+                                    data={this.state.data}
+                                    notificationsProps={notificationsProps}
+                                />
+                            </Route>
                             <Route path={projects}>
                                 <Project
                                     user={user}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
-                                    setState={updateState(State.setStateData)}
+                                    setStateData={updateState(State.setStateData)}
                                     addSprintComment={updateState(State.addCommentToSprint)}
                                     addPostComment={updateState(State.addCommentToPost)}
                                     removeObject={updateState(State.removeObject)}
