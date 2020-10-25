@@ -1,11 +1,65 @@
 import React from 'react';
-import { useStyles } from '../../styles/main';
+import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from '../../utils/Link';
-import { Grid, List, ListItem, ListItemText, Typography } from '@material-ui/core';
-import { IconUserSecret } from '../Icons';
+import { Grid, List, ListItem, ListItemText, Typography, InputBase, Hidden } from '@material-ui/core';
+import { TypographyLinkOutlined } from '../mui-styled/Typography';
+// import SearchIcon from '@material-ui/icons/Search';
+import { IconUserSecret, IconSearch } from '../Icons';
+import { ItemMenu } from '../ItemMenu';
 import { User } from '../../logic/types';
 import { PATHS } from '../../constants/data';
-const { browse, login, logout, register, account } = PATHS;
+const { login, logout, register } = PATHS;
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        disabled: {},
+        search: {
+            position: 'relative',
+            borderRadius: theme.shape.borderRadius,
+            border: `1px solid ${theme.palette.primary.main}`,
+            backgroundColor: fade(theme.palette.common.white, 0.15),
+            width: '100%',
+            [theme.breakpoints.up('sm')]: {
+                marginLeft: theme.spacing(3),
+                width: 'auto',
+            },
+            '&:hover': {
+                backgroundColor: fade(theme.palette.common.white, 0.25),
+            },
+        },
+        searchIcon: {
+            padding: theme.spacing(0, 2),
+            height: '100%',
+            position: 'absolute',
+            pointerEvents: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        searchInputRoot: {
+            color: 'inherit',
+        },
+        searchInputInput: {
+            fontSize: `${theme.typography.body2.fontSize} !important`,
+            padding: theme.spacing(1, 1, 1, 0),
+            // vertical padding + font size from searchIcon
+            paddingLeft: `calc(1em + ${theme.spacing(4)}px) !important`,
+            transition: theme.transitions.create('width'),
+            width: '100%',
+            [theme.breakpoints.up('md')]: {
+                width: '20ch',
+            },
+        },
+        auth: {
+            [theme.breakpoints.up('sm')]: {
+                marginRight: theme.spacing(3),
+            },
+        },
+        spacing: {
+            marginLeft: theme.spacing(2),
+        },
+    })
+);
 
 // Set text on auth buttons dependent on whether a user is logged in or not
 const getText = (user: User | null | undefined) => {
@@ -22,8 +76,12 @@ interface Props {
 
 export const AuthButtonsHorizontal = ({ user }: Props) => {
     const classes = useStyles();
-    const signUpText = (
-        <Typography className={`${classes.navButton} ${user ? classes.disabled : undefined}`} color="inherit">
+    const signUpText = !user ? (
+        <TypographyLinkOutlined variant="body2" className={`${user ? classes.disabled : undefined}`} color="inherit">
+            {getText(user).register}
+        </TypographyLinkOutlined>
+    ) : (
+        <Typography variant="body2" className={`${user ? classes.disabled : undefined}`} color="inherit">
             {getText(user).register}
         </Typography>
     );
@@ -31,29 +89,51 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
     let signUpButton = !user ? <Link to={register}>{signUpText}</Link> : signUpText;
 
     // TODO: hide this button, instead open a menu after clicking on the icon with options: "settings, logout etc"
-    let loginButton = (
-        <Link to={!user ? login : logout}>
-            <Typography className={classes.navButton} color="secondary">
+    let loginButton = !user ? (
+        <Link to={login}>
+            <TypographyLinkOutlined variant="body2" color="secondary">
                 {getText(user).login}
-            </Typography>
+            </TypographyLinkOutlined>
         </Link>
-    );
+    ) : undefined;
 
     return (
-        <Grid container>
-            {signUpButton}
-            {loginButton}
-            <div className={classes.userIcon}>
-                <Link to={!user ? login : account}>
-                    <IconUserSecret size="2x" />
-                </Link>
-            </div>
+        <Grid container alignItems="center" className={classes.auth}>
+            <Hidden smDown>
+                {signUpButton}
+                {loginButton}
+            </Hidden>
+
+            {user && (
+                <ItemMenu
+                    icon={
+                        <div className={classes.spacing}>
+                            <IconUserSecret size="1x" />
+                        </div>
+                    }
+                    items={[
+                        {
+                            name: user ? (
+                                <Link to={logout}>
+                                    <Typography variant="body2" color="secondary">
+                                        {getText(user).login}
+                                    </Typography>
+                                </Link>
+                            ) : (
+                                'Login'
+                            ),
+                            onClick: () => '',
+                        },
+                    ]}
+                    tooltip="User menu"
+                />
+            )}
         </Grid>
     );
 };
 
 export const AuthButtonsVertical = ({ user, style }: Props) => {
-    const classes = useStyles();
+    // const classes = useStyles();
     // TODO: resolve error 'div cannot be child of p'
     let signUpButton = (
         <ListItem button component={!user ? Link : Typography} to={!user ? register : ''}>
@@ -81,10 +161,18 @@ export const BrowseButton = ({ user, style }: Props) => {
     const classes = useStyles();
 
     return (
-        <Link to={browse}>
-            <Typography className={classes.navButton} color="primary">
-                Browse
-            </Typography>
-        </Link>
+        <div className={classes.search}>
+            <div className={classes.searchIcon}>
+                <IconSearch size="1x" />
+            </div>
+            <InputBase
+                placeholder="Browse workspaces..."
+                classes={{
+                    root: classes.searchInputRoot,
+                    input: classes.searchInputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+            />
+        </div>
     );
 };

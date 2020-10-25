@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
-import { useStyles } from '../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Box, Typography } from '@material-ui/core';
 import { CommentsList } from './CommentsList';
 import { withPush } from '../utils/routingDecorators';
-import { AddComment } from './forms/Comment';
+import { AddComment } from './forms/AddComment';
 // import CollapsePanel from './transitions/CollapsePanel';
 import DialogMenu from './navigation/DialogMenu';
 import commentsService from '../services/commentsService';
 import { User, Comment, Model } from '../logic/types';
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        form: {
+            margin: theme.spacing(2),
+        },
+        title: {
+            margin: theme.spacing(2),
+        },
+    })
+);
+
 interface Props {
     expanded: boolean;
     user: User;
+    title: string;
     parentId: string;
     parentModel: Model;
     comments: Array<Comment>;
@@ -29,6 +41,7 @@ const anyProps: any = {};
 const CommentsImpl = ({
     expanded,
     user,
+    title,
     parentId,
     parentModel,
     comments,
@@ -57,11 +70,11 @@ const CommentsImpl = ({
             <Box id="comments">
                 {/* <CollapsePanel expanded={expanded} title="Comments"> */}
 
-                <Typography color="secondary" gutterBottom className={classes.commentsTitle}>
-                    Opinions ({comments.length})
+                <Typography variant="h6" color="secondary" gutterBottom className={classes.title}>
+                    {title} ({comments.length})
                 </Typography>
 
-                <Box className={classes.addComment}>
+                <Box className={classes.form}>
                     <AddComment
                         user={user}
                         _id={parentId}
@@ -77,7 +90,6 @@ const CommentsImpl = ({
                     comments={comments}
                     users={users}
                     push={push}
-                    // removeComment={removeComment}
                     setCommentToBeDeletedId={handleDialogOpen}
                     {...anyProps}
                 />

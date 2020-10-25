@@ -59,10 +59,26 @@ const PATHS = {
     edit: '/edit',
 };
 
-const NAV_LINKS = [
-    { name: ' - Sprints - ', path: PATHS.sprints },
-    { name: ' - Projects - ', path: PATHS.projects },
-    { name: ' - Teams - ', path: PATHS.teams },
+const QUOTES = [
+    'But first coffee!',
+    'Go your own way!',
+    'Then nothing goes right. Go Left.',
+    "I'm not lazy. I'm on energy saving mode",
+    'Make goals. Organize your week. Stay focused.',
+    'Success is when you find people copying you.',
+    'Do it right now or regret later.',
+    "Design won't save the world. But damn sure makes it look good.",
+    'Formal education will make you a living. Self-education will make you a fortune.',
+    "Don't deliver a product. Deliver an experience.",
+    'Simplicity is not the goal. It is the by-product of a good idea and modest expectations.',
+    'Successful brands are an experience, not an entity.',
+    'Your brand is what people say about you when you are not in the room.',
 ];
 
-export { APP_NAME, DICTIONARY, LANDING_CONTENTS, PATHS, NAV_LINKS };
+const NAV_LINKS = [
+    { name: 'Sprints', path: PATHS.sprints },
+    { name: 'Projects', path: PATHS.projects },
+    { name: 'Teams', path: PATHS.teams },
+];
+
+export { APP_NAME, DICTIONARY, LANDING_CONTENTS, PATHS, NAV_LINKS, QUOTES };

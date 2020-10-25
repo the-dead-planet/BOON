@@ -30,6 +30,10 @@ class App extends Component<{}, StateType> {
     componentDidMount() {
         authService.whoami().then(({ user }) => {
             this.setState(State.resolveWhoAmI(this.state)(user));
+            // TODO: Currently users are populated based on authors of sprints and its children tree.
+            // If current user has never posted anything, it is not present in app state, which
+            // causes issues, such as no name displayed by a new comment.
+            // Either add it here from whoami or load all users data separately, which on a long term can be not optimal
         });
     }
 
@@ -103,7 +107,8 @@ class App extends Component<{}, StateType> {
                             </Route>
 
                             {/* Posts - add to sprint, display single */}
-                            <Route path={`${sprints}/:id${addPost}`}>
+                            {/* TODO: consider leaving only /posts/add ; /posts/:id and passing related sprint/project id as optional url parameters */}
+                            <Route path={`${posts}${add}`}>
                                 <AddPost
                                     user={user}
                                     mode={this.state.mode}
@@ -111,12 +116,12 @@ class App extends Component<{}, StateType> {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
-                            <Route path={[`${sprints}/:id/:postId`, `${projects}/:id/:postId`, `${posts}/:postId`]}>
+                            <Route path={`${posts}/:postId`}>
                                 <Project
                                     user={user}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
-                                    setState={updateState(State.setStateData)}
+                                    setStateData={updateState(State.setStateData)}
                                     addSprintComment={updateState(State.addCommentToSprint)}
                                     addPostComment={updateState(State.addCommentToPost)}
                                     removeObject={updateState(State.removeObject)}
@@ -146,7 +151,7 @@ class App extends Component<{}, StateType> {
                                     user={user}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
-                                    setState={updateState(State.setStateData)}
+                                    setStateData={updateState(State.setStateData)}
                                     addSprintComment={updateState(State.addCommentToSprint)}
                                     addPostComment={updateState(State.addCommentToPost)}
                                     removeObject={updateState(State.removeObject)}
@@ -159,7 +164,7 @@ class App extends Component<{}, StateType> {
                                     user={user}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
-                                    setState={updateState(State.setStateData)}
+                                    setStateData={updateState(State.setStateData)}
                                     addSprintComment={updateState(State.addCommentToSprint)}
                                     addPostComment={updateState(State.addCommentToPost)}
                                     removeObject={updateState(State.removeObject)}
@@ -185,12 +190,25 @@ class App extends Component<{}, StateType> {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
+                            <Route path={`${projects}/:id`}>
+                                <Project
+                                    user={user}
+                                    mode={this.state.mode}
+                                    setMode={this.setMode}
+                                    setStateData={updateState(State.setStateData)}
+                                    addSprintComment={updateState(State.addCommentToSprint)}
+                                    addPostComment={updateState(State.addCommentToPost)}
+                                    removeObject={updateState(State.removeObject)}
+                                    data={this.state.data}
+                                    notificationsProps={notificationsProps}
+                                />
+                            </Route>
                             <Route path={projects}>
                                 <Project
                                     user={user}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
-                                    setState={updateState(State.setStateData)}
+                                    setStateData={updateState(State.setStateData)}
                                     addSprintComment={updateState(State.addCommentToSprint)}
                                     addPostComment={updateState(State.addCommentToPost)}
                                     removeObject={updateState(State.removeObject)}

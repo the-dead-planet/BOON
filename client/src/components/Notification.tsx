@@ -8,6 +8,7 @@ interface Props {
     notification: NotificationType;
     onShown: any;
 }
+
 export const Notification = ({ notification, onShown }: Props) => {
     const { id, message } = notification;
 

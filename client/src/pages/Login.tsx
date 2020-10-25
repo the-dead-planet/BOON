@@ -4,7 +4,7 @@ import { interceptPage } from '../utils/interceptPage';
 import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import authService from '../services/authService';
-import usersService from '../services/usersService';
+// import usersService from '../services/usersService';
 import { Mode, User, NotificationProps } from '../logic/types';
 
 /* 

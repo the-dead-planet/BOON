@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
-import { useStyles } from '../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { DRAWER_WIDTH, JUMBOTRON_HEIGHT, NAVBAR_LEFT_WIDTH, TOOLBAR_HEIGHT } from '../styles/constants';
 import { Hidden, Box, CssBaseline } from '@material-ui/core';
 import ThemeWrapper from '../components/navigation/ThemeWrapper';
 import Jumbotron from '../components/navigation/Jumbotron';
@@ -29,6 +30,49 @@ import NotificationsRenderer from '../components/NotificationsRenderer';
   with only jumbotron or only appBar or none of them but making use of the ThemeWrapper.
   Drawer allows additional properties, like variant. Not specified (default) is temporary. Other option is: persistent.
 */
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        content: {
+            flexGrow: 1,
+            padding: theme.spacing(3),
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+            marginLeft: -DRAWER_WIDTH,
+            paddingBottom: '5em',
+            minHeight: '100vh',
+        },
+        contentShift: {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginLeft: 0,
+        },
+        contentPadding: {
+            flexGrow: 1,
+            padding: theme.spacing(3),
+            paddingBottom: '5em',
+            minHeight: '100vh',
+        },
+        jumbotron: {
+            minHeight: JUMBOTRON_HEIGHT,
+        },
+        drawerHeaderHeight: {
+            minHeight: `${TOOLBAR_HEIGHT * 3}px !important`,
+        },
+        moveContent: {
+            marginLeft: `calc(${NAVBAR_LEFT_WIDTH}px + 10px)`,
+            top: 0,
+            [theme.breakpoints.down('sm')]: {
+                marginLeft: 0,
+            },
+        },
+    })
+);
+
 interface Props {
     user: User;
     children: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | undefined;
@@ -37,6 +81,7 @@ interface Props {
     // Appbar and jumbotron
     appBar?: boolean;
     jumbotron?: JumbotronType;
+    quote?: string;
     // Pagination
     pagination?: Page;
     nextId?: string;
@@ -66,6 +111,7 @@ const AppLayout = ({
     // Appbar and jumbotron
     appBar,
     jumbotron,
+    quote,
     // Pagination
     pagination,
     nextId, //TODO: check if still required
@@ -116,6 +162,7 @@ const AppLayout = ({
                     open={false}
                     toggleDrawer={toggleDrawer}
                     pagination={pagination}
+                    quote={quote}
                 />
             )}
 
@@ -149,7 +196,7 @@ const AppLayout = ({
             >
                 {/* Either display jumbotron or apply class to display contents under the NavBar */}
                 {jumbotron && <div className={classes.jumbotron} />}
-                {appBar && <div className={classes.drawerHeader} />}
+                {appBar && <div className={classes.drawerHeaderHeight} />}
 
                 {/* Left panel serving as navigation - contents lists */}
                 {navLeftContent && (

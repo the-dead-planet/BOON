@@ -1,5 +1,5 @@
 import React from 'react';
-import { useStyles } from '../../styles/main';
+// import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 // import { Divider } from '@material-ui/core';
 import { Posts } from './Posts';
 import { SprintOverview } from './SprintOverview';
@@ -9,6 +9,12 @@ import { User, Sprint, Post, Project, Comment, Like } from '../../logic/types';
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
+
+// const useStyles = makeStyles((theme: Theme) =>
+//     createStyles({
+//     })
+// );
+
 interface Props {
     user: User | null | undefined;
     sprint: Sprint | undefined;
@@ -38,7 +44,7 @@ export const SingleSprint = ({
     toggleCommentsPanel,
     onError,
 }: Props) => {
-    const classes = useStyles();
+    // const classes = useStyles();
 
     return sprint ? (
         <>

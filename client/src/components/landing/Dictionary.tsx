@@ -1,6 +1,21 @@
 import React from 'react';
-import { useStyles } from '../../styles/landing';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Box, Typography } from '@material-ui/core';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        definitions: {
+            padding: theme.spacing(2),
+        },
+        textDecor: {
+            fontStyle: 'italic',
+        },
+        example: {
+            padding: theme.spacing(2),
+            fontStyle: 'italic',
+        },
+    })
+);
 
 interface Props {
     i: number;

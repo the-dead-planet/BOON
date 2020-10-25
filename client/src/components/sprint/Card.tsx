@@ -1,12 +1,49 @@
 import React from 'react';
-import { useStyles } from '../../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from '../../utils/Link';
-import { CommentsSection } from '../CommentsSection';
+// import { CommentsSection } from '../CommentsSection';
 import { Box, CardContent, CardActions, Typography, Divider } from '@material-ui/core';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ActionButtons } from './ActionButtons';
 import { CardMenu } from './CardMenu';
 import { User, Comment, Like, MongoObject, Model } from '../../logic/types';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        post: {
+            minHeight: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            border: `solid 1px transparent`,
+            // borderBottomColor: theme.palette.primary.main,
+            // borderRadius: "20px",
+            '&$hover': {
+                // '&:hover': {
+                //     borderColor: theme.palette.primary.light,
+                //     backgroundColor: 'rgba(255, 255, 255, .13)',
+                // },
+            },
+        },
+        hover: {},
+        col: {
+            display: 'flex',
+            flexDirection: 'column',
+        },
+        body: {
+            textAlign: 'justify',
+        },
+        signature: {
+            marginLeft: 'auto',
+            marginTop: theme.spacing(2),
+            fontStyle: 'italic',
+        },
+        action: {
+            marginTop: 'auto',
+            display: 'flex',
+            justifyContent: 'flex-end',
+        },
+    })
+);
 
 interface Props {
     user: User | null | undefined;
@@ -17,7 +54,10 @@ interface Props {
     users: Map<string, User>;
     author: string;
     title: string;
+    titleLink?: string; // path on title click
     subtitle: string;
+    subtitleLink?: string; // path on subtitle click
+    category?: { _id: string; title: string };
     body: string;
     maxLen?: number;
     mediaTop?: any;
@@ -41,7 +81,10 @@ export const PostCard = ({
     users,
     author,
     title,
+    titleLink,
     subtitle,
+    subtitleLink,
+    category,
     body,
     maxLen,
     mediaTop,
@@ -75,15 +118,22 @@ export const PostCard = ({
     maxLen = maxLen || body.length;
     const showMoreRequired = body.length > maxLen;
 
-    const style = { marginTop: 'auto' };
+    // If path is provided then wrap in the link component, otherwise display typography only
+    const linkWrapper = (component: any, path?: string) => (path ? <Link to={path}>{component}</Link> : component);
 
     return (
+        // TODO: Remove the hover class and reuse it for on panel click
         <Box id={object._id} className={`${classes.post} ${hover ? classes.hover : undefined}`}>
             {mediaTop}
 
             <CardContent>
-                <Typography variant="h6">{title}</Typography>
-                <Typography variant="caption">{subtitle}</Typography>
+                {linkWrapper(<Typography variant="h6">{title}</Typography>, titleLink)}
+                {linkWrapper(
+                    <Typography variant="caption" gutterBottom>
+                        {subtitle}
+                    </Typography>,
+                    subtitleLink
+                )}
             </CardContent>
             <CardMenu
                 user={user}
@@ -98,14 +148,9 @@ export const PostCard = ({
             {mediaMiddle}
 
             <CardContent className={classes.col}>
-                <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                    gutterBottom
-                    className={classes.postBody}
-                >
-                    {showMoreRequired ? `${body.substring(0, maxLen)}...` : body}
+                <Typography variant="body2" color="textSecondary" component="p" gutterBottom className={classes.body}>
+                    {showMoreRequired ? `${body.substring(0, maxLen)}` : body}
+                    {showMoreRequired && titleLink ? <Link to={titleLink}>...</Link> : undefined}
                 </Typography>
 
                 {/* Add link to go to the author page */}
@@ -114,25 +159,20 @@ export const PostCard = ({
                 </Typography>
             </CardContent>
 
-            <CardActions disableSpacing style={style}>
+            <CardActions disableSpacing className={classes.action}>
                 <ActionButtons
+                    user={user}
+                    author={(object as { author: string })?.author}
                     comments={comments}
                     likes={likes}
                     handleExpandClick={handleExpandClick}
-                    // TODO: Repair add and remove comment from state
                     toggleCommentsPanel={(open: boolean) =>
-                        toggleCommentsPanel(open, model, object._id, addComment, removeComment)
+                        toggleCommentsPanel(open, title, model, object._id, addComment, removeComment)
                     }
                 />
-                {/* TODO: Create a single post page */}
-                {showMoreRequired && (
-                    <Typography variant="caption" className={`${classes.navButton} ${classes.flexRight}`}>
-                        <Link to={`/posts/${object._id}`}>Show more...</Link>
-                    </Typography>
-                )}
             </CardActions>
 
-            {divider && <Divider variant="middle" className={classes.divider} />}
+            {divider && <Divider variant="middle" />}
             {/* TODO: add a boolean prop to show or hide below. 
                 This part of the card can be used in a card which takes full width.
                 If several cards in a row are displayed - use the right drawer to display comments
@@ -149,8 +189,6 @@ export const PostCard = ({
                     removeComment={(id: string) => removeComment(id, object._id)}
                 />
             </CardContent> */}
-
-            {/* <Divider /> */}
         </Box>
     );
 };

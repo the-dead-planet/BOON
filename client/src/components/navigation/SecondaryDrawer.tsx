@@ -1,8 +1,40 @@
 import React from 'react';
-import { useStyles } from '../../styles/main';
-import { Drawer, Grid, IconButton } from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { DRAWER_SECONDARY_WIDTH } from '../../styles/constants';
+import { Drawer, Grid } from '@material-ui/core';
+import { IconButton } from '../mui-styled/IconButton';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import { User, Children } from '../../logic/types';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        secondaryDrawerBg: {
+            width: '100%',
+            minHeight: '100vh',
+            position: 'fixed',
+            backgroundColor: theme.palette.primary.main,
+            opacity: 0.1,
+            cursor: 'pointer',
+            display: 'block',
+            boxSizing: 'border-box',
+            // opacity: 1,
+            pointerEvents: 'all',
+            zIndex: 10,
+        },
+        drawerSecondary: {
+            maxWidth: '100%',
+            width: DRAWER_SECONDARY_WIDTH,
+            flexShrink: 0,
+        },
+        drawerSecondaryPaper: {
+            maxWidth: '100%',
+            width: DRAWER_SECONDARY_WIDTH,
+            boxShadow: `0 4px 12px ${theme.palette.primary.light}`,
+            // backgroundColor: theme.palette.primary.main,
+            // color: theme.palette.primary.contrastText,
+        },
+    })
+);
 
 interface Props {
     user: User;

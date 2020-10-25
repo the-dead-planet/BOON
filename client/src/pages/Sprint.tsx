@@ -4,6 +4,7 @@ import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import sprintsService from '../services/sprintsService';
 import projectsService from '../services/projectsService';
+import usersService from '../services/usersService';
 import AppLayout from '../layouts/AppLayout';
 import { Loading, Empty } from '../components/Loading';
 import { CommentsSection } from '../components/CommentsSection';
@@ -12,10 +13,10 @@ import {
     // withShowError,
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, Mode, StateData, Sprint as SprintType, Model, MongoObject } from '../logic/types';
+import { User, NotificationProps, Mode, StateData, Sprint as SprintType, Model } from '../logic/types';
 import moment from 'moment';
-import { MONTH_YEAR_FORMAT } from '../utils/constants';
-import { PATHS } from '../constants/data';
+import { MONTH_YEAR_FORMAT } from '../constants/dateFormats';
+import { PATHS, QUOTES } from '../constants/data';
 const { sprints } = PATHS;
 const sprintsPath = sprints;
 
@@ -25,7 +26,7 @@ interface SprintProps {
     mode: Mode;
     setMode: any;
     data: StateData;
-    setState: any;
+    setStateData: any;
     addPostComment: any;
     addSprintComment: any;
     removeObject: any;
@@ -39,7 +40,7 @@ const Sprint = ({
     mode,
     setMode,
     data,
-    setState,
+    setStateData,
     addPostComment,
     addSprintComment,
     removeObject,
@@ -48,7 +49,7 @@ const Sprint = ({
 }: SprintProps & WithShowErrorInjectedProps) => {
     const { id }: { id: string } = useParams();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
-
+    const [quote, setQuote] = useState('');
     /* 
         DETERMINE SPRINT ID
         If no specific `Sprint` has been specified, try to redirect to the
@@ -72,17 +73,21 @@ const Sprint = ({
     /* 
         GET DATA FROM DATA BASE AND WRITE TO APP STATE
     */
-    const getSprints = async () => {
+    const getData = async () => {
         let res = await sprintsService.getAll().catch(showError);
         let resProj = await projectsService.getAll().catch(showError);
+        // Temp - see comment in ComponentDidMount in App.tsx
+        let users = await usersService.getAll().catch(showError);
 
-        await setState(res, resProj);
+        // TODO: Is there a better solution to handle pulling all required data
+        await setStateData(res, resProj, users);
     };
     // Fetch sprints on the first render.
     // It will send a request when the user re-enters the sprints list page from some other page (e.g. form).
     // This way, the user has a way of refreshing sprints data.
     useEffect(() => {
-        getSprints();
+        getData();
+        setQuote(QUOTES[Math.floor(Math.random() * QUOTES.length)]);
     }, []);
 
     /* 
@@ -104,15 +109,30 @@ const Sprint = ({
     /* 
         NAVIGATION ITEMS
     */
-    const navPosts = sprint?.posts
-        .map((id) => posts.get(id))
+    const sprintPosts = sprint?.posts;
+    const navPosts = sprintPosts
+        ?.map((postId) => posts.get(postId))
         .map((post) => ({ hash: true, id: post?._id || '', name: post?.title || '', path: `#${post?._id}` || '#' }));
+
+    const navProjects = [
+        ...new Set(
+            sprintPosts
+                ?.map((postId) =>
+                    [...projects.values()].reduce((acc, project) => (project.posts.includes(postId) ? project : acc))
+                )
+                .map((project) => project._id)
+        ),
+    ].map((projectId) => ({
+        id: projectId || '',
+        name: projects.get(projectId)?.title || '',
+        path: `/projects/${projectId}`,
+    }));
 
     // TODO: find a better place for these
     const navAdd = [
-        { id: 'new-sprint', name: 'New sprint', path: '/add_sprint' },
-        { id: 'new-project', name: 'New project', path: '/add_project' },
-        { id: 'new-post', name: 'New post', path: '/add_post' },
+        { id: 'new-sprint', name: 'New sprint', path: '/sprints/add' },
+        { id: 'new-project', name: 'New project', path: '/projects/add' },
+        { id: 'new-post', name: 'New post', path: '/posts/add' },
     ];
 
     const navPlaceholder = [{ id: '', name: 'Printing...', path: '/' }];
@@ -128,6 +148,7 @@ const Sprint = ({
         <CommentsSection
             expanded={true}
             user={user}
+            title={commentsProps.title}
             parentId={commentsProps.parentId}
             parentModel={commentsProps.parentModel}
             comments={(commentsProps.parentModel === 'Sprint'
@@ -145,6 +166,7 @@ const Sprint = ({
 
     const toggleSecondaryDrawer = (
         open: boolean,
+        title: string,
         parentModel: Model,
         parentId: any,
         addComment: any,
@@ -160,6 +182,7 @@ const Sprint = ({
         // Rewrite this logic completely
         if (open)
             setCommentsProps({
+                title,
                 parentModel,
                 parentId,
                 addComment,
@@ -181,6 +204,7 @@ const Sprint = ({
             mode={mode}
             setMode={setMode}
             appBar={true}
+            quote={quote}
             pagination={{
                 path: sprintsPath,
                 currentId: id,
@@ -200,7 +224,7 @@ const Sprint = ({
             navLeftContent={[
                 { header: 'Highlights', list: navPosts || navPlaceholder },
                 // TODO: Get a list of projects related to the posts related to currently displayed sprint
-                { header: 'Related projects', list: navPosts || navPlaceholder },
+                { header: 'Related projects', list: navProjects || navPlaceholder },
                 { header: 'Add stuff', list: navAdd || navPlaceholder },
             ]}
             sideColumn={{ header: '_goss', body: '' }}

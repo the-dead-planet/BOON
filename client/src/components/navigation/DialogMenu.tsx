@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useStyles } from '../../styles/main';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from '@material-ui/core';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { DialogProps } from '../../logic/types';

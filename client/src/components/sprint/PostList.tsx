@@ -1,11 +1,38 @@
 import React, { Fragment } from 'react';
-import { useStyles } from '../../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Grid, CardMedia, Typography } from '@material-ui/core';
 import { PostCard } from './Card';
-import moment from 'moment';
-import { EXT_DATE_FORMAT } from '../../utils/constants';
 import img from '../../img/landing/landing-1.png';
 import { User, Post, Project, Comment, Like } from '../../logic/types';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        container: {
+            marginTop: theme.spacing(2),
+        },
+        quoteContainer: {
+            border: `solid 2px ${theme.palette.primary.main}`,
+            position: 'relative',
+            '&::after': {
+                content: "''",
+                position: 'absolute',
+                left: theme.spacing(1),
+                right: theme.spacing(1),
+                top: theme.spacing(1),
+                bottom: theme.spacing(1),
+                border: `solid 2px ${theme.palette.primary.light}`,
+            },
+        },
+        quote: {
+            textAlign: 'center',
+            fontStyle: 'italic',
+            margin: theme.spacing(2),
+        },
+        quoteAuthor: {
+            margin: theme.spacing(2),
+        },
+    })
+);
 
 interface Props {
     user: User;
@@ -20,6 +47,7 @@ interface Props {
     push: any;
     toggleCommentsPanel: any;
 }
+
 export const PostsList = ({
     user,
     projects,
@@ -35,12 +63,14 @@ export const PostsList = ({
 }: Props) => {
     const classes = useStyles();
     const style = { height: '100px', marginLeft: '1.1em', marginRight: '1.1em' };
+    const getProject = (id: string) =>
+        [...projects.values()]?.reduce((acc, project) => (project.posts.includes(id) ? project : acc));
 
     return (
         <Grid container spacing={1}>
             {posts.map((post: Post, i: number) => (
                 <Fragment key={i}>
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={2} className={classes.postContainer}>
+                    <Grid item xs={12} sm={6} md={4} lg={3} xl={2} className={classes.container}>
                         <PostCard
                             key={`${post._id}-${i}`}
                             user={user}
@@ -51,7 +81,10 @@ export const PostsList = ({
                             users={users as any}
                             author={users.get(post.author as any)?.publicName || 'Unknown user'}
                             title={post.title}
-                            subtitle={moment(post.created).format(EXT_DATE_FORMAT)}
+                            titleLink={`/posts/${post._id}`}
+                            // subtitle={moment(post.created).format(EXT_DATE_FORMAT)}
+                            subtitle={getProject(post._id).title}
+                            subtitleLink={`/projects/${getProject(post._id)._id}`}
                             body={post.body}
                             // TODO: if image for post, shorten the 'maxLen' and display image
                             maxLen={i % 3 === 1 ? 250 : 400}
@@ -85,7 +118,7 @@ export const PostsList = ({
                             md={8}
                             lg={6}
                             xl={4}
-                            className={`${classes.postContainer} ${classes.quoteContainer}`}
+                            className={`${classes.container} ${classes.quoteContainer}`}
                             container
                             direction="column"
                             justify="center"

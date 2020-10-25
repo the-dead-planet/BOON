@@ -1,15 +1,42 @@
 import React from 'react';
-import { useStyles } from '../../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { JUMBOTRON_HEIGHT, TOOLBAR_HEIGHT } from '../../styles/constants';
 import { Link } from '../../utils/Link';
-import { Box, Grid, Button, Typography, Hidden, Grow } from '@material-ui/core';
+import { Grid, Button, Typography, Hidden, Grow } from '@material-ui/core';
 import { Jumbotron as JumbotronProps } from '../../logic/types';
 //import * as jumbotronLight from '../../img/landing/JumbotronLight.png';
 import { PATHS } from '../../constants/data';
 const { main } = PATHS;
 
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        jumbotronImg: {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: JUMBOTRON_HEIGHT,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            zIndex: -1,
+            backgroundColor: '#000', // backgroundImage imported as a component in Layout.tsx
+            boxShadow: '0px 2px 4px -1px rgba(0,0, 0.2)',
+        },
+        jumbotronContent: {
+            marginTop: `${TOOLBAR_HEIGHT}px`,
+            position: 'absolute',
+            color: '#fff',
+            height: `calc(${JUMBOTRON_HEIGHT} - ${JUMBOTRON_HEIGHT}px)`,
+        },
+        offset: {
+            margin: theme.spacing(1),
+        },
+    })
+);
+
 const Jumbotron = ({ img = '', title = 'Hello', subtitle = 'Welcome', actions = [], onClick }: JumbotronProps) => {
     const classes = useStyles();
-    const style = { margin: '0.5em' };
+    // TODO: use react-image
     const imgStyle = { backgroundImage: `url(${img})` };
 
     return (
@@ -39,9 +66,9 @@ const Jumbotron = ({ img = '', title = 'Hello', subtitle = 'Welcome', actions = 
                                         <Link to={`${action.path}?next=${main}`}>
                                             <Button
                                                 key={`button-${i}`}
-                                                style={style}
                                                 variant="contained"
                                                 color="primary"
+                                                className={classes.offset}
                                             >
                                                 {action.name}
                                             </Button>

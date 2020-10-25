@@ -1,19 +1,29 @@
 import React from 'react';
 import { Img } from 'react-image';
-import { useStyles } from '../../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import { PostCard } from './Card';
-// import CardMedia from '@material-ui/core/CardMedia';
 import moment from 'moment';
-import { DATE_FORMAT } from '../../utils/constants';
+import { DATE_FORMAT } from '../../constants/dateFormats';
 import { User, Sprint, Comment, Like } from '../../logic/types';
-// import { PATHS } from '../../constants/data';
 import img from '../../img/content/vintage/typewriter.jpg';
-// const { home } = PATHS;
 
-// Detailed view of a sprint object.
-// To be used to display all available information about a given instance, i.e.
-// on a detail page.
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        post: {
+            border: `1px solid ${theme.palette.primary.light}`,
+            padding: '.5em',
+        },
+        img: {
+            width: '100%',
+            minHeight: '100%',
+            maxHeight: '400px',
+            objectFit: 'cover',
+            objectPosition: '50% 50%',
+        },
+    })
+);
+
 interface Props {
     user: User | null | undefined;
     sprint: Sprint;
@@ -72,9 +82,9 @@ export const SprintOverview = ({
     );
 
     return (
-        <Grid container className={classes.mainPost}>
+        <Grid container className={classes.post}>
             <Grid item xs={12} md={8}>
-                <Img src={img} className={classes.mainImg} />
+                <Img src={img} className={classes.img} />
             </Grid>
 
             <Grid item xs={12} md={4}>

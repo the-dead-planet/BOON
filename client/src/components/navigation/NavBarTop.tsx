@@ -1,14 +1,64 @@
 import React from 'react';
 import clsx from 'clsx';
-import { useStyles } from '../../styles/main';
-import { Link } from '../../utils/Link';
-import { Grid, AppBar, Toolbar, Typography, IconButton, Hidden } from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { TOOLBAR_HEIGHT, DRAWER_WIDTH } from '../../styles/constants';
+// import { Link } from '../../utils/Link';
+import { Grid, AppBar, Toolbar, Typography, Hidden } from '@material-ui/core';
+import { IconButton } from '../mui-styled/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Pagination from './Pagination';
 // import HideOnScroll from '../../utils/HideOnScroll';
 import { AuthButtonsHorizontal } from './NavButtons';
 import { Mode, User, DrawerVariant, Page } from '../../logic/types';
-import { NAV_LINKS } from '../../constants/data';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        toolbar: {
+            minHeight: `${TOOLBAR_HEIGHT}px !important`,
+            position: 'relative',
+        },
+        appBar: {
+            transition: theme.transitions.create(['margin', 'width'], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+            boxShadow: 'none !important',
+            // boxShadow: "0px 2px 4px -1px #fff, 0px 4px 5px 0px #fff, 0px 1px 10px 0px #fff !important",
+        },
+        appBarShift: {
+            width: `calc(100% - ${DRAWER_WIDTH}px)`,
+            marginLeft: DRAWER_WIDTH,
+            transition: theme.transitions.create(['margin', 'width'], {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+        },
+        menuButton: {
+            marginRight: theme.spacing(2),
+        },
+        left: {},
+        right: {},
+        fix: {
+            position: 'absolute',
+            '&$right': {
+                right: 0,
+            },
+            '&$left': {
+                left: 0,
+            },
+        },
+        hide: {
+            display: 'none',
+        },
+        quote: {
+            width: '250px',
+            marginLeft: theme.spacing(3),
+        },
+        toRight: {
+            marginLeft: 'auto',
+        },
+    })
+);
 
 interface Props {
     user: User;
@@ -19,11 +69,11 @@ interface Props {
     open: boolean;
     toggleDrawer: any;
     pagination?: Page;
+    quote?: string;
 }
 
-const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawer, pagination }: Props) => {
+const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawer, pagination, quote }: Props) => {
     const classes = useStyles();
-    const style = { marginLeft: 'auto' };
 
     return (
         // <HideOnScroll>
@@ -43,7 +93,6 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
                     <div className={`${classes.fix} ${classes.left}`}>
                         <Hidden mdUp>
                             <IconButton
-                                color="inherit"
                                 aria-label="open drawer"
                                 onClick={toggleDrawer(true)}
                                 edge="start"
@@ -57,21 +106,13 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
                             </IconButton>
                         </Hidden>
 
-                        <Hidden smDown>
-                            <Grid container>
-                                {NAV_LINKS.map((item, i) => (
-                                    <Link key={i} to={item.path}>
-                                        <Typography
-                                            variant="body1"
-                                            color={i === 0 ? 'secondary' : 'inherit'}
-                                            className={classes.navButton}
-                                        >
-                                            {item.name}
-                                        </Typography>
-                                    </Link>
-                                ))}
-                            </Grid>
-                        </Hidden>
+                        {quote && (
+                            <Hidden smDown>
+                                <div className={classes.quote}>
+                                    <Typography variant="caption">{quote}</Typography>
+                                </div>
+                            </Hidden>
+                        )}
                     </div>
 
                     {/* Centered text */}
@@ -79,12 +120,8 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
                         — The —
                     </Typography>
 
-                    {/* TODO: change texts to icons or something nicer */}
-
                     <div className={`${classes.fix} ${classes.right}`}>
-                        <Hidden smDown>
-                            <AuthButtonsHorizontal style={style} user={user} />
-                        </Hidden>
+                        <AuthButtonsHorizontal user={user} />
                     </div>
                 </Grid>
             </Toolbar>

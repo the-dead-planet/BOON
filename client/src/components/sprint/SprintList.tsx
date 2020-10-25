@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useStyles } from '../../styles/main';
 import { Box } from '@material-ui/core';
 import { TreeView } from '@material-ui/lab/';
 import TreeItem from '@material-ui/lab/TreeItem';
@@ -8,7 +7,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import List from '@material-ui/core/List';
 import SprintListItem from './SprintListItem';
 import moment from 'moment';
-import { YEAR_DATE_FORMAT } from '../../utils/constants';
+import { YEAR_DATE_FORMAT } from '../../constants/dateFormats';
 import { Sprint } from '../../logic/types';
 
 interface Props {
@@ -17,8 +16,6 @@ interface Props {
 }
 
 const SprintList = ({ sprints, currentSprintId }: Props) => {
-    // const classes = useStyles();
-
     // Find unique dateTo years
     let sprintYears: Array<string> = [
         ...new Set([...sprints.values()].map((sprint) => moment(sprint.dateTo).format(YEAR_DATE_FORMAT))),
