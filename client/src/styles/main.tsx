@@ -35,9 +35,6 @@ const useStyles = makeStyles((theme: Theme) =>
         /* 
             Images
         */
-        jumbotron: {
-            minHeight: jumbotronHeight,
-        },
         jumbotronContent: {
             marginTop: `${toolbarHeight}px`,
             position: 'absolute',
@@ -67,47 +64,8 @@ const useStyles = makeStyles((theme: Theme) =>
         /* 
             NavBar
         */
-        appBar: {
-            transition: theme.transitions.create(['margin', 'width'], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen,
-            }),
-            boxShadow: 'none !important',
-            // boxShadow: "0px 2px 4px -1px #fff, 0px 4px 5px 0px #fff, 0px 1px 10px 0px #fff !important",
-        },
-        appBarShift: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth,
-            transition: theme.transitions.create(['margin', 'width'], {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-        },
-        toolbar: {
-            minHeight: `${toolbarHeight}px !important`,
-        },
         menuButton: {
             marginRight: theme.spacing(2),
-        },
-        hide: {
-            display: 'none',
-        },
-        drawer: {
-            width: drawerWidth,
-            flexShrink: 0,
-            transition: 'width 1s',
-        },
-        drawerPaper: {
-            width: drawerWidth,
-        },
-        drawerHeader: {
-            display: 'flex',
-            alignItems: 'center',
-            padding: theme.spacing(0, 1),
-            // // necessary for content to be below app bar
-            // ...theme.mixins.toolbar,
-            minHeight: `${toolbarHeight * 3}px !important`,
-            justifyContent: 'flex-end',
         },
         drawerSecondary: {
             maxWidth: '100%',
@@ -133,30 +91,6 @@ const useStyles = makeStyles((theme: Theme) =>
             // opacity: 1,
             pointerEvents: 'all',
             zIndex: 10,
-        },
-        contentPadding: {
-            flexGrow: 1,
-            padding: theme.spacing(3),
-            paddingBottom: '5em',
-            minHeight: '100vh',
-        },
-        content: {
-            flexGrow: 1,
-            padding: theme.spacing(3),
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen,
-            }),
-            marginLeft: -drawerWidth,
-            paddingBottom: '5em',
-            minHeight: '100vh',
-        },
-        contentShift: {
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-            marginLeft: 0,
         },
         footer: {
             marginTop: '5em',
@@ -210,28 +144,8 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: 'rgba(0, 0, 0, .03) !important',
             fontStyle: 'italic',
         },
-        pagination: {
-            borderTop: `solid 2px ${theme.palette.primary.light}`,
-            borderBottom: `solid 2px ${theme.palette.primary.light}`,
-        },
-        paginationLink: {
-            width: '50%',
-            maxWidth: '200px',
-            '&$right': {
-                textAlign: 'right',
-            },
-        },
         left: {},
         right: {},
-        fix: {
-            position: 'absolute',
-            '&$right': {
-                right: '2em',
-            },
-            '&$left': {
-                left: '2em',
-            },
-        },
         flexRight: {
             marginLeft: 'auto !important',
         },
@@ -339,13 +253,6 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: '.2em',
             textAlign: 'center',
             textTransform: 'uppercase',
-        },
-        moveContent: {
-            marginLeft: `calc(${navBarLeftWidth}px + 10px)`,
-            top: 0,
-            [theme.breakpoints.down('sm')]: {
-                marginLeft: 0,
-            },
         },
         mainPost: {
             border: `1px solid ${theme.palette.primary.light}`,

@@ -1,13 +1,14 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
 import { Link } from '../../utils/Link';
-import { Grid, List, ListItem, ListItemText, Typography, InputBase } from '@material-ui/core';
+import { Grid, List, ListItem, ListItemText, Typography, InputBase, Hidden } from '@material-ui/core';
+import { TypographyLink } from '../mui-styled/Typography';
 import { ItemMenu } from '../ItemMenu';
 import SearchIcon from '@material-ui/icons/Search';
 import { IconUserSecret } from '../Icons';
 import { User } from '../../logic/types';
 import { PATHS } from '../../constants/data';
-const { browse, login, logout, register, account } = PATHS;
+const { login, logout, register } = PATHS;
 
 // Set text on auth buttons dependent on whether a user is logged in or not
 const getText = (user: User | null | undefined) => {
@@ -25,11 +26,7 @@ interface Props {
 export const AuthButtonsHorizontal = ({ user }: Props) => {
     const classes = useStyles();
     const signUpText = (
-        <Typography
-            variant="body2"
-            className={`${classes.navButton} ${user ? classes.disabled : undefined}`}
-            color="inherit"
-        >
+        <Typography variant="body2" className={`${user ? classes.disabled : undefined}`} color="inherit">
             {getText(user).register}
         </Typography>
     );
@@ -39,7 +36,7 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
     // TODO: hide this button, instead open a menu after clicking on the icon with options: "settings, logout etc"
     let loginButton = !user ? (
         <Link to={login}>
-            <Typography variant="body2" className={classes.navButton} color="secondary">
+            <Typography variant="body2" color="secondary">
                 {getText(user).login}
             </Typography>
         </Link>
@@ -47,8 +44,11 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
 
     return (
         <Grid container alignItems="center">
-            {signUpButton}
-            {loginButton}
+            <Hidden smDown>
+                {signUpButton}
+                {loginButton}
+            </Hidden>
+
             <div className={classes.userIcon}>
                 {/* <Link to={!user ? login : account}> */}
                 {/* <IconButton color="primary" size="small" aria-label="user menu" style={{ height: 30, width: 30 }}>
@@ -62,9 +62,9 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
                             {
                                 name: user ? (
                                     <Link to={logout}>
-                                        <Typography variant="body2" className={classes.navButton} color="secondary">
+                                        <TypographyLink variant="body2" color="secondary">
                                             {getText(user).login}
-                                        </Typography>
+                                        </TypographyLink>
                                     </Link>
                                 ) : (
                                     'Login'
@@ -72,6 +72,7 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
                                 onClick: () => '',
                             },
                         ]}
+                        tooltip="User menu"
                     />
                 )}
             </div>
@@ -108,11 +109,6 @@ export const BrowseButton = ({ user, style }: Props) => {
     const classes = useStyles();
 
     return (
-        // <Link to={browse}>
-        //     <Typography variant="body2" className={classes.navButton} color="primary">
-        //         Browse
-        //     </Typography>
-        // </Link>
         <div className={classes.search}>
             <div className={classes.searchIcon}>
                 <SearchIcon />

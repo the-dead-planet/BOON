@@ -43,7 +43,7 @@ export const Comment = ({ user, comment, users, setCommentToBeDeletedId }: Props
                     secondary={comment?.body}
                 />
 
-                <ItemMenu items={items} />
+                <ItemMenu items={items} tooltip="More options" />
             </ListItem>
             {/* <Divider variant="inset" component="li" /> */}
             {/* </div> */}

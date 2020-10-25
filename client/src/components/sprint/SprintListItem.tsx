@@ -27,9 +27,7 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, currentSpr
             <Link to={`/sprints/${_id}`}>
                 <ListItem
                     // button
-                    className={`${currentSprintId === _id && classes.selectedStyle} ${classes.pageNavList} ${
-                        classes.navButton
-                    }`}
+                    className={`${currentSprintId === _id && classes.selectedStyle} ${classes.pageNavList}`}
                 >
                     {`#${number} ${moment(dateTo).format(MONTH_DATE_FORMAT)}`}
                 </ListItem>

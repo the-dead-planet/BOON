@@ -16,11 +16,11 @@ const DrawerSprintList = ({ sprints, currentSprintId }: Props) => {
     return (
         <Drawer
             variant="permanent"
-            classes={{
-                paper: classes.drawerPaper,
-            }}
+            // classes={{
+            //     paper: classes.drawerPaper,
+            // }}
         >
-            <div className={classes.toolbar} />
+            {/* <div className={classes.toolbar} /> */}
             <List>
                 {/* TODO: sort a map, remove _id from values */}
                 {[...sprints.values()]

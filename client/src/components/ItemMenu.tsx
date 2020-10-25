@@ -1,14 +1,15 @@
 import React from 'react';
-import { MenuList, MenuItem, ClickAwayListener, Popper, Paper, Grow } from '@material-ui/core';
+import { MenuList, MenuItem, ClickAwayListener, Popper, Paper, Grow, Tooltip } from '@material-ui/core';
 import { IconButton } from './mui-styled/IconButton';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 interface Props {
     items: Array<{ name: any; onClick: any }>;
     icon?: any;
+    tooltip?: string;
 }
 
-export const ItemMenu = ({ items, icon }: Props) => {
+export const ItemMenu = ({ items, icon, tooltip }: Props) => {
     // For menu with options: delete, report etc
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -46,16 +47,17 @@ export const ItemMenu = ({ items, icon }: Props) => {
 
     return (
         <>
-            <IconButton
-                ref={anchorRef}
-                color="primary"
-                aria-label="comment options"
-                aria-controls="long-menu"
-                aria-haspopup="true"
-                onClick={handleToggle}
-            >
-                {icon ? icon : <MoreHorizIcon />}
-            </IconButton>
+            <Tooltip title={tooltip || ''} arrow>
+                <IconButton
+                    ref={anchorRef}
+                    aria-label="comment options"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                >
+                    {icon ? icon : <MoreHorizIcon />}
+                </IconButton>
+            </Tooltip>
 
             <Popper
                 open={open}

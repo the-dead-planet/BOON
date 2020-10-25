@@ -1,12 +1,35 @@
 import React from 'react';
-import { useStyles } from '../../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { TOOLBAR_HEIGHT } from '../../styles/constants';
 import { Link } from '../../utils/Link';
-import { Grid, Toolbar, Typography, Hidden } from '@material-ui/core';
+import { Grid, Toolbar, Typography, Hidden, Tooltip } from '@material-ui/core';
+import { TypographyLink } from '../mui-styled/Typography';
 import { IconButton } from '../mui-styled/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Page } from '../../logic/types';
 import { NAV_LINKS } from '../../constants/data';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        toolbar: {
+            minHeight: `${TOOLBAR_HEIGHT}px !important`,
+        },
+        pagination: {
+            borderTop: `solid 2px ${theme.palette.primary.light}`,
+            borderBottom: `solid 2px ${theme.palette.primary.light}`,
+        },
+        paginationLink: {
+            width: '50%',
+            maxWidth: '200px',
+            '&$right': {
+                textAlign: 'right',
+            },
+        },
+        left: {},
+        right: {},
+    })
+);
 
 // TODO: Add a menu with
 const Pagination = ({ path, primary, secondary, list, currentId, previousId, nextId, links }: Page) => {
@@ -21,9 +44,11 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                 <Typography noWrap className={classes.paginationLink}>
                     {previousId && (
                         <Link to={`${path}/${previousId}`}>
-                            <IconButton style={style} title="Previous" aria-label="previous">
-                                <ChevronLeftIcon color="primary" />
-                            </IconButton>
+                            <Tooltip title={`Previous ${path?.substring(1, path.length - 1)}`} aria-label="previous">
+                                <IconButton style={style} aria-label="previous">
+                                    <ChevronLeftIcon color="primary" />
+                                </IconButton>
+                            </Tooltip>
                         </Link>
                     )}
                     {primary || ''}
@@ -33,17 +58,16 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                     <Grid item style={flex}>
                         {NAV_LINKS.map((item, i) => (
                             <Link key={i} to={item.path}>
-                                <Typography
+                                <TypographyLink
                                     color={
                                         path?.toUpperCase()?.indexOf(item.name.toUpperCase()) !== -1
                                             ? 'secondary'
                                             : 'inherit'
                                     }
-                                    className={classes.navButton}
                                     style={width}
                                 >
                                     - {item.name} -
-                                </Typography>
+                                </TypographyLink>
                             </Link>
                         ))}
                     </Grid>
@@ -53,9 +77,11 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                     <Hidden smDown>{secondary || ''}</Hidden>
                     {nextId && (
                         <Link to={`${path}/${nextId}`}>
-                            <IconButton style={style} title="Next" aria-label="next">
-                                <ChevronRightIcon color="primary" />
-                            </IconButton>
+                            <Tooltip title={`Next ${path?.substring(1, path.length - 1)}`} aria-label="next">
+                                <IconButton style={style} aria-label="next">
+                                    <ChevronRightIcon color="primary" />
+                                </IconButton>
+                            </Tooltip>
                         </Link>
                     )}
                 </Typography>

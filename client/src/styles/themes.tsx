@@ -26,7 +26,7 @@ const createTheme = (type: Mode) => {
             secondary: {
                 light: '#E06376',
                 main: '#CE4257',
-                dark: '#720026',
+                dark: '#A62B3D',
                 contrastText: 'rgba(255, 255, 255, .87)',
             },
             common: {

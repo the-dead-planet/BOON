@@ -1,14 +1,57 @@
 import React from 'react';
 import clsx from 'clsx';
-import { useStyles } from '../../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { TOOLBAR_HEIGHT, DRAWER_WIDTH } from '../../styles/constants';
 // import { Link } from '../../utils/Link';
-import { Grid, AppBar, Toolbar, Typography, IconButton, Hidden } from '@material-ui/core';
+import { Grid, AppBar, Toolbar, Typography, Hidden } from '@material-ui/core';
+import { IconButton } from '../mui-styled/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Pagination from './Pagination';
 // import HideOnScroll from '../../utils/HideOnScroll';
 import { AuthButtonsHorizontal } from './NavButtons';
 import { Mode, User, DrawerVariant, Page } from '../../logic/types';
 import { QUOTES } from '../../constants/data';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        toolbar: {
+            minHeight: `${TOOLBAR_HEIGHT}px !important`,
+        },
+        appBar: {
+            transition: theme.transitions.create(['margin', 'width'], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+            }),
+            boxShadow: 'none !important',
+            // boxShadow: "0px 2px 4px -1px #fff, 0px 4px 5px 0px #fff, 0px 1px 10px 0px #fff !important",
+        },
+        appBarShift: {
+            width: `calc(100% - ${DRAWER_WIDTH}px)`,
+            marginLeft: DRAWER_WIDTH,
+            transition: theme.transitions.create(['margin', 'width'], {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+        },
+        menuButton: {
+            marginRight: theme.spacing(2),
+        },
+        left: {},
+        right: {},
+        fix: {
+            position: 'absolute',
+            '&$right': {
+                right: '1em',
+            },
+            '&$left': {
+                left: '1em',
+            },
+        },
+        hide: {
+            display: 'none',
+        },
+    })
+);
 
 interface Props {
     user: User;
@@ -72,9 +115,7 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
                     </Typography>
 
                     <div className={`${classes.fix} ${classes.right}`}>
-                        <Hidden smDown>
-                            <AuthButtonsHorizontal style={style} user={user} />
-                        </Hidden>
+                        <AuthButtonsHorizontal style={style} user={user} />
                     </div>
                 </Grid>
             </Toolbar>
