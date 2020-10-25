@@ -28,15 +28,20 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         left: {},
         right: {},
+        button: {
+            padding: '.15em .2em',
+        },
+        menuLink: {
+            width: '120px',
+            textAlign: 'right',
+        },
     })
 );
 
 // TODO: Add a menu with
 const Pagination = ({ path, primary, secondary, list, currentId, previousId, nextId, links }: Page) => {
     const classes = useStyles();
-    const style = { padding: '.15em .2em' };
     const flex = { display: 'flex' };
-    const width = { width: '120px' };
 
     return (
         <Toolbar className={classes.toolbar}>
@@ -45,7 +50,7 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                     {previousId && (
                         <Link to={`${path}/${previousId}`}>
                             <Tooltip title={`Previous ${path?.substring(1, path.length - 1)}`} aria-label="previous">
-                                <IconButton style={style} aria-label="previous">
+                                <IconButton aria-label="previous" className={classes.button}>
                                     <ChevronLeftIcon color="primary" />
                                 </IconButton>
                             </Tooltip>
@@ -64,7 +69,7 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                                             ? 'secondary'
                                             : 'inherit'
                                     }
-                                    style={width}
+                                    className={classes.menuLink}
                                 >
                                     - {item.name} -
                                 </TypographyLink>
@@ -78,7 +83,7 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                     {nextId && (
                         <Link to={`${path}/${nextId}`}>
                             <Tooltip title={`Next ${path?.substring(1, path.length - 1)}`} aria-label="next">
-                                <IconButton style={style} aria-label="next">
+                                <IconButton aria-label="next" className={classes.button}>
                                     <ChevronRightIcon color="primary" />
                                 </IconButton>
                             </Tooltip>

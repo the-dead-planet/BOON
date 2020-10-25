@@ -1,12 +1,50 @@
 import React from 'react';
-import { useStyles } from '../../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { TOOLBAR_HEIGHT, DRAWER_WIDTH } from '../../styles/constants';
 import { Link } from '../../utils/Link';
 // import { CommentsSection } from '../CommentsSection';
 import { Box, Button, CardContent, CardActions, Typography, Divider } from '@material-ui/core';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ActionButtons } from './ActionButtons';
 import { CardMenu } from './CardMenu';
-import { User, Comment, Like, MongoObject, Model } from '../../logic/types';
+import { User, Comment, Like, MongoObject, Model, Sprint, Project, Post } from '../../logic/types';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        post: {
+            minHeight: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            border: `solid 1px transparent`,
+            // borderBottomColor: theme.palette.primary.main,
+            // borderRadius: "20px",
+            '&$hover': {
+                // '&:hover': {
+                //     borderColor: theme.palette.primary.light,
+                //     backgroundColor: 'rgba(255, 255, 255, .13)',
+                // },
+            },
+        },
+        hover: {},
+        col: {
+            display: 'flex',
+            flexDirection: 'column',
+        },
+        postBody: {
+            textAlign: 'justify',
+        },
+        signature: {
+            marginLeft: 'auto',
+            marginTop: '1em',
+            fontStyle: 'italic',
+        },
+        action: {
+            marginTop: 'auto',
+            display: 'flex',
+            justifyContent: 'flex-end',
+        },
+    })
+);
 
 interface Props {
     user: User | null | undefined;
@@ -81,8 +119,6 @@ export const PostCard = ({
     maxLen = maxLen || body.length;
     const showMoreRequired = body.length > maxLen;
 
-    const style = { marginTop: 'auto', display: 'flex', justifyContent: 'flex-end' };
-
     // If path is provided then wrap in the link component, otherwise display typography only
     const linkWrapper = (component: any, path?: string) => (path ? <Link to={path}>{component}</Link> : component);
 
@@ -130,9 +166,11 @@ export const PostCard = ({
                 </Typography>
             </CardContent>
 
-            <CardActions disableSpacing style={style}>
+            <CardActions disableSpacing className={classes.action}>
                 <div>
                     <ActionButtons
+                        user={user}
+                        author={(object as { author: string })?.author}
                         comments={comments}
                         likes={likes}
                         handleExpandClick={handleExpandClick}

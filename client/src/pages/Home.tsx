@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useStyles } from '../styles/landing';
 import { withPush } from '../utils/routingDecorators';
 import { guestPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
@@ -16,16 +15,12 @@ interface Props {
     showError: any;
 }
 
-const Home = ({ user, mode, setMode, push, notificationsProps }: Props) => {
-    // const classes = useStyles();
+const Home = ({ user, mode, setMode, push, notificationsProps }: Props) => (
+    <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
+        <Header user={user} />
 
-    return (
-        <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
-            <Header user={user} />
-
-            <Content user={user} mode={mode} setMode={setMode} />
-        </AppLayout>
-    );
-};
+        <Content user={user} mode={mode} setMode={setMode} />
+    </AppLayout>
+);
 
 export default guestPage(withPush(Home));

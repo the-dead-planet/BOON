@@ -1,9 +1,59 @@
 import React from 'react';
-import { useStyles } from '../../styles/landing';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from '../../utils/Link';
 import { Container, Grid, Typography, Box } from '@material-ui/core';
+import { Button } from '../mui-styled/Button';
 import { LANDING_CONTENTS } from '../../constants/data';
 import { User, Mode } from '../../logic/types';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        contentContainer: {
+            marginTop: '20px',
+            color: 'rgba(255, 255, 255, .87)',
+        },
+        enterContainer: {
+            margin: '5em 0',
+        },
+        enterButton: {
+            padding: '.5em',
+            textAlign: 'center',
+            border: `solid .2em ${theme.palette.secondary.main}`,
+            boxShadow: `0 0 ${theme.palette.secondary.dark}`,
+            transition: 'box-shadow .1s linear',
+            '&:hover': {
+                cursor: 'pointer',
+                // transform: "translate(-.2em, -.2em)",
+                transition: 'box-shadow .1s linear',
+                boxShadow: `.2em .2em ${theme.palette.secondary.dark}`,
+            },
+        },
+        contents: {
+            marginTop: '5em',
+        },
+        gridContentItem: {
+            marginTop: '5em',
+            padding: '5em 2em',
+            // border: `2px solid ${theme.palette.primary.main}`,
+            textAlign: 'center',
+            position: 'relative',
+            borderStyle: 'solid',
+            borderWidth: '0 2px 0 2px',
+            borderColor: 'transparent',
+            borderRadius: '20px',
+            '&:hover': {
+                borderStyle: 'solid',
+                borderWidth: '0 2px 0 2px',
+                borderColor: theme.palette.primary.main,
+                borderRadius: '20px',
+                // background: `linear-gradient(to right, rgba(0, 0, 0, .04) 0%, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, 0) 90%, rgba(0, 0, 0, .04) 100%)`
+            },
+        },
+        contentItemBody: {
+            marginBottom: '2em !important',
+        },
+    })
+);
 
 interface Props {
     user: User;
@@ -44,10 +94,13 @@ const Content = ({ user, mode, setMode }: Props) => {
                             {item.text}
                         </Typography>
 
-                        <Typography color="primary" variant="body1" className={classes.button}>
-                            <Link to={item.path}>{item.link}</Link>
-                        </Typography>
-                        {/* <ViewportImage src={item.img} /> */}
+                        <Link to={item.path}>
+                            <Button variant="outlined" color="primary">
+                                <Typography color="primary" variant="body1">
+                                    {item.link}
+                                </Typography>
+                            </Button>
+                        </Link>
                     </Grid>
                 ))}
             </Grid>

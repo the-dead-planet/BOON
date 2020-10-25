@@ -1,8 +1,16 @@
 import React from 'react';
-import { useStyles } from '../../styles/landing';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { HashLink } from '../../utils/Link';
 import { Typography } from '@material-ui/core';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        offset: {
+            padding: '0.2em',
+        },
+    })
+);
 
 interface Props {
     id?: string;

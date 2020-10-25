@@ -39,84 +39,13 @@ const useStyles = makeStyles((theme: Theme) =>
                 animationPlayState: 'paused !important',
             },
         },
-        headerContainer: {
-            position: 'relative',
-        },
         navButtons: {
             position: 'absolute',
             right: 0,
             top: 0,
         },
-        headerText: {
-            padding: '2em 0',
-            textAlign: 'center',
-        },
-        headerDivider: {
-            overflow: 'visible' /* For IE */,
-            width: '90%',
-            height: '30px',
-            borderStyle: 'solid',
-            borderColor: theme.palette.primary.main,
-            borderWidth: '1px 0 0 0',
-            borderRadius: '20px',
-            '&::before': {
-                display: 'block',
-                content: "''",
-                height: '30px',
-                marginTop: '-31px',
-                borderStyle: 'solid',
-                borderColor: theme.palette.primary.main,
-                borderWidth: '0 0 1px 0',
-                borderRadius: '20px',
-            },
-        },
-        divider: {
-            margin: '1em !important',
-            backgroundColor: theme.palette.primary.main,
-        },
-        topButtons: {
-            position: 'absolute',
-            top: 0,
-            '&$right': {
-                right: '2em',
-                left: 'auto',
-            },
-            '&$left': {
-                left: '2em',
-                right: 'auto',
-            },
-        },
         left: {},
         right: {},
-        definitions: {
-            padding: '0 1em',
-        },
-        textDecor: {
-            fontStyle: 'italic',
-        },
-        example: {
-            padding: '.5em 2em 1em 2em',
-            fontStyle: 'italic',
-        },
-        enterContainer: {
-            margin: '5em 0',
-        },
-        enterButton: {
-            padding: '.5em',
-            textAlign: 'center',
-            border: `solid .2em ${theme.palette.secondary.main}`,
-            boxShadow: `0 0 ${theme.palette.secondary.dark}`,
-            transition: 'box-shadow .1s linear',
-            '&:hover': {
-                cursor: 'pointer',
-                // transform: "translate(-.2em, -.2em)",
-                transition: 'box-shadow .1s linear',
-                boxShadow: `.2em .2em ${theme.palette.secondary.dark}`,
-            },
-        },
-        contents: {
-            marginTop: '5em',
-        },
         background: {
             backgroundColor: '#000',
         },
@@ -184,9 +113,6 @@ const useStyles = makeStyles((theme: Theme) =>
             animation: '$colorAnim 30s ease-in-out infinite',
         },
 
-        offset: {
-            padding: '0.2em',
-        },
         slideshow: {
             backgroundColor: '#000',
             position: 'fixed',
@@ -325,47 +251,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
 
         // Content
-        contentContainer: {
-            marginTop: '20px',
-            color: 'rgba(255, 255, 255, .87)',
-        },
         gridContent: {
             marginTop: '5em',
             // minHeight: '100vh',
-        },
-        gridContentItem: {
-            marginTop: '5em',
-            padding: '5em 2em',
-            // border: `2px solid ${theme.palette.primary.main}`,
-            textAlign: 'center',
-            position: 'relative',
-            borderStyle: 'solid',
-            borderWidth: '0 2px 0 2px',
-            borderColor: 'transparent',
-            borderRadius: '20px',
-            '&:hover': {
-                borderStyle: 'solid',
-                borderWidth: '0 2px 0 2px',
-                borderColor: theme.palette.primary.main,
-                borderRadius: '20px',
-            },
-        },
-        button: {
-            padding: '.5em 1em',
-            borderRadius: '5px',
-            borderWidth: `2px`,
-            borderStyle: `solid`,
-            bottom: '1em',
-            position: 'absolute',
-            textAlign: 'center',
-            '&:hover': {
-                backgroundColor: 'rgba(0, 0, 0, .06)',
-                cursor: 'pointer',
-            },
-            '&:active': {
-                backgroundColor: 'rgba(0, 0, 0, .1)',
-                cursor: 'pointer',
-            },
         },
         contentTitle: {
             textAlign: 'center',
@@ -374,9 +262,6 @@ const useStyles = makeStyles((theme: Theme) =>
         contentItemTitle: {
             textAlign: 'center',
             fontWeight: 'bold',
-        },
-        contentItemBody: {
-            marginBottom: '2em !important',
         },
         // Images
         inlinePhoto: {

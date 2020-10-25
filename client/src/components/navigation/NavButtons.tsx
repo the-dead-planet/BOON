@@ -1,14 +1,62 @@
 import React from 'react';
-import { useStyles } from '../../styles/main';
+import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from '../../utils/Link';
 import { Grid, List, ListItem, ListItemText, Typography, InputBase, Hidden } from '@material-ui/core';
-import { TypographyLink } from '../mui-styled/Typography';
+import { TypographyLinkOutlined } from '../mui-styled/Typography';
+// import SearchIcon from '@material-ui/icons/Search';
+import { IconUserSecret, IconSearch } from '../Icons';
 import { ItemMenu } from '../ItemMenu';
-import SearchIcon from '@material-ui/icons/Search';
-import { IconUserSecret } from '../Icons';
 import { User } from '../../logic/types';
 import { PATHS } from '../../constants/data';
 const { login, logout, register } = PATHS;
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        disabled: {},
+        userIcon: {
+            margin: '0 .5em',
+        },
+        search: {
+            position: 'relative',
+            borderRadius: theme.shape.borderRadius,
+            border: `1px solid ${theme.palette.primary.main}`,
+            backgroundColor: fade(theme.palette.common.white, 0.15),
+            '&:hover': {
+                backgroundColor: fade(theme.palette.common.white, 0.25),
+            },
+            marginRight: theme.spacing(2),
+            marginLeft: 0,
+            width: '100%',
+            [theme.breakpoints.up('sm')]: {
+                marginLeft: theme.spacing(3),
+                width: 'auto',
+            },
+        },
+        searchIcon: {
+            padding: theme.spacing(0, 2),
+            height: '100%',
+            position: 'absolute',
+            pointerEvents: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        },
+        searchInputRoot: {
+            color: 'inherit',
+        },
+        searchInputInput: {
+            fontSize: `${theme.typography.body2.fontSize} !important`,
+            padding: theme.spacing(1, 1, 1, 0),
+            // vertical padding + font size from searchIcon
+            paddingLeft: `calc(1em + ${theme.spacing(4)}px) !important`,
+            transition: theme.transitions.create('width'),
+            width: '100%',
+            [theme.breakpoints.up('md')]: {
+                width: '20ch',
+            },
+        },
+    })
+);
 
 // Set text on auth buttons dependent on whether a user is logged in or not
 const getText = (user: User | null | undefined) => {
@@ -25,7 +73,11 @@ interface Props {
 
 export const AuthButtonsHorizontal = ({ user }: Props) => {
     const classes = useStyles();
-    const signUpText = (
+    const signUpText = !user ? (
+        <TypographyLinkOutlined variant="body2" className={`${user ? classes.disabled : undefined}`} color="inherit">
+            {getText(user).register}
+        </TypographyLinkOutlined>
+    ) : (
         <Typography variant="body2" className={`${user ? classes.disabled : undefined}`} color="inherit">
             {getText(user).register}
         </Typography>
@@ -36,9 +88,9 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
     // TODO: hide this button, instead open a menu after clicking on the icon with options: "settings, logout etc"
     let loginButton = !user ? (
         <Link to={login}>
-            <Typography variant="body2" color="secondary">
+            <TypographyLinkOutlined variant="body2" color="secondary">
                 {getText(user).login}
-            </Typography>
+            </TypographyLinkOutlined>
         </Link>
     ) : undefined;
 
@@ -62,9 +114,9 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
                             {
                                 name: user ? (
                                     <Link to={logout}>
-                                        <TypographyLink variant="body2" color="secondary">
+                                        <TypographyLinkOutlined variant="body2" color="secondary">
                                             {getText(user).login}
-                                        </TypographyLink>
+                                        </TypographyLinkOutlined>
                                     </Link>
                                 ) : (
                                     'Login'
@@ -81,7 +133,7 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
 };
 
 export const AuthButtonsVertical = ({ user, style }: Props) => {
-    const classes = useStyles();
+    // const classes = useStyles();
     // TODO: resolve error 'div cannot be child of p'
     let signUpButton = (
         <ListItem button component={!user ? Link : Typography} to={!user ? register : ''}>
@@ -111,7 +163,7 @@ export const BrowseButton = ({ user, style }: Props) => {
     return (
         <div className={classes.search}>
             <div className={classes.searchIcon}>
-                <SearchIcon />
+                <IconSearch size="1x" />
             </div>
             <InputBase
                 placeholder="Browse workspaces..."

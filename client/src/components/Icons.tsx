@@ -2,12 +2,13 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faRobot,
-    faHatWizard,
-    faGhost,
-    faGamepad,
-    faCat,
-    faBroom,
+    // faHatWizard,
+    // faGhost,
+    // faGamepad,
+    // faCat,
+    // faBroom,
     faUserSecret,
+    faSearchLocation,
 } from '@fortawesome/free-solid-svg-icons';
 
 type Size = '1x' | 'xs' | 'lg' | 'sm' | '2x' | '3x' | '4x' | '5x' | '6x' | '7x' | '8x' | '9x' | '10x' | undefined;
@@ -34,3 +35,4 @@ export const IconRobot = ({ size }: Props) => (
 );
 
 export const IconUserSecret = ({ size }: Props) => <FontAwesomeIcon icon={faUserSecret} size={size} />;
+export const IconSearch = ({ size }: Props) => <FontAwesomeIcon icon={faSearchLocation} size={size} />;

@@ -1,11 +1,63 @@
 import React from 'react';
-import { useStyles } from '../../styles/landing';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Box, Grid, Typography, Divider, Hidden } from '@material-ui/core';
-import { Logo } from './Logo';
 import { AuthButtonsHorizontal, BrowseButton } from '../navigation/NavButtons';
+import { Logo } from './Logo';
 import { Dictionary } from './Dictionary';
 import { DICTIONARY } from '../../constants/data';
 import { User } from '../../logic/types';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        headerContainer: {
+            position: 'relative',
+        },
+        topButtons: {
+            position: 'absolute',
+            top: 0,
+            '&$right': {
+                right: '2em',
+                left: 'auto',
+            },
+            '&$left': {
+                left: '2em',
+                right: 'auto',
+            },
+        },
+        left: {},
+        right: {},
+        headerText: {
+            padding: '2em 0',
+            textAlign: 'center',
+        },
+        headerDivider: {
+            overflow: 'visible' /* For IE */,
+            width: '90%',
+            height: '30px',
+            borderStyle: 'solid',
+            borderColor: theme.palette.primary.main,
+            borderWidth: '1px 0 0 0',
+            borderRadius: '20px',
+            '&::before': {
+                display: 'block',
+                content: "''",
+                height: '30px',
+                marginTop: '-31px',
+                borderStyle: 'solid',
+                borderColor: theme.palette.primary.main,
+                borderWidth: '0 0 1px 0',
+                borderRadius: '20px',
+            },
+        },
+        divider: {
+            margin: '1em',
+            backgroundColor: theme.palette.primary.main,
+        },
+        definitions: {
+            padding: '0 1em',
+        },
+    })
+);
 
 interface Props {
     user: User;
@@ -29,7 +81,7 @@ const Header = ({ user }: Props) => {
                 </Box>
             </Hidden>
 
-            <Grid item xs={12} className={classes.headerText}>
+            <Grid item className={classes.headerText}>
                 <Logo />
             </Grid>
 

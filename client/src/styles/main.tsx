@@ -28,10 +28,6 @@ const useStyles = makeStyles((theme: Theme) =>
             minWidth: '400px',
             margin: '0 auto',
         },
-        col: {
-            display: 'flex',
-            flexDirection: 'column',
-        },
         /* 
             Images
         */
@@ -181,9 +177,6 @@ const useStyles = makeStyles((theme: Theme) =>
                 cursor: 'pointer',
             },
         },
-        userIcon: {
-            margin: '0 .5em',
-        },
         fabContainer: {
             position: 'fixed',
             left: 0,
@@ -269,29 +262,6 @@ const useStyles = makeStyles((theme: Theme) =>
         // Especially margin or display flex
         postContainer: {
             marginTop: '1em !important',
-        },
-        post: {
-            minHeight: '100%',
-            display: 'flex',
-            flexDirection: 'column',
-            border: `solid 1px transparent`,
-            // borderBottomColor: theme.palette.primary.main,
-            // borderRadius: "20px",
-            '&$hover': {
-                // '&:hover': {
-                //     borderColor: theme.palette.primary.light,
-                //     backgroundColor: 'rgba(255, 255, 255, .13)',
-                // },
-            },
-        },
-        hover: {},
-        postBody: {
-            textAlign: 'justify',
-        },
-        signature: {
-            marginLeft: 'auto !important',
-            marginTop: '1em !important',
-            fontStyle: 'italic',
         },
         // TODO: Checkout nicer border styles
         quoteContainer: {

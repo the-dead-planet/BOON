@@ -10,7 +10,6 @@ import Pagination from './Pagination';
 // import HideOnScroll from '../../utils/HideOnScroll';
 import { AuthButtonsHorizontal } from './NavButtons';
 import { Mode, User, DrawerVariant, Page } from '../../logic/types';
-import { QUOTES } from '../../constants/data';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -44,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 right: '1em',
             },
             '&$left': {
-                left: '1em',
+                left: '2em',
             },
         },
         hide: {
