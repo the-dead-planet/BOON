@@ -44,7 +44,6 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
                     <div className={`${classes.fix} ${classes.left}`}>
                         <Hidden mdUp>
                             <IconButton
-                                color="inherit"
                                 aria-label="open drawer"
                                 onClick={toggleDrawer(true)}
                                 edge="start"

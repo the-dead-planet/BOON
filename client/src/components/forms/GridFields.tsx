@@ -1,9 +1,7 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import { Field } from 'formik';
-import TextField from '@material-ui/core/TextField';
+import { TextField, InputLabel, MenuItem, FormControl } from '@material-ui/core';
 import Grid, { GridSize } from '@material-ui/core/Grid';
-import { InputLabel, MenuItem, FormControl, Typography } from '@material-ui/core';
 import { Input, Mode } from '../../logic/types';
 
 interface FieldItem {
@@ -34,35 +32,13 @@ interface Props {
     placeholder?: string;
 }
 
-const DarkTextField = withStyles({
-    root: {
-        '& label.Mui-focused': {
-            color: 'rgba(255, 255, 255, 0.87)',
-        },
-        '& .MuiInput-underline:after': {
-            borderBottomColor: 'rgba(255, 255, 255, 0.87)',
-        },
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: 'rgba(255, 255, 255, 0.87)',
-            },
-            '&:hover fieldset': {
-                borderColor: 'rgba(255, 255, 255, 0.87)',
-            },
-            '&.Mui-focused fieldset': {
-                borderColor: 'rgba(255, 255, 255, 0.87)',
-            },
-        },
-    },
-})(TextField);
-
 export const GridField = ({ xs, sm, md, lg, xl, error, touched, mode, ...fieldProps }: Props) => {
     // const classes = useStyles();
 
     return (
         <Grid item xs={xs} sm={sm} md={md} lg={lg} xl={xl}>
             <Field
-                as={mode === 'dark' ? DarkTextField : TextField}
+                as={TextField}
                 fullWidth
                 margin="dense"
                 error={touched && error !== undefined}

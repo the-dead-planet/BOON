@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from '../../utils/Link';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import { Typography } from '@material-ui/core';
+import { IconButton } from '../mui-styled/IconButton';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';

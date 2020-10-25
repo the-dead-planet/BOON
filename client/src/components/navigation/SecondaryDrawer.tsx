@@ -1,6 +1,7 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
-import { Drawer, Grid, IconButton } from '@material-ui/core';
+import { Drawer, Grid } from '@material-ui/core';
+import { IconButton } from '../mui-styled/IconButton';
 import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import { User, Children } from '../../logic/types';
 

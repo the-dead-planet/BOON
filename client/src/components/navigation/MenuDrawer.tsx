@@ -1,10 +1,10 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
 import { Link } from '../../utils/Link';
-import { Drawer, List, ListItem, ListItemText, Divider, IconButton, Hidden } from '@material-ui/core';
+import { Drawer, List, ListItem, ListItemText, Divider, Hidden } from '@material-ui/core';
+import { IconButton } from '../mui-styled/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 // import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import DarkModeSwitch from '../DarkModeSwitch';
 import { AuthButtonsVertical } from './NavButtons';
 import { DrawerVariant, Mode, User } from '../../logic/types';
 import { PATHS } from '../../constants/data';

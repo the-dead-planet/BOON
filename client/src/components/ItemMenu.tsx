@@ -1,5 +1,6 @@
 import React from 'react';
-import { MenuList, MenuItem, ClickAwayListener, Popper, Paper, Grow, IconButton } from '@material-ui/core';
+import { MenuList, MenuItem, ClickAwayListener, Popper, Paper, Grow } from '@material-ui/core';
+import { IconButton } from './mui-styled/IconButton';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 interface Props {

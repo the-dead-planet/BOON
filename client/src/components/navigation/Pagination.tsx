@@ -1,7 +1,8 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
 import { Link } from '../../utils/Link';
-import { Grid, Toolbar, Typography, IconButton, Hidden } from '@material-ui/core';
+import { Grid, Toolbar, Typography, Hidden } from '@material-ui/core';
+import { IconButton } from '../mui-styled/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import { Page } from '../../logic/types';

@@ -1,9 +1,10 @@
 import React from 'react';
 import { useStyles } from '../../styles/main';
 import { AppForm } from './App';
-import { GridField } from './GridFields';
-import { TextField, Typography, IconButton } from '@material-ui/core';
+import { TextField, Typography } from '@material-ui/core';
 import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
+import { IconButton } from '../mui-styled/IconButton';
+import { GridField } from './GridFields';
 import commentsService from '../../services/commentsService';
 import { Mode, CommentSubmit, User, Model } from '../../logic/types';
 
