@@ -14,6 +14,10 @@ const useStyles = makeStyles((theme: Theme) =>
             fontSize: '10em',
             color: theme.palette.primary.light,
         },
+        linear: {
+            width: '100%',
+            paddingTop: theme.spacing(5),
+        },
     })
 );
 
@@ -45,7 +49,8 @@ export const Empty = () => {
 };
 
 export const LinearBuffer = () => {
-    // const classes = useStyles();
+    const classes = useStyles();
+
     const [progress, setProgress] = React.useState(0);
     const [buffer, setBuffer] = React.useState(10);
 
@@ -74,10 +79,8 @@ export const LinearBuffer = () => {
         };
     }, []);
 
-    const style = { width: '100%', paddingTop: '2.5em' };
-
     return (
-        <div style={style}>
+        <div className={classes.linear}>
             <LinearProgress variant="buffer" value={progress} valueBuffer={buffer} color="secondary" />
         </div>
     );

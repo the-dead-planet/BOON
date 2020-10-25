@@ -7,7 +7,7 @@ import { User, Mode } from '../../logic/types';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         top: {
-            marginTop: '20px',
+            marginTop: theme.spacing(10),
         },
         height: {
             minHeight: '100vh',

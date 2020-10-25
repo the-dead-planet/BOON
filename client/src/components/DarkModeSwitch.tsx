@@ -12,10 +12,9 @@ import { Mode } from '../logic/types';
 interface Props {
     mode: Mode;
     setMode: any;
-    style?: object;
 }
 
-const DarkModeSwitch = ({ mode, setMode, style }: Props) => {
+const DarkModeSwitch = ({ mode, setMode }: Props) => {
     // const classes = useStyles();
 
     // Toggle mode light/dark
@@ -30,7 +29,7 @@ const DarkModeSwitch = ({ mode, setMode, style }: Props) => {
     };
 
     return (
-        <Typography style={style} variant="subtitle2" noWrap>
+        <Typography variant="subtitle2" noWrap>
             Dark Mode
             <Switch
                 checked={state.darkModeChecked}

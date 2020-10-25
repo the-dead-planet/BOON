@@ -1,10 +1,20 @@
 import React from 'react';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 // import EmailValidator from 'email-validator';
 import * as Yup from 'yup';
 import { Button } from '@material-ui/core';
 import { AppFormLayout, AppForm } from './App';
 import { GridField } from './GridFields';
 import { Mode } from '../../logic/types';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        submitButton: {
+            marginTop: '35px',
+            width: '100%',
+        },
+    })
+);
 
 interface Props {
     mode: Mode;
@@ -17,18 +27,17 @@ interface Props {
 // TODO: Add checkbox for 'stay logged in' and use cookies for keeping auth
 // TODO: Consider adding one page with both login and register divided by a vertical Divider instead of two separate
 const AuthForm = ({ mode, register, initialValues, onSubmit, error }: Props) => {
+    const classes = useStyles();
+
     const validationSchema = (values: any) =>
         Yup.object().shape({
-            email: Yup.string()
-                .email()
-                .required('Required'),
+            email: Yup.string().email().required('Required'),
             password: Yup.string()
                 .required('No password provided.')
                 .min(8, 'Password is too short - should be 8 chars minimum.')
                 .matches(/(?=.*[0-9])/, 'Password must contain a number.'),
         });
 
-    const style = { marginTop: '35px', width: '100%' };
     return (
         <AppFormLayout title={register ? 'Register' : 'Login'} error={error}>
             <AppForm
@@ -38,10 +47,10 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error }: Props) => 
                 validationSchema={register && validationSchema}
                 submitSection={
                     <Button
-                        style={style}
                         variant={mode === 'dark' ? 'outlined' : 'contained'}
                         color={mode === 'dark' ? undefined : 'primary'}
                         type="submit"
+                        className={classes.submitButton}
                     >
                         Submit
                     </Button>

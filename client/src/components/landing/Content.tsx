@@ -9,7 +9,7 @@ import { User, Mode } from '../../logic/types';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         contentContainer: {
-            marginTop: '20px',
+            marginTop: theme.spacing(10),
             color: 'rgba(255, 255, 255, .87)',
         },
         enterContainer: {
@@ -31,10 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         gridContentItem: {
             marginTop: theme.spacing(4),
-            paddingTop: theme.spacing(8),
-            paddingBottom: theme.spacing(8),
-            paddingLeft: theme.spacing(2),
-            paddingRight: theme.spacing(2),
+            padding: theme.spacing(8, 2, 8, 2),
             // border: `2px solid ${theme.palette.primary.main}`,
             textAlign: 'center',
             position: 'relative',

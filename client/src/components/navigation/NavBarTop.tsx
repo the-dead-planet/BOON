@@ -14,7 +14,7 @@ import { Mode, User, DrawerVariant, Page } from '../../logic/types';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         toolbar: {
-            minHeight: `${TOOLBAR_HEIGHT}px !important`,
+            minHeight: `${TOOLBAR_HEIGHT}px`,
             position: 'relative',
         },
         appBar: {
@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme: Theme) =>
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,
             }),
-            boxShadow: 'none !important',
-            // boxShadow: "0px 2px 4px -1px #fff, 0px 4px 5px 0px #fff, 0px 1px 10px 0px #fff !important",
+            boxShadow: 'none',
+            // boxShadow: "0px 2px 4px -1px #fff, 0px 4px 5px 0px #fff, 0px 1px 10px 0px #fff",
         },
         appBarShift: {
             width: `calc(100% - ${DRAWER_WIDTH}px)`,
@@ -42,9 +42,15 @@ const useStyles = makeStyles((theme: Theme) =>
             position: 'absolute',
             '&$right': {
                 right: 0,
+                [theme.breakpoints.down('sm')]: {
+                    right: theme.spacing(2),
+                },
             },
             '&$left': {
                 left: 0,
+                [theme.breakpoints.down('sm')]: {
+                    left: theme.spacing(3),
+                },
             },
         },
         hide: {

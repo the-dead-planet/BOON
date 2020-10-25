@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         drawerHeader: {
             padding: theme.spacing(0, 1),
-            minHeight: `${TOOLBAR_HEIGHT * 1.5}px !important`,
+            minHeight: `${TOOLBAR_HEIGHT * 1.5}px`,
         },
         drawer: {
             width: DRAWER_WIDTH,
@@ -98,7 +98,7 @@ const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDr
 
             {/* <Divider /> */}
             {/* TODO: Add mode modes and change this component to another one */}
-            {/* <DarkModeSwitch style={style} mode={mode} setMode={setMode} /> */}
+            {/* <DarkModeSwitch mode={mode} setMode={setMode} /> */}
         </Drawer>
     );
 };

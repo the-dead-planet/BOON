@@ -40,10 +40,10 @@ const useStyles = makeStyles((theme: Theme) =>
             color: 'inherit',
         },
         searchInputInput: {
-            fontSize: `${theme.typography.body2.fontSize} !important`,
+            fontSize: `${theme.typography.body2.fontSize}`,
             padding: theme.spacing(1, 1, 1, 0),
             // vertical padding + font size from searchIcon
-            paddingLeft: `calc(1em + ${theme.spacing(4)}px) !important`,
+            paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
             transition: theme.transitions.create('width'),
             width: '100%',
             [theme.breakpoints.up('md')]: {
@@ -71,7 +71,6 @@ const getText = (user: User | null | undefined) => {
 
 interface Props {
     user: User | null | undefined;
-    style?: object;
 }
 
 export const AuthButtonsHorizontal = ({ user }: Props) => {
@@ -132,7 +131,7 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
     );
 };
 
-export const AuthButtonsVertical = ({ user, style }: Props) => {
+export const AuthButtonsVertical = ({ user }: Props) => {
     // const classes = useStyles();
     // TODO: resolve error 'div cannot be child of p'
     let signUpButton = (
@@ -150,14 +149,14 @@ export const AuthButtonsVertical = ({ user, style }: Props) => {
     );
 
     return (
-        <List style={style}>
+        <List>
             {signUpButton}
             {loginButton}
         </List>
     );
 };
 
-export const BrowseButton = ({ user, style }: Props) => {
+export const BrowseButton = ({ user }: Props) => {
     const classes = useStyles();
 
     return (

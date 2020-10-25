@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
             minHeight: JUMBOTRON_HEIGHT,
         },
         drawerHeaderHeight: {
-            minHeight: `${TOOLBAR_HEIGHT * 3}px !important`,
+            minHeight: `${TOOLBAR_HEIGHT * 3}px`,
         },
         moveContent: {
             marginLeft: `calc(${NAVBAR_LEFT_WIDTH}px + 10px)`,

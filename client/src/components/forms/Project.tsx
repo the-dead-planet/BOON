@@ -1,8 +1,18 @@
 import React from 'react';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { TextField, Button } from '@material-ui/core';
 import { AppFormLayout, AppForm } from './App';
 import { GridField } from './GridFields';
 import { ProjectSubmit, Mode } from '../../logic/types';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        submitButton: {
+            marginTop: '35px',
+            width: '100%',
+        },
+    })
+);
 
 interface Props {
     mode: Mode;
@@ -12,7 +22,7 @@ interface Props {
 }
 
 const ProjectForm = ({ mode, title, initialValues, onSubmit }: Props) => {
-    const style = { marginTop: '35px', width: '100%' };
+    const classes = useStyles();
 
     return (
         <AppFormLayout title={title ? title : 'Add project'}>
@@ -23,10 +33,10 @@ const ProjectForm = ({ mode, title, initialValues, onSubmit }: Props) => {
                 // validationSchema={validationSchema}
                 submitSection={
                     <Button
-                        style={style}
                         variant={mode === 'dark' ? 'outlined' : 'contained'}
                         color={mode === 'dark' ? undefined : 'primary'}
                         type="submit"
+                        className={classes.submitButton}
                     >
                         Submit
                     </Button>
