@@ -31,6 +31,10 @@ const useStyles = makeStyles((theme: Theme) =>
         quoteAuthor: {
             margin: theme.spacing(2),
         },
+        media: {
+            height: '100px',
+            margin: theme.spacing(0, 2),
+        },
     })
 );
 
@@ -62,7 +66,6 @@ export const PostsList = ({
     toggleCommentsPanel,
 }: Props) => {
     const classes = useStyles();
-    const style = { height: '100px', marginLeft: '1.1em', marginRight: '1.1em' };
     const getProject = (id: string) =>
         [...projects.values()]?.reduce((acc, project) => (project.posts.includes(id) ? project : acc));
 
@@ -88,7 +91,9 @@ export const PostsList = ({
                             body={post.body}
                             // TODO: if image for post, shorten the 'maxLen' and display image
                             maxLen={i % 3 === 1 ? 250 : 400}
-                            mediaMiddle={i % 3 === 1 && img ? <CardMedia style={style} image={img} /> : undefined}
+                            mediaMiddle={
+                                i % 3 === 1 && img ? <CardMedia image={img} className={classes.media} /> : undefined
+                            }
                             menuItems={[
                                 {
                                     name: 'Go to related project',

@@ -22,7 +22,6 @@ export const Comment = ({ user, comment, users, setCommentToBeDeletedId }: Props
 
     return (
         <>
-            {/* <div style={{ border: "solid 1px rgba(0, 0, 0, .4)", margin: "1em"}}> */}
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
                     <Avatar alt={author} src="/static/images/avatar/1.jpg" />
@@ -43,8 +42,6 @@ export const Comment = ({ user, comment, users, setCommentToBeDeletedId }: Props
 
                 <ItemMenu items={items} tooltip="More options" />
             </ListItem>
-            {/* <Divider variant="inset" component="li" /> */}
-            {/* </div> */}
         </>
     );
 };

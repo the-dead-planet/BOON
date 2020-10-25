@@ -9,6 +9,9 @@ const useStyles = makeStyles((theme: Theme) =>
         onTop: {
             zIndex: 100,
         },
+        menu: {
+            marginTop: '-1em',
+        },
     })
 );
 
@@ -82,7 +85,7 @@ export const ItemMenu = ({ items, icon, tooltip }: Props) => {
                         {...TransitionProps}
                         style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
                     >
-                        <Paper style={{ marginTop: '-1em' }}>
+                        <Paper className={classes.menu}>
                             <ClickAwayListener onClickAway={handleClose}>
                                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                                     {items.map((item) => (

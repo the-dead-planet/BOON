@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
             borderRadius: '3px',
             margin: '0 auto',
         },
+        alert: {
+            margin: '1em auto',
+        },
     })
 );
 
@@ -95,7 +98,6 @@ interface GridFormProps {
 // Centered form wrapped in a grid on paper
 export const AppFormLayout = ({ children, title, error }: GridFormProps) => {
     const classes = useStyles();
-    const style = { margin: '1em auto' };
 
     return (
         <Paper className={classes.formPaper}>
@@ -117,7 +119,7 @@ export const AppFormLayout = ({ children, title, error }: GridFormProps) => {
 
                     {error && (
                         <Grid item>
-                            <Alert style={style} variant="filled" severity="error">
+                            <Alert variant="filled" severity="error" className={classes.alert}>
                                 {error}
                             </Alert>
                         </Grid>

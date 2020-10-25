@@ -13,7 +13,7 @@ import { NAV_LINKS } from '../../constants/data';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         toolbar: {
-            minHeight: `${TOOLBAR_HEIGHT}px !important`,
+            minHeight: `${TOOLBAR_HEIGHT}px`,
         },
         pagination: {
             borderTop: `solid 2px ${theme.palette.primary.light}`,
@@ -35,13 +35,15 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '120px',
             textAlign: 'right',
         },
+        flex: {
+            display: 'flex',
+        },
     })
 );
 
 // TODO: Add a menu with
 const Pagination = ({ path, primary, secondary, list, currentId, previousId, nextId, links }: Page) => {
     const classes = useStyles();
-    const flex = { display: 'flex' };
 
     return (
         <Toolbar className={classes.toolbar}>
@@ -60,7 +62,7 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                 </Typography>
 
                 <Hidden smDown>
-                    <Grid item style={flex}>
+                    <Grid item className={classes.flex}>
                         {NAV_LINKS.map((item, i) => (
                             <Link key={i} to={item.path}>
                                 <TypographyLink

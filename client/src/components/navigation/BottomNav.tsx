@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme: Theme) =>
         rotate: {
             transform: 'rotate(180deg)',
         },
+        zoom: {
+            transitionDelay: `500ms`,
+        },
     })
 );
 
@@ -38,29 +41,15 @@ interface Props {
 
 export const BottomNav = ({ user }: Props) => {
     const classes = useStyles();
-
+    const zoomStyle = { transitionDelay: `500ms` };
     return (
         <div className={classes.fabContainer}>
-            <Zoom
-                in={true}
-                timeout={1000}
-                style={{
-                    transitionDelay: `500ms`,
-                }}
-                unmountOnExit
-            >
+            <Zoom in={true} timeout={1000} unmountOnExit style={zoomStyle}>
                 <Fab aria-label="next" className={`${classes.fab} ${classes.previous}`}>
                     <NavigateNextIcon className={classes.rotate} />
                 </Fab>
             </Zoom>
-            <Zoom
-                in={true}
-                timeout={1000}
-                style={{
-                    transitionDelay: `500ms`,
-                }}
-                unmountOnExit
-            >
+            <Zoom in={true} timeout={1000} style={zoomStyle} unmountOnExit>
                 <Fab aria-label="next" className={`${classes.fab} ${classes.next}`}>
                     <NavigateNextIcon />
                 </Fab>
