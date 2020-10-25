@@ -31,24 +31,6 @@ const useStyles = makeStyles((theme: Theme) =>
         /* 
             Images
         */
-        jumbotronContent: {
-            marginTop: `${toolbarHeight}px`,
-            position: 'absolute',
-            color: '#fff',
-            height: `calc(${jumbotronHeight} - ${toolbarHeight}px)`,
-        },
-        jumbotronImg: {
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: jumbotronHeight,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            zIndex: -1,
-            backgroundColor: '#000', // backgroundImage imported as a component in Layout.tsx
-            boxShadow: '0px 2px 4px -1px rgba(0,0, 0.2)',
-        },
         image: {
             display: 'block',
             // height: "auto",
@@ -62,53 +44,6 @@ const useStyles = makeStyles((theme: Theme) =>
         */
         menuButton: {
             marginRight: theme.spacing(2),
-        },
-        drawerSecondary: {
-            maxWidth: '100%',
-            width: drawerSecondaryWidth,
-            flexShrink: 0,
-        },
-        drawerSecondaryPaper: {
-            maxWidth: '100%',
-            width: drawerSecondaryWidth,
-            boxShadow: `0 4px 12px ${theme.palette.primary.light} !important`,
-            // backgroundColor: theme.palette.primary.main,
-            // color: theme.palette.primary.contrastText,
-        },
-        secondaryDrawerBg: {
-            width: '100%',
-            minHeight: '100vh',
-            position: 'fixed',
-            backgroundColor: theme.palette.primary.main,
-            opacity: 0.1,
-            cursor: 'pointer',
-            display: 'block',
-            boxSizing: 'border-box',
-            // opacity: 1,
-            pointerEvents: 'all',
-            zIndex: 10,
-        },
-        footer: {
-            marginTop: '5em',
-            minHeight: '200px',
-            width: '100%',
-            backgroundColor: theme.palette.primary.main,
-            color: 'rgba(255, 255, 255, .6)',
-            borderRadius: '20px 20px 0 0',
-            position: 'relative',
-            '&::after': {
-                content: "''",
-                position: 'absolute',
-                top: '-50px',
-                bottom: '100%',
-                left: 0,
-                right: 0,
-                borderStyle: 'solid',
-                borderWidth: '0 0 2px 0',
-                borderColor: theme.palette.primary.main,
-                borderRadius: '20px',
-                zIndex: 10,
-            },
         },
 
         // Misc
@@ -134,10 +69,6 @@ const useStyles = makeStyles((theme: Theme) =>
             fontWeight: 'bold',
         },
         selectedStyle: {
-            fontStyle: 'italic',
-        },
-        selected: {
-            backgroundColor: 'rgba(0, 0, 0, .03) !important',
             fontStyle: 'italic',
         },
         left: {},
@@ -208,45 +139,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         vertical: {},
         horizontal: {},
-        sideCol: {
-            position: 'absolute',
-            width: `${navBarLeftWidth}px`,
-            [theme.breakpoints.down('sm')]: {
-                display: 'none',
-                visibility: 'hidden',
-            },
-        },
-        panelButton: {
-            padding: '.2em .8em',
-            // transition: "background-color .6s ease-out, color .1s ease-out",
-            '&:hover': {
-                // backgroundColor: theme.palette.primary.light,
-                // color: theme.palette.primary.contrastText,
-                backgroundColor: 'rgba(0, 0, 0, .06)',
-                // transition: "background-color .6s ease-out, color .1s ease-out",
-            },
-            '&:active': {
-                // backgroundColor: theme.palette.primary.main,
-                // color: theme.palette.primary.contrastText,
-                backgroundColor: 'rgba(0, 0, 0, .1)',
-                // transition: "background-color .1s ease-out, color .6s ease-out",
-            },
-        },
-        navContainer: {
-            padding: 0,
-            width: '100%',
-            border: `solid 2px ${theme.palette.primary.main}`,
-            // borderTopWidth: "20px"
-        },
-        navTitle: {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.background.default,
-
-            margin: '-1px',
-            padding: '.2em',
-            textAlign: 'center',
-            textTransform: 'uppercase',
-        },
         mainPost: {
             border: `1px solid ${theme.palette.primary.light}`,
             padding: '.5em',
@@ -287,29 +179,6 @@ const useStyles = makeStyles((theme: Theme) =>
         quoteAuthor: {
             marginTop: '1em !important',
             marginBottom: '2em !important',
-        },
-        gossColContainer: {
-            marginTop: '2em !important',
-            marginBottom: '1em !important',
-            padding: '.4em',
-            position: 'relative',
-            '&::after': {
-                content: "''",
-                position: 'absolute',
-                left: 0,
-                right: 0,
-                top: 0,
-                bottom: 0,
-                border: `solid 2px ${theme.palette.primary.main}`,
-            },
-        },
-        gossColTitle: {
-            paddingTop: '.5em',
-            paddingBottom: '.5em',
-            textAlign: 'center',
-            textTransform: 'uppercase',
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.secondary.main,
         },
         // Comments section
         commentsSection: {
