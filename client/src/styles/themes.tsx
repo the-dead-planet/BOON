@@ -1,15 +1,10 @@
 /* 
-    The purpose of this file is to integrate all styles in one place and reuse classes in various components
+    The purpose of this file is to create themes for the applications.
+    Themes are passed as props to the src/components/navigation/ThemeWrapper.tsx
 */
 import { Mode } from '../logic/types';
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
-import { fade, makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
 
-// Below components need to be imported to correctly overwrite styles with classes in useStyle
-import AppBar from '@material-ui/core/AppBar';
-import IconButton from '@material-ui/core/IconButton';
-const header = require('../img/landing/header-1.jpg');
-const header2 = require('../img/landing/header-2.jpg');
 // font-family: 'Libre Baskerville', serif;
 // Wrapper for the function in order to pass type parameter.
 // Requires defining 'const theme' in components which make use of it. See Layout.tsx

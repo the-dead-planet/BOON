@@ -1,3 +1,15 @@
+/* 
+    The purpose of this file is to store classes which could be used in the application.
+
+    Global changes on Material UI components should be done by overwriting the default MIU classes 
+    -> see folder src/components/mui-styled
+
+    Additional classes should be applied inside the component files.
+
+    Do not reference classes from this file. This solution was leading to issues.
+    For example, some styles were ignored or required the '!important' suffix.
+    These issues do not occur if classes are applied as explained above.
+*/
 .loader-container {
     margin-top: 1em;
     margin-bottom: 2em;

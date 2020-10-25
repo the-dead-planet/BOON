@@ -1,5 +1,14 @@
 /* 
-    The purpose of this file is to integrate all styles in one place and reuse classes in various components
+    The purpose of this file is to store classes which could be used in the application.
+
+    Global changes on Material UI components should be done by overwriting the default MIU classes 
+    -> see folder src/components/mui-styled
+
+    Additional classes should be applied inside the component files.
+
+    Do not reference classes from this file. This solution was leading to issues.
+    For example, some styles were ignored or required the '!important' suffix.
+    These issues do not occur if classes are applied as explained above.
 */
 import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 

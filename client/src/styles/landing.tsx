@@ -1,5 +1,14 @@
 /* 
-    The purpose of this file is to integrate all styles in one place and reuse classes in various components
+    The purpose of this file is to store classes which could be used in the application.
+
+    Global changes on Material UI components should be done by overwriting the default MIU classes 
+    -> see folder src/components/mui-styled
+
+    Additional classes should be applied inside the component files.
+
+    Do not reference classes from this file. This solution was leading to issues.
+    For example, some styles were ignored or required the '!important' suffix.
+    These issues do not occur if classes are applied as explained above.
 */
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 
@@ -264,56 +273,7 @@ const useStyles = makeStyles((theme: Theme) =>
             fontWeight: 'bold',
         },
         // Images
-        inlinePhoto: {
-            border: '1em solid #fff',
-            borderBottom: '4em solid #fff',
-            borderRadius: '.25em',
-            boxShadow: '1em 1em 2em .25em rgba(0, 0, 0, .2)',
-            marginTop: '2em',
-            margin: '2em auto 6em auto',
-            opacity: 0,
-            transform: 'translateY(4em) rotateZ(-5deg)',
-            transition: 'transform 4s .25s cubic-bezier(0, 1, .3, 1), opacity .3s .25s ease-out',
-            maxWidth: '600px',
-            width: '90%',
-            willChange: 'transform, opacity',
-        },
-        isVisible: {
-            opacity: '1 !important',
-            transform: 'rotateZ(-2deg)',
-        },
         // Bottom message
-        messageSlide: {
-            position: 'relative',
-            width: '100%',
-            bottom: '60vh',
-            '&$in': {
-                overflowX: 'visible',
-            },
-            '&$out': {
-                overflowX: 'hidden',
-            },
-        },
-        in: {},
-        out: {},
-        message: {
-            backgroundColor: '#fff',
-            boxShadow: '1em 1em 2em .25em rgba(0, 0, 0, .2)',
-            padding: '.5em 50px .5em 1em',
-            position: 'absolute',
-            right: 0,
-            opacity: 0,
-            visibility: 'hidden',
-            transform: 'rotateZ(-5deg) translateX(500px)',
-            transition: 'all .5s 1s cubic-bezier(0, 1, .3, 1)',
-            width: '400px',
-            zIndex: 10,
-        },
-        messageIsVisible: {
-            opacity: 1,
-            visibility: 'visible',
-            transform: 'rotateZ(5deg) translateX(50px)',
-        },
         messageTitle: {
             color: '#545050',
             textAlign: 'center',

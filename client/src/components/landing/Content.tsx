@@ -21,11 +21,11 @@ const useStyles = makeStyles((theme: Theme) =>
             textAlign: 'center',
             border: `solid .2em ${theme.palette.secondary.main}`,
             boxShadow: `0 0 ${theme.palette.secondary.dark}`,
-            transition: 'box-shadow .1s linear',
+            // transition: 'box-shadow .1s linear',
             '&:hover': {
                 cursor: 'pointer',
                 // transform: "translate(-.2em, -.2em)",
-                transition: 'box-shadow .1s linear',
+                // transition: 'box-shadow .1s linear',
                 boxShadow: `.2em .2em ${theme.palette.secondary.dark}`,
             },
         },

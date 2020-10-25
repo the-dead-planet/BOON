@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useStyles } from '../../styles/main';
 import { Box } from '@material-ui/core';
 import { TreeView } from '@material-ui/lab/';
 import TreeItem from '@material-ui/lab/TreeItem';
@@ -17,8 +16,6 @@ interface Props {
 }
 
 const SprintList = ({ sprints, currentSprintId }: Props) => {
-    // const classes = useStyles();
-
     // Find unique dateTo years
     let sprintYears: Array<string> = [
         ...new Set([...sprints.values()].map((sprint) => moment(sprint.dateTo).format(YEAR_DATE_FORMAT))),
