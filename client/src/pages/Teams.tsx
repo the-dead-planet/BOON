@@ -7,7 +7,7 @@ import AppLayout from '../layouts/AppLayout';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData } from '../logic/types';
 import moment from 'moment';
-import { MONTH_YEAR_FORMAT } from '../utils/constants';
+import { MONTH_YEAR_FORMAT } from '../constants/dateFormats';
 
 // TODO: see a comment in `Logout` regarding HOCs.
 interface SprintProps {

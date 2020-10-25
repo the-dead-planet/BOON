@@ -13,10 +13,11 @@ const useStyles = makeStyles((theme: Theme) =>
             color: 'rgba(255, 255, 255, .87)',
         },
         enterContainer: {
-            margin: '5em 0',
+            marginTop: theme.spacing(5),
+            marginBottom: theme.spacing(5),
         },
         enterButton: {
-            padding: '.5em',
+            padding: theme.spacing(6),
             textAlign: 'center',
             border: `solid .2em ${theme.palette.secondary.main}`,
             boxShadow: `0 0 ${theme.palette.secondary.dark}`,
@@ -28,12 +29,12 @@ const useStyles = makeStyles((theme: Theme) =>
                 boxShadow: `.2em .2em ${theme.palette.secondary.dark}`,
             },
         },
-        contents: {
-            marginTop: '5em',
-        },
         gridContentItem: {
-            marginTop: '5em',
-            padding: '5em 2em',
+            marginTop: theme.spacing(4),
+            paddingTop: theme.spacing(8),
+            paddingBottom: theme.spacing(8),
+            paddingLeft: theme.spacing(2),
+            paddingRight: theme.spacing(2),
             // border: `2px solid ${theme.palette.primary.main}`,
             textAlign: 'center',
             position: 'relative',
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         contentItemBody: {
-            marginBottom: '2em !important',
+            marginBottom: theme.spacing(8),
         },
     })
 );
@@ -68,13 +69,13 @@ const Content = ({ user, mode, setMode }: Props) => {
         <Container maxWidth="md" id="main-content" className={classes.contentContainer}>
             <Box className={classes.enterContainer}>
                 <Link to={'/sprints'}>
-                    <Typography color="secondary" variant="h1" className={classes.enterButton}>
+                    <Typography color="secondary" variant="h2" className={classes.enterButton}>
                         ENTER THE DEMO
                     </Typography>
                 </Link>
             </Box>
 
-            <Grid container justify="space-around" className={classes.contents}>
+            <Grid container justify="space-around">
                 {LANDING_CONTENTS.map((item, i) => (
                     <Grid
                         item

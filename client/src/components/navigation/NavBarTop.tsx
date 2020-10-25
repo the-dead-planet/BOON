@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         toolbar: {
             minHeight: `${TOOLBAR_HEIGHT}px !important`,
+            position: 'relative',
         },
         appBar: {
             transition: theme.transitions.create(['margin', 'width'], {
@@ -40,14 +41,21 @@ const useStyles = makeStyles((theme: Theme) =>
         fix: {
             position: 'absolute',
             '&$right': {
-                right: '1em',
+                right: 0,
             },
             '&$left': {
-                left: '2em',
+                left: 0,
             },
         },
         hide: {
             display: 'none',
+        },
+        quote: {
+            width: '250px',
+            marginLeft: theme.spacing(3),
+        },
+        toRight: {
+            marginLeft: 'auto',
         },
     })
 );
@@ -66,7 +74,6 @@ interface Props {
 
 const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawer, pagination, quote }: Props) => {
     const classes = useStyles();
-    const style = { marginLeft: 'auto' };
 
     return (
         // <HideOnScroll>
@@ -101,7 +108,7 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
 
                         {quote && (
                             <Hidden smDown>
-                                <div style={{ width: '250px' }}>
+                                <div className={classes.quote}>
                                     <Typography variant="caption">{quote}</Typography>
                                 </div>
                             </Hidden>
@@ -114,7 +121,7 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
                     </Typography>
 
                     <div className={`${classes.fix} ${classes.right}`}>
-                        <AuthButtonsHorizontal style={style} user={user} />
+                        <AuthButtonsHorizontal user={user} />
                     </div>
                 </Grid>
             </Toolbar>

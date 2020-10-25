@@ -1,8 +1,16 @@
 import React from 'react';
-import { useStyles } from '../../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { HashLink } from '../../utils/Link';
 import { List, ListItem, Typography } from '@material-ui/core';
 import { LinkTo } from '../../logic/types';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        bold: {
+            fontWeight: 'bold',
+        },
+    })
+);
 
 interface Props {
     title?: string;
@@ -19,7 +27,7 @@ const ContentsList = ({ title, items }: Props) => {
 
             {items.map((item, i) => (
                 <HashLink key={`link-item-${i}`} to={`#${item.path}` || '/'}>
-                    <ListItem key={`item-${i}`} className={classes.pageNavList} button>
+                    <ListItem key={`item-${i}`} button>
                         <Typography key={`item-text-${i}`} variant="body2" title={item.name} gutterBottom noWrap>
                             {item.name}
                         </Typography>

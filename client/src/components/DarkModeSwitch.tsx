@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import { useStyles } from '../styles/main';
+// import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Typography, Switch } from '@material-ui/core';
 import { Mode } from '../logic/types';
+
+// const useStyles = makeStyles((theme: Theme) =>
+//     createStyles({
+//     })
+// );
 
 // TODO: Add update user if user logged in and switches the dark mode on/off
 interface Props {
@@ -11,7 +16,7 @@ interface Props {
 }
 
 const DarkModeSwitch = ({ mode, setMode, style }: Props) => {
-    const classes = useStyles();
+    // const classes = useStyles();
 
     // Toggle mode light/dark
     const [state, setState] = useState({

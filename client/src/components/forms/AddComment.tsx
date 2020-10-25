@@ -1,5 +1,5 @@
 import React from 'react';
-import { useStyles } from '../../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { AppForm } from './App';
 import { TextField, Typography } from '@material-ui/core';
 import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
@@ -7,6 +7,15 @@ import { IconButton } from '../mui-styled/IconButton';
 import { GridField } from './GridFields';
 import commentsService from '../../services/commentsService';
 import { Mode, CommentSubmit, User, Model } from '../../logic/types';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        submit: {
+            display: 'flex',
+            marginLeft: 'auto',
+        },
+    })
+);
 
 interface Props {
     user: User;
@@ -39,7 +48,7 @@ export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: P
                 });
             }}
             submitSection={
-                <IconButton type="submit" aria-label="add comment" className={classes.submitComment}>
+                <IconButton type="submit" aria-label="add comment" className={classes.submit}>
                     <SendOutlinedIcon />
                 </IconButton>
             }

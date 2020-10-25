@@ -4,7 +4,7 @@ import { interceptPage } from '../utils/interceptPage';
 import Layout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import authService from '../services/authService';
-import usersService from '../services/usersService';
+// import usersService from '../services/usersService';
 import { Mode, User, NotificationProps, Auth } from '../logic/types';
 
 /* 
@@ -42,7 +42,7 @@ const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, sh
                 onSubmit={({ username, password, email, team }: Auth) => {
                     authService
                         .register(username, password, email, team)
-                        .then(res => {
+                        .then((res) => {
                             const { user } = res;
                             onSuccess(user);
                             next();

@@ -1,13 +1,12 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { TOOLBAR_HEIGHT, DRAWER_WIDTH } from '../../styles/constants';
 import { Link } from '../../utils/Link';
 // import { CommentsSection } from '../CommentsSection';
-import { Box, Button, CardContent, CardActions, Typography, Divider } from '@material-ui/core';
+import { Box, CardContent, CardActions, Typography, Divider } from '@material-ui/core';
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ActionButtons } from './ActionButtons';
 import { CardMenu } from './CardMenu';
-import { User, Comment, Like, MongoObject, Model, Sprint, Project, Post } from '../../logic/types';
+import { User, Comment, Like, MongoObject, Model } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -30,12 +29,12 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             flexDirection: 'column',
         },
-        postBody: {
+        body: {
             textAlign: 'justify',
         },
         signature: {
             marginLeft: 'auto',
-            marginTop: '1em',
+            marginTop: theme.spacing(2),
             fontStyle: 'italic',
         },
         action: {
@@ -149,13 +148,7 @@ export const PostCard = ({
             {mediaMiddle}
 
             <CardContent className={classes.col}>
-                <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                    gutterBottom
-                    className={classes.postBody}
-                >
+                <Typography variant="body2" color="textSecondary" component="p" gutterBottom className={classes.body}>
                     {showMoreRequired ? `${body.substring(0, maxLen)}` : body}
                     {showMoreRequired && titleLink ? <Link to={titleLink}>...</Link> : undefined}
                 </Typography>
@@ -167,18 +160,16 @@ export const PostCard = ({
             </CardContent>
 
             <CardActions disableSpacing className={classes.action}>
-                <div>
-                    <ActionButtons
-                        user={user}
-                        author={(object as { author: string })?.author}
-                        comments={comments}
-                        likes={likes}
-                        handleExpandClick={handleExpandClick}
-                        toggleCommentsPanel={(open: boolean) =>
-                            toggleCommentsPanel(open, title, model, object._id, addComment, removeComment)
-                        }
-                    />
-                </div>
+                <ActionButtons
+                    user={user}
+                    author={(object as { author: string })?.author}
+                    comments={comments}
+                    likes={likes}
+                    handleExpandClick={handleExpandClick}
+                    toggleCommentsPanel={(open: boolean) =>
+                        toggleCommentsPanel(open, title, model, object._id, addComment, removeComment)
+                    }
+                />
             </CardActions>
 
             {divider && <Divider variant="middle" />}

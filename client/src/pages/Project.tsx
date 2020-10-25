@@ -15,7 +15,7 @@ import {
 } from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData, Project, Model } from '../logic/types';
 import moment from 'moment';
-import { MONTH_YEAR_FORMAT } from '../utils/constants';
+import { MONTH_YEAR_FORMAT } from '../constants/dateFormats';
 import { PATHS, QUOTES } from '../constants/data';
 const { projects } = PATHS;
 const projectsPath = projects;

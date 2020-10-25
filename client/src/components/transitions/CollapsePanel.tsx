@@ -10,11 +10,11 @@ interface Props {
 // TODO: fix the warning about children
 const SimpleCollapse = ({ expanded, title, children }: Props) => {
     return (
-        <React.Fragment>
+        <>
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 {children}
             </Collapse>
-        </React.Fragment>
+        </>
     );
 };
 

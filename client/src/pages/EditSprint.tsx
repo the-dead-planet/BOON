@@ -5,7 +5,7 @@ import moment from 'moment';
 import sprintsService from '../services/sprintsService';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
-import { FORMIK_DATE_FORMAT } from '../utils/constants';
+import { FORMIK_DATE_FORMAT } from '../constants/dateFormats';
 import AppLayout from '../layouts/AppLayout';
 import { Loading } from '../components/Loading';
 // import withShowError from '../utils/withShowError';

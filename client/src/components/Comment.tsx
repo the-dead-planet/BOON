@@ -1,5 +1,4 @@
 import React from 'react';
-// import { useStyles } from '../styles/main';
 import moment from 'moment';
 import { ListItem, ListItemText, ListItemAvatar, Avatar, Typography } from '@material-ui/core';
 import { ItemMenu } from './ItemMenu';
@@ -13,7 +12,6 @@ interface Props {
 }
 
 export const Comment = ({ user, comment, users, setCommentToBeDeletedId }: Props) => {
-    // const classes = useStyles();
     const author = users.get(comment?.author)?.publicName;
 
     // Prepare list of menu items

@@ -5,13 +5,13 @@ import { Box, Typography } from '@material-ui/core';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         definitions: {
-            padding: '0 1em',
+            padding: theme.spacing(2),
         },
         textDecor: {
             fontStyle: 'italic',
         },
         example: {
-            padding: '.5em 2em 1em 2em',
+            padding: theme.spacing(2),
             fontStyle: 'italic',
         },
     })

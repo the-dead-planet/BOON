@@ -8,7 +8,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import List from '@material-ui/core/List';
 import SprintListItem from './SprintListItem';
 import moment from 'moment';
-import { YEAR_DATE_FORMAT } from '../../utils/constants';
+import { YEAR_DATE_FORMAT } from '../../constants/dateFormats';
 import { Sprint } from '../../logic/types';
 
 interface Props {

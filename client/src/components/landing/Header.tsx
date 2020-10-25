@@ -16,18 +16,19 @@ const useStyles = makeStyles((theme: Theme) =>
             position: 'absolute',
             top: 0,
             '&$right': {
-                right: '2em',
+                right: theme.spacing(4),
                 left: 'auto',
             },
             '&$left': {
-                left: '2em',
+                left: theme.spacing(4),
                 right: 'auto',
             },
         },
         left: {},
         right: {},
         headerText: {
-            padding: '2em 0',
+            paddingTop: theme.spacing(4),
+            paddingBottom: theme.spacing(4),
             textAlign: 'center',
         },
         headerDivider: {
@@ -50,11 +51,11 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         divider: {
-            margin: '1em',
+            margin: theme.spacing(2),
             backgroundColor: theme.palette.primary.main,
         },
         definitions: {
-            padding: '0 1em',
+            padding: theme.spacing(2),
         },
     })
 );
@@ -69,15 +70,17 @@ const Header = ({ user }: Props) => {
 
     return (
         <Grid container justify="center" className={classes.headerContainer}>
-            <Hidden smDown>
-                <Box className={`${classes.topButtons} ${classes.right}`}>
-                    <AuthButtonsHorizontal user={user} />
-                </Box>
-            </Hidden>
-
+            {/* Browse button */}
             <Hidden smDown>
                 <Box className={`${classes.topButtons} ${classes.left}`}>
                     <BrowseButton user={user} />
+                </Box>
+            </Hidden>
+
+            {/* Authorization buttons */}
+            <Hidden smDown>
+                <Box className={`${classes.topButtons} ${classes.right}`}>
+                    <AuthButtonsHorizontal user={user} />
                 </Box>
             </Hidden>
 
@@ -89,7 +92,7 @@ const Header = ({ user }: Props) => {
 
             <Grid item xs={12} sm={8}>
                 {definitions.map((item, i) => (
-                    <Dictionary i={i} {...item} />
+                    <Dictionary key={i} i={i} {...item} />
                 ))}
 
                 <Divider variant="middle" className={classes.divider} />

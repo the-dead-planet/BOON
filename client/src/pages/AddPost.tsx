@@ -5,7 +5,6 @@ import sprintsService from '../services/sprintsService';
 import PostForm from '../components/forms/Post';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
-// import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';
 import { useParams } from 'react-router-dom';
 import withShowError from '../utils/withShowError';

@@ -1,6 +1,21 @@
 import React from 'react';
-import { useStyles } from '../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Container, Typography, Grid, LinearProgress, CircularProgress } from '@material-ui/core';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        loading: {
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            padding: '5%',
+            fontSize: '10em',
+            color: theme.palette.primary.light,
+        },
+    })
+);
 
 export const Loading = () => {
     const classes = useStyles();

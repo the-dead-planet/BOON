@@ -1,7 +1,16 @@
 import React from 'react';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { MenuList, MenuItem, ClickAwayListener, Popper, Paper, Grow, Tooltip } from '@material-ui/core';
 import { IconButton } from './mui-styled/IconButton';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        onTop: {
+            zIndex: 100,
+        },
+    })
+);
 
 interface Props {
     items: Array<{ name: any; onClick: any }>;
@@ -10,6 +19,8 @@ interface Props {
 }
 
 export const ItemMenu = ({ items, icon, tooltip }: Props) => {
+    const classes = useStyles();
+
     // For menu with options: delete, report etc
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -43,8 +54,6 @@ export const ItemMenu = ({ items, icon, tooltip }: Props) => {
         prevOpen.current = open;
     }, [open]);
 
-    const style = { zIndex: 100 };
-
     return (
         <>
             <Tooltip title={tooltip || ''} arrow>
@@ -65,8 +74,8 @@ export const ItemMenu = ({ items, icon, tooltip }: Props) => {
                 role={undefined}
                 transition
                 disablePortal
-                style={style}
                 placement="bottom"
+                className={classes.onTop}
             >
                 {({ TransitionProps, placement }) => (
                     <Grow

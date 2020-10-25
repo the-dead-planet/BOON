@@ -13,23 +13,18 @@ const { login, logout, register } = PATHS;
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         disabled: {},
-        userIcon: {
-            margin: '0 .5em',
-        },
         search: {
             position: 'relative',
             borderRadius: theme.shape.borderRadius,
             border: `1px solid ${theme.palette.primary.main}`,
             backgroundColor: fade(theme.palette.common.white, 0.15),
-            '&:hover': {
-                backgroundColor: fade(theme.palette.common.white, 0.25),
-            },
-            marginRight: theme.spacing(2),
-            marginLeft: 0,
             width: '100%',
             [theme.breakpoints.up('sm')]: {
                 marginLeft: theme.spacing(3),
                 width: 'auto',
+            },
+            '&:hover': {
+                backgroundColor: fade(theme.palette.common.white, 0.25),
             },
         },
         searchIcon: {
@@ -54,6 +49,14 @@ const useStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.up('md')]: {
                 width: '20ch',
             },
+        },
+        auth: {
+            [theme.breakpoints.up('sm')]: {
+                marginRight: theme.spacing(3),
+            },
+        },
+        spacing: {
+            marginLeft: theme.spacing(2),
         },
     })
 );
@@ -95,39 +98,36 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
     ) : undefined;
 
     return (
-        <Grid container alignItems="center">
+        <Grid container alignItems="center" className={classes.auth}>
             <Hidden smDown>
                 {signUpButton}
                 {loginButton}
             </Hidden>
 
-            <div className={classes.userIcon}>
-                {/* <Link to={!user ? login : account}> */}
-                {/* <IconButton color="primary" size="small" aria-label="user menu" style={{ height: 30, width: 30 }}>
-                        <IconUserSecret size="1x" />
-                    </IconButton> */}
-                {/* TODO: Replace with a nice menu with user avatar etc */}
-                {user && (
-                    <ItemMenu
-                        icon={<IconUserSecret size="1x" />}
-                        items={[
-                            {
-                                name: user ? (
-                                    <Link to={logout}>
-                                        <TypographyLinkOutlined variant="body2" color="secondary">
-                                            {getText(user).login}
-                                        </TypographyLinkOutlined>
-                                    </Link>
-                                ) : (
-                                    'Login'
-                                ),
-                                onClick: () => '',
-                            },
-                        ]}
-                        tooltip="User menu"
-                    />
-                )}
-            </div>
+            {user && (
+                <ItemMenu
+                    icon={
+                        <div className={classes.spacing}>
+                            <IconUserSecret size="1x" />
+                        </div>
+                    }
+                    items={[
+                        {
+                            name: user ? (
+                                <Link to={logout}>
+                                    <Typography variant="body2" color="secondary">
+                                        {getText(user).login}
+                                    </Typography>
+                                </Link>
+                            ) : (
+                                'Login'
+                            ),
+                            onClick: () => '',
+                        },
+                    ]}
+                    tooltip="User menu"
+                />
+            )}
         </Grid>
     );
 };

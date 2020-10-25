@@ -24,8 +24,6 @@ const useStyles = makeStyles((theme: Theme) =>
         navTitle: {
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.background.default,
-
-            margin: '-1px',
             padding: '.2em',
             textAlign: 'center',
             textTransform: 'uppercase',
@@ -51,8 +49,8 @@ const useStyles = makeStyles((theme: Theme) =>
             fontStyle: 'italic',
         },
         gossColContainer: {
-            marginTop: '2em',
-            marginBottom: '1em',
+            marginTop: theme.spacing(2),
+            marginBottom: theme.spacing(1),
             padding: '.4em',
             position: 'relative',
             '&::after': {
@@ -66,8 +64,7 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         gossColTitle: {
-            paddingTop: '.5em',
-            paddingBottom: '.5em',
+            padding: theme.spacing(1.5, 0),
             textAlign: 'center',
             textTransform: 'uppercase',
             backgroundColor: theme.palette.primary.main,

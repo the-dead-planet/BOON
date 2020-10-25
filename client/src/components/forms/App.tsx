@@ -1,11 +1,30 @@
 import React, { useState } from 'react';
-import { useStyles } from '../../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Formik, Form } from 'formik';
 import { Grid, Paper, Typography, Hidden } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { withValidationList } from '../../utils/withValidation';
 import image from '../../img/forms/Register.png';
 import { Mode } from '../../logic/types';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        formPaper: {
+            padding: theme.spacing(2),
+            color: theme.palette.primary.main,
+            width: '50%',
+            minWidth: '400px',
+            margin: '0 auto',
+        },
+        img: {
+            display: 'block',
+            // height: "auto",
+            width: '90%',
+            borderRadius: '3px',
+            margin: '0 auto',
+        },
+    })
+);
 
 // const EmailValidator = _;
 // TODO: add a mechanism from router to make sure user wants to close the window if the forms are partially filled but not submitted
@@ -83,7 +102,7 @@ export const AppFormLayout = ({ children, title, error }: GridFormProps) => {
             <Grid container direction="row" spacing={2}>
                 <Hidden smDown>
                     <Grid item md={6}>
-                        <img className={classes.image} src={image} />
+                        <img className={classes.img} src={image} />
                     </Grid>
                 </Hidden>
 

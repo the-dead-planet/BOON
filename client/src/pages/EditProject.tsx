@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Formik, Form, Field } from 'formik';
-// import moment from 'moment';
 import projectsService from '../services/projectsService';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
-// import { FORMIK_DATE_FORMAT } from '../utils/constants';
 import AppLayout from '../layouts/AppLayout';
 import ProjectForm from '../components/forms/Project';
 import { Loading } from '../components/Loading';

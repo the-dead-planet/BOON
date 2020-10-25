@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography, Box } from '@material-ui/core';
 import moment from 'moment';
-import { DATE_FORMAT } from '../../utils/constants';
+import { DATE_FORMAT } from '../../constants/dateFormats';
 
 interface Props {
     _id: string;

@@ -1,21 +1,42 @@
 import React from 'react';
-import { useStyles } from '../../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Container, Grid, Typography } from '@material-ui/core';
-import { RellaxWrapper } from 'react-rellax-wrapper';
+import RellaxWrapper from 'react-rellax-wrapper';
+import { User, Mode } from '../../logic/types';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        top: {
+            marginTop: '20px',
+        },
+        height: {
+            minHeight: '100vh',
+        },
+    })
+);
+
+interface Props {
+    user: User;
+    mode: Mode;
+    setMode: any;
+    title: string;
+    subtitle: string;
+    button: any;
+}
 
 // TODO: create a page with graphics moving in different speeds
 // Also apply to svg elements to "break" graphic apart
 // TODO: there is an error with typescript - create a new js component which receives property speed, to use inside tsx files
-const Parallax = ({ user, mode, setDarkMode, title, subtitle, button }) => {
+const Parallax = ({ user, mode, setMode, title, subtitle, button }: Props) => {
     const classes = useStyles();
-    const style = { marginTop: '20px' };
-    const style2 = { minHeight: '100vh' };
 
     return (
-        <Container maxWidth="lg" id="main-content" style={style}>
-            <Grid container direction="row" style={style2}>
+        <Container maxWidth="lg" id="main-content" className={classes.top}>
+            <Grid container direction="row" className={classes.height}>
                 <Grid item xs={4}>
-                    <RellaxWrapper speed={2}>
+                    <RellaxWrapper
+                    // speed={2}
+                    >
                         <Typography variant="h4" color="secondary">
                             Fast
                         </Typography>
@@ -23,7 +44,9 @@ const Parallax = ({ user, mode, setDarkMode, title, subtitle, button }) => {
                 </Grid>
 
                 <Grid item xs={4}>
-                    <RellaxWrapper speed={-2}>
+                    <RellaxWrapper
+                    // speed={-2}
+                    >
                         <Typography variant="h4" color="secondary">
                             Fast
                         </Typography>
@@ -31,7 +54,9 @@ const Parallax = ({ user, mode, setDarkMode, title, subtitle, button }) => {
                 </Grid>
 
                 <Grid item xs={4}>
-                    <RellaxWrapper speed={-4}>
+                    <RellaxWrapper
+                    // speed={-4}
+                    >
                         <Typography variant="h4" color="secondary">
                             Fast
                         </Typography>

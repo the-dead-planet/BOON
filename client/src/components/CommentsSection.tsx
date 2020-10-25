@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useStyles } from '../styles/main';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Box, Typography } from '@material-ui/core';
 import { CommentsList } from './CommentsList';
 import { withPush } from '../utils/routingDecorators';
@@ -8,6 +8,17 @@ import { AddComment } from './forms/AddComment';
 import DialogMenu from './navigation/DialogMenu';
 import commentsService from '../services/commentsService';
 import { User, Comment, Model } from '../logic/types';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        form: {
+            margin: theme.spacing(2),
+        },
+        title: {
+            margin: theme.spacing(2),
+        },
+    })
+);
 
 interface Props {
     expanded: boolean;
@@ -59,11 +70,11 @@ const CommentsImpl = ({
             <Box id="comments">
                 {/* <CollapsePanel expanded={expanded} title="Comments"> */}
 
-                <Box className={classes.commentsSection}>
-                    <Typography variant="h6" color="secondary" gutterBottom className={classes.commentstitle}>
-                        {title} ({comments.length})
-                    </Typography>
+                <Typography variant="h6" color="secondary" gutterBottom className={classes.title}>
+                    {title} ({comments.length})
+                </Typography>
 
+                <Box className={classes.form}>
                     <AddComment
                         user={user}
                         _id={parentId}

@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
             height: `calc(${JUMBOTRON_HEIGHT} - ${JUMBOTRON_HEIGHT}px)`,
         },
         offset: {
-            margin: '0.5em',
+            margin: theme.spacing(1),
         },
     })
 );
