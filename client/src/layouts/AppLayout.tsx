@@ -74,6 +74,9 @@ const useStyles = makeStyles((theme: Theme) =>
                 flexDirection: 'column',
             },
         },
+        main: {
+            width: '100%',
+        },
     })
 );
 
@@ -219,7 +222,7 @@ const AppLayout = ({
                     )}
 
                     {/* Class 'mainContent' changes leftMargin to 0 in size sm */}
-                    <Box>{children}</Box>
+                    <Box className={classes.main}>{children}</Box>
                 </div>
             </main>
 
