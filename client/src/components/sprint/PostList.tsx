@@ -3,7 +3,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Grid, CardMedia, Typography } from '@material-ui/core';
 import { PostCard } from './Card';
 import img from '../../img/landing/landing-1.png';
-import { User, Post, Project, Comment, Like } from '../../logic/types';
+import { User, Post, Project, Comment, Like, PostsListVariant, Col } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     user: User;
+    variant: PostsListVariant;
     projects: Map<string, Project>;
     posts: Array<Post>;
     comments: Map<string, Comment>;
@@ -50,10 +51,16 @@ interface Props {
     removePost: any;
     push: any;
     toggleCommentsPanel: any;
+    xs?: Col;
+    sm?: Col;
+    md?: Col;
+    lg?: Col;
+    xl?: Col;
 }
 
 export const PostsList = ({
     user,
+    variant,
     projects,
     posts,
     comments,
@@ -64,16 +71,17 @@ export const PostsList = ({
     removePost,
     push,
     toggleCommentsPanel,
+    ...props
 }: Props) => {
     const classes = useStyles();
     const getProject = (id: string) =>
         [...projects.values()]?.reduce((acc, project) => (project.posts.includes(id) ? project : acc));
 
     return (
-        <Grid container spacing={1}>
+        <Grid container justify="center" spacing={1}>
             {posts.map((post: Post, i: number) => (
                 <Fragment key={i}>
-                    <Grid item xs={12} sm={6} md={4} lg={3} xl={2} className={classes.container}>
+                    <Grid item className={classes.container} {...props}>
                         <PostCard
                             key={`${post._id}-${i}`}
                             user={user}
@@ -123,11 +131,11 @@ export const PostsList = ({
                             md={8}
                             lg={6}
                             xl={4}
-                            className={`${classes.container} ${classes.quoteContainer}`}
                             container
                             direction="column"
                             justify="center"
                             alignItems="center"
+                            className={`${classes.container} ${classes.quoteContainer}`}
                         >
                             <Typography variant="h3" className={classes.quote}>
                                 I am not a fan of books. I would never want a book's autograph.

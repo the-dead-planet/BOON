@@ -8,7 +8,8 @@ import usersService from '../services/usersService';
 import AppLayout from '../layouts/AppLayout';
 import { Loading, Empty } from '../components/Loading';
 import { CommentsSection } from '../components/CommentsSection';
-import { SingleSprint } from '../components/sprint/SingleSprint';
+import { SingleProject } from '../components/project/SingleProject';
+import { Posts } from '../components/sprint/Posts';
 import {
     // withShowError,
     WithShowErrorInjectedProps,
@@ -95,7 +96,6 @@ const Sprint = ({
     */
     const project = projects.get(id);
 
-    // 5e7f6aff6035d12174842b98
     /*
         SORT SPRINTS FOR PAGINATION
     */
@@ -121,18 +121,10 @@ const Sprint = ({
         ?.map((postId) => posts.get(postId))
         .map((post) => ({ hash: true, id: post?._id || '', name: post?.title || '', path: `#${post?._id}` || '#' }));
 
-    const navProjects = [
-        ...new Set(
-            projectPosts
-                ?.map((postId) =>
-                    [...projects.values()].reduce((acc, project) => (project.posts.includes(postId) ? project : acc))
-                )
-                .map((project) => project._id)
-        ),
-    ].map((projectId) => ({
-        id: projectId || '',
-        name: projects.get(projectId)?.title || '',
-        path: `/projects/${projectId}`,
+    const navProjects = [...projects.values()]?.map((project: Project) => ({
+        id: project._id || '',
+        name: project.title || '',
+        path: `/projects/${project._id}`,
     }));
 
     const navPlaceholder = [{ id: '', name: 'Printing...', path: '/' }];
@@ -221,7 +213,7 @@ const Sprint = ({
                       }))
                     : undefined,
             }}
-            navLeftContent={[{ header: 'All projects', list: navProjects || navPlaceholder }]}
+            // navLeftContent={[{ header: 'All projects', list: navProjects || navPlaceholder }]}
             sideColumn={{
                 header: '_news',
                 body: `We found something on the internet which is related to ${project?.title}. \"THEY\" say that...`,
@@ -238,23 +230,21 @@ const Sprint = ({
             ) : projects.size === 0 ? (
                 <Empty />
             ) : (
-                // NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator
-                // <SingleSprint
-                //     user={user}
-                //     sprint={sprints ? [...sprints.values()][0]: undefined}
-                //     posts={posts}
-                //     projects={projects}
-                //     comments={comments}
-                //     likes={likes}
-                //     users={users}
-                //     addPostComment={addPostComment}
-                //     addSprintComment={addSprintComment}
-                //     removeObject={removeObject}
-                //     toggleCommentsPanel={toggleSecondaryDrawer}
-                //     onError={showError}
-                //     // showError={showError}
-                // />
-                <></>
+                <SingleProject
+                    user={user}
+                    project={project}
+                    posts={posts}
+                    projects={projects}
+                    comments={comments}
+                    likes={likes}
+                    users={users}
+                    addPostComment={addPostComment}
+                    addSprintComment={addSprintComment}
+                    removeObject={removeObject}
+                    toggleCommentsPanel={toggleSecondaryDrawer}
+                    onError={showError}
+                    // showError={showError}
+                />
             )}
         </AppLayout>
     );

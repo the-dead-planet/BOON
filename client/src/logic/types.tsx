@@ -3,6 +3,7 @@ import { ReactChild, ReactChildren } from 'react';
 type Children = ReactChild | ReactChildren | Array<ReactChild>;
 type Mode = 'light' | 'dark' | undefined;
 type DrawerVariant = 'persistent' | 'temporary';
+type Col = boolean | 'auto' | 2 | 1 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
 type Input =
     | 'button'
     | 'checkbox'
@@ -376,8 +377,11 @@ interface NavButton {
     path?: string;
 }
 
+type PostsListVariant = 'tiles' | 'full-width';
+
 export type {
     Children,
+    Col,
     DataItem,
     Auth,
     Login,
@@ -432,4 +436,5 @@ export type {
     DialogButton,
     DialogProps,
     NavButton,
+    PostsListVariant,
 };

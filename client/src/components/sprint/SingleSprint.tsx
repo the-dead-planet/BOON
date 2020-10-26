@@ -78,6 +78,11 @@ export const SingleSprint = ({
                     removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })
                 }
                 toggleCommentsPanel={toggleCommentsPanel}
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                xl={2}
             />
         </>
     ) : (
