@@ -4,15 +4,18 @@ import { NAVBAR_LEFT_WIDTH } from '../../styles/constants';
 import { NavContent, SideColumn } from '../../logic/types';
 import { Typography, Box } from '@material-ui/core';
 import { LinkComponent } from '../../utils/Link';
+import { NavButton } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         sideCol: {
-            position: 'absolute',
-            width: `${NAVBAR_LEFT_WIDTH}px`,
-            [theme.breakpoints.down('sm')]: {
-                display: 'none',
-                visibility: 'hidden',
+            // position: 'absolute',
+            minWidth: `${NAVBAR_LEFT_WIDTH}px`,
+            maxWidth: `${NAVBAR_LEFT_WIDTH}px`,
+            marginRight: theme.spacing(1),
+            [theme.breakpoints.only('xs')]: {
+                minWidth: '100%',
+                maxWidth: '100%',
             },
         },
         navContainer: {
@@ -20,6 +23,25 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '100%',
             border: `solid 2px ${theme.palette.primary.main}`,
             // borderTopWidth: "20px"
+        },
+        navButton: {
+            marginBottom: theme.spacing(1),
+            padding: theme.spacing(1.5),
+            border: `solid 4px ${theme.palette.secondary.main}`,
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            fontWeight: 'bold',
+            '&:hover': {
+                backgroundColor: theme.palette.secondary.main,
+                color: theme.palette.secondary.contrastText,
+                cursor: 'pointer',
+                boxShadow: `4px 4px ${theme.palette.secondary.dark}`,
+            },
+            '&:active': {
+                backgroundColor: theme.palette.secondary.dark,
+                borderColor: theme.palette.secondary.dark,
+                boxShadow: `4px 4px ${theme.palette.primary.main}`,
+            },
         },
         navTitle: {
             backgroundColor: theme.palette.primary.main,
@@ -76,14 +98,22 @@ const useStyles = makeStyles((theme: Theme) =>
 interface NavBarLeftProps {
     contents: NavContent;
     sideColumn?: SideColumn;
+    button?: NavButton;
 }
 
 // A temporary component that is going to be implemented in Layout in the long run.
-const NavBarLeft = ({ contents, sideColumn }: NavBarLeftProps) => {
+const NavBarLeft = ({ contents, sideColumn, button }: NavBarLeftProps) => {
     const classes = useStyles();
 
     return (
         <Box className={classes.sideCol}>
+            {/* Create button */}
+            {button && (
+                <Typography variant="body1" color="secondary" className={classes.navButton} onClick={button.onClick}>
+                    {button.name}
+                </Typography>
+            )}
+
             {/* Main navigation panel */}
             <Box className={classes.navContainer}>
                 {contents.map((content, index) => (

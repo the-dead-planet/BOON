@@ -367,6 +367,12 @@ interface DialogProps {
     buttonOk: DialogButton;
 }
 
+interface NavButton {
+    name: string;
+    onClick?: any;
+    path?: string;
+}
+
 export type {
     Children,
     DataItem,
@@ -422,4 +428,5 @@ export type {
     CommentsProps,
     DialogButton,
     DialogProps,
+    NavButton,
 };

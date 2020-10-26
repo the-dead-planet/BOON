@@ -20,6 +20,7 @@ import {
     NavContent,
     SideColumn,
     DialogProps,
+    NavButton,
 } from '../logic/types';
 import { APP_NAME } from '../constants/data';
 import NotificationsRenderer from '../components/NotificationsRenderer';
@@ -62,12 +63,15 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         drawerHeaderHeight: {
             minHeight: `${TOOLBAR_HEIGHT * 3}px`,
+            [theme.breakpoints.only('xs')]: {
+                minHeight: `${TOOLBAR_HEIGHT * 2}px`,
+            },
         },
-        moveContent: {
-            marginLeft: `calc(${NAVBAR_LEFT_WIDTH}px + 10px)`,
-            top: 0,
-            [theme.breakpoints.down('sm')]: {
-                marginLeft: 0,
+        mainContent: {
+            display: 'flex',
+            flexDirection: 'row',
+            [theme.breakpoints.only('xs')]: {
+                flexDirection: 'column',
             },
         },
     })
@@ -87,6 +91,7 @@ interface Props {
     nextId?: string;
     previousId?: string;
     // Left navigation panel
+    navLeftButton?: NavButton;
     navLeftContent?: NavContent;
     // Side newspaper column
     sideColumn?: SideColumn;
@@ -117,6 +122,7 @@ const AppLayout = ({
     nextId, //TODO: check if still required
     previousId, //TODO: check if still required
     // Left navigation panel
+    navLeftButton,
     navLeftContent,
     // Side newspaper column
     sideColumn,
@@ -198,15 +204,17 @@ const AppLayout = ({
                 {jumbotron && <div className={classes.jumbotron} />}
                 {appBar && <div className={classes.drawerHeaderHeight} />}
 
-                {/* Left panel serving as navigation - contents lists */}
-                {navLeftContent && (
-                    <Hidden smDown>
-                        <NavBarLeft contents={navLeftContent} sideColumn={sideColumn} />
-                    </Hidden>
-                )}
+                <div className={classes.mainContent}>
+                    {/* Left panel serving as navigation - contents lists */}
+                    {navLeftContent && (
+                        <Hidden smDown>
+                            <NavBarLeft button={navLeftButton} contents={navLeftContent} sideColumn={sideColumn} />
+                        </Hidden>
+                    )}
 
-                {/* Class 'mainContent' changes leftMargin to 0 in size sm */}
-                <Box className={navLeftContent ? classes.moveContent : undefined}>{children}</Box>
+                    {/* Class 'mainContent' changes leftMargin to 0 in size sm */}
+                    <Box>{children}</Box>
+                </div>
             </main>
 
             <Footer />

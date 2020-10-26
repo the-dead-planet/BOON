@@ -3,6 +3,7 @@ import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 import { Link } from '../../utils/Link';
 import { Grid, List, ListItem, ListItemText, Typography, InputBase, Hidden } from '@material-ui/core';
 import { TypographyLinkOutlined } from '../mui-styled/Typography';
+import { Button } from '../mui-styled/Button';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import { IconUserSecret, IconSearch } from '../Icons';
 import { ItemMenu } from '../ItemMenu';
@@ -116,7 +117,7 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
                             { name: 'Change workspace', onClick: () => '' },
                             { name: 'Leave', onClick: () => '', alarm: true },
                         ]}
-                        tooltip="Workspace"
+                        tooltip="Workspace menu"
                         placement="bottom-end"
                     />
                     {/* User menu */}

@@ -221,6 +221,7 @@ const Sprint = ({
                       }))
                     : undefined,
             }}
+            navLeftButton={{ name: 'Create', onClick: () => '' }}
             navLeftContent={[
                 { header: 'Highlights', list: navPosts || navPlaceholder },
                 // TODO: Get a list of projects related to the posts related to currently displayed sprint

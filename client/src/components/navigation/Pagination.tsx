@@ -48,7 +48,7 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
     return (
         <Toolbar className={classes.toolbar}>
             <Grid container justify="space-between" alignItems="center" className={classes.pagination}>
-                <Typography noWrap className={classes.paginationLink}>
+                <Typography variant="body1" noWrap className={classes.paginationLink}>
                     {previousId && (
                         <Link to={`${path}/${previousId}`}>
                             <Tooltip title={`Previous ${path?.substring(1, path.length - 1)}`} aria-label="previous">
@@ -66,6 +66,7 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                         {NAV_LINKS.map((item, i) => (
                             <Link key={i} to={item.path}>
                                 <TypographyLink
+                                    variant="body1"
                                     color={
                                         path?.toUpperCase()?.indexOf(item.name.toUpperCase()) !== -1
                                             ? 'secondary'
@@ -80,7 +81,7 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                     </Grid>
                 </Hidden>
 
-                <Typography noWrap className={`${classes.paginationLink} ${classes.right}`}>
+                <Typography variant="body1" noWrap className={`${classes.paginationLink} ${classes.right}`}>
                     <Hidden smDown>{secondary || ''}</Hidden>
                     {nextId && (
                         <Link to={`${path}/${nextId}`}>
