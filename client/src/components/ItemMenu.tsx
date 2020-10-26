@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from '../utils/Link';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { MenuList, MenuItem, ClickAwayListener, Popper, Paper, Grow, Tooltip } from '@material-ui/core';
+import { MenuList, MenuItem, ClickAwayListener, Popper, Paper, Grow, Tooltip, Typography } from '@material-ui/core';
 import { IconButton } from './mui-styled/IconButton';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
@@ -16,12 +17,26 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    items: Array<{ name: any; onClick: any }>;
+    items: Array<{ name: any; onClick: any; path?: string; alarm?: boolean }>;
     icon?: any;
     tooltip?: string;
+    placement?:
+        | 'bottom'
+        | 'left'
+        | 'right'
+        | 'top'
+        | 'bottom-end'
+        | 'bottom-start'
+        | 'left-end'
+        | 'left-start'
+        | 'right-end'
+        | 'right-start'
+        | 'top-end'
+        | 'top-start'
+        | undefined;
 }
 
-export const ItemMenu = ({ items, icon, tooltip }: Props) => {
+export const ItemMenu = ({ items, icon, tooltip, placement }: Props) => {
     const classes = useStyles();
 
     // For menu with options: delete, report etc
@@ -77,7 +92,7 @@ export const ItemMenu = ({ items, icon, tooltip }: Props) => {
                 role={undefined}
                 transition
                 disablePortal
-                placement="bottom"
+                placement={placement}
                 className={classes.onTop}
             >
                 {({ TransitionProps, placement }) => (
@@ -90,7 +105,23 @@ export const ItemMenu = ({ items, icon, tooltip }: Props) => {
                                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                                     {items.map((item) => (
                                         <MenuItem color="inherit" onClick={item.onClick}>
-                                            {item.name}
+                                            {item?.path ? (
+                                                <Link to={item.path}>
+                                                    <Typography
+                                                        variant="body2"
+                                                        color={item?.alarm ? 'secondary' : 'primary'}
+                                                    >
+                                                        {item.name}
+                                                    </Typography>
+                                                </Link>
+                                            ) : (
+                                                <Typography
+                                                    variant="body2"
+                                                    color={item?.alarm ? 'secondary' : 'primary'}
+                                                >
+                                                    {item.name}
+                                                </Typography>
+                                            )}
                                         </MenuItem>
                                     ))}
                                 </MenuList>

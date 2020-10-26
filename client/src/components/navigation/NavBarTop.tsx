@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
             '&$left': {
                 left: 0,
                 [theme.breakpoints.down('sm')]: {
-                    left: theme.spacing(3),
+                    left: theme.spacing(4),
                 },
             },
         },
