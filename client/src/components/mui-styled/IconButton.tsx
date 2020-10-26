@@ -17,4 +17,22 @@ export const IconButton = withStyles(({ palette }) => ({
             },
         },
     },
+    colorPrimary: {
+        '&:hover': {
+            backgroundColor: 'transparent',
+            '& svg, span, .MuiSvgIcon-root': {
+                // filter: 'drop-shadow(4px 4px 8px rgba(0, 0, 0, .13))',
+                color: palette.secondary.main,
+            },
+        },
+    },
+    colorSecondary: {
+        color: palette.secondary.main,
+        border: `solid 1px transparent`,
+        '&:hover': {
+            backgroundColor: 'transparent',
+            border: `solid 1px ${palette.secondary.main}`,
+            '& svg, span, .MuiSvgIcon-root': {},
+        },
+    },
 }))(MuiIconButton);

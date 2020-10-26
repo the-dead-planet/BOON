@@ -3,7 +3,8 @@ import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles'
 import { Link } from '../../utils/Link';
 import { Grid, List, ListItem, ListItemText, Typography, InputBase, Hidden } from '@material-ui/core';
 import { TypographyLinkOutlined } from '../mui-styled/Typography';
-// import SearchIcon from '@material-ui/icons/Search';
+import { Button } from '../mui-styled/Button';
+import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import { IconUserSecret, IconSearch } from '../Icons';
 import { ItemMenu } from '../ItemMenu';
 import { User } from '../../logic/types';
@@ -62,11 +63,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 // Set text on auth buttons dependent on whether a user is logged in or not
-const getText = (user: User | null | undefined) => {
-    return {
-        register: !user ? 'Sign up' : `Howdy, ${user.publicName}!`,
-        login: !user ? 'Login' : 'Logout',
-    };
+const texts = {
+    register: 'Sign up',
+    login: 'Login',
+    logout: 'Log out',
 };
 
 interface Props {
@@ -75,57 +75,63 @@ interface Props {
 
 export const AuthButtonsHorizontal = ({ user }: Props) => {
     const classes = useStyles();
-    const signUpText = !user ? (
-        <TypographyLinkOutlined variant="body2" className={`${user ? classes.disabled : undefined}`} color="inherit">
-            {getText(user).register}
-        </TypographyLinkOutlined>
-    ) : (
-        <Typography variant="body2" className={`${user ? classes.disabled : undefined}`} color="inherit">
-            {getText(user).register}
-        </Typography>
-    );
-
-    let signUpButton = !user ? <Link to={register}>{signUpText}</Link> : signUpText;
-
-    // TODO: hide this button, instead open a menu after clicking on the icon with options: "settings, logout etc"
-    let loginButton = !user ? (
-        <Link to={login}>
-            <TypographyLinkOutlined variant="body2" color="secondary">
-                {getText(user).login}
+    const signUpButton = (
+        <Link to={register}>
+            <TypographyLinkOutlined
+                variant="body2"
+                className={`${user ? classes.disabled : undefined}`}
+                color="inherit"
+            >
+                {texts.register}
             </TypographyLinkOutlined>
         </Link>
-    ) : undefined;
+    );
+
+    let logInButton = (
+        <Link to={login}>
+            <TypographyLinkOutlined variant="body2" color="secondary">
+                {texts.login}
+            </TypographyLinkOutlined>
+        </Link>
+    );
 
     return (
         <Grid container alignItems="center" className={classes.auth}>
-            <Hidden smDown>
-                {signUpButton}
-                {loginButton}
-            </Hidden>
+            {/* Display 'sign up' and 'log in' buttons only if user not logged in */}
+            {!user && (
+                <Hidden smDown>
+                    {signUpButton}
+                    {logInButton}
+                </Hidden>
+            )}
 
+            {/* If user logged in, show icon which expands a menu with user settings and log out button */}
             {user && (
-                <ItemMenu
-                    icon={
-                        <div className={classes.spacing}>
-                            <IconUserSecret size="1x" />
-                        </div>
-                    }
-                    items={[
-                        {
-                            name: user ? (
-                                <Link to={logout}>
-                                    <Typography variant="body2" color="secondary">
-                                        {getText(user).login}
-                                    </Typography>
-                                </Link>
-                            ) : (
-                                'Login'
-                            ),
-                            onClick: () => '',
-                        },
-                    ]}
-                    tooltip="User menu"
-                />
+                <>
+                    {/* Current workspace */}
+                    <ItemMenu
+                        icon={<GroupWorkIcon />}
+                        items={[
+                            { name: 'Space Cadets', onClick: () => '' },
+                            { name: 'Settings', onClick: () => '' },
+                            { name: 'Change workspace', onClick: () => '' },
+                            { name: 'Leave', onClick: () => '', alarm: true },
+                        ]}
+                        tooltip="Workspace menu"
+                        placement="bottom-end"
+                    />
+                    {/* User menu */}
+                    <ItemMenu
+                        icon={<IconUserSecret size="1x" />}
+                        items={[
+                            { name: `Howdy, ${user.publicName}!`, onClick: () => '' },
+                            { name: 'Account', onClick: () => '' },
+                            { name: texts.logout, path: logout, onClick: () => '', alarm: true },
+                        ]}
+                        tooltip="User menu"
+                        placement="bottom-end"
+                    />
+                </>
             )}
         </Grid>
     );
@@ -137,14 +143,14 @@ export const AuthButtonsVertical = ({ user }: Props) => {
     let signUpButton = (
         <ListItem button component={!user ? Link : Typography} to={!user ? register : ''}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-            <ListItemText primary={getText(user).register} />
+            <ListItemText primary={texts.register} />
         </ListItem>
     );
 
     let loginButton = (
         <ListItem button component={Link} to={!user ? login : logout}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-            <ListItemText primary={getText(user).login} />
+            <ListItemText primary={texts.login} />
         </ListItem>
     );
 

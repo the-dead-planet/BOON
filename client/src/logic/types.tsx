@@ -3,6 +3,7 @@ import { ReactChild, ReactChildren } from 'react';
 type Children = ReactChild | ReactChildren | Array<ReactChild>;
 type Mode = 'light' | 'dark' | undefined;
 type DrawerVariant = 'persistent' | 'temporary';
+type Col = boolean | 'auto' | 2 | 1 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
 type Input =
     | 'button'
     | 'checkbox'
@@ -27,11 +28,14 @@ type Input =
     | 'url'
     | 'week';
 
+type AuthRole = 'admin' | 'editor' | 'reader' | 'guest';
+
 interface UserObject {
     _id: string;
     email: string;
     publicName: string;
-    darkMode: boolean | undefined;
+    role: AuthRole;
+    mode: boolean | undefined;
 }
 
 interface UserData {
@@ -367,8 +371,17 @@ interface DialogProps {
     buttonOk: DialogButton;
 }
 
+interface NavButton {
+    name: string;
+    onClick?: any;
+    path?: string;
+}
+
+type PostsListVariant = 'tiles' | 'full-width';
+
 export type {
     Children,
+    Col,
     DataItem,
     Auth,
     Login,
@@ -422,4 +435,6 @@ export type {
     CommentsProps,
     DialogButton,
     DialogProps,
+    NavButton,
+    PostsListVariant,
 };

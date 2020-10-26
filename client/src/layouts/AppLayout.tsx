@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { DRAWER_WIDTH, JUMBOTRON_HEIGHT, NAVBAR_LEFT_WIDTH, TOOLBAR_HEIGHT } from '../styles/constants';
+import { DRAWER_WIDTH, JUMBOTRON_HEIGHT, TOOLBAR_HEIGHT } from '../styles/constants';
 import { Hidden, Box, CssBaseline } from '@material-ui/core';
 import ThemeWrapper from '../components/navigation/ThemeWrapper';
 import Jumbotron from '../components/navigation/Jumbotron';
@@ -20,6 +20,7 @@ import {
     NavContent,
     SideColumn,
     DialogProps,
+    NavButton,
 } from '../logic/types';
 import { APP_NAME } from '../constants/data';
 import NotificationsRenderer from '../components/NotificationsRenderer';
@@ -62,13 +63,19 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         drawerHeaderHeight: {
             minHeight: `${TOOLBAR_HEIGHT * 3}px`,
-        },
-        moveContent: {
-            marginLeft: `calc(${NAVBAR_LEFT_WIDTH}px + 10px)`,
-            top: 0,
-            [theme.breakpoints.down('sm')]: {
-                marginLeft: 0,
+            [theme.breakpoints.only('xs')]: {
+                minHeight: `${TOOLBAR_HEIGHT * 2}px`,
             },
+        },
+        mainContent: {
+            display: 'flex',
+            flexDirection: 'row',
+            [theme.breakpoints.only('xs')]: {
+                flexDirection: 'column',
+            },
+        },
+        main: {
+            width: '100%',
         },
     })
 );
@@ -87,6 +94,7 @@ interface Props {
     nextId?: string;
     previousId?: string;
     // Left navigation panel
+    createButton?: NavButton;
     navLeftContent?: NavContent;
     // Side newspaper column
     sideColumn?: SideColumn;
@@ -117,6 +125,7 @@ const AppLayout = ({
     nextId, //TODO: check if still required
     previousId, //TODO: check if still required
     // Left navigation panel
+    createButton,
     navLeftContent,
     // Side newspaper column
     sideColumn,
@@ -174,6 +183,7 @@ const AppLayout = ({
                 setMode={setMode}
                 open={openMenu}
                 toggleDrawer={toggleDrawer}
+                createButton={createButton}
             />
 
             {/* Secondary drawer can include additional content like comments */}
@@ -198,15 +208,22 @@ const AppLayout = ({
                 {jumbotron && <div className={classes.jumbotron} />}
                 {appBar && <div className={classes.drawerHeaderHeight} />}
 
-                {/* Left panel serving as navigation - contents lists */}
-                {navLeftContent && (
-                    <Hidden smDown>
-                        <NavBarLeft contents={navLeftContent} sideColumn={sideColumn} />
-                    </Hidden>
-                )}
+                <div className={classes.mainContent}>
+                    {/* Left panel serving as navigation - contents lists */}
+                    {navLeftContent && (
+                        <Hidden smDown>
+                            <NavBarLeft
+                                user={user}
+                                createButton={createButton}
+                                contents={navLeftContent}
+                                sideColumn={sideColumn}
+                            />
+                        </Hidden>
+                    )}
 
-                {/* Class 'mainContent' changes leftMargin to 0 in size sm */}
-                <Box className={navLeftContent ? classes.moveContent : undefined}>{children}</Box>
+                    {/* Class 'mainContent' changes leftMargin to 0 in size sm */}
+                    <Box className={classes.main}>{children}</Box>
+                </div>
             </main>
 
             <Footer />

@@ -1,18 +1,20 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { NAVBAR_LEFT_WIDTH } from '../../styles/constants';
-import { NavContent, SideColumn } from '../../logic/types';
+import { NavContent, SideColumn, User, NavButton } from '../../logic/types';
 import { Typography, Box } from '@material-ui/core';
 import { LinkComponent } from '../../utils/Link';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         sideCol: {
-            position: 'absolute',
-            width: `${NAVBAR_LEFT_WIDTH}px`,
-            [theme.breakpoints.down('sm')]: {
-                display: 'none',
-                visibility: 'hidden',
+            // position: 'absolute',
+            minWidth: `${NAVBAR_LEFT_WIDTH}px`,
+            maxWidth: `${NAVBAR_LEFT_WIDTH}px`,
+            marginRight: theme.spacing(1),
+            [theme.breakpoints.only('xs')]: {
+                minWidth: '100%',
+                maxWidth: '100%',
             },
         },
         navContainer: {
@@ -20,6 +22,25 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '100%',
             border: `solid 2px ${theme.palette.primary.main}`,
             // borderTopWidth: "20px"
+        },
+        navButton: {
+            marginBottom: theme.spacing(1),
+            padding: theme.spacing(1.5),
+            border: `solid 4px ${theme.palette.secondary.main}`,
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            fontWeight: 'bold',
+            '&:hover': {
+                backgroundColor: theme.palette.secondary.main,
+                color: theme.palette.secondary.contrastText,
+                cursor: 'pointer',
+                boxShadow: `4px 4px ${theme.palette.secondary.dark}`,
+            },
+            '&:active': {
+                backgroundColor: theme.palette.secondary.dark,
+                borderColor: theme.palette.secondary.dark,
+                boxShadow: `4px 4px ${theme.palette.primary.main}`,
+            },
         },
         navTitle: {
             backgroundColor: theme.palette.primary.main,
@@ -48,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: 'rgba(0, 0, 0, .03)',
             fontStyle: 'italic',
         },
-        gossColContainer: {
+        sideColContainer: {
             marginTop: theme.spacing(2),
             marginBottom: theme.spacing(1),
             padding: '.4em',
@@ -63,27 +84,48 @@ const useStyles = makeStyles((theme: Theme) =>
                 border: `solid 2px ${theme.palette.primary.main}`,
             },
         },
-        gossColTitle: {
+        sideColTitle: {
             padding: theme.spacing(1.5, 0),
             textAlign: 'center',
             textTransform: 'uppercase',
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.secondary.main,
         },
+        sideColBody: {
+            padding: theme.spacing(1),
+            textAlign: 'center',
+            // textAlign: "justify",
+        },
     })
 );
 
 interface NavBarLeftProps {
+    user: User;
     contents: NavContent;
     sideColumn?: SideColumn;
+    createButton?: NavButton;
 }
 
 // A temporary component that is going to be implemented in Layout in the long run.
-const NavBarLeft = ({ contents, sideColumn }: NavBarLeftProps) => {
+const NavBarLeft = ({ user, contents, sideColumn, createButton }: NavBarLeftProps) => {
     const classes = useStyles();
 
     return (
         <Box className={classes.sideCol}>
+            {/* Create button - to be displayed only if user has sufficient auth => admin or editor */}
+            {/* TODO: Create a separate component which specifies components which require certain authorization */}
+            {/* And include those in tests */}
+            {createButton && user && ['admin', 'editor'].includes(user.role) ? (
+                <Typography
+                    variant="body1"
+                    color="secondary"
+                    className={classes.navButton}
+                    onClick={createButton.onClick}
+                >
+                    {createButton.name}
+                </Typography>
+            ) : undefined}
+
             {/* Main navigation panel */}
             <Box className={classes.navContainer}>
                 {contents.map((content, index) => (
@@ -110,11 +152,13 @@ const NavBarLeft = ({ contents, sideColumn }: NavBarLeftProps) => {
 
             {/* Additional / optional column under the navigation panel */}
             {sideColumn && (
-                <Box className={classes.gossColContainer}>
-                    <Typography variant="h5" className={classes.gossColTitle}>
+                <Box className={classes.sideColContainer}>
+                    <Typography variant="h5" className={classes.sideColTitle}>
                         {sideColumn.header}
                     </Typography>
-                    <Typography variant="body2">{sideColumn.body}</Typography>
+                    <Typography variant="body2" className={classes.sideColBody}>
+                        {sideColumn.body}
+                    </Typography>
                 </Box>
             )}
         </Box>
