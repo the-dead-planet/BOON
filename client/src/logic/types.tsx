@@ -27,11 +27,14 @@ type Input =
     | 'url'
     | 'week';
 
+type AuthRole = 'admin' | 'editor' | 'reader' | 'guest';
+
 interface UserObject {
     _id: string;
     email: string;
     publicName: string;
-    darkMode: boolean | undefined;
+    role: AuthRole;
+    mode: boolean | undefined;
 }
 
 interface UserData {

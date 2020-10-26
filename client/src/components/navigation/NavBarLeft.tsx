@@ -1,10 +1,9 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { NAVBAR_LEFT_WIDTH } from '../../styles/constants';
-import { NavContent, SideColumn } from '../../logic/types';
+import { NavContent, SideColumn, User, NavButton } from '../../logic/types';
 import { Typography, Box } from '@material-ui/core';
 import { LinkComponent } from '../../utils/Link';
-import { NavButton } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -96,23 +95,26 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface NavBarLeftProps {
+    user: User;
     contents: NavContent;
     sideColumn?: SideColumn;
     button?: NavButton;
 }
 
 // A temporary component that is going to be implemented in Layout in the long run.
-const NavBarLeft = ({ contents, sideColumn, button }: NavBarLeftProps) => {
+const NavBarLeft = ({ user, contents, sideColumn, button }: NavBarLeftProps) => {
     const classes = useStyles();
 
     return (
         <Box className={classes.sideCol}>
-            {/* Create button */}
-            {button && (
+            {/* Create button - to be displayed only if user has sufficient auth => admin or editor */}
+            {/* TODO: Create a separate component which specifies components which require certain authorization */}
+            {/* And include those in tests */}
+            {button && user && ['admin', 'editor'].includes(user.role) ? (
                 <Typography variant="body1" color="secondary" className={classes.navButton} onClick={button.onClick}>
                     {button.name}
                 </Typography>
-            )}
+            ) : undefined}
 
             {/* Main navigation panel */}
             <Box className={classes.navContainer}>

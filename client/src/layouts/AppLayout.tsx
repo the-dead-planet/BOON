@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { DRAWER_WIDTH, JUMBOTRON_HEIGHT, NAVBAR_LEFT_WIDTH, TOOLBAR_HEIGHT } from '../styles/constants';
+import { DRAWER_WIDTH, JUMBOTRON_HEIGHT, TOOLBAR_HEIGHT } from '../styles/constants';
 import { Hidden, Box, CssBaseline } from '@material-ui/core';
 import ThemeWrapper from '../components/navigation/ThemeWrapper';
 import Jumbotron from '../components/navigation/Jumbotron';
@@ -208,7 +208,12 @@ const AppLayout = ({
                     {/* Left panel serving as navigation - contents lists */}
                     {navLeftContent && (
                         <Hidden smDown>
-                            <NavBarLeft button={navLeftButton} contents={navLeftContent} sideColumn={sideColumn} />
+                            <NavBarLeft
+                                user={user}
+                                button={navLeftButton}
+                                contents={navLeftContent}
+                                sideColumn={sideColumn}
+                            />
                         </Hidden>
                     )}
 
