@@ -3,9 +3,10 @@ import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { TOOLBAR_HEIGHT, DRAWER_WIDTH } from '../../styles/constants';
 // import { Link } from '../../utils/Link';
-import { Grid, AppBar, Toolbar, Typography, Hidden, Button } from '@material-ui/core';
+import { Grid, AppBar, Toolbar, Typography, Hidden, Tooltip } from '@material-ui/core';
 import { IconButton } from '../mui-styled/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import CreateIcon from '@material-ui/icons/Create';
 import Pagination from './Pagination';
 // import HideOnScroll from '../../utils/HideOnScroll';
 import { AuthButtonsHorizontal } from './NavButtons';
@@ -18,9 +19,9 @@ const useStyles = makeStyles((theme: Theme) =>
             position: 'relative',
         },
         logo: {
-            height: `${TOOLBAR_HEIGHT * 2}px`,
+            minHeight: `${TOOLBAR_HEIGHT * 2}px`,
             [theme.breakpoints.only('xs')]: {
-                height: `${TOOLBAR_HEIGHT}px`,
+                minHeight: `${TOOLBAR_HEIGHT}px`,
                 '& $prefix': {
                     display: 'none',
                 },
@@ -119,7 +120,7 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
                                         : undefined
                                 }
                             >
-                                <MenuIcon />
+                                <MenuIcon fontSize="small" />
                             </IconButton>
                         </Hidden>
 
@@ -132,30 +133,16 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
                         )}
                     </div>
 
-                    {/* Center - show logo on larger screens */}
-                    <Hidden smDown>
-                        <Grid
-                            container
-                            direction="column"
-                            alignItems="center"
-                            justify="center"
-                            className={classes.logo}
-                        >
-                            <Typography variant="h6" noWrap>
-                                — The —
-                            </Typography>
-                            <Typography variant="h4" noWrap>
-                                {name}
-                            </Typography>
-                        </Grid>
-                    </Hidden>
+                    {/* Centered text */}
 
-                    {/* Center - show CREATE button on smaller screens */}
-                    <Hidden mdUp>
-                        <Button variant="outlined" color="secondary">
-                            CREATE
-                        </Button>
-                    </Hidden>
+                    <Grid container direction="column" alignItems="center" justify="center" className={classes.logo}>
+                        <Typography variant="h6" noWrap className={classes.prefix}>
+                            — The —
+                        </Typography>
+                        <Typography variant="h4" noWrap>
+                            {name}
+                        </Typography>
+                    </Grid>
 
                     <div className={`${classes.fix} ${classes.right}`}>
                         <AuthButtonsHorizontal user={user} />

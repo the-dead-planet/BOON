@@ -2,11 +2,11 @@ import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { TOOLBAR_HEIGHT, DRAWER_WIDTH } from '../../styles/constants';
 import { Link } from '../../utils/Link';
-import { Drawer, List, ListItem, ListItemText, Divider, Hidden, Typography, Grid } from '@material-ui/core';
+import { Drawer, List, ListItem, ListItemText, Typography, Grid } from '@material-ui/core';
 import { IconButton } from '../mui-styled/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 // import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { DrawerVariant, Mode, User } from '../../logic/types';
+import { DrawerVariant, Mode, NavButton, User } from '../../logic/types';
 import { PATHS } from '../../constants/data';
 const { home, sprints, projects, teams } = PATHS;
 
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         drawerHeader: {
             padding: theme.spacing(0, 1),
-            minHeight: `${TOOLBAR_HEIGHT * 1.5}px`,
+            minHeight: `${TOOLBAR_HEIGHT * 2}px`,
         },
         drawer: {
             width: DRAWER_WIDTH,
@@ -23,6 +23,13 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         drawerPaper: {
             width: DRAWER_WIDTH,
+        },
+        actionButton: {
+            border: `solid 2px ${theme.palette.secondary.main}`,
+            borderWidth: '1px 0 1px 0',
+            '&:hover': {
+                backgroundColor: 'rgba(206, 66, 87, .04)',
+            },
         },
     })
 );
@@ -34,10 +41,11 @@ interface Props {
     open: boolean;
     toggleDrawer: any;
     variant?: DrawerVariant;
+    createButton?: NavButton;
 }
 
 // This component can be either temporary or persistent. By default temporary. use prop 'variant' to change to "persistent"
-const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDrawer }: Props) => {
+const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDrawer, createButton }: Props) => {
     const classes = useStyles();
 
     const items = [
@@ -84,9 +92,15 @@ const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDr
                 </IconButton>
             </Grid>
 
-            {/* <Divider /> */}
-
             <List>
+                {createButton && user && ['admin', 'editor'].includes(user.role) ? (
+                    <Link to={createButton?.path || '/'}>
+                        <ListItem button className={classes.actionButton}>
+                            <Typography color="secondary">{createButton.name}</Typography>
+                        </ListItem>
+                    </Link>
+                ) : undefined}
+
                 {items.map((item, i) => (
                     <Link key={i} to={item.path}>
                         <ListItem button>

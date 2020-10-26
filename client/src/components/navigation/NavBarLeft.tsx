@@ -98,11 +98,11 @@ interface NavBarLeftProps {
     user: User;
     contents: NavContent;
     sideColumn?: SideColumn;
-    button?: NavButton;
+    createButton?: NavButton;
 }
 
 // A temporary component that is going to be implemented in Layout in the long run.
-const NavBarLeft = ({ user, contents, sideColumn, button }: NavBarLeftProps) => {
+const NavBarLeft = ({ user, contents, sideColumn, createButton }: NavBarLeftProps) => {
     const classes = useStyles();
 
     return (
@@ -110,9 +110,14 @@ const NavBarLeft = ({ user, contents, sideColumn, button }: NavBarLeftProps) => 
             {/* Create button - to be displayed only if user has sufficient auth => admin or editor */}
             {/* TODO: Create a separate component which specifies components which require certain authorization */}
             {/* And include those in tests */}
-            {button && user && ['admin', 'editor'].includes(user.role) ? (
-                <Typography variant="body1" color="secondary" className={classes.navButton} onClick={button.onClick}>
-                    {button.name}
+            {createButton && user && ['admin', 'editor'].includes(user.role) ? (
+                <Typography
+                    variant="body1"
+                    color="secondary"
+                    className={classes.navButton}
+                    onClick={createButton.onClick}
+                >
+                    {createButton.name}
                 </Typography>
             ) : undefined}
 

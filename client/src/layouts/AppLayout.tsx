@@ -91,7 +91,7 @@ interface Props {
     nextId?: string;
     previousId?: string;
     // Left navigation panel
-    navLeftButton?: NavButton;
+    createButton?: NavButton;
     navLeftContent?: NavContent;
     // Side newspaper column
     sideColumn?: SideColumn;
@@ -122,7 +122,7 @@ const AppLayout = ({
     nextId, //TODO: check if still required
     previousId, //TODO: check if still required
     // Left navigation panel
-    navLeftButton,
+    createButton,
     navLeftContent,
     // Side newspaper column
     sideColumn,
@@ -180,6 +180,7 @@ const AppLayout = ({
                 setMode={setMode}
                 open={openMenu}
                 toggleDrawer={toggleDrawer}
+                createButton={createButton}
             />
 
             {/* Secondary drawer can include additional content like comments */}
@@ -210,7 +211,7 @@ const AppLayout = ({
                         <Hidden smDown>
                             <NavBarLeft
                                 user={user}
-                                button={navLeftButton}
+                                createButton={createButton}
                                 contents={navLeftContent}
                                 sideColumn={sideColumn}
                             />
