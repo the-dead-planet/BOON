@@ -135,13 +135,6 @@ const Sprint = ({
         path: `/projects/${projectId}`,
     }));
 
-    // TODO: find a better place for these
-    const navAdd = [
-        { id: 'new-sprint', name: 'New sprint', path: '/sprints/add' },
-        { id: 'new-project', name: 'New project', path: '/projects/add' },
-        { id: 'new-post', name: 'New post', path: '/posts/add' },
-    ];
-
     const navPlaceholder = [{ id: '', name: 'Printing...', path: '/' }];
 
     /* 
@@ -228,13 +221,11 @@ const Sprint = ({
                       }))
                     : undefined,
             }}
-            navLeftContent={[
-                { header: 'Highlights', list: navPosts || navPlaceholder },
-                // TODO: Get a list of projects related to the posts related to currently displayed sprint
-                { header: 'Related projects', list: navProjects || navPlaceholder },
-                { header: 'Add stuff', list: navAdd || navPlaceholder },
-            ]}
-            sideColumn={{ header: '_goss', body: '' }}
+            navLeftContent={[{ header: 'All projects', list: navProjects || navPlaceholder }]}
+            sideColumn={{
+                header: '_news',
+                body: `We found something on the internet which is related to ${project?.title}. \"THEY\" say that...`,
+            }}
             secondaryDrawer="a" // TODO: fill with comments from related object
             secondaryDrawerOpen={openSecondaryDrawer}
             secondaryDrawerContent={project ? commentsSection : undefined}

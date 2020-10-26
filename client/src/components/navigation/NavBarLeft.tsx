@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: 'rgba(0, 0, 0, .03)',
             fontStyle: 'italic',
         },
-        gossColContainer: {
+        sideColContainer: {
             marginTop: theme.spacing(2),
             marginBottom: theme.spacing(1),
             padding: '.4em',
@@ -84,12 +84,17 @@ const useStyles = makeStyles((theme: Theme) =>
                 border: `solid 2px ${theme.palette.primary.main}`,
             },
         },
-        gossColTitle: {
+        sideColTitle: {
             padding: theme.spacing(1.5, 0),
             textAlign: 'center',
             textTransform: 'uppercase',
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.secondary.main,
+        },
+        sideColBody: {
+            padding: theme.spacing(1),
+            textAlign: 'center',
+            // textAlign: "justify",
         },
     })
 );
@@ -147,11 +152,13 @@ const NavBarLeft = ({ user, contents, sideColumn, createButton }: NavBarLeftProp
 
             {/* Additional / optional column under the navigation panel */}
             {sideColumn && (
-                <Box className={classes.gossColContainer}>
-                    <Typography variant="h5" className={classes.gossColTitle}>
+                <Box className={classes.sideColContainer}>
+                    <Typography variant="h5" className={classes.sideColTitle}>
                         {sideColumn.header}
                     </Typography>
-                    <Typography variant="body2">{sideColumn.body}</Typography>
+                    <Typography variant="body2" className={classes.sideColBody}>
+                        {sideColumn.body}
+                    </Typography>
                 </Box>
             )}
         </Box>
