@@ -12,7 +12,7 @@ import { User, Post, Project, Comment, Like } from '../../logic/types';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         title: {
-            padding: theme.spacing(4),
+            padding: theme.spacing(8),
             border: `solid 2px ${theme.palette.secondary.main}`,
         },
         main: {
