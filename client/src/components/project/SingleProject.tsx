@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Typography, Container, Grid } from '@material-ui/core';
+import { Typography, Slide } from '@material-ui/core';
 import { Posts } from '../sprint/Posts';
 // import usersService from '../../../services/usersService';
 import { User, Post, Project, Comment, Like } from '../../logic/types';
@@ -12,8 +12,8 @@ import { User, Post, Project, Comment, Like } from '../../logic/types';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         title: {
-            margin: theme.spacing(2, 4),
-            textAlign: 'right',
+            padding: theme.spacing(4),
+            border: `solid 2px ${theme.palette.secondary.main}`,
         },
         main: {
             // borderLeft: `1.2px solid ${theme.palette.primary.main}`,
@@ -54,6 +54,12 @@ export const SingleProject = ({
 
     return project ? (
         <>
+            <Slide in={true} timeout={{ appear: 500, enter: 1000, exit: 500 }} direction="down">
+                <Typography variant="h1" color="secondary" className={classes.title}>
+                    {project.title}
+                </Typography>
+            </Slide>
+
             <Posts
                 user={user}
                 posts={project?.posts.map((id) => posts.get(id))}
