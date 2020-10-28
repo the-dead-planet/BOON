@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { DRAWER_WIDTH, JUMBOTRON_HEIGHT, TOOLBAR_HEIGHT } from '../styles/constants';
-import { Hidden, Box, CssBaseline } from '@material-ui/core';
+import { Hidden, Box, CssBaseline, Typography, Container } from '@material-ui/core';
 import ThemeWrapper from '../components/navigation/ThemeWrapper';
 import Jumbotron from '../components/navigation/Jumbotron';
 import MenuDrawer from '../components/navigation/MenuDrawer';
 import SecondaryDrawer from '../components/navigation/SecondaryDrawer';
-import NavBarLeft from '../components/navigation/NavBarLeft';
+import { NavPanel, SideCol } from '../components/navigation/NavPanel';
 import NavBarTop from '../components/navigation/NavBarTop';
 import Footer from '../components/navigation/Footer';
 import DialogMenu from '../components/navigation/DialogMenu';
@@ -17,10 +17,11 @@ import {
     Jumbotron as JumbotronType,
     User,
     Page,
-    NavContent,
+    NavPanel as NavPanelType,
     SideColumn,
     DialogProps,
     NavButton,
+    Side,
 } from '../logic/types';
 import { APP_NAME } from '../constants/data';
 import NotificationsRenderer from '../components/NotificationsRenderer';
@@ -76,7 +77,12 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         main: {
             width: '100%',
+            marginRight: theme.spacing(1),
+            marginLeft: theme.spacing(1),
         },
+        title: ({ side }: { side: Side | undefined }) => ({
+            textAlign: side || 'left',
+        }),
     })
 );
 
@@ -93,9 +99,10 @@ interface Props {
     pagination?: Page;
     nextId?: string;
     previousId?: string;
+    title?: string;
     // Left navigation panel
     createButton?: NavButton;
-    navLeftContent?: NavContent;
+    navPanel?: NavPanelType;
     // Side newspaper column
     sideColumn?: SideColumn;
     // Secondary drawer
@@ -121,12 +128,13 @@ const AppLayout = ({
     jumbotron,
     quote,
     // Pagination
+    title,
     pagination,
     nextId, //TODO: check if still required
     previousId, //TODO: check if still required
     // Left navigation panel
     createButton,
-    navLeftContent,
+    navPanel,
     // Side newspaper column
     sideColumn,
     // Secondary drawer
@@ -141,7 +149,7 @@ const AppLayout = ({
     notifications,
     onNotificationShown,
 }: Props) => {
-    const classes = useStyles();
+    const classes = useStyles({ side: navPanel?.side });
 
     // Drawer functions
     const [openMenu, setOpenMenu] = useState(false);
@@ -208,14 +216,22 @@ const AppLayout = ({
                 {jumbotron && <div className={classes.jumbotron} />}
                 {appBar && <div className={classes.drawerHeaderHeight} />}
 
+                {/* Page title to go above the navigation side panel */}
+                {title && (
+                    <Typography variant="h1" gutterBottom className={classes.title}>
+                        {title}
+                    </Typography>
+                )}
+
                 <div className={classes.mainContent}>
                     {/* Left panel serving as navigation - contents lists */}
-                    {navLeftContent && (
+                    {navPanel && (
                         <Hidden smDown>
-                            <NavBarLeft
+                            <NavPanel
                                 user={user}
+                                variant={navPanel?.variant}
                                 createButton={createButton}
-                                contents={navLeftContent}
+                                contents={navPanel.content}
                                 sideColumn={sideColumn}
                             />
                         </Hidden>
@@ -223,6 +239,9 @@ const AppLayout = ({
 
                     {/* Class 'mainContent' changes leftMargin to 0 in size sm */}
                     <Box className={classes.main}>{children}</Box>
+
+                    {/* Right panel serving as navigation - contents lists */}
+                    {sideColumn && <SideCol variant={navPanel?.variant} {...sideColumn} />}
                 </div>
             </main>
 

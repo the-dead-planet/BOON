@@ -13,16 +13,16 @@ const createTheme = (type: Mode) => {
         palette: {
             type: type,
             primary: {
-                light: '#4D483F', // light is the same color as main but with less opacity
+                light: '#CCC5B9', // light is the same color as main but with less opacity
                 main: '#252422',
-                dark: '#121211',
-                contrastText: 'rgba(255, 255, 255, .87)',
+                dark: '#0F1517',
+                contrastText: '#FFFCF2',
             },
             secondary: {
-                light: '#E06376',
+                light: '#D7B49E',
                 main: '#CE4257',
-                dark: '#A62B3D',
-                contrastText: 'rgba(255, 255, 255, .87)',
+                dark: '#720026',
+                contrastText: '#FFFCF2',
             },
             common: {
                 black: '#000',

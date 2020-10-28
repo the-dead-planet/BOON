@@ -215,15 +215,18 @@ const Sprint = ({
                     : undefined,
             }}
             createButton={{ name: 'Create', onClick: () => '' }}
-            navLeftContent={[
-                { header: 'Highlights', list: navPosts || navPlaceholder },
-                // TODO: Get a list of projects related to the posts related to currently displayed sprint
-                { header: 'Related projects', list: navProjects || navPlaceholder },
-            ]}
+            navPanel={{
+                side: 'left',
+                content: [
+                    { header: 'Highlights', list: navPosts || navPlaceholder },
+                    // TODO: Get a list of projects related to the posts related to currently displayed sprint
+                    { header: 'Related projects', list: navProjects || navPlaceholder },
+                ],
+            }}
             sideColumn={{
                 header: '_goss',
                 body:
-                    "We heard that our favorite developer, Geek124, doesn't like ice cream. Unbelievable. Can you believe it? Because we can't. We cannot. Yes, we can.",
+                    "We heard that our favorite developer, Geek124, switched to GraphQL. Unbelievable. Can you believe it? Because we can't. We cannot. Yes, we can.",
             }}
             secondaryDrawer="a" // TODO: fill with comments from related object
             secondaryDrawerOpen={openSecondaryDrawer}

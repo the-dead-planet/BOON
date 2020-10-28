@@ -65,6 +65,7 @@ export const SingleSprint = ({
             {/* <Divider className={classes.divider} /> */}
             <Posts
                 user={user}
+                subtitle="project"
                 projects={projects}
                 posts={sprint.posts.map((id) => posts.get(id))}
                 comments={comments}
@@ -80,9 +81,9 @@ export const SingleSprint = ({
                 toggleCommentsPanel={toggleCommentsPanel}
                 xs={12}
                 sm={6}
-                md={4}
-                lg={3}
-                xl={2}
+                md={6}
+                lg={4}
+                xl={3}
             />
         </>
     ) : (

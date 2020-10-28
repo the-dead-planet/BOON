@@ -197,23 +197,28 @@ const Sprint = ({
             setMode={setMode}
             appBar={true}
             quote={quote}
+            // title={project?.title}
             pagination={{
                 path: projectsPath,
-                currentId: id,
-                nextId: currentInd > 0 ? sortedProjects[currentInd - 1]._id : undefined,
-                previousId: currentInd < sortedProjects.length - 1 ? sortedProjects[currentInd + 1]._id : undefined,
-                primary: project ? `Project: ${project?.title}` : '',
+                // currentId: id,
+                // nextId: currentInd > 0 ? sortedProjects[currentInd - 1]._id : undefined,
+                // previousId: currentInd < sortedProjects.length - 1 ? sortedProjects[currentInd + 1]._id : undefined,
+                // primary: project ? `Project: ${project?.title}` : '',
                 // secondary: '',
-                list: projects
-                    ? [...projects.values()].map((proj: Project) => ({
-                          name: proj?.title,
-                          path: projectsPath,
-                          id: proj._id,
-                          number: 0,
-                      }))
-                    : undefined,
+                // list: projects
+                //     ? [...projects.values()].map((proj: Project) => ({
+                //           name: proj?.title,
+                //           path: projectsPath,
+                //           id: proj._id,
+                //           number: 0,
+                //       }))
+                //     : undefined,
             }}
-            // navLeftContent={[{ header: 'All projects', list: navProjects || navPlaceholder }]}
+            navPanel={{
+                side: 'left',
+                content: [{ header: 'All projects', activeId: project?._id, list: navProjects || navPlaceholder }],
+                variant: 'secondary',
+            }}
             sideColumn={{
                 header: '_news',
                 body: `We found something on the internet which is related to ${project?.title}. \"THEY\" say that...`,

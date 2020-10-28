@@ -16,8 +16,8 @@ const useStyles = makeStyles((theme: Theme) =>
             minHeight: `${TOOLBAR_HEIGHT}px`,
         },
         pagination: {
-            borderTop: `solid 2px ${theme.palette.primary.light}`,
-            borderBottom: `solid 2px ${theme.palette.primary.light}`,
+            borderTop: `solid 1.5px ${theme.palette.primary.main}`,
+            borderBottom: `solid 1.5px ${theme.palette.primary.main}`,
         },
         paginationLink: {
             width: '50%',

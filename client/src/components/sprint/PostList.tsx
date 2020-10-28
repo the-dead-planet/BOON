@@ -3,7 +3,9 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Grid, CardMedia, Typography } from '@material-ui/core';
 import { PostCard } from './Card';
 import img from '../../img/landing/landing-1.png';
-import { User, Post, Project, Comment, Like, PostsListVariant, Col } from '../../logic/types';
+import { User, Post, Project, Comment, Like, PostsListVariant, Col, CardSubtitleType } from '../../logic/types';
+import moment from 'moment';
+import { EXT_DATE_FORMAT } from '../../constants/dateFormats';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -41,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     user: User;
     variant: PostsListVariant;
+    subtitle?: CardSubtitleType;
     projects: Map<string, Project>;
     posts: Array<Post>;
     comments: Map<string, Comment>;
@@ -61,6 +64,7 @@ interface Props {
 export const PostsList = ({
     user,
     variant,
+    subtitle,
     projects,
     posts,
     comments,
@@ -78,7 +82,7 @@ export const PostsList = ({
         [...projects.values()]?.reduce((acc, project) => (project.posts.includes(id) ? project : acc));
 
     return (
-        <Grid container justify="center" spacing={1}>
+        <Grid container justify="space-around" spacing={1}>
             {posts.map((post: Post, i: number) => (
                 <Fragment key={i}>
                     <Grid item className={classes.container} {...props}>
@@ -93,9 +97,13 @@ export const PostsList = ({
                             author={users.get(post.author as any)?.publicName || 'Unknown user'}
                             title={post.title}
                             titleLink={`/posts/${post._id}`}
-                            // subtitle={moment(post.created).format(EXT_DATE_FORMAT)}
-                            subtitle={getProject(post._id).title}
+                            subtitle={
+                                subtitle === 'project'
+                                    ? getProject(post._id).title
+                                    : moment(post.created).format(EXT_DATE_FORMAT)
+                            }
                             subtitleLink={`/projects/${getProject(post._id)._id}`}
+                            subtitleStyle={subtitle === 'project' ? 'outlined' : 'basic'}
                             body={post.body}
                             // TODO: if image for post, shorten the 'maxLen' and display image
                             maxLen={i % 3 === 1 ? 250 : 400}

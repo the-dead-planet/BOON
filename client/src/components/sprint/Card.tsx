@@ -34,13 +34,32 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         signature: {
             marginLeft: 'auto',
-            marginTop: theme.spacing(2),
+            marginTop: theme.spacing(4),
             fontStyle: 'italic',
         },
         action: {
             marginTop: 'auto',
             display: 'flex',
             justifyContent: 'flex-end',
+        },
+        outlined: {
+            backgroundColor: theme.palette.secondary.light,
+            color: theme.palette.secondary.contrastText,
+            padding: '.3em .6em',
+            borderRadius: '2px',
+            '&:hover': {
+                // backgroundColor: theme.palette.secondary.main,
+                boxShadow: `1px 1px 2px ${theme.palette.primary.light}`,
+            },
+        },
+        showMore: {
+            color: theme.palette.primary.light,
+            // opacity: .6,
+            padding: '0 .5em',
+            '&:hover': {
+                color: theme.palette.secondary.main,
+                // opacity: .87,
+            },
         },
     })
 );
@@ -57,6 +76,7 @@ interface Props {
     titleLink?: string; // path on title click
     subtitle: string;
     subtitleLink?: string; // path on subtitle click
+    subtitleStyle?: 'basic' | 'outlined';
     category?: { _id: string; title: string };
     body: string;
     maxLen?: number;
@@ -84,6 +104,7 @@ export const PostCard = ({
     titleLink,
     subtitle,
     subtitleLink,
+    subtitleStyle,
     category,
     body,
     maxLen,
@@ -129,7 +150,11 @@ export const PostCard = ({
             <CardContent>
                 {linkWrapper(<Typography variant="h6">{title}</Typography>, titleLink)}
                 {linkWrapper(
-                    <Typography variant="caption" gutterBottom>
+                    <Typography
+                        variant="caption"
+                        gutterBottom
+                        className={subtitleStyle === 'outlined' ? classes.outlined : undefined}
+                    >
                         {subtitle}
                     </Typography>,
                     subtitleLink
@@ -150,7 +175,19 @@ export const PostCard = ({
             <CardContent className={classes.col}>
                 <Typography variant="body2" color="textSecondary" component="p" gutterBottom className={classes.body}>
                     {showMoreRequired ? `${body.substring(0, maxLen)}` : body}
-                    {showMoreRequired && titleLink ? <Link to={titleLink}>...</Link> : undefined}
+                    {showMoreRequired && titleLink ? (
+                        <Link to={titleLink}>
+                            ...{' '}
+                            <Typography
+                                component="span"
+                                variant="caption"
+                                color="textSecondary"
+                                className={classes.showMore}
+                            >
+                                show more
+                            </Typography>
+                        </Link>
+                    ) : undefined}
                 </Typography>
 
                 {/* Add link to go to the author page */}
