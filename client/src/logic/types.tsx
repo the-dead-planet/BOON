@@ -347,7 +347,10 @@ interface NavListItem {
 type NavContent = Array<NavContentItem>;
 
 type Variant = 'primary' | 'secondary' | undefined;
+type Side = 'left' | 'right';
+
 interface NavPanel {
+    side: Side;
     content: NavContent;
     variant?: Variant;
 }
@@ -440,6 +443,7 @@ export type {
     Page,
     NavContent,
     Variant,
+    Side,
     NavPanel,
     SideColumn,
     CommentsProps,

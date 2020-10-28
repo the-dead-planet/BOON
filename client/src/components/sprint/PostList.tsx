@@ -82,7 +82,7 @@ export const PostsList = ({
         [...projects.values()]?.reduce((acc, project) => (project.posts.includes(id) ? project : acc));
 
     return (
-        <Grid container justify="center" spacing={1}>
+        <Grid container justify="space-around" spacing={1}>
             {posts.map((post: Post, i: number) => (
                 <Fragment key={i}>
                     <Grid item className={classes.container} {...props}>

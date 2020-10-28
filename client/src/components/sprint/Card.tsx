@@ -48,6 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: '.3em .6em',
             borderRadius: '2px',
             '&:hover': {
+                // backgroundColor: theme.palette.secondary.main,
                 boxShadow: `1px 1px 2px ${theme.palette.primary.light}`,
             },
         },

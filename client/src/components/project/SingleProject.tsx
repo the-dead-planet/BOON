@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         title: {
             margin: theme.spacing(2, 4),
+            textAlign: 'right',
         },
         main: {
             // borderLeft: `1.2px solid ${theme.palette.primary.main}`,
@@ -52,38 +53,29 @@ export const SingleProject = ({
     const classes = useStyles();
 
     return project ? (
-        <Grid container>
-            <Grid item xs={10} className={classes.main}>
-                {/* Project title */}
-                <Typography variant="h1" className={classes.title}>
-                    {project?.title}
-                </Typography>
-
-                <Container maxWidth="md">
-                    <Posts
-                        user={user}
-                        posts={project?.posts.map((id) => posts.get(id))}
-                        projects={projects}
-                        comments={comments}
-                        likes={likes}
-                        users={users}
-                        addComment={addPostComment}
-                        removePost={(id: string) =>
-                            removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: project?._id })
-                        }
-                        removeComment={(id: string, postId: string) =>
-                            removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })
-                        }
-                        toggleCommentsPanel={toggleCommentsPanel}
-                        xs={12}
-                        sm={8}
-                    />
-                </Container>
-            </Grid>
+        <>
+            <Posts
+                user={user}
+                posts={project?.posts.map((id) => posts.get(id))}
+                projects={projects}
+                comments={comments}
+                likes={likes}
+                users={users}
+                addComment={addPostComment}
+                removePost={(id: string) =>
+                    removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: project?._id })
+                }
+                removeComment={(id: string, postId: string) =>
+                    removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })
+                }
+                toggleCommentsPanel={toggleCommentsPanel}
+                xs={12}
+                sm={10}
+            />
             {/* TODO: Add list of projects to a side column on the right and remove pagination */}
             {/* TODO: Comments should expand under a post, show 3 by default and add a "show all" button to expand further */}
             {/* TODO: Quote should be only inserted in Sprints */}
-        </Grid>
+        </>
     ) : (
         <></>
     );

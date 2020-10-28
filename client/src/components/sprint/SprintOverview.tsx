@@ -83,11 +83,11 @@ export const SprintOverview = ({
 
     return (
         <Grid container className={classes.post}>
-            <Grid item xs={12} md={8}>
+            <Grid item xs={12} md={7}>
                 <Img src={img} className={classes.img} />
             </Grid>
 
-            <Grid item xs={12} md={4}>
+            <Grid item xs={12} md={5}>
                 {content}
             </Grid>
         </Grid>

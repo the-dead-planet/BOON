@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme: Theme) =>
             // position: 'absolute',
             minWidth: `${NAVBAR_LEFT_WIDTH}px`,
             maxWidth: `${NAVBAR_LEFT_WIDTH}px`,
-            marginRight: theme.spacing(1),
             [theme.breakpoints.only('xs')]: {
                 minWidth: '100%',
                 maxWidth: '100%',
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
         navContainer: ({ variant }: { variant: Variant }) => ({
             padding: 0,
             width: '100%',
-            border: `solid 2px ${variant === 'secondary' ? theme.palette.secondary.main : theme.palette.primary.main}`,
+            border: `solid 1.5px ${variant === 'secondary' ? theme.palette.primary.main : theme.palette.primary.main}`,
             // borderTopWidth: "20px"
         }),
         navButton: {
@@ -43,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         navTitle: ({ variant }: { variant: Variant }) => ({
-            backgroundColor: variant === 'secondary' ? theme.palette.secondary.main : theme.palette.primary.main,
+            backgroundColor: variant === 'secondary' ? theme.palette.primary.main : theme.palette.primary.main,
             color: theme.palette.background.default,
             padding: '.2em',
             textAlign: 'center',
@@ -73,7 +72,6 @@ const useStyles = makeStyles((theme: Theme) =>
             textTransform: 'uppercase',
         }),
         sideColContainer: {
-            marginTop: theme.spacing(2),
             marginBottom: theme.spacing(1),
             padding: '.4em',
             position: 'relative',
@@ -84,7 +82,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 right: 0,
                 top: 0,
                 bottom: 0,
-                border: `solid 2px ${theme.palette.primary.main}`,
+                border: `solid 1.5px ${theme.palette.primary.main}`,
             },
         },
         sideColTitle: {
@@ -102,7 +100,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-interface NavBarLeftProps {
+interface Props {
     user: User;
     variant?: Variant;
     contents: NavContent;
@@ -111,7 +109,7 @@ interface NavBarLeftProps {
 }
 
 // A temporary component that is going to be implemented in Layout in the long run.
-const NavBarLeft = ({ user, variant, contents, sideColumn, createButton }: NavBarLeftProps) => {
+export const NavPanel = ({ user, variant, contents, sideColumn, createButton }: Props) => {
     const classes = useStyles({ variant });
 
     return (
@@ -142,7 +140,7 @@ const NavBarLeft = ({ user, variant, contents, sideColumn, createButton }: NavBa
                             <LinkComponent key={i} hash={item.hash || false} to={item.path}>
                                 <Typography
                                     variant="body2"
-                                    color={variant}
+                                    // color={variant}
                                     className={`${classes.panelButton} ${
                                         item.id === content.activeId ? classes.selected : undefined
                                     }`}
@@ -154,20 +152,29 @@ const NavBarLeft = ({ user, variant, contents, sideColumn, createButton }: NavBa
                     </Box>
                 ))}
             </Box>
-
-            {/* Additional / optional column under the navigation panel */}
-            {sideColumn && (
-                <Box className={classes.sideColContainer}>
-                    <Typography variant="h5" className={classes.sideColTitle}>
-                        {sideColumn.header}
-                    </Typography>
-                    <Typography variant="body2" className={classes.sideColBody}>
-                        {sideColumn.body}
-                    </Typography>
-                </Box>
-            )}
         </Box>
     );
 };
 
-export default NavBarLeft;
+interface SideColProps {
+    variant?: Variant;
+    header: string;
+    body: string;
+}
+
+export const SideCol = ({ variant, header, body }: SideColProps) => {
+    const classes = useStyles({ variant });
+
+    return (
+        <Box className={classes.sideCol}>
+            <Box className={classes.sideColContainer}>
+                <Typography variant="h5" className={classes.sideColTitle}>
+                    {header}
+                </Typography>
+                <Typography variant="body2" className={classes.sideColBody}>
+                    {body}
+                </Typography>
+            </Box>
+        </Box>
+    );
+};

@@ -197,6 +197,7 @@ const Sprint = ({
             setMode={setMode}
             appBar={true}
             quote={quote}
+            // title={project?.title}
             pagination={{
                 path: projectsPath,
                 // currentId: id,
@@ -213,7 +214,8 @@ const Sprint = ({
                 //       }))
                 //     : undefined,
             }}
-            navLeft={{
+            navPanel={{
+                side: 'left',
                 content: [{ header: 'All projects', activeId: project?._id, list: navProjects || navPlaceholder }],
                 variant: 'secondary',
             }}
