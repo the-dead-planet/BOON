@@ -346,6 +346,12 @@ interface NavListItem {
 
 type NavContent = Array<NavContentItem>;
 
+type Variant = 'primary' | 'secondary' | undefined;
+interface NavPanel {
+    content: NavContent;
+    variant?: Variant;
+}
+
 interface SideColumn {
     header: string;
     body: string;
@@ -378,6 +384,8 @@ interface NavButton {
 }
 
 type PostsListVariant = 'tiles' | 'full-width';
+
+type CardSubtitleType = 'date' | 'project';
 
 export type {
     Children,
@@ -431,10 +439,13 @@ export type {
     DataPairs,
     Page,
     NavContent,
+    Variant,
+    NavPanel,
     SideColumn,
     CommentsProps,
     DialogButton,
     DialogProps,
     NavButton,
     PostsListVariant,
+    CardSubtitleType,
 };

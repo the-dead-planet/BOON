@@ -1,9 +1,9 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { NAVBAR_LEFT_WIDTH } from '../../styles/constants';
-import { NavContent, SideColumn, User, NavButton } from '../../logic/types';
-import { Typography, Box } from '@material-ui/core';
 import { LinkComponent } from '../../utils/Link';
+import { Typography, Box } from '@material-ui/core';
+import { NavContent, SideColumn, User, NavButton, Variant } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -17,12 +17,12 @@ const useStyles = makeStyles((theme: Theme) =>
                 maxWidth: '100%',
             },
         },
-        navContainer: {
+        navContainer: ({ variant }: { variant: Variant }) => ({
             padding: 0,
             width: '100%',
-            border: `solid 2px ${theme.palette.primary.main}`,
+            border: `solid 2px ${variant === 'secondary' ? theme.palette.secondary.main : theme.palette.primary.main}`,
             // borderTopWidth: "20px"
-        },
+        }),
         navButton: {
             marginBottom: theme.spacing(1),
             padding: theme.spacing(1.5),
@@ -42,13 +42,13 @@ const useStyles = makeStyles((theme: Theme) =>
                 boxShadow: `4px 4px ${theme.palette.primary.main}`,
             },
         },
-        navTitle: {
-            backgroundColor: theme.palette.primary.main,
+        navTitle: ({ variant }: { variant: Variant }) => ({
+            backgroundColor: variant === 'secondary' ? theme.palette.secondary.main : theme.palette.primary.main,
             color: theme.palette.background.default,
             padding: '.2em',
             textAlign: 'center',
             textTransform: 'uppercase',
-        },
+        }),
         panelButton: {
             padding: '.2em .8em',
             // transition: "background-color .6s ease-out, color .1s ease-out",
@@ -65,10 +65,13 @@ const useStyles = makeStyles((theme: Theme) =>
                 // transition: "background-color .1s ease-out, color .6s ease-out",
             },
         },
-        selected: {
-            backgroundColor: 'rgba(0, 0, 0, .03)',
-            fontStyle: 'italic',
-        },
+        selected: ({ variant }: { variant: Variant }) => ({
+            // backgroundColor: variant === "secondary" ? theme.palette.secondary.light : theme.palette.primary.light,
+            // color: theme.palette.background.default,
+            // fontStyle: 'italic',
+            // textAlign: 'right',
+            textTransform: 'uppercase',
+        }),
         sideColContainer: {
             marginTop: theme.spacing(2),
             marginBottom: theme.spacing(1),
@@ -101,14 +104,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface NavBarLeftProps {
     user: User;
+    variant?: Variant;
     contents: NavContent;
     sideColumn?: SideColumn;
     createButton?: NavButton;
 }
 
 // A temporary component that is going to be implemented in Layout in the long run.
-const NavBarLeft = ({ user, contents, sideColumn, createButton }: NavBarLeftProps) => {
-    const classes = useStyles();
+const NavBarLeft = ({ user, variant, contents, sideColumn, createButton }: NavBarLeftProps) => {
+    const classes = useStyles({ variant });
 
     return (
         <Box className={classes.sideCol}>
@@ -138,6 +142,7 @@ const NavBarLeft = ({ user, contents, sideColumn, createButton }: NavBarLeftProp
                             <LinkComponent key={i} hash={item.hash || false} to={item.path}>
                                 <Typography
                                     variant="body2"
+                                    color={variant}
                                     className={`${classes.panelButton} ${
                                         item.id === content.activeId ? classes.selected : undefined
                                     }`}

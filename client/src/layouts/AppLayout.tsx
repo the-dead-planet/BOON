@@ -17,7 +17,7 @@ import {
     Jumbotron as JumbotronType,
     User,
     Page,
-    NavContent,
+    NavPanel,
     SideColumn,
     DialogProps,
     NavButton,
@@ -95,7 +95,7 @@ interface Props {
     previousId?: string;
     // Left navigation panel
     createButton?: NavButton;
-    navLeftContent?: NavContent;
+    navLeft?: NavPanel;
     // Side newspaper column
     sideColumn?: SideColumn;
     // Secondary drawer
@@ -126,7 +126,7 @@ const AppLayout = ({
     previousId, //TODO: check if still required
     // Left navigation panel
     createButton,
-    navLeftContent,
+    navLeft,
     // Side newspaper column
     sideColumn,
     // Secondary drawer
@@ -210,12 +210,13 @@ const AppLayout = ({
 
                 <div className={classes.mainContent}>
                     {/* Left panel serving as navigation - contents lists */}
-                    {navLeftContent && (
+                    {navLeft && (
                         <Hidden smDown>
                             <NavBarLeft
                                 user={user}
+                                variant={navLeft?.variant}
                                 createButton={createButton}
-                                contents={navLeftContent}
+                                contents={navLeft.content}
                                 sideColumn={sideColumn}
                             />
                         </Hidden>

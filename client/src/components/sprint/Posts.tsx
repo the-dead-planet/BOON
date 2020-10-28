@@ -1,11 +1,12 @@
 import React from 'react';
 import { PostsList } from './PostList';
 import { withPush } from '../../utils/routingDecorators';
-import { User, Post, Project, Comment, Like, PostsListVariant, Col } from '../../logic/types';
+import { User, Post, Project, Comment, Like, PostsListVariant, Col, CardSubtitleType } from '../../logic/types';
 
 interface Props {
     user: User;
     variant?: PostsListVariant;
+    subtitle?: CardSubtitleType;
     projects: Map<string, Project>;
     posts: Array<Post>;
     comments: Map<string, Comment>;
@@ -27,6 +28,7 @@ interface Props {
 // Only the decorated instance is exported. The `*Impl` class is here for convenience only and is not directly used outside of this file.
 const PostsImpl = ({
     user,
+    subtitle,
     variant = 'tiles',
     posts,
     projects,
@@ -42,6 +44,7 @@ const PostsImpl = ({
 }: Props) => (
     <PostsList
         user={user}
+        subtitle={subtitle}
         variant={variant}
         projects={projects}
         posts={posts}
