@@ -1,12 +1,11 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { Container } from '@material-ui/core';
 import { PostCard } from '../sprint/Card';
-import { Typography, Slide } from '@material-ui/core';
-import { Posts } from '../sprint/Posts';
 import moment from 'moment';
 import { EXT_DATE_FORMAT } from '../../constants/dateFormats';
 // import usersService from '../../../services/usersService';
-import { User, Post, Project, Comment, Like } from '../../logic/types';
+import { User, Post, Project, Comment, Like, Sprint } from '../../logic/types';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -28,7 +27,7 @@ interface Props {
     user: User | null | undefined;
     post: Post | undefined;
     projects: Map<string, Project>;
-    posts: Map<string, Post>;
+    sprints: Map<string, Sprint>;
     comments: Map<string, Comment>;
     likes: Map<string, Like>;
     users: Map<string, User>;
@@ -42,7 +41,7 @@ interface Props {
 export const SinglePost = ({
     user,
     post,
-    posts,
+    sprints,
     projects,
     comments,
     likes,
@@ -54,11 +53,15 @@ export const SinglePost = ({
     onError,
 }: Props) => {
     const classes = useStyles();
+    const getSprint = (id: string) =>
+        [...sprints.values()]?.reduce((acc, sprint) => (sprint.posts.includes(id) ? sprint : acc));
+
+    const getProject = (id: string) =>
+        [...projects.values()]?.reduce((acc, project) => (project.posts.includes(id) ? project : acc));
 
     return post ? (
-        <>
+        <Container maxWidth="md">
             <PostCard
-                key={`${post._id}-${i}`}
                 user={user}
                 object={post}
                 model={'Post'}
@@ -68,9 +71,11 @@ export const SinglePost = ({
                 author={users.get(post.author as any)?.publicName || 'Unknown user'}
                 title={post.title}
                 titleLink={`/posts/${post._id}`}
-                subtitle={(date: string) => moment(date).format(EXT_DATE_FORMAT)}
-                tag=""
-                tagLink=""
+                created={moment(post.created).format(EXT_DATE_FORMAT)}
+                tags={[
+                    { title: `Sprint ${getSprint(post._id).number}`, link: `/sprints/${getSprint(post._id)._id}` },
+                    { title: getProject(post._id).title, link: `/projects/${getProject(post._id)._id}` },
+                ]}
                 body={post.body}
                 menuItems={[
                     {
@@ -82,9 +87,13 @@ export const SinglePost = ({
                         }`,
                     },
                 ]}
-                addComment={addComment}
-                removeObject={removePost}
-                removeComment={(id: string) => removeComment(id, post._id)}
+                addComment={addPostComment}
+                removeObject={(id: string) =>
+                    removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: getSprint(post._id)?._id })
+                }
+                removeComment={(id: string) =>
+                    removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: post._id })
+                }
                 toggleCommentsPanel={toggleCommentsPanel}
                 divider={true}
                 hover={true}
@@ -92,7 +101,7 @@ export const SinglePost = ({
             {/* TODO: Add list of projects to a side column on the right and remove pagination */}
             {/* TODO: Comments should expand under a post, show 3 by default and add a "show all" button to expand further */}
             {/* TODO: Quote should be only inserted in Sprints */}
-        </>
+        </Container>
     ) : (
         <></>
     );

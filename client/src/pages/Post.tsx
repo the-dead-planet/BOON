@@ -48,6 +48,7 @@ const Post = ({
     showError,
 }: Props & WithShowErrorInjectedProps) => {
     const { id }: { id: string } = useParams();
+    console.log(id);
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
     const [quote, setQuote] = useState('');
 
@@ -153,11 +154,15 @@ const Post = ({
             //         { header: 'Related projects', list: navProjects || navPlaceholder },
             //     ],
             // }}
-            // sideColumn={{
-            //     header: '_goss',
-            //     body:
-            //         "We heard that our favorite developer, Geek124, switched to GraphQL. Unbelievable. Can you believe it? Because we can't. We cannot. Yes, we can.",
-            // }}
+            sideColumn={
+                post
+                    ? {
+                          header: 'written by',
+                          // Add 'about me' to user properties and display it here, if not available generate random goss
+                          body: `${users.get(post.author as any)?.publicName}`,
+                      }
+                    : undefined
+            }
             secondaryDrawer="a" // TODO: fill with comments from related object
             secondaryDrawerOpen={openSecondaryDrawer}
             secondaryDrawerContent={post ? commentsSection : undefined}
@@ -166,15 +171,17 @@ const Post = ({
         >
             {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
             {!id ? (
-                <div>NOTHINGGGGGGGGGGGGGGGGGGGGGGGGGGGGG </div>
+                <div>I love to talk about nothing. It's the only thing I know anything about.</div>
             ) : !post ? (
-                <div>Post not found</div>
+                // TODO: differentiate between a wrong id and loading state - not yet known
+                // TODO: Add nice loading animation
+                <div>We haven't found what you were looking for...</div>
             ) : (
                 // NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator
                 <SinglePost
                     user={user}
                     post={post}
-                    posts={posts}
+                    sprints={sprints}
                     projects={projects}
                     comments={comments}
                     likes={likes}

@@ -6,7 +6,7 @@ import { Box, CardContent, CardActions, Typography, Divider } from '@material-ui
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ActionButtons } from './ActionButtons';
 import { CardMenu } from './CardMenu';
-import { User, Comment, Like, MongoObject, Model } from '../../logic/types';
+import { User, Comment, Like, MongoObject, Model, Tag } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
         outlined: {
             backgroundColor: theme.palette.secondary.light,
             color: theme.palette.secondary.contrastText,
+            marginRight: theme.spacing(1),
             padding: '.3em .6em',
             borderRadius: '2px',
             '&:hover': {
@@ -75,8 +76,8 @@ interface Props {
     title: string;
     titleLink?: string;
     created?: string;
-    tag?: string;
-    tagLink?: string;
+    tags?: Array<Tag>;
+    tag?: Tag;
     category?: { _id: string; title: string };
     body: string;
     maxLen?: number;
@@ -103,8 +104,8 @@ export const PostCard = ({
     title,
     titleLink,
     created,
+    tags,
     tag,
-    tagLink,
     category,
     body,
     maxLen,
@@ -156,13 +157,24 @@ export const PostCard = ({
                         {created}
                     </Typography>
                 )}
+
+                {/* Tags can be passed either as an array or single tag */}
                 {tag &&
                     linkWrapper(
                         <Typography variant="caption" gutterBottom className={classes.outlined}>
-                            {tag}
+                            {tag.title}
                         </Typography>,
-                        tagLink
+                        tag.link
                     )}
+
+                {tags?.map((tag) =>
+                    linkWrapper(
+                        <Typography variant="caption" gutterBottom className={classes.outlined}>
+                            {tag.title}
+                        </Typography>,
+                        tag.link
+                    )
+                )}
             </CardContent>
             <CardMenu
                 user={user}

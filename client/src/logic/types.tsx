@@ -390,6 +390,11 @@ type PostsListVariant = 'tiles' | 'full-width';
 
 type CardSubtitleType = 'date' | 'project';
 
+interface Tag {
+    title: string;
+    link?: string;
+}
+
 export type {
     Children,
     Col,
@@ -452,4 +457,5 @@ export type {
     NavButton,
     PostsListVariant,
     CardSubtitleType,
+    Tag,
 };

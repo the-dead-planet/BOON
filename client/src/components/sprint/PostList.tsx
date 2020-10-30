@@ -102,10 +102,10 @@ export const PostsList = ({
                             title={post.title}
                             titleLink={`/posts/${post._id}`}
                             created={getCreated ? getCreated(post.created) : undefined}
-                            tag={getTag ? getTag(post._id) : undefined}
-                            tagLink={getTagLink ? getTagLink(post._id) : undefined}
-                            // tag={getProject(post._id).title}
-                            // tagLink={`/projects/${getProject(post._id)._id}` }
+                            tag={{
+                                title: getTag ? getTag(post._id) : '',
+                                link: getTagLink ? getTagLink(post._id) : '',
+                            }}
                             body={post.body}
                             // TODO: if image for post, shorten the 'maxLen' and display image
                             maxLen={i % 3 === 1 ? 250 : 400}
