@@ -66,7 +66,13 @@ export const SingleProject = ({
 
             <Posts
                 user={user}
-                posts={project?.posts.map((id) => posts.get(id))}
+                posts={project?.posts
+                    .map((id) => posts.get(id))
+                    .sort(
+                        (a, b) =>
+                            Number(new Date(b?.created || '').getMilliseconds()) -
+                            Number(new Date(a?.created || '').getMilliseconds())
+                    )}
                 projects={projects}
                 comments={comments}
                 likes={likes}
