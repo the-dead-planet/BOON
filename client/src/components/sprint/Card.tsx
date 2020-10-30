@@ -6,7 +6,7 @@ import { Box, CardContent, CardActions, Typography, Divider } from '@material-ui
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ActionButtons } from './ActionButtons';
 import { CardMenu } from './CardMenu';
-import { User, Comment, Like, MongoObject, Model } from '../../logic/types';
+import { User, Comment, Like, MongoObject, Model, Tag } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
         outlined: {
             backgroundColor: theme.palette.secondary.light,
             color: theme.palette.secondary.contrastText,
+            marginRight: theme.spacing(1),
             padding: '.3em .6em',
             borderRadius: '2px',
             '&:hover': {
@@ -73,10 +74,10 @@ interface Props {
     users: Map<string, User>;
     author: string;
     title: string;
-    titleLink?: string; // path on title click
-    subtitle: string;
-    subtitleLink?: string; // path on subtitle click
-    subtitleStyle?: 'basic' | 'outlined';
+    titleLink?: string;
+    created?: string;
+    tags?: Array<Tag>;
+    tag?: Tag;
     category?: { _id: string; title: string };
     body: string;
     maxLen?: number;
@@ -102,9 +103,9 @@ export const PostCard = ({
     author,
     title,
     titleLink,
-    subtitle,
-    subtitleLink,
-    subtitleStyle,
+    created,
+    tags,
+    tag,
     category,
     body,
     maxLen,
@@ -149,15 +150,30 @@ export const PostCard = ({
 
             <CardContent>
                 {linkWrapper(<Typography variant="h6">{title}</Typography>, titleLink)}
-                {linkWrapper(
-                    <Typography
-                        variant="caption"
-                        gutterBottom
-                        className={subtitleStyle === 'outlined' ? classes.outlined : undefined}
-                    >
-                        {subtitle}
-                    </Typography>,
-                    subtitleLink
+
+                {/* Subtitle and tag are optional */}
+                {created && (
+                    <Typography component="p" variant="caption" gutterBottom>
+                        {created}
+                    </Typography>
+                )}
+
+                {/* Tags can be passed either as an array or single tag */}
+                {tag &&
+                    linkWrapper(
+                        <Typography variant="caption" gutterBottom className={classes.outlined}>
+                            {tag.title}
+                        </Typography>,
+                        tag.link
+                    )}
+
+                {tags?.map((tag) =>
+                    linkWrapper(
+                        <Typography variant="caption" gutterBottom className={classes.outlined}>
+                            {tag.title}
+                        </Typography>,
+                        tag.link
+                    )
                 )}
             </CardContent>
             <CardMenu

@@ -11,6 +11,7 @@ import AddPost from './pages/AddPost';
 import EditSprint from './pages/EditSprint';
 import Sprint from './pages/Sprint';
 import Project from './pages/Project';
+import Post from './pages/Post';
 import Teams from './pages/Teams';
 import './App.css';
 import authService from './services/authService';
@@ -116,8 +117,21 @@ class App extends Component<{}, StateType> {
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
-                            <Route path={`${posts}/:postId`}>
-                                <Project
+                            <Route path={`${posts}/:id`}>
+                                <Post
+                                    user={user}
+                                    mode={this.state.mode}
+                                    setMode={this.setMode}
+                                    setStateData={updateState(State.setStateData)}
+                                    addSprintComment={updateState(State.addCommentToSprint)}
+                                    addPostComment={updateState(State.addCommentToPost)}
+                                    removeObject={updateState(State.removeObject)}
+                                    data={this.state.data}
+                                    notificationsProps={notificationsProps}
+                                />
+                            </Route>
+                            <Route path={posts}>
+                                <Post
                                     user={user}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
@@ -130,6 +144,7 @@ class App extends Component<{}, StateType> {
                                 />
                             </Route>
 
+                            {/* Sprints */}
                             <Route path={`${sprints}${add}`}>
                                 <AddSprint
                                     user={user}

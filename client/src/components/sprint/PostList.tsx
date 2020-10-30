@@ -43,7 +43,6 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     user: User;
     variant: PostsListVariant;
-    subtitle?: CardSubtitleType;
     projects: Map<string, Project>;
     posts: Array<Post>;
     comments: Map<string, Comment>;
@@ -52,6 +51,10 @@ interface Props {
     addComment: any;
     removeComment: any;
     removePost: any;
+    getCreated?: (a: Date) => string;
+    getTag?: (a: string) => string;
+    getTagLink?: (a: string) => string;
+    quote?: { body: string; author: string };
     push: any;
     toggleCommentsPanel: any;
     xs?: Col;
@@ -64,7 +67,10 @@ interface Props {
 export const PostsList = ({
     user,
     variant,
-    subtitle,
+    getCreated,
+    getTag,
+    getTagLink,
+    quote,
     projects,
     posts,
     comments,
@@ -78,8 +84,6 @@ export const PostsList = ({
     ...props
 }: Props) => {
     const classes = useStyles();
-    const getProject = (id: string) =>
-        [...projects.values()]?.reduce((acc, project) => (project.posts.includes(id) ? project : acc));
 
     return (
         <Grid container justify="space-around" spacing={1}>
@@ -97,13 +101,11 @@ export const PostsList = ({
                             author={users.get(post.author as any)?.publicName || 'Unknown user'}
                             title={post.title}
                             titleLink={`/posts/${post._id}`}
-                            subtitle={
-                                subtitle === 'project'
-                                    ? getProject(post._id).title
-                                    : moment(post.created).format(EXT_DATE_FORMAT)
-                            }
-                            subtitleLink={`/projects/${getProject(post._id)._id}`}
-                            subtitleStyle={subtitle === 'project' ? 'outlined' : 'basic'}
+                            created={getCreated ? getCreated(post.created) : undefined}
+                            tag={{
+                                title: getTag ? getTag(post._id) : '',
+                                link: getTagLink ? getTagLink(post._id) : '',
+                            }}
                             body={post.body}
                             // TODO: if image for post, shorten the 'maxLen' and display image
                             maxLen={i % 3 === 1 ? 250 : 400}
@@ -131,7 +133,7 @@ export const PostsList = ({
 
                     {/* Add quote tile in the middle, which takes up more space */}
                     {/* TODO: Prepare a tile for the quote with a vintage image and large text */}
-                    {i === 3 && (
+                    {i === 3 && quote ? (
                         <Grid
                             item
                             xs={12}
@@ -146,13 +148,13 @@ export const PostsList = ({
                             className={`${classes.container} ${classes.quoteContainer}`}
                         >
                             <Typography variant="h3" className={classes.quote}>
-                                I am not a fan of books. I would never want a book's autograph.
+                                {quote.body}
                             </Typography>
                             <Typography variant="body2" className={classes.quoteAuthor}>
-                                ~ Kanye West
+                                ~ {quote.author}
                             </Typography>
                         </Grid>
-                    )}
+                    ) : undefined}
                 </Fragment>
             ))}
         </Grid>

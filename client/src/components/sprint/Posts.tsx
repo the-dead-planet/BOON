@@ -6,7 +6,6 @@ import { User, Post, Project, Comment, Like, PostsListVariant, Col, CardSubtitle
 interface Props {
     user: User;
     variant?: PostsListVariant;
-    subtitle?: CardSubtitleType;
     projects: Map<string, Project>;
     posts: Array<Post>;
     comments: Map<string, Comment>;
@@ -15,6 +14,9 @@ interface Props {
     addComment: any;
     removePost: any;
     removeComment: any;
+    getCreated?: (a: Date) => string;
+    getTag?: (a: string) => string;
+    getTagLink?: (a: string) => string;
     push: any;
     toggleCommentsPanel: any;
     xs?: Col;
@@ -26,39 +28,7 @@ interface Props {
 
 // Implementation of the component. Note, that it expects to receive a `push` property from the caller. It's injected throught the `withPush` HOF below.
 // Only the decorated instance is exported. The `*Impl` class is here for convenience only and is not directly used outside of this file.
-const PostsImpl = ({
-    user,
-    subtitle,
-    variant = 'tiles',
-    posts,
-    projects,
-    comments,
-    likes,
-    users,
-    addComment,
-    removeComment,
-    removePost,
-    push,
-    toggleCommentsPanel,
-    ...props
-}: Props) => (
-    <PostsList
-        user={user}
-        subtitle={subtitle}
-        variant={variant}
-        projects={projects}
-        posts={posts}
-        comments={comments}
-        likes={likes}
-        users={users}
-        addComment={addComment}
-        removePost={removePost}
-        removeComment={removeComment}
-        push={push}
-        toggleCommentsPanel={toggleCommentsPanel}
-        {...props}
-    />
-);
+const PostsImpl = ({ variant = 'tiles', ...props }: Props) => <PostsList variant={variant} {...props} />;
 
 // Decorate the component with `withPush` HOF to inject the `push` property.
 const Posts = withPush(PostsImpl);

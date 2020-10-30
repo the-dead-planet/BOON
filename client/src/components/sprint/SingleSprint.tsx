@@ -4,6 +4,8 @@ import React from 'react';
 import { Posts } from './Posts';
 import { SprintOverview } from './SprintOverview';
 // import usersService from '../../../services/usersService';
+import moment from 'moment';
+import { EXT_DATE_FORMAT } from '../../constants/dateFormats';
 import { User, Sprint, Post, Project, Comment, Like } from '../../logic/types';
 
 // Detailed view of a sprint object.
@@ -45,6 +47,8 @@ export const SingleSprint = ({
     onError,
 }: Props) => {
     // const classes = useStyles();
+    const getProject = (id: string) =>
+        [...projects.values()]?.reduce((acc, project) => (project.posts.includes(id) ? project : acc));
 
     return sprint ? (
         <>
@@ -65,12 +69,17 @@ export const SingleSprint = ({
             {/* <Divider className={classes.divider} /> */}
             <Posts
                 user={user}
-                subtitle="project"
                 projects={projects}
                 posts={sprint.posts.map((id) => posts.get(id))}
                 comments={comments}
                 likes={likes}
                 users={users}
+                getTag={(postId: string) => getProject(postId).title}
+                getTagLink={(postId: string) => `/projects/${getProject(postId)._id}`}
+                quote={{
+                    body: "I am not a fan of books. I would never want a book's autograph.",
+                    author: 'Kanye West',
+                }}
                 addComment={addPostComment}
                 removePost={(id: string) =>
                     removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: sprint._id })
