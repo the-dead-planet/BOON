@@ -73,10 +73,10 @@ interface Props {
     users: Map<string, User>;
     author: string;
     title: string;
-    titleLink?: string; // path on title click
-    subtitle: string;
-    subtitleLink?: string; // path on subtitle click
-    subtitleStyle?: 'basic' | 'outlined';
+    titleLink?: string;
+    created?: string;
+    tag?: string;
+    tagLink?: string;
     category?: { _id: string; title: string };
     body: string;
     maxLen?: number;
@@ -102,9 +102,9 @@ export const PostCard = ({
     author,
     title,
     titleLink,
-    subtitle,
-    subtitleLink,
-    subtitleStyle,
+    created,
+    tag,
+    tagLink,
     category,
     body,
     maxLen,
@@ -149,16 +149,20 @@ export const PostCard = ({
 
             <CardContent>
                 {linkWrapper(<Typography variant="h6">{title}</Typography>, titleLink)}
-                {linkWrapper(
-                    <Typography
-                        variant="caption"
-                        gutterBottom
-                        className={subtitleStyle === 'outlined' ? classes.outlined : undefined}
-                    >
-                        {subtitle}
-                    </Typography>,
-                    subtitleLink
+
+                {/* Subtitle and tag are optional */}
+                {created && (
+                    <Typography component="p" variant="caption" gutterBottom>
+                        {created}
+                    </Typography>
                 )}
+                {tag &&
+                    linkWrapper(
+                        <Typography variant="caption" gutterBottom className={classes.outlined}>
+                            {tag}
+                        </Typography>,
+                        tagLink
+                    )}
             </CardContent>
             <CardMenu
                 user={user}

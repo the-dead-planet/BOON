@@ -8,18 +8,20 @@ import usersService from '../services/usersService';
 import AppLayout from '../layouts/AppLayout';
 import { Loading, Empty } from '../components/Loading';
 import { CommentsSection } from '../components/CommentsSection';
-import { SingleProject } from '../components/project/SingleProject';
+import { SinglePost } from '../components/post/SinglePost';
 import {
     // withShowError,
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, Mode, StateData, Project, Model } from '../logic/types';
+import { User, NotificationProps, Mode, StateData, Sprint as SprintType, Model } from '../logic/types';
+import moment from 'moment';
+import { MONTH_YEAR_FORMAT } from '../constants/dateFormats';
 import { PATHS, QUOTES } from '../constants/data';
-const { projects } = PATHS;
-const projectsPath = projects;
+const { sprints } = PATHS;
+const sprintsPath = sprints;
 
 // TODO: see a comment in `Logout` regarding HOCs.
-interface SprintProps {
+interface Props {
     user: User | undefined | null;
     mode: Mode;
     setMode: any;
@@ -32,8 +34,8 @@ interface SprintProps {
     showError: any;
 }
 
-// If path is /projects, redirect to the newest project
-const Sprint = ({
+// If path is /sprints, redirect to the newest sprint
+const Post = ({
     user,
     mode,
     setMode,
@@ -44,29 +46,10 @@ const Sprint = ({
     removeObject,
     notificationsProps,
     showError,
-}: SprintProps & WithShowErrorInjectedProps) => {
+}: Props & WithShowErrorInjectedProps) => {
     const { id }: { id: string } = useParams();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
     const [quote, setQuote] = useState('');
-    /* 
-        DETERMINE PROJECT ID
-        If no specific `Project` has been specified, try to redirect to the
-        detail page of the most recent project
-    */
-    let projectToDisplayId = id;
-    if (projectToDisplayId === undefined) {
-        // Wait for the sprints to load.
-        // TODO: consider adding a HOC waiting for pending requests and rendering a spinner.
-
-        if (projects && projects.size > 0) {
-            // If no sprints exists, there's nowhere to redirect to.
-            // TODO: consider handling this case by rendering a message.
-            const mostRecentProject = [...projects.values()].reduce((a, b) =>
-                new Date(a.created) > new Date(b.created) ? a : b
-            );
-            projectToDisplayId = mostRecentProject._id;
-        }
-    }
 
     /* 
         GET DATA FROM DATA BASE AND WRITE TO APP STATE
@@ -80,6 +63,7 @@ const Sprint = ({
         // TODO: Is there a better solution to handle pulling all required data
         await setStateData(res, resProj, users);
     };
+
     // Fetch sprints on the first render.
     // It will send a request when the user re-enters the sprints list page from some other page (e.g. form).
     // This way, the user has a way of refreshing sprints data.
@@ -89,42 +73,9 @@ const Sprint = ({
     }, []);
 
     /* 
-        GET CURRENT SPRINT ID DATA FROM APP STATE
+        GET CURRENT POST ID DATA FROM APP STATE
     */
-    const project = projects.get(id);
-
-    /*
-        SORT SPRINTS FOR PAGINATION
-    */
-    const sortedProjects = projects
-        ? [...projects.values()].sort(
-              (a, b) => new Date(b.created).getMilliseconds() - new Date(a.created).getMilliseconds()
-          )
-        : [];
-
-    let currentInd = 0;
-    sortedProjects.forEach((spr, i) => {
-        if (spr._id === id) {
-            currentInd = i;
-        }
-    });
-
-    /* 
-        NAVIGATION ITEMS
-    */
-    const projectPosts = project?.posts;
-
-    const navPosts = projectPosts
-        ?.map((postId) => posts.get(postId))
-        .map((post) => ({ hash: true, id: post?._id || '', name: post?.title || '', path: `#${post?._id}` || '#' }));
-
-    const navProjects = [...projects.values()]?.map((project: Project) => ({
-        id: project._id || '',
-        name: project.title || '',
-        path: `/projects/${project._id}`,
-    }));
-
-    const navPlaceholder = [{ id: '', name: 'Printing...', path: '/' }];
+    const post = posts.get(id);
 
     /* 
         PREPARE COMMENTS SECTION COMPONENT TO FEED TO THE RIGHT (SECONDARY) DRAWER
@@ -185,63 +136,51 @@ const Sprint = ({
     */
     //    TODO: Is it better to add it here and pass to Layout or use in single components, which require a dialog
 
-    return projectToDisplayId && projectToDisplayId !== id ? (
-        <Redirect to={`/projects/${projectToDisplayId}`} />
-    ) : (
+    return (
         <AppLayout
             user={user}
             mode={mode}
             setMode={setMode}
             appBar={true}
             quote={quote}
-            // title={project?.title}
-            pagination={{
-                path: projectsPath,
-                // currentId: id,
-                // nextId: currentInd > 0 ? sortedProjects[currentInd - 1]._id : undefined,
-                // previousId: currentInd < sortedProjects.length - 1 ? sortedProjects[currentInd + 1]._id : undefined,
-                // primary: project ? `Project: ${project?.title}` : '',
-                // secondary: '',
-                // list: projects
-                //     ? [...projects.values()].map((proj: Project) => ({
-                //           name: proj?.title,
-                //           path: projectsPath,
-                //           id: proj._id,
-                //           number: 0,
-                //       }))
-                //     : undefined,
-            }}
-            navPanel={{
-                side: 'left',
-                content: [{ header: 'All projects', activeId: project?._id, list: navProjects || navPlaceholder }],
-                variant: 'secondary',
-            }}
-            sideColumn={{
-                header: '_news',
-                body: `We found something on the internet which is related to ${project?.title}. \"THEY\" say that...`,
-            }}
+            pagination={{ path: '/posts' }}
+            createButton={{ name: 'Create', onClick: () => '' }}
+            // navPanel={{
+            //     side: 'left',
+            //     content: [
+            //         { header: 'Highlights', list: navPosts || navPlaceholder },
+            //         // TODO: Get a list of projects related to the posts related to currently displayed sprint
+            //         { header: 'Related projects', list: navProjects || navPlaceholder },
+            //     ],
+            // }}
+            // sideColumn={{
+            //     header: '_goss',
+            //     body:
+            //         "We heard that our favorite developer, Geek124, switched to GraphQL. Unbelievable. Can you believe it? Because we can't. We cannot. Yes, we can.",
+            // }}
             secondaryDrawer="a" // TODO: fill with comments from related object
             secondaryDrawerOpen={openSecondaryDrawer}
-            secondaryDrawerContent={project ? commentsSection : undefined}
+            secondaryDrawerContent={post ? commentsSection : undefined}
             toggleSecondaryDrawer={toggleSecondaryDrawer}
             {...notificationsProps}
         >
             {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
-            {!projects ? (
-                <Loading />
-            ) : projects.size === 0 ? (
-                <Empty />
+            {!id ? (
+                <div>NOTHINGGGGGGGGGGGGGGGGGGGGGGGGGGGGG </div>
+            ) : !post ? (
+                <div>Post not found</div>
             ) : (
-                <SingleProject
+                // NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator
+                <SinglePost
                     user={user}
-                    project={project}
-                    sprints={sprints}
+                    post={post}
                     posts={posts}
                     projects={projects}
                     comments={comments}
                     likes={likes}
                     users={users}
                     addPostComment={addPostComment}
+                    addSprintComment={addSprintComment}
                     removeObject={removeObject}
                     toggleCommentsPanel={toggleSecondaryDrawer}
                     onError={showError}
@@ -253,4 +192,4 @@ const Sprint = ({
 };
 
 // export default (withShowError as any)(Sprint);
-export default authenticatedPage(withPush(Sprint));
+export default authenticatedPage(withPush(Post));

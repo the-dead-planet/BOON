@@ -30,6 +30,7 @@ interface Props {
     comments: Array<Comment | undefined>;
     likes: Array<Like | undefined>;
     users: Map<string, User>;
+    getCreated?: (a: Date) => string;
     addComment: any;
     removeSprint: any;
     removeComment: any;
@@ -66,7 +67,7 @@ export const SprintOverview = ({
             users={users}
             author={authorPublicName}
             title={`${sprint.title}`}
-            subtitle={`${sprint.dateFrom && moment(sprint.dateFrom).format(DATE_FORMAT)} - ${
+            created={`${sprint.dateFrom && moment(sprint.dateFrom).format(DATE_FORMAT)} - ${
                 sprint.dateTo && moment(sprint.dateTo).format(DATE_FORMAT)
             }`}
             body={sprint.body}
