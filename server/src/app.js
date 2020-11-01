@@ -12,7 +12,8 @@ var express = require('express'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     User = require('./models/User');
-seedDB = require('./seeds');
+//TODO: make it a one-off manual command
+//seedDB = require('./seeds');
 
 const ModelRoutesDefinition = require('./common/ModelRoutesDefinition');
 const ModelRegistry = require('./common/ModelRegistry');
