@@ -6,6 +6,7 @@ import '@testing-library/jest-dom/extend-expect';
 import 'jest-extended';
 import 'intersection-observer';
 import mediaQuery from 'css-mediaquery';
+import { matchers } from './testing/matchers';
 
 // Polyfill mediaquery until jsdom starts supporting it.
 // https://material-ui.com/components/use-media-query/#testing
@@ -24,5 +25,4 @@ global.window.scrollTo = () => {};
 global.window.matchMedia = createMatchMedia(TEST_SCREEN_WIDTH);
 
 // Extend jest with local matchers.
-import { matchers } from './testing/matchers';
 expect.extend(matchers);
