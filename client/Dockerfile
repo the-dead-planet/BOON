@@ -1,4 +1,4 @@
-FROM node:latest as builder
+FROM node:14-alpine as builder
 
 WORKDIR /opt/app/
 ADD ./ /opt/app/
