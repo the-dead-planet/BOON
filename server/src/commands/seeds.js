@@ -1,18 +1,20 @@
 var mongodb = require('mongodb');
-var Sprint = require('./models/Sprint');
-var Post = require('./models/Post');
-var Project = require('./models/Project');
-var User = require('./models/User');
-var Team = require('./models/Team');
-var Comment = require('./models/Comment');
-var Like = require('./models/Like');
-const data = require('./seeds-data');
+var Sprint = require('../models/Sprint');
+var Post = require('../models/Post');
+var Project = require('../models/Project');
+var User = require('../models/User');
+var Team = require('../models/Team');
+var Comment = require('../models/Comment');
+var Like = require('../models/Like');
+const generateData = require('./seeds-data');
 
-const seedDB = () =>
-    removeData([Sprint, Post, Project, Team, Comment, Like, User])
-        .then(res => createTeams(data.teams))
-        .then(teams => createUsers(data.users, teams))
-        .then(users =>
+const seedDB = (password) => {
+    const data = generateData(password);
+
+    return removeData([Sprint, Post, Project, Team, Comment, Like, User])
+        .then((res) => createTeams(data.teams))
+        .then((teams) => createUsers(data.users, teams))
+        .then((users) =>
             createProjects(data.projects, users)
                 .then(() => createSprints(data.sprints, users))
                 .then(() => createPosts(data.posts, users))
@@ -23,40 +25,41 @@ const seedDB = () =>
         .then(() => addIdReferences(Sprint, Post, 'posts'))
         .then(() => addIdReferences(Project, Post, 'posts'))
         .then(() => console.log('Finished creating data'));
+};
 
 // Remove data from all models
-const removeData = models =>
+const removeData = (models) =>
     Promise.all(
-        models.map(model =>
+        models.map((model) =>
             model
                 .deleteMany({})
-                .then(res => console.log(res))
-                .catch(err => console.log(err))
+                .then((res) => console.log(res))
+                .catch((err) => console.log(err))
         )
     );
 
 // Create object based on seed data
 const createObject = (model, data) =>
-    model.create(data).then(object => {
+    model.create(data).then((object) => {
         // console.log(model, "created");
         return object;
     });
 
 // Generic function to create all objects in one schema as promise.all
-const createObjects = (create, data, ...args) => Promise.all(data.map(datum => create(datum, ...args)));
+const createObjects = (create, data, ...args) => Promise.all(data.map((datum) => create(datum, ...args)));
 
 // Create one team
-const createTeam = datum =>
+const createTeam = (datum) =>
     createObject(Team, {
         title: datum.title,
         body: datum.body,
     });
 
 // Create all teams
-const createTeams = data => createObjects(createTeam, data);
+const createTeams = (data) => createObjects(createTeam, data);
 
 // Create one user
-const createUser = datum =>
+const createUser = (datum) =>
     User.register(
         new User({
             username: datum.email,
@@ -72,7 +75,7 @@ const createUser = datum =>
     );
 
 // Create all users
-const createUsers = data => createObjects(createUser, data);
+const createUsers = (data) => createObjects(createUser, data);
 
 // Create one project
 const createProject = (datum, users) =>
@@ -126,14 +129,14 @@ const createComment = (datum, users) =>
 // One user can add multiple comments to multiple or the same object
 const createComments = (data, users, models) =>
     Promise.all(
-        models.map(model =>
+        models.map((model) =>
             model
                 .find({})
-                .then(objects =>
-                    objects.map(object =>
+                .then((objects) =>
+                    objects.map((object) =>
                         Promise.all(
                             Array.from({ length: random(10) }, () => 1).map(() =>
-                                createComment(data[random(data.length)], users).then(comment =>
+                                createComment(data[random(data.length)], users).then((comment) =>
                                     object.comments.push(comment._id)
                                 )
                             )
@@ -154,15 +157,15 @@ const createLike = (datum, user) =>
 // Max. one like per user-post or user-sprint combination
 // Not all users have to give likes, not all objects need to receive likes
 const createLikes = (data, users, models) =>
-    models.map(model =>
-        model.find({}).then(objects =>
-            objects.map(object =>
+    models.map((model) =>
+        model.find({}).then((objects) =>
+            objects.map((object) =>
                 Promise.all(
                     users
                         .filter((user, i) => i % random(users.length) === 0)
-                        .map(user =>
+                        .map((user) =>
                             // console.log("Creating like in model", model, "for object", object.title)
-                            createLike(data[random(data.length)], user).then(like => object.likes.push(like._id))
+                            createLike(data[random(data.length)], user).then((like) => object.likes.push(like._id))
                         )
                 ).then(() => object.save())
             )
@@ -172,12 +175,12 @@ const createLikes = (data, users, models) =>
 // Add ID references (only) to parent objects, e.g. project.posts, sprint.posts
 // Distribute children evenly among all parent objects
 const addIdReferences = (parentModel, childModel, attrName) =>
-    parentModel.find({}).then(parents =>
-        childModel.find({}).then(children =>
+    parentModel.find({}).then((parents) =>
+        childModel.find({}).then((children) =>
             parents.map((parent, parentInd) => {
                 children
                     .filter((child, childInd) => parentInd === childInd % parents.length)
-                    .map(child => {
+                    .map((child) => {
                         // console.log(`parent `, parentModel, ` adding child`, childModel)
                         return parent[attrName].push(child._id);
                     });
@@ -186,11 +189,11 @@ const addIdReferences = (parentModel, childModel, attrName) =>
         )
     );
 
-const generateRandom = objects => {
+const generateRandom = (objects) => {
     let object = objects[random(objects.length)];
     return object;
 };
 
-const random = n => Math.floor(Math.random() * n);
+const random = (n) => Math.floor(Math.random() * n);
 
 module.exports = seedDB;

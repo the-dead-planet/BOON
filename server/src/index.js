@@ -1,16 +1,21 @@
-// This script starts the server. It's responsible for connecting the app to
-// the real world, i.e. setup a database connection, bind to a port and wait
-// indefinitely.
+// This script starts the server.
+// It's responsible for connecting to the real world, i.e. setup a database connection,
+// bind to a port and wait indefinitely, if need be.
 //
 // Note, that this file should be kept as simple as possible, as it is not
 // covered by unit tests.
-
-const app = require('./app');
+const yargs = require('yargs/yargs');
+const { hideBin } = require('yargs/helpers');
 const mongoose = require('mongoose');
+
+const seed = require('./commands/seeds.js');
+const app = require('./app');
 
 // Connect to Mongo DB
 const databaseUrl = process.env.DATABASEURL || 'mongodb://localhost:27017/boon';
-// const databaseUrl = process.env.DATABASEURL || 'mongodb://mongo:27017/boon'; // For docker
+//const databaseUrl = process.env.DATABASEURL || 'mongodb://mongo:27017/boon'; // For docker
+
+const PORT = process.env.PORT || 5000;
 
 console.log(`Connecting to database:  ${databaseUrl}`);
 
@@ -19,8 +24,35 @@ mongoose.connect(databaseUrl, {
     useUnifiedTopology: true,
 });
 
-// Listen
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`BOON server has started on port ${PORT}`);
-});
+// Parse command line arguments and execute the right command.
+yargs(hideBin(process.argv))
+    // The `*` bit means this is the default command.
+    .command(['run', '*'], 'Start the app and wait indefinitely.', {}, (argv) => {
+        // Start listening and hang.
+        // The Promise will not resolve until either `error` or `close` events occur.
+        // See https://nodejs.org/api/net.html#net_event_close for event details.
+        return new Promise((resolve, reject) => {
+            app.listen(PORT, () => {
+                console.log(`BOON server has started on port ${PORT}`);
+            });
+            app.on('error', reject);
+            app.on('close', resolve);
+        });
+    })
+    .command(
+        'seed',
+        'Fill the database with predefined data.',
+        {
+            password: { describe: 'Password for created user accounts.', required: true, type: 'string' },
+        },
+        async (argv) => {
+            const { password } = argv;
+            return await seed(password);
+        }
+    )
+    .onFinishCommand(async (result) => {
+        await mongoose.disconnect();
+        console.log(`Command returned ${result}`);
+        return result;
+    })
+    .parse();

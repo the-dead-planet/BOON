@@ -21,7 +21,8 @@
         "mongoose": "^5.10",
         "passport": "^0.4",
         "passport-local": "^1.0",
-        "passport-local-mongoose": "^6.0"
+        "passport-local-mongoose": "^6.0",
+        "yargs": "^16.1.0"
     },
     "devDependencies": {
         "@shelf/jest-mongodb": "^1.2",

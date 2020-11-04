@@ -1,4 +1,4 @@
-FROM node:12.14.0
+FROM node:14-alpine
 
 WORKDIR /opt/server
 

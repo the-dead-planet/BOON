@@ -12,7 +12,6 @@ var express = require('express'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     User = require('./models/User');
-seedDB = require('./seeds');
 
 const ModelRoutesDefinition = require('./common/ModelRoutesDefinition');
 const ModelRegistry = require('./common/ModelRegistry');
@@ -23,9 +22,6 @@ const Routes = require('./common/Routes');
 const { SingleModelField, ManyModelField } = require('./common/ModelField');
 
 var handleErrors = require('./middleware').handleErrors;
-
-// // Add data to data base - comment if done once
-// seedDB();
 
 // Some some random thingies
 app.use(express.static(__dirname + '/public'));
