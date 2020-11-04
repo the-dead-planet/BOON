@@ -5,7 +5,7 @@
     "main": "built/index.js",
     "scripts": {
         "build": "tsc",
-        "clean": "shx rm -rf built/ node_modules/",
+        "clean": "npx shx rm -rf built/ node_modules/",
         "test": "jest --detectOpenHandles",
         "start": "ts-node-dev src/index.js"
     },

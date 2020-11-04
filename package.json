@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "install-all": "yarn install && yarn --cwd client install && yarn --cwd server install",
-        "clean": "shx rm -rf node_modules && yarn --cwd client clean && yarn --cwd server clean",
+        "clean": "npx shx rm -rf node_modules && yarn --cwd client clean && yarn --cwd server clean",
         "test": "run-s test_server test_client",
         "test_client": "yarn --cwd client test --watch-all=false",
         "test_server": "yarn --cwd server test --watch-all=false",

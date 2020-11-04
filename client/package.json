@@ -37,7 +37,7 @@
         "build": "react-scripts build",
         "test": "react-scripts test --env=jsdom-sixteen",
         "eject": "react-scripts eject",
-        "clean": "shx rm -rf node_modules/"
+        "clean": "npx shx rm -rf node_modules/"
     },
     "repository": {
         "type": "git",
