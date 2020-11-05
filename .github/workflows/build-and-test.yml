@@ -1,0 +1,25 @@
+# Based on rwakulszowa/container-registry-playground
+name: Build-And-Test
+
+on:
+    push:
+        branches:
+            - master
+    pull_request:
+
+jobs:
+    # Run tests.
+    # See also https://docs.docker.com/docker-hub/builds/automated-testing/
+    # For now, only API tests are executed automatically, to see how quickly we'll run
+    # out of free quota.
+    test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Build api image
+              run: docker-compose build api
+
+            - name: Run api unit tests
+              run: docker-compose run api yarn test

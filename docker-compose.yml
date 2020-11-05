@@ -17,5 +17,7 @@ services:
             - '5000'
         depends_on:
             - 'mongo'
+        environment:
+          - DATABASEURL=mongodb://mongo:27017/boon
     mongo:
         image: 'mongo'

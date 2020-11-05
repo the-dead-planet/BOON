@@ -2,6 +2,14 @@
 
 ## Notes
 
+### Testing inside docker
+To run unit tests inside docker, you must build an image at an intermediate target stage and
+invoke the test command:
+```
+docker build -t client-base client --target base  # Build an image with all dependencies.
+docker run client-base npm test -- --watchAll=false  # Run tests and exit.
+```
+
 ### test --env flag
 
 Jest seems to have an issue with an incompatible jsdom version, which surfaces as a

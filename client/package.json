@@ -83,7 +83,7 @@
         "jest-environment-jsdom-sixteen": "^1.0.3",
         "jest-extended": "^0.11",
         "jest-matcher-utils": "^25.3",
-        "react-scripts": "^3.4.3",
+        "react-scripts": "^4.0.0",
         "shx": "^0.3",
         "source-map-explorer": "^2.5.0",
         "tiny-warning": "^1.0.3",
