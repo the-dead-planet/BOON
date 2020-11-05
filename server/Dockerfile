@@ -1,4 +1,5 @@
-FROM node:14-alpine
+# Use the default image to have all standard utilities included.
+FROM node:14
 
 WORKDIR /opt/server
 
