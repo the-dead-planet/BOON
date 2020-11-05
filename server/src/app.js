@@ -10,8 +10,19 @@ var express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
     passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy,
-    User = require('./models/User');
+    LocalStrategy = require('passport-local').Strategy;
+
+// Import models.
+// Initializes mongoose as a side effect.
+const Sprint = require('./models/Sprint');
+const Post = require('./models/Post');
+const Project = require('./models/Project');
+const User = require('./models/User');
+const Team = require('./models/Team');
+const Comment = require('./models/Comment');
+const Like = require('./models/Like');
+
+// Utilities.
 const ModelRoutesDefinition = require('./common/ModelRoutesDefinition');
 const ModelRegistry = require('./common/ModelRegistry');
 const { RequestMethod } = require('./common/request');
