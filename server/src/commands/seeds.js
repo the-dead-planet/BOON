@@ -1,12 +1,13 @@
-var mongodb = require('mongodb');
-var Sprint = require('../models/Sprint');
-var Post = require('../models/Post');
-var Project = require('../models/Project');
-var User = require('../models/User');
-var Team = require('../models/Team');
-var Comment = require('../models/Comment');
-var Like = require('../models/Like');
+const mongoose = require('mongoose');
 const generateData = require('./seeds-data');
+
+const Sprint = mongoose.model('Sprint');
+const Post = mongoose.model('Post');
+const Project = mongoose.model('Project');
+const User = mongoose.model('User');
+const Team = mongoose.model('Team');
+const Comment = mongoose.model('Comment');
+const Like = mongoose.model('Like');
 
 const seedDB = (password) => {
     const data = generateData(password);
