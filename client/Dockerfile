@@ -1,15 +1,16 @@
-FROM node:latest as builder
+# Set up the workspace, install dependencies.
+FROM node:14-alpine as base
 
 WORKDIR /opt/app/
 ADD ./ /opt/app/
 
-RUN npm install && \
-    npm run build
+RUN npm install
 
+# Build an optimized bundle.
+FROM base as builder
+RUN npm run build
 
-# ------------------------------------------------------
-# Production Build
-# ------------------------------------------------------
+# Serve built files.
 FROM nginx:1.16.0-alpine
 
 COPY --from=builder /opt/app/build/ /usr/share/nginx/html

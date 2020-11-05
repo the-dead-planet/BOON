@@ -11,6 +11,10 @@ const mongoose = require('mongoose');
 const seed = require('./commands/seeds.js');
 const app = require('./app');
 
+// Default value when running outside of docker, i.e. on a local development workstation.
+// When running inside docker, environment variables should define all parameters.
+const LOCAL_DATABASE_URL = 'mongodb://localhost:27017/boon';
+
 // Connect to Mongo DB
 const databaseUrl = process.env.DATABASEURL || 'mongodb://localhost:27017/boon';
 //const databaseUrl = process.env.DATABASEURL || 'mongodb://mongo:27017/boon'; // For docker

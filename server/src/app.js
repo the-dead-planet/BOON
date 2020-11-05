@@ -12,7 +12,6 @@ var express = require('express'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     User = require('./models/User');
-
 const ModelRoutesDefinition = require('./common/ModelRoutesDefinition');
 const ModelRegistry = require('./common/ModelRegistry');
 const { RequestMethod } = require('./common/request');
