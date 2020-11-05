@@ -128,9 +128,9 @@ export const PostCard = ({
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-    const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
+    // const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
 
     const handleMenuClose = () => {
         setAnchorEl(null);
@@ -167,14 +167,16 @@ export const PostCard = ({
                         tag.link
                     )}
 
-                {tags?.map((tag) =>
-                    linkWrapper(
-                        <Typography variant="caption" gutterBottom className={classes.outlined}>
-                            {tag.title}
-                        </Typography>,
-                        tag.link
-                    )
-                )}
+                {tags?.map((tag, i) => (
+                    <div key={i}>
+                        {linkWrapper(
+                            <Typography variant="caption" gutterBottom className={classes.outlined}>
+                                {tag.title}
+                            </Typography>,
+                            tag.link
+                        )}
+                    </div>
+                ))}
             </CardContent>
             <CardMenu
                 user={user}

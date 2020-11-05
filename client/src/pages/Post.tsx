@@ -6,19 +6,14 @@ import sprintsService from '../services/sprintsService';
 import projectsService from '../services/projectsService';
 import usersService from '../services/usersService';
 import AppLayout from '../layouts/AppLayout';
-import { Loading, Empty } from '../components/Loading';
 import { CommentsSection } from '../components/CommentsSection';
 import { SinglePost } from '../components/post/SinglePost';
 import {
     // withShowError,
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, Mode, StateData, Sprint as SprintType, Model } from '../logic/types';
-import moment from 'moment';
-import { MONTH_YEAR_FORMAT } from '../constants/dateFormats';
-import { PATHS, QUOTES } from '../constants/data';
-const { sprints } = PATHS;
-const sprintsPath = sprints;
+import { User, NotificationProps, Mode, StateData, Model } from '../logic/types';
+import { QUOTES } from '../constants/data';
 
 // TODO: see a comment in `Logout` regarding HOCs.
 interface Props {
@@ -48,8 +43,8 @@ const Post = ({
     showError,
 }: Props & WithShowErrorInjectedProps) => {
     const { id }: { id: string } = useParams();
-    console.log(id);
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
+
     const [quote, setQuote] = useState('');
 
     /* 
