@@ -8,8 +8,11 @@ const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
 const mongoose = require('mongoose');
 
-const seed = require('./commands/seeds.js');
+// `app` should be the first project-related import,
+// as it initializes mongoose.
+// TODO: get rid of the side effect, initialize explicitly.
 const app = require('./app');
+const seed = require('./commands/seeds.js');
 
 // Default value when running outside of docker, i.e. on a local development workstation.
 // When running inside docker, environment variables should define all parameters.
