@@ -14,7 +14,9 @@ jest.mock('../services/usersService');
 jest.setTimeout(10000);
 
 describe('app', () => {
-    test('Allows Sprint CRUD', async () => {
+    // CRUD is not implemented in the UI.
+    // TODO: reintroduce buttons to create, update and delete sprints, then reenable this test.
+    test.skip('Allows Sprint CRUD', async () => {
         // Data from those services is not required for the test to pass.
         // Provide a trivial implementation.
         projectsService.getAll.mockResolvedValue([]);
