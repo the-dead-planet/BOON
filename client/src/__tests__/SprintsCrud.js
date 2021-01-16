@@ -3,14 +3,23 @@ import { render, fireEvent, act } from '@testing-library/react';
 import App from '../App';
 import authService from '../services/authService';
 import sprintsService from '../services/sprintsService';
+import projectsService from '../services/projectsService';
+import usersService from '../services/usersService';
 
 jest.mock('../services/authService');
 jest.mock('../services/sprintsService');
+jest.mock('../services/projectsService');
+jest.mock('../services/usersService');
 
 jest.setTimeout(10000);
 
 describe('app', () => {
     test('Allows Sprint CRUD', async () => {
+        // Data from those services is not required for the test to pass.
+        // Provide a trivial implementation.
+        projectsService.getAll.mockResolvedValue([]);
+        usersService.getAll.mockResolvedValue([]);
+
         authService.whoami.mockResolvedValue({ user: { username: 'username', _id: 'userId' } });
 
         // Initial sprints state - empty.
