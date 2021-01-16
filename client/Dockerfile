@@ -4,11 +4,11 @@ FROM node:14-alpine as base
 WORKDIR /opt/app/
 ADD ./ /opt/app/
 
-RUN npm install
+RUN yarn install
 
 # Build an optimized bundle.
 FROM base as builder
-RUN npm run build
+RUN yarn build
 
 # Serve built files.
 FROM nginx:1.16.0-alpine
