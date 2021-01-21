@@ -28,5 +28,6 @@ module.exports = {
         icon: `src/images/favicon.ico`,
       },
     },
+    `gatsby-theme-material-ui`,
   ],
 }

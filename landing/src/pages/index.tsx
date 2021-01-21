@@ -2,7 +2,7 @@ import React from "react"
 import { useStaticQuery, graphql } from "gatsby"
 
 import Layout from "../components/layout"
-import BoonImage from "../components/boon-image"
+import Header from "../components/header"
 import SEO from "../components/seo"
 import styles from "./index.module.css"
 
@@ -19,7 +19,7 @@ const IndexPage: React.FC<{}> = () => {
     <Layout>
       <SEO title="Home" />
       <div className={styles.content}>
-        <BoonImage />
+        <Header />
         <p>Page built on {data.site.buildTime}</p>
         <p>Displaying this info just to have a sample query for future use.</p>
       </div>
