@@ -1,10 +1,22 @@
 import React from "react"
-import styles from "./layout.module.css"
+import { makeStyles, createStyles } from "@material-ui/core/styles"
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    layout: {
+      margin: "0 auto",
+      maxWidth: "960px",
+      padding: "0 1.0875rem 1.45rem",
+    },
+  })
+)
 
 const Layout: React.FC<{}> = ({ children }) => {
+  const classes = useStyles()
+
   return (
     <>
-      <div className={styles.layout}>
+      <div className={classes.layout}>
         <main>{children}</main>
       </div>
     </>
