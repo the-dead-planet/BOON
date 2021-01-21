@@ -1,16 +1,23 @@
 import React from "react"
-import { useStaticQuery, graphql } from "gatsby"
-import { makeStyles, createStyles } from "@material-ui/core/styles"
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
+import { Container, Grid } from "@material-ui/core"
 
 import Layout from "../components/layout"
 import Header from "../components/header"
+import EnterButton from "../components/enter-button"
+import FeatureDescription from "../components/feature-description"
+import featureDescriptions from "../data/featureDescriptions"
 import SEO from "../components/seo"
 
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    content: {
+    home: {
       marginBottom: "1.45rem",
       maxWidth: "800px",
+    },
+    contentContainer: {
+      marginTop: theme.spacing(10),
+      color: "rgba(255, 255, 255, .87)",
     },
   })
 )
@@ -18,21 +25,23 @@ const useStyles = makeStyles(() =>
 const IndexPage: React.FC<{}> = () => {
   const classes = useStyles()
 
-  const data = useStaticQuery(graphql`
-    query {
-      site {
-        buildTime(formatString: "YYYY-MM-DD hh:mm a z")
-      }
-    }
-  `)
-
   return (
     <Layout>
       <SEO title="Home" />
-      <div className={classes.content}>
+      <div className={classes.home}>
         <Header />
-        <p>Page built on {data.site.buildTime}</p>
-        <p>Displaying this info just to have a sample query for future use.</p>
+        <Container
+          maxWidth="md"
+          id="main-content"
+          className={classes.contentContainer}
+        >
+          <EnterButton />
+          <Grid container justify="space-around">
+            {featureDescriptions.map((item, i) => (
+              <FeatureDescription key={i} {...item} />
+            ))}
+          </Grid>
+        </Container>
       </div>
     </Layout>
   )
