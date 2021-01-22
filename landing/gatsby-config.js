@@ -28,6 +28,20 @@ module.exports = {
         icon: `src/images/favicon.ico`,
       },
     },
-    `gatsby-theme-material-ui`,
+    {
+      resolve: `gatsby-theme-material-ui`,
+      options: {
+        webFontsConfig: {
+          fonts: {
+            google: [
+              {
+                family: `Libre Baskerville`,
+                variants: [`300`, `400`, `500`],
+              },
+            ],
+          },
+        },
+      },
+    },
   ],
 }
