@@ -28,8 +28,8 @@ const theme = responsiveFontSizes(
         white: "#fff",
       },
       background: {
-        paper: type === "dark" ? "#252422" : "#F4F2EF",
-        default: type === "dark" ? "#000" : "#F2E5E4",
+        paper: "#F4F2EF",
+        default: "#F2E5E4",
       },
       error: {
         light: "#e57373",
@@ -56,8 +56,8 @@ const theme = responsiveFontSizes(
         contrastText: "#rgba(0, 0, 0, 0.87",
       },
       text: {
-        primary: type === "dark" ? "#fff" : "#252422",
-        secondary: type === "dark" ? "#fff" : "#403D39",
+        primary: "#252422",
+        secondary: "#403D39",
         disabled: "rgba(133, 30, 30, 0.38)",
         hint: "rgba(0, 0, 0, 0.38)",
       },
