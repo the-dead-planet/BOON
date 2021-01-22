@@ -2,7 +2,7 @@
 import React from "react"
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles"
 import { Box, Typography } from "@material-ui/core"
-import { Link } from "gatsby-theme-material-ui"
+import AppLink from "./app-link"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -28,7 +28,7 @@ const EnterButton: React.FC<{}> = () => {
 
   return (
     <Box className={classes.enterContainer}>
-      <Link to="/sprints">
+      <AppLink to="/sprints">
         <Typography
           color="secondary"
           variant="h2"
@@ -36,7 +36,7 @@ const EnterButton: React.FC<{}> = () => {
         >
           ENTER THE DEMO
         </Typography>
-      </Link>
+      </AppLink>
     </Box>
   )
 }

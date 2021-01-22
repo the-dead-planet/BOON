@@ -3,7 +3,7 @@
 import React from "react"
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles"
 import { Grid, Typography, Button } from "@material-ui/core"
-import { Link } from "gatsby-theme-material-ui"
+import AppLink from "./app-link"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -69,13 +69,13 @@ const FeatureDescription: React.FC<Props> = ({
         {longDescription}
       </Typography>
 
-      <Link to={path}>
+      <AppLink to={path}>
         <Button variant="outlined" color="primary">
           <Typography color="primary" variant="body1">
             {shortDescription}
           </Typography>
         </Button>
-      </Link>
+      </AppLink>
     </Grid>
   )
 }
