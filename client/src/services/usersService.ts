@@ -1,22 +1,14 @@
 import axios from 'axios';
-import { UserData, User, CrudService, WithObjectId } from '../logic/types';
+import { UserData, User, CrudService } from '../logic/types';
+import { crudService } from '../logic/service';
 
 type UsersService = Pick<CrudService<User, UserData>, 'getAll' | 'getOne' | 'update'>;
 
-const usersService: UsersService = {
-    getAll: async () => {
-        let res = await axios.get(`/api/users`);
-        return res.data || [];
-    },
+// An instance will all CRUD operations defined.
+const fullUsersService = crudService<User, UserData>('users');
 
-    getOne: async (data: WithObjectId) => {
-        let res = await axios.get(`/api/users/${data.objectId}`);
-        return res.data || [];
-    },
-
-    update: (data: UserData & WithObjectId) => {
-        return axios.put(`/api/users/${data.objectId}`, data);
-    },
-};
+// A subset of the instance above. Some operations (i.e. create) are not
+// available for the Users API.
+const usersService: UsersService = (({ getAll, getOne, update }) => ({ getAll, getOne, update }))(fullUsersService);
 
 export default usersService;

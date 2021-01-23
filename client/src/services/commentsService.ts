@@ -1,21 +1,9 @@
 import axios from 'axios';
 import { CommentData, Comment, CrudService } from '../logic/types';
+import { crudService } from '../logic/service';
 
-type CommentsService = Pick<CrudService<Comment, CommentData>, 'getAll' | 'add' | 'delete'>;
+type CommentsService = CrudService<Comment, CommentData>;
 
-const commentsService: CommentsService = {
-    getAll: async () => {
-        let res = await axios.get(`/api/comments`);
-        return res.data || [];
-    },
-
-    add: (data: CommentData) => {
-        return axios.post('/api/comments', data);
-    },
-
-    delete: (data: any) => {
-        return axios.delete(`/api/comments/${data.objectId}`, data);
-    },
-};
+const commentsService: CommentsService = crudService<Comment, CommentData>('comments');
 
 export default commentsService;

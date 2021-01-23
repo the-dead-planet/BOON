@@ -1,30 +1,9 @@
 import axios from 'axios';
-import { ProjectData, Project, CrudService, WithObjectId } from '../logic/types';
+import { ProjectData, Project, CrudService } from '../logic/types';
+import { crudService } from '../logic/service';
 
 type ProjectsService = CrudService<Project, ProjectData>;
 
-const projectsService: ProjectsService = {
-    getAll: async () => {
-        let res = await axios.get(`/api/projects`);
-        return res.data || [];
-    },
-
-    getOne: async (data: WithObjectId) => {
-        let res = await axios.get(`/api/projects/${data.objectId}`);
-        return res.data || [];
-    },
-
-    add: (data: ProjectData) => {
-        return axios.post('/api/projects', data);
-    },
-
-    update: (data: ProjectData & WithObjectId) => {
-        return axios.put(`/api/projects/${data.objectId}`, data);
-    },
-
-    delete: (data: any) => {
-        return axios.delete(`/api/projects/${data.objectId}`, data);
-    },
-};
+const projectsService: ProjectsService = crudService<Project, ProjectData>('projects');
 
 export default projectsService;

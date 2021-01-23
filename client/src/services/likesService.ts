@@ -1,21 +1,9 @@
 import axios from 'axios';
 import { Like, LikeData, CrudService } from '../logic/types';
+import { crudService } from '../logic/service';
 
-type LikesService = Pick<CrudService<Like, LikeData>, 'getAll' | 'add' | 'delete'>;
+type LikesService = CrudService<Like, LikeData>;
 
-const likesService: LikesService = {
-    getAll: async () => {
-        let res = await axios.get(`/api/likes`);
-        return res.data || [];
-    },
-
-    add: (data: LikeData) => {
-        return axios.post('/api/likes', data);
-    },
-
-    delete: (data: any) => {
-        return axios.delete(`/api/likes/${data.objectId}`, data);
-    },
-};
+const likesService: LikesService = crudService<Like, LikeData>('likes');
 
 export default likesService;

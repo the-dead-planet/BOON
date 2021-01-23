@@ -37,6 +37,7 @@ export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: P
                 const extendedData = {
                     ...data, // copy form values
                     id: _id, // add sprint id
+                    objectId: _id,
                     model: model,
                 };
 
