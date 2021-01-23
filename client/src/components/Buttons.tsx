@@ -47,7 +47,7 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError, removeO
                     .reduce((acc, val) => (val.name === model ? val : acc))
                     .service.delete({ objectId: object._id })
                     .then((response) => {
-                        removeObject(response.data);
+                        removeObject(response);
                     })
                     .catch(onError)
             }
@@ -67,7 +67,7 @@ export const IconDelete = ({ user, model, object, push, onError, removeObject }:
                     .reduce((acc, val) => (val.name === model ? val : acc))
                     .service.delete({ objectId: object._id })
                     .then((response) => {
-                        removeObject(response.data);
+                        removeObject(response);
                     })
                     .catch(onError)
             }

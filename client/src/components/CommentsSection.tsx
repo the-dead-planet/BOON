@@ -109,7 +109,7 @@ const CommentsImpl = ({
                         commentsService
                             .delete({ objectId: commentToBeDeletedId })
                             .then((response) => {
-                                removeComment(response.data);
+                                removeComment(response);
                                 handleDialogClose();
                             })
                             .catch(onError); // TODO: add this prop

@@ -36,9 +36,9 @@ const buildApiPath = (path: string): string => `/api/${path}`;
 export interface CrudService<Obj, ObjData> {
     getAll(): Promise<Array<Obj>>;
     getOne(data: WithObjectId): Promise<Obj | null>;
-    add(data: ObjData): Promise<AxiosResponse<Obj>>;
+    add(data: ObjData): Promise<Obj>;
     update(data: ObjData & WithObjectId): Promise<void>;
-    delete(data: WithObjectId): Promise<AxiosResponse<WithObjectId>>;
+    delete(data: WithObjectId): Promise<WithObjectId>;
 }
 
 /**
@@ -53,13 +53,14 @@ export const crudService = <Obj, ObjData>(path: string): CrudService<Obj, ObjDat
     const getOne = (data: WithObjectId): Promise<Obj | null> =>
         axios.get(apiPathWithId(data.objectId)).then((resp) => resp.data || null);
 
-    const add = (data: ObjData): Promise<AxiosResponse<Obj>> => axios.post(apiPath, data);
+    const add = (data: ObjData): Promise<Obj> => axios.post(apiPath, data).then((resp) => resp.data);
 
-    const update = (data: ObjData & WithObjectId): Promise<void> => axios.put(apiPathWithId(data.objectId), data);
+    const update = (data: ObjData & WithObjectId): Promise<void> =>
+        axios.put(apiPathWithId(data.objectId), data).then((resp) => resp.data);
 
     // delete is a reserved keyword, hence the `_`
-    const delete_ = (data: WithObjectId): Promise<AxiosResponse<WithObjectId>> =>
-        axios.delete(apiPathWithId(data.objectId));
+    const delete_ = (data: WithObjectId): Promise<WithObjectId> =>
+        axios.delete(apiPathWithId(data.objectId)).then((resp) => resp.data);
 
     return { getAll, getOne, add, update, delete: delete_ };
 };

@@ -45,7 +45,7 @@ export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: P
                 resetForm({ values: '' });
 
                 return commentsService.add(extendedData).then((response) => {
-                    addComment(_id, response.data);
+                    addComment(_id, response);
                 });
             }}
             submitSection={
