@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { PostData, Post, CrudService } from '../logic/types';
-import { crudService } from '../logic/service';
+import { PostData, Post } from '../logic/types';
+import { crudService, CrudService } from '../logic/service';
 
 type PostsService = CrudService<Post, PostData>;
 

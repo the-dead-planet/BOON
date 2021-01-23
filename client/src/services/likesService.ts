@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { Like, LikeData, CrudService } from '../logic/types';
-import { crudService } from '../logic/service';
+import { Like, LikeData } from '../logic/types';
+import { crudService, CrudService } from '../logic/service';
 
 type LikesService = CrudService<Like, LikeData>;
 

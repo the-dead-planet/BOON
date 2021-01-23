@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { UserData, User, CrudService } from '../logic/types';
-import { crudService } from '../logic/service';
+import { UserData, User } from '../logic/types';
+import { crudService, CrudService } from '../logic/service';
 
 type UsersService = Pick<CrudService<User, UserData>, 'getAll' | 'getOne' | 'update'>;
 
