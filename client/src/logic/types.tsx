@@ -40,7 +40,6 @@ interface UserObject {
 }
 
 interface UserData {
-    objectId: string;
     email: string;
     publicName: string;
     darkMode: boolean | undefined;
@@ -115,7 +114,6 @@ interface Comment {
 }
 
 interface CommentData {
-    objectId?: string;
     body: string;
 }
 
@@ -127,7 +125,6 @@ interface Like {
 }
 
 interface LikeData {
-    objectId?: string;
     type: 'Thumb up' | 'Thumb down' | 'Heart';
 }
 
@@ -161,7 +158,6 @@ interface Sprint {
 }
 
 interface SprintData {
-    objectId?: string;
     number: number;
     dateFrom: string;
     dateTo: string;
@@ -181,7 +177,6 @@ interface Post {
 }
 
 interface PostData {
-    objectId?: string;
     title: string;
     body: string;
 }
@@ -197,7 +192,6 @@ interface Project {
 }
 
 interface ProjectData {
-    objectId?: string;
     title: string;
     body: string;
 }
@@ -212,7 +206,6 @@ interface Team {
 }
 
 interface TeamData {
-    objectId?: string;
     title: string;
     body: string;
 }
@@ -396,6 +389,10 @@ interface Tag {
     link?: string;
 }
 
+interface WithObjectId {
+    objectId: string;
+}
+
 // Most services follow a simple CRUD pattern, that allows fetching, updating
 // and deleting instances.
 //
@@ -408,10 +405,10 @@ interface Tag {
 // implementation.
 interface CrudService<Obj, ObjData> {
     getAll(): Promise<Array<Obj>>;
-    getOne(data: { objectId: string }): Promise<Obj | null>;
+    getOne(data: WithObjectId): Promise<Obj | null>;
     add(data: ObjData): Promise<AxiosResponse<Obj>>;
-    update(data: ObjData): Promise<void>;
-    delete(data: { objectId: string }): Promise<AxiosResponse<{ id: string }>>;
+    update(data: ObjData & WithObjectId): Promise<void>;
+    delete(data: WithObjectId): Promise<AxiosResponse<WithObjectId>>;
 }
 
 export type {
@@ -478,4 +475,5 @@ export type {
     CardSubtitleType,
     Tag,
     CrudService,
+    WithObjectId,
 };

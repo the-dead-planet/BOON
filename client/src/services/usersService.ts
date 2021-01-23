@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { UserData, User, CrudService } from '../logic/types';
+import { UserData, User, CrudService, WithObjectId } from '../logic/types';
 
 type UsersService = Pick<CrudService<User, UserData>, 'getAll' | 'getOne' | 'update'>;
 
@@ -9,12 +9,12 @@ const usersService: UsersService = {
         return res.data || [];
     },
 
-    getOne: async (data: UserData) => {
+    getOne: async (data: WithObjectId) => {
         let res = await axios.get(`/api/users/${data.objectId}`);
         return res.data || [];
     },
 
-    update: (data: UserData) => {
+    update: (data: UserData & WithObjectId) => {
         return axios.put(`/api/users/${data.objectId}`, data);
     },
 };

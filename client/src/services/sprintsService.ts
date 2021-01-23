@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { SprintData, Sprint, CrudService } from '../logic/types';
+import { SprintData, Sprint, CrudService, WithObjectId } from '../logic/types';
 
 type SprintsService = CrudService<Sprint, SprintData>;
 
@@ -9,7 +9,7 @@ const sprintsService: SprintsService = {
         return res.data || [];
     },
 
-    getOne: async (data: { objectId: string }) => {
+    getOne: async (data: WithObjectId) => {
         let res = await axios.get(`/api/sprints/${data.objectId}`);
         return res.data || [];
     },
@@ -18,7 +18,7 @@ const sprintsService: SprintsService = {
         return axios.post('/api/sprints', data);
     },
 
-    update: (data: SprintData) => {
+    update: (data: SprintData & WithObjectId) => {
         return axios.put(`/api/sprints/${data.objectId}`, data);
     },
 

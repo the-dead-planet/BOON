@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ProjectData, Project, CrudService } from '../logic/types';
+import { ProjectData, Project, CrudService, WithObjectId } from '../logic/types';
 
 type ProjectsService = CrudService<Project, ProjectData>;
 
@@ -9,7 +9,7 @@ const projectsService: ProjectsService = {
         return res.data || [];
     },
 
-    getOne: async (data: { objectId: string }) => {
+    getOne: async (data: WithObjectId) => {
         let res = await axios.get(`/api/projects/${data.objectId}`);
         return res.data || [];
     },
@@ -18,7 +18,7 @@ const projectsService: ProjectsService = {
         return axios.post('/api/projects', data);
     },
 
-    update: (data: ProjectData) => {
+    update: (data: ProjectData & WithObjectId) => {
         return axios.put(`/api/projects/${data.objectId}`, data);
     },
 

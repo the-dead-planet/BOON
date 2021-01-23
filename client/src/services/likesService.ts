@@ -9,7 +9,7 @@ const likesService: LikesService = {
         return res.data || [];
     },
 
-    add: (data: Like) => {
+    add: (data: LikeData) => {
         return axios.post('/api/likes', data);
     },
 
