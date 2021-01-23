@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { ProjectData } from '../logic/types';
+import { ProjectData, Project, CrudService } from '../logic/types';
 
-export default {
+type ProjectsService = CrudService<Project, ProjectData>;
+
+const projectsService: ProjectsService = {
     getAll: async () => {
         let res = await axios.get(`/api/projects`);
         return res.data || [];
@@ -24,3 +26,5 @@ export default {
         return axios.delete(`/api/projects/${data.objectId}`, data);
     },
 };
+
+export default projectsService;

@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { UserData } from '../logic/types';
+import { UserData, User, CrudService } from '../logic/types';
 
-export default {
+type UsersService = Pick<CrudService<User, UserData>, 'getAll' | 'getOne' | 'update'>;
+
+const usersService: UsersService = {
     getAll: async () => {
         let res = await axios.get(`/api/users`);
         return res.data || [];
@@ -16,3 +18,5 @@ export default {
         return axios.put(`/api/users/${data.objectId}`, data);
     },
 };
+
+export default usersService;

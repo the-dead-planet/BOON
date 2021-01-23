@@ -1,7 +1,9 @@
 import axios from 'axios';
-import { PostData } from '../logic/types';
+import { PostData, Post, CrudService } from '../logic/types';
 
-export default {
+type PostsService = Pick<CrudService<Post, PostData>, 'getAll' | 'add' | 'delete'>;
+
+const postsService: PostsService = {
     getAll: async () => {
         let res = await axios.get(`/api/posts`);
         return res.data || [];
@@ -15,3 +17,5 @@ export default {
         return axios.delete(`/api/posts/${data.objectId}`, data);
     },
 };
+
+export default postsService;

@@ -1,4 +1,5 @@
 import { ReactChild, ReactChildren } from 'react';
+import { AxiosResponse } from 'axios';
 
 type Children = ReactChild | ReactChildren | Array<ReactChild>;
 type Mode = 'light' | 'dark' | undefined;
@@ -395,6 +396,24 @@ interface Tag {
     link?: string;
 }
 
+// Most services follow a simple CRUD pattern, that allows fetching, updating
+// and deleting instances.
+//
+// `Obj` is the type returned from the service. Contains all details.
+// `ObjData` is the type sent to the service. In most cases, it's a subset of
+// `Obj` and contains only writeable properties.
+//
+// Note: types have been inferred from existing codebase (i.e. defined to make
+// the thing compile). They may not be 100% in sync with the actual backend
+// implementation.
+interface CrudService<Obj, ObjData> {
+    getAll(): Promise<Array<Obj>>;
+    getOne(data: { objectId: string }): Promise<Obj | null>;
+    add(data: ObjData): Promise<AxiosResponse<Obj>>;
+    update(data: ObjData): Promise<void>;
+    delete(data: { objectId: string }): Promise<AxiosResponse<{ id: string }>>;
+}
+
 export type {
     Children,
     Col,
@@ -458,4 +477,5 @@ export type {
     PostsListVariant,
     CardSubtitleType,
     Tag,
+    CrudService,
 };
