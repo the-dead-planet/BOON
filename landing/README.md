@@ -18,7 +18,7 @@ aspects, more efficient.
 
 ## Development
 
-- `npm run develop` will build and serve the page at localhost:8000.
-- `npm run format` will prettify source files
-- `npm run type-check` will invoke a typescript compiler and check for type
+- `yarn develop` will build and serve the page at localhost:8000.
+- `yarn format` will prettify source files
+- `yarn type-check` will invoke a typescript compiler and check for type
   violations.
