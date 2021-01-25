@@ -1,0 +1,14 @@
+name: boon
+region: ams
+
+static_sites:
+    - name: landing
+      github:
+          branch: master
+          deploy_on_push: true
+          repo: the-dead-planet/BOON
+      source_dir: landing
+      output_dir: /public
+      build_command: npm run build
+      routes:
+          - path: /
