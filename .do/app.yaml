@@ -12,3 +12,14 @@ static_sites:
       build_command: npm run build
       routes:
           - path: /
+
+    - name: client
+      github:
+          branch: master
+          deploy_on_push: true
+          repo: the-dead-planet/BOON
+      source_dir: client
+      output_dir: /public
+      build_command: yarn build
+      routes:
+          - path: /app
