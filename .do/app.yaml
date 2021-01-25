@@ -9,7 +9,7 @@ static_sites:
           repo: the-dead-planet/BOON
       source_dir: landing
       output_dir: /public
-      build_command: npm run build
+      build_command: npm run ci
       routes:
           - path: /
 
@@ -19,7 +19,7 @@ static_sites:
           deploy_on_push: true
           repo: the-dead-planet/BOON
       source_dir: client
-      output_dir: /public
+      output_dir: /build
       build_command: yarn build
       routes:
           - path: /app
