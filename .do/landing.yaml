@@ -12,3 +12,7 @@ static_sites:
       build_command: yarn build
       routes:
           - path: /
+      envs:
+          - key: GATSBY_APP_URL
+            scope: BUILD_TIME
+            value: https://boon-tqii6.ondigitalocean.app
