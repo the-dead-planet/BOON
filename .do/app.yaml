@@ -12,3 +12,4 @@ static_sites:
       build_command: yarn build
       routes:
           - path: /
+      catchall_document: index.html
