@@ -1,14 +1,14 @@
-name: boon
+name: boon-landing
 region: ams
 
 static_sites:
-    - name: client
+    - name: landing
       github:
           branch: master
           deploy_on_push: true
           repo: the-dead-planet/BOON
-      source_dir: client
-      output_dir: /build
+      source_dir: landing
+      output_dir: /public
       build_command: yarn build
       routes:
           - path: /
