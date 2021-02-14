@@ -20,9 +20,10 @@ interface Props {
     onLoginSuccess: any;
     notificationsProps: NotificationProps;
     showError: any;
+    location?: { path: string; search?: string };
 }
 
-const Login = ({ user, mode, setMode, next, onLoginSuccess, notificationsProps, showError }: Props) => {
+const Login = ({ user, mode, setMode, next, onLoginSuccess, notificationsProps, showError, location }: Props) => {
     const [error, setError] = useState('');
 
     const setErrorMessage = (err: any) => {
@@ -33,6 +34,7 @@ const Login = ({ user, mode, setMode, next, onLoginSuccess, notificationsProps, 
         <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
             <AuthForm
                 mode={mode}
+                location={location}
                 error={error}
                 register={false}
                 initialValues={{
