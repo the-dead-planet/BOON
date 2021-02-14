@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { guestPage } from '../utils/authenticatedPage';
 import { interceptPage } from '../utils/interceptPage';
 import Layout from '../layouts/AppLayout';
@@ -12,6 +13,15 @@ import { Mode, User, NotificationProps, Auth } from '../logic/types';
     If non-email address value entered, match with publicName and replace 'email' value 
     by matched user's username (=email) 
  */
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        container: {
+            marginTop: '5em',
+        },
+    })
+);
+
 interface Props {
     next: any;
     onSuccess: any;
@@ -24,6 +34,8 @@ interface Props {
 }
 
 const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, showError, location }: Props) => {
+    const classes = useStyles();
+
     const [error, setError] = useState('');
 
     const setErrorMessage = (err: { message: string; request: any }) => {
@@ -32,27 +44,29 @@ const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, sh
 
     return (
         <Layout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
-            <AuthForm
-                mode={mode}
-                location={location}
-                register={true}
-                initialValues={{
-                    username: '',
-                    email: '',
-                    password: '',
-                }}
-                onSubmit={({ username, password, email, team }: Auth) => {
-                    authService
-                        .register(username, password, email, team)
-                        .then((res) => {
-                            const { user } = res;
-                            onSuccess(user);
-                            next();
-                        })
-                        .catch(setErrorMessage);
-                }}
-                error={error}
-            />
+            <div className={classes.container}>
+                <AuthForm
+                    mode={mode}
+                    location={location}
+                    register={true}
+                    initialValues={{
+                        username: '',
+                        email: '',
+                        password: '',
+                    }}
+                    onSubmit={({ username, password, email, team }: Auth) => {
+                        authService
+                            .register(username, password, email, team)
+                            .then((res) => {
+                                const { user } = res;
+                                onSuccess(user);
+                                next();
+                            })
+                            .catch(setErrorMessage);
+                    }}
+                    error={error}
+                />
+            </div>
         </Layout>
     );
 };

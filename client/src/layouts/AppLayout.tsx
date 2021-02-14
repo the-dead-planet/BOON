@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme: Theme) =>
             }),
             marginLeft: -DRAWER_WIDTH,
             paddingBottom: '5em',
-            minHeight: '100vh',
+            minHeight: 'calc(100vh - 200px)',
         },
         contentShift: {
             transition: theme.transitions.create('margin', {
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
             flexGrow: 1,
             padding: theme.spacing(3),
             paddingBottom: '5em',
-            minHeight: '100vh',
+            minHeight: 'calc(100vh - 200px)',
         },
         jumbotron: {
             minHeight: JUMBOTRON_HEIGHT,
@@ -77,8 +77,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         main: {
             width: '100%',
-            marginRight: theme.spacing(1),
-            marginLeft: theme.spacing(1),
         },
         title: ({ side }: { side: Side | undefined }) => ({
             textAlign: side || 'left',

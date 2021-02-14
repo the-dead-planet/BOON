@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         content: {
             padding: '6em',
+            [theme.breakpoints.down('sm')]: {
+                padding: '2em',
+            },
         },
         error: {
             margin: '1em 0',
