@@ -1,21 +1,21 @@
 import React from 'react';
-// import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-// import { Divider } from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Posts } from './Posts';
 import { SprintOverview } from './SprintOverview';
 // import usersService from '../../../services/usersService';
-import moment from 'moment';
-import { EXT_DATE_FORMAT } from '../../constants/dateFormats';
 import { User, Sprint, Post, Project, Comment, Like } from '../../logic/types';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
 
-// const useStyles = makeStyles((theme: Theme) =>
-//     createStyles({
-//     })
-// );
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        container: {
+            margin: '0 1em',
+        },
+    })
+);
 
 interface Props {
     user: User | null | undefined;
@@ -46,12 +46,13 @@ export const SingleSprint = ({
     toggleCommentsPanel,
     onError,
 }: Props) => {
-    // const classes = useStyles();
+    const classes = useStyles();
+
     const getProject = (id: string) =>
         [...projects.values()]?.reduce((acc, project) => (project.posts.includes(id) ? project : acc));
 
     return sprint ? (
-        <>
+        <div className={classes.container}>
             <SprintOverview
                 user={user}
                 sprint={sprint}
@@ -94,7 +95,7 @@ export const SingleSprint = ({
                 lg={4}
                 xl={3}
             />
-        </>
+        </div>
     ) : (
         <></>
     );

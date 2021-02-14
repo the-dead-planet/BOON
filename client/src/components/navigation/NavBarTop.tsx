@@ -3,10 +3,9 @@ import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { TOOLBAR_HEIGHT, DRAWER_WIDTH } from '../../styles/constants';
 // import { Link } from '../../utils/Link';
-import { Grid, AppBar, Toolbar, Typography, Hidden, Tooltip } from '@material-ui/core';
+import { Grid, AppBar, Toolbar, Typography, Hidden, Container } from '@material-ui/core';
 import { IconButton } from '../mui-styled/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import CreateIcon from '@material-ui/icons/Create';
 import Pagination from './Pagination';
 // import HideOnScroll from '../../utils/HideOnScroll';
 import { AuthButtonsHorizontal } from './NavButtons';
@@ -105,52 +104,60 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
                     : undefined
             }
         >
-            <Toolbar className={classes.toolbar}>
-                <Grid container justify="center">
-                    <div className={`${classes.fix} ${classes.left}`}>
-                        <Hidden mdUp>
-                            {/* Application menu icon */}
-                            <IconButton
-                                aria-label="open drawer"
-                                onClick={toggleDrawer(true)}
-                                edge="start"
-                                className={
-                                    drawerVariant === 'persistent'
-                                        ? clsx(classes.menuButton, open && classes.hide)
-                                        : undefined
-                                }
-                            >
-                                <MenuIcon fontSize="small" />
-                            </IconButton>
-                        </Hidden>
-
-                        {quote && (
-                            <Hidden smDown>
-                                <div className={classes.quote}>
-                                    <Typography variant="caption">{quote}</Typography>
-                                </div>
+            <Container maxWidth="xl">
+                <Toolbar className={classes.toolbar}>
+                    <Grid container justify="center">
+                        <div className={`${classes.fix} ${classes.left}`}>
+                            <Hidden mdUp>
+                                {/* Application menu icon */}
+                                <IconButton
+                                    aria-label="open drawer"
+                                    onClick={toggleDrawer(true)}
+                                    edge="start"
+                                    className={
+                                        drawerVariant === 'persistent'
+                                            ? clsx(classes.menuButton, open && classes.hide)
+                                            : undefined
+                                    }
+                                >
+                                    <MenuIcon fontSize="small" />
+                                </IconButton>
                             </Hidden>
-                        )}
-                    </div>
 
-                    {/* Centered text */}
+                            {quote && (
+                                <Hidden smDown>
+                                    <div className={classes.quote}>
+                                        <Typography variant="caption">{quote}</Typography>
+                                    </div>
+                                </Hidden>
+                            )}
+                        </div>
 
-                    <Grid container direction="column" alignItems="center" justify="center" className={classes.logo}>
-                        <Typography variant="h6" noWrap className={classes.prefix}>
-                            — The —
-                        </Typography>
-                        <Typography variant="h4" noWrap>
-                            {name}
-                        </Typography>
+                        {/* Centered text */}
+
+                        <Grid
+                            container
+                            direction="column"
+                            alignItems="center"
+                            justify="center"
+                            className={classes.logo}
+                        >
+                            <Typography variant="h6" noWrap className={classes.prefix}>
+                                — The —
+                            </Typography>
+                            <Typography variant="h4" noWrap>
+                                {name}
+                            </Typography>
+                        </Grid>
+
+                        <div className={`${classes.fix} ${classes.right}`}>
+                            <AuthButtonsHorizontal user={user} />
+                        </div>
                     </Grid>
+                </Toolbar>
 
-                    <div className={`${classes.fix} ${classes.right}`}>
-                        <AuthButtonsHorizontal user={user} />
-                    </div>
-                </Grid>
-            </Toolbar>
-
-            <Pagination {...pagination} />
+                <Pagination {...pagination} />
+            </Container>
         </AppBar>
         // </HideOnScroll>
     );

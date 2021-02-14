@@ -2,7 +2,8 @@ import React, { Fragment } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Grid, CardMedia, Typography } from '@material-ui/core';
 import { PostCard } from './Card';
-import img from '../../img/landing/landing-1.png';
+import img1 from '../../img/content/vintage/bus.jpg';
+import img2 from '../../img/content/vintage/car.jpg';
 import { User, Post, Project, Comment, Like, PostsListVariant, Col, CardSubtitleType } from '../../logic/types';
 import moment from 'moment';
 import { EXT_DATE_FORMAT } from '../../constants/dateFormats';
@@ -110,7 +111,9 @@ export const PostsList = ({
                             // TODO: if image for post, shorten the 'maxLen' and display image
                             maxLen={i % 3 === 1 ? 250 : 400}
                             mediaMiddle={
-                                i % 3 === 1 && img ? <CardMedia image={img} className={classes.media} /> : undefined
+                                i % 3 === 1 ? (
+                                    <CardMedia image={i % 2 === 0 ? img1 : img2} className={classes.media} />
+                                ) : undefined
                             }
                             menuItems={[
                                 {
