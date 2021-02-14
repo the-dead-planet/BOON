@@ -23,7 +23,7 @@ test('login screen', async () => {
     await act(async () => fireEvent.change(await getByLabelText(/e-mail/i), { target: { value: 'some@email.com' } }));
     await act(async () => fireEvent.change(await getByLabelText(/password/i), { target: { value: 'password' } }));
 
-    await act(async () => fireEvent.submit(await findByText(/submit/i)));
+    await act(async () => fireEvent.submit(await findByText(/log in/i)));
 
     expect(authService.login).toHaveBeenCalled();
 });

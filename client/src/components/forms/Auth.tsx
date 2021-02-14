@@ -113,6 +113,7 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error, location }: 
                         <Button
                             variant={mode === 'dark' ? 'outlined' : 'contained'}
                             color={mode === 'dark' ? undefined : 'primary'}
+                            title="submit"
                             type="submit"
                         >
                             {register ? 'Register' : 'Log in'}
