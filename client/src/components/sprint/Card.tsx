@@ -90,6 +90,7 @@ interface Props {
     toggleCommentsPanel: any;
     divider?: boolean;
     hover?: boolean;
+    colCount?: number;
 }
 
 // Pass a component to mediaTop or mediaBottom depending on which location it is needed in
@@ -118,6 +119,7 @@ export const PostCard = ({
     toggleCommentsPanel,
     divider,
     hover,
+    colCount,
 }: Props) => {
     const classes = useStyles();
 
@@ -190,7 +192,7 @@ export const PostCard = ({
 
             {mediaMiddle}
 
-            <CardContent className={classes.col}>
+            <CardContent className={classes.col} style={{ columnCount: colCount }}>
                 <Typography variant="body2" color="textSecondary" component="p" gutterBottom className={classes.body}>
                     {showMoreRequired ? `${body.substring(0, maxLen)}` : body}
                     {showMoreRequired && titleLink ? (

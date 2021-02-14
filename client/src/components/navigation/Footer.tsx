@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 // import { Link } from '../../utils/Link';
-import { Grid } from '@material-ui/core';
+import { Grid, Container } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -34,9 +34,13 @@ const Footer = () => {
     const classes = useStyles();
 
     return (
-        <Grid container justify="space-around" alignItems="center" className={classes.footer}>
-            <div>Footer content</div>
-        </Grid>
+        <div className={classes.footer}>
+            <Container maxWidth="xl">
+                <Grid container justify="space-around" alignItems="center">
+                    <div>Footer content</div>
+                </Grid>
+            </Container>
+        </div>
     );
 };
 

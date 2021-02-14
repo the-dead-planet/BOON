@@ -13,6 +13,9 @@ import { User, Post, Project, Comment, Like, Sprint } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        container: {
+            margin: '0 1em',
+        },
         title: {
             padding: theme.spacing(8),
             border: `solid 2px ${theme.palette.secondary.main}`,
@@ -57,7 +60,7 @@ export const SingleProject = ({
         [...sprints.values()]?.reduce((acc, sprint) => (sprint.posts.includes(id) ? sprint : acc));
 
     return project ? (
-        <>
+        <div className={classes.container}>
             <Slide in={true} timeout={{ appear: 500, enter: 1000, exit: 500 }} direction="down">
                 <Typography variant="h1" color="secondary" className={classes.title}>
                     {project.title}
@@ -94,7 +97,7 @@ export const SingleProject = ({
             {/* TODO: Add list of projects to a side column on the right and remove pagination */}
             {/* TODO: Comments should expand under a post, show 3 by default and add a "show all" button to expand further */}
             {/* TODO: Quote should be only inserted in Sprints */}
-        </>
+        </div>
     ) : (
         <></>
     );

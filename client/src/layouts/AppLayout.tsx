@@ -35,6 +35,9 @@ import NotificationsRenderer from '../components/NotificationsRenderer';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        container: {
+            position: 'relative',
+        },
         content: {
             flexGrow: 1,
             padding: theme.spacing(3),
@@ -44,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
             }),
             marginLeft: -DRAWER_WIDTH,
             paddingBottom: '5em',
-            minHeight: '100vh',
+            minHeight: 'calc(100vh - 200px)',
         },
         contentShift: {
             transition: theme.transitions.create('margin', {
@@ -57,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
             flexGrow: 1,
             padding: theme.spacing(3),
             paddingBottom: '5em',
-            minHeight: '100vh',
+            minHeight: 'calc(100vh - 200px)',
         },
         jumbotron: {
             minHeight: JUMBOTRON_HEIGHT,
@@ -77,8 +80,6 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         main: {
             width: '100%',
-            marginRight: theme.spacing(1),
-            marginLeft: theme.spacing(1),
         },
         title: ({ side }: { side: Side | undefined }) => ({
             textAlign: side || 'left',
@@ -203,47 +204,49 @@ const AppLayout = ({
 
             {jumbotron && <Jumbotron {...jumbotron} />}
 
-            <main
-                className={
-                    drawer && drawer.variant === 'persistent'
-                        ? clsx(classes.content, {
-                              [classes.contentShift]: false,
-                          })
-                        : classes.contentPadding
-                }
-            >
-                {/* Either display jumbotron or apply class to display contents under the NavBar */}
-                {jumbotron && <div className={classes.jumbotron} />}
-                {appBar && <div className={classes.drawerHeaderHeight} />}
+            <Container maxWidth="xl" className={classes.container}>
+                <main
+                    className={
+                        drawer && drawer.variant === 'persistent'
+                            ? clsx(classes.content, {
+                                  [classes.contentShift]: false,
+                              })
+                            : classes.contentPadding
+                    }
+                >
+                    {/* Either display jumbotron or apply class to display contents under the NavBar */}
+                    {jumbotron && <div className={classes.jumbotron} />}
+                    {appBar && <div className={classes.drawerHeaderHeight} />}
 
-                {/* Page title to go above the navigation side panel */}
-                {title && (
-                    <Typography variant="h1" gutterBottom className={classes.title}>
-                        {title}
-                    </Typography>
-                )}
-
-                <div className={classes.mainContent}>
-                    {/* Left panel serving as navigation - contents lists */}
-                    {navPanel && (
-                        <Hidden smDown>
-                            <NavPanel
-                                user={user}
-                                variant={navPanel?.variant}
-                                createButton={createButton}
-                                contents={navPanel.content}
-                                sideColumn={sideColumn}
-                            />
-                        </Hidden>
+                    {/* Page title to go above the navigation side panel */}
+                    {title && (
+                        <Typography variant="h1" gutterBottom className={classes.title}>
+                            {title}
+                        </Typography>
                     )}
 
-                    {/* Class 'mainContent' changes leftMargin to 0 in size sm */}
-                    <Box className={classes.main}>{children}</Box>
+                    <div className={classes.mainContent}>
+                        {/* Left panel serving as navigation - contents lists */}
+                        {navPanel && (
+                            <Hidden smDown>
+                                <NavPanel
+                                    user={user}
+                                    variant={navPanel?.variant}
+                                    createButton={createButton}
+                                    contents={navPanel.content}
+                                    sideColumn={sideColumn}
+                                />
+                            </Hidden>
+                        )}
 
-                    {/* Right panel serving as navigation - contents lists */}
-                    {sideColumn && <SideCol variant={navPanel?.variant} {...sideColumn} />}
-                </div>
-            </main>
+                        {/* Class 'mainContent' changes leftMargin to 0 in size sm */}
+                        <Box className={classes.main}>{children}</Box>
+
+                        {/* Right panel serving as navigation - contents lists */}
+                        {sideColumn && <SideCol variant={navPanel?.variant} {...sideColumn} />}
+                    </div>
+                </main>
+            </Container>
 
             <Footer />
 
