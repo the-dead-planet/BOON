@@ -13,7 +13,7 @@ import { Mode } from '../../logic/types';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         submitSection: {
-            marginTop: '3em',
+            marginTop: '2em',
             '& button': {
                 width: '48%',
             },
@@ -71,17 +71,21 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error, location }: 
                 content={
                     <>
                         <Box className={classes.icons}>
-                            <Tooltip title="Log in with Catz" placement="bottom" arrow>
+                            <Tooltip title={`${register ? 'Register' : 'Log in'} with Catz`} placement="bottom" arrow>
                                 <IconButton>
                                     <CatIconOutlined />
                                 </IconButton>
                             </Tooltip>
-                            <Tooltip title="Log in with Treez" placement="bottom" arrow>
+                            <Tooltip title={`${register ? 'Register' : 'Log in'} with Treez`} placement="bottom" arrow>
                                 <IconButton>
                                     <TreeIconOutlined />
                                 </IconButton>
                             </Tooltip>
-                            <Tooltip title="Log in with Partiez" placement="bottom" arrow>
+                            <Tooltip
+                                title={`${register ? 'Register' : 'Log in'} with Partiez`}
+                                placement="bottom"
+                                arrow
+                            >
                                 <IconButton>
                                     <PartyIconOutlined />
                                 </IconButton>
