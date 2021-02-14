@@ -1,0 +1,15 @@
+name: boon
+region: ams
+
+static_sites:
+    - name: client
+      github:
+          branch: master
+          deploy_on_push: true
+          repo: the-dead-planet/BOON
+      source_dir: client
+      output_dir: /build
+      build_command: yarn build
+      routes:
+          - path: /
+      catchall_document: index.html

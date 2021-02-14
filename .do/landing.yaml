@@ -1,0 +1,18 @@
+name: boon-landing
+region: ams
+
+static_sites:
+    - name: landing
+      github:
+          branch: master
+          deploy_on_push: true
+          repo: the-dead-planet/BOON
+      source_dir: landing
+      output_dir: /public
+      build_command: yarn build
+      routes:
+          - path: /
+      envs:
+          - key: GATSBY_APP_URL
+            scope: BUILD_TIME
+            value: https://boon-tqii6.ondigitalocean.app

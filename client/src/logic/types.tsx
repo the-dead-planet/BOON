@@ -39,7 +39,6 @@ interface UserObject {
 }
 
 interface UserData {
-    objectId: string;
     email: string;
     publicName: string;
     darkMode: boolean | undefined;
@@ -114,7 +113,6 @@ interface Comment {
 }
 
 interface CommentData {
-    objectId?: string;
     body: string;
 }
 
@@ -126,7 +124,6 @@ interface Like {
 }
 
 interface LikeData {
-    objectId?: string;
     type: 'Thumb up' | 'Thumb down' | 'Heart';
 }
 
@@ -160,7 +157,6 @@ interface Sprint {
 }
 
 interface SprintData {
-    objectId?: string;
     number: number;
     dateFrom: string;
     dateTo: string;
@@ -180,7 +176,6 @@ interface Post {
 }
 
 interface PostData {
-    objectId?: string;
     title: string;
     body: string;
 }
@@ -196,7 +191,6 @@ interface Project {
 }
 
 interface ProjectData {
-    objectId?: string;
     title: string;
     body: string;
 }
@@ -211,7 +205,6 @@ interface Team {
 }
 
 interface TeamData {
-    objectId?: string;
     title: string;
     body: string;
 }
@@ -395,6 +388,10 @@ interface Tag {
     link?: string;
 }
 
+interface WithObjectId {
+    objectId: string;
+}
+
 export type {
     Children,
     Col,
@@ -458,4 +455,5 @@ export type {
     PostsListVariant,
     CardSubtitleType,
     Tag,
+    WithObjectId,
 };

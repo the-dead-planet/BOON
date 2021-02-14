@@ -20,9 +20,10 @@ interface Props {
     setMode: any;
     notificationsProps: NotificationProps;
     showError: any;
+    location?: { path: string; search?: string };
 }
 
-const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, showError }: Props) => {
+const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, showError, location }: Props) => {
     const [error, setError] = useState('');
 
     const setErrorMessage = (err: { message: string; request: any }) => {
@@ -33,6 +34,7 @@ const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, sh
         <Layout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
             <AuthForm
                 mode={mode}
+                location={location}
                 register={true}
                 initialValues={{
                     username: '',
