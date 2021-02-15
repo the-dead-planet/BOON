@@ -1,16 +1,18 @@
 import React from 'react';
 import { render, act, fireEvent } from '@testing-library/react';
 import App from '../App';
-import authService from '../services/authService';
-import sprintsService from '../services/sprintsService';
+import services from '../services/realImpl';
 
-jest.mock('../services/authService');
-jest.mock('../services/sprintsService');
+jest.mock('../services/realImpl');
 
 test('login screen', async () => {
+    const { authService, sprintsService, projectsService, usersService } = services;
+
     authService.whoami.mockResolvedValue({ user: null });
     authService.login.mockResolvedValue({ user: { username: 'userA' } });
     sprintsService.getAll.mockResolvedValue([]);
+    projectsService.getAll.mockResolvedValue([]);
+    usersService.getAll.mockResolvedValue([]);
 
     const { getByText, getByLabelText, findByText } = render(<App />);
 
