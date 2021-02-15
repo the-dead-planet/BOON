@@ -1,8 +1,6 @@
-import axios from 'axios';
 import { UserData, User } from '../logic/types';
-import { crudService, CrudService } from '../logic/service';
-
-type UsersService = Pick<CrudService<User, UserData>, 'getAll' | 'getOne' | 'update'>;
+import { crudService } from '../logic/service';
+import { UsersService } from './services';
 
 // An instance will all CRUD operations defined.
 const fullUsersService = crudService<User, UserData>('users');

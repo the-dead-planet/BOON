@@ -1,8 +1,6 @@
-import axios from 'axios';
 import { SprintData, Sprint } from '../logic/types';
-import { crudService, CrudService } from '../logic/service';
-
-type SprintsService = CrudService<Sprint, SprintData>;
+import { crudService } from '../logic/service';
+import { SprintsService } from './services';
 
 const sprintsService: SprintsService = crudService<Sprint, SprintData>('sprints');
 
