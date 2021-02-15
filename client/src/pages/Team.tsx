@@ -24,7 +24,7 @@ interface SprintProps {
 }
 
 // If path is /sprints, redirect to the newest sprint
-const Teams = ({
+const Team = ({
     user,
     mode,
     setMode,
@@ -93,4 +93,4 @@ const Teams = ({
 };
 
 // export default (withShowError as any)(Sprint);
-export default authenticatedPage(withPush(Teams));
+export default authenticatedPage(withPush(Team));

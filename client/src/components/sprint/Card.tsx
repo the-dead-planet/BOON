@@ -90,6 +90,7 @@ interface Props {
     toggleCommentsPanel: any;
     divider?: boolean;
     hover?: boolean;
+    colCount?: number;
 }
 
 // Pass a component to mediaTop or mediaBottom depending on which location it is needed in
@@ -118,6 +119,7 @@ export const PostCard = ({
     toggleCommentsPanel,
     divider,
     hover,
+    colCount,
 }: Props) => {
     const classes = useStyles();
 
@@ -128,9 +130,9 @@ export const PostCard = ({
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-    const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
+    // const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    //     setAnchorEl(event.currentTarget);
+    // };
 
     const handleMenuClose = () => {
         setAnchorEl(null);
@@ -167,14 +169,16 @@ export const PostCard = ({
                         tag.link
                     )}
 
-                {tags?.map((tag) =>
-                    linkWrapper(
-                        <Typography variant="caption" gutterBottom className={classes.outlined}>
-                            {tag.title}
-                        </Typography>,
-                        tag.link
-                    )
-                )}
+                {tags?.map((tag, i) => (
+                    <div key={i}>
+                        {linkWrapper(
+                            <Typography variant="caption" gutterBottom className={classes.outlined}>
+                                {tag.title}
+                            </Typography>,
+                            tag.link
+                        )}
+                    </div>
+                ))}
             </CardContent>
             <CardMenu
                 user={user}
@@ -188,7 +192,7 @@ export const PostCard = ({
 
             {mediaMiddle}
 
-            <CardContent className={classes.col}>
+            <CardContent className={classes.col} style={{ columnCount: colCount }}>
                 <Typography variant="body2" color="textSecondary" component="p" gutterBottom className={classes.body}>
                     {showMoreRequired ? `${body.substring(0, maxLen)}` : body}
                     {showMoreRequired && titleLink ? (

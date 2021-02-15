@@ -12,7 +12,7 @@ import EditSprint from './pages/EditSprint';
 import Sprint from './pages/Sprint';
 import Project from './pages/Project';
 import Post from './pages/Post';
-import Teams from './pages/Teams';
+import Team from './pages/Team';
 import './App.css';
 import authService from './services/authService';
 import ScrollToTop from './utils/ScrollToTop';
@@ -234,7 +234,7 @@ class App extends Component<{}, StateType> {
 
                             {/* Teams and users */}
                             <Route path={teams}>
-                                <Teams
+                                <Team
                                     user={user}
                                     mode={this.state.mode}
                                     setMode={this.setMode}

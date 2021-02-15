@@ -4,30 +4,70 @@ import { Formik, Form } from 'formik';
 import { Grid, Paper, Typography, Hidden } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { withValidationList } from '../../utils/withValidation';
-import image from '../../img/forms/Register.png';
+import image from '../../img/content/vintage/watch.jpg';
 import { Mode } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         formPaper: {
-            padding: theme.spacing(2),
             color: theme.palette.primary.main,
-            width: '50%',
-            minWidth: '400px',
+            width: '100%',
+            maxWidth: '70em',
             margin: '0 auto',
+            overflow: 'hidden',
         },
         img: {
             display: 'block',
             // height: "auto",
-            width: '90%',
-            borderRadius: '3px',
+            width: '100%',
+            objectFit: 'cover',
             margin: '0 auto',
         },
-        alert: {
-            margin: '1em auto',
+        content: {
+            padding: '6em',
+            [theme.breakpoints.down('sm')]: {
+                padding: '2em',
+            },
+        },
+        error: {
+            margin: '1em 0',
         },
     })
 );
+
+interface GridFormProps {
+    children: React.ReactChild | Array<React.ReactChild | undefined> | undefined;
+    title?: string;
+}
+
+// Centered form wrapped in a grid on paper
+export const AppFormLayout = ({ children, title }: GridFormProps) => {
+    const classes = useStyles();
+
+    return (
+        <Paper className={classes.formPaper}>
+            <Grid container direction="row">
+                <Hidden smDown>
+                    <Grid item xs={6}>
+                        <img className={classes.img} src={image} />
+                    </Grid>
+                </Hidden>
+
+                <Grid container direction="column" justify="center" item xs={12} md={6} className={classes.content}>
+                    {title && (
+                        <Grid item>
+                            <Typography align="center" variant="h4" gutterBottom>
+                                {title}
+                            </Typography>
+                        </Grid>
+                    )}
+
+                    {children}
+                </Grid>
+            </Grid>
+        </Paper>
+    );
+};
 
 // const EmailValidator = _;
 // TODO: add a mechanism from router to make sure user wants to close the window if the forms are partially filled but not submitted
@@ -40,6 +80,8 @@ interface Props {
     children: any;
     submitSection: any;
     submitPos?: 'bottom' | 'right';
+    error?: string;
+    content?: any;
 }
 
 /* 
@@ -55,6 +97,8 @@ export const AppForm = ({
     submitSection,
     submitPos = 'bottom',
     children,
+    error,
+    content,
 }: Props) => {
     const classes = useStyles();
 
@@ -71,12 +115,17 @@ export const AppForm = ({
             {({ errors, touched }) => {
                 return (
                     <Form>
-                        <Grid container>
-                            {/* 
-                            [].flat applied as 'children' might be an array of components (Login, Register) or a single component (Logout) 
-                            Extra check if child is not undefined as the Login form includes 'undefined' in place of other fields from "Register" page.
-                            TODO: Consider changing this behavior in the auth form for "login"
-                        */}
+                        <Grid container justify="center">
+                            {content}
+
+                            {error && (
+                                <Grid item xs={12} className={classes.error}>
+                                    <Alert variant="filled" severity="error">
+                                        {error}
+                                    </Alert>
+                                </Grid>
+                            )}
+
                             {withValidationList(children, errors, touched)}
 
                             {/* This prop should receive at least a button with type submit */}
@@ -86,48 +135,5 @@ export const AppForm = ({
                 );
             }}
         </Formik>
-    );
-};
-
-interface GridFormProps {
-    children: React.ReactChild | Array<React.ReactChild | undefined> | undefined;
-    title?: string;
-    error?: string;
-}
-
-// Centered form wrapped in a grid on paper
-export const AppFormLayout = ({ children, title, error }: GridFormProps) => {
-    const classes = useStyles();
-
-    return (
-        <Paper className={classes.formPaper}>
-            <Grid container direction="row" spacing={2}>
-                <Hidden smDown>
-                    <Grid item md={6}>
-                        <img className={classes.img} src={image} />
-                    </Grid>
-                </Hidden>
-
-                <Grid container direction="column" justify="space-evenly" item xs={12} md={6}>
-                    {title && (
-                        <Grid item>
-                            <Typography align="center" variant="h4" gutterBottom>
-                                {title}
-                            </Typography>
-                        </Grid>
-                    )}
-
-                    {error && (
-                        <Grid item>
-                            <Alert variant="filled" severity="error" className={classes.alert}>
-                                {error}
-                            </Alert>
-                        </Grid>
-                    )}
-
-                    {children}
-                </Grid>
-            </Grid>
-        </Paper>
     );
 };

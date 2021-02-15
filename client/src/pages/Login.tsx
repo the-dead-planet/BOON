@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { guestPage } from '../utils/authenticatedPage';
 import { interceptPage } from '../utils/interceptPage';
 import AppLayout from '../layouts/AppLayout';
@@ -12,6 +13,15 @@ import { Mode, User, NotificationProps } from '../logic/types';
     If non-email address value entered, match with publicName and replace 'email' value 
     by matched user's username (=email) 
  */
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        container: {
+            marginTop: '5em',
+        },
+    })
+);
+
 interface Props {
     user: User;
     mode: Mode;
@@ -20,9 +30,11 @@ interface Props {
     onLoginSuccess: any;
     notificationsProps: NotificationProps;
     showError: any;
+    location?: { path: string; search?: string };
 }
 
-const Login = ({ user, mode, setMode, next, onLoginSuccess, notificationsProps, showError }: Props) => {
+const Login = ({ user, mode, setMode, next, onLoginSuccess, notificationsProps, showError, location }: Props) => {
+    const classes = useStyles();
     const [error, setError] = useState('');
 
     const setErrorMessage = (err: any) => {
@@ -31,24 +43,27 @@ const Login = ({ user, mode, setMode, next, onLoginSuccess, notificationsProps, 
 
     return (
         <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
-            <AuthForm
-                mode={mode}
-                error={error}
-                register={false}
-                initialValues={{
-                    email: '',
-                    password: '',
-                }}
-                onSubmit={async ({ password, email }: { password: string; email: string }) => {
-                    authService
-                        .login(password, email)
-                        .then(({ user }) => {
-                            onLoginSuccess(user);
-                            next();
-                        })
-                        .catch(setErrorMessage);
-                }}
-            />
+            <div className={classes.container}>
+                <AuthForm
+                    mode={mode}
+                    location={location}
+                    error={error}
+                    register={false}
+                    initialValues={{
+                        email: '',
+                        password: '',
+                    }}
+                    onSubmit={async ({ password, email }: { password: string; email: string }) => {
+                        authService
+                            .login(password, email)
+                            .then(({ user }) => {
+                                onLoginSuccess(user);
+                                next();
+                            })
+                            .catch(setErrorMessage);
+                    }}
+                />
+            </div>
         </AppLayout>
     );
 };
