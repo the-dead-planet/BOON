@@ -14,7 +14,7 @@ import Project from './pages/Project';
 import Post from './pages/Post';
 import Team from './pages/Team';
 import './App.css';
-import authService from './services/authService';
+import services from './services/realImpl';
 import ScrollToTop from './utils/ScrollToTop';
 import { StateType, Mode } from './logic/types';
 import { PATHS } from './constants/data';
@@ -29,7 +29,7 @@ class App extends Component<{}, StateType> {
 
     // TODO: Change to pass value of model User, not UserAuth
     componentDidMount() {
-        authService.whoami().then(({ user }) => {
+        services.authService.whoami().then(({ user }) => {
             this.setState(State.resolveWhoAmI(this.state)(user));
             // TODO: Currently users are populated based on authors of sprints and its children tree.
             // If current user has never posted anything, it is not present in app state, which

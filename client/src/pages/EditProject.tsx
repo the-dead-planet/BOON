@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import projectsService from '../services/projectsService';
+import services from '../services/realImpl';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
@@ -26,6 +26,8 @@ const EditProject = ({ user, mode, setMode, push, notificationsProps, showError 
     const { id } = useParams<Params>();
 
     const [project, setProject] = useState<Project | null>(null);
+
+    const { projectsService } = services;
 
     const getProject = async () => {
         const project = await projectsService.getOne({ objectId: id });

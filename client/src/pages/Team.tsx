@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
-import sprintsService from '../services/sprintsService';
+import services from '../services/realImpl';
 import AppLayout from '../layouts/AppLayout';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData } from '../logic/types';
@@ -58,7 +58,7 @@ const Team = ({
     }
 
     const getSprints = async () => {
-        let res = await sprintsService.getAll().catch(showError);
+        let res = await services.sprintsService.getAll().catch(showError);
         await setState(res);
     };
 

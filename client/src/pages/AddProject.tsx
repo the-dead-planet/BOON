@@ -1,5 +1,5 @@
 import React from 'react';
-import projectsService from '../services/projectsService';
+import services from '../services/realImpl';
 import ProjectForm from '../components/forms/Project';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
@@ -27,7 +27,7 @@ const AddProject = ({ user, mode, setMode, push, notificationsProps, showError }
                     body: '',
                 }}
                 onSubmit={(data: ProjectSubmit) => {
-                    projectsService
+                    services.projectsService
                         .add(data)
                         .then(() => {
                             push('/sprints');

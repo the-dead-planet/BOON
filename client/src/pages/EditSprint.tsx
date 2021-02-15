@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import SprintForm from '../components/forms/Sprint';
 import moment from 'moment';
-import sprintsService from '../services/sprintsService';
+import services from '../services/realImpl';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import { FORMIK_DATE_FORMAT } from '../constants/dateFormats';
@@ -28,6 +28,8 @@ const EditSprint = ({ user, mode, setMode, push, notificationsProps, showError }
     const { id } = useParams<Params>();
 
     const [sprint, setSprint] = useState<Sprint | null>(null);
+
+    const { sprintsService } = services;
 
     const getSprint = async () => {
         const sprint = await sprintsService.getOne({ objectId: id }).catch(showError);

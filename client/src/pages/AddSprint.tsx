@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import sprintsService from '../services/sprintsService';
+import services from '../services/realImpl';
 import SprintForm from '../components/forms/Sprint';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
@@ -31,7 +31,7 @@ const AddSprint = ({ user, mode, setMode, push, notificationsProps, showError }:
                 body: '',
             }}
             onSubmit={(data: SprintSubmit) => {
-                sprintsService
+                services.sprintsService
                     .add(data)
                     .then(() => {
                         push('/sprints');

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 // import moment from 'moment';
-import postsService from '../services/postsService';
-import sprintsService from '../services/sprintsService';
+import services from '../services/realImpl';
 import PostForm from '../components/forms/Post';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
@@ -28,6 +27,8 @@ const AddPost = ({ user, mode, setMode, sprintId, push, notificationsProps, show
     const { id } = useParams<Params>();
 
     const [sprint, setSprint] = useState<Sprint | null>(null);
+
+    const { sprintsService, postsService } = services;
 
     const getSprint = async () => {
         const sprint = await sprintsService.getOne({ objectId: id }).catch(showError);

@@ -1,9 +1,7 @@
 import React from 'react';
 // import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import commentsService from '../services/commentsService';
-import postsService from '../services/postsService';
-import sprintsService from '../services/sprintsService';
+import services from '../services/realImpl';
 import MenuItem from '@material-ui/core/MenuItem';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { User, Sprint, MongoObject, Model } from '../logic/types';
@@ -13,17 +11,17 @@ import { User, Sprint, MongoObject, Model } from '../logic/types';
 const models = [
     {
         name: 'Sprint',
-        service: sprintsService,
+        service: services.sprintsService,
         path: '/sprints',
     },
     {
         name: 'Post',
-        service: postsService,
+        service: services.postsService,
         path: '/posts',
     },
     {
         name: 'Comment',
-        service: commentsService,
+        service: services.commentsService,
         path: '/comments',
     },
 ];

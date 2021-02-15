@@ -5,7 +5,7 @@ import { TextField, Typography } from '@material-ui/core';
 import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
 import { IconButton } from '../mui-styled/IconButton';
 import { GridField } from './GridFields';
-import commentsService from '../../services/commentsService';
+import services from '../../services/realImpl';
 import { Mode, CommentSubmit, User, Model } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -44,7 +44,7 @@ export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: P
                 // TODO: repair warning "Failed prop type: Material-UI: You are providing an onClick event listener to a child of a button element. Firefox will never trigger the event."
                 resetForm({ values: '' });
 
-                return commentsService.add(extendedData).then((response) => {
+                return services.commentsService.add(extendedData).then((response) => {
                     addComment(_id, response);
                 });
             }}

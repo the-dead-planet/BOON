@@ -1,6 +1,10 @@
+/**
+ * The "real" implementation of the `Services` bundle.
+ * Talks to a remote enpoint through HTTP.
+ */
 import axios from 'axios';
-import { sendRawPostRequest } from '../logic/service';
-import { WrappedUserData, AuthService } from './services';
+import { sendRawPostRequest, crudService } from '../logic/service';
+import Services, { WrappedUserData, AuthService } from './services';
 
 const getData = <T>({ data }: { data: T }): T => data;
 
@@ -17,4 +21,14 @@ const authService: AuthService = {
             .catch(() => ({ user: null })),
 };
 
-export default authService;
+const realImpl: Services = {
+    authService,
+    commentsService: crudService('comments'),
+    likesService: crudService('likes'),
+    postsService: crudService('posts'),
+    projectsService: crudService('projects'),
+    sprintsService: crudService('sprints'),
+    usersService: crudService('users'),
+};
+
+export default realImpl;
