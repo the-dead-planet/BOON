@@ -4,8 +4,8 @@ import { guestPage } from '../utils/authenticatedPage';
 import { interceptPage } from '../utils/interceptPage';
 import Layout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
-import services from '../services/realImpl';
 import { Mode, User, NotificationProps, Auth } from '../logic/types';
+import { useServices } from '../services';
 
 /* 
     Users can log in using either their e-mail (passport 'username') or their publicName
@@ -37,6 +37,8 @@ const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, sh
 
     const [error, setError] = useState('');
 
+    const { authService } = useServices()!;
+
     const setErrorMessage = (err: { message: string; request: any }) => {
         setError(err.request.response);
     };
@@ -54,7 +56,7 @@ const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, sh
                         password: '',
                     }}
                     onSubmit={({ username, password, email, team }: Auth) => {
-                        services.authService
+                        authService
                             .register(username, password, email, team)
                             .then((res) => {
                                 const { user } = res;

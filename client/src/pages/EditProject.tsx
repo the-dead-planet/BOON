@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import services from '../services/realImpl';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
@@ -8,6 +7,7 @@ import ProjectForm from '../components/forms/Project';
 import { Loading } from '../components/Loading';
 import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, ProjectSubmit, Project } from '../logic/types';
+import { useServices } from '../services';
 
 interface Props {
     user: User;
@@ -27,7 +27,7 @@ const EditProject = ({ user, mode, setMode, push, notificationsProps, showError 
 
     const [project, setProject] = useState<Project | null>(null);
 
-    const { projectsService } = services;
+    const { projectsService } = useServices()!;
 
     const getProject = async () => {
         const project = await projectsService.getOne({ objectId: id });

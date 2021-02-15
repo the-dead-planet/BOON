@@ -18,10 +18,16 @@ import services from './services/realImpl';
 import ScrollToTop from './utils/ScrollToTop';
 import { StateType, Mode } from './logic/types';
 import { PATHS } from './constants/data';
+import { ServicesContext, useServices } from './services/context';
+import { WrappedUserData } from './services/services';
 
 const { root, home, sprints, projects, teams, posts, login, logout, register, add, edit, addPost } = PATHS;
 
-class App extends Component<{}, StateType> {
+// TODO: use a pure functional component with hooks, instead of a class component.
+// It will make it a bit easier to handle a Context object.
+class AppImpl extends Component<{}, StateType> {
+    static contextType = ServicesContext;
+
     constructor(props: any) {
         super(props);
         this.state = State.INITIAL_STATE;
@@ -29,7 +35,8 @@ class App extends Component<{}, StateType> {
 
     // TODO: Change to pass value of model User, not UserAuth
     componentDidMount() {
-        services.authService.whoami().then(({ user }) => {
+        const { authService } = this.context!;
+        authService.whoami().then(({ user }: WrappedUserData) => {
             this.setState(State.resolveWhoAmI(this.state)(user));
             // TODO: Currently users are populated based on authors of sprints and its children tree.
             // If current user has never posted anything, it is not present in app state, which
@@ -268,5 +275,14 @@ class App extends Component<{}, StateType> {
         );
     }
 }
+
+// Wrap the AppImpl object with a context provider.
+// After rewriting AppImpl to a pure functional component, get rid of the
+// wrapper.
+const App = () => (
+    <ServicesContext.Provider value={services}>
+        <AppImpl />
+    </ServicesContext.Provider>
+);
 
 export default App;

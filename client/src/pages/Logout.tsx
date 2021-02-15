@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import AppLayout from '../layouts/AppLayout';
 import { AppFormLayout } from '../components/forms/App';
 import { Typography, Fade } from '@material-ui/core';
-import services from '../services/realImpl';
+import { useServices } from '../services';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode } from '../logic/types';
 import { PATHS } from '../constants/data';
@@ -21,11 +21,12 @@ interface LogoutProps {
 
 const Logout = ({ user, onSuccess, mode, setMode, notificationsProps, showError }: LogoutProps) => {
     const [logoutRequestDone, setLogoutRequestDone] = useState(false);
+    const { authService } = useServices()!;
 
     useEffect(() => {
         if (!logoutRequestDone) {
             setTimeout(() => {
-                services.authService
+                authService
                     .logout()
                     .then(() => onSuccess())
                     .catch(showError)

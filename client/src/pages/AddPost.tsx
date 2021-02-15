@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 // import moment from 'moment';
-import services from '../services/realImpl';
 import PostForm from '../components/forms/Post';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
@@ -8,6 +7,7 @@ import AppLayout from '../layouts/AppLayout';
 import { useParams } from 'react-router-dom';
 import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, PostSubmit, Sprint } from '../logic/types';
+import { useServices } from '../services';
 
 interface Props {
     user: User;
@@ -28,7 +28,7 @@ const AddPost = ({ user, mode, setMode, sprintId, push, notificationsProps, show
 
     const [sprint, setSprint] = useState<Sprint | null>(null);
 
-    const { sprintsService, postsService } = services;
+    const { sprintsService, postsService } = useServices()!;
 
     const getSprint = async () => {
         const sprint = await sprintsService.getOne({ objectId: id }).catch(showError);

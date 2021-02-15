@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import SprintForm from '../components/forms/Sprint';
 import moment from 'moment';
-import services from '../services/realImpl';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import { FORMIK_DATE_FORMAT } from '../constants/dateFormats';
@@ -10,6 +9,7 @@ import AppLayout from '../layouts/AppLayout';
 import { Loading } from '../components/Loading';
 // import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, SprintSubmit, Sprint } from '../logic/types';
+import { useServices } from '../services';
 
 interface Props {
     user: User;
@@ -29,7 +29,7 @@ const EditSprint = ({ user, mode, setMode, push, notificationsProps, showError }
 
     const [sprint, setSprint] = useState<Sprint | null>(null);
 
-    const { sprintsService } = services;
+    const { sprintsService } = useServices()!;
 
     const getSprint = async () => {
         const sprint = await sprintsService.getOne({ objectId: id }).catch(showError);

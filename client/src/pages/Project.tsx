@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
-import services from '../services/realImpl';
 import AppLayout from '../layouts/AppLayout';
 import { Loading, Empty } from '../components/Loading';
 import { CommentsSection } from '../components/CommentsSection';
@@ -13,6 +12,7 @@ import {
 } from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData, Project, Model } from '../logic/types';
 import { PATHS, QUOTES } from '../constants/data';
+import { useServices } from '../services';
 const { projects } = PATHS;
 const projectsPath = projects;
 
@@ -70,7 +70,7 @@ const Sprint = ({
         GET DATA FROM DATA BASE AND WRITE TO APP STATE
     */
     const getData = async () => {
-        const { sprintsService, projectsService, usersService } = services;
+        const { sprintsService, projectsService, usersService } = useServices()!;
         let res = await sprintsService.getAll().catch(showError);
         let resProj = await projectsService.getAll().catch(showError);
         // Temp - see comment in ComponentDidMount in App.tsx

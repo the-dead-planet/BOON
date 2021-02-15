@@ -1,14 +1,23 @@
 import React from 'react';
 // import { Redirect } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import services from '../services/realImpl';
 import MenuItem from '@material-ui/core/MenuItem';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { User, Sprint, MongoObject, Model } from '../logic/types';
+import { ServicesT, useServices } from '../services';
 // import { PATHS } from '../constants/data';
 // const { main } = PATHS;
 
-const models = [
+interface DeleteProps {
+    user: User | null | undefined;
+    model: Model;
+    object: MongoObject;
+    push?: any;
+    onError?: any;
+    removeObject: any;
+}
+
+const makeModels = (services: ServicesT) => [
     {
         name: 'Sprint',
         service: services.sprintsService,
@@ -26,22 +35,15 @@ const models = [
     },
 ];
 
-interface DeleteProps {
-    user: User | null | undefined;
-    model: Model;
-    object: MongoObject;
-    push?: any;
-    onError?: any;
-    removeObject: any;
-}
-
 // TODO: delete those `any` casts. Typescript correctly detects type violations in the functions below.
 export const ObjectDeleteButton = ({ user, model, object, push, onError, removeObject }: DeleteProps) => {
+    const services = useServices()!;
+
     return user && object && (object as any).author === user._id ? (
         <MenuItem
             color="inherit"
             onClick={() =>
-                models
+                makeModels(services)
                     .reduce((acc, val) => (val.name === model ? val : acc))
                     .service.delete({ objectId: object._id })
                     .then((response) => {
@@ -56,12 +58,14 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError, removeO
 };
 
 export const IconDelete = ({ user, model, object, push, onError, removeObject }: DeleteProps) => {
+    const services = useServices()!;
+
     return user && object && (object as any).author === user._id ? (
         <DeleteIcon
             fontSize="small"
             color="inherit"
             onClick={() =>
-                models
+                makeModels(services)
                     .reduce((acc, val) => (val.name === model ? val : acc))
                     .service.delete({ objectId: object._id })
                     .then((response) => {
@@ -80,6 +84,8 @@ interface EditProps {
 }
 
 export const ObjectEditButton = ({ user, model, object }: EditProps) => {
+    const services = useServices()!;
+    const models = makeModels(services);
     return user && object && (object as any).author._id === user._id ? (
         <Button
             color="inherit"
@@ -96,6 +102,8 @@ interface AddProps {
 }
 
 export const AddPostButton = ({ user, sprint }: AddProps) => {
+    const services = useServices()!;
+    const models = makeModels(services);
     return user && sprint ? (
         <Button
             color="inherit"

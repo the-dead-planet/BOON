@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
-import services from '../services/realImpl';
 import AppLayout from '../layouts/AppLayout';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode, StateData } from '../logic/types';
 import moment from 'moment';
 import { MONTH_YEAR_FORMAT } from '../constants/dateFormats';
+import { useServices } from '../services';
 
 // TODO: see a comment in `Logout` regarding HOCs.
 interface SprintProps {
@@ -38,6 +38,7 @@ const Team = ({
 }: SprintProps & WithShowErrorInjectedProps) => {
     const { id }: { id: string } = useParams();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
+    const { sprintsService } = useServices()!;
 
     let sprintToDisplayId = id;
     // If no specific `Sprint` has been specified, try to redirect to the
@@ -58,7 +59,7 @@ const Team = ({
     }
 
     const getSprints = async () => {
-        let res = await services.sprintsService.getAll().catch(showError);
+        let res = await sprintsService.getAll().catch(showError);
         await setState(res);
     };
 
