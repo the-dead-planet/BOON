@@ -48,6 +48,7 @@ const Sprint = ({
     const { id }: { id: string } = useParams();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
     const [quote, setQuote] = useState('');
+    const { sprintsService, projectsService, usersService } = useServices()!;
     /* 
         DETERMINE SPRINT ID
         If no specific `Sprint` has been specified, try to redirect to the
@@ -72,7 +73,6 @@ const Sprint = ({
         GET DATA FROM DATA BASE AND WRITE TO APP STATE
     */
     const getData = async () => {
-        const { sprintsService, projectsService, usersService } = useServices()!;
         let res = await sprintsService.getAll().catch(showError);
         let resProj = await projectsService.getAll().catch(showError);
         // Temp - see comment in ComponentDidMount in App.tsx
