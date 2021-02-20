@@ -80,13 +80,13 @@ const createTheme = (mode: Mode, themeType: ThemeType) => {
                 light: '#CCC5B9', // light is the same color as main but with less opacity
                 main: '#252422',
                 dark: '#0F1517',
-                contrastText: '#FFFCF2',
+                contrastText: 'rgba(255, 255, 255, .87)',
             },
             secondary: {
                 light: '#D7B49E',
                 main: '#CE4257',
                 dark: '#720026',
-                contrastText: '#FFFCF2',
+                contrastText: 'rgba(255, 255, 255, .6)',
             },
             common: {
                 black: '#000',
@@ -106,7 +106,7 @@ const createTheme = (mode: Mode, themeType: ThemeType) => {
                 light: '#ffb74d',
                 main: '#ff9800',
                 dark: '#f57c00',
-                contrastText: '#rgba(0, 0, 0, 0.87',
+                contrastText: '#rgba(0, 0, 0, 0.87)',
             },
             info: {
                 light: '#64b5f6',
@@ -118,11 +118,11 @@ const createTheme = (mode: Mode, themeType: ThemeType) => {
                 light: '#81c784',
                 main: '#4caf50',
                 dark: '#388e3c',
-                contrastText: '#rgba(0, 0, 0, 0.87',
+                contrastText: '#rgba(0, 0, 0, 0.87)',
             },
             text: {
-                primary: mode === 'dark' ? '#fff' : '#252422',
-                secondary: mode === 'dark' ? '#fff' : '#403D39',
+                primary: mode === 'dark' ? 'rgba(255, 255, 255, .87)' : '#252422',
+                secondary: mode === 'dark' ? '#rgba(255, 255, 255, .6)' : '#403D39',
                 disabled: 'rgba(133, 30, 30, 0.38)',
                 hint: 'rgba(0, 0, 0, 0.38)',
             },
@@ -150,14 +150,17 @@ const createTheme = (mode: Mode, themeType: ThemeType) => {
                     body: {
                         minHeight: '100vh',
                         minWidth: '100%',
-                        backgroundColor: '#F2E5D4',
-                        boxShadow: '2px 3px 20px black, 0 0 100px #a89782 inset',
+                        backgroundColor: mode === 'dark' ? '#000' : '#F2E5D4',
+                        boxShadow: `2px 3px 20px black, 0 0 100px ${mode === 'dark' ? '#000' : '#a89782'} inset`,
                         // backgroundImage: "url('https://www.transparenttextures.com/patterns/paper-2.png')"
                         // backgroundImage: "url('https://www.transparenttextures.com/patterns/paper-fibers.png')"
                         // backgroundImage: "url('https://www.transparenttextures.com/patterns/clean-gray-paper.png')"
                         // backgroundImage: "url('https://www.transparenttextures.com/patterns/handmade-paper.png')"
-                        backgroundImage: `url('https://www.transparenttextures.com/patterns/paper-fibers.png'), 
-                                            url('https://www.transparenttextures.com/patterns/natural-paper.png')`,
+                        backgroundImage:
+                            mode === 'light'
+                                ? `url('https://www.transparenttextures.com/patterns/paper-fibers.png'), 
+                                            url('https://www.transparenttextures.com/patterns/natural-paper.png')`
+                                : undefined,
                         // backgroundImage: `url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
                         //                     url('https://www.transparenttextures.com/patterns/lined-paper.png')`,
                         // backgroundImage: `url('https://www.transparenttextures.com/patterns/natural-paper.png'),

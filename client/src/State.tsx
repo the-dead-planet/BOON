@@ -19,7 +19,7 @@ export const INITIAL_STATE: StateType = {
     whoamiRequestDone: false,
     user: null,
     mode: 'dark',
-    themeType: 'default',
+    themeType: 'vintage',
     notifications: [],
 };
 
