@@ -5,7 +5,7 @@ import { Posts } from '../sprint/Posts';
 import moment from 'moment';
 import { EXT_DATE_FORMAT } from '../../constants/dateFormats';
 // import usersService from '../../../services/usersService';
-import { User, Post, Project, Comment, Like, Sprint } from '../../logic/types';
+import { User, Post, Project, Comment, Like, Sprint, ThemeType } from '../../logic/types';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     user: User | null | undefined;
+    themeType: ThemeType;
     project: Project | undefined;
     projects: Map<string, Project>;
     sprints: Map<string, Sprint>;
@@ -43,6 +44,7 @@ interface Props {
 
 export const SingleProject = ({
     user,
+    themeType,
     project,
     sprints,
     posts,
@@ -68,6 +70,7 @@ export const SingleProject = ({
             </Slide>
             <Posts
                 user={user}
+                themeType={themeType}
                 posts={project?.posts
                     .map((id) => posts.get(id))
                     .sort((a, b) =>

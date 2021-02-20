@@ -92,12 +92,10 @@ const useStyles = makeStyles((theme: Theme) =>
                 minHeight: '2em',
             },
             '& .frostic': {
-                marginTop: '2em',
                 background: theme.palette.background.default,
                 boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37)',
                 backdropFilter: 'blur(6px)',
                 '-webkit-backdrop-filter': 'blur(6px)',
-                borderRadius: '10px',
                 border: '1px solid rgba( 255, 255, 255, 0.18)',
                 color: theme.palette.text.primary,
                 '& button': {
@@ -110,6 +108,13 @@ const useStyles = makeStyles((theme: Theme) =>
                     content: "''",
                     borderColor: theme.palette.text.primary,
                 },
+                '&::before': {
+                    content: "''",
+                    borderColor: 'rgba(255, 255, 255, 0)',
+                },
+            },
+            '& .rounded': {
+                borderRadius: '10px',
             },
         },
     })
@@ -263,6 +268,7 @@ const LayoutContent = ({
                             <Hidden smDown>
                                 <NavPanel
                                     user={user}
+                                    themeType={themeType}
                                     variant={navPanel?.variant}
                                     createButton={createButton}
                                     contents={navPanel.content}
@@ -275,7 +281,7 @@ const LayoutContent = ({
                         <Box className={classes.main}>{children}</Box>
 
                         {/* Right panel serving as navigation - contents lists */}
-                        {sideColumn && <SideCol variant={navPanel?.variant} {...sideColumn} />}
+                        {sideColumn && <SideCol themeType={themeType} variant={navPanel?.variant} {...sideColumn} />}
                     </div>
                 </main>
             </Container>

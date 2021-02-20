@@ -249,6 +249,7 @@ const Sprint = ({
                 // NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator
                 <SingleSprint
                     user={user}
+                    themeType={themeType}
                     sprint={sprint}
                     posts={posts}
                     projects={projects}

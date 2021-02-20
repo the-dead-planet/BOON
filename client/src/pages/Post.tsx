@@ -189,6 +189,7 @@ const Post = ({
                 // NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator
                 <SinglePost
                     user={user}
+                    themeType={themeType}
                     post={post}
                     sprints={sprints}
                     projects={projects}

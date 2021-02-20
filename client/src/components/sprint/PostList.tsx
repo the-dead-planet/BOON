@@ -5,9 +5,7 @@ import { Grid, CardMedia, Typography } from '@material-ui/core';
 import { PostCard } from './Card';
 import img1 from '../../img/content/vintage/bus.jpg';
 import img2 from '../../img/content/vintage/car.jpg';
-import { User, Post, Project, Comment, Like, PostsListVariant, Col, CardSubtitleType } from '../../logic/types';
-import moment from 'moment';
-import { EXT_DATE_FORMAT } from '../../constants/dateFormats';
+import { User, Post, Project, Comment, Like, PostsListVariant, Col, ThemeType } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -44,6 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     user: User;
+    themeType: ThemeType;
     variant: PostsListVariant;
     projects: Map<string, Project>;
     posts: Array<Post>;
@@ -68,6 +67,7 @@ interface Props {
 
 export const PostsList = ({
     user,
+    themeType,
     variant,
     getCreated,
     getTag,
@@ -96,6 +96,7 @@ export const PostsList = ({
                         <PostCard
                             key={`${post._id}-${i}`}
                             user={user}
+                            themeType={themeType}
                             object={post}
                             model={'Post'}
                             comments={post.comments.map((id) => comments.get(id))}

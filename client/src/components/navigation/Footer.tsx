@@ -8,7 +8,7 @@ import { ThemeType } from '../../logic/types';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         footer: {
-            marginTop: theme.spacing(4),
+            marginTop: '6em !important',
             paddingTop: '2em',
             minHeight: '200px',
             width: '100%',
@@ -41,13 +41,11 @@ const Footer = ({ themeType }: Props) => {
     const classes = useStyles();
 
     return (
-        <div className={clsx(classes.footer, { ['frostic']: themeType === 'frostic' })}>
-            <Container maxWidth="xl">
-                <Grid container justify="space-around" alignItems="center">
-                    Footer content
-                </Grid>
-            </Container>
-        </div>
+        <Container maxWidth="xl" className={clsx(classes.footer, { ['frostic']: themeType === 'frostic' })}>
+            <Grid container justify="space-around" alignItems="center">
+                Footer content
+            </Grid>
+        </Container>
     );
 };
 

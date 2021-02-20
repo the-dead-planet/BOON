@@ -179,7 +179,7 @@ const createTheme = (mode: Mode, themeType: ThemeType) => {
                 white: '#fff',
             },
             background: {
-                paper: mode === 'dark' ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
+                paper: mode === 'dark' ? 'rgba(0, 0, 0, 0.9)' : 'rgba(0, 0, 0, .9)',
                 default: mode === 'dark' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.3)',
             },
             error: {

@@ -240,6 +240,7 @@ const Sprint = ({
             ) : (
                 <SingleProject
                     user={user}
+                    themeType={themeType}
                     project={project}
                     sprints={sprints}
                     posts={posts}

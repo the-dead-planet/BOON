@@ -119,7 +119,12 @@ const NavBarTop = ({
             }
         >
             <Container maxWidth="xl">
-                <div className={clsx({ ['frostic']: themeType === 'frostic' })}>
+                <div
+                    className={clsx({
+                        ['frostic']: themeType === 'frostic',
+                        ['rounded']: themeType === 'frostic',
+                    })}
+                >
                     <Toolbar className={clsx(classes.toolbar)}>
                         <Grid container justify="center">
                             <div className={`${classes.fix} ${classes.left}`}>
