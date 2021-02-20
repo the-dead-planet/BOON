@@ -14,6 +14,7 @@ import { User, NotificationProps, ThemeType, Mode, SprintSubmit, Sprint } from '
 interface Props {
     user: User;
     themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     push: any;
@@ -25,7 +26,7 @@ interface Params {
     id: string;
 }
 
-const EditSprint = ({ user, themeType, mode, setMode, push, notificationsProps, showError }: Props) => {
+const EditSprint = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps, showError }: Props) => {
     const { id } = useParams<Params>();
 
     const [sprint, setSprint] = useState<Sprint | null>(null);
@@ -42,7 +43,14 @@ const EditSprint = ({ user, themeType, mode, setMode, push, notificationsProps, 
     });
 
     return (
-        <AppLayout user={user} themeType={themeType} mode={mode} setMode={setMode} {...notificationsProps}>
+        <AppLayout
+            user={user}
+            themeType={themeType}
+            setThemeType={setThemeType}
+            mode={mode}
+            setMode={setMode}
+            {...notificationsProps}
+        >
             {!sprint ? (
                 <Loading />
             ) : (

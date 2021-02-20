@@ -86,6 +86,7 @@ class App extends Component<{}, StateType> {
                             <Route path={login}>
                                 <Login
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     onLoginSuccess={updateState(State.setUser)}
@@ -96,6 +97,7 @@ class App extends Component<{}, StateType> {
                                 <Register
                                     user={user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     onSuccess={updateState(State.setUser)}
@@ -106,6 +108,7 @@ class App extends Component<{}, StateType> {
                                 <Logout
                                     user={user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     onSuccess={updateState(State.clearUser)}
@@ -119,6 +122,7 @@ class App extends Component<{}, StateType> {
                                 <AddPost
                                     user={user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}
@@ -128,6 +132,7 @@ class App extends Component<{}, StateType> {
                                 <Post
                                     user={user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setStateData={updateState(State.setStateData)}
@@ -142,6 +147,7 @@ class App extends Component<{}, StateType> {
                                 <Post
                                     user={user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setStateData={updateState(State.setStateData)}
@@ -158,6 +164,7 @@ class App extends Component<{}, StateType> {
                                 <AddSprint
                                     user={user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}
@@ -167,6 +174,7 @@ class App extends Component<{}, StateType> {
                                 <EditSprint
                                     user={user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}
@@ -176,6 +184,7 @@ class App extends Component<{}, StateType> {
                                 <Sprint
                                     user={user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setStateData={updateState(State.setStateData)}
@@ -190,6 +199,7 @@ class App extends Component<{}, StateType> {
                                 <Sprint
                                     user={user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setStateData={updateState(State.setStateData)}
@@ -206,6 +216,7 @@ class App extends Component<{}, StateType> {
                                 <AddProject
                                     user={user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}
@@ -215,6 +226,7 @@ class App extends Component<{}, StateType> {
                                 <AddProject
                                     user={user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}
@@ -224,6 +236,7 @@ class App extends Component<{}, StateType> {
                                 <Project
                                     user={user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setStateData={updateState(State.setStateData)}
@@ -238,6 +251,7 @@ class App extends Component<{}, StateType> {
                                 <Project
                                     user={user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setStateData={updateState(State.setStateData)}
@@ -254,6 +268,7 @@ class App extends Component<{}, StateType> {
                                 <Team
                                     user={user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setState={updateState(State.setStateData)}
@@ -270,6 +285,7 @@ class App extends Component<{}, StateType> {
                                 <Home
                                     user={this.state.user}
                                     themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}

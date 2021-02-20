@@ -12,6 +12,7 @@ import { User, NotificationProps, Mode, ThemeType, SprintSubmit } from '../logic
 interface Props {
     user: User;
     themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     push: any;
@@ -19,8 +20,15 @@ interface Props {
     showError: any;
 }
 
-const AddSprint = ({ user, themeType, mode, setMode, push, notificationsProps, showError }: Props) => (
-    <AppLayout user={user} themeType={themeType} mode={mode} setMode={setMode} {...notificationsProps}>
+const AddSprint = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps, showError }: Props) => (
+    <AppLayout
+        user={user}
+        themeType={themeType}
+        setThemeType={setThemeType}
+        mode={mode}
+        setMode={setMode}
+        {...notificationsProps}
+    >
         <SprintForm
             mode={mode}
             title="Add new sprint"

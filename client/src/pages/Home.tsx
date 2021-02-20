@@ -9,6 +9,7 @@ import { Mode, ThemeType, User, NotificationProps } from '../logic/types';
 interface Props {
     user: User;
     themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     push: string;
@@ -16,8 +17,15 @@ interface Props {
     showError: any;
 }
 
-const Home = ({ user, themeType, mode, setMode, push, notificationsProps }: Props) => (
-    <AppLayout user={user} themeType={themeType} mode={mode} setMode={setMode} {...notificationsProps}>
+const Home = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps }: Props) => (
+    <AppLayout
+        user={user}
+        themeType={themeType}
+        setThemeType={setThemeType}
+        mode={mode}
+        setMode={setMode}
+        {...notificationsProps}
+    >
         <Header user={user} />
 
         <Content user={user} mode={mode} setMode={setMode} />

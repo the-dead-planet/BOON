@@ -92,6 +92,7 @@ interface Props {
     user: User;
     children: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | undefined;
     themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     // Appbar and jumbotron
@@ -125,6 +126,7 @@ const AppLayout = ({
     user,
     children,
     themeType,
+    setThemeType,
     mode,
     setMode,
     // Appbar and jumbotron

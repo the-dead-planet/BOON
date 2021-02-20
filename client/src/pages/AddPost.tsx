@@ -13,6 +13,7 @@ import { User, NotificationProps, Mode, ThemeType, PostSubmit, Sprint } from '..
 interface Props {
     user: User;
     themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     sprintId: string;
     setMode: any;
@@ -25,7 +26,17 @@ interface Params {
     id: string;
 }
 
-const AddPost = ({ user, themeType, mode, setMode, sprintId, push, notificationsProps, showError }: Props) => {
+const AddPost = ({
+    user,
+    themeType,
+    setThemeType,
+    mode,
+    setMode,
+    sprintId,
+    push,
+    notificationsProps,
+    showError,
+}: Props) => {
     const { id } = useParams<Params>();
 
     const [sprint, setSprint] = useState<Sprint | null>(null);
@@ -46,7 +57,14 @@ const AddPost = ({ user, themeType, mode, setMode, sprintId, push, notifications
     const sprintNumber = sprint ? sprint.number : -1;
 
     return (
-        <AppLayout user={user} themeType={themeType} mode={mode} setMode={setMode} {...notificationsProps}>
+        <AppLayout
+            user={user}
+            themeType={themeType}
+            setThemeType={setThemeType}
+            mode={mode}
+            setMode={setMode}
+            {...notificationsProps}
+        >
             <PostForm
                 mode={mode}
                 title={sprint ? `Add post to sprint ${sprintNumber}` : `Add post`} // TODO: Null issue

@@ -14,13 +14,23 @@ interface LogoutProps {
     onSuccess: any;
     user: User | undefined | null;
     themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     notificationsProps: NotificationProps;
     showError: any;
 }
 
-const Logout = ({ user, onSuccess, themeType, mode, setMode, notificationsProps, showError }: LogoutProps) => {
+const Logout = ({
+    user,
+    onSuccess,
+    themeType,
+    setThemeType,
+    mode,
+    setMode,
+    notificationsProps,
+    showError,
+}: LogoutProps) => {
     const [logoutRequestDone, setLogoutRequestDone] = useState(false);
 
     useEffect(() => {
@@ -39,7 +49,14 @@ const Logout = ({ user, onSuccess, themeType, mode, setMode, notificationsProps,
         return <Redirect to={home} />;
     } else {
         return (
-            <AppLayout user={user} themeType={themeType} mode={mode} setMode={setMode} {...notificationsProps}>
+            <AppLayout
+                user={user}
+                themeType={themeType}
+                setThemeType={setThemeType}
+                mode={mode}
+                setMode={setMode}
+                {...notificationsProps}
+            >
                 <AppFormLayout>
                     <Fade timeout={1000} in={true}>
                         <Typography variant="h4">Bye, bye, monster!</Typography>

@@ -12,6 +12,7 @@ import { User, NotificationProps, ThemeType, Mode, ProjectSubmit, Project } from
 interface Props {
     user: User;
     themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     push: any;
@@ -23,7 +24,7 @@ interface Params {
     id: string;
 }
 
-const EditProject = ({ user, themeType, mode, setMode, push, notificationsProps, showError }: Props) => {
+const EditProject = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps, showError }: Props) => {
     const { id } = useParams<Params>();
 
     const [project, setProject] = useState<Project | null>(null);
@@ -42,7 +43,14 @@ const EditProject = ({ user, themeType, mode, setMode, push, notificationsProps,
     const projectTitle = project ? project.title : null;
 
     return (
-        <AppLayout user={user} themeType={themeType} mode={mode} setMode={setMode} {...notificationsProps}>
+        <AppLayout
+            user={user}
+            themeType={themeType}
+            setThemeType={setThemeType}
+            mode={mode}
+            setMode={setMode}
+            {...notificationsProps}
+        >
             <h1 className="center">Edit Project {id}</h1>
             {!project ? (
                 <Loading />

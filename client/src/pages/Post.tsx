@@ -19,6 +19,7 @@ import { QUOTES } from '../constants/data';
 interface Props {
     user: User | undefined | null;
     themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     data: StateData;
@@ -35,6 +36,7 @@ const Post = ({
     user,
     mode,
     themeType,
+    setThemeType,
     setMode,
     data,
     setStateData,
@@ -138,6 +140,7 @@ const Post = ({
         <AppLayout
             user={user}
             themeType={themeType}
+            setThemeType={setThemeType}
             mode={mode}
             setMode={setMode}
             appBar={true}

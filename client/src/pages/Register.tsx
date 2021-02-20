@@ -27,6 +27,7 @@ interface Props {
     onSuccess: any;
     user: User;
     themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     notificationsProps: NotificationProps;
@@ -37,6 +38,7 @@ interface Props {
 const Register = ({
     user,
     themeType,
+    setThemeType,
     mode,
     setMode,
     next,
@@ -54,7 +56,14 @@ const Register = ({
     };
 
     return (
-        <Layout user={user} themeType={themeType} mode={mode} setMode={setMode} {...notificationsProps}>
+        <Layout
+            user={user}
+            themeType={themeType}
+            setThemeType={setThemeType}
+            mode={mode}
+            setMode={setMode}
+            {...notificationsProps}
+        >
             <div className={classes.container}>
                 <AuthForm
                     mode={mode}

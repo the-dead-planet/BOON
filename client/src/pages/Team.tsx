@@ -13,6 +13,7 @@ import { MONTH_YEAR_FORMAT } from '../constants/dateFormats';
 interface SprintProps {
     user: User | undefined | null;
     themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     data: StateData;
@@ -28,6 +29,7 @@ interface SprintProps {
 const Team = ({
     user,
     themeType,
+    setThemeType,
     mode,
     setMode,
     data,
@@ -78,6 +80,7 @@ const Team = ({
         <AppLayout
             user={user}
             themeType={themeType}
+            setThemeType={setThemeType}
             mode={mode}
             setMode={setMode}
             appBar={true}

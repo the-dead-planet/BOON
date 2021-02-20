@@ -10,6 +10,7 @@ import { User, NotificationProps, Mode, ThemeType, ProjectSubmit } from '../logi
 interface Props {
     user: User;
     themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     push: any;
@@ -17,9 +18,16 @@ interface Props {
     showError: any;
 }
 
-const AddProject = ({ user, themeType, mode, setMode, push, notificationsProps, showError }: Props) => {
+const AddProject = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps, showError }: Props) => {
     return (
-        <AppLayout user={user} themeType={themeType} mode={mode} setMode={setMode} {...notificationsProps}>
+        <AppLayout
+            user={user}
+            themeType={themeType}
+            setThemeType={setThemeType}
+            mode={mode}
+            setMode={setMode}
+            {...notificationsProps}
+        >
             <ProjectForm
                 mode={mode}
                 title="Add new project"

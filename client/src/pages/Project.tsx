@@ -22,6 +22,7 @@ const projectsPath = projects;
 interface SprintProps {
     user: User | undefined | null;
     themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     data: StateData;
@@ -37,6 +38,7 @@ interface SprintProps {
 const Sprint = ({
     user,
     themeType,
+    setThemeType,
     mode,
     setMode,
     data,
@@ -193,6 +195,7 @@ const Sprint = ({
         <AppLayout
             user={user}
             themeType={themeType}
+            setThemeType={setThemeType}
             mode={mode}
             setMode={setMode}
             appBar={true}
