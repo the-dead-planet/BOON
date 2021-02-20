@@ -70,10 +70,11 @@ export const SingleProject = ({
                 user={user}
                 posts={project?.posts
                     .map((id) => posts.get(id))
-                    .sort(
-                        (a, b) =>
-                            Number(new Date(b?.created || '').getMilliseconds()) -
-                            Number(new Date(a?.created || '').getMilliseconds())
+                    .sort((a, b) =>
+                        a && b
+                            ? getSprint(b._id).number - getSprint(a._id).number
+                            : Number(new Date(b?.created || '').getMilliseconds()) -
+                              Number(new Date(a?.created || '').getMilliseconds())
                     )}
                 projects={projects}
                 comments={comments}
@@ -92,6 +93,7 @@ export const SingleProject = ({
                 toggleCommentsPanel={toggleCommentsPanel}
                 xs={12}
                 lg={6}
+                xl={4}
                 // sm={10}
             />
             {/* TODO: Add list of projects to a side column on the right and remove pagination */}
