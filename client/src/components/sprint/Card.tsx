@@ -168,13 +168,16 @@ export const PostCard = ({
                 )}
 
                 {/* Tags can be passed either as an array or single tag */}
-                {tag &&
-                    linkWrapper(
-                        <Typography variant="caption" className={classes.outlined}>
-                            {tag.title}
-                        </Typography>,
-                        tag.link
-                    )}
+                {tag && (
+                    <div className={classes.tagsContainer}>
+                        {linkWrapper(
+                            <Typography variant="caption" className={classes.outlined}>
+                                {tag.title}
+                            </Typography>,
+                            tag.link
+                        )}
+                    </div>
+                )}
 
                 {tags && (
                     <div className={classes.tagsContainer}>

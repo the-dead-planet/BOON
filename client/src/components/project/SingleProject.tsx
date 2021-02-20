@@ -66,7 +66,6 @@ export const SingleProject = ({
                     {project.title}
                 </Typography>
             </Slide>
-
             <Posts
                 user={user}
                 posts={project?.posts
@@ -91,7 +90,7 @@ export const SingleProject = ({
                     removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })
                 }
                 toggleCommentsPanel={toggleCommentsPanel}
-                xs={12}
+                xs={6}
                 // sm={10}
             />
             {/* TODO: Add list of projects to a side column on the right and remove pagination */}
