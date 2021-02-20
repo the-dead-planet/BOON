@@ -84,11 +84,11 @@ const Content = ({ user, mode, setMode }: Props) => {
                         direction="column"
                         alignItems="center"
                     >
-                        <Typography variant="h3" gutterBottom>
+                        <Typography variant="h3" color="textPrimary" gutterBottom>
                             {item.title}
                         </Typography>
 
-                        <Typography variant="h5" gutterBottom className={classes.contentItemBody}>
+                        <Typography variant="h5" color="textPrimary" gutterBottom className={classes.contentItemBody}>
                             {item.text}
                         </Typography>
 

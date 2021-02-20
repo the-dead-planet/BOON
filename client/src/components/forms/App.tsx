@@ -10,7 +10,7 @@ import { Mode } from '../../logic/types';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         formPaper: {
-            color: theme.palette.primary.main,
+            color: theme.palette.text.primary,
             width: '100%',
             maxWidth: '70em',
             margin: '0 auto',
@@ -56,7 +56,7 @@ export const AppFormLayout = ({ children, title }: GridFormProps) => {
                 <Grid container direction="column" justify="center" item xs={12} md={6} className={classes.content}>
                     {title && (
                         <Grid item>
-                            <Typography align="center" variant="h4" gutterBottom>
+                            <Typography color="textPrimary" align="center" variant="h4" gutterBottom>
                                 {title}
                             </Typography>
                         </Grid>

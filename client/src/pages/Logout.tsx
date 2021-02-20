@@ -59,7 +59,7 @@ const Logout = ({
             >
                 <AppFormLayout>
                     <Fade timeout={1000} in={true}>
-                        <Typography variant="h4">Bye, bye, monster!</Typography>
+                        <Typography variant="h4">Sad to see you go!</Typography>
                     </Fade>
                 </AppFormLayout>
             </AppLayout>
