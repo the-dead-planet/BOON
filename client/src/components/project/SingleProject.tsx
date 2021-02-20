@@ -90,7 +90,8 @@ export const SingleProject = ({
                     removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })
                 }
                 toggleCommentsPanel={toggleCommentsPanel}
-                xs={6}
+                xs={12}
+                lg={6}
                 // sm={10}
             />
             {/* TODO: Add list of projects to a side column on the right and remove pagination */}
