@@ -16,24 +16,24 @@ const createTheme = (mode: Mode, themeType: ThemeType) => {
         palette: {
             type: mode,
             primary: {
-                light: '#CCC5B9', // light is the same color as main but with less opacity
-                main: '#252422',
-                dark: '#0F1517',
-                contrastText: '#FFFCF2',
+                light: '#26547C', // light is the same color as main but with less opacity
+                main: '#2E294E',
+                dark: '#2E294E',
+                contrastText: 'rgba(255, 255, 255, .87)',
             },
             secondary: {
-                light: '#D7B49E',
-                main: '#CE4257',
-                dark: '#720026',
-                contrastText: '#FFFCF2',
+                light: '#D55672',
+                main: '#D90368',
+                dark: '#820263',
+                contrastText: 'rgba(255, 255, 255, .6)',
             },
             common: {
                 black: '#000',
                 white: '#fff',
             },
             background: {
-                paper: mode === 'dark' ? '#252422' : '#F4F2EF',
-                default: mode === 'dark' ? '#000' : '#F2E5E4',
+                paper: mode === 'dark' ? '#101119' : '#FFFFFF',
+                default: mode === 'dark' ? '#000' : '#FAFAFA',
             },
             error: {
                 light: '#e57373',
@@ -51,7 +51,7 @@ const createTheme = (mode: Mode, themeType: ThemeType) => {
                 light: '#64b5f6',
                 main: '#2196f3',
                 dark: '#1976d2',
-                contrastText: '#fff',
+                contrastText: '#rgba(0, 0, 0, 0.87',
             },
             success: {
                 light: '#81c784',
@@ -60,51 +60,15 @@ const createTheme = (mode: Mode, themeType: ThemeType) => {
                 contrastText: '#rgba(0, 0, 0, 0.87',
             },
             text: {
-                primary: mode === 'dark' ? '#fff' : '#252422',
-                secondary: mode === 'dark' ? '#fff' : '#403D39',
+                primary: mode === 'dark' ? 'rgba(255, 255, 255, .87)' : '#2E294E',
+                secondary: mode === 'dark' ? 'rgba(255, 255, 255, .6)' : '#D90368',
                 disabled: 'rgba(133, 30, 30, 0.38)',
                 hint: 'rgba(0, 0, 0, 0.38)',
             },
         },
         typography: {
-            // fontFamily: 'Raleway, sans-serif',
-            fontFamily: 'Libre Baskerville, serif',
-            // fontFamily: 'Courier Prime, monospace',
-            // fontFamily: 'Permanent Marker, cursive',
-            // fontFamily: 'Old Standard TT, serif',
-            // fontFamily: 'Neuton, serif',
-            // fontFamily: 'Rock Salt, cursiva',
-            // fontFamily: 'Caudex, serif',
-            // fontFamily: 'Halant, serif',
-            fontSize: 14,
-        },
-        // Below override material ui default classes
-        // Background of the app should resemble an old newspaper
-        // This is achieved by adding darker shadows on the sides of the page
-        // And using a transparent noise texture found here:
-        // https://www.transparenttextures.com/
-        overrides: {
-            MuiCssBaseline: {
-                '@global': {
-                    body: {
-                        minHeight: '100vh',
-                        minWidth: '100%',
-                        backgroundColor: '#F2E5D4',
-                        boxShadow: '2px 3px 20px black, 0 0 100px #a89782 inset',
-                        // backgroundImage: "url('https://www.transparenttextures.com/patterns/paper-2.png')"
-                        // backgroundImage: "url('https://www.transparenttextures.com/patterns/paper-fibers.png')"
-                        // backgroundImage: "url('https://www.transparenttextures.com/patterns/clean-gray-paper.png')"
-                        // backgroundImage: "url('https://www.transparenttextures.com/patterns/handmade-paper.png')"
-                        backgroundImage: `url('https://www.transparenttextures.com/patterns/paper-fibers.png'), 
-                                            url('https://www.transparenttextures.com/patterns/natural-paper.png')`,
-                        // backgroundImage: `url('https://www.transparenttextures.com/patterns/paper-fibers.png'),
-                        //                     url('https://www.transparenttextures.com/patterns/lined-paper.png')`,
-                        // backgroundImage: `url('https://www.transparenttextures.com/patterns/natural-paper.png'),
-                        //                     url('https://www.transparenttextures.com/patterns/paper-3.png')`,
-                        /* This is mostly intended for prototyping; please download the pattern and re-host for production */
-                    },
-                },
-            },
+            fontFamily: 'Poppins, sans-serif',
+            // fontSize: 14,
         },
     });
 

@@ -26,18 +26,19 @@ export const Comment = ({ user, comment, users, setCommentToBeDeletedId }: Props
                 <ListItemAvatar>
                     <Avatar alt={author} src="/static/images/avatar/1.jpg" />
                 </ListItemAvatar>
+
                 <ListItemText
                     primary={
                         <React.Fragment>
-                            <Typography component="span" variant="body2" color="textPrimary">
+                            <Typography component="span" variant="body2">
                                 {author}
                             </Typography>
-                            <Typography component="span" variant="caption" color="textPrimary">
+                            <Typography component="span" variant="caption">
                                 {` - ${moment(comment?.created).fromNow()}`}
                             </Typography>
                         </React.Fragment>
                     }
-                    secondary={comment?.body}
+                    secondary={<Typography variant="body2">{comment?.body}</Typography>}
                 />
 
                 <ItemMenu items={items} tooltip="More options" />

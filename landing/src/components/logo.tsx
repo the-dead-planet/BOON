@@ -5,13 +5,9 @@ import VolumeUpIcon from "@material-ui/icons/VolumeUp"
 const Logo: React.FC<{}> = () => {
   return (
     <div>
-      <Typography color="primary" variant="h4">
-        — The —
-      </Typography>
-      <Typography color="primary" variant="h1">
-        BOON
-      </Typography>
-      <Typography color="primary" variant="body2" gutterBottom>
+      <Typography variant="h4">— The —</Typography>
+      <Typography variant="h1">BOON</Typography>
+      <Typography variant="body2" gutterBottom>
         UK <VolumeUpIcon fontSize="small" />
         /bu:n/ | US <VolumeUpIcon fontSize="small" /> /bu:n/
       </Typography>

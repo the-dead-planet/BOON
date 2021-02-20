@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
             '&:hover': {
                 borderStyle: 'solid',
                 borderWidth: '0 2px 0 2px',
-                borderColor: theme.palette.primary.main,
+                borderColor: theme.palette.secondary.main,
                 borderRadius: '20px',
                 // background: `linear-gradient(to right, rgba(0, 0, 0, .04) 0%, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, 0) 90%, rgba(0, 0, 0, .04) 100%)`
             },
@@ -84,19 +84,17 @@ const Content = ({ user, mode, setMode }: Props) => {
                         direction="column"
                         alignItems="center"
                     >
-                        <Typography color="primary" variant="h3" gutterBottom>
+                        <Typography variant="h3" gutterBottom>
                             {item.title}
                         </Typography>
 
-                        <Typography color="primary" variant="h5" gutterBottom className={classes.contentItemBody}>
+                        <Typography variant="h5" gutterBottom className={classes.contentItemBody}>
                             {item.text}
                         </Typography>
 
                         <Link to={item.path}>
-                            <Button variant="outlined" color="primary">
-                                <Typography color="primary" variant="body1">
-                                    {item.link}
-                                </Typography>
+                            <Button variant="outlined">
+                                <Typography variant="body1">{item.link}</Typography>
                             </Button>
                         </Link>
                     </Grid>

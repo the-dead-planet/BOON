@@ -92,13 +92,7 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error, location }: 
                             </Tooltip>
                         </Box>
 
-                        <Typography
-                            variant="body2"
-                            color="primary"
-                            align="center"
-                            gutterBottom
-                            className={classes.subtitle}
-                        >
+                        <Typography variant="body2" align="center" gutterBottom className={classes.subtitle}>
                             Or use your e-mail address
                         </Typography>
                     </>

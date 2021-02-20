@@ -88,7 +88,6 @@ const Header: React.FC<{}> = () => {
         <Divider variant="middle" className={classes.divider} />
 
         <Typography
-          color="primary"
           variant="body2"
           gutterBottom
           className={classes.definitions}

@@ -30,7 +30,7 @@ export const Logo = ({ handleDrawerToggle }: Props) => {
             </Hidden>
 
             <Hidden mdUp>
-                <IconButton color="primary" className={classes.icon}>
+                <IconButton className={classes.icon}>
                     <i className="optin monster icon" />
                 </IconButton>
             </Hidden>

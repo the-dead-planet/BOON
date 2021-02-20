@@ -54,12 +54,13 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         showMore: {
-            color: theme.palette.primary.light,
-            // opacity: .6,
+            // color: theme.palette.primary.light,
+            opacity: 0.6,
+            fontStyle: 'italic',
             padding: '0 .5em',
             '&:hover': {
                 color: theme.palette.secondary.main,
-                // opacity: .87,
+                opacity: 0.87,
             },
         },
     })
@@ -151,7 +152,12 @@ export const PostCard = ({
             {mediaTop}
 
             <CardContent>
-                {linkWrapper(<Typography variant="h6">{title}</Typography>, titleLink)}
+                {linkWrapper(
+                    <Typography variant="h6" gutterBottom>
+                        {title}
+                    </Typography>,
+                    titleLink
+                )}
 
                 {/* Subtitle and tag are optional */}
                 {created && (
@@ -193,17 +199,12 @@ export const PostCard = ({
             {mediaMiddle}
 
             <CardContent className={classes.col} style={{ columnCount: colCount }}>
-                <Typography variant="body2" color="textSecondary" component="p" gutterBottom className={classes.body}>
+                <Typography variant="body2" component="p" gutterBottom className={classes.body}>
                     {showMoreRequired ? `${body.substring(0, maxLen)}` : body}
                     {showMoreRequired && titleLink ? (
                         <Link to={titleLink}>
                             ...{' '}
-                            <Typography
-                                component="span"
-                                variant="caption"
-                                color="textSecondary"
-                                className={classes.showMore}
-                            >
+                            <Typography component="span" variant="caption" className={classes.showMore}>
                                 show more
                             </Typography>
                         </Link>

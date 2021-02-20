@@ -80,12 +80,8 @@ const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDr
         >
             <Grid container className={classes.drawerHeader} justify="flex-end">
                 <Grid container item xs={12} direction="column" justify="center" alignItems="center">
-                    <Typography color="primary" variant="body2">
-                        — The —
-                    </Typography>
-                    <Typography color="primary" variant="body1">
-                        BOON
-                    </Typography>
+                    <Typography variant="body2">— The —</Typography>
+                    <Typography variant="body1">BOON</Typography>
                 </Grid>
                 <IconButton onClick={toggleDrawer(false)}>
                     <ChevronLeftIcon />

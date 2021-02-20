@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         navTitle: ({ variant }: { variant: Variant }) => ({
             backgroundColor: variant === 'secondary' ? theme.palette.primary.main : theme.palette.primary.main,
-            color: theme.palette.background.default,
+            color: 'rgba(255, 255, 255, .87)',
             padding: '.2em',
             textAlign: 'center',
             textTransform: 'uppercase',

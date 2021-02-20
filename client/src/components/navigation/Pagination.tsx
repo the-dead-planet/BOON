@@ -53,7 +53,7 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                         <Link to={`${path}/${previousId}`}>
                             <Tooltip title={`Previous ${path?.substring(1, path.length - 1)}`} aria-label="previous">
                                 <IconButton aria-label="previous" className={classes.button}>
-                                    <ChevronLeftIcon color="primary" />
+                                    <ChevronLeftIcon color="secondary" />
                                 </IconButton>
                             </Tooltip>
                         </Link>
@@ -87,7 +87,7 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
                         <Link to={`${path}/${nextId}`}>
                             <Tooltip title={`Next ${path?.substring(1, path.length - 1)}`} aria-label="next">
                                 <IconButton aria-label="next" className={classes.button}>
-                                    <ChevronRightIcon color="primary" />
+                                    <ChevronRightIcon color="secondary" />
                                 </IconButton>
                             </Tooltip>
                         </Link>

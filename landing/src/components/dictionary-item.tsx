@@ -36,15 +36,11 @@ const Dictionary: React.FC<Props> = ({
 
   return (
     <Box className={classes.definitions}>
-      <Typography
-        color="primary"
-        variant="caption"
-        className={classes.textDecor}
-      >
+      <Typography variant="caption" className={classes.textDecor}>
         {clause}
       </Typography>
 
-      <Typography color="primary" variant="body1" gutterBottom>
+      <Typography variant="body1" gutterBottom>
         {i + 1}. {body}
       </Typography>
 
@@ -57,7 +53,7 @@ const Dictionary: React.FC<Props> = ({
         {example}
       </Typography>
 
-      <Typography color="primary" variant="caption" gutterBottom>
+      <Typography variant="caption" gutterBottom>
         <b>Synonyms:</b> {synonyms}
       </Typography>
     </Box>

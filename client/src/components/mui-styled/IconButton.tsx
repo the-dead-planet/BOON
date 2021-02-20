@@ -5,7 +5,7 @@ export const IconButton = withStyles(({ palette }) => ({
     root: {
         borderRadius: '10px',
         padding: '6px',
-        color: palette.primary.main,
+        color: palette.text.primary,
         '& span': {
             // paddingLeft: ".4em",
         },

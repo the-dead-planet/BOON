@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
             width: '90%',
             height: '30px',
             borderStyle: 'solid',
-            borderColor: theme.palette.primary.main,
+            borderColor: theme.palette.text.primary,
             borderWidth: '1px 0 0 0',
             borderRadius: '20px',
             '&::before': {
@@ -45,14 +45,14 @@ const useStyles = makeStyles((theme: Theme) =>
                 height: '30px',
                 marginTop: '-31px',
                 borderStyle: 'solid',
-                borderColor: theme.palette.primary.main,
+                borderColor: theme.palette.text.primary,
                 borderWidth: '0 0 1px 0',
                 borderRadius: '20px',
             },
         },
         divider: {
             margin: theme.spacing(2),
-            backgroundColor: theme.palette.primary.main,
+            backgroundColor: theme.palette.text.primary,
         },
         definitions: {
             padding: theme.spacing(2),
@@ -97,7 +97,7 @@ const Header = ({ user }: Props) => {
 
                 <Divider variant="middle" className={classes.divider} />
 
-                <Typography color="primary" variant="body2" gutterBottom className={classes.definitions}>
+                <Typography variant="body2" gutterBottom className={classes.definitions}>
                     {explanation}
                 </Typography>
             </Grid>

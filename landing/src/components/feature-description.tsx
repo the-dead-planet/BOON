@@ -56,24 +56,17 @@ const FeatureDescription: React.FC<Props> = ({
       direction="column"
       alignItems="center"
     >
-      <Typography color="primary" variant="h3" gutterBottom>
+      <Typography variant="h3" gutterBottom>
         {title}
       </Typography>
 
-      <Typography
-        color="primary"
-        variant="h5"
-        gutterBottom
-        className={classes.longDescription}
-      >
+      <Typography variant="h5" gutterBottom className={classes.longDescription}>
         {longDescription}
       </Typography>
 
       <AppLink to={path}>
-        <Button variant="outlined" color="primary">
-          <Typography color="primary" variant="body1">
-            {shortDescription}
-          </Typography>
+        <Button variant="outlined">
+          <Typography variant="body1">{shortDescription}</Typography>
         </Button>
       </AppLink>
     </Grid>

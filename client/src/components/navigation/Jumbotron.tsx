@@ -64,12 +64,7 @@ const Jumbotron = ({ img = '', title = 'Hello', subtitle = 'Welcome', actions = 
                                 actions.map((action, i) => (
                                     <Grid item key={`item-${i}`}>
                                         <Link to={`${action.path}?next=${main}`}>
-                                            <Button
-                                                key={`button-${i}`}
-                                                variant="contained"
-                                                color="primary"
-                                                className={classes.offset}
-                                            >
+                                            <Button key={`button-${i}`} variant="contained" className={classes.offset}>
                                                 {action.name}
                                             </Button>
                                         </Link>
