@@ -6,7 +6,7 @@ import Layout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import authService from '../services/authService';
 // import usersService from '../services/usersService';
-import { Mode, User, NotificationProps, Auth } from '../logic/types';
+import { Mode, ThemeType, User, NotificationProps, Auth } from '../logic/types';
 
 /* 
     Users can log in using either their e-mail (passport 'username') or their publicName
@@ -26,6 +26,7 @@ interface Props {
     next: any;
     onSuccess: any;
     user: User;
+    themeType: ThemeType;
     mode: Mode;
     setMode: any;
     notificationsProps: NotificationProps;
@@ -33,7 +34,17 @@ interface Props {
     location?: { path: string; search?: string };
 }
 
-const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, showError, location }: Props) => {
+const Register = ({
+    user,
+    themeType,
+    mode,
+    setMode,
+    next,
+    onSuccess,
+    notificationsProps,
+    showError,
+    location,
+}: Props) => {
     const classes = useStyles();
 
     const [error, setError] = useState('');
@@ -43,7 +54,7 @@ const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, sh
     };
 
     return (
-        <Layout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
+        <Layout user={user} themeType={themeType} mode={mode} setMode={setMode} {...notificationsProps}>
             <div className={classes.container}>
                 <AuthForm
                     mode={mode}

@@ -8,10 +8,11 @@ import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import { useParams } from 'react-router-dom';
 import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, PostSubmit, Sprint } from '../logic/types';
+import { User, NotificationProps, Mode, ThemeType, PostSubmit, Sprint } from '../logic/types';
 
 interface Props {
     user: User;
+    themeType: ThemeType;
     mode: Mode;
     sprintId: string;
     setMode: any;
@@ -24,7 +25,7 @@ interface Params {
     id: string;
 }
 
-const AddPost = ({ user, mode, setMode, sprintId, push, notificationsProps, showError }: Props) => {
+const AddPost = ({ user, themeType, mode, setMode, sprintId, push, notificationsProps, showError }: Props) => {
     const { id } = useParams<Params>();
 
     const [sprint, setSprint] = useState<Sprint | null>(null);
@@ -45,7 +46,7 @@ const AddPost = ({ user, mode, setMode, sprintId, push, notificationsProps, show
     const sprintNumber = sprint ? sprint.number : -1;
 
     return (
-        <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
+        <AppLayout user={user} themeType={themeType} mode={mode} setMode={setMode} {...notificationsProps}>
             <PostForm
                 mode={mode}
                 title={sprint ? `Add post to sprint ${sprintNumber}` : `Add post`} // TODO: Null issue

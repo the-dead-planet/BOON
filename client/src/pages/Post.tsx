@@ -12,12 +12,13 @@ import {
     // withShowError,
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, Mode, StateData, Model } from '../logic/types';
+import { User, NotificationProps, ThemeType, Mode, StateData, Model } from '../logic/types';
 import { QUOTES } from '../constants/data';
 
 // TODO: see a comment in `Logout` regarding HOCs.
 interface Props {
     user: User | undefined | null;
+    themeType: ThemeType;
     mode: Mode;
     setMode: any;
     data: StateData;
@@ -33,6 +34,7 @@ interface Props {
 const Post = ({
     user,
     mode,
+    themeType,
     setMode,
     data,
     setStateData,
@@ -135,6 +137,7 @@ const Post = ({
     return (
         <AppLayout
             user={user}
+            themeType={themeType}
             mode={mode}
             setMode={setMode}
             appBar={true}

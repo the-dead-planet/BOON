@@ -5,13 +5,14 @@ import { withPush } from '../utils/routingDecorators';
 import sprintsService from '../services/sprintsService';
 import AppLayout from '../layouts/AppLayout';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, NotificationProps, Mode, StateData } from '../logic/types';
+import { User, NotificationProps, ThemeType, Mode, StateData } from '../logic/types';
 import moment from 'moment';
 import { MONTH_YEAR_FORMAT } from '../constants/dateFormats';
 
 // TODO: see a comment in `Logout` regarding HOCs.
 interface SprintProps {
     user: User | undefined | null;
+    themeType: ThemeType;
     mode: Mode;
     setMode: any;
     data: StateData;
@@ -26,6 +27,7 @@ interface SprintProps {
 // If path is /sprints, redirect to the newest sprint
 const Team = ({
     user,
+    themeType,
     mode,
     setMode,
     data,
@@ -75,6 +77,7 @@ const Team = ({
     return (
         <AppLayout
             user={user}
+            themeType={themeType}
             mode={mode}
             setMode={setMode}
             appBar={true}

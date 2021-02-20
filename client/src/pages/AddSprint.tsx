@@ -7,10 +7,11 @@ import { withPush } from '../utils/routingDecorators';
 import { FORMIK_DATE_FORMAT } from '../constants/dateFormats';
 import AppLayout from '../layouts/AppLayout';
 import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, SprintSubmit } from '../logic/types';
+import { User, NotificationProps, Mode, ThemeType, SprintSubmit } from '../logic/types';
 
 interface Props {
     user: User;
+    themeType: ThemeType;
     mode: Mode;
     setMode: any;
     push: any;
@@ -18,8 +19,8 @@ interface Props {
     showError: any;
 }
 
-const AddSprint = ({ user, mode, setMode, push, notificationsProps, showError }: Props) => (
-    <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
+const AddSprint = ({ user, themeType, mode, setMode, push, notificationsProps, showError }: Props) => (
+    <AppLayout user={user} themeType={themeType} mode={mode} setMode={setMode} {...notificationsProps}>
         <SprintForm
             mode={mode}
             title="Add new sprint"

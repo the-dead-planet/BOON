@@ -13,7 +13,7 @@ import {
     // withShowError,
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, Mode, StateData, Sprint as SprintType, Model } from '../logic/types';
+import { User, NotificationProps, ThemeType, Mode, StateData, Sprint as SprintType, Model } from '../logic/types';
 import moment from 'moment';
 import { MONTH_YEAR_FORMAT } from '../constants/dateFormats';
 import { PATHS, QUOTES } from '../constants/data';
@@ -23,6 +23,7 @@ const sprintsPath = sprints;
 // TODO: see a comment in `Logout` regarding HOCs.
 interface SprintProps {
     user: User | undefined | null;
+    themeType: ThemeType;
     mode: Mode;
     setMode: any;
     data: StateData;
@@ -37,6 +38,7 @@ interface SprintProps {
 // If path is /sprints, redirect to the newest sprint
 const Sprint = ({
     user,
+    themeType,
     mode,
     setMode,
     data,
@@ -194,6 +196,7 @@ const Sprint = ({
     ) : (
         <AppLayout
             user={user}
+            themeType={themeType}
             mode={mode}
             setMode={setMode}
             appBar={true}

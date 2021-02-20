@@ -5,10 +5,11 @@ import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, ProjectSubmit } from '../logic/types';
+import { User, NotificationProps, Mode, ThemeType, ProjectSubmit } from '../logic/types';
 
 interface Props {
     user: User;
+    themeType: ThemeType;
     mode: Mode;
     setMode: any;
     push: any;
@@ -16,9 +17,9 @@ interface Props {
     showError: any;
 }
 
-const AddProject = ({ user, mode, setMode, push, notificationsProps, showError }: Props) => {
+const AddProject = ({ user, themeType, mode, setMode, push, notificationsProps, showError }: Props) => {
     return (
-        <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
+        <AppLayout user={user} themeType={themeType} mode={mode} setMode={setMode} {...notificationsProps}>
             <ProjectForm
                 mode={mode}
                 title="Add new project"

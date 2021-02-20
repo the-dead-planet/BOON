@@ -2,7 +2,7 @@ import React from 'react';
 import { createTheme } from '../../styles/themes';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Mode } from '../../logic/types';
+import { Mode, ThemeType } from '../../logic/types';
 
 /*
   This component should serve as a wrapper for all pages. 
@@ -11,11 +11,12 @@ import { Mode } from '../../logic/types';
 */
 interface Props {
     mode: Mode;
+    themeType: ThemeType;
     children: any;
 }
 
-const ThemeWrapper = ({ mode, children }: Props) => {
-    const theme = createTheme(mode);
+const ThemeWrapper = ({ mode, themeType, children }: Props) => {
+    const theme = createTheme(mode, themeType);
 
     return (
         <ThemeProvider theme={theme}>

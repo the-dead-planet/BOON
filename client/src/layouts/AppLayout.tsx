@@ -14,6 +14,7 @@ import DialogMenu from '../components/navigation/DialogMenu';
 import {
     Drawer,
     Mode,
+    ThemeType,
     Jumbotron as JumbotronType,
     User,
     Page,
@@ -90,6 +91,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     user: User;
     children: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | undefined;
+    themeType: ThemeType;
     mode: Mode;
     setMode: any;
     // Appbar and jumbotron
@@ -122,6 +124,7 @@ interface Props {
 const AppLayout = ({
     user,
     children,
+    themeType,
     mode,
     setMode,
     // Appbar and jumbotron
@@ -167,7 +170,7 @@ const AppLayout = ({
     };
 
     return (
-        <ThemeWrapper mode={mode}>
+        <ThemeWrapper themeType={themeType} mode={mode}>
             <CssBaseline />
 
             {appBar && (
