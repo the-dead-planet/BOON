@@ -46,6 +46,7 @@ const Post = ({
     notificationsProps,
     showError,
 }: Props & WithShowErrorInjectedProps) => {
+    const { sprintsService, projectsService, usersService } = useServices()!;
     const { id }: { id: string } = useParams();
     const query = useQuery();
     let linkBack = query.get('from');
@@ -60,7 +61,6 @@ const Post = ({
         GET DATA FROM DATA BASE AND WRITE TO APP STATE
     */
     const getData = async () => {
-        const { sprintsService, projectsService, usersService } = useServices()!;
         let res = await sprintsService.getAll().catch(showError);
         let resProj = await projectsService.getAll().catch(showError);
         // Temp - see comment in ComponentDidMount in App.tsx
