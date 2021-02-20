@@ -6,7 +6,7 @@ import { withPush } from '../utils/routingDecorators';
 import { AddComment } from './forms/AddComment';
 // import CollapsePanel from './transitions/CollapsePanel';
 import DialogMenu from './navigation/DialogMenu';
-import commentsService from '../services/commentsService';
+import { useServices } from '../services';
 import { User, Comment, Model } from '../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,6 +54,7 @@ const CommentsImpl = ({
     const classes = useStyles();
     const [openDialog, setOpenDialog] = useState(false);
     const [commentToBeDeletedId, setCommentToBeDeletedId] = useState('');
+    const { commentsService } = useServices()!;
 
     const handleDialogClose = () => {
         setOpenDialog(false);

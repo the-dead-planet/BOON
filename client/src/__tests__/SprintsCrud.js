@@ -1,15 +1,9 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react';
 import App from '../App';
-import authService from '../services/authService';
-import sprintsService from '../services/sprintsService';
-import projectsService from '../services/projectsService';
-import usersService from '../services/usersService';
+import services from '../services/realImpl';
 
-jest.mock('../services/authService');
-jest.mock('../services/sprintsService');
-jest.mock('../services/projectsService');
-jest.mock('../services/usersService');
+jest.mock('../services/realImpl');
 
 jest.setTimeout(10000);
 
@@ -17,6 +11,8 @@ describe('app', () => {
     // CRUD is not implemented in the UI.
     // TODO: reintroduce buttons to create, update and delete sprints, then reenable this test.
     test.skip('Allows Sprint CRUD', async () => {
+        const { projectsService, usersService, sprintsService } = services;
+
         // Data from those services is not required for the test to pass.
         // Provide a trivial implementation.
         projectsService.getAll.mockResolvedValue([]);

@@ -3,8 +3,8 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { TextField, Select, Button } from '@material-ui/core';
 import { AppFormLayout, AppForm } from './App';
 import { GridField, GridFieldSelect } from './GridFields';
-import projectsService from '../../services/projectsService';
 import { Project, Mode, PostSubmit } from '../../logic/types';
+import { useServices } from '../../services';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -26,6 +26,8 @@ const PostForm = ({ mode, title, initialValues, onSubmit }: Props) => {
     const classes = useStyles();
 
     const [projects, setProjects] = useState<Array<Project>>([]);
+
+    const { projectsService } = useServices()!;
 
     const getProjects = async () => {
         let res = await projectsService.getAll();

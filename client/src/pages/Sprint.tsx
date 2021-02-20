@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Redirect } from 'react-router-dom';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
-import sprintsService from '../services/sprintsService';
-import projectsService from '../services/projectsService';
-import usersService from '../services/usersService';
+import { useServices } from '../services';
 import AppLayout from '../layouts/AppLayout';
 import { Loading, Empty } from '../components/Loading';
 import { CommentsSection } from '../components/CommentsSection';
@@ -50,6 +48,7 @@ const Sprint = ({
     const { id }: { id: string } = useParams();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
     const [quote, setQuote] = useState('');
+    const { sprintsService, projectsService, usersService } = useServices()!;
     /* 
         DETERMINE SPRINT ID
         If no specific `Sprint` has been specified, try to redirect to the

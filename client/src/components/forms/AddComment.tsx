@@ -5,8 +5,8 @@ import { TextField, Typography } from '@material-ui/core';
 import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
 import { IconButton } from '../mui-styled/IconButton';
 import { GridField } from './GridFields';
-import commentsService from '../../services/commentsService';
 import { Mode, CommentSubmit, User, Model } from '../../logic/types';
+import { useServices } from '../../services';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,6 +28,7 @@ interface Props {
 
 export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: Props) => {
     const classes = useStyles();
+    const { commentsService } = useServices()!;
 
     return user ? (
         <AppForm

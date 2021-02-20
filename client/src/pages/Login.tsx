@@ -4,8 +4,7 @@ import { guestPage } from '../utils/authenticatedPage';
 import { interceptPage } from '../utils/interceptPage';
 import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
-import authService from '../services/authService';
-// import usersService from '../services/usersService';
+import { useServices } from '../services';
 import { Mode, User, NotificationProps } from '../logic/types';
 
 /* 
@@ -36,6 +35,7 @@ interface Props {
 const Login = ({ user, mode, setMode, next, onLoginSuccess, notificationsProps, showError, location }: Props) => {
     const classes = useStyles();
     const [error, setError] = useState('');
+    const { authService } = useServices()!;
 
     const setErrorMessage = (err: any) => {
         setError(err.request.response);

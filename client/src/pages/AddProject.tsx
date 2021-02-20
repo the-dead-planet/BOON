@@ -1,11 +1,11 @@
 import React from 'react';
-import projectsService from '../services/projectsService';
 import ProjectForm from '../components/forms/Project';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, ProjectSubmit } from '../logic/types';
+import { useServices } from '../services';
 
 interface Props {
     user: User;
@@ -17,6 +17,7 @@ interface Props {
 }
 
 const AddProject = ({ user, mode, setMode, push, notificationsProps, showError }: Props) => {
+    const { projectsService } = useServices()!;
     return (
         <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
             <ProjectForm

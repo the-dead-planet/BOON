@@ -1,14 +1,14 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import App from '../App';
-import authService from '../services/authService';
+import services from '../services/realImpl';
 
-jest.mock('../services/authService');
+jest.mock('../services/realImpl');
 
 describe('landing page', () => {
     test('Waits from whoami and renders some content', () => {
         let resolveHandle;
-        authService.whoami.mockImplementation(
+        services.authService.whoami.mockImplementation(
             () =>
                 new Promise((resolve) => {
                     resolveHandle = resolve;
