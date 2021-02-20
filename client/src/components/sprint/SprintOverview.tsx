@@ -79,6 +79,7 @@ export const SprintOverview = ({
             removeObject={(id: string) => removeSprint(id)}
             removeComment={(id: string) => removeComment(id)}
             toggleCommentsPanel={toggleCommentsPanel}
+            linkBack={{ name: 'Home', path: '/' }}
         />
     );
 

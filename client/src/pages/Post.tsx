@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '../utils/useQuery';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import sprintsService from '../services/sprintsService';
@@ -29,6 +30,7 @@ interface Props {
     removeObject: any;
     notificationsProps: NotificationProps;
     showError: any;
+    backTo: { name: string; path: string };
 }
 
 // If path is /sprints, redirect to the newest sprint
@@ -47,6 +49,11 @@ const Post = ({
     showError,
 }: Props & WithShowErrorInjectedProps) => {
     const { id }: { id: string } = useParams();
+    const query = useQuery();
+    let linkBack = query.get('from');
+    linkBack = linkBack || '/';
+    const linkBackName = linkBack ? linkBack.substring(1, linkBack.substring(1).indexOf('/') + 1) : 'Home';
+
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
 
     const [quote, setQuote] = useState('');
@@ -147,19 +154,17 @@ const Post = ({
             quote={quote}
             pagination={{ path: '/posts' }}
             createButton={{ name: 'Create', onClick: () => '' }}
-            // navPanel={{
-            //     side: 'left',
-            //     content: [
-            //         { header: 'Highlights', list: navPosts || navPlaceholder },
-            //         // TODO: Get a list of projects related to the posts related to currently displayed sprint
-            //         { header: 'Related projects', list: navProjects || navPlaceholder },
-            //     ],
-            // }}
+            navPanel={{
+                side: 'left',
+                content: [
+                    { header: 'Navigation', list: [{ id: '', name: `Back to ${linkBackName}`, path: linkBack }] },
+                ],
+            }}
             sideColumn={
                 post
                     ? {
                           header: 'written by',
-                          // Add 'about me' to user properties and display it here, if not available generate random goss
+                          // TODO: Add 'about me' to user properties and display it here, if not available generate random goss
                           body: `${users.get(post.author as any)?.publicName}`,
                       }
                     : undefined

@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { useLocation } from 'react-router-dom';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Grid, CardMedia, Typography } from '@material-ui/core';
 import { PostCard } from './Card';
@@ -85,6 +86,7 @@ export const PostsList = ({
     ...props
 }: Props) => {
     const classes = useStyles();
+    const path = useLocation().pathname;
 
     return (
         <Grid container justify="space-around" spacing={1}>
@@ -101,7 +103,7 @@ export const PostsList = ({
                             users={users as any}
                             author={users.get(post.author as any)?.publicName || 'Unknown user'}
                             title={post.title}
-                            titleLink={`/posts/${post._id}`}
+                            titleLink={`/posts/${post._id}?from=`}
                             created={getCreated ? getCreated(post.created) : undefined}
                             tag={{
                                 title: getTag ? getTag(post._id) : '',
@@ -131,6 +133,7 @@ export const PostsList = ({
                             toggleCommentsPanel={toggleCommentsPanel}
                             divider={true}
                             hover={true}
+                            linkBack={{ name: 'sprints', path: path }}
                         />
                     </Grid>
 

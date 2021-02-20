@@ -97,6 +97,7 @@ export const SinglePost = ({
                 toggleCommentsPanel={toggleCommentsPanel}
                 divider={true}
                 hover={true}
+                linkBack={{ name: 'Home', path: '/' }}
             />
             {/* TODO: Add list of projects to a side column on the right and remove pagination */}
             {/* TODO: Comments should expand under a post, show 3 by default and add a "show all" button to expand further */}

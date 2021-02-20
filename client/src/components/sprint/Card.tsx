@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
             borderRadius: '2px',
             '&:hover': {
                 // backgroundColor: theme.palette.secondary.main,
-                boxShadow: `1px 1px 2px ${theme.palette.primary.light}`,
+                boxShadow: `1px 1px 2px rgba(0, 0, 0, .4)`,
             },
         },
         showMore: {
@@ -62,6 +62,10 @@ const useStyles = makeStyles((theme: Theme) =>
                 color: theme.palette.secondary.main,
                 opacity: 0.87,
             },
+        },
+        tagsContainer: {
+            display: 'flex',
+            marginTop: '1em',
         },
     })
 );
@@ -92,6 +96,7 @@ interface Props {
     divider?: boolean;
     hover?: boolean;
     colCount?: number;
+    linkBack: { name: string; path: string };
 }
 
 // Pass a component to mediaTop or mediaBottom depending on which location it is needed in
@@ -121,6 +126,7 @@ export const PostCard = ({
     divider,
     hover,
     colCount,
+    linkBack,
 }: Props) => {
     const classes = useStyles();
 
@@ -152,16 +158,11 @@ export const PostCard = ({
             {mediaTop}
 
             <CardContent>
-                {linkWrapper(
-                    <Typography variant="h6" gutterBottom>
-                        {title}
-                    </Typography>,
-                    titleLink
-                )}
+                {linkWrapper(<Typography variant="h6">{title}</Typography>, `${titleLink}${linkBack.path}`)}
 
                 {/* Subtitle and tag are optional */}
                 {created && (
-                    <Typography component="p" variant="caption" gutterBottom>
+                    <Typography component="p" variant="caption">
                         {created}
                     </Typography>
                 )}
@@ -169,22 +170,26 @@ export const PostCard = ({
                 {/* Tags can be passed either as an array or single tag */}
                 {tag &&
                     linkWrapper(
-                        <Typography variant="caption" gutterBottom className={classes.outlined}>
+                        <Typography variant="caption" className={classes.outlined}>
                             {tag.title}
                         </Typography>,
                         tag.link
                     )}
 
-                {tags?.map((tag, i) => (
-                    <div key={i}>
-                        {linkWrapper(
-                            <Typography variant="caption" gutterBottom className={classes.outlined}>
-                                {tag.title}
-                            </Typography>,
-                            tag.link
-                        )}
+                {tags && (
+                    <div className={classes.tagsContainer}>
+                        {tags.map((tag, i) => (
+                            <div key={i}>
+                                {linkWrapper(
+                                    <Typography variant="caption" className={classes.outlined}>
+                                        {tag.title}
+                                    </Typography>,
+                                    tag.link
+                                )}
+                            </div>
+                        ))}
                     </div>
-                ))}
+                )}
             </CardContent>
             <CardMenu
                 user={user}
@@ -202,7 +207,7 @@ export const PostCard = ({
                 <Typography variant="body2" component="p" gutterBottom className={classes.body}>
                     {showMoreRequired ? `${body.substring(0, maxLen)}` : body}
                     {showMoreRequired && titleLink ? (
-                        <Link to={titleLink}>
+                        <Link to={`${titleLink}${linkBack.path}`}>
                             ...{' '}
                             <Typography component="span" variant="caption" className={classes.showMore}>
                                 show more
