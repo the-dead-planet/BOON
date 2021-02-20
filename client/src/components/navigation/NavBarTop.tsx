@@ -9,7 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Pagination from './Pagination';
 // import HideOnScroll from '../../utils/HideOnScroll';
 import { AuthButtonsHorizontal } from './NavButtons';
-import { Mode, User, DrawerVariant, Page } from '../../logic/types';
+import { Mode, ThemeType, User, DrawerVariant, Page } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -79,6 +79,8 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     user: User;
     name: string;
+    themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     drawerVariant: DrawerVariant;
@@ -88,7 +90,19 @@ interface Props {
     quote?: string;
 }
 
-const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawer, pagination, quote }: Props) => {
+const NavBarTop = ({
+    user,
+    name,
+    themeType,
+    setThemeType,
+    mode,
+    setMode,
+    drawerVariant,
+    open,
+    toggleDrawer,
+    pagination,
+    quote,
+}: Props) => {
     const classes = useStyles();
 
     return (
@@ -105,58 +119,60 @@ const NavBarTop = ({ user, name, mode, setMode, drawerVariant, open, toggleDrawe
             }
         >
             <Container maxWidth="xl">
-                <Toolbar className={classes.toolbar}>
-                    <Grid container justify="center">
-                        <div className={`${classes.fix} ${classes.left}`}>
-                            <Hidden mdUp>
-                                {/* Application menu icon */}
-                                <IconButton
-                                    aria-label="open drawer"
-                                    onClick={toggleDrawer(true)}
-                                    edge="start"
-                                    className={
-                                        drawerVariant === 'persistent'
-                                            ? clsx(classes.menuButton, open && classes.hide)
-                                            : undefined
-                                    }
-                                >
-                                    <MenuIcon fontSize="small" />
-                                </IconButton>
-                            </Hidden>
-
-                            {quote && (
-                                <Hidden smDown>
-                                    <div className={classes.quote}>
-                                        <Typography variant="caption">{quote}</Typography>
-                                    </div>
+                <div className={clsx({ ['frostic']: themeType === 'frostic' })}>
+                    <Toolbar className={clsx(classes.toolbar)}>
+                        <Grid container justify="center">
+                            <div className={`${classes.fix} ${classes.left}`}>
+                                <Hidden mdUp>
+                                    {/* Application menu icon */}
+                                    <IconButton
+                                        aria-label="open drawer"
+                                        onClick={toggleDrawer(true)}
+                                        edge="start"
+                                        className={
+                                            drawerVariant === 'persistent'
+                                                ? clsx(classes.menuButton, open && classes.hide)
+                                                : undefined
+                                        }
+                                    >
+                                        <MenuIcon fontSize="small" />
+                                    </IconButton>
                                 </Hidden>
-                            )}
-                        </div>
 
-                        {/* Centered text */}
+                                {quote && (
+                                    <Hidden smDown>
+                                        <div className={classes.quote}>
+                                            <Typography variant="caption">{quote}</Typography>
+                                        </div>
+                                    </Hidden>
+                                )}
+                            </div>
 
-                        <Grid
-                            container
-                            direction="column"
-                            alignItems="center"
-                            justify="center"
-                            className={classes.logo}
-                        >
-                            <Typography variant="h6" noWrap className={classes.prefix}>
-                                — The —
-                            </Typography>
-                            <Typography variant="h4" noWrap>
-                                {name}
-                            </Typography>
+                            {/* Centered text */}
+
+                            <Grid
+                                container
+                                direction="column"
+                                alignItems="center"
+                                justify="center"
+                                className={classes.logo}
+                            >
+                                <Typography variant="h6" noWrap className={classes.prefix}>
+                                    — The —
+                                </Typography>
+                                <Typography variant="h4" noWrap>
+                                    {name}
+                                </Typography>
+                            </Grid>
+
+                            <div className={`${classes.fix} ${classes.right}`}>
+                                <AuthButtonsHorizontal user={user} />
+                            </div>
                         </Grid>
+                    </Toolbar>
 
-                        <div className={`${classes.fix} ${classes.right}`}>
-                            <AuthButtonsHorizontal user={user} />
-                        </div>
-                    </Grid>
-                </Toolbar>
-
-                <Pagination {...pagination} />
+                    <Pagination {...pagination} />
+                </div>
             </Container>
         </AppBar>
         // </HideOnScroll>
