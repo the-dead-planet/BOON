@@ -40,41 +40,41 @@ const Team = ({
     notificationsProps,
     showError,
 }: SprintProps & WithShowErrorInjectedProps) => {
-    const { id }: { id: string } = useParams();
-    const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
+    // const { id }: { id: string } = useParams();
+    // const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
 
-    let sprintToDisplayId = id;
-    // If no specific `Sprint` has been specified, try to redirect to the
-    // detail page of the most recent sprint.
-    if (sprintToDisplayId === undefined) {
-        // Wait for the sprints to load.
-        // TODO: consider adding a HOC waiting for pending requests and rendering a spinner.
+    // let sprintToDisplayId = id;
+    // // If no specific `Sprint` has been specified, try to redirect to the
+    // // detail page of the most recent sprint.
+    // if (sprintToDisplayId === undefined) {
+    //     // Wait for the sprints to load.
+    //     // TODO: consider adding a HOC waiting for pending requests and rendering a spinner.
 
-        if (sprints && sprints.size > 0) {
-            // If no sprints exists, there's nowhere to redirect to.
-            // TODO: consider handling this case by rendering a message.
-            const mostRecentSprint = [...sprints.values()].reduce((
-                a,
-                b // TODO: check this typescript error
-            ) => (new Date(a.dateTo) > new Date(b.dateTo) ? a : b));
-            sprintToDisplayId = mostRecentSprint._id;
-        }
-    }
+    //     if (sprints && sprints.size > 0) {
+    //         // If no sprints exists, there's nowhere to redirect to.
+    //         // TODO: consider handling this case by rendering a message.
+    //         const mostRecentSprint = [...sprints.values()].reduce((
+    //             a,
+    //             b // TODO: check this typescript error
+    //         ) => (new Date(a.dateTo) > new Date(b.dateTo) ? a : b));
+    //         sprintToDisplayId = mostRecentSprint._id;
+    //     }
+    // }
 
-    const getSprints = async () => {
-        let res = await sprintsService.getAll().catch(showError);
-        await setState(res);
-    };
+    // const getSprints = async () => {
+    //     let res = await sprintsService.getAll().catch(showError);
+    //     await setState(res);
+    // };
 
-    // Fetch sprints on the first render.
-    // It will send a request when the user re-enters the sprints list page from some other page (e.g. form).
-    // This way, the user has a way of refreshing sprints data.
-    useEffect(() => {
-        getSprints();
-    }, []); // TODO: Investigate warning 'React Hook useEffect has a missing dependency: 'getSprints''
+    // // Fetch sprints on the first render.
+    // // It will send a request when the user re-enters the sprints list page from some other page (e.g. form).
+    // // This way, the user has a way of refreshing sprints data.
+    // useEffect(() => {
+    //     getSprints();
+    // }, []); // TODO: Investigate warning 'React Hook useEffect has a missing dependency: 'getSprints''
 
-    // Get current sprint
-    const sprint = sprints.get(id);
+    // // Get current sprint
+    // const sprint = sprints.get(id);
 
     return (
         <AppLayout
@@ -84,16 +84,20 @@ const Team = ({
             mode={mode}
             setMode={setMode}
             appBar={true}
-            {...notificationsProps}
-            pagination={{
-                primary: `Team ${sprint?.number || ''}`,
-                secondary: moment(sprint?.dateTo).format(MONTH_YEAR_FORMAT),
-                currentId: id,
-                nextId: id,
-                previousId: id,
+            navPanel={{
+                side: 'left',
+                content: [{ header: 'Navigation', list: [{ id: '', name: `Back to home`, path: '/' }] }],
             }}
+            {...notificationsProps}
+            // pagination={{
+            //     primary: `Team ${sprint?.number || ''}`,
+            //     secondary: moment(sprint?.dateTo).format(MONTH_YEAR_FORMAT),
+            //     currentId: id,
+            //     nextId: id,
+            //     previousId: id,
+            // }}
         >
-            {/* TODO:  */}
+            <div style={{ margin: '0 5em' }}>Teams overview will go here</div>
         </AppLayout>
     );
 };

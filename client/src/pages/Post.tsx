@@ -15,6 +15,7 @@ import {
 } from '../utils/withShowError';
 import { User, NotificationProps, ThemeType, Mode, StateData, Model } from '../logic/types';
 import { QUOTES } from '../constants/data';
+import classes from '*.module.css';
 
 // TODO: see a comment in `Logout` regarding HOCs.
 interface Props {
@@ -143,6 +144,8 @@ const Post = ({
     */
     //    TODO: Is it better to add it here and pass to Layout or use in single components, which require a dialog
 
+    const styleInfo = { margin: '0, 5em' };
+
     return (
         <AppLayout
             user={user}
@@ -181,7 +184,7 @@ const Post = ({
             ) : !post ? (
                 // TODO: differentiate between a wrong id and loading state - not yet known
                 // TODO: Add nice loading animation
-                <div>We haven't found what you were looking for...</div>
+                <div style={styleInfo}>We haven't found what you were looking for...</div>
             ) : (
                 // NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator
                 <SinglePost
