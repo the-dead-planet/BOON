@@ -109,7 +109,7 @@ export const ItemMenu = ({ items, icon, tooltip, placement }: Props) => {
                                                 <Link to={item.path}>
                                                     <Typography
                                                         variant="body2"
-                                                        color={item?.alarm ? 'secondary' : 'primary'}
+                                                        color={item?.alarm ? 'secondary' : 'textPrimary'}
                                                     >
                                                         {item.name}
                                                     </Typography>
@@ -117,7 +117,7 @@ export const ItemMenu = ({ items, icon, tooltip, placement }: Props) => {
                                             ) : (
                                                 <Typography
                                                     variant="body2"
-                                                    color={item?.alarm ? 'secondary' : 'primary'}
+                                                    color={item?.alarm ? 'secondary' : 'textPrimary'}
                                                 >
                                                     {item.name}
                                                 </Typography>

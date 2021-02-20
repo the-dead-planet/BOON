@@ -5,7 +5,7 @@ import { PostCard } from '../sprint/Card';
 import moment from 'moment';
 import { EXT_DATE_FORMAT } from '../../constants/dateFormats';
 // import usersService from '../../../services/usersService';
-import { User, Post, Project, Comment, Like, Sprint } from '../../logic/types';
+import { User, Post, Project, Comment, Like, Sprint, ThemeType } from '../../logic/types';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     user: User | null | undefined;
+    themeType: ThemeType;
     post: Post | undefined;
     projects: Map<string, Project>;
     sprints: Map<string, Sprint>;
@@ -40,6 +41,7 @@ interface Props {
 
 export const SinglePost = ({
     user,
+    themeType,
     post,
     sprints,
     projects,
@@ -63,6 +65,7 @@ export const SinglePost = ({
         <Container maxWidth="md">
             <PostCard
                 user={user}
+                themeType={themeType}
                 object={post}
                 model={'Post'}
                 comments={post.comments.map((id) => comments.get(id))}
@@ -97,6 +100,7 @@ export const SinglePost = ({
                 toggleCommentsPanel={toggleCommentsPanel}
                 divider={true}
                 hover={true}
+                linkBack={{ name: 'Home', path: '/' }}
             />
             {/* TODO: Add list of projects to a side column on the right and remove pagination */}
             {/* TODO: Comments should expand under a post, show 3 by default and add a "show all" button to expand further */}

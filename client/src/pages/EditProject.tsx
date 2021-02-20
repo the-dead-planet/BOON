@@ -6,11 +6,13 @@ import AppLayout from '../layouts/AppLayout';
 import ProjectForm from '../components/forms/Project';
 import { Loading } from '../components/Loading';
 import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, ProjectSubmit, Project } from '../logic/types';
+import { User, NotificationProps, Mode, ProjectSubmit, ThemeType, Project } from '../logic/types';
 import { useServices } from '../services';
 
 interface Props {
     user: User;
+    themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     push: any;
@@ -22,7 +24,7 @@ interface Params {
     id: string;
 }
 
-const EditProject = ({ user, mode, setMode, push, notificationsProps, showError }: Props) => {
+const EditProject = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps, showError }: Props) => {
     const { id } = useParams<Params>();
 
     const [project, setProject] = useState<Project | null>(null);
@@ -43,7 +45,14 @@ const EditProject = ({ user, mode, setMode, push, notificationsProps, showError 
     const projectTitle = project ? project.title : null;
 
     return (
-        <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
+        <AppLayout
+            user={user}
+            themeType={themeType}
+            setThemeType={setThemeType}
+            mode={mode}
+            setMode={setMode}
+            {...notificationsProps}
+        >
             <h1 className="center">Edit Project {id}</h1>
             {!project ? (
                 <Loading />

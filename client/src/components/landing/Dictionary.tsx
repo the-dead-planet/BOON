@@ -30,11 +30,11 @@ export const Dictionary = ({ i, clause, body, example, synonyms }: Props) => {
 
     return (
         <Box key={i} className={classes.definitions}>
-            <Typography color="primary" variant="caption" className={classes.textDecor}>
+            <Typography variant="caption" className={classes.textDecor}>
                 {clause}
             </Typography>
 
-            <Typography color="primary" variant="body1" gutterBottom>
+            <Typography variant="body1" gutterBottom>
                 {i + 1}. {body}
             </Typography>
 
@@ -42,7 +42,7 @@ export const Dictionary = ({ i, clause, body, example, synonyms }: Props) => {
                 {example}
             </Typography>
 
-            <Typography color="primary" variant="caption" gutterBottom>
+            <Typography variant="caption" gutterBottom>
                 <b>Synonyms:</b> {synonyms}
             </Typography>
         </Box>

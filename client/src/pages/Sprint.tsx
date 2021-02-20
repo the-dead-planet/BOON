@@ -11,7 +11,7 @@ import {
     // withShowError,
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, Mode, StateData, Sprint as SprintType, Model } from '../logic/types';
+import { User, NotificationProps, ThemeType, Mode, StateData, Sprint as SprintType, Model } from '../logic/types';
 import moment from 'moment';
 import { MONTH_YEAR_FORMAT } from '../constants/dateFormats';
 import { PATHS, QUOTES } from '../constants/data';
@@ -21,6 +21,8 @@ const sprintsPath = sprints;
 // TODO: see a comment in `Logout` regarding HOCs.
 interface SprintProps {
     user: User | undefined | null;
+    themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     data: StateData;
@@ -35,6 +37,8 @@ interface SprintProps {
 // If path is /sprints, redirect to the newest sprint
 const Sprint = ({
     user,
+    themeType,
+    setThemeType,
     mode,
     setMode,
     data,
@@ -193,6 +197,8 @@ const Sprint = ({
     ) : (
         <AppLayout
             user={user}
+            themeType={themeType}
+            setThemeType={setThemeType}
             mode={mode}
             setMode={setMode}
             appBar={true}
@@ -242,6 +248,7 @@ const Sprint = ({
                 // NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator
                 <SingleSprint
                     user={user}
+                    themeType={themeType}
                     sprint={sprint}
                     posts={posts}
                     projects={projects}

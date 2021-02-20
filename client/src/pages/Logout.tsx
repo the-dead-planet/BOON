@@ -6,20 +6,31 @@ import { AppFormLayout } from '../components/forms/App';
 import { Typography, Fade } from '@material-ui/core';
 import { useServices } from '../services';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, NotificationProps, Mode } from '../logic/types';
+import { User, NotificationProps, Mode, ThemeType } from '../logic/types';
 import { PATHS } from '../constants/data';
 const { home } = PATHS;
 
 interface LogoutProps {
     onSuccess: any;
     user: User | undefined | null;
+    themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     notificationsProps: NotificationProps;
     showError: any;
 }
 
-const Logout = ({ user, onSuccess, mode, setMode, notificationsProps, showError }: LogoutProps) => {
+const Logout = ({
+    user,
+    onSuccess,
+    themeType,
+    setThemeType,
+    mode,
+    setMode,
+    notificationsProps,
+    showError,
+}: LogoutProps) => {
     const [logoutRequestDone, setLogoutRequestDone] = useState(false);
     const { authService } = useServices()!;
 
@@ -39,10 +50,17 @@ const Logout = ({ user, onSuccess, mode, setMode, notificationsProps, showError 
         return <Redirect to={home} />;
     } else {
         return (
-            <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
+            <AppLayout
+                user={user}
+                themeType={themeType}
+                setThemeType={setThemeType}
+                mode={mode}
+                setMode={setMode}
+                {...notificationsProps}
+            >
                 <AppFormLayout>
                     <Fade timeout={1000} in={true}>
-                        <Typography variant="h4">Bye, bye, monster!</Typography>
+                        <Typography variant="h4">Sad to see you go!</Typography>
                     </Fade>
                 </AppFormLayout>
             </AppLayout>

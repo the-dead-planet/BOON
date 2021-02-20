@@ -8,11 +8,13 @@ import { FORMIK_DATE_FORMAT } from '../constants/dateFormats';
 import AppLayout from '../layouts/AppLayout';
 import { Loading } from '../components/Loading';
 // import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, SprintSubmit, Sprint } from '../logic/types';
+import { User, NotificationProps, Mode, SprintSubmit, Sprint, ThemeType } from '../logic/types';
 import { useServices } from '../services';
 
 interface Props {
     user: User;
+    themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     push: any;
@@ -24,7 +26,7 @@ interface Params {
     id: string;
 }
 
-const EditSprint = ({ user, mode, setMode, push, notificationsProps, showError }: Props) => {
+const EditSprint = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps, showError }: Props) => {
     const { id } = useParams<Params>();
 
     const [sprint, setSprint] = useState<Sprint | null>(null);
@@ -43,7 +45,14 @@ const EditSprint = ({ user, mode, setMode, push, notificationsProps, showError }
     });
 
     return (
-        <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
+        <AppLayout
+            user={user}
+            themeType={themeType}
+            setThemeType={setThemeType}
+            mode={mode}
+            setMode={setMode}
+            {...notificationsProps}
+        >
             {!sprint ? (
                 <Loading />
             ) : (

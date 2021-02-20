@@ -1,10 +1,11 @@
 import React from 'react';
 import { PostsList } from './PostList';
 import { withPush } from '../../utils/routingDecorators';
-import { User, Post, Project, Comment, Like, PostsListVariant, Col, CardSubtitleType } from '../../logic/types';
+import { User, Post, Project, Comment, Like, PostsListVariant, Col, ThemeType } from '../../logic/types';
 
 interface Props {
     user: User;
+    themeType: ThemeType;
     variant?: PostsListVariant;
     projects: Map<string, Project>;
     posts: Array<Post>;

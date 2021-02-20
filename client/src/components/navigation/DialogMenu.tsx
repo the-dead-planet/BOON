@@ -27,12 +27,8 @@ const DialogMenu = ({ open, handleClose, message, contextText, buttonOk }: Dialo
                     <DialogContentText id="alert-dialog-slide-description">{contextText}</DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={buttonOk.onClick} color="primary">
-                        {buttonOk.text}
-                    </Button>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={buttonOk.onClick}>{buttonOk.text}</Button>
                 </DialogActions>
             </Dialog>
         </div>

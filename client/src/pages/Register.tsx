@@ -4,7 +4,7 @@ import { guestPage } from '../utils/authenticatedPage';
 import { interceptPage } from '../utils/interceptPage';
 import Layout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
-import { Mode, User, NotificationProps, Auth } from '../logic/types';
+import { Mode, User, NotificationProps, Auth, ThemeType } from '../logic/types';
 import { useServices } from '../services';
 
 /* 
@@ -25,6 +25,8 @@ interface Props {
     next: any;
     onSuccess: any;
     user: User;
+    themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     notificationsProps: NotificationProps;
@@ -32,7 +34,18 @@ interface Props {
     location?: { path: string; search?: string };
 }
 
-const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, showError, location }: Props) => {
+const Register = ({
+    user,
+    themeType,
+    setThemeType,
+    mode,
+    setMode,
+    next,
+    onSuccess,
+    notificationsProps,
+    showError,
+    location,
+}: Props) => {
     const classes = useStyles();
 
     const [error, setError] = useState('');
@@ -44,7 +57,14 @@ const Register = ({ user, mode, setMode, next, onSuccess, notificationsProps, sh
     };
 
     return (
-        <Layout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
+        <Layout
+            user={user}
+            themeType={themeType}
+            setThemeType={setThemeType}
+            mode={mode}
+            setMode={setMode}
+            {...notificationsProps}
+        >
             <div className={classes.container}>
                 <AuthForm
                     mode={mode}

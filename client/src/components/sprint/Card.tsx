@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from '../../utils/Link';
 // import { CommentsSection } from '../CommentsSection';
@@ -6,7 +7,7 @@ import { Box, CardContent, CardActions, Typography, Divider } from '@material-ui
 // import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ActionButtons } from './ActionButtons';
 import { CardMenu } from './CardMenu';
-import { User, Comment, Like, MongoObject, Model, Tag } from '../../logic/types';
+import { User, Comment, Like, MongoObject, Model, Tag, ThemeType } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -50,23 +51,29 @@ const useStyles = makeStyles((theme: Theme) =>
             borderRadius: '2px',
             '&:hover': {
                 // backgroundColor: theme.palette.secondary.main,
-                boxShadow: `1px 1px 2px ${theme.palette.primary.light}`,
+                boxShadow: `1px 1px 2px rgba(0, 0, 0, .4)`,
             },
         },
         showMore: {
-            color: theme.palette.primary.light,
-            // opacity: .6,
+            // color: theme.palette.primary.light,
+            opacity: 0.6,
+            fontStyle: 'italic',
             padding: '0 .5em',
             '&:hover': {
                 color: theme.palette.secondary.main,
-                // opacity: .87,
+                opacity: 0.87,
             },
+        },
+        tagsContainer: {
+            display: 'flex',
+            marginTop: '1em',
         },
     })
 );
 
 interface Props {
     user: User | null | undefined;
+    themeType: ThemeType;
     object: MongoObject;
     model: Model;
     comments: Array<Comment | undefined>;
@@ -91,11 +98,14 @@ interface Props {
     divider?: boolean;
     hover?: boolean;
     colCount?: number;
+    linkBack: { name: string; path: string };
+    frosticNoRound?: boolean;
 }
 
 // Pass a component to mediaTop or mediaBottom depending on which location it is needed in
 export const PostCard = ({
     user,
+    themeType,
     object,
     model,
     comments,
@@ -120,6 +130,8 @@ export const PostCard = ({
     divider,
     hover,
     colCount,
+    linkBack,
+    frosticNoRound,
 }: Props) => {
     const classes = useStyles();
 
@@ -147,38 +159,52 @@ export const PostCard = ({
 
     return (
         // TODO: Remove the hover class and reuse it for on panel click
-        <Box id={object._id} className={`${classes.post} ${hover ? classes.hover : undefined}`}>
+        <Box
+            id={object._id}
+            className={clsx(classes.post, {
+                [classes.hover]: hover,
+                frostic: themeType === 'frostic',
+                rounded: themeType === 'frostic' && !frosticNoRound,
+            })}
+        >
             {mediaTop}
 
             <CardContent>
-                {linkWrapper(<Typography variant="h6">{title}</Typography>, titleLink)}
+                {linkWrapper(<Typography variant="h6">{title}</Typography>, `${titleLink}${linkBack.path}`)}
 
                 {/* Subtitle and tag are optional */}
                 {created && (
-                    <Typography component="p" variant="caption" gutterBottom>
+                    <Typography component="p" variant="caption">
                         {created}
                     </Typography>
                 )}
 
                 {/* Tags can be passed either as an array or single tag */}
-                {tag &&
-                    linkWrapper(
-                        <Typography variant="caption" gutterBottom className={classes.outlined}>
-                            {tag.title}
-                        </Typography>,
-                        tag.link
-                    )}
-
-                {tags?.map((tag, i) => (
-                    <div key={i}>
+                {tag && (
+                    <div className={classes.tagsContainer}>
                         {linkWrapper(
-                            <Typography variant="caption" gutterBottom className={classes.outlined}>
+                            <Typography variant="caption" className={classes.outlined}>
                                 {tag.title}
                             </Typography>,
                             tag.link
                         )}
                     </div>
-                ))}
+                )}
+
+                {tags && (
+                    <div className={classes.tagsContainer}>
+                        {tags.map((tag, i) => (
+                            <div key={i}>
+                                {linkWrapper(
+                                    <Typography variant="caption" className={classes.outlined}>
+                                        {tag.title}
+                                    </Typography>,
+                                    tag.link
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
             </CardContent>
             <CardMenu
                 user={user}
@@ -193,17 +219,12 @@ export const PostCard = ({
             {mediaMiddle}
 
             <CardContent className={classes.col} style={{ columnCount: colCount }}>
-                <Typography variant="body2" color="textSecondary" component="p" gutterBottom className={classes.body}>
+                <Typography variant="body2" component="p" gutterBottom className={classes.body}>
                     {showMoreRequired ? `${body.substring(0, maxLen)}` : body}
                     {showMoreRequired && titleLink ? (
-                        <Link to={titleLink}>
+                        <Link to={`${titleLink}${linkBack.path}`}>
                             ...{' '}
-                            <Typography
-                                component="span"
-                                variant="caption"
-                                color="textSecondary"
-                                className={classes.showMore}
-                            >
+                            <Typography component="span" variant="caption" className={classes.showMore}>
                                 show more
                             </Typography>
                         </Link>
@@ -216,7 +237,13 @@ export const PostCard = ({
                 </Typography>
             </CardContent>
 
-            <CardActions disableSpacing className={classes.action}>
+            <CardActions
+                disableSpacing
+                className={clsx(classes.action, {
+                    // "frostic": themeType === 'frostic',
+                    // "rounded": themeType === 'frostic' && !frosticNoRound
+                })}
+            >
                 <ActionButtons
                     user={user}
                     author={(object as { author: string })?.author}

@@ -1,12 +1,11 @@
 import React, { Fragment } from 'react';
+import { useLocation } from 'react-router-dom';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Grid, CardMedia, Typography } from '@material-ui/core';
 import { PostCard } from './Card';
 import img1 from '../../img/content/vintage/bus.jpg';
 import img2 from '../../img/content/vintage/car.jpg';
-import { User, Post, Project, Comment, Like, PostsListVariant, Col, CardSubtitleType } from '../../logic/types';
-import moment from 'moment';
-import { EXT_DATE_FORMAT } from '../../constants/dateFormats';
+import { User, Post, Project, Comment, Like, PostsListVariant, Col, ThemeType } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -43,6 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     user: User;
+    themeType: ThemeType;
     variant: PostsListVariant;
     projects: Map<string, Project>;
     posts: Array<Post>;
@@ -67,6 +67,7 @@ interface Props {
 
 export const PostsList = ({
     user,
+    themeType,
     variant,
     getCreated,
     getTag,
@@ -85,6 +86,7 @@ export const PostsList = ({
     ...props
 }: Props) => {
     const classes = useStyles();
+    const path = useLocation().pathname;
 
     return (
         <Grid container justify="space-around" spacing={1}>
@@ -94,6 +96,7 @@ export const PostsList = ({
                         <PostCard
                             key={`${post._id}-${i}`}
                             user={user}
+                            themeType={themeType}
                             object={post}
                             model={'Post'}
                             comments={post.comments.map((id) => comments.get(id))}
@@ -101,7 +104,7 @@ export const PostsList = ({
                             users={users as any}
                             author={users.get(post.author as any)?.publicName || 'Unknown user'}
                             title={post.title}
-                            titleLink={`/posts/${post._id}`}
+                            titleLink={`/posts/${post._id}?from=`}
                             created={getCreated ? getCreated(post.created) : undefined}
                             tag={{
                                 title: getTag ? getTag(post._id) : '',
@@ -131,6 +134,7 @@ export const PostsList = ({
                             toggleCommentsPanel={toggleCommentsPanel}
                             divider={true}
                             hover={true}
+                            linkBack={{ name: 'sprints', path: path }}
                         />
                     </Grid>
 

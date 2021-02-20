@@ -5,7 +5,7 @@ import { interceptPage } from '../utils/interceptPage';
 import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import { useServices } from '../services';
-import { Mode, User, NotificationProps } from '../logic/types';
+import { Mode, User, NotificationProps, ThemeType } from '../logic/types';
 
 /* 
     Users can log in using either their e-mail (passport 'username') or their publicName
@@ -24,6 +24,8 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     user: User;
     mode: Mode;
+    themeType: ThemeType;
+    setThemeType: any;
     setMode: any;
     next?: any;
     onLoginSuccess: any;
@@ -32,7 +34,18 @@ interface Props {
     location?: { path: string; search?: string };
 }
 
-const Login = ({ user, mode, setMode, next, onLoginSuccess, notificationsProps, showError, location }: Props) => {
+const Login = ({
+    user,
+    mode,
+    themeType,
+    setThemeType,
+    setMode,
+    next,
+    onLoginSuccess,
+    notificationsProps,
+    showError,
+    location,
+}: Props) => {
     const classes = useStyles();
     const [error, setError] = useState('');
     const { authService } = useServices()!;
@@ -42,7 +55,14 @@ const Login = ({ user, mode, setMode, next, onLoginSuccess, notificationsProps, 
     };
 
     return (
-        <AppLayout user={user} mode={mode} setMode={setMode} {...notificationsProps}>
+        <AppLayout
+            user={user}
+            themeType={themeType}
+            setThemeType={setThemeType}
+            mode={mode}
+            setMode={setMode}
+            {...notificationsProps}
+        >
             <div className={classes.container}>
                 <AuthForm
                     mode={mode}

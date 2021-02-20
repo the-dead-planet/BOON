@@ -93,8 +93,8 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error, location }: 
                         </Box>
 
                         <Typography
+                            color="textPrimary"
                             variant="body2"
-                            color="primary"
                             align="center"
                             gutterBottom
                             className={classes.subtitle}

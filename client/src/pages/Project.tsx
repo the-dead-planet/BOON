@@ -10,7 +10,7 @@ import {
     // withShowError,
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, Mode, StateData, Project, Model } from '../logic/types';
+import { User, NotificationProps, Mode, ThemeType, StateData, Project, Model } from '../logic/types';
 import { PATHS, QUOTES } from '../constants/data';
 import { useServices } from '../services';
 const { projects } = PATHS;
@@ -19,6 +19,8 @@ const projectsPath = projects;
 // TODO: see a comment in `Logout` regarding HOCs.
 interface SprintProps {
     user: User | undefined | null;
+    themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
     data: StateData;
@@ -33,6 +35,8 @@ interface SprintProps {
 // If path is /projects, redirect to the newest project
 const Sprint = ({
     user,
+    themeType,
+    setThemeType,
     mode,
     setMode,
     data,
@@ -189,6 +193,8 @@ const Sprint = ({
     ) : (
         <AppLayout
             user={user}
+            themeType={themeType}
+            setThemeType={setThemeType}
             mode={mode}
             setMode={setMode}
             appBar={true}
@@ -233,6 +239,7 @@ const Sprint = ({
             ) : (
                 <SingleProject
                     user={user}
+                    themeType={themeType}
                     project={project}
                     sprints={sprints}
                     posts={posts}

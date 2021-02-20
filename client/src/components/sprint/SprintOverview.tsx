@@ -5,7 +5,7 @@ import { Grid } from '@material-ui/core';
 import { PostCard } from './Card';
 import moment from 'moment';
 import { DATE_FORMAT } from '../../constants/dateFormats';
-import { User, Sprint, Comment, Like } from '../../logic/types';
+import { User, Sprint, Comment, Like, ThemeType } from '../../logic/types';
 import img from '../../img/content/vintage/typewriter.jpg';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     user: User | null | undefined;
+    themeType: ThemeType;
     sprint: Sprint;
     comments: Array<Comment | undefined>;
     likes: Array<Like | undefined>;
@@ -40,6 +41,7 @@ interface Props {
 
 export const SprintOverview = ({
     user,
+    themeType,
     sprint,
     comments,
     likes,
@@ -60,6 +62,7 @@ export const SprintOverview = ({
         // TODO: Create a sprint card
         <PostCard
             user={user}
+            themeType={themeType}
             object={sprint}
             model={'Sprint'}
             comments={comments}
@@ -79,6 +82,8 @@ export const SprintOverview = ({
             removeObject={(id: string) => removeSprint(id)}
             removeComment={(id: string) => removeComment(id)}
             toggleCommentsPanel={toggleCommentsPanel}
+            linkBack={{ name: 'Home', path: '/' }}
+            frosticNoRound={true}
         />
     );
 

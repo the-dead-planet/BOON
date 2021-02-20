@@ -1,6 +1,7 @@
 import { ReactChild, ReactChildren } from 'react';
 
 type Children = ReactChild | ReactChildren | Array<ReactChild>;
+type ThemeType = 'default' | 'frostic' | 'vintage' | undefined;
 type Mode = 'light' | 'dark' | undefined;
 type DrawerVariant = 'persistent' | 'temporary';
 type Col = boolean | 'auto' | 2 | 1 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | undefined;
@@ -62,6 +63,7 @@ interface StateType {
     user: User | null;
     whoamiRequestDone: boolean;
     mode: Mode;
+    themeType: ThemeType;
     notifications: Array<Notification>;
     data: StateData;
 }
@@ -401,6 +403,7 @@ export type {
     User,
     UserData,
     Mode,
+    ThemeType,
     DrawerVariant,
     Input,
     Drawer,

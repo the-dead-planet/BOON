@@ -16,7 +16,7 @@ import Team from './pages/Team';
 import './App.css';
 import services from './services/realImpl';
 import ScrollToTop from './utils/ScrollToTop';
-import { StateType, Mode } from './logic/types';
+import { StateType, Mode, ThemeType } from './logic/types';
 import { PATHS } from './constants/data';
 import { ServicesContext, useServices } from './services/context';
 import { WrappedUserData } from './services/services';
@@ -46,6 +46,9 @@ class AppImpl extends Component<{}, StateType> {
     }
 
     // TODO: move to state methods
+    setThemeType = (themeType: ThemeType) => {
+        this.setState({ themeType: themeType });
+    };
     setMode = (mode: Mode) => {
         this.setState({ mode: mode });
     };
@@ -89,6 +92,8 @@ class AppImpl extends Component<{}, StateType> {
                             {/* Authentication */}
                             <Route path={login}>
                                 <Login
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     onLoginSuccess={updateState(State.setUser)}
@@ -98,6 +103,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={register}>
                                 <Register
                                     user={user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     onSuccess={updateState(State.setUser)}
@@ -107,6 +114,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={logout}>
                                 <Logout
                                     user={user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     onSuccess={updateState(State.clearUser)}
@@ -119,6 +128,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={`${posts}${add}`}>
                                 <AddPost
                                     user={user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}
@@ -127,6 +138,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={`${posts}/:id`}>
                                 <Post
                                     user={user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setStateData={updateState(State.setStateData)}
@@ -140,6 +153,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={posts}>
                                 <Post
                                     user={user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setStateData={updateState(State.setStateData)}
@@ -155,6 +170,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={`${sprints}${add}`}>
                                 <AddSprint
                                     user={user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}
@@ -163,6 +180,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={`${sprints}/:id${edit}`}>
                                 <EditSprint
                                     user={user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}
@@ -171,6 +190,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={`${sprints}/:id`}>
                                 <Sprint
                                     user={user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setStateData={updateState(State.setStateData)}
@@ -184,6 +205,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={sprints}>
                                 <Sprint
                                     user={user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setStateData={updateState(State.setStateData)}
@@ -199,6 +222,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={`${projects}${add}`}>
                                 <AddProject
                                     user={user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}
@@ -207,6 +232,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={`${projects}${edit}`}>
                                 <AddProject
                                     user={user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}
@@ -215,6 +242,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={`${projects}/:id`}>
                                 <Project
                                     user={user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setStateData={updateState(State.setStateData)}
@@ -228,6 +257,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={projects}>
                                 <Project
                                     user={user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setStateData={updateState(State.setStateData)}
@@ -243,6 +274,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={teams}>
                                 <Team
                                     user={user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     setState={updateState(State.setStateData)}
@@ -258,6 +291,8 @@ class AppImpl extends Component<{}, StateType> {
                             <Route path={home}>
                                 <Home
                                     user={this.state.user}
+                                    themeType={this.state.themeType}
+                                    setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
                                     notificationsProps={notificationsProps}

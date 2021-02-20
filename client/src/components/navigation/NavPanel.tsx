@@ -1,9 +1,10 @@
 import React from 'react';
+import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { NAVBAR_LEFT_WIDTH } from '../../styles/constants';
 import { LinkComponent } from '../../utils/Link';
 import { Typography, Box } from '@material-ui/core';
-import { NavContent, SideColumn, User, NavButton, Variant } from '../../logic/types';
+import { NavContent, SideColumn, User, NavButton, Variant, ThemeType } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -43,39 +44,28 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         navTitle: ({ variant }: { variant: Variant }) => ({
             backgroundColor: variant === 'secondary' ? theme.palette.primary.main : theme.palette.primary.main,
-            color: theme.palette.background.default,
+            color: 'rgba(255, 255, 255, .87)',
             padding: '.2em',
             textAlign: 'center',
             textTransform: 'uppercase',
         }),
         panelButton: {
             padding: '.2em .8em',
-            // transition: "background-color .6s ease-out, color .1s ease-out",
             '&:hover': {
-                // backgroundColor: theme.palette.primary.light,
-                // color: theme.palette.primary.contrastText,
                 backgroundColor: 'rgba(0, 0, 0, .06)',
-                // transition: "background-color .6s ease-out, color .1s ease-out",
             },
             '&:active': {
-                // backgroundColor: theme.palette.primary.main,
-                // color: theme.palette.primary.contrastText,
                 backgroundColor: 'rgba(0, 0, 0, .1)',
-                // transition: "background-color .1s ease-out, color .6s ease-out",
             },
         },
         selected: ({ variant }: { variant: Variant }) => ({
-            // backgroundColor: variant === "secondary" ? theme.palette.secondary.light : theme.palette.primary.light,
-            // color: theme.palette.background.default,
-            // fontStyle: 'italic',
-            // textAlign: 'right',
             textTransform: 'uppercase',
         }),
         sideColContainer: {
             marginBottom: theme.spacing(1),
             padding: '.4em',
             position: 'relative',
-            '&::after': {
+            '&::before': {
                 content: "''",
                 position: 'absolute',
                 left: 0,
@@ -102,6 +92,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     user: User;
+    themeType: ThemeType;
     variant?: Variant;
     contents: NavContent;
     sideColumn?: SideColumn;
@@ -109,7 +100,7 @@ interface Props {
 }
 
 // A temporary component that is going to be implemented in Layout in the long run.
-export const NavPanel = ({ user, variant, contents, sideColumn, createButton }: Props) => {
+export const NavPanel = ({ user, themeType, variant, contents, sideColumn, createButton }: Props) => {
     const classes = useStyles({ variant });
 
     return (
@@ -129,7 +120,7 @@ export const NavPanel = ({ user, variant, contents, sideColumn, createButton }: 
             ) : undefined}
 
             {/* Main navigation panel */}
-            <Box className={classes.navContainer}>
+            <Box className={clsx(classes.navContainer, { frostic: themeType === 'frostic' })}>
                 {contents.map((content, index) => (
                     <Box key={index}>
                         <Typography variant="body2" className={classes.navTitle}>
@@ -158,16 +149,17 @@ export const NavPanel = ({ user, variant, contents, sideColumn, createButton }: 
 
 interface SideColProps {
     variant?: Variant;
+    themeType: ThemeType;
     header: string;
     body: string;
 }
 
-export const SideCol = ({ variant, header, body }: SideColProps) => {
+export const SideCol = ({ variant, themeType, header, body }: SideColProps) => {
     const classes = useStyles({ variant });
 
     return (
         <Box className={classes.sideCol}>
-            <Box className={classes.sideColContainer}>
+            <Box className={clsx(classes.sideColContainer, { frostic: themeType === 'frostic' })}>
                 <Typography variant="h5" className={classes.sideColTitle}>
                     {header}
                 </Typography>
