@@ -51,8 +51,8 @@ const Post = ({
     const { id }: { id: string } = useParams();
     const query = useQuery();
     let linkBack = query.get('from');
+    const linkBackName = linkBack ? linkBack.substring(1, linkBack.substring(1).indexOf('/') + 1) : 'home';
     linkBack = linkBack || '/';
-    const linkBackName = linkBack ? linkBack.substring(1, linkBack.substring(1).indexOf('/') + 1) : 'Home';
 
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
 
