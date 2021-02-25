@@ -18,7 +18,7 @@ export const INITIAL_STATE: StateType = {
     // Client specific state.
     whoamiRequestDone: false,
     user: null,
-    mode: 'dark',
+    mode: 'light',
     themeType: 'default',
     notifications: [],
 };

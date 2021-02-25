@@ -38,10 +38,7 @@ export const Empty = () => {
         <Container className={classes.loading}>
             <Grid container direction="column" alignItems="center">
                 <Grid item>
-                    <i className="optin monster icon" />
-                </Grid>
-                <Grid item>
-                    <Typography variant="h5">Oops... No sprints found. Lazy, lazy...</Typography>
+                    <Typography variant="h5">Oops... nothing here...</Typography>
                 </Grid>
             </Grid>
         </Container>
