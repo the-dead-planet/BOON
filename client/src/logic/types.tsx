@@ -374,7 +374,7 @@ interface DialogProps {
     contextText?: string;
     content?: any;
     buttonOk: DialogButton;
-    fullScreenBreakPoint?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+    fullScreen?: boolean;
 }
 
 interface NavButton {

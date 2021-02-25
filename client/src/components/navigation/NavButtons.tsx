@@ -1,22 +1,9 @@
 import React, { useState } from 'react';
 import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from '../../utils/Link';
-import {
-    Grid,
-    List,
-    ListItem,
-    ListItemText,
-    Typography,
-    InputBase,
-    Hidden,
-    FormControl,
-    FormLabel,
-    RadioGroup,
-    FormControlLabel,
-    Radio,
-} from '@material-ui/core';
+import { Grid, List, ListItem, ListItemText, Typography, InputBase, Hidden } from '@material-ui/core';
 import { TypographyLinkOutlined } from '../mui-styled/Typography';
-// import { Button } from '../mui-styled/Button';
+import { Preferences } from './Preferences';
 import DialogMenu from './DialogMenu';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import { IconUserSecret, IconSearch } from '../Icons';
@@ -73,19 +60,6 @@ const useStyles = makeStyles((theme: Theme) =>
         spacing: {
             marginLeft: theme.spacing(2),
         },
-        preferences: {
-            width: '100%',
-            padding: '1em',
-        },
-        itemName: {
-            minWidth: '5em',
-            width: '40%',
-        },
-        radioGroup: {
-            [theme.breakpoints.up('md')]: {
-                display: 'inline',
-            },
-        },
     })
 );
 
@@ -137,61 +111,6 @@ export const AuthButtonsHorizontal = ({ user, themeType, setThemeType, mode, set
         setOpenDialog(true);
     };
 
-    const [themeTypeValue, setThemeTypeValue] = React.useState(themeType);
-    const [modeValue, setModeValue] = React.useState(mode);
-
-    const handleThemeTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const val: ThemeType = (event.target as HTMLInputElement).value as ThemeType;
-        setThemeTypeValue(val);
-        setThemeType(val);
-    };
-    const handleModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const val = (event.target as HTMLInputElement).value as Mode;
-        setModeValue(val);
-        setMode(val);
-    };
-
-    const themeTypes: Array<ThemeType> = ['default', 'vintage', 'frostic'];
-    const modes: Array<Mode> = ['light', 'dark'];
-
-    const preferences = (
-        <List className={classes.preferences}>
-            <ListItem>
-                <Typography className={classes.itemName}>Theme</Typography>
-                <FormControl component="fieldset">
-                    <RadioGroup
-                        aria-label="mode"
-                        name="mode"
-                        value={themeTypeValue}
-                        onChange={handleThemeTypeChange}
-                        className={classes.radioGroup}
-                    >
-                        {themeTypes.map((t: ThemeType) => (
-                            <FormControlLabel value={t} control={<Radio />} label={t} />
-                        ))}
-                    </RadioGroup>
-                </FormControl>
-            </ListItem>
-
-            <ListItem>
-                <Typography className={classes.itemName}>Mode</Typography>
-                <FormControl component="fieldset">
-                    <RadioGroup
-                        aria-label="mode"
-                        name="mode"
-                        value={modeValue}
-                        onChange={handleModeChange}
-                        className={classes.radioGroup}
-                    >
-                        {modes.map((m: Mode) => (
-                            <FormControlLabel value={m} control={<Radio />} label={m} />
-                        ))}
-                    </RadioGroup>
-                </FormControl>
-            </ListItem>
-        </List>
-    );
-
     return (
         <Grid container alignItems="center" className={classes.auth}>
             {/* Display 'sign up' and 'log in' buttons only if user not logged in */}
@@ -235,10 +154,12 @@ export const AuthButtonsHorizontal = ({ user, themeType, setThemeType, mode, set
             <DialogMenu
                 open={openDialog}
                 message="Preferences"
-                content={preferences}
+                content={
+                    <Preferences themeType={themeType} setThemeType={setThemeType} mode={mode} setMode={setMode} />
+                }
                 handleClose={handleDialogClose}
                 buttonOk={{ text: 'Done', onClick: handleDialogClose }}
-                fullScreenBreakPoint="sm"
+                fullScreen={true}
             />
         </Grid>
     );

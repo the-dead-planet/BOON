@@ -12,17 +12,9 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const DialogMenu = ({
-    open,
-    handleClose,
-    message,
-    contextText,
-    content,
-    buttonOk,
-    fullScreenBreakPoint,
-}: DialogProps) => {
+const DialogMenu = ({ open, handleClose, message, contextText, content, buttonOk, fullScreen }: DialogProps) => {
     const theme = useTheme();
-    const fullScreen = fullScreenBreakPoint ? useMediaQuery(theme.breakpoints.down(fullScreenBreakPoint)) : undefined;
+    const fullScreenBreakPoint = useMediaQuery(theme.breakpoints.down('xs'));
 
     // TODO: style it nicer
     return (
@@ -32,7 +24,7 @@ const DialogMenu = ({
                 TransitionComponent={Transition}
                 keepMounted
                 fullWidth
-                fullScreen={fullScreen}
+                fullScreen={fullScreen ? fullScreenBreakPoint : undefined}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
