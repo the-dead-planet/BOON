@@ -1,10 +1,11 @@
 import React from 'react';
+import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from '../../utils/Link';
 import { Container, Grid, Typography, Box } from '@material-ui/core';
 import { Button } from '../mui-styled/Button';
 import { LANDING_CONTENTS } from '../../constants/data';
-import { User, Mode } from '../../logic/types';
+import { User, Mode, ThemeType } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -30,8 +31,9 @@ const useStyles = makeStyles((theme: Theme) =>
             },
         },
         gridContentItem: {
-            marginTop: theme.spacing(4),
+            margin: theme.spacing(6, 4, 2, 4),
             padding: theme.spacing(8, 2, 8, 2),
+            height: '100%',
             // border: `2px solid ${theme.palette.primary.main}`,
             textAlign: 'center',
             position: 'relative',
@@ -55,18 +57,24 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     user: User;
+    themeType: ThemeType;
+    setThemeType: any;
     mode: Mode;
     setMode: any;
 }
 
-const Content = ({ user, mode, setMode }: Props) => {
+const Content = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
     const classes = useStyles();
     // TODO: Change this content to something which makes more sense, now it's quite a mess
     return (
-        <Container maxWidth="md" id="main-content" className={classes.contentContainer}>
+        <Container maxWidth="lg" id="main-content" className={classes.contentContainer}>
             <Box className={classes.enterContainer}>
                 <Link to={'/sprints'}>
-                    <Typography color="secondary" variant="h2" className={classes.enterButton}>
+                    <Typography
+                        color="secondary"
+                        variant="h2"
+                        className={clsx(classes.enterButton, { frostic: themeType === 'frostic' })}
+                    >
                         ENTER THE DEMO
                     </Typography>
                 </Link>
@@ -74,29 +82,27 @@ const Content = ({ user, mode, setMode }: Props) => {
 
             <Grid container justify="space-around">
                 {LANDING_CONTENTS.map((item, i) => (
-                    <Grid
-                        item
-                        xs={12}
-                        sm={4}
-                        key={i}
-                        className={classes.gridContentItem}
-                        container
-                        direction="column"
-                        alignItems="center"
-                    >
-                        <Typography variant="h3" color="textPrimary" gutterBottom>
-                            {item.title}
-                        </Typography>
+                    <Grid item xs={12} sm={4} key={i} container direction="column" alignItems="center">
+                        <div className={clsx(classes.gridContentItem, { frostic: themeType === 'frostic' })}>
+                            <Typography variant="h3" color="textPrimary" gutterBottom>
+                                {item.title}
+                            </Typography>
 
-                        <Typography variant="h5" color="textPrimary" gutterBottom className={classes.contentItemBody}>
-                            {item.text}
-                        </Typography>
+                            <Typography
+                                variant="h5"
+                                color="textPrimary"
+                                gutterBottom
+                                className={classes.contentItemBody}
+                            >
+                                {item.text}
+                            </Typography>
 
-                        <Link to={item.path}>
-                            <Button variant="outlined">
-                                <Typography variant="body1">{item.link}</Typography>
-                            </Button>
-                        </Link>
+                            <Link to={item.path}>
+                                <Button variant="outlined">
+                                    <Typography variant="body1">{item.link}</Typography>
+                                </Button>
+                            </Link>
+                        </div>
                     </Grid>
                 ))}
             </Grid>

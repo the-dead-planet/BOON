@@ -28,7 +28,7 @@ const Home = ({ user, themeType, setThemeType, mode, setMode, push, notification
     >
         <Header user={user} themeType={themeType} setThemeType={setThemeType} mode={mode} setMode={setMode} />
 
-        <Content user={user} mode={mode} setMode={setMode} />
+        <Content user={user} themeType={themeType} setThemeType={setThemeType} mode={mode} setMode={setMode} />
     </AppLayout>
 );
 

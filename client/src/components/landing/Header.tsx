@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Box, Grid, Typography, Divider, Hidden } from '@material-ui/core';
 import { AuthButtonsHorizontal, BrowseButton } from '../navigation/NavButtons';
@@ -106,7 +107,7 @@ const Header = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
 
             <hr className={classes.headerDivider} />
 
-            <Grid item xs={12} sm={8}>
+            <Grid item xs={12} sm={8} className={clsx({ frostic: themeType === 'frostic' })}>
                 {definitions.map((item, i) => (
                     <Dictionary key={i} i={i} {...item} />
                 ))}
