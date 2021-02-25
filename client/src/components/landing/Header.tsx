@@ -5,7 +5,7 @@ import { AuthButtonsHorizontal, BrowseButton } from '../navigation/NavButtons';
 import { Logo } from './Logo';
 import { Dictionary } from './Dictionary';
 import { DICTIONARY } from '../../constants/data';
-import { User } from '../../logic/types';
+import { ThemeType, User, Mode } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -62,8 +62,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     user: User;
+    themeType: ThemeType;
+    setThemeType: any;
+    mode: Mode;
+    setMode: any;
 }
-const Header = ({ user }: Props) => {
+const Header = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
     const classes = useStyles();
 
     const { explanation, definitions } = DICTIONARY;
@@ -73,14 +77,26 @@ const Header = ({ user }: Props) => {
             {/* Browse button */}
             <Hidden smDown>
                 <Box className={`${classes.topButtons} ${classes.left}`}>
-                    <BrowseButton user={user} />
+                    <BrowseButton
+                        user={user}
+                        themeType={themeType}
+                        setThemeType={setThemeType}
+                        mode={mode}
+                        setMode={setMode}
+                    />
                 </Box>
             </Hidden>
 
             {/* Authorization buttons */}
             <Hidden smDown>
                 <Box className={`${classes.topButtons} ${classes.right}`}>
-                    <AuthButtonsHorizontal user={user} />
+                    <AuthButtonsHorizontal
+                        user={user}
+                        themeType={themeType}
+                        setThemeType={setThemeType}
+                        mode={mode}
+                        setMode={setMode}
+                    />
                 </Box>
             </Hidden>
 

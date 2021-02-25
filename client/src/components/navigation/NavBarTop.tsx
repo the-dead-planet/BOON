@@ -171,7 +171,13 @@ const NavBarTop = ({
                             </Grid>
 
                             <div className={`${classes.fix} ${classes.right}`}>
-                                <AuthButtonsHorizontal user={user} />
+                                <AuthButtonsHorizontal
+                                    user={user}
+                                    themeType={themeType}
+                                    setThemeType={setThemeType}
+                                    mode={mode}
+                                    setMode={setMode}
+                                />
                             </div>
                         </Grid>
                     </Toolbar>

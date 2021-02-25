@@ -372,7 +372,9 @@ interface DialogProps {
     handleClose: any;
     message: string;
     contextText?: string;
+    content?: any;
     buttonOk: DialogButton;
+    fullScreenBreakPoint?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
 interface NavButton {
