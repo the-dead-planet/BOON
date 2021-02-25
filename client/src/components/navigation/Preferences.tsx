@@ -59,8 +59,8 @@ export const Preferences = ({ themeType, setThemeType, mode, setMode }: Props) =
                         onChange={handleThemeTypeChange}
                         className={classes.radioGroup}
                     >
-                        {THEME_TYPES.map((t: ThemeType) => (
-                            <FormControlLabel value={t} control={<Radio />} label={t} />
+                        {THEME_TYPES.map((t: ThemeType, i: number) => (
+                            <FormControlLabel key={i} value={t} control={<Radio />} label={t} />
                         ))}
                     </RadioGroup>
                 </FormControl>
@@ -77,8 +77,8 @@ export const Preferences = ({ themeType, setThemeType, mode, setMode }: Props) =
                         onChange={handleModeChange}
                         className={classes.radioGroup}
                     >
-                        {MODES.map((m: Mode) => (
-                            <FormControlLabel value={m} control={<Radio />} label={m} />
+                        {MODES.map((m: Mode, i: number) => (
+                            <FormControlLabel key={i} value={m} control={<Radio />} label={m} />
                         ))}
                     </RadioGroup>
                 </FormControl>

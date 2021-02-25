@@ -6,7 +6,9 @@ import { PostCard } from './Card';
 import moment from 'moment';
 import { DATE_FORMAT } from '../../constants/dateFormats';
 import { User, Sprint, Comment, Like, ThemeType } from '../../logic/types';
-import img from '../../img/content/vintage/typewriter.jpg';
+import vintageImg from '../../img/content/vintage/typewriter2.jpg';
+import frosticImg from '../../img/content/tech/gameboy.jpg';
+import defaultImg from '../../img/content/tech/women-phone.jpg';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -57,6 +59,9 @@ export const SprintOverview = ({
     const author: User | null = users.get(sprint.author as any); // FIXME: types are probably incompatible.
     const authorPublicName = author ? author.publicName : 'unknown';
     // const isAuthor = users.get(String(sprint?.author) || '')?.publicName === user?.publicName;
+
+    // TEMP
+    const img = themeType === 'vintage' ? vintageImg : themeType === 'frostic' ? frosticImg : defaultImg;
 
     const content = sprint && (
         // TODO: Create a sprint card
