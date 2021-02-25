@@ -145,8 +145,7 @@ export const PostsList = ({
                             item
                             xs={12}
                             sm={12}
-                            md={8}
-                            lg={6}
+                            lg={8}
                             xl={4}
                             container
                             direction="column"

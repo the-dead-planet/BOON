@@ -5,16 +5,17 @@
     Theme types give a completely different styling, while mode just switch between light and dark colors within a theme type.
 */
 import { Mode, ThemeType } from '../logic/types';
-import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
+import { createMuiTheme, responsiveFontSizes, Theme } from '@material-ui/core/styles';
 import bgFrosticLight from '../img/background/bg-frostic-light.jpg';
 import bgFrosticDark from '../img/background/bg-frostic-dark.jpg';
 
 // font-family: 'Libre Baskerville', serif;
 // Wrapper for the function in order to pass type parameter.
 // Requires defining 'const theme' in components which make use of it. See Layout.tsx
-const createTheme = (mode: Mode, themeType: ThemeType) => {
+const createTheme = (mode: Mode, themeType: ThemeType, customTheme?: Theme) => {
     // Default theme - minimalistic white / black design
-    let defaultTheme = createMuiTheme({
+    // It's allowed to customize default theme, if provided replace default theme with customTheme
+    let defaultTheme = {
         palette: {
             type: mode,
             primary: {
@@ -72,10 +73,23 @@ const createTheme = (mode: Mode, themeType: ThemeType) => {
             fontFamily: 'Poppins, sans-serif',
             // fontSize: 14,
         },
-    });
+        overrides: {
+            MuiCssBaseline: {
+                '@global': {
+                    body: {
+                        minHeight: '100vh',
+                        minWidth: '100%',
+                        backgroundColor: mode === 'dark' ? '#000' : '#FAFAFA',
+                        boxShadow: 'none',
+                        backgroundImage: 'none',
+                    },
+                },
+            },
+        },
+    };
 
     // Vintage theme - styled as a vintage newspaper
-    let vintage = createMuiTheme({
+    let vintage = {
         palette: {
             type: mode,
             primary: {
@@ -150,16 +164,16 @@ const createTheme = (mode: Mode, themeType: ThemeType) => {
                             mode === 'light'
                                 ? `url('https://www.transparenttextures.com/patterns/paper-fibers.png'), 
                                             url('https://www.transparenttextures.com/patterns/natural-paper.png')`
-                                : undefined,
+                                : 'none',
                         /* TODO: This is mostly intended for prototyping; please download the pattern and re-host for production */
                     },
                 },
             },
         },
-    });
+    };
 
     // Frostic theme - glassmorphism design
-    let frostic = createMuiTheme({
+    let frostic = {
         palette: {
             type: mode,
             primary: {
@@ -229,7 +243,10 @@ const createTheme = (mode: Mode, themeType: ThemeType) => {
                 },
             },
         },
-    });
+    };
+
+    // Custom - by default the same as defaultTheme
+    let custom = customTheme || defaultTheme;
 
     // Add responsive font sizes and create theme based on selected app
     let theme;
