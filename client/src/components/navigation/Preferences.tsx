@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { List, ListItem, Typography, FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
+import { RadioButtonGroup } from '../RadioButtonGroup';
 import { ThemeType, Mode } from '../../logic/types';
 import { MODES, THEME_TYPES } from '../../constants/data';
 
@@ -32,56 +33,22 @@ interface Props {
 export const Preferences = ({ themeType, setThemeType, mode, setMode }: Props) => {
     const classes = useStyles();
 
-    const [themeTypeValue, setThemeTypeValue] = React.useState(themeType);
-    const [modeValue, setModeValue] = React.useState(mode);
-
-    const handleThemeTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const val: ThemeType = (event.target as HTMLInputElement).value as ThemeType;
-        setThemeTypeValue(val);
-        setThemeType(val);
-    };
-    const handleModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const val = (event.target as HTMLInputElement).value as Mode;
-        setModeValue(val);
-        setMode(val);
-    };
-
     return (
         <List className={classes.preferences}>
             {/* Theme type selection */}
             <ListItem>
                 <Typography className={classes.itemName}>Theme</Typography>
-                <FormControl component="fieldset">
-                    <RadioGroup
-                        aria-label="mode"
-                        name="mode"
-                        value={themeTypeValue}
-                        onChange={handleThemeTypeChange}
-                        className={classes.radioGroup}
-                    >
-                        {THEME_TYPES.map((t: ThemeType, i: number) => (
-                            <FormControlLabel key={i} value={t} control={<Radio />} label={t} />
-                        ))}
-                    </RadioGroup>
-                </FormControl>
+                <RadioButtonGroup
+                    valueList={THEME_TYPES as Array<string>}
+                    value={themeType as string}
+                    setValue={setThemeType}
+                />
             </ListItem>
 
             {/* Light / Dark mode selection */}
             <ListItem>
                 <Typography className={classes.itemName}>Mode</Typography>
-                <FormControl component="fieldset">
-                    <RadioGroup
-                        aria-label="mode"
-                        name="mode"
-                        value={modeValue}
-                        onChange={handleModeChange}
-                        className={classes.radioGroup}
-                    >
-                        {MODES.map((m: Mode, i: number) => (
-                            <FormControlLabel key={i} value={m} control={<Radio />} label={m} />
-                        ))}
-                    </RadioGroup>
-                </FormControl>
+                <RadioButtonGroup valueList={MODES as Array<string>} value={mode as string} setValue={setMode} />
             </ListItem>
         </List>
     );
