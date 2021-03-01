@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             marginTop: '1em',
         },
+        shine: {},
     })
 );
 
@@ -100,6 +101,7 @@ interface Props {
     colCount?: number;
     linkBack: { name: string; path: string };
     frosticNoRound?: boolean;
+    toggleShine?: boolean;
 }
 
 // Pass a component to mediaTop or mediaBottom depending on which location it is needed in
@@ -132,6 +134,7 @@ export const PostCard = ({
     colCount,
     linkBack,
     frosticNoRound,
+    toggleShine,
 }: Props) => {
     const classes = useStyles();
 
@@ -165,6 +168,7 @@ export const PostCard = ({
                 [classes.hover]: hover,
                 frostic: themeType === 'frostic',
                 rounded: themeType === 'frostic' && !frosticNoRound,
+                [classes.shine]: toggleShine,
             })}
         >
             {mediaTop}

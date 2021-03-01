@@ -1,12 +1,17 @@
 import React from 'react';
-import { Img } from 'react-image';
+import { SuspenseImg } from '../../utils/SuspenseImg';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 import { PostCard } from './Card';
 import moment from 'moment';
 import { DATE_FORMAT } from '../../constants/dateFormats';
 import { User, Sprint, Comment, Like, ThemeType } from '../../logic/types';
-import img from '../../img/content/vintage/typewriter.jpg';
+import vintageImg from '../../img/content/vintage/typewriter2.jpg';
+import frosticImg from '../../img/content/tech/gameboy.jpg';
+import defaultImg from '../../img/content/tech/alien.jpg';
+import vintageImgMin from '../../img/content/vintage/typewriter2-min.jpg';
+import frosticImgMin from '../../img/content/tech/gameboy-min.jpg';
+import defaultImgMin from '../../img/content/tech/alien-min.jpg';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -58,6 +63,10 @@ export const SprintOverview = ({
     const authorPublicName = author ? author.publicName : 'unknown';
     // const isAuthor = users.get(String(sprint?.author) || '')?.publicName === user?.publicName;
 
+    // TEMP
+    const img = themeType === 'vintage' ? vintageImg : themeType === 'frostic' ? frosticImg : defaultImg;
+    const imgMin = themeType === 'vintage' ? vintageImgMin : themeType === 'frostic' ? frosticImgMin : defaultImgMin;
+
     const content = sprint && (
         // TODO: Create a sprint card
         <PostCard
@@ -84,13 +93,14 @@ export const SprintOverview = ({
             toggleCommentsPanel={toggleCommentsPanel}
             linkBack={{ name: 'Home', path: '/' }}
             frosticNoRound={true}
+            titleLink={`/sprints/${sprint._id}`}
         />
     );
 
     return (
         <Grid container className={classes.post}>
             <Grid item xs={12} md={7}>
-                <Img src={img} className={classes.img} />
+                <SuspenseImg alt="main image" img={img} fallbackImg={imgMin} className={classes.img} onHover={true} />
             </Grid>
 
             <Grid item xs={12} md={5}>

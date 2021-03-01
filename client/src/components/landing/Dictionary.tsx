@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme: Theme) =>
         example: {
             padding: theme.spacing(2),
             fontStyle: 'italic',
+            fontWeight: 'bold',
         },
     })
 );

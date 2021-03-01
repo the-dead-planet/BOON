@@ -94,8 +94,8 @@ const useStyles = makeStyles((theme: Theme) =>
             '& .frostic': {
                 background: theme.palette.background.default,
                 boxShadow: '0 8px 32px 0 rgba( 31, 38, 135, 0.37)',
-                backdropFilter: 'blur(6px)',
-                '-webkit-backdrop-filter': 'blur(6px)',
+                backdropFilter: 'blur(10px)',
+                '-webkit-backdrop-filter': 'blur(10px)',
                 border: '1px solid rgba( 255, 255, 255, 0.18)',
                 color: theme.palette.text.primary,
                 '& button': {
@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 },
             },
             '& .rounded': {
-                borderRadius: '10px',
+                borderRadius: '4px',
             },
         },
     })
@@ -265,7 +265,7 @@ const LayoutContent = ({
                     <div className={classes.mainContent}>
                         {/* Left panel serving as navigation - contents lists */}
                         {navPanel && (
-                            <Hidden smDown>
+                            <Hidden mdDown>
                                 <NavPanel
                                     user={user}
                                     themeType={themeType}

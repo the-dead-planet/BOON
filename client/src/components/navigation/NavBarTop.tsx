@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
             },
             '&$left': {
                 left: 0,
-                [theme.breakpoints.down('sm')]: {
+                [theme.breakpoints.down('md')]: {
                     left: theme.spacing(4),
                 },
             },
@@ -127,8 +127,8 @@ const NavBarTop = ({
                 >
                     <Toolbar className={clsx(classes.toolbar)}>
                         <Grid container justify="center">
-                            <div className={`${classes.fix} ${classes.left}`}>
-                                <Hidden mdUp>
+                            <div className={clsx(classes.fix, classes.left)}>
+                                <Hidden lgUp>
                                     {/* Application menu icon */}
                                     <IconButton
                                         aria-label="open drawer"
@@ -145,7 +145,7 @@ const NavBarTop = ({
                                 </Hidden>
 
                                 {quote && (
-                                    <Hidden smDown>
+                                    <Hidden mdDown>
                                         <div className={classes.quote}>
                                             <Typography variant="caption">{quote}</Typography>
                                         </div>
@@ -171,7 +171,13 @@ const NavBarTop = ({
                             </Grid>
 
                             <div className={`${classes.fix} ${classes.right}`}>
-                                <AuthButtonsHorizontal user={user} />
+                                <AuthButtonsHorizontal
+                                    user={user}
+                                    themeType={themeType}
+                                    setThemeType={setThemeType}
+                                    mode={mode}
+                                    setMode={setMode}
+                                />
                             </div>
                         </Grid>
                     </Toolbar>

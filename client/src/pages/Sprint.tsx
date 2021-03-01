@@ -231,7 +231,7 @@ const Sprint = ({
             sideColumn={{
                 header: '_goss',
                 body:
-                    "We heard that our favorite developer, Geek124, switched to GraphQL. Unbelievable. Can you believe it? Because we can't. We cannot. Yes, we can.",
+                    'We heard that our favorite developer, Geek124, switched to GraphQL. Unbelievable. Can you believe it?',
             }}
             secondaryDrawer="a" // TODO: fill with comments from related object
             secondaryDrawerOpen={openSecondaryDrawer}
