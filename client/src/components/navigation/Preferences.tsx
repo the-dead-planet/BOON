@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { List, ListItem, Typography, FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
+import { List, ListItem, Typography } from '@material-ui/core';
 import { RadioButtonGroup } from '../RadioButtonGroup';
 import { ThemeType, Mode } from '../../logic/types';
 import { MODES, THEME_TYPES } from '../../constants/data';
