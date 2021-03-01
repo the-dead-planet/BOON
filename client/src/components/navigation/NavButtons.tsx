@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link } from '../../utils/Link';
 import { Grid, List, ListItem, ListItemText, Typography, InputBase, Hidden } from '@material-ui/core';
 import { TypographyLinkOutlined } from '../mui-styled/Typography';
-// import { Button } from '../mui-styled/Button';
+import { Preferences } from './Preferences';
+import DialogMenu from './DialogMenu';
 import GroupWorkIcon from '@material-ui/icons/GroupWork';
 import { IconUserSecret, IconSearch } from '../Icons';
 import { ItemMenu } from '../ItemMenu';
-import { User } from '../../logic/types';
+import { ThemeType, Mode, User } from '../../logic/types';
 import { PATHS } from '../../constants/data';
 const { login, logout, register } = PATHS;
 
@@ -71,9 +72,13 @@ const texts = {
 
 interface Props {
     user: User | null | undefined;
+    themeType: ThemeType;
+    setThemeType: any;
+    mode: Mode;
+    setMode: any;
 }
 
-export const AuthButtonsHorizontal = ({ user }: Props) => {
+export const AuthButtonsHorizontal = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
     const classes = useStyles();
     const signUpButton = (
         <Link to={register}>
@@ -95,6 +100,17 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
         </Link>
     );
 
+    // Dialog with settings
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const handleDialogClose = () => {
+        setOpenDialog(false);
+    };
+
+    const handleDialogOpen = (id: string) => {
+        setOpenDialog(true);
+    };
+
     return (
         <Grid container alignItems="center" className={classes.auth}>
             {/* Display 'sign up' and 'log in' buttons only if user not logged in */}
@@ -113,7 +129,7 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
                         icon={<GroupWorkIcon />}
                         items={[
                             { name: 'Space Cadets', onClick: () => '' },
-                            { name: 'Settings', onClick: () => '' },
+                            { name: 'Preferences', onClick: handleDialogOpen },
                             { name: 'Change workspace', onClick: () => '' },
                             { name: 'Leave', onClick: () => '', alarm: true },
                         ]}
@@ -133,6 +149,18 @@ export const AuthButtonsHorizontal = ({ user }: Props) => {
                     />
                 </>
             )}
+
+            {/* Dialog for delete comment alert */}
+            <DialogMenu
+                open={openDialog}
+                message="Preferences"
+                content={
+                    <Preferences themeType={themeType} setThemeType={setThemeType} mode={mode} setMode={setMode} />
+                }
+                handleClose={handleDialogClose}
+                buttonOk={{ text: 'Done', onClick: handleDialogClose }}
+                fullScreen={true}
+            />
         </Grid>
     );
 };

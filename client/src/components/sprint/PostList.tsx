@@ -3,8 +3,12 @@ import { useLocation } from 'react-router-dom';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Grid, CardMedia, Typography } from '@material-ui/core';
 import { PostCard } from './Card';
-import img1 from '../../img/content/vintage/bus.jpg';
-import img2 from '../../img/content/vintage/car.jpg';
+import vintageImg1 from '../../img/content/vintage/bus.jpg';
+import vintageImg2 from '../../img/content/vintage/car.jpg';
+import defaultImg1 from '../../img/content/tech/robot.jpg';
+import defaultImg2 from '../../img/content/tech/woman-hologram.jpg';
+import frosticImg1 from '../../img/content/tech/teens-video-games.jpg';
+import frosticImg2 from '../../img/content/tech/man-and-tech.jpg';
 import { User, Post, Project, Comment, Like, PostsListVariant, Col, ThemeType } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -88,6 +92,10 @@ export const PostsList = ({
     const classes = useStyles();
     const path = useLocation().pathname;
 
+    // Temp:
+    const img1 = themeType === 'vintage' ? vintageImg1 : themeType === 'frostic' ? frosticImg1 : defaultImg1;
+    const img2 = themeType === 'vintage' ? vintageImg2 : themeType === 'frostic' ? frosticImg2 : defaultImg2;
+
     return (
         <Grid container justify="space-around" spacing={1}>
             {posts.map((post: Post, i: number) => (
@@ -145,8 +153,7 @@ export const PostsList = ({
                             item
                             xs={12}
                             sm={12}
-                            md={8}
-                            lg={6}
+                            lg={8}
                             xl={4}
                             container
                             direction="column"

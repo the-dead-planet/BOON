@@ -1,3 +1,5 @@
+import { ThemeType, Mode } from '../logic/types';
+
 const APP_NAME = 'BOON';
 
 const DICTIONARY = {
@@ -81,4 +83,7 @@ const NAV_LINKS = [
     { name: 'Teams', path: PATHS.teams },
 ];
 
-export { APP_NAME, DICTIONARY, LANDING_CONTENTS, PATHS, NAV_LINKS, QUOTES };
+const THEME_TYPES: Array<ThemeType> = ['default', 'vintage', 'frostic'];
+const MODES: Array<Mode> = ['light', 'dark'];
+
+export { APP_NAME, DICTIONARY, LANDING_CONTENTS, PATHS, NAV_LINKS, QUOTES, THEME_TYPES, MODES };
