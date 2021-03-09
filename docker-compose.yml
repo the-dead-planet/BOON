@@ -13,11 +13,11 @@ services:
     api:
         image: server
         build: ./server
-        expose:
-            - '5000'
+        ports:
+            - '5000:5000'
         depends_on:
             - 'mongo'
         environment:
-          - DATABASEURL=mongodb://mongo:27017/boon
+            - DATABASEURL=mongodb://mongo:27017/boon
     mongo:
         image: 'mongo'
