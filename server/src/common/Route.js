@@ -24,7 +24,7 @@ class Route {
 
     // A default route fetching a single object.
     static getOne(modelId, modelRegistry) {
-        const path = `/api/${modelId}s/:id`;
+        const path = `/${modelId}s/:id`;
         const method = RequestMethod.GET;
 
         const behaviour = (mongoose, req) => {
@@ -34,7 +34,7 @@ class Route {
             return query
                 .populate(pathsInMongooseFormat(modelRegistry.populatePaths(modelId)))
                 .exec()
-                .then(sprint => ({ statusCode: 200, data: sprint }));
+                .then((sprint) => ({ statusCode: 200, data: sprint }));
         };
 
         return new Route(path, method, behaviour);
@@ -43,7 +43,7 @@ class Route {
     // A default route fetching all objects of a given model.
     // TODO: extract common part of getOne and getAll into a separate method
     static getAll(modelId, modelRegistry) {
-        const path = `/api/${modelId}s`;
+        const path = `/${modelId}s`;
         const method = RequestMethod.GET;
         const behaviour = (mongoose, req) => {
             const mongooseModel = mongoose.model(modelId);
@@ -51,7 +51,7 @@ class Route {
             return query
                 .populate(pathsInMongooseFormat(modelRegistry.populatePaths(modelId)))
                 .exec()
-                .then(sprints => ({ statusCode: 200, data: sprints }));
+                .then((sprints) => ({ statusCode: 200, data: sprints }));
         };
 
         return new Route(path, method, behaviour);
@@ -59,7 +59,7 @@ class Route {
 
     // A default route creating a single object.
     static create(modelId, modelRegistry) {
-        const path = `/api/${modelId}s`;
+        const path = `/${modelId}s`;
         const method = RequestMethod.POST;
 
         const modelDefinition = modelRegistry.findDefinition(modelId);
@@ -106,7 +106,7 @@ class Route {
 
     // A default route updating a single object.
     static update(modelId, modelRegistry) {
-        const path = `/api/${modelId}s/:id`;
+        const path = `/${modelId}s/:id`;
         const method = RequestMethod.PUT;
 
         const modelDefinition = modelRegistry.findDefinition(modelId);
@@ -118,7 +118,7 @@ class Route {
             const data = putRequestPreprocessor(req);
             const mongooseModel = mongoose.model(modelId);
             const query = mongooseModel.findByIdAndUpdate(params.id, data);
-            return query.then(obj => {
+            return query.then((obj) => {
                 obj.save();
                 return { statusCode: 202, data: obj };
             });
@@ -130,7 +130,7 @@ class Route {
     // A default route deleting a single object and its children.
     // Not named `delete` to avoid conflicts with the builtin operator.
     static remove(modelId, modelRegistry) {
-        const path = `/api/${modelId}s/:id`;
+        const path = `/${modelId}s/:id`;
         const method = RequestMethod.DELETE;
 
         // TODO: find related models, delete them too

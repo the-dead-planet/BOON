@@ -30,13 +30,13 @@ describe('sprint like', () => {
 
     beforeEach(() => {
         // Register a user.
-        return createUser(userCredentials).then(createdUser => {
+        return createUser(userCredentials).then((createdUser) => {
             user = createdUser;
         });
     });
 
     beforeEach(() =>
-        Sprint.create({ number: 1, name: 'sprint' }).then(createdSprint => {
+        Sprint.create({ number: 1, name: 'sprint' }).then((createdSprint) => {
             // Expose the crated variable to all test cases.
             sprint = createdSprint;
         })
@@ -49,11 +49,11 @@ describe('sprint like', () => {
         });
 
         afterEach(() => {
-            return agent.post('/api/auth/logout');
+            return agent.post('/auth/logout');
         });
 
         test('can like', async () => {
-            const resp = await agent.post('/api/likes').send({ id: sprint._id, model: 'Sprint', type: 'likeType' });
+            const resp = await agent.post('/likes').send({ id: sprint._id, model: 'Sprint', type: 'likeType' });
 
             await expect(resp).toEqual(expect.objectContaining({ status: 201 }));
             await expect(Like.find({})).resolves.toEqual(
@@ -66,7 +66,7 @@ describe('sprint like', () => {
         });
 
         test.skip('cannot like unknown sprint', async () => {
-            const resp = await agent.post('/api/likes').send({ id: '1234567890ab', model: 'Sprint', type: 'likeType' });
+            const resp = await agent.post('/likes').send({ id: '1234567890ab', model: 'Sprint', type: 'likeType' });
             console.log(resp);
 
             await expect(resp).toMatchObject({ statusCode: 404 });
@@ -77,9 +77,9 @@ describe('sprint like', () => {
     describe('unauthenticated user', () => {
         test('cannot like', () => {
             return agent
-                .post('/api/likes')
+                .post('/likes')
                 .send({ id: sprint._id, model: 'Sprint', type: 'likeType' })
-                .then(resp => {
+                .then((resp) => {
                     return expect(resp).toMatchObject({
                         statusCode: 401,
                     });

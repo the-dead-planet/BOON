@@ -26,7 +26,7 @@ describe('sprint', () => {
     let user = null;
 
     beforeEach(() => {
-        return createUser(userCredentials).then(createdUser => {
+        return createUser(userCredentials).then((createdUser) => {
             user = createdUser;
         });
     });
@@ -38,13 +38,13 @@ describe('sprint', () => {
         });
 
         afterEach(() => {
-            return agent.post('/api/auth/logout');
+            return agent.post('/auth/logout');
         });
 
         test('can fetch a simple object', async () => {
             await Sprint.create({ title: 'title' });
 
-            const resp = await agent.get('/api/sprints');
+            const resp = await agent.get('/sprints');
             await expect(resp).toMatchObject({
                 statusCode: 200,
                 body: expect.arrayContaining([expect.objectContaining({ title: 'title' })]),
@@ -57,7 +57,7 @@ describe('sprint', () => {
             const post = await Post.create({ body: 'postBody' });
             await Sprint.create({ title: 'title', comments: [comment.id], posts: [post.id] });
 
-            const resp = await agent.get('/api/sprints');
+            const resp = await agent.get('/sprints');
             await expect(resp).toMatchObject({
                 statusCode: 200,
                 body: expect.arrayContaining([
@@ -78,7 +78,7 @@ describe('sprint', () => {
         });
 
         test('can create', async () => {
-            const resp = await agent.post('/api/sprints').send({ title: 'title', body: 'body' });
+            const resp = await agent.post('/sprints').send({ title: 'title', body: 'body' });
 
             await expect(resp).toEqual(expect.objectContaining({ statusCode: 201 }));
             await expect(Sprint.find({})).resolves.toEqual(
@@ -95,7 +95,7 @@ describe('sprint', () => {
         test('can delete owned', async () => {
             const sprint = await Sprint.create({ title: 'title', author: user._id });
 
-            const resp = await agent.delete(`/api/sprints/${sprint._id}`);
+            const resp = await agent.delete(`/sprints/${sprint._id}`);
 
             await expect(resp).toMatchObject({ statusCode: 202 });
             await expect(Sprint.find({})).resolves.toHaveLength(0);
@@ -105,9 +105,9 @@ describe('sprint', () => {
     describe('unauthenticated user', () => {
         test('cannot create', () => {
             return agent
-                .post('/api/sprints')
+                .post('/sprints')
                 .send({ title: 'title' })
-                .then(resp => {
+                .then((resp) => {
                     return expect(resp).toMatchObject({
                         statusCode: 401,
                     });
