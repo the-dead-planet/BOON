@@ -8,8 +8,8 @@ services:
           deploy_on_push: true
           repo: the-dead-planet/BOON
       source_dir: server
-      build_command: yarn
-      run_command: yarn start
+      build_command: yarn build
+      run_command: node built
       routes:
           - path: /api/
 
