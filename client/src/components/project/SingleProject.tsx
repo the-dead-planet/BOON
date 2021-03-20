@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     user: User | null | undefined;
     themeType: ThemeType;
-    project: Project | undefined;
+    project: Project;
     projects: Map<string, Project>;
     sprints: Map<string, Sprint>;
     posts: Map<string, Post>;
@@ -71,8 +71,8 @@ export const SingleProject = ({
             <Posts
                 user={user}
                 themeType={themeType}
-                posts={project?.posts
-                    .map((id) => posts.get(id))
+                posts={project.posts
+                    .map((id) => posts.get(id)!)
                     .sort((a, b) =>
                         a && b
                             ? getSprint(b._id).number - getSprint(a._id).number

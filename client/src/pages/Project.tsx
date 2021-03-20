@@ -94,7 +94,7 @@ const Sprint = ({
     /* 
         GET CURRENT SPRINT ID DATA FROM APP STATE
     */
-    const project = projects.get(id);
+    const project = projects.get(id)!;
 
     /*
         SORT SPRINTS FOR PAGINATION

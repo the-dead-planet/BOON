@@ -75,7 +75,7 @@ export const SingleSprint = ({
                 user={user}
                 themeType={themeType}
                 projects={projects}
-                posts={sprint.posts.map((id) => posts.get(id))}
+                posts={sprint.posts.map((id) => posts.get(id)!)}
                 comments={comments}
                 likes={likes}
                 users={users}
