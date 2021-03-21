@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { withFetchData } from '../utils/withFetchData';
 import { authenticatedPage } from '../utils/authenticatedPage';
@@ -10,7 +10,8 @@ import { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, ThemeType, Mode, StateData, Sprint as SprintType, Model } from '../logic/types';
 import moment from 'moment';
 import { MONTH_YEAR_FORMAT } from '../constants/dateFormats';
-import { PATHS, QUOTES } from '../constants/data';
+import { PATHS } from '../constants/data';
+import { getRandomQuote } from '../utils/data';
 const { sprints } = PATHS;
 const sprintsPath = sprints;
 
@@ -43,7 +44,11 @@ const Sprint = ({
 }: SprintProps & WithShowErrorInjectedProps) => {
     const { id }: { id: string } = useParams();
     const { sprints, posts, comments, likes, users, projects } = data;
-    const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+
+    const [quote, setQuote] = useState('');
+    useEffect(() => {
+        setQuote(getRandomQuote());
+    }, [setQuote]);
 
     /* 
         GET CURRENT SPRINT ID DATA FROM APP STATE

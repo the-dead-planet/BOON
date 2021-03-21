@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { withFetchData } from '../utils/withFetchData';
 import { authenticatedPage } from '../utils/authenticatedPage';
@@ -8,7 +8,8 @@ import { CommentsSection } from '../components/CommentsSection';
 import { SingleProject } from '../components/project/SingleProject';
 import { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode, ThemeType, StateData, Project, Model } from '../logic/types';
-import { PATHS, QUOTES } from '../constants/data';
+import { PATHS } from '../constants/data';
+import { getRandomQuote } from '../utils/data';
 const { projects } = PATHS;
 const projectsPath = projects;
 
@@ -42,7 +43,11 @@ const Sprint = ({
 }: SprintProps & WithShowErrorInjectedProps) => {
     const { id }: { id: string } = useParams();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
-    const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+
+    const [quote, setQuote] = useState('');
+    useEffect(() => {
+        setQuote(getRandomQuote());
+    }, [setQuote]);
 
     /* 
         GET CURRENT SPRINT ID DATA FROM APP STATE

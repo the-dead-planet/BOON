@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '../utils/useQuery';
 import { withFetchData } from '../utils/withFetchData';
@@ -12,7 +12,7 @@ import {
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
 import { User, NotificationProps, ThemeType, Mode, StateData, Model } from '../logic/types';
-import { QUOTES } from '../constants/data';
+import { getRandomQuote } from '../utils/data';
 
 // TODO: see a comment in `Logout` regarding HOCs.
 interface Props {
@@ -52,7 +52,10 @@ const Post = ({
 
     const { sprints, posts, comments, likes, users, projects } = data;
 
-    const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+    const [quote, setQuote] = useState('');
+    useEffect(() => {
+        setQuote(getRandomQuote());
+    }, [setQuote]);
 
     /* 
         GET CURRENT POST ID DATA FROM APP STATE
