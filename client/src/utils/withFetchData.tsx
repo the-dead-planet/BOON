@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useServices } from '../services';
 
 type WithDataFetchProps = {
@@ -15,9 +15,17 @@ type WithDataFetchProps = {
 export const withFetchData = <T extends WithDataFetchProps>(wrappedComponent: any) => (props: T) => {
     const { showError, setStateData } = props;
     const { sprintsService, projectsService, usersService } = useServices()!;
+    const [requestSent, setRequestSent] = useState(false);
 
     // Fetch data on the first render.
     useEffect(() => {
+        // Do nothing if the request has already been sent.
+        if (requestSent) {
+            return;
+        }
+
+        setRequestSent(true);
+
         // Fetch data from the backend and write to app state.
         // NOTE: temporary. Will be made obsolete by graphql.
         Promise.all([sprintsService.getAll(), projectsService.getAll(), usersService.getAll()])
@@ -25,7 +33,7 @@ export const withFetchData = <T extends WithDataFetchProps>(wrappedComponent: an
             .then(([sprints, projects, users]) => {
                 setStateData(sprints, projects, users);
             });
-    }, [projectsService, sprintsService, usersService, showError, setStateData]);
+    }, [requestSent, setRequestSent, projectsService, sprintsService, usersService, showError, setStateData]);
 
     return wrappedComponent(props);
 };
