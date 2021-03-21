@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import { useServices } from '../services';
 import AppLayout from '../layouts/AppLayout';
-import { Loading, Empty } from '../components/Loading';
 import { CommentsSection } from '../components/CommentsSection';
 import { SingleSprint } from '../components/sprint/SingleSprint';
 import {
@@ -34,7 +33,6 @@ interface SprintProps {
     showError: any;
 }
 
-// If path is /sprints, redirect to the newest sprint
 const Sprint = ({
     user,
     themeType,
@@ -53,25 +51,6 @@ const Sprint = ({
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
     const [quote, setQuote] = useState('');
     const { sprintsService, projectsService, usersService } = useServices()!;
-    /* 
-        DETERMINE SPRINT ID
-        If no specific `Sprint` has been specified, try to redirect to the
-        detail page of the most recent sprint
-    */
-    let sprintToDisplayId = id;
-    if (sprintToDisplayId === undefined) {
-        // Wait for the sprints to load.
-        // TODO: consider adding a HOC waiting for pending requests and rendering a spinner.
-
-        if (sprints && sprints.size > 0) {
-            // If no sprints exists, there's nowhere to redirect to.
-            // TODO: consider handling this case by rendering a message.
-            const mostRecentSprint = [...sprints.values()].reduce((a, b) =>
-                new Date(a.dateTo) > new Date(b.dateTo) ? a : b
-            );
-            sprintToDisplayId = mostRecentSprint._id;
-        }
-    }
 
     /* 
         GET DATA FROM DATA BASE AND WRITE TO APP STATE
@@ -192,9 +171,7 @@ const Sprint = ({
     */
     //    TODO: Is it better to add it here and pass to Layout or use in single components, which require a dialog
 
-    return sprintToDisplayId && sprintToDisplayId !== id ? (
-        <Redirect to={`/sprints/${sprintToDisplayId}`} />
-    ) : (
+    return (
         <AppLayout
             user={user}
             themeType={themeType}
@@ -239,30 +216,22 @@ const Sprint = ({
             toggleSecondaryDrawer={toggleSecondaryDrawer}
             {...notificationsProps}
         >
-            {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
-            {!sprints ? (
-                <Loading />
-            ) : sprints.size === 0 ? (
-                <Empty />
-            ) : (
-                // NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator
-                <SingleSprint
-                    user={user}
-                    themeType={themeType}
-                    sprint={sprint}
-                    posts={posts}
-                    projects={projects}
-                    comments={comments}
-                    likes={likes}
-                    users={users}
-                    addPostComment={addPostComment}
-                    addSprintComment={addSprintComment}
-                    removeObject={removeObject}
-                    toggleCommentsPanel={toggleSecondaryDrawer}
-                    onError={showError}
-                    // showError={showError}
-                />
-            )}
+            <SingleSprint
+                user={user}
+                themeType={themeType}
+                sprint={sprint}
+                posts={posts}
+                projects={projects}
+                comments={comments}
+                likes={likes}
+                users={users}
+                addPostComment={addPostComment}
+                addSprintComment={addSprintComment}
+                removeObject={removeObject}
+                toggleCommentsPanel={toggleSecondaryDrawer}
+                onError={showError}
+                // showError={showError}
+            />
         </AppLayout>
     );
 };

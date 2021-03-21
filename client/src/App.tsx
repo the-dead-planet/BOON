@@ -10,6 +10,7 @@ import AddProject from './pages/AddProject';
 import AddPost from './pages/AddPost';
 import EditSprint from './pages/EditSprint';
 import Sprint from './pages/Sprint';
+import Sprints from './pages/Sprints';
 import Project from './pages/Project';
 import Post from './pages/Post';
 import Team from './pages/Team';
@@ -203,17 +204,12 @@ class AppImpl extends Component<{}, StateType> {
                                 />
                             </Route>
                             <Route path={sprints}>
-                                <Sprint
+                                <Sprints
                                     user={user}
                                     themeType={this.state.themeType}
                                     setThemeType={this.setThemeType}
                                     mode={this.state.mode}
                                     setMode={this.setMode}
-                                    setStateData={updateState(State.setStateData)}
-                                    addSprintComment={updateState(State.addCommentToSprint)}
-                                    addPostComment={updateState(State.addCommentToPost)}
-                                    removeObject={updateState(State.removeObject)}
-                                    data={this.state.data}
                                     notificationsProps={notificationsProps}
                                 />
                             </Route>
