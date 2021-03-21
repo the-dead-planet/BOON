@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '../utils/useQuery';
+import { withFetchData } from '../utils/withFetchData';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
@@ -12,7 +13,6 @@ import {
 } from '../utils/withShowError';
 import { User, NotificationProps, ThemeType, Mode, StateData, Model } from '../logic/types';
 import { QUOTES } from '../constants/data';
-import { useServices } from '../services';
 
 // TODO: see a comment in `Logout` regarding HOCs.
 interface Props {
@@ -22,7 +22,6 @@ interface Props {
     mode: Mode;
     setMode: any;
     data: StateData;
-    setStateData: any;
     addPostComment: any;
     addSprintComment: any;
     removeObject: any;
@@ -39,14 +38,12 @@ const Post = ({
     setThemeType,
     setMode,
     data,
-    setStateData,
     addPostComment,
     addSprintComment,
     removeObject,
     notificationsProps,
     showError,
 }: Props & WithShowErrorInjectedProps) => {
-    const { sprintsService, projectsService, usersService } = useServices()!;
     const { id }: { id: string } = useParams();
     const query = useQuery();
     let linkBack = query.get('from');
@@ -55,28 +52,7 @@ const Post = ({
 
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
 
-    const [quote, setQuote] = useState('');
-
-    /* 
-        GET DATA FROM DATA BASE AND WRITE TO APP STATE
-    */
-    const getData = async () => {
-        let res = await sprintsService.getAll().catch(showError);
-        let resProj = await projectsService.getAll().catch(showError);
-        // Temp - see comment in ComponentDidMount in App.tsx
-        let users = await usersService.getAll().catch(showError);
-
-        // TODO: Is there a better solution to handle pulling all required data
-        await setStateData(res, resProj, users);
-    };
-
-    // Fetch sprints on the first render.
-    // It will send a request when the user re-enters the sprints list page from some other page (e.g. form).
-    // This way, the user has a way of refreshing sprints data.
-    useEffect(() => {
-        getData();
-        setQuote(QUOTES[Math.floor(Math.random() * QUOTES.length)]);
-    }, []);
+    const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
 
     /* 
         GET CURRENT POST ID DATA FROM APP STATE
@@ -207,4 +183,4 @@ const Post = ({
 };
 
 // export default (withShowError as any)(Sprint);
-export default authenticatedPage(withPush(Post));
+export default authenticatedPage(withPush(withFetchData(Post)));

@@ -10,7 +10,7 @@ export const withLoginRequired = (wrappedComponent: any) => (props: any) => {
         user,
         location: { pathname },
     } = props;
-    
+
     if (user) {
         return wrappedComponent(props);
     } else {
