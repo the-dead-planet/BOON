@@ -7,7 +7,7 @@ import { AddComment } from './forms/AddComment';
 // import CollapsePanel from './transitions/CollapsePanel';
 import DialogMenu from './navigation/DialogMenu';
 import { useServices } from '../services';
-import { User, Comment, Model } from '../logic/types';
+import { Mode, User, Comment, Model } from '../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    expanded: boolean;
     user: User;
     title: string;
     parentId: string;
@@ -30,16 +29,11 @@ interface Props {
     users: Map<string, User>;
     addComment: any;
     removeComment: any;
-    push: any;
     onError?: any;
+    mode: Mode;
 }
 
-// A common trick to silence missing props in react components.
-// TODO: fix props instead.
-const anyProps: any = {};
-
 const CommentsImpl = ({
-    expanded,
     user,
     title,
     parentId,
@@ -48,8 +42,8 @@ const CommentsImpl = ({
     users,
     addComment,
     removeComment,
-    push,
     onError,
+    mode,
 }: Props) => {
     const classes = useStyles();
     const [openDialog, setOpenDialog] = useState(false);
@@ -76,23 +70,14 @@ const CommentsImpl = ({
                 </Typography>
 
                 <Box className={classes.form}>
-                    <AddComment
-                        user={user}
-                        _id={parentId}
-                        model={parentModel}
-                        addComment={addComment}
-                        push={push}
-                        {...anyProps}
-                    />
+                    <AddComment user={user} _id={parentId} model={parentModel} addComment={addComment} mode={mode} />
                 </Box>
 
                 <CommentsList
                     user={user}
                     comments={comments}
                     users={users}
-                    push={push}
                     setCommentToBeDeletedId={handleDialogOpen}
-                    {...anyProps}
                 />
                 {/* </CollapsePanel> */}
             </Box>
