@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     user: User;
     open: boolean;
-    toggleDrawer: any;
+    toggleDrawer: (toggle: boolean) => void;
     children?: Children;
 }
 
@@ -49,7 +49,7 @@ const SecondaryDrawer = ({ user, open, toggleDrawer, children }: Props) => {
 
     return (
         <>
-            {open && <div className={classes.secondaryDrawerBg} onClick={toggleDrawer(false)} />}
+            {open && <div className={classes.secondaryDrawerBg} onClick={() => toggleDrawer(false)} />}
             {/* TODO: repair css to transition nicely */}
             <Drawer
                 className={classes.drawerSecondary}
@@ -61,7 +61,7 @@ const SecondaryDrawer = ({ user, open, toggleDrawer, children }: Props) => {
                 }}
             >
                 <Grid container justify="flex-end">
-                    <IconButton onClick={toggleDrawer(false)}>
+                    <IconButton onClick={() => toggleDrawer(false)}>
                         <CloseRoundedIcon color="inherit" />
                     </IconButton>
                 </Grid>

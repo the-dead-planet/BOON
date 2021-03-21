@@ -4,10 +4,9 @@ import { withFetchData } from '../utils/withFetchData';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
-import { CommentsSection } from '../components/CommentsSection';
 import { SingleProject } from '../components/project/SingleProject';
 import { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, NotificationProps, Mode, ThemeType, StateData, Project, Model } from '../logic/types';
+import { User, NotificationProps, Mode, ThemeType, StateData, Project } from '../logic/types';
 import { PATHS } from '../constants/data';
 import { getRandomQuote } from '../utils/data';
 const { projects } = PATHS;
@@ -65,64 +64,10 @@ const Sprint = ({
 
     const navPlaceholder = [{ id: '', name: 'Printing...', path: '/' }];
 
-    /* 
-        PREPARE COMMENTS SECTION COMPONENT TO FEED TO THE RIGHT (SECONDARY) DRAWER
-    */
-    // Initialize state value with the ComponentsSection as undefined.
-    // Once current sprint is loaded to state, set this value to the sprint comments
-    // Pass the 'setCommentsSection' up to each Card component
-    const [commentsProps, setCommentsProps]: any = useState(undefined);
-    const commentsSection = commentsProps ? (
-        <CommentsSection
-            expanded={true}
-            user={user}
-            title={commentsProps.title}
-            parentId={commentsProps.parentId}
-            parentModel={commentsProps.parentModel}
-            comments={(commentsProps.parentModel === 'Sprint'
-                ? sprints.get(commentsProps.parentId)
-                : posts.get(commentsProps.parentId)
-            )?.comments.map((comment) => comments.get(comment))}
-            users={data.users}
-            addComment={commentsProps.addComment}
-            removeComment={commentsProps.removeComment}
-        />
-    ) : undefined;
-
-    // Secondary TODO: create a generic method and reuse for each drawer
-    const [openSecondaryDrawer, setOpenSecondaryDrawer] = useState(false);
-
-    const toggleSecondaryDrawer = (
-        open: boolean,
-        title: string,
-        parentModel: Model,
-        parentId: any,
-        addComment: any,
-        removeComment: any
-    ) => (event: React.KeyboardEvent | React.MouseEvent) => {
-        if (
-            event.type === 'keydown' &&
-            ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
-        ) {
-            return;
-        }
-
-        // Rewrite this logic completely
-        if (open)
-            setCommentsProps({
-                title,
-                parentModel,
-                parentId,
-                addComment,
-                removeComment,
-            });
-        setOpenSecondaryDrawer(open);
+    // TODO: handle like in Sprint.
+    const toggleSecondaryDrawer = () => {
+        /* noop */
     };
-
-    /* 
-        DIALOG WINDOW
-    */
-    //    TODO: Is it better to add it here and pass to Layout or use in single components, which require a dialog
 
     return (
         <AppLayout
@@ -146,8 +91,8 @@ const Sprint = ({
                 body: `We found something on the internet which is related to ${project?.title}. \"THEY\" say that...`,
             }}
             secondaryDrawer="a" // TODO: fill with comments from related object
-            secondaryDrawerOpen={openSecondaryDrawer}
-            secondaryDrawerContent={project ? commentsSection : undefined}
+            secondaryDrawerOpen={false}
+            secondaryDrawerContent={null}
             toggleSecondaryDrawer={toggleSecondaryDrawer}
             {...notificationsProps}
         >

@@ -37,11 +37,8 @@ interface Props {
     likes: Array<Like | undefined>;
     users: Map<string, User>;
     getCreated?: (a: Date) => string;
-    addComment: any;
     removeSprint: any;
-    removeComment: any;
-    toggleCommentsPanel: any;
-    onError: any;
+    toggleCommentsPanel: (toggle: boolean) => void;
 }
 
 export const SprintOverview = ({
@@ -51,11 +48,8 @@ export const SprintOverview = ({
     comments,
     likes,
     users,
-    addComment,
     removeSprint,
-    removeComment,
     toggleCommentsPanel,
-    onError,
 }: Props) => {
     const classes = useStyles();
 
@@ -85,9 +79,7 @@ export const SprintOverview = ({
                 { name: 'Share', path: '/' },
                 { name: 'Add post', path: `${sprint._id}/add_post` },
             ]}
-            addComment={addComment}
             removeObject={(id: string) => removeSprint(id)}
-            removeComment={(id: string) => removeComment(id)}
             toggleCommentsPanel={toggleCommentsPanel}
             linkBack={{ name: 'Home', path: '/' }}
             frosticNoRound={true}

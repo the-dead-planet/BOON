@@ -14,7 +14,7 @@ interface Props {
     comments?: Array<Comment | undefined>;
     likes?: Array<Like | undefined>;
     showMorePath?: string;
-    toggleCommentsPanel: any;
+    toggleCommentsPanel: (toggle: boolean) => void;
 }
 
 export const ActionButtons = ({ user, author, comments, likes, showMorePath, toggleCommentsPanel }: Props) => {
@@ -36,7 +36,7 @@ export const ActionButtons = ({ user, author, comments, likes, showMorePath, tog
             {comments && (
                 <Tooltip title="Show comments">
                     <IconButton
-                        onClick={toggleCommentsPanel(true)}
+                        onClick={() => toggleCommentsPanel(true)}
                         // aria-expanded={expanded}
                         aria-label="show comments"
                     >

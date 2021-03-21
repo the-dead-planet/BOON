@@ -32,11 +32,8 @@ interface Props {
     comments: Map<string, Comment>;
     likes: Map<string, Like>;
     users: Map<string, User>;
-    addPostComment: any;
-    addSprintComment: any;
-    toggleCommentsPanel: any;
+    toggleCommentsPanel: (toggle: boolean) => void;
     removeObject: any;
-    onError: any;
 }
 
 export const SinglePost = ({
@@ -48,13 +45,9 @@ export const SinglePost = ({
     comments,
     likes,
     users,
-    addPostComment,
-    addSprintComment,
     removeObject,
     toggleCommentsPanel,
-    onError,
 }: Props) => {
-    const classes = useStyles();
     const getSprint = (id: string) =>
         [...sprints.values()]?.reduce((acc, sprint) => (sprint.posts.includes(id) ? sprint : acc));
 
@@ -84,17 +77,13 @@ export const SinglePost = ({
                         name: 'Go to related project',
                         path: `/projects/${
                             [...projects.entries()]
-                                .filter(([projectId, proj]) => proj.posts.includes(post._id))
+                                .filter(([_projectId, proj]) => proj.posts.includes(post._id))
                                 .flat()[0] || ''
                         }`,
                     },
                 ]}
-                addComment={addPostComment}
                 removeObject={(id: string) =>
                     removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: getSprint(post._id)?._id })
-                }
-                removeComment={(id: string) =>
-                    removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: post._id })
                 }
                 toggleCommentsPanel={toggleCommentsPanel}
                 divider={true}

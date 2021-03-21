@@ -11,7 +11,7 @@ import {
     // withShowError,
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, ThemeType, Mode, StateData, Model } from '../logic/types';
+import { User, NotificationProps, ThemeType, Mode, StateData } from '../logic/types';
 import { getRandomQuote } from '../utils/data';
 
 // TODO: see a comment in `Logout` regarding HOCs.
@@ -23,10 +23,8 @@ interface Props {
     setMode: any;
     data: StateData;
     addPostComment: any;
-    addSprintComment: any;
     removeObject: any;
     notificationsProps: NotificationProps;
-    showError: any;
     backTo: { name: string; path: string };
 }
 
@@ -39,10 +37,8 @@ const Post = ({
     setMode,
     data,
     addPostComment,
-    addSprintComment,
     removeObject,
     notificationsProps,
-    showError,
 }: Props & WithShowErrorInjectedProps) => {
     const { id }: { id: string } = useParams();
     const query = useQuery();
@@ -62,64 +58,13 @@ const Post = ({
     */
     const post = posts.get(id);
 
-    /* 
-        PREPARE COMMENTS SECTION COMPONENT TO FEED TO THE RIGHT (SECONDARY) DRAWER
-    */
-    // Initialize state value with the ComponentsSection as undefined.
-    // Once current sprint is loaded to state, set this value to the sprint comments
-    // Pass the 'setCommentsSection' up to each Card component
-    const [commentsProps, setCommentsProps]: any = useState(undefined);
-    const commentsSection = commentsProps ? (
-        <CommentsSection
-            expanded={true}
-            user={user}
-            title={commentsProps.title}
-            parentId={commentsProps.parentId}
-            parentModel={commentsProps.parentModel}
-            comments={(commentsProps.parentModel === 'Sprint'
-                ? sprints.get(commentsProps.parentId)
-                : posts.get(commentsProps.parentId)
-            )?.comments.map((comment) => comments.get(comment))}
-            users={data.users}
-            addComment={commentsProps.addComment}
-            removeComment={commentsProps.removeComment}
-        />
-    ) : undefined;
+    // Store the minimal amount information necessary in the state.
+    // It's obvious from the context that the comments displayed refer to the current post - no need to store
+    // any metadata in the state.
+    const [isCommentsDrawerOpen, setIsCommentsDrawerOpen] = useState(false);
 
-    // Secondary TODO: create a generic method and reuse for each drawer
-    const [openSecondaryDrawer, setOpenSecondaryDrawer] = useState(false);
-
-    const toggleSecondaryDrawer = (
-        open: boolean,
-        title: string,
-        parentModel: Model,
-        parentId: any,
-        addComment: any,
-        removeComment: any
-    ) => (event: React.KeyboardEvent | React.MouseEvent) => {
-        if (
-            event.type === 'keydown' &&
-            ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
-        ) {
-            return;
-        }
-
-        // Rewrite this logic completely
-        if (open)
-            setCommentsProps({
-                title,
-                parentModel,
-                parentId,
-                addComment,
-                removeComment,
-            });
-        setOpenSecondaryDrawer(open);
-    };
-
-    /* 
-        DIALOG WINDOW
-    */
-    //    TODO: Is it better to add it here and pass to Layout or use in single components, which require a dialog
+    const removeComment = (id: string) =>
+        removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: post!._id });
 
     const styleInfo = { margin: '0, 5em' };
 
@@ -150,9 +95,24 @@ const Post = ({
                     : undefined
             }
             secondaryDrawer="a" // TODO: fill with comments from related object
-            secondaryDrawerOpen={openSecondaryDrawer}
-            secondaryDrawerContent={post ? commentsSection : undefined}
-            toggleSecondaryDrawer={toggleSecondaryDrawer}
+            secondaryDrawerOpen={isCommentsDrawerOpen}
+            secondaryDrawerContent={
+                post &&
+                isCommentsDrawerOpen && (
+                    <CommentsSection
+                        expanded={true}
+                        user={user}
+                        title={post.title}
+                        parentId={post._id}
+                        parentModel={'Post'}
+                        comments={post.comments.map((c) => comments.get(c))}
+                        users={data.users}
+                        addComment={addPostComment}
+                        removeComment={removeComment}
+                    />
+                )
+            }
+            toggleSecondaryDrawer={setIsCommentsDrawerOpen}
             {...notificationsProps}
         >
             {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
@@ -173,12 +133,8 @@ const Post = ({
                     comments={comments}
                     likes={likes}
                     users={users}
-                    addPostComment={addPostComment}
-                    addSprintComment={addSprintComment}
                     removeObject={removeObject}
-                    toggleCommentsPanel={toggleSecondaryDrawer}
-                    onError={showError}
-                    // showError={showError}
+                    toggleCommentsPanel={setIsCommentsDrawerOpen}
                 />
             )}
         </AppLayout>

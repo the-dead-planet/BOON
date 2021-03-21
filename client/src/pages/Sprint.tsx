@@ -7,7 +7,15 @@ import AppLayout from '../layouts/AppLayout';
 import { CommentsSection } from '../components/CommentsSection';
 import { SingleSprint } from '../components/sprint/SingleSprint';
 import { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, NotificationProps, ThemeType, Mode, StateData, Sprint as SprintType, Model } from '../logic/types';
+import {
+    User,
+    NotificationProps,
+    Post as PostType,
+    ThemeType,
+    Mode,
+    StateData,
+    Sprint as SprintType,
+} from '../logic/types';
 import moment from 'moment';
 import { MONTH_YEAR_FORMAT } from '../constants/dateFormats';
 import { PATHS } from '../constants/data';
@@ -26,7 +34,6 @@ interface SprintProps {
     addSprintComment: any;
     removeObject: any;
     notificationsProps: NotificationProps;
-    showError: any;
 }
 
 const Sprint = ({
@@ -40,7 +47,6 @@ const Sprint = ({
     addSprintComment,
     removeObject,
     notificationsProps,
-    showError,
 }: SprintProps & WithShowErrorInjectedProps) => {
     const { id }: { id: string } = useParams();
     const { sprints, posts, comments, likes, users, projects } = data;
@@ -90,64 +96,27 @@ const Sprint = ({
 
     const navPlaceholder = [{ id: '', name: 'Printing...', path: '/' }];
 
-    /* 
-        PREPARE COMMENTS SECTION COMPONENT TO FEED TO THE RIGHT (SECONDARY) DRAWER
-    */
-    // Initialize state value with the ComponentsSection as undefined.
-    // Once current sprint is loaded to state, set this value to the sprint comments
-    // Pass the 'setCommentsSection' up to each Card component
-    const [commentsProps, setCommentsProps]: any = useState(undefined);
-    const commentsSection = commentsProps ? (
-        <CommentsSection
-            expanded={true}
-            user={user}
-            title={commentsProps.title}
-            parentId={commentsProps.parentId}
-            parentModel={commentsProps.parentModel}
-            comments={(commentsProps.parentModel === 'Sprint'
-                ? sprints.get(commentsProps.parentId)
-                : posts.get(commentsProps.parentId)
-            )?.comments.map((comment) => comments.get(comment))}
-            users={data.users}
-            addComment={commentsProps.addComment}
-            removeComment={commentsProps.removeComment}
-        />
-    ) : undefined;
+    const [focusForComments, setFocusForComments] = useState<{ model: string; id: string } | null>(null);
 
-    // Secondary TODO: create a generic method and reuse for each drawer
-    const [openSecondaryDrawer, setOpenSecondaryDrawer] = useState(false);
-
-    const toggleSecondaryDrawer = (
-        open: boolean,
-        title: string,
-        parentModel: Model,
-        parentId: any,
-        addComment: any,
-        removeComment: any
-    ) => (event: React.KeyboardEvent | React.MouseEvent) => {
-        if (
-            event.type === 'keydown' &&
-            ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')
-        ) {
-            return;
+    const toggleSprintComments = (toggle: boolean) => {
+        if (!toggle) {
+            setFocusForComments(null);
+        } else {
+            setFocusForComments({ model: 'Sprint', id: sprint!._id });
         }
-
-        // Rewrite this logic completely
-        if (open)
-            setCommentsProps({
-                title,
-                parentModel,
-                parentId,
-                addComment,
-                removeComment,
-            });
-        setOpenSecondaryDrawer(open);
     };
 
-    /* 
-        DIALOG WINDOW
-    */
-    //    TODO: Is it better to add it here and pass to Layout or use in single components, which require a dialog
+    const togglePostComments = (postId: string | null) => {
+        if (postId === null) {
+            setFocusForComments(null);
+        } else {
+            setFocusForComments({ model: 'Post', id: postId });
+        }
+    };
+
+    const focusedElement: PostType | SprintType | null | undefined =
+        focusForComments &&
+        (focusForComments.model === 'Sprint' ? sprints.get(focusForComments.id) : posts.get(focusForComments.id));
 
     return (
         <AppLayout
@@ -189,9 +158,35 @@ const Sprint = ({
                     'We heard that our favorite developer, Geek124, switched to GraphQL. Unbelievable. Can you believe it?',
             }}
             secondaryDrawer="a" // TODO: fill with comments from related object
-            secondaryDrawerOpen={openSecondaryDrawer}
-            secondaryDrawerContent={sprint ? commentsSection : undefined}
-            toggleSecondaryDrawer={toggleSecondaryDrawer}
+            secondaryDrawerOpen={focusedElement != null}
+            secondaryDrawerContent={
+                focusForComments &&
+                focusedElement && (
+                    <CommentsSection
+                        expanded={true}
+                        user={user}
+                        title={focusedElement.title}
+                        parentId={focusedElement._id}
+                        parentModel={focusForComments.model}
+                        comments={focusedElement.comments.map((c) => comments.get(c))}
+                        users={data.users}
+                        addComment={
+                            focusForComments.model === 'Sprint'
+                                ? addSprintComment.bind(focusForComments.id)
+                                : addPostComment.bind(focusForComments.id)
+                        }
+                        removeComment={(id: string) =>
+                            removeObject({
+                                child: 'comments',
+                                childId: id,
+                                parent: focusForComments.model === 'Sprint' ? 'sprints' : 'posts',
+                                parentId: focusForComments.id,
+                            })
+                        }
+                    />
+                )
+            }
+            toggleSecondaryDrawer={toggleSprintComments}
             {...notificationsProps}
         >
             <SingleSprint
@@ -204,10 +199,9 @@ const Sprint = ({
                 likes={likes}
                 users={users}
                 addPostComment={addPostComment}
-                addSprintComment={addSprintComment}
                 removeObject={removeObject}
-                toggleCommentsPanel={toggleSecondaryDrawer}
-                onError={showError}
+                toggleSprintComments={toggleSprintComments}
+                togglePostComments={togglePostComments}
             />
         </AppLayout>
     );

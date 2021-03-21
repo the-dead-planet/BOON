@@ -90,10 +90,8 @@ interface Props {
     mediaTop?: any;
     mediaMiddle?: any;
     menuItems: Array<{ name: string; path: string }>;
-    addComment: any;
     removeObject: any;
-    removeComment: any;
-    toggleCommentsPanel: any;
+    toggleCommentsPanel: (toggle: boolean) => void;
     divider?: boolean;
     hover?: boolean;
     colCount?: number;
@@ -121,9 +119,7 @@ export const Card = ({
     mediaTop,
     mediaMiddle,
     menuItems,
-    addComment,
     removeObject,
-    removeComment,
     toggleCommentsPanel,
     divider,
     hover,
@@ -244,9 +240,7 @@ export const Card = ({
                     author={(object as { author: string })?.author}
                     comments={comments}
                     likes={likes}
-                    toggleCommentsPanel={(open: boolean) =>
-                        toggleCommentsPanel(open, title, model, object._id, addComment, removeComment)
-                    }
+                    toggleCommentsPanel={toggleCommentsPanel}
                 />
             </CardActions>
 

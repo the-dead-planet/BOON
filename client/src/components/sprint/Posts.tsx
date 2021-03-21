@@ -9,7 +9,7 @@ import defaultImg1 from '../../img/content/tech/robot.jpg';
 import defaultImg2 from '../../img/content/tech/woman-hologram.jpg';
 import frosticImg1 from '../../img/content/tech/teens-video-games.jpg';
 import frosticImg2 from '../../img/content/tech/man-and-tech.jpg';
-import { User, Post, Project, Comment, Like, PostsListVariant, Col, ThemeType } from '../../logic/types';
+import { User, Post, Project, Comment, Like, Col, ThemeType } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -59,7 +59,7 @@ interface Props {
     getTag?: (a: string) => string;
     getTagLink?: (a: string) => string;
     quote?: { body: string; author: string };
-    toggleCommentsPanel: any;
+    toggleCommentsPanel: (postId: string | null) => void;
     xs?: Col;
     sm?: Col;
     md?: Col;
@@ -126,15 +126,15 @@ export const Posts = ({
                                     name: 'Go to related project',
                                     path: `/projects/${
                                         [...projects.entries()]
-                                            .filter(([projectId, proj]) => proj.posts.includes(post._id))
+                                            .filter(([_projectId, proj]) => proj.posts.includes(post._id))
                                             .flat()[0] || ''
                                     }`,
                                 },
                             ]}
-                            addComment={addComment}
                             removeObject={removePost}
-                            removeComment={(id: string) => removeComment(id, post._id)}
-                            toggleCommentsPanel={toggleCommentsPanel}
+                            toggleCommentsPanel={(toggle: boolean) => {
+                                toggleCommentsPanel(toggle ? post._id : null);
+                            }}
                             divider={true}
                             hover={true}
                             linkBack={{ name: 'sprints', path: path }}
