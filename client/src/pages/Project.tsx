@@ -1,17 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { withFetchData } from '../utils/withFetchData';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import { CommentsSection } from '../components/CommentsSection';
 import { SingleProject } from '../components/project/SingleProject';
-import {
-    // withShowError,
-    WithShowErrorInjectedProps,
-} from '../utils/withShowError';
+import { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, Mode, ThemeType, StateData, Project, Model } from '../logic/types';
 import { PATHS, QUOTES } from '../constants/data';
-import { useServices } from '../services';
 const { projects } = PATHS;
 const projectsPath = projects;
 
@@ -38,68 +35,23 @@ const Sprint = ({
     mode,
     setMode,
     data,
-    setStateData,
     addPostComment,
-    addSprintComment,
     removeObject,
     notificationsProps,
     showError,
 }: SprintProps & WithShowErrorInjectedProps) => {
-    const { sprintsService, projectsService, usersService } = useServices()!;
     const { id }: { id: string } = useParams();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
-    const [quote, setQuote] = useState('');
-
-    /* 
-        GET DATA FROM DATA BASE AND WRITE TO APP STATE
-    */
-    const getData = async () => {
-        let res = await sprintsService.getAll().catch(showError);
-        let resProj = await projectsService.getAll().catch(showError);
-        // Temp - see comment in ComponentDidMount in App.tsx
-        let users = await usersService.getAll().catch(showError);
-
-        // TODO: Is there a better solution to handle pulling all required data
-        await setStateData(res, resProj, users);
-    };
-    // Fetch sprints on the first render.
-    // It will send a request when the user re-enters the sprints list page from some other page (e.g. form).
-    // This way, the user has a way of refreshing sprints data.
-    useEffect(() => {
-        getData();
-        setQuote(QUOTES[Math.floor(Math.random() * QUOTES.length)]);
-    }, []);
+    const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
 
     /* 
         GET CURRENT SPRINT ID DATA FROM APP STATE
     */
     const project = projects.get(id)!;
 
-    /*
-        SORT SPRINTS FOR PAGINATION
-    */
-    const sortedProjects = projects
-        ? [...projects.values()].sort(
-              (a, b) => new Date(b.created).getMilliseconds() - new Date(a.created).getMilliseconds()
-          )
-        : [];
-
-    let currentInd = 0;
-    sortedProjects.forEach((spr, i) => {
-        if (spr._id === id) {
-            currentInd = i;
-        }
-    });
-
     /* 
         NAVIGATION ITEMS
     */
-    const projectPosts = project?.posts;
-
-    const navPosts = projectPosts
-        ?.map((postId) => posts.get(postId))
-        .map((post) => ({ hash: true, id: post?._id || '', name: post?.title || '', path: `#${post?._id}` || '#' }));
-
     const navProjects = [...projects.values()]?.map((project: Project) => ({
         id: project._id || '',
         name: project.title || '',
@@ -176,22 +128,8 @@ const Sprint = ({
             setMode={setMode}
             appBar={true}
             quote={quote}
-            // title={project?.title}
             pagination={{
                 path: projectsPath,
-                // currentId: id,
-                // nextId: currentInd > 0 ? sortedProjects[currentInd - 1]._id : undefined,
-                // previousId: currentInd < sortedProjects.length - 1 ? sortedProjects[currentInd + 1]._id : undefined,
-                // primary: project ? `Project: ${project?.title}` : '',
-                // secondary: '',
-                // list: projects
-                //     ? [...projects.values()].map((proj: Project) => ({
-                //           name: proj?.title,
-                //           path: projectsPath,
-                //           id: proj._id,
-                //           number: 0,
-                //       }))
-                //     : undefined,
             }}
             navPanel={{
                 side: 'left',
@@ -222,11 +160,9 @@ const Sprint = ({
                 removeObject={removeObject}
                 toggleCommentsPanel={toggleSecondaryDrawer}
                 onError={showError}
-                // showError={showError}
             />
         </AppLayout>
     );
 };
 
-// export default (withShowError as any)(Sprint);
-export default authenticatedPage(withPush(Sprint));
+export default authenticatedPage(withPush(withFetchData(Sprint)));
