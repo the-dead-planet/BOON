@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
-import { Loading, Empty } from '../components/Loading';
 import { CommentsSection } from '../components/CommentsSection';
 import { SingleProject } from '../components/project/SingleProject';
 import {
@@ -32,7 +31,6 @@ interface SprintProps {
     showError: any;
 }
 
-// If path is /projects, redirect to the newest project
 const Sprint = ({
     user,
     themeType,
@@ -51,25 +49,6 @@ const Sprint = ({
     const { id }: { id: string } = useParams();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
     const [quote, setQuote] = useState('');
-    /* 
-        DETERMINE PROJECT ID
-        If no specific `Project` has been specified, try to redirect to the
-        detail page of the most recent project
-    */
-    let projectToDisplayId = id;
-    if (projectToDisplayId === undefined) {
-        // Wait for the sprints to load.
-        // TODO: consider adding a HOC waiting for pending requests and rendering a spinner.
-
-        if (projects && projects.size > 0) {
-            // If no sprints exists, there's nowhere to redirect to.
-            // TODO: consider handling this case by rendering a message.
-            const mostRecentProject = [...projects.values()].reduce((a, b) =>
-                new Date(a.created) > new Date(b.created) ? a : b
-            );
-            projectToDisplayId = mostRecentProject._id;
-        }
-    }
 
     /* 
         GET DATA FROM DATA BASE AND WRITE TO APP STATE
@@ -188,9 +167,7 @@ const Sprint = ({
     */
     //    TODO: Is it better to add it here and pass to Layout or use in single components, which require a dialog
 
-    return projectToDisplayId && projectToDisplayId !== id ? (
-        <Redirect to={`/projects/${projectToDisplayId}`} />
-    ) : (
+    return (
         <AppLayout
             user={user}
             themeType={themeType}
@@ -231,29 +208,22 @@ const Sprint = ({
             toggleSecondaryDrawer={toggleSecondaryDrawer}
             {...notificationsProps}
         >
-            {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
-            {!projects ? (
-                <Loading />
-            ) : projects.size === 0 ? (
-                <Empty />
-            ) : (
-                <SingleProject
-                    user={user}
-                    themeType={themeType}
-                    project={project}
-                    sprints={sprints}
-                    posts={posts}
-                    projects={projects}
-                    comments={comments}
-                    likes={likes}
-                    users={users}
-                    addPostComment={addPostComment}
-                    removeObject={removeObject}
-                    toggleCommentsPanel={toggleSecondaryDrawer}
-                    onError={showError}
-                    // showError={showError}
-                />
-            )}
+            <SingleProject
+                user={user}
+                themeType={themeType}
+                project={project}
+                sprints={sprints}
+                posts={posts}
+                projects={projects}
+                comments={comments}
+                likes={likes}
+                users={users}
+                addPostComment={addPostComment}
+                removeObject={removeObject}
+                toggleCommentsPanel={toggleSecondaryDrawer}
+                onError={showError}
+                // showError={showError}
+            />
         </AppLayout>
     );
 };
