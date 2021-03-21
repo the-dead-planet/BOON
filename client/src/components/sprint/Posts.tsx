@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { useLocation } from 'react-router-dom';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Grid, CardMedia, Typography } from '@material-ui/core';
-import { PostCard } from './Card';
+import Card from '../Card';
 import vintageImg1 from '../../img/content/vintage/bus.jpg';
 import vintageImg2 from '../../img/content/vintage/car.jpg';
 import defaultImg1 from '../../img/content/tech/robot.jpg';
@@ -97,7 +97,7 @@ export const Posts = ({
             {posts.map((post: Post, i: number) => (
                 <Fragment key={i}>
                     <Grid item className={classes.container} {...props}>
-                        <PostCard
+                        <Card
                             key={`${post._id}-${i}`}
                             user={user}
                             themeType={themeType}
@@ -105,7 +105,6 @@ export const Posts = ({
                             model={'Post'}
                             comments={post.comments.map((id) => comments.get(id))}
                             likes={post.likes.map((id) => likes.get(id))}
-                            users={users as any}
                             author={users.get(post.author as any)?.publicName || 'Unknown user'}
                             title={post.title}
                             titleLink={`/posts/${post._id}?from=`}

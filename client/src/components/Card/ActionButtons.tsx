@@ -14,19 +14,10 @@ interface Props {
     comments?: Array<Comment | undefined>;
     likes?: Array<Like | undefined>;
     showMorePath?: string;
-    handleExpandClick: any;
     toggleCommentsPanel: any;
 }
 
-export const ActionButtons = ({
-    user,
-    author,
-    comments,
-    likes,
-    showMorePath,
-    handleExpandClick,
-    toggleCommentsPanel,
-}: Props) => {
+export const ActionButtons = ({ user, author, comments, likes, showMorePath, toggleCommentsPanel }: Props) => {
     // TODO: Below is a placeholder, this boolean should check if user already gave this object a like.
     // Based on that display the right icon and tooltip
     const isLiked = author === user?._id;

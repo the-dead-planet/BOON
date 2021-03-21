@@ -147,6 +147,7 @@ const Sprint = ({
         addComment: any,
         removeComment: any
     ) => (event: React.KeyboardEvent | React.MouseEvent) => {
+        console.log('TSD', open, title, parentModel, parentId);
         if (
             event.type === 'keydown' &&
             ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')

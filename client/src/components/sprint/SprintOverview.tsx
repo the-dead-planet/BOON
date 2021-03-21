@@ -2,7 +2,7 @@ import React from 'react';
 import { SuspenseImg } from '../../utils/SuspenseImg';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
-import { PostCard } from './Card';
+import Card from '../Card';
 import moment from 'moment';
 import { DATE_FORMAT } from '../../constants/dateFormats';
 import { User, Sprint, Comment, Like, ThemeType } from '../../logic/types';
@@ -68,15 +68,13 @@ export const SprintOverview = ({
     const imgMin = themeType === 'vintage' ? vintageImgMin : themeType === 'frostic' ? frosticImgMin : defaultImgMin;
 
     const content = sprint && (
-        // TODO: Create a sprint card
-        <PostCard
+        <Card
             user={user}
             themeType={themeType}
             object={sprint}
             model={'Sprint'}
             comments={comments}
             likes={likes}
-            users={users}
             author={authorPublicName}
             title={`${sprint.title}`}
             created={`${sprint.dateFrom && moment(sprint.dateFrom).format(DATE_FORMAT)} - ${

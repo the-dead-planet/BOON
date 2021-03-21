@@ -79,14 +79,12 @@ interface Props {
     model: Model;
     comments: Array<Comment | undefined>;
     likes: Array<Like | undefined>;
-    users: Map<string, User>;
     author: string;
     title: string;
     titleLink?: string;
     created?: string;
     tags?: Array<Tag>;
     tag?: Tag;
-    category?: { _id: string; title: string };
     body: string;
     maxLen?: number;
     mediaTop?: any;
@@ -105,21 +103,19 @@ interface Props {
 }
 
 // Pass a component to mediaTop or mediaBottom depending on which location it is needed in
-export const PostCard = ({
+export const Card = ({
     user,
     themeType,
     object,
     model,
     comments,
     likes,
-    users,
     author,
     title,
     titleLink,
     created,
     tags,
     tag,
-    category,
     body,
     maxLen,
     mediaTop,
@@ -137,11 +133,6 @@ export const PostCard = ({
     toggleShine,
 }: Props) => {
     const classes = useStyles();
-
-    const [expanded, setExpanded] = React.useState(false);
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -253,7 +244,6 @@ export const PostCard = ({
                     author={(object as { author: string })?.author}
                     comments={comments}
                     likes={likes}
-                    handleExpandClick={handleExpandClick}
                     toggleCommentsPanel={(open: boolean) =>
                         toggleCommentsPanel(open, title, model, object._id, addComment, removeComment)
                     }

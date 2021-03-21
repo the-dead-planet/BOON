@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
-import { PostCard } from '../sprint/Card';
+import Card from '../Card';
 import moment from 'moment';
 import { EXT_DATE_FORMAT } from '../../constants/dateFormats';
 // import usersService from '../../../services/usersService';
@@ -63,14 +63,13 @@ export const SinglePost = ({
 
     return post ? (
         <Container maxWidth="md">
-            <PostCard
+            <Card
                 user={user}
                 themeType={themeType}
                 object={post}
                 model={'Post'}
                 comments={post.comments.map((id) => comments.get(id))}
                 likes={post.likes.map((id) => likes.get(id))}
-                users={users as any}
                 author={users.get(post.author as any)?.publicName || 'Unknown user'}
                 title={post.title}
                 titleLink={`/posts/${post._id}`}
