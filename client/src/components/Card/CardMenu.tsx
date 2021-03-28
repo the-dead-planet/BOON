@@ -8,7 +8,6 @@ import { User, MongoObject, Model, MenuItems, MenuItem as MenuItemType } from '.
 interface Props {
     user: User | null | undefined;
     model: Model;
-    _id?: string;
     object: MongoObject;
     anchorEl: HTMLElement | null;
     handleMenuClose: any;
@@ -16,7 +15,7 @@ interface Props {
     removeObject: any;
 }
 
-export const CardMenu = ({ user, model, _id, object, anchorEl, handleMenuClose, removeObject, menuItems }: Props) => {
+export const CardMenu = ({ user, model, object, anchorEl, handleMenuClose, removeObject, menuItems }: Props) => {
     return (
         <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleMenuClose}>
             {/* TODO: implement action to go to projects page and change state for current project */}

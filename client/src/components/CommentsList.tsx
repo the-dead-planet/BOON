@@ -21,7 +21,7 @@ export const CommentsList = ({ user, comments, users, setCommentToBeDeletedId }:
                         key={i}
                         user={user}
                         comment={comment}
-                        users={users}
+                        author={users.get(comment.author)}
                         setCommentToBeDeletedId={setCommentToBeDeletedId}
                     />
                 ))}
