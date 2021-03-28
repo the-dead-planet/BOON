@@ -26,13 +26,13 @@ describe('post', () => {
     let user = null;
 
     beforeEach(() => {
-        return createUser(userCredentials).then(createdUser => {
+        return createUser(userCredentials).then((createdUser) => {
             user = createdUser;
         });
     });
 
     beforeEach(() =>
-        Sprint.create({ number: 1, name: 'sprint' }).then(createdSprint => {
+        Sprint.create({ number: 1, name: 'sprint' }).then((createdSprint) => {
             sprint = createdSprint;
 
             Post.create({ postedToObject: { model: 'Sprint', id: sprint._id } });
@@ -46,7 +46,7 @@ describe('post', () => {
         });
 
         test('can post', async () => {
-            const resp = await agent.post('/api/posts').send({ sprintId: sprint._id, title: 'title', body: 'body' });
+            const resp = await agent.post('/posts').send({ sprintId: sprint._id, title: 'title', body: 'body' });
 
             await expect(resp).toMatchObject({ statusCode: 201 });
             await expect(Post.find({})).resolves.toEqual(
@@ -65,9 +65,9 @@ describe('post', () => {
         test('cannot post', () => {
             return;
             agent
-                .post('/api/posts')
+                .post('/posts')
                 .send({ sprintId: sprint._id, title: 'title', body: 'body' })
-                .then(resp => {
+                .then((resp) => {
                     return expect(resp).toMatchObject({
                         statusCode: 401,
                     });

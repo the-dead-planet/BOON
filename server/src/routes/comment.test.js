@@ -25,13 +25,13 @@ describe('sprint comment', () => {
 
     beforeEach(() => {
         // Register a user.
-        return createUser(userCredentials).then(createdUser => {
+        return createUser(userCredentials).then((createdUser) => {
             user = createdUser;
         });
     });
 
     beforeEach(() =>
-        Sprint.create({ number: 1, name: 'sprint' }).then(createdSprint => {
+        Sprint.create({ number: 1, name: 'sprint' }).then((createdSprint) => {
             // Expose the crated variable to all test cases.
             sprint = createdSprint;
         })
@@ -44,12 +44,12 @@ describe('sprint comment', () => {
         });
 
         afterEach(() => {
-            return agent.post('/api/auth/logout');
+            return agent.post('/auth/logout');
         });
 
         test('can comment', async () => {
             const resp = await agent
-                .post('/api/comments')
+                .post('/comments')
                 .send({ id: sprint._id, model: 'Sprint', comment: 'comment text' });
 
             expect(resp).toEqual(
@@ -75,8 +75,8 @@ describe('sprint comment', () => {
                         commentedObject: { model: 'Sprint', id: sprint._id },
                     })
                 )
-                .then(comment => agent.delete(`/api/comments/${comment._id}`))
-                .then(resp => {
+                .then((comment) => agent.delete(`/comments/${comment._id}`))
+                .then((resp) => {
                     return expect(resp).toMatchObject({
                         statusCode: 202,
                     });
@@ -87,9 +87,9 @@ describe('sprint comment', () => {
     describe('unauthenticated user', () => {
         test('cannot comment', () => {
             return agent
-                .post('/api/comments')
+                .post('/comments')
                 .send({ sprintId: sprint._id, comment: 'comment text' })
-                .then(resp => {
+                .then((resp) => {
                     return expect(resp).toMatchObject({
                         statusCode: 401,
                     });

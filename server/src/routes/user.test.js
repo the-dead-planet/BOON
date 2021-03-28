@@ -26,10 +26,10 @@ describe('user', () => {
                 { email: 'emailA', password: 'passwordA', team: team._id },
                 { email: 'emailB', password: 'passwordB', team: team._id },
             ]);
-            return agent.get('/api/users').then(resp => {
+            return agent.get('/users').then((resp) => {
                 expect(resp.statusCode).toBe(200);
                 // Check the returned objects' ids only not to overfit the test.
-                expect(resp.body.map(user => user._id).sort()).toEqual(expect.arrayContaining([userA.id, userB.id]));
+                expect(resp.body.map((user) => user._id).sort()).toEqual(expect.arrayContaining([userA.id, userB.id]));
             });
         });
     });
@@ -46,9 +46,9 @@ describe('user', () => {
 
             const newTeam = await Team.create({});
             await agent
-                .put(`/api/users/${actingUser._id}`)
+                .put(`/users/${actingUser._id}`)
                 .send({ publicName: 'updatedPublicName' })
-                .then(resp => {
+                .then((resp) => {
                     expect(resp.statusCode).toBe(202);
                 });
 

@@ -28,10 +28,10 @@ describe('app', () => {
     describe('login', () => {
         test('logs an existing user in', () => {
             return agent
-                .post('/api/auth/login')
+                .post('/auth/login')
                 .send(`email=${userCredentials.email}`)
                 .send(`password=${userCredentials.password}`)
-                .then(resp => {
+                .then((resp) => {
                     expect(resp).toMatchObject({
                         statusCode: 200,
                         body: { user: { username: userCredentials.email } },
@@ -41,7 +41,7 @@ describe('app', () => {
 
         test('rejects invalid password', () => {
             return agent
-                .post('/api/auth/login')
+                .post('/auth/login')
                 .send(`email=${userCredentials.email}`)
                 .send(`password=wrong_password`)
                 .expect(401);
@@ -49,7 +49,7 @@ describe('app', () => {
 
         test('rejects invalid email', () => {
             return agent
-                .post('/api/auth/login')
+                .post('/auth/login')
                 .send(`email=wrong@email.com`)
                 .send(`password=${userCredentials.password}`)
                 .expect(401);
@@ -66,12 +66,12 @@ describe('app', () => {
             const email = 'some@email.com';
 
             return agent
-                .post('/api/auth/register')
+                .post('/auth/register')
                 .send(`email=${email}`)
                 .send(`password=password`)
                 .send(`team=${team._id}`)
                 .send(`username=${username}`)
-                .then(resp => {
+                .then((resp) => {
                     return expect(resp).toMatchObject({
                         statusCode: 201,
                         body: { user: { username: email } },
@@ -85,7 +85,7 @@ describe('app', () => {
 
         test('rejects a duplicate email', () => {
             return agent
-                .post('/api/auth/register')
+                .post('/auth/register')
                 .send(`email=${userCredentials.email}`)
                 .send(`password=password`)
                 .send(`team=team`)
@@ -96,14 +96,14 @@ describe('app', () => {
 
     describe('whoami', () => {
         test('handles unauthenticated users', () => {
-            return agent.get('/api/auth/whoami').then(resp => {
+            return agent.get('/auth/whoami').then((resp) => {
                 expect(resp).toMatchObject({ statusCode: 200, body: { user: null } });
             });
         });
 
         test('handles authenticated users', () => {
             return loginAs(userCredentials.email, userCredentials.password).then(() =>
-                agent.get('/api/auth/whoami').then(resp => {
+                agent.get('/auth/whoami').then((resp) => {
                     expect(resp).toMatchObject({
                         statusCode: 200,
                         body: { user: { username: userCredentials.email } },
