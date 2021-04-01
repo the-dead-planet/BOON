@@ -35,12 +35,12 @@ const authService: AuthService = {
 
 const realImpl: Services = {
     authService,
-    commentsService: crudService('comments'),
-    likesService: crudService('likes'),
-    postsService: crudService('posts'),
-    projectsService: crudService('projects'),
-    sprintsService: crudService('sprints'),
-    usersService: crudService('users'),
+    commentsService: crudService(buildApiPath('comments')),
+    likesService: crudService(buildApiPath('likes')),
+    postsService: crudService(buildApiPath('posts')),
+    projectsService: crudService(buildApiPath('projects')),
+    sprintsService: crudService(buildApiPath('sprints')),
+    usersService: crudService(buildApiPath('users')),
 };
 
 export default realImpl;
