@@ -13,6 +13,10 @@ RUN yarn install
 # will make docker use a cached image of installed dependencies.
 COPY . . 
 
+# Set environment variables
+# For some reason they must be specified in the dockerfile, not in docker-compose, to be visible during build.
+ENV REACT_APP_API_PREFIX=/api
+
 # Build an optimized bundle.
 FROM base as builder
 RUN yarn build
