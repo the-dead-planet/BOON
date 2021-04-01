@@ -5,12 +5,8 @@
 // produces a result. It's done for convenience - the agent will be applied
 // in the test description, while the second function will be used in test's body.
 // The same behaviour could be implemented with `bind`.
-const loginAgentAs = agent => async (email, password) => {
-    await agent
-        .post('/api/auth/login')
-        .send(`email=${email}`)
-        .send(`password=${password}`)
-        .expect(200);
+const loginAgentAs = (agent) => async (email, password) => {
+    await agent.post('/auth/login').send(`email=${email}`).send(`password=${password}`).expect(200);
     return agent;
 };
 

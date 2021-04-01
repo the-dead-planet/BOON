@@ -23,10 +23,9 @@ interface Props {
     _id: string;
     model: Model;
     addComment: any;
-    updatepush: any;
 }
 
-export const AddComment = ({ user, mode, _id, model, addComment, updatepush }: Props) => {
+export const AddComment = ({ user, mode, _id, model, addComment }: Props) => {
     const classes = useStyles();
     const { commentsService } = useServices()!;
 

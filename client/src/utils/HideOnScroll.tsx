@@ -2,7 +2,6 @@ import React from 'react';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
 
-
 interface Props {
     /**
      * Injected by the documentation to work in an iframe.
@@ -24,6 +23,6 @@ const HideOnScroll = (props: Props) => {
             {children}
         </Slide>
     );
-}
+};
 
 export default HideOnScroll;

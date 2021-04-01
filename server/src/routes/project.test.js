@@ -26,7 +26,7 @@ describe('project', () => {
     let user = null;
 
     beforeEach(() => {
-        return createUser(userCredentials).then(createdUser => {
+        return createUser(userCredentials).then((createdUser) => {
             user = createdUser;
         });
     });
@@ -38,13 +38,13 @@ describe('project', () => {
         });
 
         afterEach(() => {
-            return agent.post('/api/auth/logout');
+            return agent.post('/auth/logout');
         });
 
         test('can fetch projects', async () => {
             await Project.create({ title: 'oldProject' });
 
-            const resp = await agent.get('/api/projects');
+            const resp = await agent.get('/projects');
             await expect(resp).toMatchObject({
                 statusCode: 200,
                 body: expect.arrayContaining([expect.objectContaining({ title: 'oldProject' })]),
@@ -52,7 +52,7 @@ describe('project', () => {
         });
 
         test('can create a project', async () => {
-            const resp = await agent.post('/api/projects').send({ title: 'title', body: 'body' });
+            const resp = await agent.post('/projects').send({ title: 'title', body: 'body' });
 
             await expect(resp).toMatchObject({ statusCode: 201 });
             await expect(Project.find({})).resolves.toEqual(
@@ -69,7 +69,7 @@ describe('project', () => {
         test('can delete owned project', async () => {
             const project = await Project.create({ title: 'title', author: user._id });
 
-            const resp = await agent.delete(`/api/projects/${project._id}`);
+            const resp = await agent.delete(`/projects/${project._id}`);
 
             await expect(resp).toMatchObject({ statusCode: 202 });
             await expect(Project.find({})).resolves.toHaveLength(0);
@@ -79,9 +79,9 @@ describe('project', () => {
     describe('unauthenticated user', () => {
         test('cannot create a project', () => {
             return agent
-                .post('/api/projects')
+                .post('/projects')
                 .send({ title: 'title', body: 'body' })
-                .then(resp => {
+                .then((resp) => {
                     return expect(resp).toMatchObject({
                         statusCode: 401,
                     });

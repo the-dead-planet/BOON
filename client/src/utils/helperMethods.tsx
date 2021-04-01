@@ -4,4 +4,4 @@ export const getValue = (obj: object, name: string) => {
             return value;
         }
     }
-}
+};

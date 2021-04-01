@@ -13,7 +13,7 @@ const getValue = (obj: object, name: string) => {
             return value;
         }
     }
-}
+};
 
 // Injects 'error' and 'touched' prop to a single child component
 export const withValidation = (child: React.ReactElement, errors: object, touched: object, i: number) =>
@@ -21,10 +21,8 @@ export const withValidation = (child: React.ReactElement, errors: object, touche
         key: i,
         error: getValue(errors, child.props.name),
         touched: getValue(touched, child.props.name),
-    })
+    });
 
 // Injects 'error' and 'touched' prop to a group of component
 export const withValidationList = (children: Array<React.ReactElement>, errors: object, touched: object) =>
-    [children].flat().map((child, i) =>
-        child && withValidation(child, errors, touched, i)
-    )
+    [children].flat().map((child, i) => child && withValidation(child, errors, touched, i));

@@ -1,6 +1,18 @@
 name: boon
 region: ams
 
+services:
+    - name: server
+      github:
+          branch: master
+          deploy_on_push: true
+          repo: the-dead-planet/BOON
+      source_dir: server
+      build_command: yarn build
+      run_command: node built
+      routes:
+          - path: /api/
+
 static_sites:
     - name: client
       github:

@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { Posts } from './Posts';
 import { SprintOverview } from './SprintOverview';
 // import usersService from '../../../services/usersService';
@@ -9,7 +9,7 @@ import { User, Sprint, Post, Project, Comment, Like, ThemeType } from '../../log
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
     createStyles({
         container: {
             margin: '0 1em',
@@ -27,10 +27,9 @@ interface Props {
     likes: Map<string, Like>;
     users: Map<string, User>;
     addPostComment: any;
-    addSprintComment: any;
-    toggleCommentsPanel: any;
+    toggleSprintComments: (toggle: boolean) => void;
+    togglePostComments: (postId: string | null) => void;
     removeObject: any;
-    onError: any;
 }
 
 export const SingleSprint = ({
@@ -43,10 +42,9 @@ export const SingleSprint = ({
     likes,
     users,
     addPostComment,
-    addSprintComment,
     removeObject,
-    toggleCommentsPanel,
-    onError,
+    togglePostComments,
+    toggleSprintComments,
 }: Props) => {
     const classes = useStyles();
 
@@ -62,20 +60,15 @@ export const SingleSprint = ({
                 comments={sprint.comments.map((id: string) => comments.get(id))}
                 likes={sprint.likes.map((id: string) => likes.get(id))}
                 users={users}
-                addComment={addSprintComment}
                 removeSprint={(id: string) => removeObject({ child: 'sprints', childId: id })}
-                removeComment={(id: string) =>
-                    removeObject({ child: 'comments', childId: id, parent: 'sprints', parentId: sprint._id })
-                }
-                toggleCommentsPanel={toggleCommentsPanel}
-                onError={onError}
+                toggleCommentsPanel={toggleSprintComments}
             />
             {/* <Divider className={classes.divider} /> */}
             <Posts
                 user={user}
                 themeType={themeType}
                 projects={projects}
-                posts={sprint.posts.map((id) => posts.get(id))}
+                posts={sprint.posts.map((id) => posts.get(id)!)}
                 comments={comments}
                 likes={likes}
                 users={users}
@@ -92,7 +85,7 @@ export const SingleSprint = ({
                 removeComment={(id: string, postId: string) =>
                     removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })
                 }
-                toggleCommentsPanel={toggleCommentsPanel}
+                toggleCommentsPanel={togglePostComments}
                 xs={12}
                 md={6}
                 lg={4}

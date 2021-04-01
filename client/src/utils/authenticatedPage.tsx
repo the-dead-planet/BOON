@@ -8,4 +8,3 @@ export const authenticatedPage = (wrappedComponent: any) => withRouter(withLogin
 
 // Redirects to the main page if the user is logged in.
 export const guestPage = (wrappedComponent: any) => withRouter(withoutLoginRequired(wrappedComponent));
-
