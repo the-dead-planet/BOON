@@ -2,9 +2,20 @@
 FROM node:14-alpine as base
 
 WORKDIR /opt/app/
-ADD ./ /opt/app/
+
+# Only copy files required to run install.
+COPY package.json .
+COPY yarn.lock .
 
 RUN yarn install
+
+# Now copy source files. If source changes, but dependencies do not, this trick
+# will make docker use a cached image of installed dependencies.
+COPY . . 
+
+# Set environment variables
+# For some reason they must be specified in the dockerfile, not in docker-compose, to be visible during build.
+ENV REACT_APP_API_PREFIX=/api
 
 # Build an optimized bundle.
 FROM base as builder
