@@ -17,8 +17,6 @@ export const sendRawPostRequest = <Resp>(url: string, data: any): Promise<AxiosR
         },
     });
 
-const buildApiPath = (path: string): string => `/api/${path}`;
-
 /**
  * Most services follow a simple CRUD pattern, that allows fetching, updating
  * and deleting instances.
@@ -44,8 +42,7 @@ export interface CrudService<Obj, ObjData> {
 /**
  * Creates a simple CRUD service operating on a given path.
  */
-export const crudService = <Obj, ObjData>(path: string): CrudService<Obj, ObjData> => {
-    const apiPath = buildApiPath(path);
+export const crudService = <Obj, ObjData>(apiPath: string): CrudService<Obj, ObjData> => {
     const apiPathWithId = (id: string): string => `${apiPath}/${id}`;
 
     const getAll = (): Promise<Array<Obj>> => axios.get(apiPath).then((resp) => resp.data || []);
