@@ -1,5 +1,5 @@
 # Use the default image to have all standard utilities included.
-FROM node:14
+FROM node:16
 
 WORKDIR /opt/server
 
