@@ -2,10 +2,47 @@
     "compilerOptions": {
         "outDir": "./built",
         "allowJs": true,
-        "target": "es5",
-        "lib": ["es6"],
-        "module": "commonjs",
-        "moduleResolution": "node"
+        "target": "ES2017",
+        "lib": [
+            "DOM",
+            "ESNext",
+            "DOM.Iterable"
+        ],
+        "typeRoots": [
+          "@types",
+          "node_modules/@types"
+        ],
+        "module": "ESNext",
+        "moduleResolution": "node",
+        "rootDir": "src",
+        "downlevelIteration": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "isolatedModules": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": false
     },
-    "include": ["./src/**/*"]
+    "include": [
+        "./src/**/*",
+        "*.d.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "built",
+        "webpack.*.js",
+        "vite.*.js",
+        "*.config.js",
+        "*.test.ts*"
+    ],
+    "ts-node": {
+      "compilerOptions": {
+        "module": "CommonJS"
+      }
+    }
 }

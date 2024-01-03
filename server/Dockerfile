@@ -12,5 +12,5 @@ COPY . .
 
 EXPOSE 5000
 
-# CMD "ts-node" "src/index.js"
+# CMD "ts-node" "src/index.ts"
 CMD ["npm", "start"]

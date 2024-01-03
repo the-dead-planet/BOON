@@ -2,7 +2,6 @@
     "name": "BOON",
     "version": "1.0.0",
     "description": "BOON platform",
-    "main": "index.js",
     "scripts": {
         "install-all": "yarn install && yarn --cwd client install && yarn --cwd server install",
         "clean": "npx shx rm -rf node_modules && yarn --cwd client clean && yarn --cwd server clean",
@@ -17,7 +16,7 @@
         "postinstall": "husky install"
     },
     "keywords": [],
-    "author": "",
+    "author": "spookydoodle & rwakulszowa",
     "license": "ISC",
     "devDependencies": {
         "concurrently": "8.2.2",
