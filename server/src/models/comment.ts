@@ -1,12 +1,12 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-var projectSchema = new mongoose.Schema({
-    title: String,
+// Schema setup - later will be broken to separate files
+const commentSchema = new mongoose.Schema({
     body: String,
-    posts: [
+    likes: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Post',
+            ref: 'Like',
         },
     ],
     author: {
@@ -23,4 +23,4 @@ var projectSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Project', projectSchema);
+export default commentSchema;

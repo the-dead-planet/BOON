@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const passportLocalMongoose = require('passport-local-mongoose');
+import mongoose from 'mongoose';
+import passportLocalMongoose from 'passport-local-mongoose';
 
 const userSchema = new mongoose.Schema({
     // Auth.
@@ -42,4 +42,4 @@ const userSchema = new mongoose.Schema({
 userSchema.plugin(passportLocalMongoose, { usernameQueryFields: ['publicName'] });
 // TODO: this doesn't work while it should (works in monsters) unless forgot about another setting... hmmmmhmhm
 
-module.exports = mongoose.model('User', userSchema);
+export default userSchema;

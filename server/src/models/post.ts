@@ -1,23 +1,8 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-var sprintSchema = new mongoose.Schema({
-    number: Number,
-    dateFrom: {
-        type: Date,
-        default: Date.now(),
-    },
-    dateTo: {
-        type: Date,
-        default: Date.now(),
-    },
+const postSchema = new mongoose.Schema({
     title: String,
     body: String,
-    posts: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Post',
-        },
-    ],
     comments: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -44,4 +29,4 @@ var sprintSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Sprint', sprintSchema);
+export default postSchema;

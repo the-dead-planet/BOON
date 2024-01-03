@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-var likeSchema = new mongoose.Schema({
+const likeSchema = new mongoose.Schema({
     // TODO: possibly add a separate model for like type and allow selection on the front-end
     type: {
         type: String,
@@ -16,4 +16,4 @@ var likeSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Like', likeSchema);
+export default likeSchema;

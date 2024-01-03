@@ -5,33 +5,36 @@
 // For example, the library does not connect to the database - it depends on
 // the caller initializing the connection. This allows using a different connection
 // in unit tests, and a different one in a production environment.
-
-var express = require('express'),
-    app = express(),
-    bodyParser = require('body-parser'),
-    passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategy;
+import express, { Request } from 'express';
+import bodyParser from 'body-parser';
+import passport from 'passport';
+import { Strategy as LocalStrategy } from 'passport-local';
 
 // Import models.
 // Initializes mongoose as a side effect.
-const Sprint = require('./models/Sprint');
-const Post = require('./models/Post');
-const Project = require('./models/Project');
-const User = require('./models/User');
-const Team = require('./models/Team');
-const Comment = require('./models/Comment');
-const Like = require('./models/Like');
+import * as Models from './models';
 
 // Utilities.
-const ModelRoutesDefinition = require('./common/ModelRoutesDefinition');
-const ModelRegistry = require('./common/ModelRegistry');
-const { RequestMethod } = require('./common/request');
-const Link = require('./common/Link');
-const Route = require('./common/Route');
-const Routes = require('./common/Routes');
-const { SingleModelField, ManyModelField } = require('./common/ModelField');
+import ModelRoutesDefinition from './common/ModelRoutesDefinition';
+import ModelRegistry from './common/ModelRegistry';
+import { RequestMethod } from './common/request';
+import Link from './common/Link';
+import Route from './common/Route';
+import Routes from './common/Routes';
+import { SingleModelField, ManyModelField } from './common/ModelField';
+
+import authRoutes from './routes/auth';
+import commentRoutes from './routes/comment';
+import likeRoutes from './routes/like';
+import postRoutes from './routes/post';
+import projectRoutes from './routes/project';
+import sprintRoutes from './routes/sprint';
+import teamRoutes from './routes/team';
+import userRoutes from './routes/user';
 
 var handleErrors = require('./middleware').handleErrors;
+
+const app = express();
 
 // Some some random thingies
 app.use(express.static(__dirname + '/public'));
@@ -48,6 +51,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
 /*
     Local Strategy uses value of input field with name='email' not 'username'
     User schema still needs to have properties named 'username' and 'password'
@@ -59,12 +63,12 @@ passport.use(
             usernameField: 'email',
             passwordField: 'password',
         },
-        User.authenticate()
+        Models.User.authenticate()
     )
 );
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(Models.User.serializeUser());
+passport.deserializeUser(Models.User.deserializeUser());
 
 // Define models.
 // TODO: move to separate modules, extract `author` and `edited` handlers to decorators
@@ -76,10 +80,12 @@ const modelRegistry = new ModelRegistry({
         },
         {
             [RequestMethod.POST]: {
-                author: (req) => req.user._id,
-                commentedObject: (req) => new Link(req.body.model, req.body.id, 'comments'),
+                author: (req: Request) => (req.user as { _id?: string; })?._id, // TODO: Check this
+                commentedObject: (req: Request) => new Link(req.body.model, req.body.id, 'comments'),
             },
-            [RequestMethod.PUT]: { edited: (req) => Date.now() },
+            [RequestMethod.PUT]: { 
+                edited: (_req: Request) => Date.now() 
+            },
         }
     ),
 
@@ -88,7 +94,7 @@ const modelRegistry = new ModelRegistry({
             author: new SingleModelField('User'),
         },
         {
-            [RequestMethod.POST]: { author: (req) => req.user._id },
+            [RequestMethod.POST]: { author: (req: Request) => (req.user as { _id?: string; })?._id },
         }
     ),
 
@@ -99,8 +105,12 @@ const modelRegistry = new ModelRegistry({
             likes: new ManyModelField('Like'),
         },
         {
-            [RequestMethod.POST]: { author: (req) => req.user._id },
-            [RequestMethod.PUT]: { edited: (req) => Date.now() },
+            [RequestMethod.POST]: { 
+                author: (req: Request) => (req.user as { _id?: string; })?._id 
+            },
+            [RequestMethod.PUT]: { 
+                edited: (_req: Request) => Date.now() 
+            },
         }
     ),
 
@@ -111,8 +121,12 @@ const modelRegistry = new ModelRegistry({
             likes: new ManyModelField('Like'),
         },
         {
-            [RequestMethod.POST]: { author: (req) => req.user._id },
-            [RequestMethod.PUT]: { edited: (req) => Date.now() },
+            [RequestMethod.POST]: { 
+                author: (req: Request) => (req.user as { _id?: string; })?._id 
+            },
+            [RequestMethod.PUT]: { 
+                edited: (_req: Request) => Date.now() 
+            },
         }
     ),
 
@@ -124,8 +138,8 @@ const modelRegistry = new ModelRegistry({
             posts: new ManyModelField('Post'),
         },
         {
-            [RequestMethod.POST]: { author: (req) => req.user._id },
-            [RequestMethod.PUT]: { edited: (req) => Date.now() },
+            [RequestMethod.POST]: { author: (req: Request) => (req.user as { _id?: string; })?._id },
+            [RequestMethod.PUT]: { edited: (_req: Request) => Date.now() },
         }
     ),
 
@@ -139,14 +153,14 @@ const modelRegistry = new ModelRegistry({
 // Handle API routes
 const routes = new Routes(
     [
-        require('./routes/auth'),
-        require('./routes/comment'),
-        require('./routes/like'),
-        require('./routes/post'),
-        require('./routes/project'),
-        require('./routes/sprint'),
-        require('./routes/team'),
-        require('./routes/user'),
+        authRoutes,
+        commentRoutes,
+        likeRoutes,
+        postRoutes,
+        projectRoutes,
+        sprintRoutes,
+        teamRoutes,
+        userRoutes
     ]
         .map((routesModule) => routesModule(modelRegistry))
         .flat()
@@ -168,4 +182,4 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-module.exports = app;
+export default app;

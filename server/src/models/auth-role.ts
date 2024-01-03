@@ -1,8 +1,8 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // This schema handles user authorization such as: admin, moderator.
 // Only selected users (e.g. scrum master, communication specialists) will be able to edit/delete other users' posts
-var userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     title: String,
     body: String,
     users: [
@@ -13,4 +13,4 @@ var userSchema = new mongoose.Schema({
     ],
 });
 
-module.exports = mongoose.model('User', userSchema);
+export default userSchema;

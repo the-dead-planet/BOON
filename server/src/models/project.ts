@@ -1,14 +1,18 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-var TeamSchema = new mongoose.Schema({
+const projectSchema = new mongoose.Schema({
     title: String,
     body: String,
-    members: [
+    posts: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
+            ref: 'Post',
         },
     ],
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
     created: {
         type: Date,
         default: Date.now,
@@ -19,4 +23,4 @@ var TeamSchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model('Team', TeamSchema);
+export default projectSchema;
