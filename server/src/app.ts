@@ -66,7 +66,6 @@ passport.use(
 passport.serializeUser(Models.User.serializeUser());
 passport.deserializeUser(Models.User.deserializeUser());
 
-// Define models.
 // TODO: move to separate modules, extract `author` and `edited` handlers to decorators
 const modelRegistry = new ModelRegistry({
     Comment: new ModelRoutesDefinition(
@@ -146,7 +145,8 @@ const modelRegistry = new ModelRegistry({
     User: new ModelRoutesDefinition({}),
 });
 
-// Handle API routes
+// TODO: We should use express.Router: const commentRouter = express.Router(); app.use(/comment, commentRouter) etc.. to simplify things 
+// https://expressjs.com/en/guide/routing.html#express-router
 const routes = new Routes(
     [
         authRoutes,
@@ -166,9 +166,6 @@ routes.connect(app);
 
 app.use(handleErrors);
 
-// Production setup
-// Serve static files from the React app
-// Catch any other routes than the ones above - must be after all api routes
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('./build'));
 
