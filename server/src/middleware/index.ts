@@ -32,26 +32,26 @@ export const isUser = asyncMiddleware(async (req: Request, res: Response, next: 
 });
 
 export const checkSprintOwnership = (req: Request, res: Response, next: NextFunction) => {
-    checkOwnership(req, res, next, Models.sprintModel.findById, req.params.id, '/sprints');
+    checkOwnership(req, res, next, Models.sprintModel.findById, '/sprints');
 };
 
 export const checkPostOwnership = (req: Request, res: Response, next: NextFunction) => {
-    checkOwnership(req, res, next, Models.postModel.findById, req.params.id, '/sprints');
+    checkOwnership(req, res, next, Models.postModel.findById, '/sprints');
 };
 
 export const checkProjectOwnership = (req: Request, res: Response, next: NextFunction) => {
-    checkOwnership(req, res, next, Models.projectModel.findById, req.params.id, '/sprints');
+    checkOwnership(req, res, next, Models.projectModel.findById, '/sprints');
 };
 
 export const checkCommentOwnership = (req: Request, res: Response, next: NextFunction) => {
-    checkOwnership(req, res, next, Models.commentModel.findById, req.params.id, '/sprints');
+    checkOwnership(req, res, next, Models.commentModel.findById, '/sprints');
 };
 
 export const checkLikeOwnership = (req: Request, res: Response, next: NextFunction) => {
-    checkOwnership(req, res, next, Models.likeModel.findById, req.params.id, '/sprints');
+    checkOwnership(req, res, next, Models.likeModel.findById, '/sprints');
 };
 
-export const handleErrors = (err: Error | null | undefined | string, req: Request, res: Response, next: NextFunction) => {
+export const handleErrors = (err: Error | null | undefined | string, _req: Request, res: Response, next: NextFunction) => {
     if (err && err instanceof BoonHttpError) {
         return res.status(err.errorCode).send(err.toRawObject());
     } else {
@@ -67,11 +67,10 @@ function checkOwnership(
     next: NextFunction,
     // TODO: For some reason with arg "object: mongoose.PassportLocalModel<mongoose.Document>" ts still saw errors even though all schema interfaces extend mongoose.Document
     findById: (id: string, fn: (err: Error | null | undefined | string, object: { [key in string]: string; }) => void) => void,
-    id: string,
     redirectPath: string
 ) {
     if (req.isAuthenticated()) {
-        findById(id, (err: Error | null | undefined | string, object: { [key in string]: string; }) => {
+        findById(req.params.id, (err: Error | null | undefined | string, object: { [key in string]: string; }) => {
             if (err || !object) {
                 res.redirect(redirectPath);
             } else {
