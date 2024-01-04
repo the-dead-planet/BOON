@@ -1,6 +1,22 @@
 import mongoose from 'mongoose';
 import passportLocalMongoose from 'passport-local-mongoose';
 
+export interface UserSchema extends mongoose.Document {
+    _id: string;
+    username: string;
+    password: string;
+    active: boolean;
+    publicName: string;
+    role: string;
+    country: string;
+    skills: string[];
+    joined: Date;
+    left: Date;
+    created: Date;
+    edited: Date;
+    auth: string;
+}
+
 const userSchema = new mongoose.Schema({
     // Auth.
     username: String, // User's email. Passport expects the field to be named this way.
@@ -40,6 +56,5 @@ const userSchema = new mongoose.Schema({
 // Add methods from passport-local-mongoose (authenticate, register etc)
 // Allow using also the public name to authenticate
 userSchema.plugin(passportLocalMongoose, { usernameQueryFields: ['publicName'] });
-// TODO: this doesn't work while it should (works in monsters) unless forgot about another setting... hmmmmhmhm
 
 export default userSchema;

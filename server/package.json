@@ -10,6 +10,7 @@
         "start": "ts-node-dev src/index.ts",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
     },
+    "types": "./types/main.d.ts",
     "keywords": [],
     "author": "",
     "license": "ISC",

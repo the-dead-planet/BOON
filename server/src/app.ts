@@ -1,28 +1,18 @@
-// This file exposes the whole app as a library.
-//
-// It *does not* connect the app to the real world. All external clients should
-// be injectable / configurable from the outside to make testing possible.
-// For example, the library does not connect to the database - it depends on
-// the caller initializing the connection. This allows using a different connection
-// in unit tests, and a different one in a production environment.
+import path  from 'path';
 import express, { Request } from 'express';
+import expressSession from 'express-session';
 import bodyParser from 'body-parser';
 import passport from 'passport';
-import { Strategy as LocalStrategy } from 'passport-local';
-
-// Import models.
-// Initializes mongoose as a side effect.
+import * as passportLocal from 'passport-local';
+const LocalStrategy = passportLocal.Strategy;
 import * as Models from './models';
-
-// Utilities.
 import ModelRoutesDefinition from './common/ModelRoutesDefinition';
 import ModelRegistry from './common/ModelRegistry';
 import { RequestMethod } from './common/request';
 import Link from './common/Link';
-import Route from './common/Route';
 import Routes from './common/Routes';
 import { SingleModelField, ManyModelField } from './common/ModelField';
-
+// TODO import * as Routes
 import authRoutes from './routes/auth';
 import commentRoutes from './routes/comment';
 import likeRoutes from './routes/like';
@@ -31,8 +21,13 @@ import projectRoutes from './routes/project';
 import sprintRoutes from './routes/sprint';
 import teamRoutes from './routes/team';
 import userRoutes from './routes/user';
+import { handleErrors } from './middleware';
 
-var handleErrors = require('./middleware').handleErrors;
+declare global {
+    namespace Express {
+        interface User extends Models.UserModel.UserSchema { }
+    }
+}
 
 const app = express();
 
@@ -43,7 +38,7 @@ app.use(bodyParser.json());
 
 // Passport config - authentication
 app.use(
-    require('express-session')({
+    expressSession({
         secret: 'Blabla bla bla',
         resave: false,
         saveUninitialized: false,
@@ -51,6 +46,7 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 /*
     Local Strategy uses value of input field with name='email' not 'username'
@@ -80,7 +76,7 @@ const modelRegistry = new ModelRegistry({
         },
         {
             [RequestMethod.POST]: {
-                author: (req: Request) => (req.user as { _id?: string; })?._id, // TODO: Check this
+                author: (req: Request) => req.user?._id,
                 commentedObject: (req: Request) => new Link(req.body.model, req.body.id, 'comments'),
             },
             [RequestMethod.PUT]: { 
@@ -94,7 +90,7 @@ const modelRegistry = new ModelRegistry({
             author: new SingleModelField('User'),
         },
         {
-            [RequestMethod.POST]: { author: (req: Request) => (req.user as { _id?: string; })?._id },
+            [RequestMethod.POST]: { author: (req: Request) => req.user?._id },
         }
     ),
 
@@ -106,7 +102,7 @@ const modelRegistry = new ModelRegistry({
         },
         {
             [RequestMethod.POST]: { 
-                author: (req: Request) => (req.user as { _id?: string; })?._id 
+                author: (req: Request) => req.user?._id 
             },
             [RequestMethod.PUT]: { 
                 edited: (_req: Request) => Date.now() 
@@ -122,7 +118,7 @@ const modelRegistry = new ModelRegistry({
         },
         {
             [RequestMethod.POST]: { 
-                author: (req: Request) => (req.user as { _id?: string; })?._id 
+                author: (req: Request) => req.user?._id 
             },
             [RequestMethod.PUT]: { 
                 edited: (_req: Request) => Date.now() 
@@ -138,7 +134,7 @@ const modelRegistry = new ModelRegistry({
             posts: new ManyModelField('Post'),
         },
         {
-            [RequestMethod.POST]: { author: (req: Request) => (req.user as { _id?: string; })?._id },
+            [RequestMethod.POST]: { author: (req: Request) => req.user?._id },
             [RequestMethod.PUT]: { edited: (_req: Request) => Date.now() },
         }
     ),
@@ -176,7 +172,6 @@ app.use(handleErrors);
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('./build'));
 
-    const path = require('path');
     app.get('*', function (req, res) {
         res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
     });
