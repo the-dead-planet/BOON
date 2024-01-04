@@ -1,6 +1,19 @@
 import mongoose from 'mongoose';
+import { CommentSchema } from './comment';
+import { LikeSchema } from './like';
+import { UserSchema } from './user';
 
-const postSchema = new mongoose.Schema({
+export interface PostSchema extends mongoose.Document {
+    title: string;
+    body: string;
+    comments: CommentSchema[];
+    likes: LikeSchema[];
+    author: UserSchema;
+    created: Date;
+    edited: Date;
+}
+
+export const postSchema = new mongoose.Schema<PostSchema>({
     title: String,
     body: String,
     comments: [
@@ -29,4 +42,4 @@ const postSchema = new mongoose.Schema({
     },
 });
 
-export default postSchema;
+export const postModel = mongoose.model<PostSchema>('Post', postSchema);

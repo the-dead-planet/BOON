@@ -25,7 +25,7 @@ import { handleErrors } from './middleware';
 
 declare global {
     namespace Express {
-        interface User extends Models.UserModel.UserSchema { }
+        interface User extends Models.UserSchema { }
     }
 }
 
@@ -59,12 +59,12 @@ passport.use(
             usernameField: 'email',
             passwordField: 'password',
         },
-        Models.User.authenticate()
+        Models.userModel.authenticate()
     )
 );
 
-passport.serializeUser(Models.User.serializeUser());
-passport.deserializeUser(Models.User.deserializeUser());
+passport.serializeUser(Models.userModel.serializeUser());
+passport.deserializeUser(Models.userModel.deserializeUser());
 
 // TODO: move to separate modules, extract `author` and `edited` handlers to decorators
 const modelRegistry = new ModelRegistry({

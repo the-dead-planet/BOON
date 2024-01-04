@@ -1,7 +1,16 @@
 import mongoose from 'mongoose';
+import { LikeSchema } from './like';
+import { UserSchema } from './user';
 
-// Schema setup - later will be broken to separate files
-const commentSchema = new mongoose.Schema({
+export type CommentSchema = mongoose.Document & {
+    body: string;
+    likes: LikeSchema[];
+    author: UserSchema;
+    created: Date;
+    edited: Date;
+}
+
+export const commentSchema = new mongoose.Schema<CommentSchema>({
     body: String,
     likes: [
         {
@@ -23,4 +32,4 @@ const commentSchema = new mongoose.Schema({
     },
 });
 
-export default commentSchema;
+export const commentModel = mongoose.model<CommentSchema>('Comment', commentSchema);

@@ -1,6 +1,15 @@
 import mongoose from 'mongoose';
+import { UserSchema } from './user';
 
-const teamSchema = new mongoose.Schema({
+export interface TeamSchema extends mongoose.Document {
+    title: string;
+    body: string;
+    members: UserSchema[];
+    created: Date;
+    edited: Date;
+}
+
+export const teamSchema = new mongoose.Schema<TeamSchema>({
     title: String,
     body: String,
     members: [
@@ -19,4 +28,4 @@ const teamSchema = new mongoose.Schema({
     },
 });
 
-export default teamSchema;
+export const teamModel = mongoose.model<TeamSchema>('Team', teamSchema);

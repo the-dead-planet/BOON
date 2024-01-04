@@ -1,6 +1,17 @@
 import mongoose from 'mongoose';
+import { PostSchema } from './post';
+import { UserSchema } from './user';
 
-const projectSchema = new mongoose.Schema({
+export interface ProjectSchema extends mongoose.Document {
+    title: string;
+    body: string;
+    posts: PostSchema[];
+    author: UserSchema;
+    created: Date;
+    edited: Date;
+}
+
+export const projectSchema = new mongoose.Schema<ProjectSchema>({
     title: String,
     body: String,
     posts: [
@@ -23,4 +34,4 @@ const projectSchema = new mongoose.Schema({
     },
 });
 
-export default projectSchema;
+export const projectModel = mongoose.model<ProjectSchema>('Project', projectSchema);

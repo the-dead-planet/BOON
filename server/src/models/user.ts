@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import passportLocalMongoose from 'passport-local-mongoose';
 
 export interface UserSchema extends mongoose.Document {
-    _id: string;
     username: string;
     password: string;
     active: boolean;
@@ -17,7 +16,7 @@ export interface UserSchema extends mongoose.Document {
     auth: string;
 }
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema<UserSchema>({
     // Auth.
     username: String, // User's email. Passport expects the field to be named this way.
     password: String,
@@ -57,4 +56,6 @@ const userSchema = new mongoose.Schema({
 // Allow using also the public name to authenticate
 userSchema.plugin(passportLocalMongoose, { usernameQueryFields: ['publicName'] });
 
-export default userSchema;
+export { userSchema };
+
+export const userModel = mongoose.model<UserSchema>('User', userSchema);

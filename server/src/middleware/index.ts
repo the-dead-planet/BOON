@@ -2,8 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import * as Models from '../models';
 import { BoonHttpError } from '../common/errors';
-
-const asyncMiddleware = require('./asyncMiddleware');
+import asyncMiddleware from './async-middleware';
 
 export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
     if (req.isAuthenticated()) {
@@ -33,23 +32,23 @@ export const isUser = asyncMiddleware(async (req: Request, res: Response, next: 
 });
 
 export const checkSprintOwnership = (req: Request, res: Response, next: NextFunction) => {
-    checkOwnership(req, res, next, Models.Sprint, req.params.id, 'Sprint', '/sprints');
+    checkOwnership(req, res, next, Models.sprintModel.findById, req.params.id, '/sprints');
 };
 
 export const checkPostOwnership = (req: Request, res: Response, next: NextFunction) => {
-    checkOwnership(req, res, next, Models.Post, req.params.id, 'Post', '/sprints');
+    checkOwnership(req, res, next, Models.postModel.findById, req.params.id, '/sprints');
 };
 
 export const checkProjectOwnership = (req: Request, res: Response, next: NextFunction) => {
-    checkOwnership(req, res, next, Models.Project, req.params.id, 'Project', '/sprints');
+    checkOwnership(req, res, next, Models.projectModel.findById, req.params.id, '/sprints');
 };
 
 export const checkCommentOwnership = (req: Request, res: Response, next: NextFunction) => {
-    checkOwnership(req, res, next, Models.Comment, req.params.id, 'Comment', '/sprints');
+    checkOwnership(req, res, next, Models.commentModel.findById, req.params.id, '/sprints');
 };
 
 export const checkLikeOwnership = (req: Request, res: Response, next: NextFunction) => {
-    checkOwnership(req, res, next, Models.Like, req.params.id, 'Like', '/sprints');
+    checkOwnership(req, res, next, Models.likeModel.findById, req.params.id, '/sprints');
 };
 
 export const handleErrors = (err: Error | null | undefined | string, req: Request, res: Response, next: NextFunction) => {
@@ -62,27 +61,28 @@ export const handleErrors = (err: Error | null | undefined | string, req: Reques
     }
 };
 
-// Generic check ownership.
-// TODO: remove references to flash and redirect (we don't handle them due to a custrom frontend).
-function checkOwnership(req: Request, res: Response, next: NextFunction, Object: mongoose.PassportLocalModel<mongoose.Document>, id: string, objectName: string, redirectPath: string) {
+function checkOwnership(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    // TODO: For some reason with arg "object: mongoose.PassportLocalModel<mongoose.Document>" ts still saw errors even though all schema interfaces extend mongoose.Document
+    findById: (id: string, fn: (err: Error | null | undefined | string, object: { [key in string]: string; }) => void) => void,
+    id: string,
+    redirectPath: string
+) {
     if (req.isAuthenticated()) {
-        // TODO: Test these types
-        Object.findById(id, (err: Error | null | undefined | string, object: { [key in string]: string; }) => {
+        findById(id, (err: Error | null | undefined | string, object: { [key in string]: string; }) => {
             if (err || !object) {
-                // req.flash('error', objectName + ' not found');
                 res.redirect(redirectPath);
             } else {
                 if (object.author === ((req.user as { _id: string })._id)) {
-                    // req.object = object;
                     next();
                 } else {
-                    // req.flash('error', 'You do not have permission to edit this ' + objectName.toLowerCase());
                     res.redirect(redirectPath);
                 }
             }
         });
     } else {
-        // req.flash('error', 'You need to be logged in to do that');
         res.redirect('back');
     }
 }

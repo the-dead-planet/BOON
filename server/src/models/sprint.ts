@@ -1,6 +1,24 @@
 import mongoose from 'mongoose';
+import { PostSchema } from './post';
+import { CommentSchema } from './comment';
+import { LikeSchema } from './like';
+import { UserSchema } from './user';
 
-const  sprintSchema = new mongoose.Schema({
+export interface SprintSchema extends mongoose.Document {
+    number: number;
+    dateFrom: Date;
+    dateTo: Date;
+    title: string;
+    body: string;
+    posts: PostSchema[];
+    comments: CommentSchema[];
+    likes: LikeSchema[];
+    author: UserSchema;
+    created: Date;
+    edited: Date;
+}
+
+export const sprintSchema = new mongoose.Schema<SprintSchema>({
     number: Number,
     dateFrom: {
         type: Date,
@@ -44,4 +62,4 @@ const  sprintSchema = new mongoose.Schema({
     },
 });
 
-export default sprintSchema;
+export const sprintModel = mongoose.model<SprintSchema>('Sprint', sprintSchema);
