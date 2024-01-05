@@ -1,6 +1,7 @@
-const Route = require('../common/Route');
+import ModelRegistry from '../common/model-registry';
+import Route from '../common/route';
 
-module.exports = modelRegistry => [
+export const getPostRoutes = (modelRegistry: ModelRegistry) => [
     Route.getOne('Post', modelRegistry),
     Route.getAll('Post', modelRegistry),
     Route.create('Post', modelRegistry),

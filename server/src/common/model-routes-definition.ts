@@ -1,5 +1,5 @@
-const RequestMethod = require('./request');
-const { ModelField } = require('./ModelField');
+import { RequestMappers } from "./request";
+import { ModelField } from './model-field';
 
 // Single type exposing all data needed to define API routes for a model.
 //
@@ -10,7 +10,10 @@ const { ModelField } = require('./ModelField');
 // `ModelRegistry`.
 // TODO: convert into a regular interface once TypeScript is supported.
 class ModelRoutesDefinition {
-    constructor(fields, requestMappers) {
+    public fields: { [key in string]: { modelName: string; required: () => boolean; }; }
+    public requestMappers: RequestMappers;
+
+    constructor(fields: { [key in string]:  { modelName: string; required: () => boolean; }; }, requestMappers: RequestMappers) {
         fields = fields || {};
         requestMappers = requestMappers || {};
 
@@ -31,7 +34,7 @@ class ModelRoutesDefinition {
         // For example, one could add a `createdAt` field to each created object by definining
         // ```
         // requestMappers = {
-        //   [RequestMethod.POST]: { createdAt: req => Date.now() }
+        //   [RequestMethod.POST]: { createdAt: req => Date.now() } 
         // }
         // ```
         // Only PUT and POST request kinds are supported.
@@ -40,4 +43,4 @@ class ModelRoutesDefinition {
     }
 }
 
-module.exports = ModelRoutesDefinition;
+export default ModelRoutesDefinition;

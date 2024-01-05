@@ -1,5 +1,5 @@
-const { ObjectID } = require('mongodb');
-const { toMatchMongooseId } = require('./matchers');
+import { ObjectID } from 'mongodb';
+import { toMatchMongooseId } from './matchers';
 
 describe('matchers', () => {
     describe('toMatchMongooseId', () => {

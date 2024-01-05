@@ -1,14 +1,13 @@
-const mongoose = require('mongoose');
-const request = require('supertest');
-const express = require('express');
+import mongoose from 'mongoose';
+import request from 'supertest';
+import express from 'express';
 
-// `app` must be one of the first imports. It triggers model registration on
-// load.
-const app = require('../app');
+// `app` must be one of the first imports. It triggers model registration on load.
+import app from '../app';
 
-const { withFreshDbConnection } = require('../testing/db');
-const { loginAgentAs } = require('../testing/auth');
-const { createUser } = require('../testing/factories/user');
+import { withFreshDbConnection } from '../testing/db';
+import { loginAgentAs } from '../testing/auth';
+import { createUser } from '../testing/factories/user';
 
 const User = mongoose.model('User');
 const Team = mongoose.model('Team');

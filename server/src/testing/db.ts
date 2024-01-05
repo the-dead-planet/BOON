@@ -1,17 +1,17 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // Connect to a temporary database.
 const connect = () =>
-    mongoose.connect(process.env.MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
+    mongoose.connect(process.env.MONGO_URL ?? '', {
+        // useNewUrlParser: true,
+        // useUnifiedTopology: true,
     });
 
 const disconnect = () => mongoose.disconnect();
 
 const eraseAllData = () => {
     const modelNames = mongoose.modelNames();
-    return Promise.all(modelNames.map(name => mongoose.model(name).deleteMany()));
+    return Promise.all(modelNames.map((name: string) => mongoose.model(name).deleteMany()));
 };
 
 // When invoked in a test, all underlying tests will start a new database
@@ -27,4 +27,4 @@ const withFreshDbConnection = () => {
     });
 };
 
-module.exports = { withFreshDbConnection };
+export { withFreshDbConnection };

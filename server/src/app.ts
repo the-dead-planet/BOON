@@ -6,21 +6,13 @@ import passport from 'passport';
 import * as passportLocal from 'passport-local';
 const LocalStrategy = passportLocal.Strategy;
 import * as Models from './models';
-import ModelRoutesDefinition from './common/ModelRoutesDefinition';
-import ModelRegistry from './common/ModelRegistry';
+import ModelRoutesDefinition from './common/model-routes-definition';
+import ModelRegistry from './common/model-registry';
 import { RequestMethod } from './common/request';
-import Link from './common/Link';
-import Routes from './common/Routes';
-import { SingleModelField, ManyModelField } from './common/ModelField';
-// TODO import * as Routes
-import authRoutes from './routes/auth';
-import commentRoutes from './routes/comment';
-import likeRoutes from './routes/like';
-import postRoutes from './routes/post';
-import projectRoutes from './routes/project';
-import sprintRoutes from './routes/sprint';
-import teamRoutes from './routes/team';
-import userRoutes from './routes/user';
+import Link from './common/link';
+import Routes from './common/routes';
+import { SingleModelField, ManyModelField } from './common/model-field';
+import * as RouterRoutes from './routes';
 import { handleErrors } from './middleware';
 
 declare global {
@@ -140,23 +132,23 @@ const modelRegistry = new ModelRegistry({
 
     Team: new ModelRoutesDefinition({
         members: new ManyModelField('User'),
-    }),
+    }, {}),
 
-    User: new ModelRoutesDefinition({}),
+    User: new ModelRoutesDefinition({}, {}),
 });
 
 // TODO: We should use express.Router: const commentRouter = express.Router(); app.use(/comment, commentRouter) etc.. to simplify things 
 // https://expressjs.com/en/guide/routing.html#express-router
 const routes = new Routes(
     [
-        authRoutes,
-        commentRoutes,
-        likeRoutes,
-        postRoutes,
-        projectRoutes,
-        sprintRoutes,
-        teamRoutes,
-        userRoutes
+        RouterRoutes.getAuthRoutes,
+        RouterRoutes.getCommentRoutes,
+        RouterRoutes.getLikeRoutes,
+        RouterRoutes.getPostRoutes,
+        RouterRoutes.getProjectRoutes,
+        RouterRoutes.getSprintRoutes,
+        RouterRoutes.getTeamRoutes,
+        RouterRoutes.getUserRoutes
     ]
         .map((routesModule) => routesModule(modelRegistry))
         .flat()

@@ -1,21 +1,33 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import { NextFunction, Request, Response } from 'express';
+import * as core from "express-serve-static-core";
+import { RequestMethod, requestPreprocessor } from './request';
+import { NestedDependency, pathsInMongooseFormat } from './queries';
+import { isLoggedIn } from '../middleware';
+import { NotFoundError } from './errors';
+import Link from './link';
+import ModelRoutesDefinition from './model-routes-definition';
 
-const { RequestMethod, requestPreprocessor } = require('./request');
-const { pathsInMongooseFormat } = require('./queries');
-const { isLoggedIn } = require('../middleware');
-const { NotFoundError } = require('./errors');
-const Link = require('./Link');
+type Behaviour<T> = (req: Request, response: Response, error: string) => Promise<{ statusCode: number, data: T; }>;
+type Middleware = (req: Request, res: Response, next: NextFunction) => void;
+interface ModelRegistry {
+    populatePaths: (modelId: string) => NestedDependency;
+    findDefinition: (modelId: string) => ModelRoutesDefinition;
+}
 
-// Definition of a single API route.
-//
-// Exposes multiple static factory methods implementing common
-// scenarios.
-//
-// `behaviour` is a function `(mongoose, request) => { statusCode: Number, data: Object }`.
-// `mongoose` is injected as an argument to minimize boilerplate of route definitions and
-// to aid testing - since `mongoose` is being injected, it can be easily mocked.
-class Route {
-    constructor(path, method, behaviour, middleware) {
+/**
+ * Definition of a single API route.
+ * Exposes multiple static factory methods implementing common scenarios.
+ * `behaviour` is a function `(mongoose, request) => { statusCode: Number, data: Object }`.
+ * `mongoose` is injected as an argument to minimize boilerplate of route definitions and to aid testing - since `mongoose` is being injected, it can be easily mocked.
+ */
+class Route<T>{
+    public path: string;
+    public method: RequestMethod;
+    behaviour: Behaviour<T>;
+    public middleware: Middleware | undefined;
+
+    public constructor(path: string, method: RequestMethod, behaviour: Behaviour<T>, middleware?: Middleware) {
         this.path = path;
         this.method = method;
         this.behaviour = behaviour;
@@ -23,49 +35,50 @@ class Route {
     }
 
     // A default route fetching a single object.
-    static getOne(modelId, modelRegistry) {
+    static getOne<T>(modelId: string, modelRegistry: ModelRegistry) {
         const path = `/${modelId}s/:id`;
         const method = RequestMethod.GET;
 
-        const behaviour = (mongoose, req) => {
+        const behaviour = (req: Request) => {
             const { params } = req;
             const mongooseModel = mongoose.model(modelId);
             const query = mongooseModel.findById(params.id);
             return query
                 .populate(pathsInMongooseFormat(modelRegistry.populatePaths(modelId)))
                 .exec()
-                .then((sprint) => ({ statusCode: 200, data: sprint }));
+                .then((data) => ({ statusCode: 200, data: data as T }));
         };
 
-        return new Route(path, method, behaviour);
+        return new Route<T>(path, method, behaviour);
     }
 
     // A default route fetching all objects of a given model.
     // TODO: extract common part of getOne and getAll into a separate method
-    static getAll(modelId, modelRegistry) {
+    static getAll<T>(modelId: string, modelRegistry: ModelRegistry) {
         const path = `/${modelId}s`;
         const method = RequestMethod.GET;
-        const behaviour = (mongoose, req) => {
+
+        const behaviour = (_req: Request) => {
             const mongooseModel = mongoose.model(modelId);
             const query = mongooseModel.find({});
             return query
                 .populate(pathsInMongooseFormat(modelRegistry.populatePaths(modelId)))
                 .exec()
-                .then((sprints) => ({ statusCode: 200, data: sprints }));
+                .then((data) => ({ statusCode: 200, data }));
         };
 
         return new Route(path, method, behaviour);
     }
 
     // A default route creating a single object.
-    static create(modelId, modelRegistry) {
+    static create(modelId: string, modelRegistry: ModelRegistry) {
         const path = `/${modelId}s`;
         const method = RequestMethod.POST;
 
         const modelDefinition = modelRegistry.findDefinition(modelId);
         const postRequestPreprocessor = requestPreprocessor(modelDefinition.requestMappers[method] || {});
 
-        const behaviour = async (mongoose, req) => {
+        const behaviour = async (req: Request) => {
             const data = postRequestPreprocessor(req);
             // Check if all related objects exist.
             await Promise.all(
@@ -90,11 +103,11 @@ class Route {
             await Promise.all(
                 Object.entries(data)
                     .filter(([_, value]) => value instanceof Link)
-                    .map(async ([key, link]) => {
-                        const relatedModel = mongoose.model(link.modelId);
-                        const relatedObject = await relatedModel.findById(link.objectId).exec();
-                        relatedObject[link.modelProperty].push(obj._id);
-                        await relatedObject.save();
+                    .map(async ([_key, link]) => {
+                        const relatedModel = mongoose.model((link as Link).modelId);
+                        const relatedObject = await relatedModel.findById((link as Link).objectId).exec() as { [key in string]: string[]} & mongoose.Document;
+                        relatedObject?.[(link as Link).modelProperty].push(obj._id);
+                        await relatedObject?.save();
                     })
             );
 
@@ -105,21 +118,21 @@ class Route {
     }
 
     // A default route updating a single object.
-    static update(modelId, modelRegistry) {
+    static update(modelId: string, modelRegistry: ModelRegistry) {
         const path = `/${modelId}s/:id`;
         const method = RequestMethod.PUT;
 
         const modelDefinition = modelRegistry.findDefinition(modelId);
         const putRequestPreprocessor = requestPreprocessor(modelDefinition.requestMappers[method] || {});
 
-        const behaviour = (mongoose, req, res) => {
+        const behaviour = (req: Request, res: Response) => {
             const { params } = req;
 
             const data = putRequestPreprocessor(req);
             const mongooseModel = mongoose.model(modelId);
             const query = mongooseModel.findByIdAndUpdate(params.id, data);
             return query.then((obj) => {
-                obj.save();
+                obj?.save();
                 return { statusCode: 202, data: obj };
             });
         };
@@ -129,13 +142,13 @@ class Route {
 
     // A default route deleting a single object and its children.
     // Not named `delete` to avoid conflicts with the builtin operator.
-    static remove(modelId, modelRegistry) {
+    static remove(modelId: string, _modelRegistry: ModelRegistry) {
         const path = `/${modelId}s/:id`;
         const method = RequestMethod.DELETE;
 
         // TODO: find related models, delete them too
 
-        const behaviour = (mongoose, req, res) => {
+        const behaviour = (req: Request) => {
             const { params } = req;
 
             const mongooseModel = mongoose.model(modelId);
@@ -149,9 +162,9 @@ class Route {
     // Handles all boilerplate of turning a behaviour function into an express-compatible callback.
     // Guarantees that a response is returned to the client.
     decoratedBehaviour() {
-        return async (req, res, next) => {
+        return async (req: Request, res: Response, next: NextFunction) => {
             try {
-                const { statusCode = 200, data } = await this.behaviour(mongoose, req);
+                const { statusCode = 200, data } = await this.behaviour(req, res, '');
                 return res.status(statusCode).send(data);
             } catch (err) {
                 // Let the remaining middleware handle the error.
@@ -162,7 +175,7 @@ class Route {
     }
 
     // Adds the route to `app`.
-    connect(app) {
+    connect(app: core.Express) {
         // Behaviour with all arguments not provided by the request itself preapplied.
         // Matches the signature expected by express.
         const preappliedBehaviour = this.decoratedBehaviour();
@@ -192,4 +205,4 @@ class Route {
     }
 }
 
-module.exports = Route;
+export default Route;

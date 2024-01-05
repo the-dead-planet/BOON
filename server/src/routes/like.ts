@@ -1,6 +1,7 @@
-const Route = require('../common/Route');
+import ModelRegistry from '../common/model-registry';
+import Route from '../common/route';
 
-module.exports = modelRegistry => [
+export const getLikeRoutes = (modelRegistry: ModelRegistry) => [
     Route.getOne('Like', modelRegistry),
     Route.getAll('Like', modelRegistry),
     Route.create('Like', modelRegistry),

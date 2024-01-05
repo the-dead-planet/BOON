@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const Comment = mongoose.model('Comment');
 const Sprint = mongoose.model('Sprint');
 const Post = mongoose.model('Post');
@@ -11,4 +11,4 @@ const models = {
     Like: Like,
 };
 
-module.exports = models;
+export default models;

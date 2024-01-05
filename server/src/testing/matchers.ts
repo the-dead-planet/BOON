@@ -1,10 +1,10 @@
 // Jest's matchers list is terrible.
 // This module adds a few missing matchers.
 // See https://jestjs.io/docs/en/expect#expectextendmatchers for details.
-const { ObjectID } = require('mongodb');
+import { ObjectId } from 'mongodb';
 
-const toMatchMongooseId = (received, expected) => {
-    const pass = received instanceof ObjectID && received.equals(expected);
+const toMatchMongooseId = (received: ObjectId | unknown, expected: ObjectId) => {
+    const pass = received instanceof ObjectId && received.equals(expected);
     if (pass) {
         return {
             message: () => `expected ${received} not to be equal ${expected}`,
@@ -18,4 +18,4 @@ const toMatchMongooseId = (received, expected) => {
     }
 };
 
-module.exports = { toMatchMongooseId };
+export { toMatchMongooseId };

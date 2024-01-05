@@ -1,8 +1,10 @@
-// The type used to define nested dependencies in this project.
-// Different than the structure used by mongoose.
-type NestedDependency = { [key: string]: NestedDependency };
+/**
+ * The type used to define nested dependencies in this project.
+ * Different than the structure used by mongoose.
+ */
+export type NestedDependency = { [key: string]: NestedDependency };
 
-type MongooseDependency = { path: string; populate: Array<MongooseDependency> };
+export type MongooseDependency = { path: string; populate: Array<MongooseDependency> };
 
 export const pathsInMongooseFormat = (paths: NestedDependency): Array<MongooseDependency> => {
     return Object.keys(paths).map(path => {

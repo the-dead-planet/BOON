@@ -1,5 +1,5 @@
 // TODO: automate generation
-module.exports = (password) => ({
+export const generateData = (password: string) => ({
     teams: [
         {
             title: 'Alpha',

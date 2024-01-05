@@ -1,15 +1,18 @@
-const passport = require('passport');
-const Route = require('../common/Route');
-const { RequestMethod } = require('../common/request');
-const { InternalError, UnauthenticatedError } = require('../common/errors');
+import { Request, Response } from 'express';
+import mongoose from 'mongoose';
+import passport from 'passport';
+import Route from  '../common/route';
+import { RequestMethod } from '../common/request';
+import  { InternalError, UnauthenticatedError } from '../common/errors';
+import ModelRegistry from '../common/model-registry';
 
-module.exports = (modelRegistry) => [
-    new Route('/auth/whoami', RequestMethod.GET, (mongoose, req) => {
+export const getAuthRoutes = (_modelRegistry: ModelRegistry) => [
+    new Route('/auth/whoami', RequestMethod.GET, async (req: Request) => {
         const user = req.isAuthenticated() ? req.user : null;
         return { statusCode: 200, data: { user } };
     }),
 
-    new Route('/auth/register', RequestMethod.POST, async (mongoose, req) => {
+    new Route('/auth/register', RequestMethod.POST, async (req: Request) => {
         const User = mongoose.model('User');
 
         // TODO: Add check if username also already exists or not
@@ -39,7 +42,7 @@ module.exports = (modelRegistry) => [
 
         // Authenticate the user after registration.
         // TODO: Add check if username also already exists or not
-        await req.login(user, (err) => {
+        await req.login(user as Express.User, (err) => {
             if (err) {
                 throw err;
             }
@@ -52,7 +55,7 @@ module.exports = (modelRegistry) => [
     new Route(
         '/auth/login',
         RequestMethod.POST,
-        (mongoose, req, res, err) => {
+        async (req: Request, _res: Express.Response, err: string) => {
             const { user } = req;
 
             if (err) {
@@ -68,8 +71,8 @@ module.exports = (modelRegistry) => [
         passport.authenticate('local')
     ),
 
-    new Route('/auth/logout', RequestMethod.POST, (mongoose, req) => {
-        req.logout();
-        return { statusCode: 200 };
+    new Route('/auth/logout', RequestMethod.POST, async (req: Request, _res: Response, _error: string) => {
+        req.logout({}, () => null);
+        return { statusCode: 200, data: undefined };
     }),
 ];

@@ -6,18 +6,27 @@
 // `ModelRegistry` solves that problem by holding individual definitions and connecting
 // relevant objects.
 //
+
+import ModelRoutesDefinition from "./model-routes-definition";
+
 // Note, that the aforementioned referencing mechanism is similar to mongoose's `Ref`.
 class ModelRegistry {
-    constructor(routesDefinitions) {
+    public routesDefinitions: { [key in string]: ModelRoutesDefinition; }
+    
+    public constructor(routesDefinitions: { [key in string]: ModelRoutesDefinition; }) {
         this.routesDefinitions = routesDefinitions;
     }
 
-    // Recursively build a tree of `populate` paths.
-    populatePaths(modelId) {
+    /**
+     * Recursively build a tree of `populate` paths.
+     * @param modelId 
+     * @returns 
+     */
+    public populatePaths(modelId: string): { [key in string]: unknown } {
         const fields = this.findDefinition(modelId).fields;
 
         return Object.fromEntries(
-            Object.keys(fields).map(fieldName => {
+            Object.keys(fields).map((fieldName) => {
                 // Call the function recursively for each related model.
                 // Return in a format compatible with `Object.fromEntries`.
                 const relatedModelName = fields[fieldName].modelName;
@@ -26,7 +35,7 @@ class ModelRegistry {
         );
     }
 
-    findDefinition(modelId) {
+    public findDefinition(modelId: string): ModelRoutesDefinition {
         if (!(modelId in this.routesDefinitions)) {
             throw new Error(`Unknown model: ${modelId}`);
         }
@@ -35,4 +44,4 @@ class ModelRegistry {
     }
 }
 
-module.exports = ModelRegistry;
+export default ModelRegistry;
