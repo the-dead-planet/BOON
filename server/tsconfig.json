@@ -19,13 +19,11 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "isolatedModules": true,
-    "noImplicitThis": true,
     "noUnusedLocals": false
   },
   "include": [
