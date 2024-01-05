@@ -8,6 +8,7 @@
 //
 
 import ModelRoutesDefinition from "./model-routes-definition";
+import { NestedDependency } from "./queries";
 
 // Note, that the aforementioned referencing mechanism is similar to mongoose's `Ref`.
 class ModelRegistry {
@@ -22,7 +23,7 @@ class ModelRegistry {
      * @param modelId 
      * @returns 
      */
-    public populatePaths(modelId: string): { [key in string]: unknown } {
+    public populatePaths(modelId: string): NestedDependency {
         const fields = this.findDefinition(modelId).fields;
 
         return Object.fromEntries(

@@ -6,14 +6,10 @@ import { NestedDependency, pathsInMongooseFormat } from './queries';
 import { isLoggedIn } from '../middleware';
 import { NotFoundError } from './errors';
 import Link from './link';
-import ModelRoutesDefinition from './model-routes-definition';
+import ModelRegistry from './model-registry';
 
 type Behaviour<T> = (req: Request, response: Response, error: string) => Promise<{ statusCode: number, data: T; }>;
 type Middleware = (req: Request, res: Response, next: NextFunction) => void;
-interface ModelRegistry {
-    populatePaths: (modelId: string) => NestedDependency;
-    findDefinition: (modelId: string) => ModelRoutesDefinition;
-}
 
 /**
  * Definition of a single API route.
