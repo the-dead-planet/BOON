@@ -1,4 +1,4 @@
 // Extend jest with local matchers.
-const matchers = require('./src/testing/matchers');
+import { toMatchMongooseId } from './src/testing/matchers';
 
-expect.extend(matchers);
+expect.extend({ toMatchMongooseId });

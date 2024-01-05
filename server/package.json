@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "",
     "main": "built/index.ts",
+    "type": "commonjs",
     "scripts": {
         "build": "tsc",
         "clean": "npx shx rm -rf built/ node_modules/",

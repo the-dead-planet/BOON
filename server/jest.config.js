@@ -5,7 +5,9 @@ module.exports = {
         },
     },
     moduleFileExtensions: ['ts', 'js'],
-    transform: {},
+    transform: {
+        '^.+\\.(ts|tsx)$': 'ts-jest',
+    },
     testMatch: [
         '**/src/**/*.test.*', // Match files under src/ and let the test framework transpile them.
     ],
