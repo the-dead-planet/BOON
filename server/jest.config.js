@@ -5,13 +5,11 @@ module.exports = {
         },
     },
     moduleFileExtensions: ['ts', 'js'],
-    transform: {
-        '^.+\\.(ts|tsx)$': 'ts-jest',
-    },
+    transform: {},
     testMatch: [
         '**/src/**/*.test.*', // Match files under src/ and let the test framework transpile them.
     ],
     preset: '@shelf/jest-mongodb',
-    setupFilesAfterEnv: ['./setupTests.js'],
+    setupFilesAfterEnv: ['./setup-tests.js'],
     testEnvironment: 'node',
 };

@@ -21,5 +21,5 @@ export const toBeOfType = (received, expectedType) => {
     }
 };
 
-// Export the objects explicitly to minimize the amount of code in setupTests.js
+// Export the objects explicitly to minimize the amount of code in setup-tests.js
 export const matchers = { toBeOfType };
