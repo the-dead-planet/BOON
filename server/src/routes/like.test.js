@@ -1,12 +1,12 @@
-import mongoose from 'mongoose';
-import request from 'supertest';
-import express from 'express';
+const mongoose = require('mongoose');
+const request = require('supertest');
+const express = require('express');
 
-import app from '../app';
+const app = require('../app');
 
-import { withFreshDbConnection } from '../testing/db';
-import { loginAgentAs } from '../testing/auth';
-import { createUser } from '../testing/factories/user';
+const { withFreshDbConnection } = require('../testing/db');
+const { loginAgentAs } = require('../testing/auth');
+const { createUser } = require('../testing/factories/user');
 
 const Comment = mongoose.model('Comment');
 const Sprint = mongoose.model('Sprint');

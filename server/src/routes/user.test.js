@@ -1,10 +1,10 @@
-import mongoose from 'mongoose';
-import request from'supertest';
-import express from 'express';
-import app from '../app';
-import { loginAgentAs } from '../testing/auth';
-import { createUsers } from '../testing/factories/user';
-import { withFreshDbConnection } from '../testing/db';
+const mongoose = require('mongoose');
+const request  = require('supertest');
+const express  = require( 'express');
+const app  = require( '../app');
+const { loginAgentAs }  = require( '../testing/auth');
+const { createUsers }  = require( '../testing/factories/user');
+const { withFreshDbConnection }  = require( '../testing/db');
 
 const User = mongoose.model('User');
 // const Comment = mongoose.model('Comment');

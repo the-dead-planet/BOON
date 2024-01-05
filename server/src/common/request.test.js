@@ -1,4 +1,4 @@
-import { requestPreprocessor } from './request';
+const { requestPreprocessor } = require('./request');
 
 describe('requestPreprocessor', () => {
     const request = { user: 'user', body: { a: 'A', b: 'B' } };

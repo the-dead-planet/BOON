@@ -1,6 +1,6 @@
-import ModelRegistry from './model-registry';
-import ModelRoutesDefinition from './model-routes-definition';
-import { SingleModelField, ManyModelField } from './model-field';
+const ModelRegistry = require('./model-registry');
+const ModelRoutesDefinition = require('./model-routes-definition');
+const { SingleModelField, ManyModelField } = require('./model-field');
 
 const root = new ModelRoutesDefinition({ depA: new SingleModelField('intermediate') });
 const intermediate = new ModelRoutesDefinition({ nestedDep: new ManyModelField('leaf') });

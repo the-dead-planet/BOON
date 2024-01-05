@@ -1,4 +1,4 @@
-import { pathsInMongooseFormat } from './queries';
+const { pathsInMongooseFormat } = require('./queries');
 
 describe('pathsInMongooseFormat', () => {
     it('empty', () => {
