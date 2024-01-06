@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const request = require('supertest');
 const express = require('express');
 
-// `app` must be one of the first imports. It triggers model registration on
-// load.
+// `app` must be one of the first imports. It triggers model registration on load.
 const app = require('../app');
 
 const { withFreshDbConnection } = require('../testing/db');

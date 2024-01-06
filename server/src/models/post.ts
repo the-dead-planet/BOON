@@ -1,0 +1,45 @@
+import mongoose from 'mongoose';
+import { CommentSchema } from './comment';
+import { LikeSchema } from './like';
+import { UserSchema } from './user';
+
+export interface PostSchema extends mongoose.Document {
+    title: string;
+    body: string;
+    comments: CommentSchema[];
+    likes: LikeSchema[];
+    author: UserSchema;
+    created: Date;
+    edited: Date;
+}
+
+export const postSchema = new mongoose.Schema<PostSchema>({
+    title: String,
+    body: String,
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment',
+        },
+    ],
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Like',
+        },
+    ],
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
+    created: {
+        type: Date,
+        default: Date.now,
+    },
+    edited: {
+        type: Date,
+        default: undefined,
+    },
+});
+
+export const postModel = mongoose.model<PostSchema>('Post', postSchema);

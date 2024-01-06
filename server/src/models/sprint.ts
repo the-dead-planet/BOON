@@ -1,0 +1,65 @@
+import mongoose from 'mongoose';
+import { PostSchema } from './post';
+import { CommentSchema } from './comment';
+import { LikeSchema } from './like';
+import { UserSchema } from './user';
+
+export interface SprintSchema extends mongoose.Document {
+    number: number;
+    dateFrom: Date;
+    dateTo: Date;
+    title: string;
+    body: string;
+    posts: PostSchema[];
+    comments: CommentSchema[];
+    likes: LikeSchema[];
+    author: UserSchema;
+    created: Date;
+    edited: Date;
+}
+
+export const sprintSchema = new mongoose.Schema<SprintSchema>({
+    number: Number,
+    dateFrom: {
+        type: Date,
+        default: Date.now(),
+    },
+    dateTo: {
+        type: Date,
+        default: Date.now(),
+    },
+    title: String,
+    body: String,
+    posts: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Post',
+        },
+    ],
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment',
+        },
+    ],
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Like',
+        },
+    ],
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+    },
+    created: {
+        type: Date,
+        default: Date.now,
+    },
+    edited: {
+        type: Date,
+        default: undefined,
+    },
+});
+
+export const sprintModel = mongoose.model<SprintSchema>('Sprint', sprintSchema);

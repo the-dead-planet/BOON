@@ -1,16 +1,14 @@
 const mongoose = require('mongoose');
-const request = require('supertest');
-const express = require('express');
-
-const app = require('../app');
-
-const { loginAgentAs } = require('../testing/auth');
-const { createUsers } = require('../testing/factories/user');
-const { withFreshDbConnection } = require('../testing/db');
+const request  = require('supertest');
+const express  = require( 'express');
+const app  = require( '../app');
+const { loginAgentAs }  = require( '../testing/auth');
+const { createUsers }  = require( '../testing/factories/user');
+const { withFreshDbConnection }  = require( '../testing/db');
 
 const User = mongoose.model('User');
-const Comment = mongoose.model('Comment');
-const Sprint = mongoose.model('Sprint');
+// const Comment = mongoose.model('Comment');
+// const Sprint = mongoose.model('Sprint');
 const Team = mongoose.model('Team');
 
 withFreshDbConnection();
