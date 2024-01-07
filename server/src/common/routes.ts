@@ -1,5 +1,4 @@
 import * as core from "express-serve-static-core";
-import ModelRegistry from "./model-registry";
 import Route from "./route";
 
 // Definitions of all routes.

@@ -89,7 +89,7 @@ async function createObjects<TRaw, T>(
     users: Models.UserSchema[]
 ): Promise<T[]> {
     return Promise.all(data.map((datum) => create(datum, users)));
-};
+}
 
 /**
  * Creates one team.
@@ -142,7 +142,7 @@ const createUser = async (datum: Models.UserSchemaRaw): Promise<Models.UserSchem
  * @returns 
  */
 const createUsers = async (data: Models.UserSchemaRaw[], users: Models.UserSchema[]): Promise<Models.UserSchema[]> => {
-    return createObjects<Models.UserSchemaRaw, Models.UserSchema>(createUser, data, users);;
+    return createObjects<Models.UserSchemaRaw, Models.UserSchema>(createUser, data, users);
 }
 
 /**
@@ -293,7 +293,7 @@ const createLikes = async (data: Models.LikeSchemaRaw[], users: Models.UserSchem
                     createLike(data[random(data.length)], user).then((like) => modelObject.likes.push(like._id))
                 );
 
-            const likes: Models.LikeSchema[] = await Promise.all(likePromises);
+            await Promise.all(likePromises);
             const like = await modelObject.save();
             createdLikes.push(like);
         }
@@ -328,6 +328,6 @@ const addIdReferences = (parentModel: typeof mongoose.Model, childModel: typeof 
 
 function generateRandom<T>(objects: T[]): T {
     return objects[random(objects.length)];
-};
+}
 
 const random = (n: number) => Math.floor(Math.random() * n);

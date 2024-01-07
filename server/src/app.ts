@@ -16,6 +16,7 @@ import * as RouterRoutes from './routes';
 import { handleErrors } from './middleware';
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Express {
         interface User extends Models.UserSchema { }
     }

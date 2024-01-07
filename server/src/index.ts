@@ -40,7 +40,7 @@ const parser = yargs(hideBin(process.argv))
             app.listen(PORT, () => {
                 console.log(`BOON server has started on port ${PORT}`);
             });
-            app.on('error', (parent: Application) => reject());
+            app.on('error', (_parent: Application) => reject());
             app.on('close', (_parent: Application) => resolve());
         });
     })
