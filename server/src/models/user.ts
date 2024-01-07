@@ -11,6 +11,7 @@ export interface UserSchemaRaw {
     skills: string[];
     joined: Date;
     left?: Date;
+    createdBy?: string;
     created: Date;
     edited: Date;
     auth: string;
@@ -41,6 +42,10 @@ const userSchema = new mongoose.Schema<UserSchema>({
     left: {
         type: Date,
         default: undefined,
+    },
+    createdBy: {
+        type: String,
+        required: false
     },
     created: {
         type: Date,

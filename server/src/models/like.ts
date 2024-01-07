@@ -4,6 +4,7 @@ import { UserSchema } from './user';
 export interface LikeSchemaRaw {
     type: string;
     author: UserSchema;
+    createdBy?: string;
     created: Date;
 }
 
@@ -18,6 +19,10 @@ export const likeSchema = new mongoose.Schema<LikeSchema>({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+    },
+    createdBy: {
+        type: String,
+        required: false
     },
     created: {
         type: Date,

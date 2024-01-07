@@ -1,7 +1,6 @@
 import * as Models from '../models';
 
-// TODO: automate generation
-export const generateData = (password: string): {
+export const generateDemoContent = (password: string): {
     teams: Models.TeamSchemaRaw[],
     users: Models.UserSchemaRaw[],
     projects: Models.ProjectSchemaRaw[],

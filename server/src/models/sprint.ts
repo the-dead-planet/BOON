@@ -14,6 +14,7 @@ export interface SprintSchemaRaw {
     comments: CommentSchema[];
     likes: LikeSchema[];
     author: UserSchema;
+    createdBy?: string;
     created: Date;
     edited: Date;
 }
@@ -53,6 +54,10 @@ export const sprintSchema = new mongoose.Schema<SprintSchema>({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+    },
+    createdBy: {
+        type: String,
+        required: false
     },
     created: {
         type: Date,

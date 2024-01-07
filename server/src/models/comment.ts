@@ -6,6 +6,7 @@ export interface CommentSchemaRaw {
     body: string;
     likes: LikeSchema[];
     author: UserSchema;
+    createdBy?: string;
     created: Date;
     edited: Date;
 }
@@ -23,6 +24,10 @@ export const commentSchema = new mongoose.Schema<CommentSchema>({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+    },
+    createdBy: {
+        type: String,
+        required: false
     },
     created: {
         type: Date,

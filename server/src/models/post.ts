@@ -9,6 +9,7 @@ export interface PostSchemaRaw {
     comments: CommentSchema[];
     likes: LikeSchema[];
     author: UserSchema;
+    createdBy?: string;
     created: Date;
     edited: Date;
 }
@@ -33,6 +34,10 @@ export const postSchema = new mongoose.Schema<PostSchema>({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+    },
+    createdBy: {
+        type: String,
+        required: false
     },
     created: {
         type: Date,

@@ -5,6 +5,7 @@ export interface TeamSchemaRaw {
     title: string;
     body: string;
     members: UserSchema[];
+    createdBy?: string;
     created: Date;
     edited: Date;
 }
@@ -20,6 +21,10 @@ export const teamSchema = new mongoose.Schema<TeamSchema>({
             ref: 'User',
         },
     ],
+    createdBy: {
+        type: String,
+        required: false
+    },
     created: {
         type: Date,
         default: Date.now,

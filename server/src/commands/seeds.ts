@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
-import { generateData } from './seeds-data';
+import { generateDemoContent } from './seeds-data';
 import * as Models from '../models';
+
+const DEMO_FLAG = { createdBy: 'demo' };
 
 const Sprint = mongoose.model('Sprint');
 const Post = mongoose.model('Post');
@@ -16,9 +18,9 @@ const Like = mongoose.model('Like');
  * @returns 
  */
 export const populateDataBaseWithDemoContent = async (password: string) => {
-    const data = generateData(password);
+    const data = generateDemoContent(password);
 
-    return removeData([Sprint, Post, Project, Team, Comment, Like, User])
+    return removeDemoData([Sprint, Post, Project, Team, Comment, Like, User])
         .then((_res) => createTeams(data.teams, []))
         .then((_teams) => createUsers(data.users, []))
         .then((users) =>
@@ -35,11 +37,26 @@ export const populateDataBaseWithDemoContent = async (password: string) => {
 };
 
 /**
- * Removes data from all models.
+ * Removes demo data from given models.
  * @param models 
  * @returns 
  */
-const removeData = async (models: typeof mongoose.Model[]) =>
+export const removeDemoData = async (models: typeof mongoose.Model[]) =>
+    Promise.all(
+        models.map((model) =>
+            model
+                .deleteMany(DEMO_FLAG)
+                .then((res) => console.log(res))
+                .catch((err) => console.log(err))
+        )
+    );
+
+/**
+ * Removes all data from given models.
+ * @param models 
+ * @returns 
+ */
+export const removeAllData = async (models: typeof mongoose.Model[]) =>
     Promise.all(
         models.map((model) =>
             model
@@ -55,8 +72,8 @@ const removeData = async (models: typeof mongoose.Model[]) =>
  * @param data 
  * @returns 
  */
-async function createObject<T>(model: typeof mongoose.Model, data: unknown): Promise<T> {
-    return model.create(data);
+async function createObject<T>(model: typeof mongoose.Model, data: { [key in string]: unknown; }): Promise<T> {
+    return model.create({ ...data, ...DEMO_FLAG });
 }
 
 /**
@@ -82,7 +99,7 @@ async function createObjects<TRaw, T>(
 const createTeam = async (datum: Models.TeamSchemaRaw, _users: Models.UserSchema[]): Promise<Models.TeamSchema> => {
     return createObject<Models.TeamSchema>(Team, {
         title: datum.title,
-        body: datum.body,
+        body: datum.body
     });
 }
 
@@ -112,6 +129,7 @@ const createUser = async (datum: Models.UserSchemaRaw): Promise<Models.UserSchem
             left: datum.left,
             skills: datum.skills,
             auth: datum.auth,
+            ...DEMO_FLAG
         }),
         datum.password
     ) as unknown as Models.UserSchema;

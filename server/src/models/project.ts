@@ -7,6 +7,7 @@ export interface ProjectSchemaRaw {
     body: string;
     posts: PostSchema[];
     author: UserSchema;
+    createdBy?: string;
     created: Date;
     edited: Date;
 }
@@ -25,6 +26,10 @@ export const projectSchema = new mongoose.Schema<ProjectSchema>({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+    },
+    createdBy: {
+        type: String,
+        required: false
     },
     created: {
         type: Date,
