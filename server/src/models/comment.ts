@@ -2,13 +2,15 @@ import mongoose from 'mongoose';
 import { LikeSchema } from './like';
 import { UserSchema } from './user';
 
-export type CommentSchema = mongoose.Document & {
+export interface CommentSchemaRaw {
     body: string;
     likes: LikeSchema[];
     author: UserSchema;
     created: Date;
     edited: Date;
 }
+
+export type CommentSchema = CommentSchemaRaw & mongoose.Document;
 
 export const commentSchema = new mongoose.Schema<CommentSchema>({
     body: String,

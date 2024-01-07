@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import passportLocalMongoose from 'passport-local-mongoose';
 
-export interface UserSchema extends mongoose.Document {
+export interface UserSchemaRaw {
     username: string;
     password: string;
     active: boolean;
@@ -10,11 +10,13 @@ export interface UserSchema extends mongoose.Document {
     country: string;
     skills: string[];
     joined: Date;
-    left: Date;
+    left?: Date;
     created: Date;
     edited: Date;
     auth: string;
 }
+
+export type UserSchema = UserSchemaRaw & mongoose.Document;
 
 const userSchema = new mongoose.Schema<UserSchema>({
     // Auth.

@@ -1,13 +1,15 @@
 import mongoose from 'mongoose';
 import { UserSchema } from './user';
 
-export interface TeamSchema extends mongoose.Document {
+export interface TeamSchemaRaw {
     title: string;
     body: string;
     members: UserSchema[];
     created: Date;
     edited: Date;
 }
+
+export type TeamSchema = TeamSchemaRaw & mongoose.Document;
 
 export const teamSchema = new mongoose.Schema<TeamSchema>({
     title: String,
