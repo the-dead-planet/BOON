@@ -6,7 +6,7 @@ A platform for sharing cross team developments, product increments, ideas and ro
 
 ## Requirements
 
--   Node.js v.16
+-   Node.js v20.10.0 (lts at the time of writing)
 -   Mongo DB
 
 ## Installation
