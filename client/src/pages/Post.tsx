@@ -11,7 +11,7 @@ import {
     // withShowError,
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, ThemeType, Mode, StateData } from '../logic/types';
+import { User, NotificationPropsType, Mode, StateData } from '../logic/types';
 import { getRandomQuote } from '../utils/data';
 
 // TODO: see a comment in `Logout` regarding HOCs.

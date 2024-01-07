@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import { guestPage } from '../utils/authenticatedPage';
 import { interceptPage } from '../utils/interceptPage';
 import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import { useServices } from '../services';
-import { Mode, User, NotificationProps, ThemeType } from '../logic/types';
+import { Mode, User, NotificationPropsType } from '../logic/types';
 
 /* 
     Users can log in using either their e-mail (passport 'username') or their publicName

@@ -1,7 +1,6 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import { HashLink } from '../../utils/Link';
-import { List, ListItem, Typography } from '@material-ui/core';
+import { List, ListItem, Typography, Theme } from '@mui/material';
 import { LinkTo } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>

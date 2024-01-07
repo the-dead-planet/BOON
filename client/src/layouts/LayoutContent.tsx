@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import { Container, Hidden, Box, Typography, Theme } from "@mui/material";
+import { makeStyles, createStyles } from '@mui/styles';
 import { DRAWER_WIDTH, JUMBOTRON_HEIGHT, TOOLBAR_HEIGHT } from '../styles/constants';
-import { Hidden, Box, Typography, Container } from '@material-ui/core';
 import MenuDrawer from '../components/navigation/MenuDrawer';
 import Jumbotron from '../components/navigation/Jumbotron';
 import SecondaryDrawer from '../components/navigation/SecondaryDrawer';
@@ -122,7 +122,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface LayoutProps {
     user: User;
-    children: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | undefined;
     themeType: ThemeType;
     setThemeType: any;
     mode: Mode;
@@ -152,6 +151,7 @@ export interface LayoutProps {
     // Notifications
     notifications: any;
     onNotificationShown: any;
+    children?: React.ReactNode;
 }
 
 const LayoutContent = ({
@@ -168,8 +168,8 @@ const LayoutContent = ({
     // Pagination
     title,
     pagination,
-    nextId, //TODO: check if still required
-    previousId, //TODO: check if still required
+    // nextId, //TODO: check if still required
+    // previousId, //TODO: check if still required
     // Left navigation panel
     createButton,
     navPanel,
@@ -197,7 +197,7 @@ const LayoutContent = ({
     };
 
     return (
-        <div className={clsx({ [classes.frosticContainer]: themeType === 'frostic' })}>
+        <div className={classNames({ [classes.frosticContainer]: themeType === 'frostic' })}>
             {appBar && (
                 <NavBarTop
                     user={user}
@@ -214,7 +214,7 @@ const LayoutContent = ({
                 />
             )}
 
-            {themeType === 'frostic' && <div className={clsx({ ['frosticOffset']: themeType === 'frostic' })}></div>}
+            {themeType === 'frostic' && <div className={classNames({ ['frosticOffset']: themeType === 'frostic' })}></div>}
 
             {/* Menu drawer should include basic navigation buttons on small screens */}
             <MenuDrawer
@@ -238,7 +238,7 @@ const LayoutContent = ({
 
             <Container maxWidth="xl" className={classes.container}>
                 <main
-                    className={clsx({
+                    className={classNames({
                         [classes.contentShift]: false,
                         [classes.content]: drawer && drawer.variant === 'persistent',
                         [classes.contentPadding]: !(drawer && drawer.variant === 'persistent'),

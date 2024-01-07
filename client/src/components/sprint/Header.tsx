@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Box } from '@material-ui/core';
+import { Typography, Box } from '@mui/material';
 import moment from 'moment';
 import { DATE_FORMAT } from '../../constants/dateFormats';
 

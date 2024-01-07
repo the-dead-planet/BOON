@@ -1,11 +1,11 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Container } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Container } from '@mui/material';
 import Card from '../Card';
 import moment from 'moment';
 import { EXT_DATE_FORMAT } from '../../constants/dateFormats';
 // import usersService from '../../../services/usersService';
-import { User, Post, Project, Comment, Like, Sprint, ThemeType } from '../../logic/types';
+import { User, Post, Project, Comment, Like, SprintType } from '../../logic/types';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.

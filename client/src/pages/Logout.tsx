@@ -3,10 +3,10 @@ import { withPush } from '../utils/routingDecorators';
 import { Redirect } from 'react-router-dom';
 import AppLayout from '../layouts/AppLayout';
 import { AppFormLayout } from '../components/forms/App';
-import { Typography, Fade } from '@material-ui/core';
+import { Typography, Fade } from '@mui/material';
 import { useServices } from '../services';
 import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, NotificationProps, Mode, ThemeType } from '../logic/types';
+import { User, NotificationProps, ModeType } from '../logic/types';
 import { PATHS } from '../constants/data';
 const { home } = PATHS;
 

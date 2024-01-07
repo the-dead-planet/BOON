@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { TextField, Select, Button } from '@material-ui/core';
+import { useState, useEffect } from 'react';
+import { makeStyles, createStyles } from '@mui/styles';
+import { TextField, Select, Button, Theme } from '@mui/material';
 import { AppFormLayout, AppForm } from './App';
 import { GridField, GridFieldSelect } from './GridFields';
 import { Project, Mode, PostSubmit } from '../../logic/types';

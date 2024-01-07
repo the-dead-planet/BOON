@@ -1,7 +1,7 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import { Link } from '../../utils/Link';
-import { ListItem } from '@material-ui/core';
+import { ListItem } from '@mui/material';
 import moment from 'moment';
 import { MONTH_DATE_FORMAT } from '../../constants/dateFormats';
 

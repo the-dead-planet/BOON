@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import { Formik, Form } from 'formik';
-import { Grid, Paper, Typography, Hidden } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
+import { Grid, Paper, Typography, Hidden, Alert, Theme } from '@mui/material';
 import { withValidationList } from '../../utils/withValidation';
 import image from '../../img/content/vintage/watch.jpg';
 import { Mode } from '../../logic/types';
@@ -53,7 +52,7 @@ export const AppFormLayout = ({ children, title }: GridFormProps) => {
                     </Grid>
                 </Hidden>
 
-                <Grid container direction="column" justify="center" item xs={12} md={6} className={classes.content}>
+                <Grid container direction="column" justifyContent="center" item xs={12} md={6} className={classes.content}>
                     {title && (
                         <Grid item>
                             <Typography color="textPrimary" align="center" variant="h4" gutterBottom>
@@ -115,7 +114,7 @@ export const AppForm = ({
             {({ errors, touched }) => {
                 return (
                     <Form>
-                        <Grid container justify="center">
+                        <Grid container justifyContent="center">
                             {content}
 
                             {error && (

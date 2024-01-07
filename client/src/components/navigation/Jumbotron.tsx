@@ -1,8 +1,7 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import { JUMBOTRON_HEIGHT, TOOLBAR_HEIGHT } from '../../styles/constants';
 import { Link } from '../../utils/Link';
-import { Grid, Button, Typography, Hidden, Grow } from '@material-ui/core';
+import { Grid, Button, Typography, Hidden, Grow, Theme } from '@mui/material';
 import { Jumbotron as JumbotronProps } from '../../logic/types';
 //import * as jumbotronLight from '../../img/landing/JumbotronLight.png';
 import { PATHS } from '../../constants/data';
@@ -49,7 +48,7 @@ const Jumbotron = ({ img = '', title = 'Hello', subtitle = 'Welcome', actions = 
                 <Grid
                     container
                     direction="row"
-                    justify="center"
+                    justifyContent="center"
                     alignItems="center"
                     className={classes.jumbotronContent}
                 >
@@ -59,7 +58,7 @@ const Jumbotron = ({ img = '', title = 'Hello', subtitle = 'Welcome', actions = 
                             {subtitle}
                         </Typography>
 
-                        <Grid item container justify="center">
+                        <Grid item container justifyContent="center">
                             {actions &&
                                 actions.map((action, i) => (
                                     <Grid item key={`item-${i}`}>

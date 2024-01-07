@@ -1,8 +1,7 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import { AppForm } from './App';
-import { TextField, Typography } from '@material-ui/core';
-import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
+import { TextField, Typography, Theme } from '@mui/material';
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { IconButton } from '../mui-styled/IconButton';
 import { GridField } from './GridFields';
 import { Mode, CommentSubmit, User, Model } from '../../logic/types';

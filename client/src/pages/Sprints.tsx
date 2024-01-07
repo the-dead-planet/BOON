@@ -4,7 +4,7 @@ import { withPush } from '../utils/routingDecorators';
 import { useServices } from '../services';
 import AppLayout from '../layouts/AppLayout';
 import RedirectToFirst from '../components/RedirectToFirst';
-import { User, NotificationProps, ThemeType, Mode } from '../logic/types';
+import { User, NotificationPropsType, Mode } from '../logic/types';
 
 type SprintsPageProps = {
     user: User | null;

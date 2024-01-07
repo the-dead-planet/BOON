@@ -1,8 +1,7 @@
-import React from 'react';
-import clsx from 'clsx';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import { Grid, Container, Theme } from '@mui/material';
+import { makeStyles, createStyles } from '@mui/styles';
 // import { Link } from '../../utils/Link';
-import { Grid, Container } from '@material-ui/core';
 import { ThemeType } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,8 +40,8 @@ const Footer = ({ themeType }: Props) => {
     const classes = useStyles();
 
     return (
-        <Container maxWidth="xl" className={clsx(classes.footer, { ['frostic']: themeType === 'frostic' })}>
-            <Grid container justify="space-around" alignItems="center">
+        <Container maxWidth="xl" className={classNames(classes.footer, { ['frostic']: themeType === 'frostic' })}>
+            <Grid container justifyContent="space-around" alignItems="center">
                 Footer content
             </Grid>
         </Container>

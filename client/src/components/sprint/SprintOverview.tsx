@@ -1,11 +1,11 @@
 import React from 'react';
 import { SuspenseImg } from '../../utils/SuspenseImg';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Grid } from '@mui/material';
 import Card from '../Card';
 import moment from 'moment';
 import { DATE_FORMAT } from '../../constants/dateFormats';
-import { User, Sprint, Comment, Like, ThemeType } from '../../logic/types';
+import { User, Sprint, Comment, LikeType } from '../../logic/types';
 import vintageImg from '../../img/content/vintage/typewriter2.jpg';
 import frosticImg from '../../img/content/tech/gameboy.jpg';
 import defaultImg from '../../img/content/tech/alien.jpg';

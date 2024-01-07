@@ -1,5 +1,5 @@
 import React from 'react';
-import Collapse from '@material-ui/core/Collapse';
+import Collapse from '@mui/material/Collapse';
 
 interface Props {
     expanded: boolean;

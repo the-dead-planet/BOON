@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { ListItem, ListItemText, ListItemAvatar, Avatar, Typography } from '@material-ui/core';
+import { ListItem, ListItemText, ListItemAvatar, Avatar, Typography } from '@mui/material';
 import { ItemMenu } from './ItemMenu';
 import { User, Comment as CommentType } from '../logic/types';
 

@@ -1,6 +1,6 @@
 // import React from 'react';
-// import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-// import { Container, Grid, Typography } from '@material-ui/core';
+// import { makeStyles, createStyles } from '@mui/styles';
+// import { Container, Grid, Typography } from '@mui/material';
 // import RellaxWrapper from 'react-rellax-wrapper';
 // import { User, Mode } from '../../logic/types';
 

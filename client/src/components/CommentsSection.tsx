@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Box, Typography } from '@material-ui/core';
+import { useState } from 'react';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Box, Typography, Theme } from '@mui/material';
 import { CommentsList } from './CommentsList';
 import { withPush } from '../utils/routingDecorators';
 import { AddComment } from './forms/AddComment';

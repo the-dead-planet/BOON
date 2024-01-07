@@ -1,11 +1,10 @@
-import React from 'react';
-import clsx from 'clsx';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import { makeStyles, createStyles } from '@mui/styles';
 import { TOOLBAR_HEIGHT, DRAWER_WIDTH } from '../../styles/constants';
 // import { Link } from '../../utils/Link';
-import { Grid, AppBar, Toolbar, Typography, Hidden, Container } from '@material-ui/core';
+import { Grid, AppBar, Toolbar, Typography, Hidden, Container, Theme } from '@mui/material';
 import { IconButton } from '../mui-styled/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
 import Pagination from './Pagination';
 // import HideOnScroll from '../../utils/HideOnScroll';
 import { AuthButtonsHorizontal } from './NavButtons';
@@ -112,7 +111,7 @@ const NavBarTop = ({
             position="absolute"
             className={
                 drawerVariant === 'persistent'
-                    ? clsx(classes.appBar, {
+                    ? classNames(classes.appBar, {
                           [classes.appBarShift]: false,
                       })
                     : undefined
@@ -120,14 +119,14 @@ const NavBarTop = ({
         >
             <Container maxWidth="xl">
                 <div
-                    className={clsx({
+                    className={classNames({
                         ['frostic']: themeType === 'frostic',
                         ['rounded']: themeType === 'frostic',
                     })}
                 >
-                    <Toolbar className={clsx(classes.toolbar)}>
-                        <Grid container justify="center">
-                            <div className={clsx(classes.fix, classes.left)}>
+                    <Toolbar className={classNames(classes.toolbar)}>
+                        <Grid container justifyContent="center">
+                            <div className={classNames(classes.fix, classes.left)}>
                                 <Hidden lgUp>
                                     {/* Application menu icon */}
                                     <IconButton
@@ -136,7 +135,7 @@ const NavBarTop = ({
                                         edge="start"
                                         className={
                                             drawerVariant === 'persistent'
-                                                ? clsx(classes.menuButton, open && classes.hide)
+                                                ? classNames(classes.menuButton, open && classes.hide)
                                                 : undefined
                                         }
                                     >
@@ -159,7 +158,7 @@ const NavBarTop = ({
                                 container
                                 direction="column"
                                 alignItems="center"
-                                justify="center"
+                                justifyContent="center"
                                 className={classes.logo}
                             >
                                 <Typography variant="h6" noWrap className={classes.prefix}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field } from 'formik';
-import { TextField, InputLabel, MenuItem, FormControl } from '@material-ui/core';
-import Grid, { GridSize } from '@material-ui/core/Grid';
+import { TextField, InputLabel, MenuItem, FormControl } from '@mui/material';
+import Grid, { GridSize } from '@mui/material/Grid';
 import { Input, Mode } from '../../logic/types';
 
 interface FieldItem {

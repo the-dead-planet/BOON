@@ -1,9 +1,9 @@
 import React from 'react';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import { Posts } from './Posts';
 import { SprintOverview } from './SprintOverview';
 // import usersService from '../../../services/usersService';
-import { User, Sprint, Post, Project, Comment, Like, ThemeType } from '../../logic/types';
+import { User, Sprint, Post, Project, Comment, LikeType } from '../../logic/types';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.

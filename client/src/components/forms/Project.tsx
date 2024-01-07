@@ -1,6 +1,5 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { TextField, Button } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { TextField, Button, Theme } from '@mui/material';
 import { AppFormLayout, AppForm } from './App';
 import { GridField } from './GridFields';
 import { ProjectSubmit, Mode } from '../../logic/types';

@@ -1,6 +1,6 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Container, Typography, Grid, LinearProgress, CircularProgress } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Container, Typography, Grid, LinearProgress, CircularProgress, Theme } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

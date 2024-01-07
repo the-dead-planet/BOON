@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
+import Snackbar from '@mui/material/Snackbar';
 import { Notification as NotificationType } from '../logic/types';
 
 // Simple snackbar notification displaying a message.

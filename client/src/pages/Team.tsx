@@ -3,7 +3,7 @@ import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, NotificationProps, ThemeType, Mode } from '../logic/types';
+import { User, NotificationPropsType, Mode } from '../logic/types';
 
 interface SprintProps {
     user: User | undefined | null;

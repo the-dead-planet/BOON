@@ -1,9 +1,9 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { List, ListItem, Typography } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { List, ListItem, Typography } from '@mui/material';
 import { RadioButtonGroup } from '../RadioButtonGroup';
 import { ThemeType, Mode } from '../../logic/types';
-import { MODES, THEME_TYPES } from '../../constants/data';
+import { MODES_TYPES } from '../../constants/data';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

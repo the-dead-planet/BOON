@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { useState } from 'react';
+import { makeStyles, createStyles } from '@mui/styles';
 import { Link } from '../../utils/Link';
-import { Grid, List, ListItem, ListItemText, Typography, InputBase, Hidden } from '@material-ui/core';
+import { Grid, List, ListItem, ListItemText, Typography, InputBase, Hidden, Theme } from '@mui/material';
 import { TypographyLinkOutlined } from '../mui-styled/Typography';
 import { Preferences } from './Preferences';
 import DialogMenu from './DialogMenu';
-import GroupWorkIcon from '@material-ui/icons/GroupWork';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import { IconUserSecret, IconSearch } from '../Icons';
 import { ItemMenu } from '../ItemMenu';
 import { ThemeType, Mode, User } from '../../logic/types';
@@ -19,14 +19,17 @@ const useStyles = makeStyles((theme: Theme) =>
             position: 'relative',
             borderRadius: theme.shape.borderRadius,
             border: `1px solid ${theme.palette.primary.main}`,
-            backgroundColor: fade(theme.palette.common.white, 0.15),
+            backgroundColor: theme.palette.common.white,
+            // TODO: fade no longer available in new version of mui
+            // backgroundColor: fade(theme.palette.common.white, 0.15),
             width: '100%',
             [theme.breakpoints.up('sm')]: {
                 marginLeft: theme.spacing(3),
                 width: 'auto',
             },
             '&:hover': {
-                backgroundColor: fade(theme.palette.common.white, 0.25),
+                backgroundColor: theme.palette.common.white,
+                // backgroundColor: fade(theme.palette.common.white, 0.25),
             },
         },
         searchIcon: {

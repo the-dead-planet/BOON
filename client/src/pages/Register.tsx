@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import { guestPage } from '../utils/authenticatedPage';
 import { interceptPage } from '../utils/interceptPage';
 import Layout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
-import { Mode, User, NotificationProps, Auth, ThemeType } from '../logic/types';
+import { Mode, User, NotificationProps, AuthType } from '../logic/types';
 import { useServices } from '../services';
 
 /* 

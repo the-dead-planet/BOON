@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from '../../utils/Link';
 import { ObjectDeleteButton } from '../Buttons';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { User, MongoObject, Model, MenuItems, MenuItem as MenuItemType } from '../../logic/types';
 
 interface Props {

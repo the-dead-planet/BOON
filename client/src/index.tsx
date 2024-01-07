@@ -6,6 +6,9 @@ import * as serviceWorker from './serviceWorker';
 const container = document.getElementById('app');
 const root = createRoot(container!);
 
+// root.render(<App />);
+// TODO: Authenticate here instead of app and once done pass user as props:
+// root.render(<App user={user} />);
 root.render(<App />);
 
 // If you want your app to work offline and load faster, you can change

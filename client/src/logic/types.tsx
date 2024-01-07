@@ -1,6 +1,3 @@
-import { ReactChild, ReactChildren } from 'react';
-
-type Children = ReactChild | ReactChildren | Array<ReactChild>;
 type ThemeType = 'default' | 'frostic' | 'vintage' | 'custom' | undefined;
 type Mode = 'light' | 'dark' | undefined;
 type DrawerVariant = 'persistent' | 'temporary';
@@ -397,7 +394,6 @@ interface WithObjectId {
 }
 
 export type {
-    Children,
     Col,
     DataItem,
     Auth,

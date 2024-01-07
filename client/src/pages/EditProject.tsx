@@ -6,7 +6,7 @@ import AppLayout from '../layouts/AppLayout';
 import ProjectForm from '../components/forms/Project';
 import { Loading } from '../components/Loading';
 import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, ProjectSubmit, ThemeType, Project } from '../logic/types';
+import { User, NotificationProps, Mode, ThemeType, ProjectSubmit, Project } from '../logic/types';
 import { useServices } from '../services';
 
 interface Props {

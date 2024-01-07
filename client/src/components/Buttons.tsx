@@ -1,8 +1,8 @@
 import React from 'react';
 // import { Redirect } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
-import DeleteIcon from '@material-ui/icons/Delete';
+import Button from '@mui/material/Button';
+import MenuItem from '@mui/material/MenuItem';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { User, Sprint, MongoObject, Model } from '../logic/types';
 import { ServicesT, useServices } from '../services';
 // import { PATHS } from '../constants/data';

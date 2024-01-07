@@ -1,10 +1,10 @@
 import React from 'react';
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 import { TreeView } from '@material-ui/lab/';
 import TreeItem from '@material-ui/lab/TreeItem';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import List from '@material-ui/core/List';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import List from '@mui/material/List';
 import SprintListItem from './SprintListItem';
 import moment from 'moment';
 import { YEAR_DATE_FORMAT } from '../../constants/dateFormats';

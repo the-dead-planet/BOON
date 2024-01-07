@@ -1,13 +1,13 @@
 import React from 'react';
-import clsx from 'clsx';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import { Box, CardContent, CardActions, Typography, Divider, Theme } from '@mui/material';
+import { makeStyles, createStyles } from '@mui/styles';
 import { Link } from '../../utils/Link';
 // import { CommentsSection } from '../CommentsSection';
-import { Box, CardContent, CardActions, Typography, Divider } from '@material-ui/core';
-// import MoreVertIcon from '@material-ui/icons/MoreVert';
+// import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { ActionButtons } from './ActionButtons';
 import { CardMenu } from './CardMenu';
-import { User, Comment, Like, MongoObject, Model, Tag, ThemeType } from '../../logic/types';
+import { User, Comment, Like, MongoObject, Model, ThemeType, Tag } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -151,7 +151,7 @@ export const Card = ({
         // TODO: Remove the hover class and reuse it for on panel click
         <Box
             id={object._id}
-            className={clsx(classes.post, {
+            className={classNames(classes.post, {
                 [classes.hover]: hover,
                 frostic: themeType === 'frostic',
                 rounded: themeType === 'frostic' && !frosticNoRound,
@@ -230,7 +230,7 @@ export const Card = ({
 
             <CardActions
                 disableSpacing
-                className={clsx(classes.action, {
+                className={classNames(classes.action, {
                     // "frostic": themeType === 'frostic',
                     // "rounded": themeType === 'frostic' && !frosticNoRound
                 })}

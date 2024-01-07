@@ -1,8 +1,8 @@
 import React from 'react';
-import { useTheme } from '@material-ui/core/styles';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from '@material-ui/core';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { TransitionProps } from '@material-ui/core/transitions';
+import { useTheme } from '@mui/styles';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { TransitionProps } from '@mui/material/transitions';
 import { DialogProps } from '../../logic/types';
 
 const Transition = React.forwardRef(function Transition(

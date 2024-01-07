@@ -1,7 +1,6 @@
-import React from 'react';
-import clsx from 'clsx';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Box, Grid, Typography, Divider, Hidden } from '@material-ui/core';
+import classNames from 'classnames';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Box, Grid, Typography, Divider, Hidden, Theme } from '@mui/material';
 import { AuthButtonsHorizontal, BrowseButton } from '../navigation/NavButtons';
 import { Logo } from './Logo';
 import { Dictionary } from './Dictionary';
@@ -74,7 +73,7 @@ const Header = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
     const { explanation, definitions } = DICTIONARY;
 
     return (
-        <Grid container justify="center" className={classes.headerContainer}>
+        <Grid container justifyContent="center" className={classes.headerContainer}>
             {/* Browse button */}
             <Hidden smDown>
                 <Box className={`${classes.topButtons} ${classes.left}`}>
@@ -107,7 +106,7 @@ const Header = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
 
             <hr className={classes.headerDivider} />
 
-            <Grid item xs={12} sm={8} className={clsx({ frostic: themeType === 'frostic' })}>
+            <Grid item xs={12} sm={8} className={classNames({ frostic: themeType === 'frostic' })}>
                 {definitions.map((item, i) => (
                     <Dictionary key={i} i={i} {...item} />
                 ))}

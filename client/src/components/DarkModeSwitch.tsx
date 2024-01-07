@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-// import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Typography, Switch } from '@material-ui/core';
+// import { makeStyles, createStyles } from '@mui/styles';
+import { Typography, Switch } from '@mui/material';
 import { Mode } from '../logic/types';
 
 // const useStyles = makeStyles((theme: Theme) =>

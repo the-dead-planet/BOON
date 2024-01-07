@@ -1,11 +1,10 @@
-import React from 'react';
-import clsx from 'clsx';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import { Container, Grid, Typography, Box,Theme } from '@mui/material';
+import { makeStyles, createStyles } from '@mui/styles';
 import { Link } from '../../utils/Link';
-import { Container, Grid, Typography, Box } from '@material-ui/core';
 import { Button } from '../mui-styled/Button';
 import { LANDING_CONTENTS } from '../../constants/data';
-import { User, Mode, ThemeType } from '../../logic/types';
+import { User, ThemeType, Mode } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -63,7 +62,7 @@ interface Props {
     setMode: any;
 }
 
-const Content = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
+const Content = ({ themeType }: Props) => {
     const classes = useStyles();
     // TODO: Change this content to something which makes more sense, now it's quite a mess
     return (
@@ -73,17 +72,17 @@ const Content = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
                     <Typography
                         color="secondary"
                         variant="h2"
-                        className={clsx(classes.enterButton, { frostic: themeType === 'frostic' })}
+                        className={classNames(classes.enterButton, { frostic: themeType === 'frostic' })}
                     >
                         ENTER THE DEMO
                     </Typography>
                 </Link>
             </Box>
 
-            <Grid container justify="space-around">
+            <Grid container justifyContent="space-around">
                 {LANDING_CONTENTS.map((item, i) => (
                     <Grid item xs={12} sm={4} key={i} container direction="column" alignItems="center">
-                        <div className={clsx(classes.gridContentItem, { frostic: themeType === 'frostic' })}>
+                        <div className={classNames(classes.gridContentItem, { frostic: themeType === 'frostic' })}>
                             <Typography variant="h3" color="textPrimary" gutterBottom>
                                 {item.title}
                             </Typography>

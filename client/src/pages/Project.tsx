@@ -6,7 +6,7 @@ import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import { SingleProject } from '../components/project/SingleProject';
 import { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, NotificationProps, Mode, ThemeType, StateData, Project } from '../logic/types';
+import { User, NotificationProps, ModeType, StateData, Project } from '../logic/types';
 import { PATHS } from '../constants/data';
 import { getRandomQuote } from '../utils/data';
 const { projects } = PATHS;

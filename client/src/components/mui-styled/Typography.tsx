@@ -1,5 +1,5 @@
-import { withStyles } from '@material-ui/core/styles';
-import { Typography as MuiTypography } from '@material-ui/core';
+import { withStyles } from '@mui/styles';
+import { Typography as MuiTypography } from '@mui/material';
 
 export const TypographyLink = withStyles(({ palette }) => ({
     root: {

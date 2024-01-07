@@ -6,7 +6,7 @@ import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import { useParams } from 'react-router-dom';
 import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, PostSubmit, Sprint, ThemeType } from '../logic/types';
+import { User, NotificationProps, Mode, PostSubmit, SprintType } from '../logic/types';
 import { useServices } from '../services';
 
 interface Props {

@@ -10,7 +10,7 @@
     For example, some styles were ignored or required the '!important' suffix.
     These issues do not occur if classes are applied as explained above.
 */
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 
 // Below components need to be imported to correctly overwrite styles with classes in useStyle
 const landing1 = require('../img/landing/landing-1.png');

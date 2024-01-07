@@ -1,8 +1,7 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import { HashLink } from '../../utils/Link';
-import { Typography } from '@material-ui/core';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import { Typography, Theme } from '@mui/material';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

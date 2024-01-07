@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import { useLocation } from 'react-router-dom';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Grid, CardMedia, Typography } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Grid, CardMedia, Typography, Theme } from '@mui/material';
 import Card from '../Card';
 import vintageImg1 from '../../img/content/vintage/bus.jpg';
 import vintageImg2 from '../../img/content/vintage/car.jpg';
@@ -93,7 +93,7 @@ export const Posts = ({
     const img2 = themeType === 'vintage' ? vintageImg2 : themeType === 'frostic' ? frosticImg2 : defaultImg2;
 
     return (
-        <Grid container justify="space-around" spacing={1}>
+        <Grid container justifyContent="space-around" spacing={1}>
             {posts.map((post: Post, i: number) => (
                 <Fragment key={i}>
                     <Grid item className={classes.container} {...props}>
@@ -152,7 +152,7 @@ export const Posts = ({
                             xl={4}
                             container
                             direction="column"
-                            justify="center"
+                            justifyContent="center"
                             alignItems="center"
                             className={`${classes.container} ${classes.quoteContainer}`}
                         >

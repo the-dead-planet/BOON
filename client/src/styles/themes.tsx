@@ -4,15 +4,15 @@
     There are multiple theme types available to configure, each has light and dark mode.
     Theme types give a completely different styling, while mode just switch between light and dark colors within a theme type.
 */
-import { Mode, ThemeType } from '../logic/types';
-import { createMuiTheme, responsiveFontSizes, Theme } from '@material-ui/core/styles';
+import { ModeType } from '../logic/types';
+import { createMuiTheme, responsiveFontSizes } from '@mui/styles';
 import bgFrosticLight from '../img/background/bg-frostic-light.jpg';
 import bgFrosticDark from '../img/background/bg-frostic-dark.jpg';
 
 // font-family: 'Libre Baskerville', serif;
 // Wrapper for the function in order to pass type parameter.
 // Requires defining 'const theme' in components which make use of it. See Layout.tsx
-const createTheme = (mode: Mode, themeType: ThemeType, customTheme?: Theme) => {
+const createTheme = (mode: ModeType: ThemeType, customTheme?: Theme) => {
     // Default theme - minimalistic white / black design
     // It's allowed to customize default theme, if provided replace default theme with customTheme
     let defaultTheme = {

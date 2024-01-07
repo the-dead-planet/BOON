@@ -1,8 +1,7 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 // import EmailValidator from 'email-validator';
 import * as Yup from 'yup';
-import { Button, Box, Tooltip, Typography, Grid } from '@material-ui/core';
+import { Button, Box, Tooltip, Typography, Grid, Theme } from '@mui/material';
 import { Link } from '../../utils/Link';
 import { AppFormLayout, AppForm } from './App';
 import { GridField } from './GridFields';

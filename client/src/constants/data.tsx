@@ -86,4 +86,4 @@ const NAV_LINKS = [
 const THEME_TYPES: Array<ThemeType> = ['default', 'vintage', 'frostic'];
 const MODES: Array<Mode> = ['light', 'dark'];
 
-export { APP_NAME, DICTIONARY, LANDING_CONTENTS, PATHS, NAV_LINKS, QUOTES, THEME_TYPES, MODES };
+export { APP_NAME, DICTIONARY, LANDING_CONTENTS, PATHS, NAV_LINKS, QUOTES_TYPES, MODES };

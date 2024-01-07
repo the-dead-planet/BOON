@@ -1,12 +1,11 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import { TOOLBAR_HEIGHT } from '../../styles/constants';
 import { Link } from '../../utils/Link';
-import { Grid, Toolbar, Typography, Hidden, Tooltip } from '@material-ui/core';
+import { Grid, Toolbar, Typography, Hidden, Tooltip, Theme } from '@mui/material';
 import { TypographyLink } from '../mui-styled/Typography';
 import { IconButton } from '../mui-styled/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { Page } from '../../logic/types';
 import { NAV_LINKS } from '../../constants/data';
 
@@ -47,7 +46,7 @@ const Pagination = ({ path, primary, secondary, list, currentId, previousId, nex
 
     return (
         <Toolbar className={classes.toolbar}>
-            <Grid container justify="space-between" alignItems="center" className={classes.pagination}>
+            <Grid container justifyContent="space-between" alignItems="center" className={classes.pagination}>
                 <Typography variant="body1" noWrap className={classes.paginationLink}>
                     {previousId && (
                         <Link to={`${path}/${previousId}`}>

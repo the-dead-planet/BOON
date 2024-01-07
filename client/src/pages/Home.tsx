@@ -4,7 +4,7 @@ import { guestPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import Content from '../components/landing/Content';
 import Header from '../components/landing/Header';
-import { Mode, ThemeType, User, NotificationProps } from '../logic/types';
+import { ModeType, User, NotificationProps } from '../logic/types';
 
 interface Props {
     user: User;
@@ -17,7 +17,7 @@ interface Props {
     showError: any;
 }
 
-const Home = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps }: Props) => (
+const Home = ({ userType, setThemeType, mode, setMode, push, notificationsProps }: Props) => (
     <AppLayout
         user={user}
         themeType={themeType}
