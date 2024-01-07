@@ -10,10 +10,10 @@
         "node": ">12.13.1"
     },
     "scripts": {
-        "analyze": "source-map-explorer 'build/static/js/*.js'",
-        "start": "react-scripts start",
-        "build": "react-scripts build",
-        "test": "react-scripts test --env=jsdom-sixteen",
+        "dev": "vite",
+        "build": "tsc && vite build",
+        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+        "preview": "vite preview",
         "eject": "react-scripts eject",
         "clean": "npx shx rm -rf node_modules/"
     },
@@ -73,11 +73,15 @@
         "@types/react-dom": "18.2.17",
         "@types/react-router": "^5.1.20",
         "@types/react-router-dom": "5.3.3",
+        "@vitejs/plugin-react": "^4.2.1",
         "css-mediaquery": "0.1.2",
         "intersection-observer": "0.12.2",
         "jest-extended": "4.0.2",
         "jest-matcher-utils": "29.7.0",
         "shx": "0.3.4",
-        "typescript": "5.3.3"
+        "typescript": "5.3.3",
+        "vite": "^5.0.11",
+        "vite-plugin-svgr": "^4.2.0",
+        "vite-tsconfig-paths": "^4.2.3"
     }
 }
