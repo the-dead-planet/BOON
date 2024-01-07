@@ -27,11 +27,11 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
         },
         server: {
             open: true,
-            port: 8080
+            port: 3000
         },
         preview: {
             open: true,
-            port: 8080,
+            port: 3000,
         },
     };
 });
