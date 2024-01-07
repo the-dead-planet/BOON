@@ -1,6 +1,7 @@
 import qs from 'qs';
 import { withRouter } from 'react-router';
 
+// TODO: This might not be needed in react router - test and remove
 // Maps a react-router's `history` object to a simple `push` function.
 const historyToPush = (wrappedComponent: any) => (props: any) => {
     const { history } = props;

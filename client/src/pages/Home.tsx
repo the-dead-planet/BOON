@@ -1,10 +1,9 @@
-import React from 'react';
 import { withPush } from '../utils/routingDecorators';
 import { guestPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import Content from '../components/landing/Content';
 import Header from '../components/landing/Header';
-import { ModeType, User, NotificationProps } from '../logic/types';
+import { Mode, ThemeType, User, NotificationProps } from '../logic/types';
 
 interface Props {
     user: User;
@@ -17,7 +16,7 @@ interface Props {
     showError: any;
 }
 
-const Home = ({ userType, setThemeType, mode, setMode, push, notificationsProps }: Props) => (
+const Home = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps }: Props) => (
     <AppLayout
         user={user}
         themeType={themeType}

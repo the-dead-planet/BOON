@@ -1,6 +1,5 @@
 import React from 'react';
-import { useTheme } from '@mui/styles';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Theme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { TransitionProps } from '@mui/material/transitions';
 import { DialogProps } from '../../logic/types';
@@ -9,12 +8,12 @@ const Transition = React.forwardRef(function Transition(
     props: TransitionProps & { children?: React.ReactElement<any, any> },
     ref: React.Ref<unknown>
 ) {
-    return <Slide direction="up" ref={ref} {...props} />;
+    // TODO: Test this
+    return <Slide direction="up" ref={ref} {...props}><div /></Slide>;
 });
 
 const DialogMenu = ({ open, handleClose, message, contextText, content, buttonOk, fullScreen }: DialogProps) => {
-    const theme = useTheme();
-    const fullScreenBreakPoint = useMediaQuery(theme.breakpoints.down('xs'));
+    const fullScreenBreakPoint = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
 
     // TODO: style it nicer
     return (

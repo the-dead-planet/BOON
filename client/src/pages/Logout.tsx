@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { withPush } from '../utils/routingDecorators';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import AppLayout from '../layouts/AppLayout';
 import { AppFormLayout } from '../components/forms/App';
 import { Typography, Fade } from '@mui/material';
 import { useServices } from '../services';
-import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, NotificationProps, ModeType } from '../logic/types';
+import withShowError from '../utils/withShowError';
+import { User, NotificationProps, Mode, ThemeType } from '../logic/types';
 import { PATHS } from '../constants/data';
 const { home } = PATHS;
 
@@ -47,7 +47,7 @@ const Logout = ({
     });
 
     if (logoutRequestDone) {
-        return <Redirect to={home} />;
+        return <Navigate to={home} />;
     } else {
         return (
             <AppLayout

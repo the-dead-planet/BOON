@@ -1,16 +1,16 @@
-import { createStyles } from "@mui/styles"
+import { createTheme as createMuiTheme, responsiveFontSizes } from "@mui/material"
 
 // Hardcode type for now.
 // To be honest, I'm not yet sure how to dynamically change palette types with
 // Gatsby + MaterialUI.
-const type = "light"
+const mode = "light"
 
 // A custom theme for this app.
 // Will be injected to all components using `useStyles` by the material plugin.
-const theme = (
-  createStyles({
+const theme = responsiveFontSizes(
+  createMuiTheme({
     palette: {
-      type: type,
+      mode,
       primary: {
         light: "#CCC5B9", // light is the same color as main but with less opacity
         main: "#252422",
@@ -27,10 +27,10 @@ const theme = (
         black: "#000",
         white: "#fff",
       },
-      // background: {
-      //   paper: "#F4F2EF",
-      //   default: "#F2E5E4",
-      // },
+      background: {
+        paper: "#F4F2EF",
+        default: "#F2E5E4",
+      },
       error: {
         light: "#e57373",
         main: "#CE4257",
@@ -59,33 +59,34 @@ const theme = (
         primary: "#252422",
         secondary: "#403D39",
         disabled: "rgba(133, 30, 30, 0.38)",
-        hint: "rgba(0, 0, 0, 0.38)",
+        // hint: "rgba(0, 0, 0, 0.38)",
       },
     },
     typography: {
       fontFamily: "Libre Baskerville, serif",
       fontSize: 14,
     },
+    // TODO: Fix this
     // Below override material ui default classes
     // Background of the app should resemble an old newspaper
     // This is achieved by adding darker shadows on the sides of the page
     // And using a transparent noise texture found here:
     // https://www.transparenttextures.com/
-    overrides: {
-      MuiCssBaseline: {
-        "@global": {
-          body: {
-            minHeight: "100vh",
-            minWidth: "100%",
-            backgroundColor: "#F2E5D4",
-            boxShadow: "2px 3px 20px black, 0 0 100px #a89782 inset",
-            /* This is mostly intended for prototyping; please download the pattern and re-host for production */
-            backgroundImage: `url('https://www.transparenttextures.com/patterns/paper-fibers.png'), 
-                            url('https://www.transparenttextures.com/patterns/natural-paper.png')`,
-          },
-        },
-      },
-    },
+    // overrides: {
+    //   MuiCssBaseline: {
+    //     "@global": {
+    //       body: {
+    //         minHeight: "100vh",
+    //         minWidth: "100%",
+    //         backgroundColor: "#F2E5D4",
+    //         boxShadow: "2px 3px 20px black, 0 0 100px #a89782 inset",
+    //         /* This is mostly intended for prototyping; please download the pattern and re-host for production */
+    //         backgroundImage: `url('https://www.transparenttextures.com/patterns/paper-fibers.png'), 
+    //                         url('https://www.transparenttextures.com/patterns/natural-paper.png')`,
+    //       },
+    //     },
+    //   },
+    // },
   })
 )
 

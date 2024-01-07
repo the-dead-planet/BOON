@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { withFetchData } from '../utils/withFetchData';
 import { authenticatedPage } from '../utils/authenticatedPage';
@@ -6,7 +6,7 @@ import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import { SingleProject } from '../components/project/SingleProject';
 import { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, NotificationProps, ModeType, StateData, Project } from '../logic/types';
+import { User, NotificationProps, Mode, ThemeType, StateData, Project } from '../logic/types';
 import { PATHS } from '../constants/data';
 import { getRandomQuote } from '../utils/data';
 const { projects } = PATHS;
@@ -40,7 +40,7 @@ const Sprint = ({
     notificationsProps,
     showError,
 }: SprintProps & WithShowErrorInjectedProps) => {
-    const { id }: { id: string } = useParams();
+    const params = useParams<{ id: string }>();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
 
     const [quote, setQuote] = useState('');
@@ -51,7 +51,7 @@ const Sprint = ({
     /* 
         GET CURRENT SPRINT ID DATA FROM APP STATE
     */
-    const project = projects.get(id)!;
+    const project = projects.get(params.id!)!;
 
     /* 
         NAVIGATION ITEMS
