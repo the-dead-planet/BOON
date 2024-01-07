@@ -5,6 +5,7 @@
     "main": "index.js",
     "private": true,
     "proxy": "http://localhost:5000",
+    "type": "commonjs",
     "engines": {
         "npm": ">6.12.1",
         "node": ">12.13.1"
@@ -14,7 +15,6 @@
         "build": "tsc && vite build",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "preview": "vite preview",
-        "eject": "react-scripts eject",
         "clean": "npx shx rm -rf node_modules/"
     },
     "repository": {
