@@ -1,11 +1,10 @@
-import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
-import { Container } from '@mui/material';
+import { Container, Theme } from '@mui/material';
 import Card from '../Card';
-import moment from 'moment';
-import { EXT_DATE_FORMAT } from '../../constants/dateFormats';
+import { Format } from '../../constants/dateFormats';
 // import usersService from '../../../services/usersService';
-import { User, Post, Project, Comment, Like, SprintType } from '../../logic/types';
+import { User, Post, Project, Comment, Like, Sprint, ThemeType } from '../../logic/types';
+import * as Utils from '../../utils';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -66,7 +65,7 @@ export const SinglePost = ({
                 author={users.get(post.author as any)?.publicName || 'Unknown user'}
                 title={post.title}
                 titleLink={`/posts/${post._id}`}
-                created={moment(post.created).format(EXT_DATE_FORMAT)}
+                created={Utils.DateTime.toFormat(post.created, Format.EXT_DATE_FORMAT)}
                 tags={[
                     { title: `Sprint ${getSprint(post._id).number}`, link: `/sprints/${getSprint(post._id)._id}` },
                     { title: getProject(post._id).title, link: `/projects/${getProject(post._id)._id}` },

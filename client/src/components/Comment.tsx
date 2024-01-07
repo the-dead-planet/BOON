@@ -1,22 +1,33 @@
 import React from 'react';
-import moment from 'moment';
 import { ListItem, ListItemText, ListItemAvatar, Avatar, Typography } from '@mui/material';
-import { ItemMenu } from './ItemMenu';
+import { Item, ItemMenu } from './ItemMenu';
 import { User, Comment as CommentType } from '../logic/types';
+import * as Utils from '../utils';
 
 interface Props {
     user: User;
     author: User;
     comment: CommentType;
-    setCommentToBeDeletedId: any;
+    onCommentToBeDeletedIdChange: any;
 }
 
-export const Comment = ({ user, author, comment, setCommentToBeDeletedId }: Props) => {
-    // Prepare list of menu items
-    const items = [{ name: 'Report', onClick: () => null }]; // TODO: Prepare solution for reporting naughty users
-    if (user && comment.author === user._id) {
-        items.push({ name: 'Delete', onClick: () => setCommentToBeDeletedId(comment._id) });
-    }
+export const Comment = ({ user, author, comment, onCommentToBeDeletedIdChange }: Props) => {
+    const menuItems = React.useMemo(
+        () => {
+            const items: Item[] = [{ name: 'Report', onClick: () => null }];
+            if (user && comment.author === user._id) {
+                items.push({ name: 'Delete', onClick: () => onCommentToBeDeletedIdChange(comment._id) });
+                // TODO: Prepare solution for reporting naughty users
+            }
+            return items;
+        },
+        [user, comment.author, onCommentToBeDeletedIdChange]
+    ); 
+
+    const created = React.useMemo(
+        (): string | null => Utils.DateTime.getRelativeCalendar(comment.created), 
+        [comment.created]
+    );
 
     return (
         <>
@@ -32,14 +43,14 @@ export const Comment = ({ user, author, comment, setCommentToBeDeletedId }: Prop
                                 {author?.publicName}
                             </Typography>
                             <Typography component="span" variant="caption">
-                                {` - ${moment(comment?.created).fromNow()}`}
+                                {` - ${created ?? '...'}`}
                             </Typography>
                         </React.Fragment>
                     }
                     secondary={<Typography variant="body2">{comment?.body}</Typography>}
                 />
 
-                <ItemMenu items={items} tooltip="More options" />
+                <ItemMenu items={menuItems} tooltip="More options" />
             </ListItem>
         </>
     );

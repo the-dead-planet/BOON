@@ -77,7 +77,7 @@ const CommentsImpl = ({
                     user={user}
                     comments={comments}
                     users={users}
-                    setCommentToBeDeletedId={handleDialogOpen}
+                    onCommentToBeDeletedIdChange={handleDialogOpen}
                 />
                 {/* </CollapsePanel> */}
             </Box>

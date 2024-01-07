@@ -1,7 +1,16 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { HashLink as RouterHashLink } from 'react-router-hash-link';
-import { Children } from '../logic/types';
+import { Theme } from '@mui/material';
+import { createStyles, makeStyles } from '@mui/styles';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        pointer: {
+            cursor: 'pointer'
+        }
+    })
+);
 
 // Global CSS at index.css for html elements 'a' does not work in all browsers, for example in Firefox.
 // Below wrapper components inject style which removes link underline from the link components
@@ -15,7 +24,7 @@ const styles = {
 // to make sure that history is correctly updated
 // Do not use other link components and 'href' props.
 interface Props {
-    children: Children;
+    children?: React.ReactNode;
     to: string;
     className?: any;
 }
@@ -26,15 +35,31 @@ export const Link = ({ children, ...props }: Props) => (
     </RouterLink>
 );
 
-export const HashLink = ({ children, ...props }: Props) => (
-    <RouterHashLink style={styles} smooth={true} {...props}>
-        {children}
-    </RouterHashLink>
-);
+interface HashLinkProps {
+    to: string;
+    className?: string;
+    children?: React.ReactNode;
+}
+
+export const HashLink: React.FC<HashLinkProps> = ({ to, children, className }) => {
+    const classes = useStyles();
+    const navigate = useNavigate();
+
+    const handleClick = React.useCallback(
+        () => navigate(`#${to}`),
+        [to, navigate]
+    );
+
+    return (
+        <div onClick={handleClick} className={classNames(classes.pointer, className)}>
+            {children}
+        </div>
+    );
+};
 
 interface LinkProps {
     hash: boolean;
-    children: Children;
+    children?: React.ReactNode;
     to: string;
     className?: any;
 }

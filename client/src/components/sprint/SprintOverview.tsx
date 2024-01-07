@@ -1,17 +1,16 @@
-import React from 'react';
 import { SuspenseImg } from '../../utils/SuspenseImg';
 import { makeStyles, createStyles } from '@mui/styles';
-import { Grid } from '@mui/material';
+import { Grid, Theme } from '@mui/material';
 import Card from '../Card';
-import moment from 'moment';
-import { DATE_FORMAT } from '../../constants/dateFormats';
-import { User, Sprint, Comment, LikeType } from '../../logic/types';
+import { Format } from '../../constants/dateFormats';
+import { User, Sprint, Comment, Like, ThemeType } from '../../logic/types';
 import vintageImg from '../../img/content/vintage/typewriter2.jpg';
 import frosticImg from '../../img/content/tech/gameboy.jpg';
 import defaultImg from '../../img/content/tech/alien.jpg';
 import vintageImgMin from '../../img/content/vintage/typewriter2-min.jpg';
 import frosticImgMin from '../../img/content/tech/gameboy-min.jpg';
 import defaultImgMin from '../../img/content/tech/alien-min.jpg';
+import * as Utils from '../../utils';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -71,8 +70,8 @@ export const SprintOverview = ({
             likes={likes}
             author={authorPublicName}
             title={`${sprint.title}`}
-            created={`${sprint.dateFrom && moment(sprint.dateFrom).format(DATE_FORMAT)} - ${
-                sprint.dateTo && moment(sprint.dateTo).format(DATE_FORMAT)
+            created={`${sprint.dateFrom && Utils.DateTime.toFormat(sprint.dateFrom, Format.DATE_FORMAT)} - ${
+                sprint.dateTo && Utils.DateTime.toFormat(sprint.dateTo, Format.DATE_FORMAT)
             }`}
             body={sprint.body}
             menuItems={[

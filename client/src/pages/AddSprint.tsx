@@ -1,13 +1,13 @@
 import React from 'react';
-import moment from 'moment';
 import SprintForm from '../components/forms/Sprint';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
-import { FORMIK_DATE_FORMAT } from '../constants/dateFormats';
+import { Format } from '../constants/dateFormats';
 import AppLayout from '../layouts/AppLayout';
 import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, ThemeType, SprintSubmit } from '../logic/types';
 import { useServices } from '../services';
+import * as Utils from '../utils';
 
 interface Props {
     user: User;
@@ -23,6 +23,8 @@ interface Props {
 const AddSprint = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps, showError }: Props) => {
     const { sprintsService } = useServices()!;
 
+    const nowFormatted = React.useMemo(() => Utils.DateTime.toFormat(new Date(), Format.FORMIK_DATE_FORMAT), [])
+
     return (
         <AppLayout
             user={user}
@@ -37,8 +39,8 @@ const AddSprint = ({ user, themeType, setThemeType, mode, setMode, push, notific
                 title="Add new sprint"
                 initialValues={{
                     number: 1,
-                    dateFrom: moment().format(FORMIK_DATE_FORMAT),
-                    dateTo: moment().format(FORMIK_DATE_FORMAT),
+                    dateFrom: nowFormatted,
+                    dateTo: nowFormatted,
                     title: '',
                     body: '',
                 }}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { withFetchData } from '../utils/withFetchData';
 import { authenticatedPage } from '../utils/authenticatedPage';
@@ -16,10 +16,10 @@ import {
     StateData,
     Sprint as SprintType,
 } from '../logic/types';
-import moment from 'moment';
-import { MONTH_YEAR_FORMAT } from '../constants/dateFormats';
+import { Format } from '../constants/dateFormats';
 import { PATHS } from '../constants/data';
 import { getRandomQuote } from '../utils/data';
+import * as Utils from '../utils';
 const { sprints } = PATHS;
 const sprintsPath = sprints;
 
@@ -48,7 +48,7 @@ const Sprint = ({
     removeObject,
     notificationsProps,
 }: SprintProps & WithShowErrorInjectedProps) => {
-    const { id }: { id: string } = useParams();
+    const { id }= useParams<{ id: string }>();
     const { sprints, posts, comments, likes, users, projects } = data;
 
     const [quote, setQuote] = useState('');
@@ -59,7 +59,7 @@ const Sprint = ({
     /* 
         GET CURRENT SPRINT ID DATA FROM APP STATE
     */
-    const sprint = sprints.get(id);
+    const sprint = sprints.get(id ?? '');
 
     /*
         SORT SPRINTS FOR PAGINATION
@@ -133,7 +133,7 @@ const Sprint = ({
                 nextId: currentInd > 0 ? sortedSprints[currentInd - 1]._id : undefined,
                 previousId: currentInd < sortedSprints.length - 1 ? sortedSprints[currentInd + 1]._id : undefined,
                 primary: `Sprint ${sprint?.number || ''}`,
-                secondary: moment(sprint?.dateTo).format(MONTH_YEAR_FORMAT),
+                secondary: sprint?.dateTo ? Utils.DateTime.toFormat(sprint.dateTo, Format.MONTH_YEAR_FORMAT) : '',
                 list: sprints
                     ? [...sprints.values()].map((spr: SprintType) => ({
                           name: spr?.title,

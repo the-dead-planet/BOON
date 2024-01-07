@@ -1,4 +1,3 @@
-import React from 'react';
 import { CssBaseline } from '@mui/material';
 import ThemeWrapper from '../components/navigation/ThemeWrapper';
 import LayoutContent from './LayoutContent';

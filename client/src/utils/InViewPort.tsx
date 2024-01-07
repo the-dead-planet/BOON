@@ -82,7 +82,7 @@ interface Props {
     onLeaveViewport?: any;
     src?: string;
     variant?: 'slideUp' | 'slideLeft';
-    children?: Children;
+    children??: React.ReactNode;
 }
 
 // This wrapper component injects properties describing if or what should happen if a wrapped component is in viewport

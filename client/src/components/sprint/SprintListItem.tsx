@@ -1,9 +1,9 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
 import { Link } from '../../utils/Link';
-import { ListItem } from '@mui/material';
-import moment from 'moment';
-import { MONTH_DATE_FORMAT } from '../../constants/dateFormats';
+import { ListItem, Theme } from '@mui/material';
+import { Format } from '../../constants/dateFormats';
+import * as Utils from '../../utils';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -26,8 +26,8 @@ interface Props {
 function SprintListItem({ _id, number, title, dateFrom, dateTo, body, currentSprintId }: Props) {
     const classes = useStyles();
 
-    // const sprintDateRange = `${dateFrom ? moment(dateFrom).format(DATE_FORMAT) : null} - ${
-    //     dateTo ? moment(dateTo).format(DATE_FORMAT) : null
+    // const sprintDateRange = `${dateFrom ? Utils.DateTime.toFormat(dateFrom, DATE_FORMAT) : null} - ${
+    //     dateTo ? Utils.DateTime.toFormat(dateTo, DATE_FORMAT) : null
     // }`;
 
     return (
@@ -37,7 +37,7 @@ function SprintListItem({ _id, number, title, dateFrom, dateTo, body, currentSpr
                     // button
                     className={currentSprintId === _id ? classes.selectedStyle : undefined}
                 >
-                    {`#${number} ${moment(dateTo).format(MONTH_DATE_FORMAT)}`}
+                    {`#${number} ${Utils.DateTime.toFormat(dateTo, Format.MONTH_DATE_FORMAT)}`}
                 </ListItem>
             </Link>
         </React.Fragment>

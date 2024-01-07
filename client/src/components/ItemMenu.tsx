@@ -16,8 +16,15 @@ const useStyles = makeStyles((_theme: Theme) =>
     })
 );
 
+export interface Item {
+    name: any;
+    onClick: any;
+    path?: string;
+    alarm?: boolean;
+}
+
 interface Props {
-    items: Array<{ name: any; onClick: any; path?: string; alarm?: boolean }>;
+    items: Item[];
     icon?: any;
     tooltip?: string;
     placement?:

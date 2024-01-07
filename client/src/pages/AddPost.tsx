@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-// import moment from 'moment';
+import { useState, useEffect } from 'react';
+// import * as luxon from 'luxon';
 import PostForm from '../components/forms/Post';
 import { authenticatedPage } from '../utils/authenticatedPage';
 import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import { useParams } from 'react-router-dom';
 import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, PostSubmit, SprintType } from '../logic/types';
+import { User, NotificationProps, Mode, PostSubmit, Sprint, ThemeType } from '../logic/types';
 import { useServices } from '../services';
 
 interface Props {
@@ -21,10 +21,6 @@ interface Props {
     showError: any;
 }
 
-interface Params {
-    id: string;
-}
-
 const AddPost = ({
     user,
     themeType,
@@ -36,14 +32,14 @@ const AddPost = ({
     notificationsProps,
     showError,
 }: Props) => {
-    const { id } = useParams<Params>();
+    const params = useParams<{ id: string }>();
 
     const [sprint, setSprint] = useState<Sprint | null>(null);
 
     const { sprintsService, postsService } = useServices()!;
 
     const getSprint = async () => {
-        const sprint = await sprintsService.getOne({ objectId: id }).catch(showError);
+        const sprint = await sprintsService.getOne({ objectId: params.id ?? '' }).catch(showError);
         if (sprint) {
             setSprint(sprint);
         }
@@ -77,7 +73,7 @@ const AddPost = ({
                 onSubmit={(data: PostSubmit) => {
                     const extendedData = {
                         ...data,
-                        sprintId: id,
+                        sprintId: params.id,
                         model: 'Sprint',
                     };
                     return postsService.add(extendedData).catch(showError);

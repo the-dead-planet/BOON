@@ -1,11 +1,10 @@
-import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
-import { Typography, Slide } from '@mui/material';
+import { Typography, Slide, Theme } from '@mui/material';
 import { Posts } from '../sprint/Posts';
-import moment from 'moment';
-import { EXT_DATE_FORMAT } from '../../constants/dateFormats';
+import { Format } from '../../constants/dateFormats';
 // import usersService from '../../../services/usersService';
-import { User, Post, Project, Comment, Like, SprintType } from '../../logic/types';
+import { User, Post, Project, Comment, Like, Sprint, ThemeType } from '../../logic/types';
+import * as Utils from '../../utils';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -83,7 +82,7 @@ export const SingleProject = ({
                 comments={comments}
                 likes={likes}
                 users={users}
-                getCreated={(date: Date) => moment(date).format(EXT_DATE_FORMAT)}
+                getCreated={(date: Date) => Utils.DateTime.toFormat(date, Format.EXT_DATE_FORMAT)}
                 getTag={(postId: string) => `Sprint ${getSprint(postId).number}`}
                 getTagLink={(postId: string) => `/sprints/${getSprint(postId)._id}`}
                 addComment={addPostComment}
