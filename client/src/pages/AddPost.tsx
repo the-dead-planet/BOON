@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 // import * as luxon from 'luxon';
 import PostForm from '../components/forms/Post';
 import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import { useParams } from 'react-router-dom';
 import withShowError from '../utils/withShowError';
@@ -83,4 +82,4 @@ const AddPost = ({
     );
 };
 
-export default authenticatedPage(withPush(withShowError(AddPost)));
+export default authenticatedPage(withShowError(AddPost));

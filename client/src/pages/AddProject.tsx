@@ -1,6 +1,5 @@
 import ProjectForm from '../components/forms/Project';
 import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, ProjectSubmit, ThemeType } from '../logic/types';
@@ -48,4 +47,4 @@ const AddProject = ({ user, mode, themeType, setThemeType, setMode, push, notifi
     );
 };
 
-export default authenticatedPage(withPush(withShowError(AddProject)));
+export default authenticatedPage(withShowError(AddProject));

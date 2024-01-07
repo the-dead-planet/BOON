@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
 import handleViewport from 'react-in-viewport';
-import { Children } from '../logic/types';
+import { Theme } from '@mui/material';
 
 // TODO: Types mising for react-in-viewport - fix
 // // See https://github.com/roderickhsiao/react-in-viewport#readme for more info
@@ -82,7 +82,7 @@ interface Props {
     onLeaveViewport?: any;
     src?: string;
     variant?: 'slideUp' | 'slideLeft';
-    children??: React.ReactNode;
+    children?: React.ReactNode;
 }
 
 // This wrapper component injects properties describing if or what should happen if a wrapped component is in viewport

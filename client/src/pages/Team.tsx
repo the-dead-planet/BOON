@@ -1,9 +1,7 @@
-import React from 'react';
 import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, NotificationPropsType, Mode } from '../logic/types';
+import { User, NotificationProps, ThemeType, Mode } from '../logic/types';
 
 interface SprintProps {
     user: User | undefined | null;
@@ -42,4 +40,4 @@ const Team = ({
     );
 };
 
-export default authenticatedPage(withPush(Team));
+export default authenticatedPage(Team);

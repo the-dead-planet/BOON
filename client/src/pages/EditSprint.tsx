@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import SprintForm from '../components/forms/Sprint';
 import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
 import { Format } from '../constants/dateFormats';
 import AppLayout from '../layouts/AppLayout';
 import { Loading } from '../components/Loading';
@@ -80,4 +79,4 @@ const EditSprint = ({ user, themeType, setThemeType, mode, setMode, push, notifi
     );
 };
 
-export default authenticatedPage(withPush(EditSprint));
+export default authenticatedPage(EditSprint);

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import ProjectForm from '../components/forms/Project';
 import { Loading } from '../components/Loading';
@@ -20,19 +19,15 @@ interface Props {
     showError: any;
 }
 
-interface Params {
-    id: string;
-}
-
 const EditProject = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps, showError }: Props) => {
-    const { id } = useParams<Params>();
+    const { id } = useParams<{ id: string; }>();
 
     const [project, setProject] = useState<Project | null>(null);
 
     const { projectsService } = useServices()!;
 
     const getProject = async () => {
-        const project = await projectsService.getOne({ objectId: id });
+        const project = await projectsService.getOne({ objectId: id ?? '' });
         setProject(project);
     };
 
@@ -68,7 +63,7 @@ const EditProject = ({ user, themeType, setThemeType, mode, setMode, push, notif
                     }}
                     onSubmit={(data: ProjectSubmit) => {
                         projectsService
-                            .update({ ...data, objectId: id })
+                            .update({ ...data, objectId: id ?? '' })
                             .then(() => {
                                 push('/projects');
                             })
@@ -80,4 +75,4 @@ const EditProject = ({ user, themeType, setThemeType, mode, setMode, push, notif
     );
 };
 
-export default authenticatedPage(withPush(withShowError(EditProject)));
+export default authenticatedPage(withShowError(EditProject));

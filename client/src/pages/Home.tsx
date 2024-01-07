@@ -1,4 +1,3 @@
-import { withPush } from '../utils/routingDecorators';
 import { guestPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import Content from '../components/landing/Content';
@@ -31,4 +30,4 @@ const Home = ({ user, themeType, setThemeType, mode, setMode, push, notification
     </AppLayout>
 );
 
-export default guestPage(withPush(Home));
+export default guestPage(Home);

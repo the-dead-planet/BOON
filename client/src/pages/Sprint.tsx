@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { withFetchData } from '../utils/withFetchData';
 import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import { CommentsSection } from '../components/CommentsSection';
 import { SingleSprint } from '../components/sprint/SingleSprint';
@@ -15,6 +14,8 @@ import {
     Mode,
     StateData,
     Sprint as SprintType,
+    Comment,
+    Model,
 } from '../logic/types';
 import { Format } from '../constants/dateFormats';
 import { PATHS } from '../constants/data';
@@ -34,9 +35,10 @@ interface SprintProps {
     addSprintComment: any;
     removeObject: any;
     notificationsProps: NotificationProps;
+    setStateData: (...args: unknown[]) => void;
 }
 
-const Sprint = ({
+const Sprint: React.FC<SprintProps & WithShowErrorInjectedProps> = ({
     user,
     themeType,
     setThemeType,
@@ -47,7 +49,7 @@ const Sprint = ({
     addSprintComment,
     removeObject,
     notificationsProps,
-}: SprintProps & WithShowErrorInjectedProps) => {
+}) => {
     const { id }= useParams<{ id: string }>();
     const { sprints, posts, comments, likes, users, projects } = data;
 
@@ -163,12 +165,13 @@ const Sprint = ({
                 focusForComments &&
                 focusedElement && (
                     <CommentsSection
-                        expanded={true}
+                        // expanded={true}
+                        mode={mode}
                         user={user}
                         title={focusedElement.title}
                         parentId={focusedElement._id}
-                        parentModel={focusForComments.model}
-                        comments={focusedElement.comments.map((c) => comments.get(c))}
+                        parentModel={focusForComments.model as Model}
+                        comments={focusedElement.comments.map((c) => comments.get(c) as Comment)}
                         users={data.users}
                         addComment={
                             focusForComments.model === 'Sprint'
@@ -207,4 +210,4 @@ const Sprint = ({
     );
 };
 
-export default authenticatedPage(withPush(withFetchData(Sprint)));
+export default authenticatedPage(withFetchData(Sprint));

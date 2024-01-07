@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
 import { useServices } from '../services';
 import AppLayout from '../layouts/AppLayout';
 import RedirectToFirst from '../components/RedirectToFirst';
-import { User, NotificationPropsType, Mode } from '../logic/types';
+import { User, NotificationProps, ThemeType, Mode } from '../logic/types';
 
 type SprintsPageProps = {
     user: User | null;
@@ -44,4 +43,4 @@ const SprintsPage = ({ notificationsProps, ...props }: SprintsPageProps) => {
     );
 };
 
-export default authenticatedPage(withPush(SprintsPage));
+export default authenticatedPage(SprintsPage);

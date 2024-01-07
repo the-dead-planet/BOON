@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { useQuery } from '../utils/useQuery';
 import { withFetchData } from '../utils/withFetchData';
 import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import { CommentsSection } from '../components/CommentsSection';
 import { SinglePost } from '../components/post/SinglePost';
@@ -11,7 +10,7 @@ import {
     // withShowError,
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationPropsType, Mode, StateData } from '../logic/types';
+import { User, NotificationProps, ThemeType, Mode, StateData, Comment } from '../logic/types';
 import { getRandomQuote } from '../utils/data';
 
 // TODO: see a comment in `Logout` regarding HOCs.
@@ -26,10 +25,11 @@ interface Props {
     removeObject: any;
     notificationsProps: NotificationProps;
     backTo: { name: string; path: string };
+    setStateData: (...args: unknown[]) => void;
 }
 
 // If path is /sprints, redirect to the newest sprint
-const Post = ({
+const Post: React.FC<Props & WithShowErrorInjectedProps> = ({
     user,
     mode,
     themeType,
@@ -39,8 +39,8 @@ const Post = ({
     addPostComment,
     removeObject,
     notificationsProps,
-}: Props & WithShowErrorInjectedProps) => {
-    const { id }: { id: string } = useParams();
+}) => {
+    const { id } = useParams<{ id: string }>();
     const query = useQuery();
     let linkBack = query.get('from');
     const linkBackName = linkBack ? linkBack.substring(1, linkBack.substring(1).indexOf('/') + 1) : 'home';
@@ -56,7 +56,7 @@ const Post = ({
     /* 
         GET CURRENT POST ID DATA FROM APP STATE
     */
-    const post = posts.get(id);
+    const post = posts.get(id ?? '');
 
     // Store the minimal amount information necessary in the state.
     // It's obvious from the context that the comments displayed refer to the current post - no need to store
@@ -100,12 +100,13 @@ const Post = ({
                 post &&
                 isCommentsDrawerOpen && (
                     <CommentsSection
-                        expanded={true}
+                        // expanded={true}
+                        mode={mode}
                         user={user}
                         title={post.title}
                         parentId={post._id}
                         parentModel={'Post'}
-                        comments={post.comments.map((c) => comments.get(c))}
+                        comments={post.comments.map((c) => comments.get(c)).filter(Boolean) as unknown as Comment[]}
                         users={data.users}
                         addComment={addPostComment}
                         removeComment={removeComment}
@@ -142,4 +143,4 @@ const Post = ({
 };
 
 // export default (withShowError as any)(Sprint);
-export default authenticatedPage(withPush(withFetchData(Post)));
+export default authenticatedPage(withFetchData<Props & WithShowErrorInjectedProps>(Post));

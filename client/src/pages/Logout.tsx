@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { withPush } from '../utils/routingDecorators';
 import { Navigate } from 'react-router-dom';
 import AppLayout from '../layouts/AppLayout';
 import { AppFormLayout } from '../components/forms/App';
@@ -70,4 +69,4 @@ const Logout = ({
 // TODO: export the raw component from here, wrap it with HOCs in App.tsx.
 // export default (withShowError as any)(Logout);
 
-export default withPush(withShowError(Logout));
+export default withShowError(Logout);

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
 import { guestPage } from '../utils/authenticatedPage';
-import { interceptPage } from '../utils/interceptPage';
 import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import { useServices } from '../services';
-import { Mode, User, NotificationPropsType } from '../logic/types';
+import { Mode, User, NotificationProps, ThemeType } from '../logic/types';
+import { Theme } from '@mui/material';
 
 /* 
     Users can log in using either their e-mail (passport 'username') or their publicName
@@ -89,5 +89,5 @@ const Login = ({
 };
 
 // TODO: Repair guest page to work and redirect to the main page if user is logged in -> works with /home, here not
-// export default interceptPage(withShowError(Login));
-export default guestPage(interceptPage(Login));
+// export default withShowError(Login);
+export default guestPage(Login);

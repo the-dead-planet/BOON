@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useServices } from '../services';
 
 type WithDataFetchProps = {
-    showError: any;
-    setStateData: any;
+    showError: (err: Error) => unknown[];
+    setStateData: (...args: unknown[]) => void;
 };
 
 /**
@@ -12,7 +12,7 @@ type WithDataFetchProps = {
  * To match previous behaviour, the wrapped component is rendered right away, regardless of fetch state.
  * This component will become redundant after introducing graphql.
  */
-export const withFetchData = <T extends WithDataFetchProps>(wrappedComponent: any) => (props: T) => {
+export const withFetchData = <T extends WithDataFetchProps>(wrappedComponent: React.FC<T>) => (props: T) => {
     const { showError, setStateData } = props;
     const { sprintsService, projectsService, usersService } = useServices()!;
     const [requestSent, setRequestSent] = useState(false);

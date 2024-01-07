@@ -1,5 +1,4 @@
-import { Redirect } from 'react-router-dom';
-import React from 'react';
+import { Navigate } from 'react-router-dom';
 import { PATHS } from '../constants/data';
 const { login, main } = PATHS;
 
@@ -14,7 +13,7 @@ export const withLoginRequired = (wrappedComponent: any) => (props: any) => {
     if (user) {
         return wrappedComponent(props);
     } else {
-        return <Redirect to={{ pathname: login, search: `?next=${pathname}` }} />;
+        return <Navigate to={{ pathname: login, search: `?next=${pathname}` }} />;
     }
 };
 
@@ -28,6 +27,6 @@ export const withoutLoginRequired = (wrappedComponent: any) => (props: any) => {
     if (!user) {
         return wrappedComponent(props);
     } else {
-        return <Redirect to={{ pathname: main }} />;
+        return <Navigate to={{ pathname: main }} />;
     }
 };

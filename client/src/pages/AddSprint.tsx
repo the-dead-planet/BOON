@@ -1,7 +1,6 @@
 import React from 'react';
 import SprintForm from '../components/forms/Sprint';
 import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
 import { Format } from '../constants/dateFormats';
 import AppLayout from '../layouts/AppLayout';
 import withShowError from '../utils/withShowError';
@@ -57,4 +56,4 @@ const AddSprint = ({ user, themeType, setThemeType, mode, setMode, push, notific
     );
 };
 
-export default authenticatedPage(withPush(withShowError(AddSprint)));
+export default authenticatedPage(withShowError(AddSprint));

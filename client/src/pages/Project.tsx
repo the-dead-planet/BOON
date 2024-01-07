@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { withFetchData } from '../utils/withFetchData';
 import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import { SingleProject } from '../components/project/SingleProject';
 import { WithShowErrorInjectedProps } from '../utils/withShowError';
@@ -28,7 +27,7 @@ interface SprintProps {
     showError: any;
 }
 
-const Sprint = ({
+const Project = ({
     user,
     themeType,
     setThemeType,
@@ -115,4 +114,4 @@ const Sprint = ({
     );
 };
 
-export default authenticatedPage(withPush(withFetchData(Sprint)));
+export default authenticatedPage(withFetchData(Project));

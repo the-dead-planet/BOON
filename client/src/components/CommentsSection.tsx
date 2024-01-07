@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
 import { Box, Typography, Theme } from '@mui/material';
 import { CommentsList } from './CommentsList';
-import { withPush } from '../utils/routingDecorators';
 import { AddComment } from './forms/AddComment';
 // import CollapsePanel from './transitions/CollapsePanel';
 import DialogMenu from './navigation/DialogMenu';
@@ -106,6 +105,6 @@ const CommentsImpl = ({
     );
 };
 
-const CommentsSection = withPush(CommentsImpl);
+const CommentsSection = CommentsImpl;
 
 export { CommentsSection };
