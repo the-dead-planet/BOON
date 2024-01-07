@@ -2,13 +2,16 @@ import mongoose from 'mongoose';
 import { LikeSchema } from './like';
 import { UserSchema } from './user';
 
-export type CommentSchema = mongoose.Document & {
+export interface CommentSchemaRaw {
     body: string;
     likes: LikeSchema[];
     author: UserSchema;
+    createdBy?: string;
     created: Date;
     edited: Date;
 }
+
+export type CommentSchema = CommentSchemaRaw & mongoose.Document;
 
 export const commentSchema = new mongoose.Schema<CommentSchema>({
     body: String,
@@ -21,6 +24,10 @@ export const commentSchema = new mongoose.Schema<CommentSchema>({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+    },
+    createdBy: {
+        type: String,
+        required: false
     },
     created: {
         type: Date,

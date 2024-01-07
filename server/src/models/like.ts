@@ -1,11 +1,14 @@
 import mongoose from 'mongoose';
 import { UserSchema } from './user';
 
-export interface LikeSchema extends mongoose.Document {
+export interface LikeSchemaRaw {
     type: string;
     author: UserSchema;
+    createdBy?: string;
     created: Date;
 }
+
+export type LikeSchema = LikeSchemaRaw & mongoose.Document;
 
 export const likeSchema = new mongoose.Schema<LikeSchema>({
     // TODO: possibly add a separate model for like type and allow selection on the front-end
@@ -16,6 +19,10 @@ export const likeSchema = new mongoose.Schema<LikeSchema>({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+    },
+    createdBy: {
+        type: String,
+        required: false
     },
     created: {
         type: Date,

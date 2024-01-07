@@ -12,7 +12,7 @@ import mongoose from 'mongoose';
 // as it initializes mongoose.
 // TODO: get rid of the side effect, initialize explicitly.
 import app from './app';
-import seed from './commands/seeds.js';
+import * as Seeds from './commands/seeds';
 import { Application } from 'express';
 
 // Default value when running outside of docker, i.e. on a local development workstation.
@@ -40,7 +40,7 @@ const parser = yargs(hideBin(process.argv))
             app.listen(PORT, () => {
                 console.log(`BOON server has started on port ${PORT}`);
             });
-            app.on('error', (parent: Application) => reject());
+            app.on('error', (_parent: Application) => reject());
             app.on('close', (_parent: Application) => resolve());
         });
     })
@@ -52,7 +52,7 @@ const parser = yargs(hideBin(process.argv))
         },
         async (argv) => {
             const { password } = argv;
-            return await seed(password);
+            return await Seeds.populateDataBaseWithDemoContent(password);
         }
     );
 

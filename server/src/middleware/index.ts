@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import mongoose from 'mongoose';
 import * as Models from '../models';
 import { BoonHttpError } from '../common/errors';
 import asyncMiddleware from './async-middleware';

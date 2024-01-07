@@ -1,13 +1,16 @@
 import mongoose from 'mongoose';
 import { UserSchema } from './user';
 
-export interface TeamSchema extends mongoose.Document {
+export interface TeamSchemaRaw {
     title: string;
     body: string;
     members: UserSchema[];
+    createdBy?: string;
     created: Date;
     edited: Date;
 }
+
+export type TeamSchema = TeamSchemaRaw & mongoose.Document;
 
 export const teamSchema = new mongoose.Schema<TeamSchema>({
     title: String,
@@ -18,6 +21,10 @@ export const teamSchema = new mongoose.Schema<TeamSchema>({
             ref: 'User',
         },
     ],
+    createdBy: {
+        type: String,
+        required: false
+    },
     created: {
         type: Date,
         default: Date.now,

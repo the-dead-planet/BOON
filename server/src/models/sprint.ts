@@ -4,7 +4,7 @@ import { CommentSchema } from './comment';
 import { LikeSchema } from './like';
 import { UserSchema } from './user';
 
-export interface SprintSchema extends mongoose.Document {
+export interface SprintSchemaRaw {
     number: number;
     dateFrom: Date;
     dateTo: Date;
@@ -14,9 +14,12 @@ export interface SprintSchema extends mongoose.Document {
     comments: CommentSchema[];
     likes: LikeSchema[];
     author: UserSchema;
+    createdBy?: string;
     created: Date;
     edited: Date;
 }
+
+export type SprintSchema = SprintSchemaRaw & mongoose.Document;
 
 export const sprintSchema = new mongoose.Schema<SprintSchema>({
     number: Number,
@@ -51,6 +54,10 @@ export const sprintSchema = new mongoose.Schema<SprintSchema>({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+    },
+    createdBy: {
+        type: String,
+        required: false
     },
     created: {
         type: Date,

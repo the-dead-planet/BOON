@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { NextFunction, Request, Response } from 'express';
 import * as core from "express-serve-static-core";
 import { RequestMethod, requestPreprocessor } from './request';
-import { NestedDependency, pathsInMongooseFormat } from './queries';
+import { pathsInMongooseFormat } from './queries';
 import { isLoggedIn } from '../middleware';
 import { NotFoundError } from './errors';
 import Link from './link';
@@ -50,7 +50,7 @@ class Route<T>{
 
     // A default route fetching all objects of a given model.
     // TODO: extract common part of getOne and getAll into a separate method
-    static getAll<T>(modelId: string, modelRegistry: ModelRegistry) {
+    static getAll(modelId: string, modelRegistry: ModelRegistry) {
         const path = `/${modelId}s`;
         const method = RequestMethod.GET;
 
@@ -121,7 +121,7 @@ class Route<T>{
         const modelDefinition = modelRegistry.findDefinition(modelId);
         const putRequestPreprocessor = requestPreprocessor(modelDefinition.requestMappers[method] || {});
 
-        const behaviour = (req: Request, res: Response) => {
+        const behaviour = (req: Request, _res: Response) => {
             const { params } = req;
 
             const data = putRequestPreprocessor(req);

@@ -3,15 +3,18 @@ import { CommentSchema } from './comment';
 import { LikeSchema } from './like';
 import { UserSchema } from './user';
 
-export interface PostSchema extends mongoose.Document {
+export interface PostSchemaRaw {
     title: string;
     body: string;
     comments: CommentSchema[];
     likes: LikeSchema[];
     author: UserSchema;
+    createdBy?: string;
     created: Date;
     edited: Date;
 }
+
+export type PostSchema = PostSchemaRaw & mongoose.Document;
 
 export const postSchema = new mongoose.Schema<PostSchema>({
     title: String,
@@ -31,6 +34,10 @@ export const postSchema = new mongoose.Schema<PostSchema>({
     author: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+    },
+    createdBy: {
+        type: String,
+        required: false
     },
     created: {
         type: Date,
