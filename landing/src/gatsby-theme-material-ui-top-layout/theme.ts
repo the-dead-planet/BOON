@@ -1,4 +1,4 @@
-import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles"
+import { createStyles } from "@mui/styles"
 
 // Hardcode type for now.
 // To be honest, I'm not yet sure how to dynamically change palette types with
@@ -7,8 +7,8 @@ const type = "light"
 
 // A custom theme for this app.
 // Will be injected to all components using `useStyles` by the material plugin.
-const theme = responsiveFontSizes(
-  createMuiTheme({
+const theme = (
+  createStyles({
     palette: {
       type: type,
       primary: {
@@ -27,10 +27,10 @@ const theme = responsiveFontSizes(
         black: "#000",
         white: "#fff",
       },
-      background: {
-        paper: "#F4F2EF",
-        default: "#F2E5E4",
-      },
+      // background: {
+      //   paper: "#F4F2EF",
+      //   default: "#F2E5E4",
+      // },
       error: {
         light: "#e57373",
         main: "#CE4257",

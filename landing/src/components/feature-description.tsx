@@ -1,8 +1,8 @@
 // Single feature displayed on the landing page.
 // Contains a description and a link to the app.
 import React from "react"
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles"
-import { Grid, Typography, Button } from "@material-ui/core"
+import { makeStyles, createStyles } from "@mui/styles"
+import { Grid, Typography, Button, Theme } from "@mui/material"
 import AppLink from "./app-link"
 
 const useStyles = makeStyles((theme: Theme) =>
