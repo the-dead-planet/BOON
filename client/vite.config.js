@@ -22,7 +22,7 @@ export default defineConfig(({ command, mode, isSsrBuild, isPreview }) => {
         },
         resolve: {
             alias: {
-                '@': normalizePath(path.resolve(__dirname, './src')),
+                '@': normalizePath(path.resolve(__dirname, './src')), // normalize for Windows
             },
         },
         server: {
