@@ -8,7 +8,7 @@ interface Props {
     user: User;
     author: User;
     comment: CommentType;
-    onCommentToBeDeletedIdChange: any;
+    onCommentToBeDeletedIdChange: (id: string) => void;
 }
 
 export const Comment = ({ user, author, comment, onCommentToBeDeletedIdChange }: Props) => {

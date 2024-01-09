@@ -18,7 +18,7 @@
 // interface Props {
 //     user: User;
 //     mode: Mode;
-//     setMode: any;
+//     onModeChange: (mode: Mode) => void;
 //     title: string;
 //     subtitle: string;
 //     button: any;
@@ -27,7 +27,7 @@
 // // TODO: create a page with graphics moving in different speeds
 // // Also apply to svg elements to "break" graphic apart
 // // TODO: there is an error with typescript - create a new js component which receives property speed, to use inside tsx files
-// const Parallax = ({ user, mode, setMode, title, subtitle, button }: Props) => {
+// const Parallax = ({ user, mode, onModeChange, title, subtitle, button }: Props) => {
 //     const classes = useStyles();
 
 //     return (

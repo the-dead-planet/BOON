@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     valueList: Array<string>;
     value: string;
-    setValue: any;
+    setValue: (val: string) => void;
 }
 
 export const RadioButtonGroup = ({ valueList, value, setValue }: Props) => {

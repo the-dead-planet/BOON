@@ -19,7 +19,10 @@ const withShowError = <Props extends WrappedComponentProps>(wrappedComponent: Re
     const {
         notificationsProps: { addNotification },
     } = props;
-    const showError = (err: Error) => addNotification(NotificationObject.make(err.toString()));
+    const showError = (err: Error) => {
+        const notification = NotificationObject.make(err.message);
+        addNotification({ id: notification.id.toString(), message: notification.message});
+    }
     return wrappedComponent({ ...props, showError });
 };
 

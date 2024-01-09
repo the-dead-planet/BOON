@@ -10,19 +10,19 @@ import {
     // withShowError,
     WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, ThemeType, Mode, StateData, Comment } from '../logic/types';
+import { User, NotificationProps, ThemeType, Mode, StateData, Comment, RemoveObjectData } from '../logic/types';
 import { getRandomQuote } from '../utils/data';
 
 // TODO: see a comment in `Logout` regarding HOCs.
 interface Props {
     user: User | undefined | null;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     data: StateData;
-    addPostComment: any;
-    removeObject: any;
+    addPostComment: (id: string, comment: Comment) => void;
+    removeObject:  (obj: RemoveObjectData) => void;
     notificationsProps: NotificationProps;
     backTo: { name: string; path: string };
     setStateData: (...args: unknown[]) => void;
@@ -33,8 +33,8 @@ const Post: React.FC<Props & WithShowErrorInjectedProps> = ({
     user,
     mode,
     themeType,
-    setThemeType,
-    setMode,
+    onThemeTypeChange,
+    onModeChange,
     data,
     addPostComment,
     removeObject,
@@ -72,9 +72,9 @@ const Post: React.FC<Props & WithShowErrorInjectedProps> = ({
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             appBar={true}
             quote={quote}
             pagination={{ path: '/posts' }}

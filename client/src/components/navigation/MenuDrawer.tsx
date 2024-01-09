@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     user: User;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     open: boolean;
     toggleDrawer: any;
     variant?: DrawerVariant;
@@ -44,7 +44,7 @@ interface Props {
 }
 
 // This component can be either temporary or persistent. By default temporary. use prop 'variant' to change to "persistent"
-const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDrawer, createButton }: Props) => {
+const MenuDrawer = ({ user, variant = 'temporary', mode, onModeChange, open, toggleDrawer, createButton }: Props) => {
     const classes = useStyles();
 
     const items = [
@@ -107,7 +107,7 @@ const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDr
 
             {/* <Divider /> */}
             {/* TODO: Add mode modes and change this component to another one */}
-            {/* <DarkModeSwitch mode={mode} setMode={setMode} /> */}
+            {/* <DarkModeSwitch mode={mode} onModeChange={onModeChange} /> */}
         </Drawer>
     );
 };

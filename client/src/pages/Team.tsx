@@ -6,9 +6,9 @@ import { User, NotificationProps, ThemeType, Mode } from '../logic/types';
 interface SprintProps {
     user: User | undefined | null;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     notificationsProps: NotificationProps;
 }
 
@@ -16,18 +16,18 @@ interface SprintProps {
 const Team = ({
     user,
     themeType,
-    setThemeType,
+    onThemeTypeChange,
     mode,
-    setMode,
+    onModeChange,
     notificationsProps,
 }: SprintProps & WithShowErrorInjectedProps) => {
     return (
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             appBar={true}
             navPanel={{
                 side: 'left',

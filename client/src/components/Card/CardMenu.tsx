@@ -1,18 +1,17 @@
-import React from 'react';
 import { Link } from '../../utils/Link';
 import { ObjectDeleteButton } from '../Buttons';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { User, MongoObject, Model, MenuItems, MenuItem as MenuItemType } from '../../logic/types';
+import { User, MongoObject, Model, MenuItems, MenuItem as MenuItemType, WithObjectId } from '../../logic/types';
 
 interface Props {
     user: User | null | undefined;
     model: Model;
     object: MongoObject;
     anchorEl: HTMLElement | null;
-    handleMenuClose: any;
+    handleMenuClose: () => void;
     menuItems: MenuItems;
-    removeObject: any;
+    removeObject:  (obj: WithObjectId) => void;
 }
 
 export const CardMenu = ({ user, model, object, anchorEl, handleMenuClose, removeObject, menuItems }: Props) => {

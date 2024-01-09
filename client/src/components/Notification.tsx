@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import { Notification as NotificationType } from '../logic/types';
 
@@ -6,7 +6,7 @@ import { Notification as NotificationType } from '../logic/types';
 // TODO - create customized versions per notification kind.
 interface Props {
     notification: NotificationType;
-    onShown: any;
+    onShown: (notificationId: string) => void;
 }
 
 export const Notification = ({ notification, onShown }: Props) => {

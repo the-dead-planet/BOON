@@ -6,7 +6,7 @@ interface Props {
     user: User;
     comments: Array<CommentType>;
     users: Map<string, User>;
-    onCommentToBeDeletedIdChange: any;
+    onCommentToBeDeletedIdChange: (id: string) => void;
 }
 
 export const CommentsList = ({ user, comments, users, onCommentToBeDeletedIdChange }: Props) => {

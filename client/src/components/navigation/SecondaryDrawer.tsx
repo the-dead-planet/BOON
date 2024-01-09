@@ -44,7 +44,7 @@ interface Props {
 }
 
 // This component can be either temporary or persistent. By default temporary. use prop 'variant' to change to "persistent"
-const SecondaryDrawer = ({ user, open, toggleDrawer, children }: Props) => {
+const SecondaryDrawer = ({ open, toggleDrawer, children }: Props) => {
     const classes = useStyles();
 
     return (

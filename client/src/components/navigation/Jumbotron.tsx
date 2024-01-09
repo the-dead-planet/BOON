@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const Jumbotron = ({ img = '', title = 'Hello', subtitle = 'Welcome', actions = [], onClick }: JumbotronProps) => {
+const Jumbotron = ({ img = '', title = 'Hello', subtitle = 'Welcome', actions = [] }: JumbotronProps) => {
     const classes = useStyles();
     // TODO: use react-image
     const imgStyle = { backgroundImage: `url(${img})` };

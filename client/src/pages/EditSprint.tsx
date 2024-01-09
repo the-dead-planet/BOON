@@ -13,15 +13,15 @@ import * as Utils from '../utils';
 interface Props {
     user: User;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
-    push: any;
+    onModeChange: (mode: Mode) => void;
+    push: (path: string) => void;
     notificationsProps: NotificationProps;
-    showError: any;
+    showError: (err: Error) => void;
 }
 
-const EditSprint = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps, showError }: Props) => {
+const EditSprint = ({ user, themeType, onThemeTypeChange, mode, onModeChange, push, notificationsProps, showError }: Props) => {
     const { id } = useParams<{
         id: string;
     }>();
@@ -31,23 +31,22 @@ const EditSprint = ({ user, themeType, setThemeType, mode, setMode, push, notifi
     const { sprintsService } = useServices()!;
 
     const getSprint = async () => {
-        const sprint = await sprintsService.getOne({ objectId: id ?? '' }).catch(showError);
-        setSprint(sprint);
+        sprintsService.getOne({ objectId: id ?? '' }).then(setSprint).catch(showError);
     };
 
     useEffect(() => {
         if (!sprint) {
             getSprint();
         }
-    });
+    }, []);
 
     return (
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             {...notificationsProps}
         >
             {!sprint ? (

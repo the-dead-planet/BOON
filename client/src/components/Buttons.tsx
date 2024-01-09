@@ -1,9 +1,7 @@
-import React from 'react';
-// import { Redirect } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { User, Sprint, MongoObject, Model } from '../logic/types';
+import { User, Sprint, MongoObject, Model, WithObjectId } from '../logic/types';
 import { ServicesT, useServices } from '../services';
 // import { PATHS } from '../constants/data';
 // const { main } = PATHS;
@@ -12,9 +10,9 @@ interface DeleteProps {
     user: User | null | undefined;
     model: Model;
     object: MongoObject;
-    push?: any;
-    onError?: any;
-    removeObject: any;
+    push?: (path: string) => void;
+    onError?: (err: Error) => void;
+    removeObject:  (obj: WithObjectId) => void;
 }
 
 const makeModels = (services: ServicesT) => [
@@ -36,10 +34,10 @@ const makeModels = (services: ServicesT) => [
 ];
 
 // TODO: delete those `any` casts. Typescript correctly detects type violations in the functions below.
-export const ObjectDeleteButton = ({ user, model, object, push, onError, removeObject }: DeleteProps) => {
+export const ObjectDeleteButton = ({ user, model, object, onError, removeObject }: DeleteProps) => {
     const services = useServices()!;
 
-    return user && object && (object as any).author === user._id ? (
+    return user && object && 'author' in object && object.author === user._id ? (
         <MenuItem
             color="inherit"
             onClick={() =>
@@ -57,10 +55,10 @@ export const ObjectDeleteButton = ({ user, model, object, push, onError, removeO
     ) : null;
 };
 
-export const IconDelete = ({ user, model, object, push, onError, removeObject }: DeleteProps) => {
+export const IconDelete = ({ user, model, object, onError, removeObject }: DeleteProps) => {
     const services = useServices()!;
 
-    return user && object && (object as any).author === user._id ? (
+    return user && object && 'author' in object && object.author === user._id ? (
         <DeleteIcon
             fontSize="small"
             color="inherit"
@@ -86,7 +84,7 @@ interface EditProps {
 export const ObjectEditButton = ({ user, model, object }: EditProps) => {
     const services = useServices()!;
     const models = makeModels(services);
-    return user && object && (object as any).author._id === user._id ? (
+    return user && object && 'author' in object && typeof object.author !== 'string' && object.author?._id === user._id ? (
         <Button
             color="inherit"
             href={`${models.reduce((acc, val) => (val.name === model ? val : acc)).path}/${object._id}/edit`}
@@ -117,7 +115,7 @@ export const AddPostButton = ({ user, sprint }: AddProps) => {
 interface AddCommentProps {
     user: User | null | undefined;
     object: MongoObject;
-    onClick: any;
+    onClick: () => void;
 }
 export const AddCommentButton = ({ user, object, onClick }: AddCommentProps) => {
     return user && object ? (

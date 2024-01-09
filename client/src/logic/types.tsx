@@ -1,3 +1,5 @@
+import React from "react";
+
 type ThemeType = 'default' | 'frostic' | 'vintage' | 'custom' | undefined;
 type Mode = 'light' | 'dark' | undefined;
 type DrawerVariant = 'persistent' | 'temporary';
@@ -61,7 +63,7 @@ interface StateType {
     whoamiRequestDone: boolean;
     mode: Mode;
     themeType: ThemeType;
-    notifications: Array<Notification>;
+    notifications: Notification[];
     data: StateData;
 }
 
@@ -95,7 +97,7 @@ interface Jumbotron {
     title: string;
     subtitle: string;
     actions?: Array<Action>;
-    onClick?: any;
+    onClick?: (event: React.MouseEvent) => void;
 }
 
 interface Drawer {
@@ -136,8 +138,8 @@ interface PostLayout {
     title: string;
     subtitle: string;
     body?: string;
-    content?: React.ReactElement;
-    additional?: any;
+    content?: React.ReactNode;
+    additional?: React.ReactNode;
 }
 
 interface Sprint {
@@ -231,7 +233,8 @@ interface ProjectSubmit {
     body: string;
 }
 
-interface CommentSubmit {
+type O = { [key in string]: string };
+interface CommentSubmit extends O {
     body: string;
 }
 
@@ -250,15 +253,15 @@ interface FeedLayout {
         title: string;
         subtitle: string;
         body?: string;
-        content?: React.ReactElement;
-        additional?: any;
+        content?: React.ReactNode;
+        additional?: React.ReactNode;
     }>;
 }
 
 interface Landing {
     user: User;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     title: string;
     subtitle: string;
     button: { name: string; path: string };
@@ -270,9 +273,9 @@ interface Notification {
 }
 
 interface NotificationProps {
-    notifications: Array<Notification>;
-    onNotificationShown: any;
-    addNotification: any;
+    notifications: Notification[];
+    onNotificationShown: (notificationId: string) => void;
+    addNotification: (notification: Notification) => void;
 }
 
 interface LinkTo {
@@ -283,7 +286,7 @@ interface LinkTo {
 interface MenuItem {
     name: string;
     path?: string;
-    onClick?: any;
+    onClick?: () => void;
 }
 
 type MenuItems = Array<MenuItem>;
@@ -313,7 +316,7 @@ interface Page {
     primary?: string;
     secondary?: string;
     list?: Array<PageListItem>;
-    links?: any;
+    links?: string[];
 }
 
 interface PageListItem {
@@ -355,28 +358,28 @@ interface SideColumn {
 interface CommentsProps {
     parentModel: Model;
     parentId: string;
-    addComment: any;
-    removeComment: any;
+    addComment: (id: string, comment: Comment) => void;
+    removeComment: (comment: WithObjectId) => void;
 }
 
 interface DialogButton {
     text: string;
-    onClick: any;
+    onClick: () => void;
 }
 
 interface DialogProps {
     open: boolean;
-    handleClose: any;
+    handleClose: () => void;
     message: string;
     contextText?: string;
-    content?: any;
+    content?: React.ReactNode;
     buttonOk: DialogButton;
     fullScreen?: boolean;
 }
 
 interface NavButton {
     name: string;
-    onClick?: any;
+    onClick?: () => void;
     path?: string;
 }
 
@@ -391,6 +394,13 @@ interface Tag {
 
 interface WithObjectId {
     objectId: string;
+}
+
+interface RemoveObjectData {
+    child: StateDataKeys;
+    parent: StateDataKeys;
+    childId: string;
+    parentId: string;
 }
 
 export type {
@@ -424,6 +434,7 @@ export type {
     Sprint,
     SprintData,
     MongoObject,
+    UserObject,
     Model,
     Path,
     Project,
@@ -457,4 +468,5 @@ export type {
     CardSubtitleType,
     Tag,
     WithObjectId,
+    RemoveObjectData
 };

@@ -26,9 +26,9 @@ interface Props {
     onSuccess: any;
     user: User;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     notificationsProps: NotificationProps;
     showError: any;
     location?: { path: string; search?: string };
@@ -37,9 +37,9 @@ interface Props {
 const Register = ({
     user,
     themeType,
-    setThemeType,
+    onThemeTypeChange,
     mode,
-    setMode,
+    onModeChange,
     next,
     onSuccess,
     notificationsProps,
@@ -60,9 +60,9 @@ const Register = ({
         <Layout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             {...notificationsProps}
         >
             <div className={classes.container}>

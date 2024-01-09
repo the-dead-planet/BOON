@@ -25,12 +25,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
 }
 
-export const Preferences = ({ themeType, setThemeType, mode, setMode }: Props) => {
+export const Preferences = ({ themeType, onThemeTypeChange, mode, setMode }: Props) => {
     const classes = useStyles();
 
     return (
@@ -41,14 +41,14 @@ export const Preferences = ({ themeType, setThemeType, mode, setMode }: Props) =
                 <RadioButtonGroup
                     valueList={THEME_TYPES as Array<string>}
                     value={themeType as string}
-                    setValue={setThemeType}
+                    setValue={onThemeTypeChange}
                 />
             </ListItem>
 
             {/* Light / Dark mode selection */}
             <ListItem>
                 <Typography className={classes.itemName}>Mode</Typography>
-                <RadioButtonGroup valueList={MODES as Array<string>} value={mode as string} setValue={setMode} />
+                <RadioButtonGroup valueList={MODES as Array<string>} value={mode as string} setValue={onModeChange} />
             </ListItem>
         </List>
     );

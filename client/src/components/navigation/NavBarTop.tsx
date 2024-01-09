@@ -79,9 +79,9 @@ interface Props {
     user: User;
     name: string;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     drawerVariant: DrawerVariant;
     open: boolean;
     toggleDrawer: any;
@@ -93,9 +93,9 @@ const NavBarTop = ({
     user,
     name,
     themeType,
-    setThemeType,
+    onThemeTypeChange,
     mode,
-    setMode,
+    onModeChange,
     drawerVariant,
     open,
     toggleDrawer,
@@ -173,9 +173,9 @@ const NavBarTop = ({
                                 <AuthButtonsHorizontal
                                     user={user}
                                     themeType={themeType}
-                                    setThemeType={setThemeType}
+                                    onThemeTypeChange={onThemeTypeChange}
                                     mode={mode}
-                                    setMode={setMode}
+                                    onModeChange={onModeChange}
                                 />
                             </div>
                         </Grid>

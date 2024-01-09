@@ -16,7 +16,7 @@ import Projects from './pages/Projects';
 import Post from './pages/Post';
 import Team from './pages/Team';
 import services from './services/realImpl';
-import { StateType, Mode, ThemeType } from './logic/types';
+import { StateType, Mode, ThemeType, User, Notification } from './logic/types';
 import { PATHS } from './constants/data';
 import { ServicesContext } from './services/context';
 import { WrappedUserData } from './services/services';
@@ -49,24 +49,27 @@ const App: React.FC = () => {
         setState((prev) => ({ ...prev, mode }));
     };
 
-    // TODO: Reduce necessity to add long comments, code should be understood by reading function names, func names should be more descriptive
-    // Each function in the `State` module should be wrapped in `setState`
-    // and passed `state` as the first argument.
-    // Build a HOF performing these 2 steps to reduce boilerplate.
-    // The resulting function will forward all arguments to `stateUpdater` and
-    // invoke `setState` with the result.
-    const updateState = (stateUpdater: any) => (...args: any) => {
-        return setState(stateUpdater(state)(...args));
-    };
+
     // Pack props into an object to reduce boilerplate code.
     const notificationsProps = {
-        addNotification: updateState(State.addNotification),
-        onNotificationShown: (...args: any) =>
+        addNotification: (notification: Notification) => setState((prev) => ({ 
+            ...prev, 
+            notifications: state.notifications.concat([notification]),
+        })),
+        onNotificationShown: (notificationId: string) =>
             setTimeout(() => {
-                updateState(State.popNotification)(...args);
+                setState((prev) => ({ ...prev, notifications: prev.notifications.filter((n) => n.id !== notificationId)}))
             }, 5000),
         notifications: state.notifications,
     };
+
+    const handleLoginSuccess = (user: User) => {
+        setState((prev) => ({ ...prev, user }))
+    }
+
+    const handleClearUser = () => {
+        setState((prev) => ({ ...prev, user: null }))
+    }
 
     const router = React.useMemo(
         () => createBrowserRouter([
@@ -74,10 +77,10 @@ const App: React.FC = () => {
                 path: PATHS.login,
                 element: <Login
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
-                    onLoginSuccess={updateState(State.setUser)}
+                    onModeChange={onModeChange}
+                    onLoginSuccess={handleLoginSuccess}
                     notificationsProps={notificationsProps}
                 />,
             },
@@ -86,10 +89,10 @@ const App: React.FC = () => {
                 element: <Register
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
-                    onSuccess={updateState(State.setUser)}
+                    onModeChange={onModeChange}
+                    onSuccess={handleLoginSuccess}
                     notificationsProps={notificationsProps}
                 />,
             },
@@ -98,11 +101,12 @@ const App: React.FC = () => {
                 element: <Logout
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
-                    onSuccess={updateState(State.clearUser)}
+                    onModeChange={onModeChange}
+                    onSuccess={handleClearUser}
                     notificationsProps={notificationsProps}
+                    showError={(err) => console.error(err)}
                 />,
             },
             {
@@ -110,9 +114,9 @@ const App: React.FC = () => {
                 element: <AddPost
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
+                    onModeChange={onModeChange}
                     notificationsProps={notificationsProps}
                 />,
             },
@@ -121,10 +125,10 @@ const App: React.FC = () => {
                 element: <Post
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
-                    setStateData={updateState(State.setStateData)}
+                    onModeChange={onModeChange}
+                    setStateData={(...args: unknown) => setState(State.setStateData)}
                     addSprintComment={updateState(State.addCommentToSprint)}
                     addPostComment={updateState(State.addCommentToPost)}
                     removeObject={updateState(State.removeObject)}
@@ -137,9 +141,9 @@ const App: React.FC = () => {
                 element: <Post
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
+                    onModeChange={onModeChange}
                     setStateData={updateState(State.setStateData)}
                     addSprintComment={updateState(State.addCommentToSprint)}
                     addPostComment={updateState(State.addCommentToPost)}
@@ -153,9 +157,9 @@ const App: React.FC = () => {
                 element: <AddSprint
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
+                    onModeChange={onModeChange}
                     notificationsProps={notificationsProps}
                 />,
             },
@@ -164,9 +168,9 @@ const App: React.FC = () => {
                 element: <EditSprint
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
+                    onModeChange={onModeChange}
                     notificationsProps={notificationsProps}
                 />,
             },
@@ -175,9 +179,9 @@ const App: React.FC = () => {
                 element: <Sprint
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
+                    onModeChange={onModeChange}
                     setStateData={updateState(State.setStateData)}
                     addSprintComment={updateState(State.addCommentToSprint)}
                     addPostComment={updateState(State.addCommentToPost)}
@@ -191,9 +195,9 @@ const App: React.FC = () => {
                 element: <Sprints
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
+                    onModeChange={onModeChange}
                     notificationsProps={notificationsProps}
                 />,
             },
@@ -202,9 +206,9 @@ const App: React.FC = () => {
                 element: <AddProject
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
+                    onModeChange={onModeChange}
                     notificationsProps={notificationsProps}
                 />,
             },
@@ -213,9 +217,9 @@ const App: React.FC = () => {
                 element: <AddProject
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
+                    onModeChange={onModeChange}
                     notificationsProps={notificationsProps}
                 />,
             },
@@ -224,9 +228,9 @@ const App: React.FC = () => {
                 element: <Project
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
+                    onModeChange={onModeChange}
                     setStateData={updateState(State.setStateData)}
                     addSprintComment={updateState(State.addCommentToSprint)}
                     addPostComment={updateState(State.addCommentToPost)}
@@ -240,9 +244,9 @@ const App: React.FC = () => {
                 element: <Projects
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
+                    onModeChange={onModeChange}
                     notificationsProps={notificationsProps}
                 />,
             },
@@ -251,9 +255,9 @@ const App: React.FC = () => {
                 element: <Team
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
+                    onModeChange={onModeChange}
                     setState={updateState(State.setStateData)}
                     addSprintComment={updateState(State.addCommentToSprint)}
                     addPostComment={updateState(State.addCommentToPost)}
@@ -267,9 +271,9 @@ const App: React.FC = () => {
                 element: <Home
                     user={state.user}
                     themeType={state.themeType}
-                    setThemeType={onThemeTypeChange}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
-                    setMode={onModeChange}
+                    onModeChange={onModeChange}
                     notificationsProps={notificationsProps}
                 />,
             },

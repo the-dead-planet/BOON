@@ -22,6 +22,7 @@ import {
     DialogProps,
     NavButton,
     Side,
+    Notification,
 } from '../logic/types';
 import { APP_NAME } from '../constants/data';
 import NotificationsRenderer from '../components/NotificationsRenderer';
@@ -123,9 +124,9 @@ const useStyles = makeStyles((theme: Theme) =>
 export interface LayoutProps {
     user: User;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     // Appbar and jumbotron
     appBar?: boolean;
     jumbotron?: JumbotronType;
@@ -142,15 +143,15 @@ export interface LayoutProps {
     sideColumn?: SideColumn;
     // Secondary drawer
     drawer?: Drawer;
-    secondaryDrawer?: any;
+    secondaryDrawer?: React.ReactNode;
     secondaryDrawerOpen?: boolean;
-    secondaryDrawerContent?: any;
-    toggleSecondaryDrawer?: any;
+    secondaryDrawerContent?: React.ReactNode;
+    toggleSecondaryDrawer?: (toggle: boolean) => void;
     // Dialog Alert window
     dialog?: DialogProps;
     // Notifications
-    notifications: any;
-    onNotificationShown: any;
+    notifications: Notification[];
+    onNotificationShown: (notificationId: string) => void;
     children?: React.ReactNode;
 }
 
@@ -158,9 +159,9 @@ const LayoutContent = ({
     user,
     children,
     themeType,
-    setThemeType,
+    onThemeTypeChange,
     mode,
-    setMode,
+    onModeChange,
     // Appbar and jumbotron
     appBar,
     jumbotron,
@@ -203,9 +204,9 @@ const LayoutContent = ({
                     user={user}
                     name={APP_NAME}
                     themeType={themeType}
-                    setThemeType={setThemeType}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={mode}
-                    setMode={setMode}
+                    onModeChange={onModeChange}
                     drawerVariant="persistent"
                     open={false}
                     toggleDrawer={toggleDrawer}
@@ -221,18 +222,18 @@ const LayoutContent = ({
                 user={user}
                 {...drawer}
                 mode={mode}
-                setMode={setMode}
+                onModeChange={onModeChange}
                 open={openMenu}
                 toggleDrawer={toggleDrawer}
                 createButton={createButton}
             />
 
             {/* Secondary drawer can include additional content like comments */}
-            {secondaryDrawer && (
+            {secondaryDrawer && toggleSecondaryDrawer ? (
                 <SecondaryDrawer user={user} open={secondaryDrawerOpen} toggleDrawer={toggleSecondaryDrawer}>
                     {secondaryDrawerContent}
                 </SecondaryDrawer>
-            )}
+            ) : null}
 
             {jumbotron && <Jumbotron {...jumbotron} />}
 

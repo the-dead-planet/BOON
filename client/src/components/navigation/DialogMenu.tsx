@@ -5,7 +5,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import { DialogProps } from '../../logic/types';
 
 const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & { children?: React.ReactElement<any, any> },
+    props: TransitionProps & { children?: React.ReactNode },
     ref: React.Ref<unknown>
 ) {
     // TODO: Test this

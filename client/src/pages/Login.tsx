@@ -25,8 +25,8 @@ interface Props {
     user: User;
     mode: Mode;
     themeType: ThemeType;
-    setThemeType: any;
-    setMode: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
+    onModeChange: (mode: Mode) => void;
     next?: any;
     onLoginSuccess: any;
     notificationsProps: NotificationProps;
@@ -38,8 +38,8 @@ const Login = ({
     user,
     mode,
     themeType,
-    setThemeType,
-    setMode,
+    onThemeTypeChange,
+    onModeChange,
     next,
     onLoginSuccess,
     notificationsProps,
@@ -58,9 +58,9 @@ const Login = ({
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             {...notificationsProps}
         >
             <div className={classes.container}>

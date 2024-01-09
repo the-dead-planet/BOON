@@ -31,5 +31,8 @@
         "hooks": {
             "pre-commit": "pretty-quick --staged"
         }
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.5.1"
     }
 }

@@ -76,12 +76,12 @@ const texts = {
 interface Props {
     user: User | null | undefined;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
 }
 
-export const AuthButtonsHorizontal = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
+export const AuthButtonsHorizontal = ({ user, themeType, onThemeTypeChange, mode, setMode }: Props) => {
     const classes = useStyles();
     const signUpButton = (
         <Link to={register}>
@@ -158,7 +158,7 @@ export const AuthButtonsHorizontal = ({ user, themeType, setThemeType, mode, set
                 open={openDialog}
                 message="Preferences"
                 content={
-                    <Preferences themeType={themeType} setThemeType={setThemeType} mode={mode} setMode={setMode} />
+                    <Preferences themeType={themeType} onThemeTypeChange={onThemeTypeChange} mode={mode} onModeChange={onModeChange} />
                 }
                 handleClose={handleDialogClose}
                 buttonOk={{ text: 'Done', onClick: handleDialogClose }}

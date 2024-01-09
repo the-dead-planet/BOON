@@ -16,6 +16,7 @@ import {
     Sprint as SprintType,
     Comment,
     Model,
+    RemoveObjectData,
 } from '../logic/types';
 import { Format } from '../constants/dateFormats';
 import { PATHS } from '../constants/data';
@@ -27,13 +28,13 @@ const sprintsPath = sprints;
 interface SprintProps {
     user: User | undefined | null;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     data: StateData;
-    addPostComment: any;
-    addSprintComment: any;
-    removeObject: any;
+    addPostComment: (id: string, comment: Comment) => void;
+    addSprintComment: (id: string, comment: Comment) => void;
+    removeObject:  (obj: RemoveObjectData) => void;
     notificationsProps: NotificationProps;
     setStateData: (...args: unknown[]) => void;
 }
@@ -41,9 +42,9 @@ interface SprintProps {
 const Sprint: React.FC<SprintProps & WithShowErrorInjectedProps> = ({
     user,
     themeType,
-    setThemeType,
+    onThemeTypeChange,
     mode,
-    setMode,
+    onModeChange,
     data,
     addPostComment,
     addSprintComment,
@@ -124,9 +125,9 @@ const Sprint: React.FC<SprintProps & WithShowErrorInjectedProps> = ({
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             appBar={true}
             quote={quote}
             pagination={{

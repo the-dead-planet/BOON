@@ -8,9 +8,9 @@ import { User, NotificationProps, ThemeType, Mode } from '../logic/types';
 type ProjectsPageProps = {
     user: User | null;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     notificationsProps: NotificationProps;
 };
 

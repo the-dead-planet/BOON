@@ -57,9 +57,9 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     user: User;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
 }
 
 const Content = ({ themeType }: Props) => {

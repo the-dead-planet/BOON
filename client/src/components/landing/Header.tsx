@@ -63,11 +63,11 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     user: User;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
 }
-const Header = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
+const Header = ({ user, themeType, onThemeTypeChange, mode, setMode }: Props) => {
     const classes = useStyles();
 
     const { explanation, definitions } = DICTIONARY;
@@ -80,9 +80,9 @@ const Header = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
                     <BrowseButton
                         user={user}
                         themeType={themeType}
-                        setThemeType={setThemeType}
+                        onThemeTypeChange={onThemeTypeChange}
                         mode={mode}
-                        setMode={setMode}
+                        onModeChange={onModeChange}
                     />
                 </Box>
             </Hidden>
@@ -93,9 +93,9 @@ const Header = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
                     <AuthButtonsHorizontal
                         user={user}
                         themeType={themeType}
-                        setThemeType={setThemeType}
+                        onThemeTypeChange={onThemeTypeChange}
                         mode={mode}
-                        setMode={setMode}
+                        onModeChange={onModeChange}
                     />
                 </Box>
             </Hidden>

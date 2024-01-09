@@ -10,23 +10,23 @@ import { PATHS } from '../constants/data';
 const { home } = PATHS;
 
 interface LogoutProps {
-    onSuccess: any;
+    onSuccess: () => void;
     user: User | undefined | null;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     notificationsProps: NotificationProps;
-    showError: any;
+    showError: (err: Error) => void;
 }
 
 const Logout = ({
     user,
     onSuccess,
     themeType,
-    setThemeType,
+    onThemeTypeChange,
     mode,
-    setMode,
+    onModeChange,
     notificationsProps,
     showError,
 }: LogoutProps) => {
@@ -52,9 +52,9 @@ const Logout = ({
             <AppLayout
                 user={user}
                 themeType={themeType}
-                setThemeType={setThemeType}
+                onThemeTypeChange={onThemeTypeChange}
                 mode={mode}
-                setMode={setMode}
+                onModeChange={onModeChange}
                 {...notificationsProps}
             >
                 <AppFormLayout>

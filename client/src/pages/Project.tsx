@@ -5,7 +5,7 @@ import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import { SingleProject } from '../components/project/SingleProject';
 import { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, NotificationProps, Mode, ThemeType, StateData, Project } from '../logic/types';
+import { User, NotificationProps, Mode, ThemeType, StateData, Project, RemoveObjectData } from '../logic/types';
 import { PATHS } from '../constants/data';
 import { getRandomQuote } from '../utils/data';
 const { projects } = PATHS;
@@ -15,14 +15,14 @@ const projectsPath = projects;
 interface SprintProps {
     user: User | undefined | null;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     data: StateData;
     setStateData: any;
-    addPostComment: any;
+    addPostComment: (id: string, comment: Comment) => void;
     addSprintComment: any;
-    removeObject: any;
+    removeObject:  (obj: RemoveObjectData) => void;
     notificationsProps: NotificationProps;
     showError: any;
 }
@@ -30,9 +30,9 @@ interface SprintProps {
 const Project = ({
     user,
     themeType,
-    setThemeType,
+    onThemeTypeChange,
     mode,
-    setMode,
+    onModeChange,
     data,
     addPostComment,
     removeObject,
@@ -72,9 +72,9 @@ const Project = ({
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             appBar={true}
             quote={quote}
             pagination={{

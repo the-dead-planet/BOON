@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from '@mui/styles';
 import { Grid, Theme } from '@mui/material';
 import Card from '../Card';
 import { Format } from '../../constants/dateFormats';
-import { User, Sprint, Comment, Like, ThemeType } from '../../logic/types';
+import { User, Sprint, Comment, Like, ThemeType, WithObjectId } from '../../logic/types';
 import vintageImg from '../../img/content/vintage/typewriter2.jpg';
 import frosticImg from '../../img/content/tech/gameboy.jpg';
 import defaultImg from '../../img/content/tech/alien.jpg';
@@ -36,7 +36,7 @@ interface Props {
     likes: Array<Like | undefined>;
     users: Map<string, User>;
     getCreated?: (a: Date) => string;
-    removeSprint: any;
+    removeSprint: (id: string) => void;
     toggleCommentsPanel: (toggle: boolean) => void;
 }
 
@@ -52,7 +52,7 @@ export const SprintOverview = ({
 }: Props) => {
     const classes = useStyles();
 
-    const author: User | null = users.get(sprint.author as any); // FIXME: types are probably incompatible.
+    const author: User | null = sprint.author ? users.get(sprint.author._id) : null;
     const authorPublicName = author ? author.publicName : 'unknown';
     // const isAuthor = users.get(String(sprint?.author) || '')?.publicName === user?.publicName;
 
@@ -78,7 +78,7 @@ export const SprintOverview = ({
                 { name: 'Share', path: '/' },
                 { name: 'Add post', path: `${sprint._id}/add_post` },
             ]}
-            removeObject={(id: string) => removeSprint(id)}
+            removeObject={(obj: WithObjectId) => removeSprint(obj.objectId)}
             toggleCommentsPanel={toggleCommentsPanel}
             linkBack={{ name: 'Home', path: '/' }}
             frosticNoRound={true}

@@ -3,7 +3,7 @@ import { Typography, Slide, Theme } from '@mui/material';
 import { Posts } from '../sprint/Posts';
 import { Format } from '../../constants/dateFormats';
 // import usersService from '../../../services/usersService';
-import { User, Post, Project, Comment, Like, Sprint, ThemeType } from '../../logic/types';
+import { User, Post, Project, Comment, Like, Sprint, ThemeType, RemoveObjectData } from '../../logic/types';
 import * as Utils from '../../utils';
 
 // Detailed view of a sprint object.
@@ -35,10 +35,10 @@ interface Props {
     comments: Map<string, Comment>;
     likes: Map<string, Like>;
     users: Map<string, User>;
-    addPostComment: any;
-    toggleCommentsPanel: any;
-    removeObject: any;
-    onError: any;
+    addPostComment: (id: string, comment: Comment) => void;
+    toggleCommentsPanel: (projectId: string | null) => void;
+    removeObject: (obj: RemoveObjectData) => void;
+    onError: (err: Error) => void;
 }
 
 export const SingleProject = ({
@@ -54,7 +54,6 @@ export const SingleProject = ({
     addPostComment,
     removeObject,
     toggleCommentsPanel,
-    onError,
 }: Props) => {
     const classes = useStyles();
     const getSprint = (id: string) =>
@@ -86,12 +85,8 @@ export const SingleProject = ({
                 getTag={(postId: string) => `Sprint ${getSprint(postId).number}`}
                 getTagLink={(postId: string) => `/sprints/${getSprint(postId)._id}`}
                 addComment={addPostComment}
-                removePost={(id: string) =>
-                    removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: project?._id })
-                }
-                removeComment={(id: string, postId: string) =>
-                    removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })
-                }
+                removePost={(id: string) => removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: project?._id })}
+                removeComment={(id: string, postId: string) => removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })}
                 toggleCommentsPanel={toggleCommentsPanel}
                 xs={12}
                 lg={6}

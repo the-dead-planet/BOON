@@ -1,5 +1,5 @@
 import { depopulate, mergeStateData, initialState as initialStateData } from './logic/StateData';
-import { StateType, User, Notification, Sprint, Project, Comment, StateDataKeys } from './logic/types';
+import { StateType, User, Sprint, Project, Comment, StateDataKeys } from './logic/types';
 
 // Module containing global state definition and functions for manipulating it.
 // Each state modifying function takes the current state as the first argument
@@ -23,26 +23,18 @@ export const INITIAL_STATE: StateType = {
     notifications: [],
 };
 
-export const resolveWhoAmI = (state: StateType) => (user: User | null) => ({ user, whoamiRequestDone: true });
+export const resolveWhoAmI = (_state: StateType) => (user: User | null) => ({ user, whoamiRequestDone: true });
 
-export const clearUser = (state: StateType) => () => ({ user: null });
-
-export const setUser = (state: StateType) => (user: User | null) => ({ user });
+export const clearUser = (_state: StateType) => () => ({ user: null });
 
 export const addUser = (state: StateType) => (user: User | null) => {
-    const stateUsers = depopulate([user] as any, 'users');
-    const stateData = mergeStateData(state.data, { users: stateUsers });
+    const stateUsers = depopulate([user], 'users');
+    const stateData = mergeStateData(state.data, stateUsers);
+    // TODO: Test this, something doesn't seem right:
+    // const stateData = mergeStateData(state.data, { users: stateUsers });
 
     return { data: stateData };
 };
-
-export const addNotification = (state: StateType) => (notification: Notification) => ({
-    notifications: state.notifications.concat([notification]),
-});
-
-export const popNotification = (state: StateType) => (notificationId: string) => ({
-    notifications: state.notifications.filter((n) => n.id !== notificationId),
-});
 
 // Add a single comment to a commentable object.
 // Adds the comment object to `state.data.comments` and updates the commented object in `state.data`.
@@ -107,9 +99,9 @@ export const setStateData = (state: StateType) => (
     projects: Array<Project>,
     users: Array<User>
 ) => {
-    const stateSprints = depopulate(sprints as any, 'sprints');
-    const stateProjects = depopulate(projects as any, 'projects');
-    const stateUsers = depopulate(users as any, 'users');
+    const stateSprints = depopulate(sprints, 'sprints');
+    const stateProjects = depopulate(projects, 'projects');
+    const stateUsers = depopulate(users, 'users');
 
     // Merge current state with updates.
     // The second argument takes precedence -> pass updates as the second argument.
@@ -120,6 +112,7 @@ export const setStateData = (state: StateType) => (
     return { data: mergedData };
 };
 
+const map = new Map();
 // Delete object from state.
 // The function can be called for any combination of parent <-> child relations. Relation names are provided as strings and validated dynamically, rather than through types.
 // TODO:
@@ -161,24 +154,15 @@ export const removeObject = (state: StateType) => ({
     // Cast `parentObj` to a less strict version to allow indexing by dynamic strings.
     // It would only allow indexing by poperty names otherwise, which, unfortunately, depend on the passed in values.
     // TODO: find a smart way to make it type safe.
-    const parentObj: null | { [key: string]: any } = stateData[parent]?.get(parentId) as any;
+    const parentObj: Record<string, unknown[]> | null = stateData[parent]?.get(parentId) as unknown as Record<string, unknown[]>;
     if (!parentObj) {
         console.log(`Tried to delete an unknown child object: ${JSON.stringify({ child, childId, parent, parentId })}`);
     } else {
-        const currentChildren: Array<String> = parentObj[child];
+        const currentChildren = parentObj[child];
         parentObj[child] = currentChildren.filter((el) => el !== childId);
-        stateData[parent].set(parentId, parentObj as any);
+        // rewrite this in the future using functions with dynamic types
+        (stateData[parent] as typeof map).set(parentId, parentObj);
     }
 
     return { data: mergeStateData(state.data, stateData) };
-};
-
-const modelPaths = {
-    Sprint: 'sprints',
-    Post: 'posts',
-    Comment: 'comments',
-    Like: 'likes',
-    Project: 'projects',
-    User: 'users',
-    Team: 'teams',
 };

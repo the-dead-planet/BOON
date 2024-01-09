@@ -1,26 +1,14 @@
-import { makeStyles, createStyles } from '@mui/styles';
-import { Container, Theme } from '@mui/material';
+import { Container } from '@mui/material';
 import Card from '../Card';
 import { Format } from '../../constants/dateFormats';
 // import usersService from '../../../services/usersService';
-import { User, Post, Project, Comment, Like, Sprint, ThemeType } from '../../logic/types';
+import { User, Post, Project, Comment, Like, Sprint, ThemeType, RemoveObjectData } from '../../logic/types';
 import * as Utils from '../../utils';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
 // on a detail page.
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        title: {
-            padding: theme.spacing(8),
-            border: `solid 2px ${theme.palette.secondary.main}`,
-        },
-        main: {
-            // borderLeft: `1.2px solid ${theme.palette.primary.main}`,
-        },
-    })
-);
 
 interface Props {
     user: User | null | undefined;
@@ -32,7 +20,7 @@ interface Props {
     likes: Map<string, Like>;
     users: Map<string, User>;
     toggleCommentsPanel: (toggle: boolean) => void;
-    removeObject: any;
+    removeObject:  (obj: RemoveObjectData) => void;
 }
 
 export const SinglePost = ({
@@ -62,7 +50,7 @@ export const SinglePost = ({
                 model={'Post'}
                 comments={post.comments.map((id) => comments.get(id))}
                 likes={post.likes.map((id) => likes.get(id))}
-                author={users.get(post.author as any)?.publicName || 'Unknown user'}
+                author={'author' in post && post.author ? users.get(post.author?._id)?.publicName ?? 'Unknown user' : 'Unknown user'}
                 title={post.title}
                 titleLink={`/posts/${post._id}`}
                 created={Utils.DateTime.toFormat(post.created, Format.EXT_DATE_FORMAT)}

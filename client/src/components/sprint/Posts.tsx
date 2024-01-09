@@ -9,7 +9,7 @@ import defaultImg1 from '../../img/content/tech/robot.jpg';
 import defaultImg2 from '../../img/content/tech/woman-hologram.jpg';
 import frosticImg1 from '../../img/content/tech/teens-video-games.jpg';
 import frosticImg2 from '../../img/content/tech/man-and-tech.jpg';
-import { User, Post, Project, Comment, Like, Col, ThemeType } from '../../logic/types';
+import { User, Post, Project, Comment, Like, Col, ThemeType, WithObjectId } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -52,9 +52,9 @@ interface Props {
     comments: Map<string, Comment>;
     likes: Map<string, Like>;
     users: Map<string, User>;
-    addComment: any;
-    removeComment: any;
-    removePost: any;
+    addComment: (id: string, comment: Comment) => void;
+    removeComment:(id: string, postId: string) => void;
+    removePost: (obj: WithObjectId) => void;
     getCreated?: (a: Date) => string;
     getTag?: (a: string) => string;
     getTagLink?: (a: string) => string;
@@ -79,8 +79,6 @@ export const Posts = ({
     comments,
     likes,
     users,
-    addComment,
-    removeComment,
     removePost,
     toggleCommentsPanel,
     ...props
@@ -105,7 +103,7 @@ export const Posts = ({
                             model={'Post'}
                             comments={post.comments.map((id) => comments.get(id))}
                             likes={post.likes.map((id) => likes.get(id))}
-                            author={users.get(post.author as any)?.publicName || 'Unknown user'}
+                            author={'author' in post && post.author ? users.get(post.author._id)?.publicName ?? 'Unknown user' : 'Unknown user'}
                             title={post.title}
                             titleLink={`/posts/${post._id}?from=`}
                             created={getCreated ? getCreated(post.created) : undefined}
@@ -124,11 +122,10 @@ export const Posts = ({
                             menuItems={[
                                 {
                                     name: 'Go to related project',
-                                    path: `/projects/${
-                                        [...projects.entries()]
+                                    path: `/projects/${[...projects.entries()]
                                             .filter(([_projectId, proj]) => proj.posts.includes(post._id))
                                             .flat()[0] || ''
-                                    }`,
+                                        }`,
                                 },
                             ]}
                             removeObject={removePost}
