@@ -13,7 +13,8 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const DialogMenu = ({ open, handleClose, message, contextText, content, buttonOk, fullScreen }: DialogProps) => {
-    const fullScreenBreakPoint = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
+    const fullScreenBreakPoint = useMediaQuery((_theme: Theme) =>'500px');
+    // const fullScreenBreakPoint = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
 
     // TODO: style it nicer
     return (
