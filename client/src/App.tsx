@@ -18,28 +18,27 @@ import Team from './pages/Team';
 import services from './services/realImpl';
 import { StateType, Mode, ThemeType, User, Notification } from './logic/types';
 import { PATHS } from './constants/data';
-import { ServicesContext } from './services/context';
+import { ServicesContext, useServices } from './services/context';
 import { WrappedUserData } from './services/services';
 import './App.css';
 
-const App: React.FC = () => {
+const AppImpl: React.FC = () => {
     const [state, setState] = React.useState<StateType>(State.INITIAL_STATE)
-    const context = React.useContext(ServicesContext);
+    const services = useServices();
 
     // TODO: Consider moving this all to index.tsx, we can render a different "AppLoadingScreen" component while these requests are sent using root
     React.useEffect(() => {
-        if (!context) {
+        if (!services) {
             return;
         }
-        console.log('init');
-        context.authService.whoami().then(({ user }: WrappedUserData) => {
+        services.authService.whoami().then(({ user }: WrappedUserData) => {
             setState((prev) => ({ ...prev, ...State.resolveWhoAmI(state)(user) }));
             // TODO: Currently users are populated based on authors of sprints and its children tree.
             // If current user has never posted anything, it is not present in app state, which
             // causes issues, such as no name displayed by a new comment.
             // Either add it here from whoami or load all users data separately, which on a long term can be not optimal
         });
-    }, [context]);
+    }, [services]);
 
     const onThemeTypeChange = (themeType: ThemeType) => {
         setState((prev) => ({ ...prev, themeType }));
@@ -304,16 +303,22 @@ const App: React.FC = () => {
     return !state.whoamiRequestDone ? (
         'Loading'
     ) : (
+        <RouterProvider
+            router={router}
+            //  TODO
+            fallbackElement={<div>Page not found</div>}
+        />
+    );
+}
+
+const App: React.FC = () => {
+    return (
         <React.StrictMode>
             <ServicesContext.Provider value={services}>
-                <RouterProvider
-                    router={router}
-                    //  TODO
-                    fallbackElement={<div>Page not found</div>}
-                />
+                <AppImpl />
             </ServicesContext.Provider>
         </React.StrictMode>
-    );
+    )
 }
 
 export default App;

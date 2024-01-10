@@ -4,7 +4,6 @@
     "description": "A platform for sharing cross team developments, product increments, ideas and roumours about team members.",
     "main": "index.js",
     "private": true,
-    "proxy": "http://localhost:5000",
     "type": "module",
     "engines": {
         "npm": ">6.12.1",
