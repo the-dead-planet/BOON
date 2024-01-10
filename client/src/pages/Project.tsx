@@ -12,7 +12,7 @@ const { projects } = PATHS;
 const projectsPath = projects;
 
 // TODO: see a comment in `Logout` regarding HOCs.
-interface SprintProps {
+interface ProjectProps {
     user: User | undefined | null;
     themeType: ThemeType;
     onThemeTypeChange: (themeType: ThemeType) => void;
@@ -27,8 +27,7 @@ interface SprintProps {
     showError: (err: Error) => void;
 }
 
-const Project: React.FC<SprintProps> = ({
-// const Project: React.FC<SprintProps & WithShowErrorInjectedProps> = ({
+const Project: React.FC<ProjectProps> = ({
     user,
     themeType,
     onThemeTypeChange,

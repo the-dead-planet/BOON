@@ -85,7 +85,7 @@ export const SingleProject = ({
                 getTag={(postId: string) => `Sprint ${getSprint(postId).number}`}
                 getTagLink={(postId: string) => `/sprints/${getSprint(postId)._id}`}
                 addComment={addPostComment}
-                removePost={(id: string) => removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: project?._id })}
+                removePost={(obj) => removeObject({ child: 'posts', childId: obj.objectId, parent: 'sprints', parentId: project?._id })}
                 removeComment={(id: string, postId: string) => removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })}
                 toggleCommentsPanel={toggleCommentsPanel}
                 xs={12}

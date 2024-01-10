@@ -1,6 +1,6 @@
 import React from 'react';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
-import Slide from '@mui/material/Slide';
+import { Slide } from '@mui/material'
 
 interface Props {
     /**
@@ -8,7 +8,7 @@ interface Props {
      * You won't need it on your project.
      */
     window?: () => Window;
-    children: React.ReactNode;
+    children: React.ReactElement;
 }
 
 const HideOnScroll = (props: Props) => {

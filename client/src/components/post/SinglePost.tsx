@@ -69,8 +69,8 @@ export const SinglePost = ({
                         }`,
                     },
                 ]}
-                removeObject={(id: string) =>
-                    removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: getSprint(post._id)?._id })
+                removeObject={(obj) =>
+                    removeObject({ child: 'posts', childId: obj.objectId, parent: 'sprints', parentId: getSprint(post._id)?._id })
                 }
                 toggleCommentsPanel={toggleCommentsPanel}
                 divider={true}

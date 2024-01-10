@@ -398,9 +398,9 @@ interface WithObjectId {
 
 interface RemoveObjectData {
     child: StateDataKeys;
-    parent: StateDataKeys;
+    parent?: StateDataKeys;
     childId: string;
-    parentId: string;
+    parentId?: string;
 }
 
 export type {

@@ -193,7 +193,7 @@ const LayoutContent = ({
     // Drawer functions
     const [openMenu, setOpenMenu] = useState(false);
 
-    const toggleDrawer = (open: boolean) => {
+    const toggleDrawer = (open: boolean) => () => {
         setOpenMenu(open);
     };
 

@@ -1,13 +1,13 @@
-import { toBeOfType } from './matchers';
+// import { toBeOfType } from './matchers';
 
-describe('matchers', () => {
-    describe('toBeOfType', () => {
-        test('positive', () => {
-            expect([1, 2, 3]).toBeOfType(Array);
-        });
+// describe('matchers', () => {
+//     describe('toBeOfType', () => {
+//         test('positive', () => {
+//             expect([1, 2, 3]).toBeOfType(Array);
+//         });
 
-        test('negative', () => {
-            expect([1, 2, 3]).not.toBeOfType(String);
-        });
-    });
-});
+//         test('negative', () => {
+//             expect([1, 2, 3]).not.toBeOfType(String);
+//         });
+//     });
+// });

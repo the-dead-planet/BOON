@@ -61,9 +61,9 @@ const EditProject = ({ user, themeType, onThemeTypeChange, mode, onModeChange, p
                         title: project.title,
                         body: project.body,
                     }}
-                    onSubmit={(data: ProjectSubmit) => {
+                    onSubmit={(data) => {
                         projectsService
-                            .update({ ...data, objectId: id ?? '' })
+                            .update({ ...(data as unknown as ProjectSubmit), objectId: id ?? '' })
                             .then(() => {
                                 push('/projects');
                             })

@@ -14,7 +14,7 @@ interface Props {
     onModeChange: (mode: Mode) => void;
 }
 
-const DarkModeSwitch = ({ mode, setMode }: Props) => {
+const DarkModeSwitch = ({ mode, onModeChange }: Props) => {
     // const classes = useStyles();
 
     // Toggle mode light/dark
@@ -25,7 +25,7 @@ const DarkModeSwitch = ({ mode, setMode }: Props) => {
     const changeDarkMode = (event: React.ChangeEvent<HTMLInputElement>) => {
         const darkModeChecked = event.target.checked;
         setState({ ...state, [event.target.name]: darkModeChecked });
-        setMode(darkModeChecked ? 'dark' : 'light');
+        onModeChange(darkModeChecked ? 'dark' : 'light');
     };
 
     return (

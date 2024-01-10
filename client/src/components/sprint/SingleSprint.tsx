@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from '@mui/styles';
 import { Posts } from './Posts';
 import { SprintOverview } from './SprintOverview';
 // import usersService from '../../../services/usersService';
-import { User, Sprint, Post, Project, Comment, LikeType, ThemeType, RemoveObjectData } from '../../logic/types';
+import { User, Sprint, Post, Project, Comment, ThemeType, RemoveObjectData, Like } from '../../logic/types';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -24,7 +24,7 @@ interface Props {
     projects: Map<string, Project>;
     posts: Map<string, Post>;
     comments: Map<string, Comment>;
-    likes: Map<string, LikeType>;
+    likes: Map<string, Like>;
     users: Map<string, User>;
     addPostComment: (id: string, comment: Comment) => void;
     toggleSprintComments: (toggle: boolean) => void;
@@ -79,8 +79,8 @@ export const SingleSprint = ({
                     author: 'Kanye West',
                 }}
                 addComment={addPostComment}
-                removePost={(id: string) =>
-                    removeObject({ child: 'posts', childId: id, parent: 'sprints', parentId: sprint._id })
+                removePost={(obj) =>
+                    removeObject({ child: 'posts', childId: obj.objectId, parent: 'sprints', parentId: sprint._id })
                 }
                 removeComment={(id: string, postId: string) =>
                     removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })

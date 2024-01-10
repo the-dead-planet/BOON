@@ -1,5 +1,5 @@
 import { depopulate, mergeStateData, initialState as initialStateData } from './logic/StateData';
-import { StateType, User, Sprint, Project, Comment, StateDataKeys } from './logic/types';
+import { StateType, User, Sprint, Project, Comment, RemoveObjectData } from './logic/types';
 
 // Module containing global state definition and functions for manipulating it.
 // Each state modifying function takes the current state as the first argument
@@ -134,12 +134,7 @@ export const removeObject = (state: StateType) => ({
     parent,
     childId,
     parentId,
-}: {
-    child: StateDataKeys;
-    parent: StateDataKeys;
-    childId: string;
-    parentId: string;
-}) => {
+}: RemoveObjectData) => {
     const stateData = state.data;
 
     // Remove deleted object from the state
@@ -155,14 +150,16 @@ export const removeObject = (state: StateType) => ({
     // Cast `parentObj` to a less strict version to allow indexing by dynamic strings.
     // It would only allow indexing by poperty names otherwise, which, unfortunately, depend on the passed in values.
     // TODO: find a smart way to make it type safe.
-    const parentObj: Record<string, unknown[]> | null = stateData[parent]?.get(parentId) as unknown as Record<string, unknown[]>;
+    const parentObj: Record<string, unknown[]> | null = parent && parentId ? stateData[parent]?.get(parentId) as unknown as Record<string, unknown[]> : null;
     if (!parentObj) {
         console.log(`Tried to delete an unknown child object: ${JSON.stringify({ child, childId, parent, parentId })}`);
     } else {
         const currentChildren = parentObj[child];
         parentObj[child] = currentChildren.filter((el) => el !== childId);
         // rewrite this in the future using functions with dynamic types
-        (stateData[parent] as typeof map).set(parentId, parentObj);
+        if (parent) {
+            (stateData[parent] as typeof map).set(parentId, parentObj);
+        }
     }
 
     return { data: mergeStateData(state.data, stateData) };
