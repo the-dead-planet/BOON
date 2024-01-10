@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import AppLayout from '../layouts/AppLayout';
 import { SingleProject } from '../components/project/SingleProject';
 // import { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, Comment, NotificationProps, Mode, ThemeType, StateData, Project, RemoveObjectData, Sprint } from '../logic/types';
+import { User, Comment, NotificationProps, Mode, ThemeType, StateData, Project as ProjectType, RemoveObjectData, Sprint } from '../logic/types';
 import { PATHS } from '../constants/data';
 import { getRandomQuote } from '../utils/data';
 import { useFetchData } from '../utils/useFetchData';
@@ -19,7 +19,7 @@ interface ProjectProps {
     mode: Mode;
     onModeChange: (mode: Mode) => void;
     data: StateData;
-    setStateData: (data: [Sprint[], Project[], User[]]) => void;
+    setStateData: (data: [Sprint[], ProjectType[], User[]]) => void;
     addPostComment: (id: string, comment: Comment) => void;
     addSprintComment: (id: string, comment: Comment) => void;
     removeObject:  (obj: RemoveObjectData) => void;
@@ -65,7 +65,7 @@ const Project: React.FC<ProjectProps> = ({
     /* 
         NAVIGATION ITEMS
     */
-    const navProjects = [...projects.values()]?.map((project: Project) => ({
+    const navProjects = [...projects.values()]?.map((project: ProjectType) => ({
         id: project._id || '',
         name: project.title || '',
         path: `/projects/${project._id}`,

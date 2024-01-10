@@ -18,7 +18,6 @@ import {
     Model,
     RemoveObjectData,
     WithObjectId,
-    Sprint,
     Project,
 } from '../logic/types';
 import { Format } from '../constants/dateFormats';
@@ -39,7 +38,7 @@ interface SprintProps {
     addSprintComment: (id: string, comment: Comment) => void;
     removeObject:  (obj: RemoveObjectData) => void;
     notificationsProps: NotificationProps;
-    setStateData: (data: [Sprint[], Project[], User[]]) => void;
+    setStateData: (data: [SprintType[], Project[], User[]]) => void;
 }
 
 const Sprint: React.FC<SprintProps> = ({
