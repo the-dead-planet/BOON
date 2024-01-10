@@ -67,7 +67,7 @@ interface Props {
     mode: Mode;
     onModeChange: (mode: Mode) => void;
 }
-const Header = ({ user, themeType, onThemeTypeChange, mode, setMode }: Props) => {
+const Header = ({ user, themeType, onThemeTypeChange, mode, onModeChange }: Props) => {
     const classes = useStyles();
 
     const { explanation, definitions } = DICTIONARY;

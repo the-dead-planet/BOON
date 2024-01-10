@@ -76,12 +76,14 @@ const App: React.FC = () => {
             {
                 path: PATHS.login,
                 element: <Login
+                    user={state.user}
                     themeType={state.themeType}
                     onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
                     onModeChange={onModeChange}
                     onLoginSuccess={handleLoginSuccess}
                     notificationsProps={notificationsProps}
+                    showError={() => {}}
                 />,
             },
             {
@@ -94,6 +96,7 @@ const App: React.FC = () => {
                     onModeChange={onModeChange}
                     onSuccess={handleLoginSuccess}
                     notificationsProps={notificationsProps}
+                    showError={() => {}}
                 />,
             },
             {
@@ -118,6 +121,9 @@ const App: React.FC = () => {
                     mode={state.mode}
                     onModeChange={onModeChange}
                     notificationsProps={notificationsProps}
+                    showError={(err) => console.error(err)}
+                    sprintId=''
+                    
                 />,
             },
             {
@@ -128,12 +134,13 @@ const App: React.FC = () => {
                     onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
                     onModeChange={onModeChange}
-                    setStateData={(...args: unknown) => setState(State.setStateData)}
-                    addSprintComment={updateState(State.addCommentToSprint)}
-                    addPostComment={updateState(State.addCommentToPost)}
-                    removeObject={updateState(State.removeObject)}
+                    setStateData={([sprints, projects, users]) => State.setStateData(state, sprints, projects, users)}
+                    addSprintComment={(id, comment) => State.addCommentToSprint(state)(id, comment)}
+                    addPostComment={(id, comment) => State.addCommentToPost(state)(id, comment)}
+                    removeObject={(obj) => State.removeObject(state)(obj)}
                     data={state.data}
                     notificationsProps={notificationsProps}
+                    backTo={{ name: '', path: ''}}
                 />,
             },
             {
@@ -144,12 +151,13 @@ const App: React.FC = () => {
                     onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
                     onModeChange={onModeChange}
-                    setStateData={updateState(State.setStateData)}
-                    addSprintComment={updateState(State.addCommentToSprint)}
-                    addPostComment={updateState(State.addCommentToPost)}
-                    removeObject={updateState(State.removeObject)}
+                    setStateData={([sprints, projects, users]) => State.setStateData(state, sprints, projects, users)}
+                    addSprintComment={(id, comment) => State.addCommentToSprint(state)(id, comment)}
+                    addPostComment={(id, comment) => State.addCommentToPost(state)(id, comment)}
+                    removeObject={(obj) => State.removeObject(state)(obj)}
                     data={state.data}
                     notificationsProps={notificationsProps}
+                    backTo={{ name: '', path: ''}}
                 />,
             },
             {
@@ -161,6 +169,8 @@ const App: React.FC = () => {
                     mode={state.mode}
                     onModeChange={onModeChange}
                     notificationsProps={notificationsProps}
+                    push={() => {}}
+                    showError={(err) => console.error(err)}
                 />,
             },
             {
@@ -172,6 +182,8 @@ const App: React.FC = () => {
                     mode={state.mode}
                     onModeChange={onModeChange}
                     notificationsProps={notificationsProps}
+                    push={() => {}}
+                    showError={(err) => console.error(err)}
                 />,
             },
             {
@@ -182,10 +194,10 @@ const App: React.FC = () => {
                     onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
                     onModeChange={onModeChange}
-                    setStateData={updateState(State.setStateData)}
-                    addSprintComment={updateState(State.addCommentToSprint)}
-                    addPostComment={updateState(State.addCommentToPost)}
-                    removeObject={updateState(State.removeObject)}
+                    setStateData={([sprints, projects, users]) => State.setStateData(state, sprints, projects, users)}
+                    addSprintComment={(id, comment) => State.addCommentToSprint(state)(id, comment)}
+                    addPostComment={(id, comment) => State.addCommentToPost(state)(id, comment)}
+                    removeObject={(obj) => State.removeObject(state)(obj)}
                     data={state.data}
                     notificationsProps={notificationsProps}
                 />,
@@ -210,6 +222,8 @@ const App: React.FC = () => {
                     mode={state.mode}
                     onModeChange={onModeChange}
                     notificationsProps={notificationsProps}
+                    push={() => {}}
+                    showError={(err) => console.error(err)}
                 />,
             },
             {
@@ -221,6 +235,8 @@ const App: React.FC = () => {
                     mode={state.mode}
                     onModeChange={onModeChange}
                     notificationsProps={notificationsProps}
+                    push={() => {}}
+                    showError={(err) => console.error(err)}
                 />,
             },
             {
@@ -231,12 +247,13 @@ const App: React.FC = () => {
                     onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
                     onModeChange={onModeChange}
-                    setStateData={updateState(State.setStateData)}
-                    addSprintComment={updateState(State.addCommentToSprint)}
-                    addPostComment={updateState(State.addCommentToPost)}
-                    removeObject={updateState(State.removeObject)}
+                    setStateData={([sprints, projects, users]) => State.setStateData(state, sprints, projects, users)}
+                    addSprintComment={(id, comment) => State.addCommentToSprint(state)(id, comment)}
+                    addPostComment={(id, comment) => State.addCommentToPost(state)(id, comment)}
+                    removeObject={(obj) => State.removeObject(state)(obj)}
                     data={state.data}
                     notificationsProps={notificationsProps}
+                    showError={(err) => console.error(err)}
                 />,
             },
             {
@@ -258,11 +275,6 @@ const App: React.FC = () => {
                     onThemeTypeChange={onThemeTypeChange}
                     mode={state.mode}
                     onModeChange={onModeChange}
-                    setState={updateState(State.setStateData)}
-                    addSprintComment={updateState(State.addCommentToSprint)}
-                    addPostComment={updateState(State.addCommentToPost)}
-                    removeObject={updateState(State.removeObject)}
-                    data={state.data}
                     notificationsProps={notificationsProps}
                 />,
             },
@@ -275,6 +287,8 @@ const App: React.FC = () => {
                     mode={state.mode}
                     onModeChange={onModeChange}
                     notificationsProps={notificationsProps}
+                    push={() => {}}
+                    showError={(err) => console.error(err)}
                 />,
             },
             {

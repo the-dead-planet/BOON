@@ -5,8 +5,9 @@ import { AppFormLayout, AppForm } from './App';
 import { GridField, GridFieldSelect } from './GridFields';
 import { Project, Mode, PostSubmit } from '../../logic/types';
 import { useServices } from '../../services';
+import { FormikHelpers, FormikValues } from 'formik';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
         submitButton: {
             marginTop: '35px',
@@ -19,24 +20,17 @@ interface Props {
     mode: Mode;
     title: string;
     initialValues: PostSubmit;
-    onSubmit: any;
+    onSubmit: (values: { [field: string]: unknown; }, formikHelpers: FormikHelpers<FormikValues>) => void | Promise<unknown>;
 }
 
 const PostForm = ({ mode, title, initialValues, onSubmit }: Props) => {
     const classes = useStyles();
-
     const [projects, setProjects] = useState<Array<Project>>([]);
-
     const { projectsService } = useServices()!;
-
-    const getProjects = async () => {
-        let res = await projectsService.getAll();
-        setProjects(res);
-    };
 
     useEffect(() => {
         if (!projects) {
-            getProjects();
+            projectsService.getAll().then(setProjects);
         }
     });
 
@@ -44,7 +38,7 @@ const PostForm = ({ mode, title, initialValues, onSubmit }: Props) => {
         <AppFormLayout title={title ? title : 'Add project'}>
             <AppForm
                 mode={mode}
-                initialValues={initialValues}
+                initialValues={initialValues as unknown as { [field: string]: unknown; }}
                 onSubmit={onSubmit}
                 // validationSchema={validationSchema}
                 submitSection={
@@ -58,36 +52,38 @@ const PostForm = ({ mode, title, initialValues, onSubmit }: Props) => {
                     </Button>
                 }
             >
-                <GridFieldSelect
-                    required
-                    fullWidth
-                    as={Select}
-                    name="project"
-                    id="add-post-project"
-                    label="Project"
-                    items={projects}
-                    xs={12}
-                />
-                <GridField
-                    required
-                    fullWidth
-                    as={TextField}
-                    name="title"
-                    id="add-post-title"
-                    label="Post Name"
-                    xs={12}
-                />
-                <GridField
-                    required
-                    fullWidth
-                    multiline
-                    rows={5}
-                    as={TextField}
-                    name="body"
-                    id="add-post-body"
-                    label="How's this increment going to make the place a better world?"
-                    xs={12}
-                />
+                <>
+                    <GridFieldSelect
+                        required
+                        fullWidth
+                        as={Select}
+                        name="project"
+                        id="add-post-project"
+                        label="Project"
+                        items={projects}
+                        xs={12}
+                    />
+                    <GridField
+                        required
+                        fullWidth
+                        as={TextField}
+                        name="title"
+                        id="add-post-title"
+                        label="Post Name"
+                        xs={12}
+                    />
+                    <GridField
+                        required
+                        fullWidth
+                        multiline
+                        rows={5}
+                        as={TextField}
+                        name="body"
+                        id="add-post-body"
+                        label="How's this increment going to make the place a better world?"
+                        xs={12}
+                    />
+                </>
             </AppForm>
         </AppFormLayout>
     );

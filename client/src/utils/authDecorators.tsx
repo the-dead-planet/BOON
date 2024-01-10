@@ -2,31 +2,37 @@ import { Navigate } from 'react-router-dom';
 import { PATHS } from '../constants/data';
 const { login, main } = PATHS;
 
+export interface WithLoginProps { user: string, location: { pathname: string } }
+
 // Renders the component if the user is logged in.
 // Redirects to the login page otherwise.
-export const withLoginRequired = (wrappedComponent: any) => (props: any) => {
-    const {
-        user,
-        location: { pathname },
-    } = props;
+export function withLoginRequired<T>(wrappedComponent: React.FC<T>) {
+    return (props: WithLoginProps) => {
+        const {
+            user,
+            location: { pathname },
+        } = props;
 
-    if (user) {
-        return wrappedComponent(props);
-    } else {
-        return <Navigate to={{ pathname: login, search: `?next=${pathname}` }} />;
-    }
-};
+        if (user) {
+            return wrappedComponent(props as T);
+        } else {
+            return <Navigate to={{ pathname: login, search: `?next=${pathname}` }} />;
+        }
+    };
+}
 
 // Renders the component if the user is not logged in.
 // Redirects to the login page otherwise.
-export const withoutLoginRequired = (wrappedComponent: any) => (props: any) => {
-    const {
-        user,
-        location: { pathname },
-    } = props;
-    if (!user) {
-        return wrappedComponent(props);
-    } else {
-        return <Navigate to={{ pathname: main }} />;
-    }
-};
+export function withoutLoginRequired<T>(wrappedComponent: React.FC<T>) {
+    return (props: T & WithLoginProps) => {
+        const {
+            user,
+            // location: { pathname },
+        } = props;
+        if (!user) {
+            return wrappedComponent(props as T);
+        } else {
+            return <Navigate to={{ pathname: main }} />;
+        }
+    };
+}

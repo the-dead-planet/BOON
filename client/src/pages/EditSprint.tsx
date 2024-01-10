@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import SprintForm from '../components/forms/Sprint';
-import { authenticatedPage } from '../utils/authenticatedPage';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import { Format } from '../constants/dateFormats';
 import AppLayout from '../layouts/AppLayout';
 import { Loading } from '../components/Loading';
@@ -64,9 +64,9 @@ const EditSprint = ({ user, themeType, onThemeTypeChange, mode, onModeChange, pu
                         dateTo: Utils.DateTime.toFormat(sprint.dateTo, Format.FORMIK_DATE_FORMAT),
                         body: sprint.body,
                     }}
-                    onSubmit={(data: SprintSubmit) => {
+                    onSubmit={(data) => {
                         sprintsService
-                            .update({ ...data, objectId: id ?? '' })
+                            .update({ ...(data as unknown as SprintSubmit), objectId: id ?? '' })
                             .then(() => {
                                 push('/sprints');
                             })
@@ -78,4 +78,5 @@ const EditSprint = ({ user, themeType, onThemeTypeChange, mode, onModeChange, pu
     );
 };
 
-export default authenticatedPage(EditSprint);
+export default EditSprint;
+// export default authenticatedPage(EditSprint);

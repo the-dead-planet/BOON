@@ -11,7 +11,7 @@ interface Props {
     user: User;
     sprint: Sprint;
     model: Model;
-    onError?: any;
+    onError?: (err: Error) => void;
 }
 
 export const SprintModifyButtons = ({ user, sprint, model, onError }: Props) => {

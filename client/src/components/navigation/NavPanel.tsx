@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 backgroundColor: 'rgba(0, 0, 0, .1)',
             },
         },
-        selected: ({ variant }: { variant: Variant }) => ({
+        selected: (_obj: { variant: Variant }) => ({
             textTransform: 'uppercase',
         }),
         sideColContainer: {
@@ -99,7 +99,7 @@ interface Props {
 }
 
 // A temporary component that is going to be implemented in Layout in the long run.
-export const NavPanel = ({ user, variant, themeType, contents, sideColumn, createButton }: Props) => {
+export const NavPanel = ({ user, variant, themeType, contents, createButton }: Props) => {
     const classes = useStyles({ variant });
 
     return (

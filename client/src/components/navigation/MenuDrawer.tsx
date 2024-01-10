@@ -38,13 +38,13 @@ interface Props {
     mode: Mode;
     onModeChange: (mode: Mode) => void;
     open: boolean;
-    toggleDrawer: any;
+    toggleDrawer: (value: boolean) => () => void;
     variant?: DrawerVariant;
     createButton?: NavButton;
 }
 
 // This component can be either temporary or persistent. By default temporary. use prop 'variant' to change to "persistent"
-const MenuDrawer = ({ user, variant = 'temporary', mode, onModeChange, open, toggleDrawer, createButton }: Props) => {
+const MenuDrawer = ({ user, variant = 'temporary', open, toggleDrawer, createButton }: Props) => {
     const classes = useStyles();
 
     const items = [

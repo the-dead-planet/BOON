@@ -7,7 +7,7 @@ import { WithObjectId } from './types';
 /**
  * Sends a x-www-form-urlencoded request.
  */
-export const sendRawPostRequest = <Resp>(url: string, data: any): Promise<AxiosResponse<Resp>> =>
+export const sendRawPostRequest = <Resp>(url: string, data: { [key in string]: unknown; }): Promise<AxiosResponse<Resp>> =>
     axios({
         method: 'post',
         url,

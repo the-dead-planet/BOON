@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 // import * as luxon from 'luxon';
 import PostForm from '../components/forms/Post';
-import { authenticatedPage } from '../utils/authenticatedPage';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import { useParams } from 'react-router-dom';
-import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, PostSubmit, Sprint, ThemeType } from '../logic/types';
+// import withShowError from '../utils/withShowError';
+import { User, NotificationProps, Mode, Sprint, ThemeType, PostData } from '../logic/types';
 import { useServices } from '../services';
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
     mode: Mode;
     sprintId: string;
     onModeChange: (mode: Mode) => void;
-    push: (path: string) => void;
+    // push: (path: string) => void;
     notificationsProps: NotificationProps;
     showError: (err: Error) => void;
 }
@@ -67,17 +67,18 @@ const AddPost = ({
                     title: '',
                     body: '',
                 }}
-                onSubmit={(data: PostSubmit) => {
+                onSubmit={(data: { [key in string]: unknown }) => {
                     const extendedData = {
                         ...data,
                         sprintId: params.id,
                         model: 'Sprint',
                     };
-                    return postsService.add(extendedData).catch(showError);
+                    return postsService.add(extendedData as unknown as PostData).catch(showError);
                 }}
             />
         </AppLayout>
     );
 };
 
-export default authenticatedPage(withShowError(AddPost));
+export default AddPost;
+// export default authenticatedPage(withShowError(AddPost));

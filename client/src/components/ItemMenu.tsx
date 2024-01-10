@@ -25,7 +25,7 @@ export interface Item {
 
 interface Props {
     items: Item[];
-    icon?: string;
+    icon?: React.ReactNode;
     tooltip?: string;
     placement?:
         | 'bottom'

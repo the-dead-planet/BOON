@@ -15,7 +15,7 @@ interface Props {
     size: Size;
 }
 
-export const IconRobot = ({ size }: Props) => (
+export const IconRobot: React.FC<Props> = () => (
     <FontAwesomeIcon
         icon={faRobot}
         size="1x"

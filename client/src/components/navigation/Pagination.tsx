@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 // TODO: Add a menu with
-const Pagination = ({ path, primary, secondary, list, currentId, previousId, nextId, links }: Page) => {
+const Pagination = ({ path, primary, secondary, previousId, nextId }: Page) => {
     const classes = useStyles();
 
     return (

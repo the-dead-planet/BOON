@@ -11,15 +11,16 @@
     These issues do not occur if classes are applied as explained above.
 */
 import { makeStyles, createStyles } from '@mui/styles';
+import { Theme } from '@mui/material';
 
 // Below components need to be imported to correctly overwrite styles with classes in useStyle
-const landing1 = require('../img/landing/landing-1.png');
-const landing2 = require('../img/landing/landing-2.png');
-const landing3 = require('../img/landing/landing-3.png');
-const landing4 = require('../img/landing/landing-4.png');
-const landing5 = require('../img/landing/landing-5.png');
+import landing1 from '../img/landing/landing-1.png';
+import landing2 from '../img/landing/landing-2.png';
+import landing3 from '../img/landing/landing-3.png';
+import landing4 from '../img/landing/landing-4.png';
+import landing5 from '../img/landing/landing-5.png';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
         /* 
             For Animations page. Notes:

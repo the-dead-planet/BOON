@@ -10,10 +10,11 @@
     For example, some styles were ignored or required the '!important' suffix.
     These issues do not occur if classes are applied as explained above.
 */
+import { Theme } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
 
-const header = require('../img/landing/header-1.jpg');
-const header2 = require('../img/landing/header-2.jpg');
+import header from '../img/landing/header-1.jpg';
+import header2 from '../img/landing/header-2.jpg';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

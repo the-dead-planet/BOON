@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { withFetchData } from '../utils/withFetchData';
-import { authenticatedPage } from '../utils/authenticatedPage';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import { SingleProject } from '../components/project/SingleProject';
-import { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, NotificationProps, Mode, ThemeType, StateData, Project, RemoveObjectData } from '../logic/types';
+// import { WithShowErrorInjectedProps } from '../utils/withShowError';
+import { User, Comment, NotificationProps, Mode, ThemeType, StateData, Project, RemoveObjectData, Sprint } from '../logic/types';
 import { PATHS } from '../constants/data';
 import { getRandomQuote } from '../utils/data';
+import { useFetchData } from '../utils/useFetchData';
 const { projects } = PATHS;
 const projectsPath = projects;
 
@@ -19,15 +19,16 @@ interface SprintProps {
     mode: Mode;
     onModeChange: (mode: Mode) => void;
     data: StateData;
-    setStateData: any;
+    setStateData: (data: [Sprint[], Project[], User[]]) => void;
     addPostComment: (id: string, comment: Comment) => void;
-    addSprintComment: any;
+    addSprintComment: (id: string, comment: Comment) => void;
     removeObject:  (obj: RemoveObjectData) => void;
     notificationsProps: NotificationProps;
-    showError: any;
+    showError: (err: Error) => void;
 }
 
-const Project = ({
+const Project: React.FC<SprintProps> = ({
+// const Project: React.FC<SprintProps & WithShowErrorInjectedProps> = ({
     user,
     themeType,
     onThemeTypeChange,
@@ -38,9 +39,19 @@ const Project = ({
     removeObject,
     notificationsProps,
     showError,
-}: SprintProps & WithShowErrorInjectedProps) => {
+    setStateData
+}) => {
     const params = useParams<{ id: string }>();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
+
+    const fetchedData = useFetchData(showError);
+
+    useEffect(() => {
+        if (!fetchedData) {
+            return;
+        }
+        setStateData(fetchedData)
+    }, [fetchedData, setStateData]);
 
     const [quote, setQuote] = useState('');
     useEffect(() => {
@@ -87,7 +98,7 @@ const Project = ({
             }}
             sideColumn={{
                 header: '_news',
-                body: `We found something on the internet which is related to ${project?.title}. \"THEY\" say that...`,
+                body: `We found something on the internet which is related to ${project?.title}. "THEY" say that...`,
             }}
             secondaryDrawer="a" // TODO: fill with comments from related object
             secondaryDrawerOpen={false}
@@ -114,4 +125,7 @@ const Project = ({
     );
 };
 
-export default authenticatedPage(withFetchData(Project));
+// const AuthenticatedProject = authenticatedPage(Project);
+
+// export default AuthenticatedProject;
+export default Project;

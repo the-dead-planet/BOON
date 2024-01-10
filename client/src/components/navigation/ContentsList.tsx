@@ -3,7 +3,7 @@ import { HashLink } from '../../utils/Link';
 import { List, ListItem, Typography, Theme } from '@mui/material';
 import { LinkTo } from '../../logic/types';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
         bold: {
             fontWeight: 'bold',

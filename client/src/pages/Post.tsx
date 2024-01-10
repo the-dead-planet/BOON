@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '../utils/useQuery';
-import { withFetchData } from '../utils/withFetchData';
-import { authenticatedPage } from '../utils/authenticatedPage';
+import { useFetchData } from '../utils/useFetchData';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import { CommentsSection } from '../components/CommentsSection';
 import { SinglePost } from '../components/post/SinglePost';
 import {
     // withShowError,
-    WithShowErrorInjectedProps,
+    // WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, ThemeType, Mode, StateData, Comment, RemoveObjectData } from '../logic/types';
+import { User, NotificationProps, ThemeType, Mode, StateData, Comment, RemoveObjectData, WithObjectId, Sprint, Project } from '../logic/types';
 import { getRandomQuote } from '../utils/data';
 
 // TODO: see a comment in `Logout` regarding HOCs.
@@ -22,14 +22,16 @@ interface Props {
     onModeChange: (mode: Mode) => void;
     data: StateData;
     addPostComment: (id: string, comment: Comment) => void;
+    addSprintComment: (id: string, comment: Comment) => void;
     removeObject:  (obj: RemoveObjectData) => void;
     notificationsProps: NotificationProps;
     backTo: { name: string; path: string };
-    setStateData: (...args: unknown[]) => void;
+    setStateData: (data: [Sprint[], Project[], User[]]) => void;
 }
 
 // If path is /sprints, redirect to the newest sprint
-const Post: React.FC<Props & WithShowErrorInjectedProps> = ({
+const Post: React.FC<Props> = ({
+// const Post: React.FC<Props & WithShowErrorInjectedProps> = ({
     user,
     mode,
     themeType,
@@ -39,6 +41,7 @@ const Post: React.FC<Props & WithShowErrorInjectedProps> = ({
     addPostComment,
     removeObject,
     notificationsProps,
+    setStateData
 }) => {
     const { id } = useParams<{ id: string }>();
     const query = useQuery();
@@ -53,6 +56,14 @@ const Post: React.FC<Props & WithShowErrorInjectedProps> = ({
         setQuote(getRandomQuote());
     }, [setQuote]);
 
+    const fetchedData = useFetchData();
+
+    useEffect(() => {
+        if (!fetchedData) {
+            return;
+        }
+        setStateData(fetchedData)
+    }, [fetchedData, setStateData]);
     /* 
         GET CURRENT POST ID DATA FROM APP STATE
     */
@@ -63,8 +74,8 @@ const Post: React.FC<Props & WithShowErrorInjectedProps> = ({
     // any metadata in the state.
     const [isCommentsDrawerOpen, setIsCommentsDrawerOpen] = useState(false);
 
-    const removeComment = (id: string) =>
-        removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: post!._id });
+    const removeComment = (comment: WithObjectId) =>
+        removeObject({ child: 'comments', childId: comment.objectId, parent: 'posts', parentId: post!._id });
 
     const styleInfo = { margin: '0, 5em' };
 
@@ -90,7 +101,7 @@ const Post: React.FC<Props & WithShowErrorInjectedProps> = ({
                     ? {
                           header: 'written by',
                           // TODO: Add 'about me' to user properties and display it here, if not available generate random goss
-                          body: `${users.get(post.author as any)?.publicName}`,
+                          body: 'author' in post ? `${users.get(post.author?._id ?? '')?.publicName}` : '',
                       }
                     : undefined
             }
@@ -142,5 +153,8 @@ const Post: React.FC<Props & WithShowErrorInjectedProps> = ({
     );
 };
 
+export default Post;
 // export default (withShowError as any)(Sprint);
-export default authenticatedPage(withFetchData<Props & WithShowErrorInjectedProps>(Post));
+// const AuthenticatedPost = authenticatedPage(Post);
+
+// export default AuthenticatedPost;

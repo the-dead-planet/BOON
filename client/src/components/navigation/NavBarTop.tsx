@@ -84,7 +84,7 @@ interface Props {
     onModeChange: (mode: Mode) => void;
     drawerVariant: DrawerVariant;
     open: boolean;
-    toggleDrawer: any;
+    toggleDrawer: (value: boolean) => () => void;
     pagination?: Page;
     quote?: string;
 }

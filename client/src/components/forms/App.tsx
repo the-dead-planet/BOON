@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
 import { Formik, Form, FormikValues, FormikHelpers } from 'formik';
 import { Grid, Paper, Typography, Hidden, Alert, Theme } from '@mui/material';
-import { withValidationList } from '../../utils/withValidation';
 import image from '../../img/content/vintage/watch.jpg';
 import { Mode } from '../../logic/types';
 
@@ -35,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface GridFormProps {
-    children: React.ReactChild | Array<React.ReactChild | undefined> | undefined;
+    children?: React.ReactNode;
     title?: string;
 }
 
@@ -75,7 +74,7 @@ interface Props {
     initialValues: { [field: string]: unknown; };
     onSubmit?: (values:  { [field: string]: unknown; }, formikHelpers: FormikHelpers<FormikValues>) => void | Promise<unknown>
     validate?: (values:  { [field: string]: unknown; }) => void;
-    validationSchema?: unknown;
+    validationSchema?: (values: { [field: string]: unknown; }) => void;
     children: React.ReactElement;
     submitSection: React.ReactNode;
     submitPos?: 'bottom' | 'right';
@@ -109,7 +108,7 @@ export const AppForm: React.FC<Props> = ({
             // validate={validate}
             validationSchema={validationSchema}
         >
-            {({ errors, touched }) => {
+            {() => {
                 return (
                     <Form>
                         <Grid container justifyContent="center">
@@ -123,7 +122,9 @@ export const AppForm: React.FC<Props> = ({
                                 </Grid>
                             )}
 
-                            {withValidationList(children, errors, touched)}
+                            {/* TODO: pass component props using React.ComponentType ... */}
+                            {/* {withValidationList(children, errors, touched)} */}
+                            {children}
 
                             {/* This prop should receive at least a button with type submit */}
                             {submitSection}

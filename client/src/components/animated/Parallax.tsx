@@ -21,7 +21,7 @@
 //     onModeChange: (mode: Mode) => void;
 //     title: string;
 //     subtitle: string;
-//     button: any;
+//     button: string;
 // }
 
 // // TODO: create a page with graphics moving in different speeds

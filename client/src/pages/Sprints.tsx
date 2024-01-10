@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { authenticatedPage } from '../utils/authenticatedPage';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import { useServices } from '../services';
 import AppLayout from '../layouts/AppLayout';
 import RedirectToFirst from '../components/RedirectToFirst';
@@ -43,4 +43,7 @@ const SprintsPage = ({ notificationsProps, ...props }: SprintsPageProps) => {
     );
 };
 
-export default authenticatedPage(SprintsPage);
+// const AuthenticatedSprintsPage = authenticatedPage(SprintsPage);
+
+// export default AuthenticatedSprintsPage;
+export default SprintsPage;

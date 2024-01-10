@@ -3,7 +3,7 @@ import { HashLink } from '../../utils/Link';
 import { Typography, Theme } from '@mui/material';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
         offset: {
             padding: '0.2em',

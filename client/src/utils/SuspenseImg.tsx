@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 // Create image component for suspensed image
-const ImageComponent = ({ alt, img, className }: { alt: string; img: any; className: any }) => {
+const ImageComponent = ({ alt, img, className }: { alt: string; img: string; className: string }) => {
     const { src } = useImage({
         srcList: img,
     });
@@ -52,9 +52,9 @@ const ImageComponent = ({ alt, img, className }: { alt: string; img: any; classN
 
 interface Props {
     alt: string;
-    img: any;
-    fallbackImg: any;
-    className?: any;
+    img: string;
+    fallbackImg: string;
+    className?: string;
     onHover?: boolean;
 }
 

@@ -1,4 +1,4 @@
-import { guestPage } from '../utils/authenticatedPage';
+// import { guestPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import Content from '../components/landing/Content';
 import Header from '../components/landing/Header';
@@ -30,4 +30,5 @@ const Home = ({ user, themeType, onThemeTypeChange, mode, onModeChange, notifica
     </AppLayout>
 );
 
-export default guestPage(Home);
+export default Home;
+// export default guestPage(Home);

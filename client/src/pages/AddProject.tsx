@@ -1,7 +1,7 @@
 import ProjectForm from '../components/forms/Project';
-import { authenticatedPage } from '../utils/authenticatedPage';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
-import withShowError from '../utils/withShowError';
+// import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, ProjectSubmit, ThemeType } from '../logic/types';
 import { useServices } from '../services';
 
@@ -34,9 +34,9 @@ const AddProject = ({ user, mode, themeType, onThemeTypeChange, onModeChange, pu
                     title: '',
                     body: '',
                 }}
-                onSubmit={(data: ProjectSubmit) => {
+                onSubmit={(data) => {
                     projectsService
-                        .add(data)
+                        .add(data as unknown as ProjectSubmit)
                         .then(() => {
                             push('/sprints');
                         })
@@ -47,4 +47,5 @@ const AddProject = ({ user, mode, themeType, onThemeTypeChange, onModeChange, pu
     );
 };
 
-export default authenticatedPage(withShowError(AddProject));
+export default AddProject;
+// export default authenticatedPage(withShowError(AddProject));

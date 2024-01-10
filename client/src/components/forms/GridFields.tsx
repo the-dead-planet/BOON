@@ -34,7 +34,7 @@ interface Props {
 
 // TODO: Correct display of active grid field in vintage dark mode and frostic light
 
-export const GridField = ({ xs, sm, md, lg, xl, error, touched, mode, ...fieldProps }: Props) => {
+export const GridField = ({ xs, sm, md, lg, xl, error, touched, ...fieldProps }: Props) => {
     // const classes = useStyles();
 
     return (

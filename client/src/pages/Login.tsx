@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
-import { guestPage } from '../utils/authenticatedPage';
+// import { guestPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import { useServices } from '../services';
@@ -13,7 +13,7 @@ import { Theme } from '@mui/material';
     by matched user's username (=email) 
  */
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
         container: {
             marginTop: '5em',
@@ -27,10 +27,10 @@ interface Props {
     themeType: ThemeType;
     onThemeTypeChange: (themeType: ThemeType) => void;
     onModeChange: (mode: Mode) => void;
-    next?: any;
-    onLoginSuccess: any;
+    next?: () => void;
+    onLoginSuccess: (user: User) => void;
     notificationsProps: NotificationProps;
-    showError: any;
+    showError: (err: Error) => void;
     location?: { path: string; search?: string };
 }
 
@@ -43,15 +43,15 @@ const Login = ({
     next,
     onLoginSuccess,
     notificationsProps,
-    showError,
     location,
 }: Props) => {
     const classes = useStyles();
     const [error, setError] = useState('');
     const { authService } = useServices()!;
 
-    const setErrorMessage = (err: any) => {
-        setError(err.request.response);
+    const setErrorMessage = (err: Error) => {
+        setError(err.message ?? 'uknown error');
+        // setError(err.request.response);
     };
 
     return (
@@ -73,12 +73,12 @@ const Login = ({
                         email: '',
                         password: '',
                     }}
-                    onSubmit={async ({ password, email }: { password: string; email: string }) => {
+                    onSubmit={async ({ password, email }: { [key in string]: unknown }) => {
                         authService
-                            .login(password, email)
+                            .login(password as string, email as string)
                             .then(({ user }) => {
                                 onLoginSuccess(user);
-                                next();
+                                next?.();
                             })
                             .catch(setErrorMessage);
                     }}
@@ -90,4 +90,7 @@ const Login = ({
 
 // TODO: Repair guest page to work and redirect to the main page if user is logged in -> works with /home, here not
 // export default withShowError(Login);
-export default guestPage(Login);
+export default Login;
+// const GuestLogin = guestPage(Login);
+
+// export default GuestLogin;

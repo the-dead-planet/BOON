@@ -20,7 +20,7 @@ interface LogoutProps {
     showError: (err: Error) => void;
 }
 
-const Logout = ({
+const Logout: React.FC<LogoutProps> = ({
     user,
     onSuccess,
     themeType,
@@ -29,7 +29,7 @@ const Logout = ({
     onModeChange,
     notificationsProps,
     showError,
-}: LogoutProps) => {
+}) => {
     const [logoutRequestDone, setLogoutRequestDone] = useState(false);
     const { authService } = useServices()!;
 

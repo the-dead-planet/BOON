@@ -81,7 +81,7 @@ interface Props {
     onModeChange: (mode: Mode) => void;
 }
 
-export const AuthButtonsHorizontal = ({ user, themeType, onThemeTypeChange, mode, setMode }: Props) => {
+export const AuthButtonsHorizontal = ({ user, themeType, onThemeTypeChange, mode, onModeChange }: Props) => {
     const classes = useStyles();
     const signUpButton = (
         <Link to={register}>
@@ -95,7 +95,7 @@ export const AuthButtonsHorizontal = ({ user, themeType, onThemeTypeChange, mode
         </Link>
     );
 
-    let logInButton = (
+    const logInButton = (
         <Link to={login}>
             <TypographyLinkOutlined variant="body2" color="secondary">
                 {texts.login}
@@ -110,7 +110,7 @@ export const AuthButtonsHorizontal = ({ user, themeType, onThemeTypeChange, mode
         setOpenDialog(false);
     };
 
-    const handleDialogOpen = (id: string) => {
+    const handleDialogOpen = () => {
         setOpenDialog(true);
     };
 
@@ -171,14 +171,14 @@ export const AuthButtonsHorizontal = ({ user, themeType, onThemeTypeChange, mode
 export const AuthButtonsVertical = ({ user }: Props) => {
     // const classes = useStyles();
     // TODO: resolve error 'div cannot be child of p'
-    let signUpButton = (
+    const signUpButton = (
         <ListItem button component={!user ? Link : Typography} to={!user ? register : ''}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText primary={texts.register} />
         </ListItem>
     );
 
-    let loginButton = (
+    const loginButton = (
         <ListItem button component={Link} to={!user ? login : logout}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText primary={texts.login} />
@@ -193,7 +193,7 @@ export const AuthButtonsVertical = ({ user }: Props) => {
     );
 };
 
-export const BrowseButton = ({ user }: Props) => {
+export const BrowseButton: React.FC<Props> = () => {
     const classes = useStyles();
 
     return (

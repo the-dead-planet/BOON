@@ -14,7 +14,7 @@ interface Props {
 
 const SprintList = ({ sprints, currentSprintId }: Props) => {
     // Find unique dateTo years
-    let sprintYears: Array<string> = [
+    const sprintYears: Array<string> = [
         ...new Set([...sprints.values()].map((sprint) => Utils.DateTime.toFormat(sprint.dateTo, Format.YEAR_DATE_FORMAT))),
     ];
 

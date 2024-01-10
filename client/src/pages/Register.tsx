@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
-import { guestPage } from '../utils/authenticatedPage';
+// import { guestPage } from '../utils/authenticatedPage';
 import Layout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
-import { Mode, User, NotificationProps, Auth, ThemeType } from '../logic/types';
+import { Mode, User, NotificationProps, ThemeType } from '../logic/types';
 import { useServices } from '../services';
 import { Theme } from '@mui/material';
 
@@ -13,7 +13,7 @@ import { Theme } from '@mui/material';
     by matched user's username (=email) 
  */
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
         container: {
             marginTop: '5em',
@@ -22,15 +22,15 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    next: any;
-    onSuccess: any;
+    next?: () => void;
+    onSuccess: (user: User) => void;
     user: User;
     themeType: ThemeType;
     onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
     onModeChange: (mode: Mode) => void;
     notificationsProps: NotificationProps;
-    showError: any;
+    showError: (err: Error) => void;
     location?: { path: string; search?: string };
 }
 
@@ -43,7 +43,6 @@ const Register = ({
     next,
     onSuccess,
     notificationsProps,
-    showError,
     location,
 }: Props) => {
     const classes = useStyles();
@@ -52,8 +51,9 @@ const Register = ({
 
     const { authService } = useServices()!;
 
-    const setErrorMessage = (err: { message: string; request: any }) => {
-        setError(err.request.response);
+    const setErrorMessage = (err:Error) => {
+        setError(err.message ?? 'Unknown error');
+        // setError(err.request.response);
     };
 
     return (
@@ -75,13 +75,13 @@ const Register = ({
                         email: '',
                         password: '',
                     }}
-                    onSubmit={({ username, password, email, team }: Auth) => {
+                    onSubmit={({ username, password, email, team }: { [key in string]: unknown; }) => {
                         authService
-                            .register(username, password, email, team)
+                            .register(username as string, password as string, email as string, team as string)
                             .then((res) => {
                                 const { user } = res;
                                 onSuccess(user);
-                                next();
+                                next?.();
                             })
                             .catch(setErrorMessage);
                     }}
@@ -95,4 +95,5 @@ const Register = ({
 // TODO: Repair guest page to work and redirect to the main page if user is logged in -> works with /home, here not
 // export default withShowError(Register);
 // TODO: Rebuild intercept page
-export default guestPage(Register);
+export default Register;
+// export default guestPage(Register);

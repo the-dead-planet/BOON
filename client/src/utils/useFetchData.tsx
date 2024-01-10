@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useServices } from '../services';
-
-type WithDataFetchProps = {
-    showError: (err: Error) => unknown[];
-    setStateData: (...args: unknown[]) => void;
-};
+import { Project, Sprint, User } from '../logic/types';
 
 /**
  * Fetch data and save it to state on the first render.
@@ -12,10 +8,10 @@ type WithDataFetchProps = {
  * To match previous behaviour, the wrapped component is rendered right away, regardless of fetch state.
  * This component will become redundant after introducing graphql.
  */
-export const withFetchData = <T extends WithDataFetchProps>(wrappedComponent: React.FC<T>) => (props: T) => {
-    const { showError, setStateData } = props;
+export const useFetchData = (showError?: (err: Error) => void) => {
     const { sprintsService, projectsService, usersService } = useServices()!;
     const [requestSent, setRequestSent] = useState(false);
+    const [data, setData] = useState<[Sprint[], Project[], User[]] | null>(null);
 
     // Fetch data on the first render.
     useEffect(() => {
@@ -29,11 +25,13 @@ export const withFetchData = <T extends WithDataFetchProps>(wrappedComponent: Re
         // Fetch data from the backend and write to app state.
         // NOTE: temporary. Will be made obsolete by graphql.
         Promise.all([sprintsService.getAll(), projectsService.getAll(), usersService.getAll()])
-            .catch(showError)
-            .then(([sprints, projects, users]) => {
-                setStateData(sprints, projects, users);
-            });
-    }, [requestSent, setRequestSent, projectsService, sprintsService, usersService, showError, setStateData]);
+            .then((response) => {
+                const [sprints, projects, users] = response;
+                setData([sprints, projects, users]);
+            })
+            .catch((e) => showError?.(e));
 
-    return wrappedComponent(props);
+    }, [requestSent, setRequestSent, projectsService, sprintsService, usersService, showError,]);
+
+    return data;
 };

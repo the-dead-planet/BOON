@@ -94,7 +94,8 @@ const addCommentImpl = <Commented extends { comments: Array<string> }>(
 
 // Set populated objects, such as: posts, comments, likes
 // Depopulate objects and store them as originally stored in mongo (with references to id's only)
-export const setStateData = (state: StateType) => (
+export const setStateData = (
+    state: StateType,
     sprints: Array<Sprint>,
     projects: Array<Project>,
     users: Array<User>

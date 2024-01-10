@@ -4,7 +4,7 @@ import { createStyles, makeStyles } from '@mui/styles';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
         pointer: {
             cursor: 'pointer'
@@ -26,7 +26,7 @@ const styles = {
 interface Props {
     children?: React.ReactNode;
     to: string;
-    className?: any;
+    className?: string;
 }
 
 export const Link = ({ children, ...props }: Props) => (
@@ -61,7 +61,7 @@ interface LinkProps {
     hash: boolean;
     children?: React.ReactNode;
     to: string;
-    className?: any;
+    className?: string;
 }
 
 export const LinkComponent = ({ hash, ...props }: LinkProps) => {

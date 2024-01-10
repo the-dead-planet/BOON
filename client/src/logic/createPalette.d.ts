@@ -1,4 +1,3 @@
-import * as createPalette from '@mui/styles/createPalette';
 import { Mode } from './types';
 
 declare module '@mui/styles/createPalette' {

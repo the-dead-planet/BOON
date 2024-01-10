@@ -11,7 +11,7 @@ import { Mode, ThemeType } from '../../logic/types';
 interface Props {
     mode: Mode;
     themeType: ThemeType;
-    children: any;
+    children?: React.ReactNode;
 }
 
 const ThemeWrapper = ({ mode, themeType, children }: Props) => {
@@ -20,7 +20,6 @@ const ThemeWrapper = ({ mode, themeType, children }: Props) => {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-
             {children}
         </ThemeProvider>
     );

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { withFetchData } from '../utils/withFetchData';
-import { authenticatedPage } from '../utils/authenticatedPage';
+import { useFetchData } from '../utils/useFetchData';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import { CommentsSection } from '../components/CommentsSection';
 import { SingleSprint } from '../components/sprint/SingleSprint';
-import { WithShowErrorInjectedProps } from '../utils/withShowError';
+// import { WithShowErrorInjectedProps } from '../utils/withShowError';
 import {
     User,
     NotificationProps,
@@ -17,6 +17,9 @@ import {
     Comment,
     Model,
     RemoveObjectData,
+    WithObjectId,
+    Sprint,
+    Project,
 } from '../logic/types';
 import { Format } from '../constants/dateFormats';
 import { PATHS } from '../constants/data';
@@ -36,10 +39,11 @@ interface SprintProps {
     addSprintComment: (id: string, comment: Comment) => void;
     removeObject:  (obj: RemoveObjectData) => void;
     notificationsProps: NotificationProps;
-    setStateData: (...args: unknown[]) => void;
+    setStateData: (data: [Sprint[], Project[], User[]]) => void;
 }
 
-const Sprint: React.FC<SprintProps & WithShowErrorInjectedProps> = ({
+const Sprint: React.FC<SprintProps> = ({
+// const Sprint: React.FC<SprintProps & WithShowErrorInjectedProps> = ({
     user,
     themeType,
     onThemeTypeChange,
@@ -50,9 +54,18 @@ const Sprint: React.FC<SprintProps & WithShowErrorInjectedProps> = ({
     addSprintComment,
     removeObject,
     notificationsProps,
+    setStateData
 }) => {
     const { id }= useParams<{ id: string }>();
     const { sprints, posts, comments, likes, users, projects } = data;
+    const fetchedData = useFetchData();
+
+    useEffect(() => {
+        if (!fetchedData) {
+            return;
+        }
+        setStateData(fetchedData);
+    }, [fetchedData, setStateData]);
 
     const [quote, setQuote] = useState('');
     useEffect(() => {
@@ -179,10 +192,10 @@ const Sprint: React.FC<SprintProps & WithShowErrorInjectedProps> = ({
                                 ? addSprintComment.bind(focusForComments.id)
                                 : addPostComment.bind(focusForComments.id)
                         }
-                        removeComment={(id: string) =>
+                        removeComment={(comment: WithObjectId) =>
                             removeObject({
                                 child: 'comments',
-                                childId: id,
+                                childId: comment.objectId,
                                 parent: focusForComments.model === 'Sprint' ? 'sprints' : 'posts',
                                 parentId: focusForComments.id,
                             })
@@ -211,4 +224,5 @@ const Sprint: React.FC<SprintProps & WithShowErrorInjectedProps> = ({
     );
 };
 
-export default authenticatedPage(withFetchData(Sprint));
+export default Sprint;
+// export default authenticatedPage(Sprint);

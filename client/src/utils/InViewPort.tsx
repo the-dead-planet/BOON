@@ -72,21 +72,21 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-interface Props {
+interface Props<T> {
     inViewport: boolean;
     // forwardedRef: string | ((instance: HTMLDivElement | null) => void) | RefObject<HTMLDivElement> | null | undefined;
-    forwardedRef: any;
+    forwardedRef: React.LegacyRef<T>;
     enterCount?: number;
     leaveCount?: number;
-    onEnterViewport?: any;
-    onLeaveViewport?: any;
+    onEnterViewport?: () => void;
+    onLeaveViewport?: () => void;
     src?: string;
     variant?: 'slideUp' | 'slideLeft';
     children?: React.ReactNode;
 }
 
 // This wrapper component injects properties describing if or what should happen if a wrapped component is in viewport
-const DivInViewport = ({ forwardedRef, inViewport, children }: Props) => {
+const DivInViewport = ({ forwardedRef, inViewport, children }: Props<HTMLDivElement>) => {
     const classes = useStyles();
 
     return (
@@ -100,7 +100,7 @@ const ShowInViewport = handleViewport(DivInViewport);
 
 // This is a special component with classes which set visibility to 'hidden' if image not in viewport,
 // and to 'visible' if in viewport. Those classes use transition effects
-const ImageShowOnScroll = ({ inViewport, forwardedRef, src }: Props) => {
+const ImageShowOnScroll = ({ inViewport, forwardedRef, src }: Props<HTMLImageElement>) => {
     const classes = useStyles();
 
     return <img ref={forwardedRef} src={src} className={`${classes.inlinePhoto} ${inViewport && classes.isVisible}`} />;
@@ -109,7 +109,7 @@ const ImageShowOnScroll = ({ inViewport, forwardedRef, src }: Props) => {
 const ViewportImage = handleViewport(ImageShowOnScroll /** options: {}, config: {} **/);
 
 // This wrapper is created for bottom message at the bottom of the page
-const SlideInViewport = ({ forwardedRef, inViewport, children }: Props) => {
+const SlideInViewport = ({ forwardedRef, inViewport, children }: Props<HTMLDivElement>) => {
     const classes = useStyles();
 
     return (

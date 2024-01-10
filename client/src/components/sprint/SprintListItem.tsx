@@ -5,7 +5,7 @@ import { ListItem, Theme } from '@mui/material';
 import { Format } from '../../constants/dateFormats';
 import * as Utils from '../../utils';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
         selectedStyle: {
             fontStyle: 'italic',
@@ -23,7 +23,7 @@ interface Props {
     currentSprintId: string;
 }
 
-function SprintListItem({ _id, number, title, dateFrom, dateTo, body, currentSprintId }: Props) {
+function SprintListItem({ _id, number, dateTo, currentSprintId }: Props) {
     const classes = useStyles();
 
     // const sprintDateRange = `${dateFrom ? Utils.DateTime.toFormat(dateFrom, DATE_FORMAT) : null} - ${

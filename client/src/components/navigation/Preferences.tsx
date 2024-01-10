@@ -1,9 +1,8 @@
-import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
-import { List, ListItem, Typography } from '@mui/material';
+import { List, ListItem, Theme, Typography } from '@mui/material';
 import { RadioButtonGroup } from '../RadioButtonGroup';
 import { ThemeType, Mode } from '../../logic/types';
-import { MODES_TYPES } from '../../constants/data';
+import { MODES, THEME_TYPES } from '../../constants/data';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -30,7 +29,7 @@ interface Props {
     onModeChange: (mode: Mode) => void;
 }
 
-export const Preferences = ({ themeType, onThemeTypeChange, mode, setMode }: Props) => {
+export const Preferences = ({ themeType, onThemeTypeChange, mode, onModeChange }: Props) => {
     const classes = useStyles();
 
     return (
@@ -41,14 +40,14 @@ export const Preferences = ({ themeType, onThemeTypeChange, mode, setMode }: Pro
                 <RadioButtonGroup
                     valueList={THEME_TYPES as Array<string>}
                     value={themeType as string}
-                    setValue={onThemeTypeChange}
+                    setValue={(val) => onThemeTypeChange(val as ThemeType)}
                 />
             </ListItem>
 
             {/* Light / Dark mode selection */}
             <ListItem>
                 <Typography className={classes.itemName}>Mode</Typography>
-                <RadioButtonGroup valueList={MODES as Array<string>} value={mode as string} setValue={onModeChange} />
+                <RadioButtonGroup valueList={MODES as Array<string>} value={mode as string} setValue={(val) => onModeChange(val as Mode)} />
             </ListItem>
         </List>
     );

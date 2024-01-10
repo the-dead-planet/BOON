@@ -4,11 +4,11 @@ import Collapse from '@mui/material/Collapse';
 interface Props {
     expanded: boolean;
     title: string;
-    children: React.ReactChild | React.ReactChildren | Array<React.ReactChildren>;
+    children?: React.ReactNode;
 }
 
 // TODO: fix the warning about children
-const SimpleCollapse = ({ expanded, title, children }: Props) => {
+const SimpleCollapse = ({ expanded, children }: Props) => {
     return (
         <>
             <Collapse in={expanded} timeout="auto" unmountOnExit>

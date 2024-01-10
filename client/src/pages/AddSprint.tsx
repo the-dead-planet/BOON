@@ -1,9 +1,9 @@
 import React from 'react';
 import SprintForm from '../components/forms/Sprint';
-import { authenticatedPage } from '../utils/authenticatedPage';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import { Format } from '../constants/dateFormats';
 import AppLayout from '../layouts/AppLayout';
-import withShowError from '../utils/withShowError';
+// import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, ThemeType, SprintSubmit } from '../logic/types';
 import { useServices } from '../services';
 import * as Utils from '../utils';
@@ -43,9 +43,9 @@ const AddSprint = ({ user, themeType, onThemeTypeChange, mode, onModeChange, pus
                     title: '',
                     body: '',
                 }}
-                onSubmit={(data: SprintSubmit) => {
+                onSubmit={(data: { [key in string]: unknown }) => {
                     sprintsService
-                        .add(data)
+                        .add(data as unknown as SprintSubmit)
                         .then(() => {
                             push('/sprints');
                         })
@@ -56,4 +56,5 @@ const AddSprint = ({ user, themeType, onThemeTypeChange, mode, onModeChange, pus
     );
 };
 
-export default authenticatedPage(withShowError(AddSprint));
+export default AddSprint;
+// export default authenticatedPage(withShowError(AddSprint));

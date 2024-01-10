@@ -38,7 +38,7 @@ interface Props {
     user: User;
 }
 
-export const BottomNav = ({ user }: Props) => {
+export const BottomNav: React.FC<Props> = () => {
     const classes = useStyles();
     const zoomStyle = { transitionDelay: `500ms` };
     return (
