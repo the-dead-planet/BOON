@@ -56,7 +56,6 @@ const AppImpl: React.FC = () => {
     const handleClearUser = () => {
         setState((prev) => ({ ...prev, user: null }))
     }
-    console.log('s', state);
 
     const router = createBrowserRouter([
         {

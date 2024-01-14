@@ -78,7 +78,6 @@ export const Login = ({
                             .login(password as string, email as string)
                             .then(({ user }) => {
                                 onLoginSuccess(user);
-                                console.log('navigating', searchParams.get('next') ?? PATHS.home);
                                 navigate(searchParams.get('next') ?? PATHS.home, {});
                             })
                             .catch(handleErrorMessage);

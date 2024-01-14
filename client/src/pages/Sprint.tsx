@@ -115,7 +115,6 @@ export const Sprint: React.FC<Props> = ({
         focusForComments &&
         (focusForComments.model === 'Sprint' ? sprints.get(focusForComments.id) : posts.get(focusForComments.id));
 
-        console.log(sprints, id)
     return (
         <AppLayout
             user={user}
