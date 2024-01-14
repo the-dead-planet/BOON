@@ -1,23 +1,22 @@
 import ProjectForm from '../components/forms/Project';
-// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
-// import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, ProjectSubmit, ThemeType } from '../logic/types';
+import * as Types from '../logic/types';
 import { useServices } from '../services';
 
 interface Props {
-    user: User;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
+    user: Types.User;
+    themeType: Types.ThemeType;
+    onThemeTypeChange: (themeType: Types.ThemeType) => void;
+    mode: Types.Mode;
+    onModeChange: (mode: Types.Mode) => void;
     push: (path: string) => void;
-    notificationsProps: NotificationProps;
+    notificationsProps: Types.NotificationProps;
     showError: (err: Error) => void;
 }
 
-const AddProject = ({ user, mode, themeType, onThemeTypeChange, onModeChange, push, notificationsProps, showError }: Props) => {
+export const AddProject = ({ user, mode, themeType, onThemeTypeChange, onModeChange, push, notificationsProps, showError }: Props) => {
     const { projectsService } = useServices()!;
+
     return (
         <AppLayout
             user={user}
@@ -36,7 +35,7 @@ const AddProject = ({ user, mode, themeType, onThemeTypeChange, onModeChange, pu
                 }}
                 onSubmit={(data) => {
                     projectsService
-                        .add(data as unknown as ProjectSubmit)
+                        .add(data as unknown as Types.ProjectSubmit)
                         .then(() => {
                             push('/sprints');
                         })
@@ -46,6 +45,3 @@ const AddProject = ({ user, mode, themeType, onThemeTypeChange, onModeChange, pu
         </AppLayout>
     );
 };
-
-export default AddProject;
-// export default authenticatedPage(withShowError(AddProject));

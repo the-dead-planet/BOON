@@ -1,33 +1,27 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import { SingleProject } from '../components/project/SingleProject';
-// import { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, Comment, NotificationProps, Mode, ThemeType, StateData, Project as ProjectType, RemoveObjectData, Sprint } from '../logic/types';
+import * as Types from '../logic/types';
 import { PATHS } from '../constants/data';
 import { getRandomQuote } from '../utils/data';
 import { useFetchData } from '../utils/useFetchData';
-const { projects } = PATHS;
-const projectsPath = projects;
-
-// TODO: see a comment in `Logout` regarding HOCs.
-interface ProjectProps {
-    user: User | undefined | null;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
-    data: StateData;
-    setStateData: (data: [Sprint[], ProjectType[], User[]]) => void;
-    addPostComment: (id: string, comment: Comment) => void;
-    addSprintComment: (id: string, comment: Comment) => void;
-    removeObject:  (obj: RemoveObjectData) => void;
-    notificationsProps: NotificationProps;
+interface Props {
+    user: Types.User | undefined | null;
+    themeType: Types.ThemeType;
+    onThemeTypeChange: (themeType: Types.ThemeType) => void;
+    mode: Types.Mode;
+    onModeChange: (mode: Types.Mode) => void;
+    data: Types.StateData;
+    setStateData: (data: [Types.Sprint[], Types.Project[], Types.User[]]) => void;
+    addPostComment: (id: string, comment: Types.Comment) => void;
+    addSprintComment: (id: string, comment: Types.Comment) => void;
+    removeObject: (obj: Types.RemoveObjectData) => void;
+    notificationsProps: Types.NotificationProps;
     showError: (err: Error) => void;
 }
 
-const Project: React.FC<ProjectProps> = ({
+export const Project: React.FC<Props> = ({
     user,
     themeType,
     onThemeTypeChange,
@@ -65,7 +59,7 @@ const Project: React.FC<ProjectProps> = ({
     /* 
         NAVIGATION ITEMS
     */
-    const navProjects = [...projects.values()]?.map((project: ProjectType) => ({
+    const navProjects = [...projects.values()]?.map((project: Types.Project) => ({
         id: project._id || '',
         name: project.title || '',
         path: `/projects/${project._id}`,
@@ -88,7 +82,7 @@ const Project: React.FC<ProjectProps> = ({
             appBar={true}
             quote={quote}
             pagination={{
-                path: projectsPath,
+                path: PATHS.projects,
             }}
             navPanel={{
                 side: 'left',
@@ -123,8 +117,3 @@ const Project: React.FC<ProjectProps> = ({
         </AppLayout>
     );
 };
-
-// const AuthenticatedProject = authenticatedPage(Project);
-
-// export default AuthenticatedProject;
-export default Project;

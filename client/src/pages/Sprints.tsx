@@ -1,24 +1,23 @@
 import { useState, useEffect } from 'react';
-// import { authenticatedPage } from '../utils/authenticatedPage';
 import { useServices } from '../services';
 import AppLayout from '../layouts/AppLayout';
 import RedirectToFirst from '../components/RedirectToFirst';
-import { User, NotificationProps, ThemeType, Mode } from '../logic/types';
+import * as Types from '../logic/types';
 
-type SprintsPageProps = {
-    user: User | null;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
-    notificationsProps: NotificationProps;
+type Props = {
+    user: Types.User | null;
+    themeType: Types.ThemeType;
+    onThemeTypeChange: (themeType: Types.ThemeType) => void;
+    mode: Types.Mode;
+    onModeChange: (mode: Types.Mode) => void;
+    notificationsProps: Types.NotificationProps;
 };
 
 /**
  * Sprints list.
  * Redirect to the details page of the newest sprint.
  */
-const SprintsPage = ({ notificationsProps, ...props }: SprintsPageProps) => {
+export const Sprints = ({ notificationsProps, ...props }: Props) => {
     const { sprintsService } = useServices()!;
     const [sortedSprintIds, setSortedSprintIds] = useState<Array<string> | null>(null);
 
@@ -42,8 +41,3 @@ const SprintsPage = ({ notificationsProps, ...props }: SprintsPageProps) => {
         </AppLayout>
     );
 };
-
-// const AuthenticatedSprintsPage = authenticatedPage(SprintsPage);
-
-// export default AuthenticatedSprintsPage;
-export default SprintsPage;

@@ -11,7 +11,7 @@ module.exports = {
     ],
     ignorePatterns: ['dist', 'build', '.eslintrc.cjs'],
     parser: '@typescript-eslint/parser',
-    plugins: ['react-refresh'],
+    plugins: ['react-refresh', 'react-hooks'],
     rules: {
         'react-refresh/only-export-components': [
             'warn',
@@ -27,6 +27,7 @@ module.exports = {
                 "varsIgnorePattern": "^_",
                 "caughtErrorsIgnorePattern": "^_"
             }
-        ]
+        ],
+        "react-hooks/exhaustive-deps": "off"
     },
 }

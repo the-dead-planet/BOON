@@ -1,48 +1,30 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFetchData } from '../utils/useFetchData';
-// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import { CommentsSection } from '../components/CommentsSection';
 import { SingleSprint } from '../components/sprint/SingleSprint';
-// import { WithShowErrorInjectedProps } from '../utils/withShowError';
-import {
-    User,
-    NotificationProps,
-    Post as PostType,
-    ThemeType,
-    Mode,
-    StateData,
-    Sprint as SprintType,
-    Comment,
-    Model,
-    RemoveObjectData,
-    WithObjectId,
-    Project,
-} from '../logic/types';
+import * as Types from '../logic/types';
 import { Format } from '../constants/dateFormats';
 import { PATHS } from '../constants/data';
 import { getRandomQuote } from '../utils/data';
 import * as Utils from '../utils';
-const { sprints } = PATHS;
-const sprintsPath = sprints;
 
-interface SprintProps {
-    user: User | undefined | null;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
-    data: StateData;
-    addPostComment: (id: string, comment: Comment) => void;
-    addSprintComment: (id: string, comment: Comment) => void;
-    removeObject:  (obj: RemoveObjectData) => void;
-    notificationsProps: NotificationProps;
-    setStateData: (data: [SprintType[], Project[], User[]]) => void;
+interface Props {
+    user: Types.User | undefined | null;
+    themeType: Types.ThemeType;
+    onThemeTypeChange: (themeType: Types.ThemeType) => void;
+    mode: Types.Mode;
+    onModeChange: (mode: Types.Mode) => void;
+    data: Types.StateData;
+    addPostComment: (id: string, comment: Types.Comment) => void;
+    addSprintComment: (id: string, comment: Types.Comment) => void;
+    removeObject: (obj: Types.RemoveObjectData) => void;
+    notificationsProps: Types.NotificationProps;
+    setStateData: (data: [Types.Sprint[], Types.Project[], Types.User[]]) => void;
 }
 
-const Sprint: React.FC<SprintProps> = ({
-// const Sprint: React.FC<SprintProps & WithShowErrorInjectedProps> = ({
+export const Sprint: React.FC<Props> = ({
     user,
     themeType,
     onThemeTypeChange,
@@ -55,7 +37,7 @@ const Sprint: React.FC<SprintProps> = ({
     notificationsProps,
     setStateData
 }) => {
-    const { id }= useParams<{ id: string }>();
+    const { id } = useParams<{ id: string }>();
     const { sprints, posts, comments, likes, users, projects } = data;
     const fetchedData = useFetchData();
 
@@ -129,10 +111,11 @@ const Sprint: React.FC<SprintProps> = ({
         }
     };
 
-    const focusedElement: PostType | SprintType | null | undefined =
+    const focusedElement: Types.Post | Types.Sprint | null | undefined =
         focusForComments &&
         (focusForComments.model === 'Sprint' ? sprints.get(focusForComments.id) : posts.get(focusForComments.id));
 
+        console.log(sprints, id)
     return (
         <AppLayout
             user={user}
@@ -143,19 +126,19 @@ const Sprint: React.FC<SprintProps> = ({
             appBar={true}
             quote={quote}
             pagination={{
-                path: sprintsPath,
+                path: PATHS.sprints,
                 currentId: id,
                 nextId: currentInd > 0 ? sortedSprints[currentInd - 1]._id : undefined,
                 previousId: currentInd < sortedSprints.length - 1 ? sortedSprints[currentInd + 1]._id : undefined,
                 primary: `Sprint ${sprint?.number || ''}`,
                 secondary: sprint?.dateTo ? Utils.DateTime.toFormat(sprint.dateTo, Format.MONTH_YEAR_FORMAT) : '',
                 list: sprints
-                    ? [...sprints.values()].map((spr: SprintType) => ({
-                          name: spr?.title,
-                          path: sprintsPath,
-                          id: spr._id,
-                          number: spr.number,
-                      }))
+                    ? [...sprints.values()].map((spr: Types.Sprint) => ({
+                        name: spr?.title,
+                        path: PATHS.sprints,
+                        id: spr._id,
+                        number: spr.number,
+                    }))
                     : undefined,
             }}
             createButton={{ name: 'Create', onClick: () => '' }}
@@ -183,15 +166,15 @@ const Sprint: React.FC<SprintProps> = ({
                         user={user}
                         title={focusedElement.title}
                         parentId={focusedElement._id}
-                        parentModel={focusForComments.model as Model}
-                        comments={focusedElement.comments.map((c) => comments.get(c) as Comment)}
+                        parentModel={focusForComments.model as Types.Model}
+                        comments={focusedElement.comments.map((c) => comments.get(c) as Types.Comment)}
                         users={data.users}
                         addComment={
                             focusForComments.model === 'Sprint'
                                 ? addSprintComment.bind(focusForComments.id)
                                 : addPostComment.bind(focusForComments.id)
                         }
-                        removeComment={(comment: WithObjectId) =>
+                        removeComment={(comment: Types.WithObjectId) =>
                             removeObject({
                                 child: 'comments',
                                 childId: comment.objectId,
@@ -222,6 +205,3 @@ const Sprint: React.FC<SprintProps> = ({
         </AppLayout>
     );
 };
-
-export default Sprint;
-// export default authenticatedPage(Sprint);

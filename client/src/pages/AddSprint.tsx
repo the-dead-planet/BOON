@@ -1,28 +1,25 @@
-import React from 'react';
+import { useMemo } from 'react';
 import SprintForm from '../components/forms/Sprint';
-// import { authenticatedPage } from '../utils/authenticatedPage';
 import { Format } from '../constants/dateFormats';
 import AppLayout from '../layouts/AppLayout';
-// import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, ThemeType, SprintSubmit } from '../logic/types';
 import { useServices } from '../services';
+import * as Types from '../logic/types';
 import * as Utils from '../utils';
 
 interface Props {
-    user: User;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
+    user: Types.User;
+    themeType: Types.ThemeType;
+    onThemeTypeChange: (themeType: Types.ThemeType) => void;
+    mode: Types.Mode;
+    onModeChange: (mode: Types.Mode) => void;
     push: (path: string) => void;
-    notificationsProps: NotificationProps;
+    notificationsProps: Types.NotificationProps;
     showError: (err: Error) => void;
 }
 
-const AddSprint = ({ user, themeType, onThemeTypeChange, mode, onModeChange, push, notificationsProps, showError }: Props) => {
+export const AddSprint = ({ user, themeType, onThemeTypeChange, mode, onModeChange, push, notificationsProps, showError }: Props) => {
     const { sprintsService } = useServices()!;
-
-    const nowFormatted = React.useMemo(() => Utils.DateTime.toFormat(new Date(), Format.FORMIK_DATE_FORMAT), [])
+    const nowFormatted = useMemo(() => Utils.DateTime.toFormat(new Date(), Format.FORMIK_DATE_FORMAT), [])
 
     return (
         <AppLayout
@@ -45,7 +42,7 @@ const AddSprint = ({ user, themeType, onThemeTypeChange, mode, onModeChange, pus
                 }}
                 onSubmit={(data: { [key in string]: unknown }) => {
                     sprintsService
-                        .add(data as unknown as SprintSubmit)
+                        .add(data as unknown as Types.SprintSubmit)
                         .then(() => {
                             push('/sprints');
                         })
@@ -55,6 +52,3 @@ const AddSprint = ({ user, themeType, onThemeTypeChange, mode, onModeChange, pus
         </AppLayout>
     );
 };
-
-export default AddSprint;
-// export default authenticatedPage(withShowError(AddSprint));

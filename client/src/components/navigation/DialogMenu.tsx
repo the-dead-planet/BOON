@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Theme } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import { DialogProps } from '../../logic/types';
 
@@ -12,8 +11,8 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props}><div /></Slide>;
 });
 
-const DialogMenu = ({ open, handleClose, message, contextText, content, buttonOk, fullScreen }: DialogProps) => {
-    const fullScreenBreakPoint = useMediaQuery((_theme: Theme) =>'500px');
+const DialogMenu = ({ open, handleClose, message, contextText, content, buttonOk }: DialogProps) => {
+    // const fullScreenBreakPoint = useMediaQuery((_theme: Theme) =>'500px');
     // const fullScreenBreakPoint = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
 
     // TODO: style it nicer
@@ -24,7 +23,7 @@ const DialogMenu = ({ open, handleClose, message, contextText, content, buttonOk
                 TransitionComponent={Transition}
                 keepMounted
                 fullWidth
-                fullScreen={fullScreen ? fullScreenBreakPoint : undefined}
+                // fullScreen={fullScreen ? fullScreenBreakPoint : undefined}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-slide-title"
                 aria-describedby="alert-dialog-slide-description"
