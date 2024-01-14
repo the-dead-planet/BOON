@@ -1,5 +1,4 @@
-import React from 'react';
-import { CssBaseline } from '@material-ui/core';
+import { CssBaseline } from '@mui/material';
 import ThemeWrapper from '../components/navigation/ThemeWrapper';
 import LayoutContent from './LayoutContent';
 import { LayoutProps } from './LayoutContent';

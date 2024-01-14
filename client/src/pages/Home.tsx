@@ -1,6 +1,4 @@
-import React from 'react';
-import { withPush } from '../utils/routingDecorators';
-import { guestPage } from '../utils/authenticatedPage';
+// import { guestPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import Content from '../components/landing/Content';
 import Header from '../components/landing/Header';
@@ -9,27 +7,28 @@ import { Mode, ThemeType, User, NotificationProps } from '../logic/types';
 interface Props {
     user: User;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
-    push: string;
+    onModeChange: (mode: Mode) => void;
+    push: (path: string) => void;
     notificationsProps: NotificationProps;
-    showError: any;
+    showError: (err: Error) => void;
 }
 
-const Home = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps }: Props) => (
+const Home = ({ user, themeType, onThemeTypeChange, mode, onModeChange, notificationsProps }: Props) => (
     <AppLayout
         user={user}
         themeType={themeType}
-        setThemeType={setThemeType}
+        onThemeTypeChange={onThemeTypeChange}
         mode={mode}
-        setMode={setMode}
+        onModeChange={onModeChange}
         {...notificationsProps}
     >
-        <Header user={user} themeType={themeType} setThemeType={setThemeType} mode={mode} setMode={setMode} />
+        <Header user={user} themeType={themeType} onThemeTypeChange={onThemeTypeChange} mode={mode} onModeChange={onModeChange} />
 
-        <Content user={user} themeType={themeType} setThemeType={setThemeType} mode={mode} setMode={setMode} />
+        <Content user={user} themeType={themeType} onThemeTypeChange={onThemeTypeChange} mode={mode} onModeChange={onModeChange} />
     </AppLayout>
 );
 
-export default guestPage(withPush(Home));
+export default Home;
+// export default guestPage(Home);

@@ -1,7 +1,8 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import { Img, useImage } from 'react-image';
-import clsx from 'clsx';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Theme } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 // Create image component for suspensed image
-const ImageComponent = ({ alt, img, className }: { alt: string; img: any; className: any }) => {
+const ImageComponent = ({ alt, img, className }: { alt: string; img: string; className: string }) => {
     const { src } = useImage({
         srcList: img,
     });
@@ -51,9 +52,9 @@ const ImageComponent = ({ alt, img, className }: { alt: string; img: any; classN
 
 interface Props {
     alt: string;
-    img: any;
-    fallbackImg: any;
-    className?: any;
+    img: string;
+    fallbackImg: string;
+    className?: string;
     onHover?: boolean;
 }
 
@@ -63,12 +64,12 @@ export const SuspenseImg = ({ alt, img, className, fallbackImg, onHover }: Props
     return (
         <div className={classes.container}>
             <Suspense
-                fallback={<Img alt={alt} src={fallbackImg} className={clsx(classes.img, classes.blur, className)} />}
+                fallback={<Img alt={alt} src={fallbackImg} className={classNames(classes.img, classes.blur, className)} />}
             >
                 <ImageComponent
                     alt={alt}
                     img={img}
-                    className={clsx(classes.img, classes.blurOff, className, { [classes.onHover]: onHover })}
+                    className={classNames(classes.img, classes.blurOff, className, { [classes.onHover]: onHover })}
                 />
             </Suspense>
         </div>

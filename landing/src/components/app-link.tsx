@@ -12,8 +12,8 @@ type Props = {
   to: string
 }
 
-const AppLink: React.FC<Props> = props => (
-  <Link {...props} to={process.env.GATSBY_APP_URL + props.to} />
+const AppLink: React.FC<Props> = (props) => (
+  <a href={process.env.GATSBY_APP_URL + props.to} />
 )
 
 export default AppLink

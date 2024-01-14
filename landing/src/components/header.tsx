@@ -1,6 +1,6 @@
 import React from "react"
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles"
-import { Grid, Typography, Divider } from "@material-ui/core"
+import { makeStyles, createStyles } from "@mui/styles"
+import { Grid, Typography, Divider, Theme } from "@mui/material"
 import Logo from "./logo"
 import dictionaryData from "../data/dictionary"
 import DictionaryItem from "./dictionary-item"
@@ -64,7 +64,7 @@ const Header: React.FC<{}> = () => {
   const { explanation, definitions } = dictionaryData
 
   return (
-    <Grid container justify="center" className={classes.headerContainer}>
+    <Grid container justifyContent="center" className={classes.headerContainer}>
       {/*
           Auth and search controls used to be here. I've (temporarily)
           removed them, because the landing page has no connection to the

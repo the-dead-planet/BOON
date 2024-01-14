@@ -1,11 +1,10 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import { TOOLBAR_HEIGHT, DRAWER_WIDTH } from '../../styles/constants';
 import { Link } from '../../utils/Link';
-import { Drawer, List, ListItem, ListItemText, Typography, Grid } from '@material-ui/core';
+import { Drawer, List, ListItem, ListItemText, Typography, Grid, Theme } from '@mui/material';
 import { IconButton } from '../mui-styled/IconButton';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-// import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+// import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { DrawerVariant, Mode, NavButton, User } from '../../logic/types';
 import { PATHS } from '../../constants/data';
 const { home, sprints, projects, teams } = PATHS;
@@ -37,15 +36,15 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     user: User;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     open: boolean;
-    toggleDrawer: any;
+    toggleDrawer: (value: boolean) => () => void;
     variant?: DrawerVariant;
     createButton?: NavButton;
 }
 
 // This component can be either temporary or persistent. By default temporary. use prop 'variant' to change to "persistent"
-const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDrawer, createButton }: Props) => {
+const MenuDrawer = ({ user, variant = 'temporary', open, toggleDrawer, createButton }: Props) => {
     const classes = useStyles();
 
     const items = [
@@ -78,8 +77,8 @@ const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDr
                 paper: classes.drawerPaper,
             }}
         >
-            <Grid container className={classes.drawerHeader} justify="flex-end">
-                <Grid container item xs={12} direction="column" justify="center" alignItems="center">
+            <Grid container className={classes.drawerHeader} justifyContent="flex-end">
+                <Grid container item xs={12} direction="column" justifyContent="center" alignItems="center">
                     <Typography variant="body2">— The —</Typography>
                     <Typography variant="body1">BOON</Typography>
                 </Grid>
@@ -108,7 +107,7 @@ const MenuDrawer = ({ user, variant = 'temporary', mode, setMode, open, toggleDr
 
             {/* <Divider /> */}
             {/* TODO: Add mode modes and change this component to another one */}
-            {/* <DarkModeSwitch mode={mode} setMode={setMode} /> */}
+            {/* <DarkModeSwitch mode={mode} onModeChange={onModeChange} /> */}
         </Drawer>
     );
 };

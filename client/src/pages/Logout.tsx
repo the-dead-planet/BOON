@@ -1,36 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { withPush } from '../utils/routingDecorators';
-import { Redirect } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 import AppLayout from '../layouts/AppLayout';
 import { AppFormLayout } from '../components/forms/App';
-import { Typography, Fade } from '@material-ui/core';
+import { Typography, Fade } from '@mui/material';
 import { useServices } from '../services';
-import withShowError, { WithShowErrorInjectedProps } from '../utils/withShowError';
+import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, ThemeType } from '../logic/types';
 import { PATHS } from '../constants/data';
 const { home } = PATHS;
 
 interface LogoutProps {
-    onSuccess: any;
+    onSuccess: () => void;
     user: User | undefined | null;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     notificationsProps: NotificationProps;
-    showError: any;
+    showError: (err: Error) => void;
 }
 
-const Logout = ({
+const Logout: React.FC<LogoutProps> = ({
     user,
     onSuccess,
     themeType,
-    setThemeType,
+    onThemeTypeChange,
     mode,
-    setMode,
+    onModeChange,
     notificationsProps,
     showError,
-}: LogoutProps) => {
+}) => {
     const [logoutRequestDone, setLogoutRequestDone] = useState(false);
     const { authService } = useServices()!;
 
@@ -47,15 +46,15 @@ const Logout = ({
     });
 
     if (logoutRequestDone) {
-        return <Redirect to={home} />;
+        return <Navigate to={home} />;
     } else {
         return (
             <AppLayout
                 user={user}
                 themeType={themeType}
-                setThemeType={setThemeType}
+                onThemeTypeChange={onThemeTypeChange}
                 mode={mode}
-                setMode={setMode}
+                onModeChange={onModeChange}
                 {...notificationsProps}
             >
                 <AppFormLayout>
@@ -70,4 +69,4 @@ const Logout = ({
 // TODO: export the raw component from here, wrap it with HOCs in App.tsx.
 // export default (withShowError as any)(Logout);
 
-export default withPush(withShowError(Logout));
+export default withShowError(Logout);

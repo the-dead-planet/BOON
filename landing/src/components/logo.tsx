@@ -1,6 +1,6 @@
 import React from "react"
-import Typography from "@material-ui/core/Typography"
-import VolumeUpIcon from "@material-ui/icons/VolumeUp"
+import Typography from "@mui/material/Typography"
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 
 const Logo: React.FC<{}> = () => {
   return (

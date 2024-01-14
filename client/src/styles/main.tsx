@@ -10,17 +10,18 @@
     For example, some styles were ignored or required the '!important' suffix.
     These issues do not occur if classes are applied as explained above.
 */
-import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { Theme } from '@mui/material';
+import { makeStyles, createStyles } from '@mui/styles';
 
-const header = require('../img/landing/header-1.jpg');
-const header2 = require('../img/landing/header-2.jpg');
+// const header = require('../img/landing/header-1.jpg');
+// const header2 = require('../img/landing/header-2.jpg');
 
-// Misc const used in styles
-const drawerWidth = 240;
-const drawerSecondaryWidth = 400;
-const navBarLeftWidth = 200;
-const toolbarHeight = 40;
-const jumbotronHeight = '100vh';
+// // Misc const used in styles
+// const drawerWidth = 240;
+// const drawerSecondaryWidth = 400;
+// const navBarLeftWidth = 200;
+// const toolbarHeight = 40;
+// const jumbotronHeight = '100vh';
 
 // TODO: See ways to procedurally generate a vintage newspaper background
 // See http://api.thumbr.it/whitenoise-361x370.png?background=f2e8d5ff&noise=626262&density=15&opacity=15
@@ -99,9 +100,11 @@ const useStyles = makeStyles((theme: Theme) =>
             position: 'relative',
             borderRadius: theme.shape.borderRadius,
             border: `1px solid ${theme.palette.primary.main}`,
-            backgroundColor: fade(theme.palette.common.white, 0.15),
+            backgroundColor: theme.palette.common.white,
+            // backgroundColor: fade(theme.palette.common.white, 0.15),
             '&:hover': {
-                backgroundColor: fade(theme.palette.common.white, 0.25),
+                backgroundColor: theme.palette.common.white,
+                // backgroundColor: fade(theme.palette.common.white, 0.25),
             },
             marginRight: theme.spacing(2),
             marginLeft: 0,

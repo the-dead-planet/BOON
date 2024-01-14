@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from '../utils/Link';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { MenuList, MenuItem, ClickAwayListener, Popper, Paper, Grow, Tooltip, Typography } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { MenuList, MenuItem, ClickAwayListener, Popper, Paper, Grow, Tooltip, Typography, Theme } from '@mui/material';
 import { IconButton } from './mui-styled/IconButton';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
         onTop: {
             zIndex: 100,
@@ -16,9 +16,16 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
+export interface Item {
+    name: string;
+    onClick: () => void;
+    path?: string;
+    alarm?: boolean;
+}
+
 interface Props {
-    items: Array<{ name: any; onClick: any; path?: string; alarm?: boolean }>;
-    icon?: any;
+    items: Item[];
+    icon?: React.ReactNode;
     tooltip?: string;
     placement?:
         | 'bottom'
@@ -47,7 +54,7 @@ export const ItemMenu = ({ items, icon, tooltip, placement }: Props) => {
         setOpen((prevOpen) => !prevOpen);
     };
 
-    const handleClose = (event: React.MouseEvent<EventTarget>) => {
+    const handleClose = (event: MouseEvent | TouchEvent) => {
         if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
             return;
         }

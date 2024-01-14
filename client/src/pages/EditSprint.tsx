@@ -1,56 +1,52 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import SprintForm from '../components/forms/Sprint';
-import moment from 'moment';
-import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
-import { FORMIK_DATE_FORMAT } from '../constants/dateFormats';
+// import { authenticatedPage } from '../utils/authenticatedPage';
+import { Format } from '../constants/dateFormats';
 import AppLayout from '../layouts/AppLayout';
 import { Loading } from '../components/Loading';
 // import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, SprintSubmit, Sprint, ThemeType } from '../logic/types';
 import { useServices } from '../services';
+import * as Utils from '../utils';
 
 interface Props {
     user: User;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
-    push: any;
+    onModeChange: (mode: Mode) => void;
+    push: (path: string) => void;
     notificationsProps: NotificationProps;
-    showError: any;
+    showError: (err: Error) => void;
 }
 
-interface Params {
-    id: string;
-}
-
-const EditSprint = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps, showError }: Props) => {
-    const { id } = useParams<Params>();
+const EditSprint = ({ user, themeType, onThemeTypeChange, mode, onModeChange, push, notificationsProps, showError }: Props) => {
+    const { id } = useParams<{
+        id: string;
+    }>();
 
     const [sprint, setSprint] = useState<Sprint | null>(null);
 
     const { sprintsService } = useServices()!;
 
     const getSprint = async () => {
-        const sprint = await sprintsService.getOne({ objectId: id }).catch(showError);
-        setSprint(sprint);
+        sprintsService.getOne({ objectId: id ?? '' }).then(setSprint).catch(showError);
     };
 
     useEffect(() => {
         if (!sprint) {
             getSprint();
         }
-    });
+    }, []);
 
     return (
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             {...notificationsProps}
         >
             {!sprint ? (
@@ -64,13 +60,13 @@ const EditSprint = ({ user, themeType, setThemeType, mode, setMode, push, notifi
                     initialValues={{
                         number: sprint.number,
                         title: sprint.title,
-                        dateFrom: moment(sprint.dateFrom).format(FORMIK_DATE_FORMAT),
-                        dateTo: moment(sprint.dateTo).format(FORMIK_DATE_FORMAT),
+                        dateFrom: Utils.DateTime.toFormat(sprint.dateFrom, Format.FORMIK_DATE_FORMAT),
+                        dateTo: Utils.DateTime.toFormat(sprint.dateTo, Format.FORMIK_DATE_FORMAT),
                         body: sprint.body,
                     }}
-                    onSubmit={(data: SprintSubmit) => {
+                    onSubmit={(data) => {
                         sprintsService
-                            .update({ ...data, objectId: id })
+                            .update({ ...(data as unknown as SprintSubmit), objectId: id ?? '' })
                             .then(() => {
                                 push('/sprints');
                             })
@@ -82,4 +78,5 @@ const EditSprint = ({ user, themeType, setThemeType, mode, setMode, push, notifi
     );
 };
 
-export default authenticatedPage(withPush(EditSprint));
+export default EditSprint;
+// export default authenticatedPage(EditSprint);

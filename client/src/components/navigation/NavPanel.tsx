@@ -1,9 +1,8 @@
-import React from 'react';
-import clsx from 'clsx';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import { Typography, Box, Theme } from '@mui/material';
+import { makeStyles, createStyles } from '@mui/styles';
 import { NAVBAR_LEFT_WIDTH } from '../../styles/constants';
 import { LinkComponent } from '../../utils/Link';
-import { Typography, Box } from '@material-ui/core';
 import { NavContent, SideColumn, User, NavButton, Variant, ThemeType } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -58,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 backgroundColor: 'rgba(0, 0, 0, .1)',
             },
         },
-        selected: ({ variant }: { variant: Variant }) => ({
+        selected: (_obj: { variant: Variant }) => ({
             textTransform: 'uppercase',
         }),
         sideColContainer: {
@@ -100,7 +99,7 @@ interface Props {
 }
 
 // A temporary component that is going to be implemented in Layout in the long run.
-export const NavPanel = ({ user, themeType, variant, contents, sideColumn, createButton }: Props) => {
+export const NavPanel = ({ user, variant, themeType, contents, createButton }: Props) => {
     const classes = useStyles({ variant });
 
     return (
@@ -120,7 +119,7 @@ export const NavPanel = ({ user, themeType, variant, contents, sideColumn, creat
             ) : undefined}
 
             {/* Main navigation panel */}
-            <Box className={clsx(classes.navContainer, { frostic: themeType === 'frostic' })}>
+            <Box className={classNames(classes.navContainer, { frostic: themeType === 'frostic' })}>
                 {contents.map((content, index) => (
                     <Box key={index}>
                         <Typography variant="body2" className={classes.navTitle}>
@@ -159,7 +158,7 @@ export const SideCol = ({ variant, themeType, header, body }: SideColProps) => {
 
     return (
         <Box className={classes.sideCol}>
-            <Box className={clsx(classes.sideColContainer, { frostic: themeType === 'frostic' })}>
+            <Box className={classNames(classes.sideColContainer, { frostic: themeType === 'frostic' })}>
                 <Typography variant="h5" className={classes.sideColTitle}>
                     {header}
                 </Typography>

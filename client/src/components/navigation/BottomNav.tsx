@@ -1,7 +1,6 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Zoom, Fab } from '@material-ui/core';
-import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Zoom, Fab, Theme } from '@mui/material';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { User } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,7 +38,7 @@ interface Props {
     user: User;
 }
 
-export const BottomNav = ({ user }: Props) => {
+export const BottomNav: React.FC<Props> = () => {
     const classes = useStyles();
     const zoomStyle = { transitionDelay: `500ms` };
     return (

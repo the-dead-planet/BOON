@@ -1,5 +1,4 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { Loading, Empty } from '../components/Loading';
 
 type RedirectToFirstProps = {
@@ -23,7 +22,7 @@ const RedirectToFirst = ({ items, modelPath }: RedirectToFirstProps) => {
         return <Empty />;
     } else {
         const first = items[0];
-        return <Redirect to={`/${modelPath}/${first}`} />;
+        return <Navigate to={`/${modelPath}/${first}`} />;
     }
 };
 

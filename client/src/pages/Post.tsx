@@ -1,46 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '../utils/useQuery';
-import { withFetchData } from '../utils/withFetchData';
-import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
+import { useFetchData } from '../utils/useFetchData';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import { CommentsSection } from '../components/CommentsSection';
 import { SinglePost } from '../components/post/SinglePost';
 import {
     // withShowError,
-    WithShowErrorInjectedProps,
+    // WithShowErrorInjectedProps,
 } from '../utils/withShowError';
-import { User, NotificationProps, ThemeType, Mode, StateData } from '../logic/types';
+import { User, NotificationProps, ThemeType, Mode, StateData, Comment, RemoveObjectData, WithObjectId, Sprint, Project } from '../logic/types';
 import { getRandomQuote } from '../utils/data';
 
 // TODO: see a comment in `Logout` regarding HOCs.
 interface Props {
     user: User | undefined | null;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     data: StateData;
-    addPostComment: any;
-    removeObject: any;
+    addPostComment: (id: string, comment: Comment) => void;
+    addSprintComment: (id: string, comment: Comment) => void;
+    removeObject:  (obj: RemoveObjectData) => void;
     notificationsProps: NotificationProps;
     backTo: { name: string; path: string };
+    setStateData: (data: [Sprint[], Project[], User[]]) => void;
 }
 
 // If path is /sprints, redirect to the newest sprint
-const Post = ({
+const Post: React.FC<Props> = ({
+// const Post: React.FC<Props & WithShowErrorInjectedProps> = ({
     user,
     mode,
     themeType,
-    setThemeType,
-    setMode,
+    onThemeTypeChange,
+    onModeChange,
     data,
     addPostComment,
     removeObject,
     notificationsProps,
-}: Props & WithShowErrorInjectedProps) => {
-    const { id }: { id: string } = useParams();
+    setStateData
+}) => {
+    const { id } = useParams<{ id: string }>();
     const query = useQuery();
     let linkBack = query.get('from');
     const linkBackName = linkBack ? linkBack.substring(1, linkBack.substring(1).indexOf('/') + 1) : 'home';
@@ -53,18 +56,26 @@ const Post = ({
         setQuote(getRandomQuote());
     }, [setQuote]);
 
+    const fetchedData = useFetchData();
+
+    useEffect(() => {
+        if (!fetchedData) {
+            return;
+        }
+        setStateData(fetchedData)
+    }, [fetchedData, setStateData]);
     /* 
         GET CURRENT POST ID DATA FROM APP STATE
     */
-    const post = posts.get(id);
+    const post = posts.get(id ?? '');
 
     // Store the minimal amount information necessary in the state.
     // It's obvious from the context that the comments displayed refer to the current post - no need to store
     // any metadata in the state.
     const [isCommentsDrawerOpen, setIsCommentsDrawerOpen] = useState(false);
 
-    const removeComment = (id: string) =>
-        removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: post!._id });
+    const removeComment = (comment: WithObjectId) =>
+        removeObject({ child: 'comments', childId: comment.objectId, parent: 'posts', parentId: post!._id });
 
     const styleInfo = { margin: '0, 5em' };
 
@@ -72,9 +83,9 @@ const Post = ({
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             appBar={true}
             quote={quote}
             pagination={{ path: '/posts' }}
@@ -90,7 +101,7 @@ const Post = ({
                     ? {
                           header: 'written by',
                           // TODO: Add 'about me' to user properties and display it here, if not available generate random goss
-                          body: `${users.get(post.author as any)?.publicName}`,
+                          body: 'author' in post ? `${users.get(post.author?._id ?? '')?.publicName}` : '',
                       }
                     : undefined
             }
@@ -100,12 +111,13 @@ const Post = ({
                 post &&
                 isCommentsDrawerOpen && (
                     <CommentsSection
-                        expanded={true}
+                        // expanded={true}
+                        mode={mode}
                         user={user}
                         title={post.title}
                         parentId={post._id}
                         parentModel={'Post'}
-                        comments={post.comments.map((c) => comments.get(c))}
+                        comments={post.comments.map((c) => comments.get(c)).filter(Boolean) as unknown as Comment[]}
                         users={data.users}
                         addComment={addPostComment}
                         removeComment={removeComment}
@@ -141,5 +153,8 @@ const Post = ({
     );
 };
 
+export default Post;
 // export default (withShowError as any)(Sprint);
-export default authenticatedPage(withPush(withFetchData(Post)));
+// const AuthenticatedPost = authenticatedPage(Post);
+
+// export default AuthenticatedPost;

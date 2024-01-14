@@ -1,10 +1,10 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import { DRAWER_SECONDARY_WIDTH } from '../../styles/constants';
-import { Drawer, Grid } from '@material-ui/core';
+import { Drawer, Grid, Theme } from '@mui/material';
 import { IconButton } from '../mui-styled/IconButton';
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
-import { User, Children } from '../../logic/types';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { User } from '../../logic/types';
+import React from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -40,11 +40,11 @@ interface Props {
     user: User;
     open: boolean;
     toggleDrawer: (toggle: boolean) => void;
-    children?: Children;
+    children?: React.ReactNode;
 }
 
 // This component can be either temporary or persistent. By default temporary. use prop 'variant' to change to "persistent"
-const SecondaryDrawer = ({ user, open, toggleDrawer, children }: Props) => {
+const SecondaryDrawer = ({ open, toggleDrawer, children }: Props) => {
     const classes = useStyles();
 
     return (
@@ -60,7 +60,7 @@ const SecondaryDrawer = ({ user, open, toggleDrawer, children }: Props) => {
                     paper: classes.drawerSecondaryPaper,
                 }}
             >
-                <Grid container justify="flex-end">
+                <Grid container justifyContent="flex-end">
                     <IconButton onClick={() => toggleDrawer(false)}>
                         <CloseRoundedIcon color="inherit" />
                     </IconButton>

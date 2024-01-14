@@ -1,7 +1,6 @@
-import React from 'react';
-import { Typography, Box } from '@material-ui/core';
-import moment from 'moment';
-import { DATE_FORMAT } from '../../constants/dateFormats';
+import { Typography, Box } from '@mui/material';
+import { Format } from '../../constants/dateFormats';
+import * as Utils from '../../utils';
 
 interface Props {
     _id: string;
@@ -18,8 +17,8 @@ export const SprintHeader = ({ _id, number, title, dateFrom, dateTo }: Props) =>
                 {number} : {title}
             </Typography>
             <Typography variant="body1">
-                {dateFrom ? moment(dateFrom).format(DATE_FORMAT) : null} -{' '}
-                {dateTo ? moment(dateTo).format(DATE_FORMAT) : null}
+                {dateFrom ? Utils.DateTime.toFormat(dateFrom, Format.DATE_FORMAT) : null} -{' '}
+                {dateTo ? Utils.DateTime.toFormat(dateTo, Format.DATE_FORMAT) : null}
             </Typography>
         </Box>
     );

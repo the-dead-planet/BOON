@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import React from 'react';
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import * as State from './State';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -15,301 +15,310 @@ import Project from './pages/Project';
 import Projects from './pages/Projects';
 import Post from './pages/Post';
 import Team from './pages/Team';
-import './App.css';
 import services from './services/realImpl';
-import ScrollToTop from './utils/ScrollToTop';
-import { StateType, Mode, ThemeType } from './logic/types';
+import { StateType, Mode, ThemeType, User, Notification } from './logic/types';
 import { PATHS } from './constants/data';
 import { ServicesContext, useServices } from './services/context';
 import { WrappedUserData } from './services/services';
+import './App.css';
 
-const { root, home, sprints, projects, teams, posts, login, logout, register, add, edit, addPost } = PATHS;
+const AppImpl: React.FC = () => {
+    const [state, setState] = React.useState<StateType>(State.INITIAL_STATE)
+    const services = useServices();
 
-// TODO: use a pure functional component with hooks, instead of a class component.
-// It will make it a bit easier to handle a Context object.
-class AppImpl extends Component<{}, StateType> {
-    static contextType = ServicesContext;
-
-    constructor(props: any) {
-        super(props);
-        this.state = State.INITIAL_STATE;
-    }
-
-    // TODO: Change to pass value of model User, not UserAuth
-    componentDidMount() {
-        const { authService } = this.context!;
-        authService.whoami().then(({ user }: WrappedUserData) => {
-            this.setState(State.resolveWhoAmI(this.state)(user));
+    // TODO: Consider moving this all to index.tsx, we can render a different "AppLoadingScreen" component while these requests are sent using root
+    React.useEffect(() => {
+        if (!services) {
+            return;
+        }
+        services.authService.whoami().then(({ user }: WrappedUserData) => {
+            setState((prev) => ({ ...prev, ...State.resolveWhoAmI(state)(user) }));
             // TODO: Currently users are populated based on authors of sprints and its children tree.
             // If current user has never posted anything, it is not present in app state, which
             // causes issues, such as no name displayed by a new comment.
             // Either add it here from whoami or load all users data separately, which on a long term can be not optimal
         });
-    }
+    }, [services]);
 
-    // TODO: move to state methods
-    setThemeType = (themeType: ThemeType) => {
-        this.setState({ themeType: themeType });
-    };
-    setMode = (mode: Mode) => {
-        this.setState({ mode: mode });
+    const onThemeTypeChange = (themeType: ThemeType) => {
+        setState((prev) => ({ ...prev, themeType }));
     };
 
-    render() {
-        const { whoamiRequestDone, user, notifications } = this.state;
+    const onModeChange = (mode: Mode) => {
+        setState((prev) => ({ ...prev, mode }));
+    };
 
-        // Each function in the `State` module should be wrapped in `setState`
-        // and passed `state` as the first argument.
-        // Build a HOF performing these 2 steps to reduce boilerplate.
-        // The resulting function will forward all arguments to `stateUpdater` and
-        // invoke `setState` with the result.
-        const updateState = (stateUpdater: any) => (...args: any) => {
-            return this.setState(stateUpdater(this.state)(...args));
-        };
 
-        // Pack props into an object to reduce boilerplate code.
-        const notificationsProps = {
-            addNotification: updateState(State.addNotification),
-            onNotificationShown: (...args: any) =>
-                setTimeout(() => {
-                    updateState(State.popNotification)(...args);
-                }, 5000),
-            notifications,
-        };
+    // Pack props into an object to reduce boilerplate code.
+    const notificationsProps = {
+        addNotification: (notification: Notification) => setState((prev) => ({ 
+            ...prev, 
+            notifications: state.notifications.concat([notification]),
+        })),
+        onNotificationShown: (notificationId: string) =>
+            setTimeout(() => {
+                setState((prev) => ({ ...prev, notifications: prev.notifications.filter((n) => n.id !== notificationId)}))
+            }, 5000),
+        notifications: state.notifications,
+    };
 
-        return !whoamiRequestDone ? (
-            'Loading'
-        ) : (
-            <Router>
-                <ScrollToTop>
-                    <div className="App">
-                        <Switch>
-                            {/*
-                            A Switch will iterate through all routes and return
-                            on the first match.
-                            The order matters - the most generic paths should
-                            be at the very end.
-                        */}
-
-                            {/* Authentication */}
-                            <Route path={login}>
-                                <Login
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    onLoginSuccess={updateState(State.setUser)}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path={register}>
-                                <Register
-                                    user={user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    onSuccess={updateState(State.setUser)}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path={logout}>
-                                <Logout
-                                    user={user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    onSuccess={updateState(State.clearUser)}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-
-                            {/* Posts - add to sprint, display single */}
-                            {/* TODO: consider leaving only /posts/add ; /posts/:id and passing related sprint/project id as optional url parameters */}
-                            <Route path={`${posts}${add}`}>
-                                <AddPost
-                                    user={user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path={`${posts}/:id`}>
-                                <Post
-                                    user={user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    setStateData={updateState(State.setStateData)}
-                                    addSprintComment={updateState(State.addCommentToSprint)}
-                                    addPostComment={updateState(State.addCommentToPost)}
-                                    removeObject={updateState(State.removeObject)}
-                                    data={this.state.data}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path={posts}>
-                                <Post
-                                    user={user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    setStateData={updateState(State.setStateData)}
-                                    addSprintComment={updateState(State.addCommentToSprint)}
-                                    addPostComment={updateState(State.addCommentToPost)}
-                                    removeObject={updateState(State.removeObject)}
-                                    data={this.state.data}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-
-                            {/* Sprints */}
-                            <Route path={`${sprints}${add}`}>
-                                <AddSprint
-                                    user={user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path={`${sprints}/:id${edit}`}>
-                                <EditSprint
-                                    user={user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path={`${sprints}/:id`}>
-                                <Sprint
-                                    user={user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    setStateData={updateState(State.setStateData)}
-                                    addSprintComment={updateState(State.addCommentToSprint)}
-                                    addPostComment={updateState(State.addCommentToPost)}
-                                    removeObject={updateState(State.removeObject)}
-                                    data={this.state.data}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path={sprints}>
-                                <Sprints
-                                    user={user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-
-                            {/* Projects */}
-                            <Route path={`${projects}${add}`}>
-                                <AddProject
-                                    user={user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path={`${projects}${edit}`}>
-                                <AddProject
-                                    user={user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path={`${projects}/:id`}>
-                                <Project
-                                    user={user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    setStateData={updateState(State.setStateData)}
-                                    addSprintComment={updateState(State.addCommentToSprint)}
-                                    addPostComment={updateState(State.addCommentToPost)}
-                                    removeObject={updateState(State.removeObject)}
-                                    data={this.state.data}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-                            <Route path={projects}>
-                                <Projects
-                                    user={user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-
-                            {/* Teams and users */}
-                            <Route path={teams}>
-                                <Team
-                                    user={user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    setState={updateState(State.setStateData)}
-                                    addSprintComment={updateState(State.addCommentToSprint)}
-                                    addPostComment={updateState(State.addCommentToPost)}
-                                    removeObject={updateState(State.removeObject)}
-                                    data={this.state.data}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-
-                            {/* Home */}
-                            <Route path={home}>
-                                <Home
-                                    user={this.state.user}
-                                    themeType={this.state.themeType}
-                                    setThemeType={this.setThemeType}
-                                    mode={this.state.mode}
-                                    setMode={this.setMode}
-                                    notificationsProps={notificationsProps}
-                                />
-                            </Route>
-
-                            {/* On root '/' redirect to the home page */}
-                            <Route exact path={root}>
-                                <Redirect to={home} />
-                            </Route>
-                        </Switch>
-                    </div>
-                </ScrollToTop>
-            </Router>
-        );
+    const handleLoginSuccess = (user: User) => {
+        setState((prev) => ({ ...prev, user }))
     }
+
+    const handleClearUser = () => {
+        setState((prev) => ({ ...prev, user: null }))
+    }
+
+    const router = React.useMemo(
+        () => createBrowserRouter([
+            {
+                path: PATHS.login,
+                element: <Login
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    onLoginSuccess={handleLoginSuccess}
+                    notificationsProps={notificationsProps}
+                    showError={() => {}}
+                />,
+            },
+            {
+                path: PATHS.register,
+                element: <Register
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    onSuccess={handleLoginSuccess}
+                    notificationsProps={notificationsProps}
+                    showError={() => {}}
+                />,
+            },
+            {
+                path: PATHS.logout,
+                element: <Logout
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    onSuccess={handleClearUser}
+                    notificationsProps={notificationsProps}
+                    showError={(err) => console.error(err)}
+                />,
+            },
+            {
+                path: `${PATHS.posts}${PATHS.add}`,
+                element: <AddPost
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    notificationsProps={notificationsProps}
+                    showError={(err) => console.error(err)}
+                    sprintId=''
+                    
+                />,
+            },
+            {
+                path: `${PATHS.posts}/:id`,
+                element: <Post
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    setStateData={([sprints, projects, users]) => State.setStateData(state, sprints, projects, users)}
+                    addSprintComment={(id, comment) => State.addCommentToSprint(state)(id, comment)}
+                    addPostComment={(id, comment) => State.addCommentToPost(state)(id, comment)}
+                    removeObject={(obj) => State.removeObject(state)(obj)}
+                    data={state.data}
+                    notificationsProps={notificationsProps}
+                    backTo={{ name: '', path: ''}}
+                />,
+            },
+            {
+                path: PATHS.posts,
+                element: <Post
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    setStateData={([sprints, projects, users]) => State.setStateData(state, sprints, projects, users)}
+                    addSprintComment={(id, comment) => State.addCommentToSprint(state)(id, comment)}
+                    addPostComment={(id, comment) => State.addCommentToPost(state)(id, comment)}
+                    removeObject={(obj) => State.removeObject(state)(obj)}
+                    data={state.data}
+                    notificationsProps={notificationsProps}
+                    backTo={{ name: '', path: ''}}
+                />,
+            },
+            {
+                path: `${PATHS.sprints}${PATHS.add}`,
+                element: <AddSprint
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    notificationsProps={notificationsProps}
+                    push={() => {}}
+                    showError={(err) => console.error(err)}
+                />,
+            },
+            {
+                path: `${PATHS.sprints}/:id${PATHS.edit}`,
+                element: <EditSprint
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    notificationsProps={notificationsProps}
+                    push={() => {}}
+                    showError={(err) => console.error(err)}
+                />,
+            },
+            {
+                path: `${PATHS.sprints}/:id`,
+                element: <Sprint
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    setStateData={([sprints, projects, users]) => State.setStateData(state, sprints, projects, users)}
+                    addSprintComment={(id, comment) => State.addCommentToSprint(state)(id, comment)}
+                    addPostComment={(id, comment) => State.addCommentToPost(state)(id, comment)}
+                    removeObject={(obj) => State.removeObject(state)(obj)}
+                    data={state.data}
+                    notificationsProps={notificationsProps}
+                />,
+            },
+            {
+                path: PATHS.sprints,
+                element: <Sprints
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    notificationsProps={notificationsProps}
+                />,
+            },
+            {
+                path: `${PATHS.projects}${PATHS.add}`,
+                element: <AddProject
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    notificationsProps={notificationsProps}
+                    push={() => {}}
+                    showError={(err) => console.error(err)}
+                />,
+            },
+            {
+                path: `${PATHS.projects}${PATHS.edit}`,
+                element: <AddProject
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    notificationsProps={notificationsProps}
+                    push={() => {}}
+                    showError={(err) => console.error(err)}
+                />,
+            },
+            {
+                path: `${PATHS.projects}/:id`,
+                element: <Project
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    setStateData={([sprints, projects, users]) => State.setStateData(state, sprints, projects, users)}
+                    addSprintComment={(id, comment) => State.addCommentToSprint(state)(id, comment)}
+                    addPostComment={(id, comment) => State.addCommentToPost(state)(id, comment)}
+                    removeObject={(obj) => State.removeObject(state)(obj)}
+                    data={state.data}
+                    notificationsProps={notificationsProps}
+                    showError={(err) => console.error(err)}
+                />,
+            },
+            {
+                path: PATHS.projects,
+                element: <Projects
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    notificationsProps={notificationsProps}
+                />,
+            },
+            {
+                path: PATHS.teams,
+                element: <Team
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    notificationsProps={notificationsProps}
+                />,
+            },
+            {
+                path: PATHS.home,
+                element: <Home
+                    user={state.user}
+                    themeType={state.themeType}
+                    onThemeTypeChange={onThemeTypeChange}
+                    mode={state.mode}
+                    onModeChange={onModeChange}
+                    notificationsProps={notificationsProps}
+                    push={() => {}}
+                    showError={(err) => console.error(err)}
+                />,
+            },
+            {
+                path: PATHS.root,
+                element: <Navigate to={PATHS.home} />,
+                // TODO:
+                errorElement: <div>Error</div>
+            }
+        ]),
+        []
+    );
+
+    return !state.whoamiRequestDone ? (
+        'Loading'
+    ) : (
+        <RouterProvider
+            router={router}
+            //  TODO
+            fallbackElement={<div>Page not found</div>}
+        />
+    );
 }
 
-// Wrap the AppImpl object with a context provider.
-// After rewriting AppImpl to a pure functional component, get rid of the
-// wrapper.
-const App = () => (
-    <ServicesContext.Provider value={services}>
-        <AppImpl />
-    </ServicesContext.Provider>
-);
+const App: React.FC = () => {
+    return (
+        <React.StrictMode>
+            <ServicesContext.Provider value={services}>
+                <AppImpl />
+            </ServicesContext.Provider>
+        </React.StrictMode>
+    )
+}
 
 export default App;

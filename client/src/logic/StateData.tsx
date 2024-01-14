@@ -1,8 +1,11 @@
 import { isEqual } from 'lodash';
 import { concatMaps } from '../utils/containers';
-import { StateData, MongoObject, Model, Path, StateDataFunc } from './types';
-import { getValue } from '../utils/helperMethods'; // TODO: On a long term solve in a cleverer way
+import { StateData, MongoObject, Path, StateDataFunc, User } from './types';
 /* Module containing methods related to state data manipulation */
+
+type ValueOf<T> = T[keyof T];
+const map = new Map();
+type Data = { [key in string]: typeof map };
 
 // Initial values of the object.
 // Wrapped in a function to make sure each call returns a fresh, empty state.
@@ -19,9 +22,9 @@ export const initialState: StateDataFunc = () => ({
 
 // Merge two state data objects.
 // `right` takes precedence.
-export const mergeStateData = (left: any, right: any) => {
+export const mergeStateData = (left: Data, right: Data) => {
     // Make sure both objects contain the same set of keys.
-    const sortedKeys = (obj: any) => Object.keys(obj).sort();
+    const sortedKeys = (obj: Data) => Object.keys(obj).sort();
 
     // `isEqual` checks deep equality, as opposed to the `==` operator.
     const leftKeys = sortedKeys(left);
@@ -31,7 +34,7 @@ export const mergeStateData = (left: any, right: any) => {
     }
 
     return Object.fromEntries(
-        Object.keys(left).map((key) => {
+        Object.keys(left).map((key: string) => {
             const mergedValue = concatMaps([left[key], right[key]]);
             return [key, mergedValue];
         })
@@ -40,7 +43,7 @@ export const mergeStateData = (left: any, right: any) => {
 
 // Direct paths which are populated in data returned by rest call
 // state is the name of the app state property where object data is stored
-const PATHS_DATA = {
+const PATHS_DATA: { [key in Path]?: { paths: Path[], state: Path } } = {
     sprints: {
         paths: ['author', 'posts', 'comments', 'likes'],
         state: 'sprints',
@@ -79,26 +82,28 @@ const PATHS_DATA = {
 // This is the only exported depopulation related function.
 // The two remaining functions are not exported, because we want to have a single entry point
 // to the logic - it's easier to maintain.
-export const depopulate = (obj: MongoObject, modelName: Path) => {
+export const depopulate = (obj: MongoObject | User | (MongoObject | User)[], modelName: Path): StateData => {
     // `depopulateImpl` modifes a received state in-place. It's an implementation detail, though.
     // This function will have no side effects - it creates its own state and returns it to the caller.
     // The caller is responsible for merging the created state with its own, previous state.
     const state = initialState();
-    (depopulateImpl as any)({ [modelName]: obj }, [modelName], state);
+    depopulateImpl({ [modelName]: obj } as unknown as MongoObject, [modelName], state);
     return state;
 };
 
 // Implementation of `depopulate`. Not to be exported.
 // This function differs from `depopulate` in its signature, allowing more fine grained invocations.
-export const depopulateImpl = (obj: MongoObject, paths: Array<Path>, stateData: StateData) => {
+export const depopulateImpl = (obj: MongoObject, paths: Path[], stateData: StateData): MongoObject => {
     paths.map((path) => {
-        if (!(path in obj)) {
+        if (!obj || !(path in obj)) {
             throw new Error(`Unknown depopulation path: ${JSON.stringify({ path, obj })}`);
         }
 
         // Check if the property stores one object (author) or many in an array (posts)
-        const setAndDepopulate = Array.isArray(getValue(obj, path)) ? setAndDepopulateMany : setAndDepopulateOne;
-        (obj as any)[path] = setAndDepopulate(getValue(obj, path), path, stateData);
+        const value = obj[path as keyof MongoObject];
+        (obj)[path as keyof MongoObject] = (Array.isArray(value)
+            ? setAndDepopulateMany(value, path, stateData)
+            : setAndDepopulateOne(value as unknown as MongoObject, path, stateData)) as unknown  as ValueOf<MongoObject>;
     });
 
     return obj;
@@ -107,8 +112,8 @@ export const depopulateImpl = (obj: MongoObject, paths: Array<Path>, stateData: 
 // This function receives an object and depopulates it by replacing all
 // direct nested objects with their object._id and initiates the same for these nested object,
 // then adds the depopulated object to the appropriate state property
-const setAndDepopulateOne = ({ _id, ...args }: MongoObject, path: Path | string, stateData: StateData) => {
-    const model = getValue(PATHS_DATA, path);
+const setAndDepopulateOne = ({ _id, ...args }: MongoObject, path: Path, stateData: StateData): string => {
+    const model = PATHS_DATA[path];
     if (!model) {
         throw new Error(`Model not found: ${JSON.stringify({ path })}`);
     }
@@ -117,12 +122,15 @@ const setAndDepopulateOne = ({ _id, ...args }: MongoObject, path: Path | string,
     if (!(state in stateData)) {
         throw new Error(`State data not found: ${JSON.stringify({ state, stateData })}`);
     }
-
-    getValue(stateData, state).set(_id, depopulateImpl({ _id, ...args }, paths, stateData)); // TODO: delete _id
+    if (state === 'author') {
+        return _id;
+    }
+    const value = depopulateImpl({ _id, ...args } as MongoObject, paths, stateData); // TODO: delete _id
+    (stateData[state] as typeof map).set(_id, value);
 
     return _id;
 };
 
 // The same as setAndDepopulateOne for an array of objects of the same model
-const setAndDepopulateMany = (list: Array<MongoObject>, path: Path, stateData: StateData) =>
+const setAndDepopulateMany = (list: Array<MongoObject>, path: Path, stateData: StateData): string[] =>
     list.map((obj) => setAndDepopulateOne(obj, path, stateData));

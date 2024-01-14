@@ -1,17 +1,16 @@
-import React from 'react';
 import { SuspenseImg } from '../../utils/SuspenseImg';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Grid } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Grid, Theme } from '@mui/material';
 import Card from '../Card';
-import moment from 'moment';
-import { DATE_FORMAT } from '../../constants/dateFormats';
-import { User, Sprint, Comment, Like, ThemeType } from '../../logic/types';
+import { Format } from '../../constants/dateFormats';
+import { User, Sprint, Comment, Like, ThemeType, WithObjectId } from '../../logic/types';
 import vintageImg from '../../img/content/vintage/typewriter2.jpg';
 import frosticImg from '../../img/content/tech/gameboy.jpg';
 import defaultImg from '../../img/content/tech/alien.jpg';
 import vintageImgMin from '../../img/content/vintage/typewriter2-min.jpg';
 import frosticImgMin from '../../img/content/tech/gameboy-min.jpg';
 import defaultImgMin from '../../img/content/tech/alien-min.jpg';
+import * as Utils from '../../utils';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -37,7 +36,7 @@ interface Props {
     likes: Array<Like | undefined>;
     users: Map<string, User>;
     getCreated?: (a: Date) => string;
-    removeSprint: any;
+    removeSprint: (id: string) => void;
     toggleCommentsPanel: (toggle: boolean) => void;
 }
 
@@ -53,7 +52,7 @@ export const SprintOverview = ({
 }: Props) => {
     const classes = useStyles();
 
-    const author: User | null = users.get(sprint.author as any); // FIXME: types are probably incompatible.
+    const author: User | null = sprint.author ? users.get(sprint.author._id) : null;
     const authorPublicName = author ? author.publicName : 'unknown';
     // const isAuthor = users.get(String(sprint?.author) || '')?.publicName === user?.publicName;
 
@@ -71,15 +70,15 @@ export const SprintOverview = ({
             likes={likes}
             author={authorPublicName}
             title={`${sprint.title}`}
-            created={`${sprint.dateFrom && moment(sprint.dateFrom).format(DATE_FORMAT)} - ${
-                sprint.dateTo && moment(sprint.dateTo).format(DATE_FORMAT)
+            created={`${sprint.dateFrom && Utils.DateTime.toFormat(sprint.dateFrom, Format.DATE_FORMAT)} - ${
+                sprint.dateTo && Utils.DateTime.toFormat(sprint.dateTo, Format.DATE_FORMAT)
             }`}
             body={sprint.body}
             menuItems={[
                 { name: 'Share', path: '/' },
                 { name: 'Add post', path: `${sprint._id}/add_post` },
             ]}
-            removeObject={(id: string) => removeSprint(id)}
+            removeObject={(obj: WithObjectId) => removeSprint(obj.objectId)}
             toggleCommentsPanel={toggleCommentsPanel}
             linkBack={{ name: 'Home', path: '/' }}
             frosticNoRound={true}

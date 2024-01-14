@@ -1,35 +1,36 @@
 import React from 'react';
-import moment from 'moment';
 import SprintForm from '../components/forms/Sprint';
-import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
-import { FORMIK_DATE_FORMAT } from '../constants/dateFormats';
+// import { authenticatedPage } from '../utils/authenticatedPage';
+import { Format } from '../constants/dateFormats';
 import AppLayout from '../layouts/AppLayout';
-import withShowError from '../utils/withShowError';
+// import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, ThemeType, SprintSubmit } from '../logic/types';
 import { useServices } from '../services';
+import * as Utils from '../utils';
 
 interface Props {
     user: User;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
-    push: any;
+    onModeChange: (mode: Mode) => void;
+    push: (path: string) => void;
     notificationsProps: NotificationProps;
-    showError: any;
+    showError: (err: Error) => void;
 }
 
-const AddSprint = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps, showError }: Props) => {
+const AddSprint = ({ user, themeType, onThemeTypeChange, mode, onModeChange, push, notificationsProps, showError }: Props) => {
     const { sprintsService } = useServices()!;
+
+    const nowFormatted = React.useMemo(() => Utils.DateTime.toFormat(new Date(), Format.FORMIK_DATE_FORMAT), [])
 
     return (
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             {...notificationsProps}
         >
             <SprintForm
@@ -37,14 +38,14 @@ const AddSprint = ({ user, themeType, setThemeType, mode, setMode, push, notific
                 title="Add new sprint"
                 initialValues={{
                     number: 1,
-                    dateFrom: moment().format(FORMIK_DATE_FORMAT),
-                    dateTo: moment().format(FORMIK_DATE_FORMAT),
+                    dateFrom: nowFormatted,
+                    dateTo: nowFormatted,
                     title: '',
                     body: '',
                 }}
-                onSubmit={(data: SprintSubmit) => {
+                onSubmit={(data: { [key in string]: unknown }) => {
                     sprintsService
-                        .add(data)
+                        .add(data as unknown as SprintSubmit)
                         .then(() => {
                             push('/sprints');
                         })
@@ -55,4 +56,5 @@ const AddSprint = ({ user, themeType, setThemeType, mode, setMode, push, notific
     );
 };
 
-export default authenticatedPage(withPush(withShowError(AddSprint)));
+export default AddSprint;
+// export default authenticatedPage(withShowError(AddSprint));

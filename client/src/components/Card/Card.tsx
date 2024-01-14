@@ -1,13 +1,13 @@
 import React from 'react';
-import clsx from 'clsx';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import { Box, CardContent, CardActions, Typography, Divider, Theme } from '@mui/material';
+import { makeStyles, createStyles } from '@mui/styles';
 import { Link } from '../../utils/Link';
 // import { CommentsSection } from '../CommentsSection';
-import { Box, CardContent, CardActions, Typography, Divider } from '@material-ui/core';
-// import MoreVertIcon from '@material-ui/icons/MoreVert';
+// import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { ActionButtons } from './ActionButtons';
 import { CardMenu } from './CardMenu';
-import { User, Comment, Like, MongoObject, Model, Tag, ThemeType } from '../../logic/types';
+import { User, Comment, Like, MongoObject, Model, ThemeType, Tag, WithObjectId } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -87,10 +87,10 @@ interface Props {
     tag?: Tag;
     body: string;
     maxLen?: number;
-    mediaTop?: any;
-    mediaMiddle?: any;
+    mediaTop?: React.ReactNode;
+    mediaMiddle?: React.ReactNode;
     menuItems: Array<{ name: string; path: string }>;
-    removeObject: any;
+    removeObject:  (obj: WithObjectId) => void;
     toggleCommentsPanel: (toggle: boolean) => void;
     divider?: boolean;
     hover?: boolean;
@@ -145,13 +145,13 @@ export const Card = ({
     const showMoreRequired = body.length > maxLen;
 
     // If path is provided then wrap in the link component, otherwise display typography only
-    const linkWrapper = (component: any, path?: string) => (path ? <Link to={path}>{component}</Link> : component);
+    const linkWrapper = (component: React.ReactNode, path?: string) => (path ? <Link to={path}>{component}</Link> : component);
 
     return (
         // TODO: Remove the hover class and reuse it for on panel click
         <Box
             id={object._id}
-            className={clsx(classes.post, {
+            className={classNames(classes.post, {
                 [classes.hover]: hover,
                 frostic: themeType === 'frostic',
                 rounded: themeType === 'frostic' && !frosticNoRound,
@@ -230,14 +230,14 @@ export const Card = ({
 
             <CardActions
                 disableSpacing
-                className={clsx(classes.action, {
+                className={classNames(classes.action, {
                     // "frostic": themeType === 'frostic',
                     // "rounded": themeType === 'frostic' && !frosticNoRound
                 })}
             >
                 <ActionButtons
                     user={user}
-                    author={(object as { author: string })?.author}
+                    author={object && 'author' in object ? (typeof object.author === 'string' ? object.author : object.author?.publicName ?? 'Unknown') : 'Unknown'}
                     comments={comments}
                     likes={likes}
                     toggleCommentsPanel={toggleCommentsPanel}

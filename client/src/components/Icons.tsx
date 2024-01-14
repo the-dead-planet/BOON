@@ -1,4 +1,3 @@
-import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faRobot,
@@ -16,7 +15,7 @@ interface Props {
     size: Size;
 }
 
-export const IconRobot = ({ size }: Props) => (
+export const IconRobot: React.FC<Props> = () => (
     <FontAwesomeIcon
         icon={faRobot}
         size="1x"

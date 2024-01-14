@@ -1,20 +1,20 @@
 import React from 'react';
-import { useTheme } from '@material-ui/core/styles';
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide } from '@material-ui/core';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import { TransitionProps } from '@material-ui/core/transitions';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Theme } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { TransitionProps } from '@mui/material/transitions';
 import { DialogProps } from '../../logic/types';
 
 const Transition = React.forwardRef(function Transition(
-    props: TransitionProps & { children?: React.ReactElement<any, any> },
+    props: TransitionProps & { children?: React.ReactNode },
     ref: React.Ref<unknown>
 ) {
-    return <Slide direction="up" ref={ref} {...props} />;
+    // TODO: Test this
+    return <Slide direction="up" ref={ref} {...props}><div /></Slide>;
 });
 
 const DialogMenu = ({ open, handleClose, message, contextText, content, buttonOk, fullScreen }: DialogProps) => {
-    const theme = useTheme();
-    const fullScreenBreakPoint = useMediaQuery(theme.breakpoints.down('xs'));
+    const fullScreenBreakPoint = useMediaQuery((_theme: Theme) =>'500px');
+    // const fullScreenBreakPoint = useMediaQuery((theme: Theme) => theme.breakpoints.down('xs'));
 
     // TODO: style it nicer
     return (

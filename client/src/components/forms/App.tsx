@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Formik, Form } from 'formik';
-import { Grid, Paper, Typography, Hidden } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
-import { withValidationList } from '../../utils/withValidation';
+import React from 'react';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Formik, Form, FormikValues, FormikHelpers } from 'formik';
+import { Grid, Paper, Typography, Hidden, Alert, Theme } from '@mui/material';
 import image from '../../img/content/vintage/watch.jpg';
 import { Mode } from '../../logic/types';
 
@@ -36,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface GridFormProps {
-    children: React.ReactChild | Array<React.ReactChild | undefined> | undefined;
+    children?: React.ReactNode;
     title?: string;
 }
 
@@ -53,7 +51,7 @@ export const AppFormLayout = ({ children, title }: GridFormProps) => {
                     </Grid>
                 </Hidden>
 
-                <Grid container direction="column" justify="center" item xs={12} md={6} className={classes.content}>
+                <Grid container direction="column" justifyContent="center" item xs={12} md={6} className={classes.content}>
                     {title && (
                         <Grid item>
                             <Typography color="textPrimary" align="center" variant="h4" gutterBottom>
@@ -73,15 +71,15 @@ export const AppFormLayout = ({ children, title }: GridFormProps) => {
 // TODO: add a mechanism from router to make sure user wants to close the window if the forms are partially filled but not submitted
 interface Props {
     mode: Mode;
-    initialValues: object;
-    onSubmit?: any;
-    validate?: any;
-    validationSchema?: any;
-    children: any;
-    submitSection: any;
+    initialValues: { [field: string]: unknown; };
+    onSubmit?: (values:  { [field: string]: unknown; }, formikHelpers: FormikHelpers<FormikValues>) => void | Promise<unknown>
+    validate?: (values:  { [field: string]: unknown; }) => void;
+    validationSchema?: (values: { [field: string]: unknown; }) => void;
+    children: React.ReactElement;
+    submitSection: React.ReactNode;
     submitPos?: 'bottom' | 'right';
     error?: string;
-    content?: any;
+    content?: React.ReactNode;
 }
 
 /* 
@@ -89,13 +87,11 @@ interface Props {
     Provide either validate or validationSchema
 */
 // TODO: handle providing both validate and validationSchema / provide validate as a function
-export const AppForm = ({
-    mode,
+export const AppForm: React.FC<Props> = ({
     initialValues,
     onSubmit,
     validationSchema,
     submitSection,
-    submitPos = 'bottom',
     children,
     error,
     content,
@@ -103,19 +99,19 @@ export const AppForm = ({
     const classes = useStyles();
 
     // Disable submit button if errors appear, enable if all input values meet validation criteria
-    const [submitDisabled, setDisabled] = useState(false);
+    // const [submitDisabled, setDisabled] = useState(false);
 
     return (
         <Formik
-            initialValues={initialValues}
-            onSubmit={onSubmit}
+            initialValues={initialValues as FormikValues}
+            onSubmit={onSubmit ?? (() => {})}
             // validate={validate}
             validationSchema={validationSchema}
         >
-            {({ errors, touched }) => {
+            {() => {
                 return (
                     <Form>
-                        <Grid container justify="center">
+                        <Grid container justifyContent="center">
                             {content}
 
                             {error && (
@@ -126,7 +122,9 @@ export const AppForm = ({
                                 </Grid>
                             )}
 
-                            {withValidationList(children, errors, touched)}
+                            {/* TODO: pass component props using React.ComponentType ... */}
+                            {/* {withValidationList(children, errors, touched)} */}
+                            {children}
 
                             {/* This prop should receive at least a button with type submit */}
                             {submitSection}

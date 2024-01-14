@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
+import { useState, useEffect } from 'react';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import { useServices } from '../services';
 import AppLayout from '../layouts/AppLayout';
 import RedirectToFirst from '../components/RedirectToFirst';
@@ -9,9 +8,9 @@ import { User, NotificationProps, ThemeType, Mode } from '../logic/types';
 type SprintsPageProps = {
     user: User | null;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     notificationsProps: NotificationProps;
 };
 
@@ -44,4 +43,7 @@ const SprintsPage = ({ notificationsProps, ...props }: SprintsPageProps) => {
     );
 };
 
-export default authenticatedPage(withPush(SprintsPage));
+// const AuthenticatedSprintsPage = authenticatedPage(SprintsPage);
+
+// export default AuthenticatedSprintsPage;
+export default SprintsPage;

@@ -1,7 +1,6 @@
-import React from 'react';
-import clsx from 'clsx';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Box, Grid, Typography, Divider, Hidden } from '@material-ui/core';
+import classNames from 'classnames';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Box, Grid, Typography, Divider, Hidden, Theme } from '@mui/material';
 import { AuthButtonsHorizontal, BrowseButton } from '../navigation/NavButtons';
 import { Logo } from './Logo';
 import { Dictionary } from './Dictionary';
@@ -64,26 +63,26 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     user: User;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
 }
-const Header = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
+const Header = ({ user, themeType, onThemeTypeChange, mode, onModeChange }: Props) => {
     const classes = useStyles();
 
     const { explanation, definitions } = DICTIONARY;
 
     return (
-        <Grid container justify="center" className={classes.headerContainer}>
+        <Grid container justifyContent="center" className={classes.headerContainer}>
             {/* Browse button */}
             <Hidden smDown>
                 <Box className={`${classes.topButtons} ${classes.left}`}>
                     <BrowseButton
                         user={user}
                         themeType={themeType}
-                        setThemeType={setThemeType}
+                        onThemeTypeChange={onThemeTypeChange}
                         mode={mode}
-                        setMode={setMode}
+                        onModeChange={onModeChange}
                     />
                 </Box>
             </Hidden>
@@ -94,9 +93,9 @@ const Header = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
                     <AuthButtonsHorizontal
                         user={user}
                         themeType={themeType}
-                        setThemeType={setThemeType}
+                        onThemeTypeChange={onThemeTypeChange}
                         mode={mode}
-                        setMode={setMode}
+                        onModeChange={onModeChange}
                     />
                 </Box>
             </Hidden>
@@ -107,7 +106,7 @@ const Header = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
 
             <hr className={classes.headerDivider} />
 
-            <Grid item xs={12} sm={8} className={clsx({ frostic: themeType === 'frostic' })}>
+            <Grid item xs={12} sm={8} className={classNames({ frostic: themeType === 'frostic' })}>
                 {definitions.map((item, i) => (
                     <Dictionary key={i} i={i} {...item} />
                 ))}

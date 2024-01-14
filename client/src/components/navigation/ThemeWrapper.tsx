@@ -1,7 +1,6 @@
-import React from 'react';
 import { createTheme } from '../../styles/themes';
-import { ThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider } from '@mui/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 import { Mode, ThemeType } from '../../logic/types';
 
 /*
@@ -12,7 +11,7 @@ import { Mode, ThemeType } from '../../logic/types';
 interface Props {
     mode: Mode;
     themeType: ThemeType;
-    children: any;
+    children?: React.ReactNode;
 }
 
 const ThemeWrapper = ({ mode, themeType, children }: Props) => {
@@ -21,7 +20,6 @@ const ThemeWrapper = ({ mode, themeType, children }: Props) => {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-
             {children}
         </ThemeProvider>
     );

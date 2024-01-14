@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { withFetchData } from '../utils/withFetchData';
-import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
+import { useFetchData } from '../utils/useFetchData';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import { CommentsSection } from '../components/CommentsSection';
 import { SingleSprint } from '../components/sprint/SingleSprint';
-import { WithShowErrorInjectedProps } from '../utils/withShowError';
+// import { WithShowErrorInjectedProps } from '../utils/withShowError';
 import {
     User,
     NotificationProps,
@@ -15,41 +14,57 @@ import {
     Mode,
     StateData,
     Sprint as SprintType,
+    Comment,
+    Model,
+    RemoveObjectData,
+    WithObjectId,
+    Project,
 } from '../logic/types';
-import moment from 'moment';
-import { MONTH_YEAR_FORMAT } from '../constants/dateFormats';
+import { Format } from '../constants/dateFormats';
 import { PATHS } from '../constants/data';
 import { getRandomQuote } from '../utils/data';
+import * as Utils from '../utils';
 const { sprints } = PATHS;
 const sprintsPath = sprints;
 
 interface SprintProps {
     user: User | undefined | null;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     data: StateData;
-    addPostComment: any;
-    addSprintComment: any;
-    removeObject: any;
+    addPostComment: (id: string, comment: Comment) => void;
+    addSprintComment: (id: string, comment: Comment) => void;
+    removeObject:  (obj: RemoveObjectData) => void;
     notificationsProps: NotificationProps;
+    setStateData: (data: [SprintType[], Project[], User[]]) => void;
 }
 
-const Sprint = ({
+const Sprint: React.FC<SprintProps> = ({
+// const Sprint: React.FC<SprintProps & WithShowErrorInjectedProps> = ({
     user,
     themeType,
-    setThemeType,
+    onThemeTypeChange,
     mode,
-    setMode,
+    onModeChange,
     data,
     addPostComment,
     addSprintComment,
     removeObject,
     notificationsProps,
-}: SprintProps & WithShowErrorInjectedProps) => {
-    const { id }: { id: string } = useParams();
+    setStateData
+}) => {
+    const { id }= useParams<{ id: string }>();
     const { sprints, posts, comments, likes, users, projects } = data;
+    const fetchedData = useFetchData();
+
+    useEffect(() => {
+        if (!fetchedData) {
+            return;
+        }
+        setStateData(fetchedData);
+    }, [fetchedData, setStateData]);
 
     const [quote, setQuote] = useState('');
     useEffect(() => {
@@ -59,7 +74,7 @@ const Sprint = ({
     /* 
         GET CURRENT SPRINT ID DATA FROM APP STATE
     */
-    const sprint = sprints.get(id);
+    const sprint = sprints.get(id ?? '');
 
     /*
         SORT SPRINTS FOR PAGINATION
@@ -122,9 +137,9 @@ const Sprint = ({
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             appBar={true}
             quote={quote}
             pagination={{
@@ -133,7 +148,7 @@ const Sprint = ({
                 nextId: currentInd > 0 ? sortedSprints[currentInd - 1]._id : undefined,
                 previousId: currentInd < sortedSprints.length - 1 ? sortedSprints[currentInd + 1]._id : undefined,
                 primary: `Sprint ${sprint?.number || ''}`,
-                secondary: moment(sprint?.dateTo).format(MONTH_YEAR_FORMAT),
+                secondary: sprint?.dateTo ? Utils.DateTime.toFormat(sprint.dateTo, Format.MONTH_YEAR_FORMAT) : '',
                 list: sprints
                     ? [...sprints.values()].map((spr: SprintType) => ({
                           name: spr?.title,
@@ -163,22 +178,23 @@ const Sprint = ({
                 focusForComments &&
                 focusedElement && (
                     <CommentsSection
-                        expanded={true}
+                        // expanded={true}
+                        mode={mode}
                         user={user}
                         title={focusedElement.title}
                         parentId={focusedElement._id}
-                        parentModel={focusForComments.model}
-                        comments={focusedElement.comments.map((c) => comments.get(c))}
+                        parentModel={focusForComments.model as Model}
+                        comments={focusedElement.comments.map((c) => comments.get(c) as Comment)}
                         users={data.users}
                         addComment={
                             focusForComments.model === 'Sprint'
                                 ? addSprintComment.bind(focusForComments.id)
                                 : addPostComment.bind(focusForComments.id)
                         }
-                        removeComment={(id: string) =>
+                        removeComment={(comment: WithObjectId) =>
                             removeObject({
                                 child: 'comments',
-                                childId: id,
+                                childId: comment.objectId,
                                 parent: focusForComments.model === 'Sprint' ? 'sprints' : 'posts',
                                 parentId: focusForComments.id,
                             })
@@ -207,4 +223,5 @@ const Sprint = ({
     );
 };
 
-export default authenticatedPage(withPush(withFetchData(Sprint)));
+export default Sprint;
+// export default authenticatedPage(Sprint);

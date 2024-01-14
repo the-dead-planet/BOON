@@ -1,7 +1,6 @@
-import * as createPalette from '@material-ui/core/styles/createPalette';
 import { Mode } from './types';
 
-declare module '@material-ui/core/styles/createPalette' {
+declare module '@mui/styles/createPalette' {
     interface PaletteOptions {
         primary?: PaletteColorOptions;
         secondary?: PaletteColorOptions;

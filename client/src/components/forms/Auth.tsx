@@ -1,16 +1,16 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 // import EmailValidator from 'email-validator';
 import * as Yup from 'yup';
-import { Button, Box, Tooltip, Typography, Grid } from '@material-ui/core';
+import { Button, Box, Tooltip, Typography, Grid, Theme } from '@mui/material';
 import { Link } from '../../utils/Link';
 import { AppFormLayout, AppForm } from './App';
 import { GridField } from './GridFields';
 import { IconButton } from '../mui-styled/IconButton';
 import { CatIconOutlined, TreeIconOutlined, PartyIconOutlined } from '../../icons/Icons';
 import { Mode } from '../../logic/types';
+import { FormikHelpers, FormikValues } from 'formik';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
         submitSection: {
             marginTop: '2em',
@@ -40,8 +40,8 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     mode: Mode;
     register: boolean;
-    initialValues: object;
-    onSubmit: any;
+    initialValues: { [field: string]: unknown; };
+    onSubmit: (values: { [field: string]: unknown; }, formikHelpers: FormikHelpers<FormikValues>) => void | Promise<unknown>;
     error?: string;
     location?: { path: string; search?: string };
 }
@@ -51,7 +51,7 @@ interface Props {
 const AuthForm = ({ mode, register, initialValues, onSubmit, error, location }: Props) => {
     const classes = useStyles();
 
-    const validationSchema = (values: any) =>
+    const validationSchema = (_values: { [field: string]: unknown; }) =>
         Yup.object().shape({
             email: Yup.string().email().required('Required'),
             password: Yup.string()
@@ -66,7 +66,7 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error, location }: 
                 mode={mode}
                 initialValues={initialValues}
                 onSubmit={onSubmit}
-                validationSchema={register && validationSchema}
+                validationSchema={register ? validationSchema : undefined}
                 error={error}
                 content={
                     <>
@@ -121,41 +121,43 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error, location }: 
                     </Grid>
                 }
             >
-                <GridField
-                    xs={12}
-                    mode={mode}
-                    required
-                    fullWidth
-                    variant="outlined"
-                    name="email"
-                    id="auth-email"
-                    label={`${!register ? 'Username / ' : ''}E-mail`}
-                />
-
-                {register && (
+                <>
                     <GridField
                         xs={12}
                         mode={mode}
+                        required
+                        fullWidth
+                        variant="outlined"
+                        name="email"
+                        id="auth-email"
+                        label={`${!register ? 'Username / ' : ''}E-mail`}
+                    />
+
+                    {register ? (
+                        <GridField
+                            xs={12}
+                            mode={mode}
+                            fullWidth
+                            variant="outlined"
+                            required
+                            name="username"
+                            id="auth-username"
+                            label="Username"
+                        />
+                    ) : null}
+
+                    <GridField
+                        mode={mode}
+                        xs={12}
                         fullWidth
                         variant="outlined"
                         required
-                        name="username"
-                        id="auth-username"
-                        label="Username"
+                        type="password"
+                        name="password"
+                        id="auth-password"
+                        label="Password"
                     />
-                )}
-
-                <GridField
-                    mode={mode}
-                    xs={12}
-                    fullWidth
-                    variant="outlined"
-                    required
-                    type="password"
-                    name="password"
-                    id="auth-password"
-                    label="Password"
-                />
+                </>
             </AppForm>
         </AppFormLayout>
     );

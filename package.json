@@ -8,7 +8,7 @@
         "test": "run-s test_server test_client",
         "test_client": "yarn --cwd client test --watch-all=false",
         "test_server": "yarn --cwd server test --watch-all=false",
-        "client": "npm run start --prefix client",
+        "client": "npm run dev --prefix client",
         "server": "npm run start --prefix server",
         "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
         "start": "npm run dev",
@@ -31,5 +31,8 @@
         "hooks": {
             "pre-commit": "pretty-quick --staged"
         }
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.5.1"
     }
 }

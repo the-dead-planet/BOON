@@ -5,17 +5,17 @@
     Theme types give a completely different styling, while mode just switch between light and dark colors within a theme type.
 */
 import { Mode, ThemeType } from '../logic/types';
-import { createMuiTheme, responsiveFontSizes, Theme } from '@material-ui/core/styles';
+import { Theme, responsiveFontSizes, createTheme as createMuiTheme } from '@mui/material';
 import bgFrosticLight from '../img/background/bg-frostic-light.jpg';
 import bgFrosticDark from '../img/background/bg-frostic-dark.jpg';
 
 // font-family: 'Libre Baskerville', serif;
 // Wrapper for the function in order to pass type parameter.
 // Requires defining 'const theme' in components which make use of it. See Layout.tsx
-const createTheme = (mode: Mode, themeType: ThemeType, customTheme?: Theme) => {
+const createTheme = (mode: Mode, themeType: ThemeType, _customTheme?: Theme) => {
     // Default theme - minimalistic white / black design
     // It's allowed to customize default theme, if provided replace default theme with customTheme
-    let defaultTheme = {
+    const defaultTheme = {
         palette: {
             type: mode,
             primary: {
@@ -89,7 +89,7 @@ const createTheme = (mode: Mode, themeType: ThemeType, customTheme?: Theme) => {
     };
 
     // Vintage theme - styled as a vintage newspaper
-    let vintage = {
+    const vintage = {
         palette: {
             type: mode,
             primary: {
@@ -173,7 +173,7 @@ const createTheme = (mode: Mode, themeType: ThemeType, customTheme?: Theme) => {
     };
 
     // Frostic theme - glassmorphism design
-    let frostic = {
+    const frostic = {
         palette: {
             type: mode,
             primary: {
@@ -246,7 +246,7 @@ const createTheme = (mode: Mode, themeType: ThemeType, customTheme?: Theme) => {
     };
 
     // Custom - by default the same as defaultTheme
-    let custom = customTheme || defaultTheme;
+    // const custom = customTheme || defaultTheme;
 
     // Add responsive font sizes and create theme based on selected app
     let theme;

@@ -1,49 +1,42 @@
-import React, { useState, useEffect } from 'react';
-// import moment from 'moment';
+import { useState, useEffect } from 'react';
+// import * as luxon from 'luxon';
 import PostForm from '../components/forms/Post';
-import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import { useParams } from 'react-router-dom';
-import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, PostSubmit, Sprint, ThemeType } from '../logic/types';
+// import withShowError from '../utils/withShowError';
+import { User, NotificationProps, Mode, Sprint, ThemeType, PostData } from '../logic/types';
 import { useServices } from '../services';
 
 interface Props {
     user: User;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
     sprintId: string;
-    setMode: any;
-    push: any;
+    onModeChange: (mode: Mode) => void;
+    // push: (path: string) => void;
     notificationsProps: NotificationProps;
-    showError: any;
-}
-
-interface Params {
-    id: string;
+    showError: (err: Error) => void;
 }
 
 const AddPost = ({
     user,
     themeType,
-    setThemeType,
+    onThemeTypeChange,
     mode,
-    setMode,
-    sprintId,
-    push,
+    onModeChange,
     notificationsProps,
     showError,
 }: Props) => {
-    const { id } = useParams<Params>();
+    const params = useParams<{ id: string }>();
 
     const [sprint, setSprint] = useState<Sprint | null>(null);
 
     const { sprintsService, postsService } = useServices()!;
 
     const getSprint = async () => {
-        const sprint = await sprintsService.getOne({ objectId: id }).catch(showError);
+        const sprint = await sprintsService.getOne({ objectId: params.id ?? '' }).catch(showError);
         if (sprint) {
             setSprint(sprint);
         }
@@ -61,9 +54,9 @@ const AddPost = ({
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             {...notificationsProps}
         >
             <PostForm
@@ -74,17 +67,18 @@ const AddPost = ({
                     title: '',
                     body: '',
                 }}
-                onSubmit={(data: PostSubmit) => {
+                onSubmit={(data: { [key in string]: unknown }) => {
                     const extendedData = {
                         ...data,
-                        sprintId: id,
+                        sprintId: params.id,
                         model: 'Sprint',
                     };
-                    return postsService.add(extendedData).catch(showError);
+                    return postsService.add(extendedData as unknown as PostData).catch(showError);
                 }}
             />
         </AppLayout>
     );
 };
 
-export default authenticatedPage(withPush(withShowError(AddPost)));
+export default AddPost;
+// export default authenticatedPage(withShowError(AddPost));

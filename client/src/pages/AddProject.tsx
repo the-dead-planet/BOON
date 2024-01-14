@@ -1,32 +1,30 @@
-import React from 'react';
 import ProjectForm from '../components/forms/Project';
-import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
-import withShowError from '../utils/withShowError';
+// import withShowError from '../utils/withShowError';
 import { User, NotificationProps, Mode, ProjectSubmit, ThemeType } from '../logic/types';
 import { useServices } from '../services';
 
 interface Props {
     user: User;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
-    push: any;
+    onModeChange: (mode: Mode) => void;
+    push: (path: string) => void;
     notificationsProps: NotificationProps;
-    showError: any;
+    showError: (err: Error) => void;
 }
 
-const AddProject = ({ user, mode, themeType, setThemeType, setMode, push, notificationsProps, showError }: Props) => {
+const AddProject = ({ user, mode, themeType, onThemeTypeChange, onModeChange, push, notificationsProps, showError }: Props) => {
     const { projectsService } = useServices()!;
     return (
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             {...notificationsProps}
         >
             <ProjectForm
@@ -36,9 +34,9 @@ const AddProject = ({ user, mode, themeType, setThemeType, setMode, push, notifi
                     title: '',
                     body: '',
                 }}
-                onSubmit={(data: ProjectSubmit) => {
+                onSubmit={(data) => {
                     projectsService
-                        .add(data)
+                        .add(data as unknown as ProjectSubmit)
                         .then(() => {
                             push('/sprints');
                         })
@@ -49,4 +47,5 @@ const AddProject = ({ user, mode, themeType, setThemeType, setMode, push, notifi
     );
 };
 
-export default authenticatedPage(withPush(withShowError(AddProject)));
+export default AddProject;
+// export default authenticatedPage(withShowError(AddProject));

@@ -12,14 +12,17 @@ interface WrappedComponentProps {
 
 // Props added to the output.
 export interface WithShowErrorInjectedProps {
-    showError: any;
+    showError: (err: Error) => unknown[];
 }
 
-const withShowError = <Props extends WrappedComponentProps>(wrappedComponent: React.SFC<Props>) => (props: Props) => {
+const withShowError = <Props extends WrappedComponentProps>(wrappedComponent: React.FC<Props>) => (props: Props) => {
     const {
         notificationsProps: { addNotification },
     } = props;
-    const showError = (err: {}) => addNotification(NotificationObject.make(err.toString()));
+    const showError = (err: Error) => {
+        const notification = NotificationObject.make(err.message);
+        addNotification({ id: notification.id.toString(), message: notification.message});
+    }
     return wrappedComponent({ ...props, showError });
 };
 

@@ -1,38 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
 import AppLayout from '../layouts/AppLayout';
 import ProjectForm from '../components/forms/Project';
 import { Loading } from '../components/Loading';
 import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, ProjectSubmit, ThemeType, Project } from '../logic/types';
+import { User, NotificationProps, Mode, ThemeType, ProjectSubmit, Project } from '../logic/types';
 import { useServices } from '../services';
 
 interface Props {
     user: User;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
-    push: any;
+    onModeChange: (mode: Mode) => void;
+    push: (path: string) => void;
     notificationsProps: NotificationProps;
-    showError: any;
+    showError: (err: Error) => void;
 }
 
-interface Params {
-    id: string;
-}
-
-const EditProject = ({ user, themeType, setThemeType, mode, setMode, push, notificationsProps, showError }: Props) => {
-    const { id } = useParams<Params>();
+const EditProject = ({ user, themeType, onThemeTypeChange, mode, onModeChange, push, notificationsProps, showError }: Props) => {
+    const { id } = useParams<{ id: string; }>();
 
     const [project, setProject] = useState<Project | null>(null);
 
     const { projectsService } = useServices()!;
 
     const getProject = async () => {
-        const project = await projectsService.getOne({ objectId: id });
+        const project = await projectsService.getOne({ objectId: id ?? '' });
         setProject(project);
     };
 
@@ -48,9 +43,9 @@ const EditProject = ({ user, themeType, setThemeType, mode, setMode, push, notif
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             {...notificationsProps}
         >
             <h1 className="center">Edit Project {id}</h1>
@@ -66,9 +61,9 @@ const EditProject = ({ user, themeType, setThemeType, mode, setMode, push, notif
                         title: project.title,
                         body: project.body,
                     }}
-                    onSubmit={(data: ProjectSubmit) => {
+                    onSubmit={(data) => {
                         projectsService
-                            .update({ ...data, objectId: id })
+                            .update({ ...(data as unknown as ProjectSubmit), objectId: id ?? '' })
                             .then(() => {
                                 push('/projects');
                             })
@@ -80,4 +75,4 @@ const EditProject = ({ user, themeType, setThemeType, mode, setMode, push, notif
     );
 };
 
-export default authenticatedPage(withPush(withShowError(EditProject)));
+export default authenticatedPage(withShowError(EditProject));

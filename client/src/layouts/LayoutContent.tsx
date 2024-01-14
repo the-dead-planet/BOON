@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
+import { Container, Hidden, Box, Typography, Theme } from "@mui/material";
+import { makeStyles, createStyles } from '@mui/styles';
 import { DRAWER_WIDTH, JUMBOTRON_HEIGHT, TOOLBAR_HEIGHT } from '../styles/constants';
-import { Hidden, Box, Typography, Container } from '@material-ui/core';
 import MenuDrawer from '../components/navigation/MenuDrawer';
 import Jumbotron from '../components/navigation/Jumbotron';
 import SecondaryDrawer from '../components/navigation/SecondaryDrawer';
@@ -22,6 +22,7 @@ import {
     DialogProps,
     NavButton,
     Side,
+    Notification,
 } from '../logic/types';
 import { APP_NAME } from '../constants/data';
 import NotificationsRenderer from '../components/NotificationsRenderer';
@@ -122,11 +123,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface LayoutProps {
     user: User;
-    children: React.ReactChild | React.ReactChildren | Array<React.ReactChild> | undefined;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     // Appbar and jumbotron
     appBar?: boolean;
     jumbotron?: JumbotronType;
@@ -143,24 +143,25 @@ export interface LayoutProps {
     sideColumn?: SideColumn;
     // Secondary drawer
     drawer?: Drawer;
-    secondaryDrawer?: any;
+    secondaryDrawer?: React.ReactNode;
     secondaryDrawerOpen?: boolean;
-    secondaryDrawerContent?: any;
-    toggleSecondaryDrawer?: any;
+    secondaryDrawerContent?: React.ReactNode;
+    toggleSecondaryDrawer?: (toggle: boolean) => void;
     // Dialog Alert window
     dialog?: DialogProps;
     // Notifications
-    notifications: any;
-    onNotificationShown: any;
+    notifications: Notification[];
+    onNotificationShown: (notificationId: string) => void;
+    children?: React.ReactNode;
 }
 
 const LayoutContent = ({
     user,
     children,
     themeType,
-    setThemeType,
+    onThemeTypeChange,
     mode,
-    setMode,
+    onModeChange,
     // Appbar and jumbotron
     appBar,
     jumbotron,
@@ -168,8 +169,8 @@ const LayoutContent = ({
     // Pagination
     title,
     pagination,
-    nextId, //TODO: check if still required
-    previousId, //TODO: check if still required
+    // nextId, //TODO: check if still required
+    // previousId, //TODO: check if still required
     // Left navigation panel
     createButton,
     navPanel,
@@ -192,20 +193,20 @@ const LayoutContent = ({
     // Drawer functions
     const [openMenu, setOpenMenu] = useState(false);
 
-    const toggleDrawer = (open: boolean) => {
+    const toggleDrawer = (open: boolean) => () => {
         setOpenMenu(open);
     };
 
     return (
-        <div className={clsx({ [classes.frosticContainer]: themeType === 'frostic' })}>
+        <div className={classNames({ [classes.frosticContainer]: themeType === 'frostic' })}>
             {appBar && (
                 <NavBarTop
                     user={user}
                     name={APP_NAME}
                     themeType={themeType}
-                    setThemeType={setThemeType}
+                    onThemeTypeChange={onThemeTypeChange}
                     mode={mode}
-                    setMode={setMode}
+                    onModeChange={onModeChange}
                     drawerVariant="persistent"
                     open={false}
                     toggleDrawer={toggleDrawer}
@@ -214,31 +215,31 @@ const LayoutContent = ({
                 />
             )}
 
-            {themeType === 'frostic' && <div className={clsx({ ['frosticOffset']: themeType === 'frostic' })}></div>}
+            {themeType === 'frostic' && <div className={classNames({ ['frosticOffset']: themeType === 'frostic' })}></div>}
 
             {/* Menu drawer should include basic navigation buttons on small screens */}
             <MenuDrawer
                 user={user}
                 {...drawer}
                 mode={mode}
-                setMode={setMode}
+                onModeChange={onModeChange}
                 open={openMenu}
                 toggleDrawer={toggleDrawer}
                 createButton={createButton}
             />
 
             {/* Secondary drawer can include additional content like comments */}
-            {secondaryDrawer && (
+            {secondaryDrawer && toggleSecondaryDrawer ? (
                 <SecondaryDrawer user={user} open={secondaryDrawerOpen} toggleDrawer={toggleSecondaryDrawer}>
                     {secondaryDrawerContent}
                 </SecondaryDrawer>
-            )}
+            ) : null}
 
             {jumbotron && <Jumbotron {...jumbotron} />}
 
             <Container maxWidth="xl" className={classes.container}>
                 <main
-                    className={clsx({
+                    className={classNames({
                         [classes.contentShift]: false,
                         [classes.content]: drawer && drawer.variant === 'persistent',
                         [classes.contentPadding]: !(drawer && drawer.variant === 'persistent'),

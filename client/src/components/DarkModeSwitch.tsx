@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-// import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Typography, Switch } from '@material-ui/core';
+// import { makeStyles, createStyles } from '@mui/styles';
+import { Typography, Switch } from '@mui/material';
 import { Mode } from '../logic/types';
 
 // const useStyles = makeStyles((theme: Theme) =>
@@ -11,10 +11,10 @@ import { Mode } from '../logic/types';
 // TODO: Add update user if user logged in and switches the dark mode on/off
 interface Props {
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
 }
 
-const DarkModeSwitch = ({ mode, setMode }: Props) => {
+const DarkModeSwitch = ({ mode, onModeChange }: Props) => {
     // const classes = useStyles();
 
     // Toggle mode light/dark
@@ -25,7 +25,7 @@ const DarkModeSwitch = ({ mode, setMode }: Props) => {
     const changeDarkMode = (event: React.ChangeEvent<HTMLInputElement>) => {
         const darkModeChecked = event.target.checked;
         setState({ ...state, [event.target.name]: darkModeChecked });
-        setMode(darkModeChecked ? 'dark' : 'light');
+        onModeChange(darkModeChecked ? 'dark' : 'light');
     };
 
     return (

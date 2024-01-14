@@ -1,47 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { withFetchData } from '../utils/withFetchData';
-import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import { SingleProject } from '../components/project/SingleProject';
-import { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, NotificationProps, Mode, ThemeType, StateData, Project } from '../logic/types';
+// import { WithShowErrorInjectedProps } from '../utils/withShowError';
+import { User, Comment, NotificationProps, Mode, ThemeType, StateData, Project as ProjectType, RemoveObjectData, Sprint } from '../logic/types';
 import { PATHS } from '../constants/data';
 import { getRandomQuote } from '../utils/data';
+import { useFetchData } from '../utils/useFetchData';
 const { projects } = PATHS;
 const projectsPath = projects;
 
 // TODO: see a comment in `Logout` regarding HOCs.
-interface SprintProps {
+interface ProjectProps {
     user: User | undefined | null;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     data: StateData;
-    setStateData: any;
-    addPostComment: any;
-    addSprintComment: any;
-    removeObject: any;
+    setStateData: (data: [Sprint[], ProjectType[], User[]]) => void;
+    addPostComment: (id: string, comment: Comment) => void;
+    addSprintComment: (id: string, comment: Comment) => void;
+    removeObject:  (obj: RemoveObjectData) => void;
     notificationsProps: NotificationProps;
-    showError: any;
+    showError: (err: Error) => void;
 }
 
-const Sprint = ({
+const Project: React.FC<ProjectProps> = ({
     user,
     themeType,
-    setThemeType,
+    onThemeTypeChange,
     mode,
-    setMode,
+    onModeChange,
     data,
     addPostComment,
     removeObject,
     notificationsProps,
     showError,
-}: SprintProps & WithShowErrorInjectedProps) => {
-    const { id }: { id: string } = useParams();
+    setStateData
+}) => {
+    const params = useParams<{ id: string }>();
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
+
+    const fetchedData = useFetchData(showError);
+
+    useEffect(() => {
+        if (!fetchedData) {
+            return;
+        }
+        setStateData(fetchedData)
+    }, [fetchedData, setStateData]);
 
     const [quote, setQuote] = useState('');
     useEffect(() => {
@@ -51,12 +60,12 @@ const Sprint = ({
     /* 
         GET CURRENT SPRINT ID DATA FROM APP STATE
     */
-    const project = projects.get(id)!;
+    const project = projects.get(params.id!)!;
 
     /* 
         NAVIGATION ITEMS
     */
-    const navProjects = [...projects.values()]?.map((project: Project) => ({
+    const navProjects = [...projects.values()]?.map((project: ProjectType) => ({
         id: project._id || '',
         name: project.title || '',
         path: `/projects/${project._id}`,
@@ -73,9 +82,9 @@ const Sprint = ({
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             appBar={true}
             quote={quote}
             pagination={{
@@ -88,7 +97,7 @@ const Sprint = ({
             }}
             sideColumn={{
                 header: '_news',
-                body: `We found something on the internet which is related to ${project?.title}. \"THEY\" say that...`,
+                body: `We found something on the internet which is related to ${project?.title}. "THEY" say that...`,
             }}
             secondaryDrawer="a" // TODO: fill with comments from related object
             secondaryDrawerOpen={false}
@@ -115,4 +124,7 @@ const Sprint = ({
     );
 };
 
-export default authenticatedPage(withPush(withFetchData(Sprint)));
+// const AuthenticatedProject = authenticatedPage(Project);
+
+// export default AuthenticatedProject;
+export default Project;

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { guestPage } from '../utils/authenticatedPage';
-import { interceptPage } from '../utils/interceptPage';
+import { useState } from 'react';
+import { makeStyles, createStyles } from '@mui/styles';
+// import { guestPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import { useServices } from '../services';
 import { Mode, User, NotificationProps, ThemeType } from '../logic/types';
+import { Theme } from '@mui/material';
 
 /* 
     Users can log in using either their e-mail (passport 'username') or their publicName
@@ -13,7 +13,7 @@ import { Mode, User, NotificationProps, ThemeType } from '../logic/types';
     by matched user's username (=email) 
  */
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
         container: {
             marginTop: '5em',
@@ -25,12 +25,12 @@ interface Props {
     user: User;
     mode: Mode;
     themeType: ThemeType;
-    setThemeType: any;
-    setMode: any;
-    next?: any;
-    onLoginSuccess: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
+    onModeChange: (mode: Mode) => void;
+    next?: () => void;
+    onLoginSuccess: (user: User) => void;
     notificationsProps: NotificationProps;
-    showError: any;
+    showError: (err: Error) => void;
     location?: { path: string; search?: string };
 }
 
@@ -38,29 +38,29 @@ const Login = ({
     user,
     mode,
     themeType,
-    setThemeType,
-    setMode,
+    onThemeTypeChange,
+    onModeChange,
     next,
     onLoginSuccess,
     notificationsProps,
-    showError,
     location,
 }: Props) => {
     const classes = useStyles();
     const [error, setError] = useState('');
     const { authService } = useServices()!;
 
-    const setErrorMessage = (err: any) => {
-        setError(err.request.response);
+    const setErrorMessage = (err: Error) => {
+        setError(err.message ?? 'uknown error');
+        // setError(err.request.response);
     };
 
     return (
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             {...notificationsProps}
         >
             <div className={classes.container}>
@@ -73,12 +73,12 @@ const Login = ({
                         email: '',
                         password: '',
                     }}
-                    onSubmit={async ({ password, email }: { password: string; email: string }) => {
+                    onSubmit={async ({ password, email }: { [key in string]: unknown }) => {
                         authService
-                            .login(password, email)
+                            .login(password as string, email as string)
                             .then(({ user }) => {
                                 onLoginSuccess(user);
-                                next();
+                                next?.();
                             })
                             .catch(setErrorMessage);
                     }}
@@ -89,5 +89,8 @@ const Login = ({
 };
 
 // TODO: Repair guest page to work and redirect to the main page if user is logged in -> works with /home, here not
-// export default interceptPage(withShowError(Login));
-export default guestPage(interceptPage(Login));
+// export default withShowError(Login);
+export default Login;
+// const GuestLogin = guestPage(Login);
+
+// export default GuestLogin;

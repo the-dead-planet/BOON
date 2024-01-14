@@ -12,11 +12,16 @@ import { matchers } from './testing/matchers';
 // https://material-ui.com/components/use-media-query/#testing
 const TEST_SCREEN_WIDTH = 2000;
 
-function createMatchMedia(width) {
-    return (query) => ({
+function createMatchMedia(width: number) {
+    return (query: string): MediaQueryList => ({
         matches: mediaQuery.match(query, { width }),
         addListener: () => {},
         removeListener: () => {},
+        media: '',
+        onchange: () => null,
+        addEventListener: () => {},
+        removeEventListener: () => {},
+        dispatchEvent: () => true
     });
 }
 

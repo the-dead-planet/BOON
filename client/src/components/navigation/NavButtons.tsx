@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { fade, makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { useState } from 'react';
+import { makeStyles, createStyles } from '@mui/styles';
 import { Link } from '../../utils/Link';
-import { Grid, List, ListItem, ListItemText, Typography, InputBase, Hidden } from '@material-ui/core';
+import { Grid, List, ListItem, ListItemText, Typography, InputBase, Hidden, Theme } from '@mui/material';
 import { TypographyLinkOutlined } from '../mui-styled/Typography';
 import { Preferences } from './Preferences';
 import DialogMenu from './DialogMenu';
-import GroupWorkIcon from '@material-ui/icons/GroupWork';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import { IconUserSecret, IconSearch } from '../Icons';
 import { ItemMenu } from '../ItemMenu';
 import { ThemeType, Mode, User } from '../../logic/types';
@@ -19,14 +19,17 @@ const useStyles = makeStyles((theme: Theme) =>
             position: 'relative',
             borderRadius: theme.shape.borderRadius,
             border: `1px solid ${theme.palette.primary.main}`,
-            backgroundColor: fade(theme.palette.common.white, 0.15),
+            backgroundColor: theme.palette.common.white,
+            // TODO: fade no longer available in new version of mui
+            // backgroundColor: fade(theme.palette.common.white, 0.15),
             width: '100%',
             [theme.breakpoints.up('sm')]: {
                 marginLeft: theme.spacing(3),
                 width: 'auto',
             },
             '&:hover': {
-                backgroundColor: fade(theme.palette.common.white, 0.25),
+                backgroundColor: theme.palette.common.white,
+                // backgroundColor: fade(theme.palette.common.white, 0.25),
             },
         },
         searchIcon: {
@@ -73,12 +76,12 @@ const texts = {
 interface Props {
     user: User | null | undefined;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
 }
 
-export const AuthButtonsHorizontal = ({ user, themeType, setThemeType, mode, setMode }: Props) => {
+export const AuthButtonsHorizontal = ({ user, themeType, onThemeTypeChange, mode, onModeChange }: Props) => {
     const classes = useStyles();
     const signUpButton = (
         <Link to={register}>
@@ -92,7 +95,7 @@ export const AuthButtonsHorizontal = ({ user, themeType, setThemeType, mode, set
         </Link>
     );
 
-    let logInButton = (
+    const logInButton = (
         <Link to={login}>
             <TypographyLinkOutlined variant="body2" color="secondary">
                 {texts.login}
@@ -107,7 +110,7 @@ export const AuthButtonsHorizontal = ({ user, themeType, setThemeType, mode, set
         setOpenDialog(false);
     };
 
-    const handleDialogOpen = (id: string) => {
+    const handleDialogOpen = () => {
         setOpenDialog(true);
     };
 
@@ -155,7 +158,7 @@ export const AuthButtonsHorizontal = ({ user, themeType, setThemeType, mode, set
                 open={openDialog}
                 message="Preferences"
                 content={
-                    <Preferences themeType={themeType} setThemeType={setThemeType} mode={mode} setMode={setMode} />
+                    <Preferences themeType={themeType} onThemeTypeChange={onThemeTypeChange} mode={mode} onModeChange={onModeChange} />
                 }
                 handleClose={handleDialogClose}
                 buttonOk={{ text: 'Done', onClick: handleDialogClose }}
@@ -168,14 +171,14 @@ export const AuthButtonsHorizontal = ({ user, themeType, setThemeType, mode, set
 export const AuthButtonsVertical = ({ user }: Props) => {
     // const classes = useStyles();
     // TODO: resolve error 'div cannot be child of p'
-    let signUpButton = (
+    const signUpButton = (
         <ListItem button component={!user ? Link : Typography} to={!user ? register : ''}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText primary={texts.register} />
         </ListItem>
     );
 
-    let loginButton = (
+    const loginButton = (
         <ListItem button component={Link} to={!user ? login : logout}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText primary={texts.login} />
@@ -190,7 +193,7 @@ export const AuthButtonsVertical = ({ user }: Props) => {
     );
 };
 
-export const BrowseButton = ({ user }: Props) => {
+export const BrowseButton: React.FC<Props> = () => {
     const classes = useStyles();
 
     return (

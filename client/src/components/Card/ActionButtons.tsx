@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
 import { Link } from '../../utils/Link';
-import { Typography, Tooltip } from '@material-ui/core';
+import { Typography, Tooltip } from '@mui/material';
 import { IconButton } from '../mui-styled/IconButton';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { Comment, Like, User } from '../../logic/types';
 
 interface Props {

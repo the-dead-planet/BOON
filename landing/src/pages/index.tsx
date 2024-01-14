@@ -1,6 +1,6 @@
 import React from "react"
-import { makeStyles, createStyles, Theme } from "@material-ui/core/styles"
-import { Container, Grid } from "@material-ui/core"
+import { makeStyles, createStyles } from "@mui/styles"
+import { Container, Grid, Theme } from "@mui/material"
 
 import Layout from "../components/layout"
 import Header from "../components/header"
@@ -36,7 +36,7 @@ const IndexPage: React.FC<{}> = () => {
           className={classes.contentContainer}
         >
           <EnterButton />
-          <Grid container justify="space-around">
+          <Grid container justifyContent="space-around">
             {featureDescriptions.map((item, i) => (
               <FeatureDescription key={i} {...item} />
             ))}

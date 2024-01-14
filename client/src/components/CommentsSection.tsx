@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Box, Typography } from '@material-ui/core';
+import { useState } from 'react';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Box, Typography, Theme } from '@mui/material';
 import { CommentsList } from './CommentsList';
-import { withPush } from '../utils/routingDecorators';
 import { AddComment } from './forms/AddComment';
 // import CollapsePanel from './transitions/CollapsePanel';
 import DialogMenu from './navigation/DialogMenu';
 import { useServices } from '../services';
-import { Mode, User, Comment, Model } from '../logic/types';
+import { Mode, User, Comment, Model, WithObjectId } from '../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -27,9 +26,9 @@ interface Props {
     parentModel: Model;
     comments: Array<Comment>;
     users: Map<string, User>;
-    addComment: any;
-    removeComment: any;
-    onError?: any;
+    addComment: (id: string, comment: Comment) => void;
+    removeComment: (comment: WithObjectId) => void;
+    onError?: (err: Error) => void;
     mode: Mode;
 }
 
@@ -77,7 +76,7 @@ const CommentsImpl = ({
                     user={user}
                     comments={comments}
                     users={users}
-                    setCommentToBeDeletedId={handleDialogOpen}
+                    onCommentToBeDeletedIdChange={handleDialogOpen}
                 />
                 {/* </CollapsePanel> */}
             </Box>
@@ -106,6 +105,6 @@ const CommentsImpl = ({
     );
 };
 
-const CommentsSection = withPush(CommentsImpl);
+const CommentsSection = CommentsImpl;
 
 export { CommentsSection };

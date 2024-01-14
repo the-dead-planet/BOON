@@ -1,6 +1,6 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { FormControl, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { FormControl, RadioGroup, FormControlLabel, Radio, Theme } from '@mui/material';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     valueList: Array<string>;
     value: string;
-    setValue: any;
+    setValue: (val: string) => void;
 }
 
 export const RadioButtonGroup = ({ valueList, value, setValue }: Props) => {

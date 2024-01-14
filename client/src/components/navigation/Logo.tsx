@@ -1,6 +1,6 @@
 import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Typography, Hidden } from '@material-ui/core';
+import { makeStyles, createStyles } from '@mui/styles';
+import { Typography, Hidden, Theme } from '@mui/material';
 import { IconButton } from '../mui-styled/IconButton';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    handleDrawerToggle: any;
+    handleDrawerToggle: () => void;
 }
 
 export const Logo = ({ handleDrawerToggle }: Props) => {

@@ -1,35 +1,34 @@
-import React from 'react';
-import { authenticatedPage } from '../utils/authenticatedPage';
-import { withPush } from '../utils/routingDecorators';
+// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
-import { WithShowErrorInjectedProps } from '../utils/withShowError';
+// import { WithShowErrorInjectedProps } from '../utils/withShowError';
 import { User, NotificationProps, ThemeType, Mode } from '../logic/types';
 
 interface SprintProps {
     user: User | undefined | null;
     themeType: ThemeType;
-    setThemeType: any;
+    onThemeTypeChange: (themeType: ThemeType) => void;
     mode: Mode;
-    setMode: any;
+    onModeChange: (mode: Mode) => void;
     notificationsProps: NotificationProps;
 }
 
 // If path is /sprints, redirect to the newest sprint
-const Team = ({
+const Team: React.FC<SprintProps> = ({
+// const Team: React.FC<SprintProps & WithShowErrorInjectedProps> = ({
     user,
     themeType,
-    setThemeType,
+    onThemeTypeChange,
     mode,
-    setMode,
+    onModeChange,
     notificationsProps,
-}: SprintProps & WithShowErrorInjectedProps) => {
+}) => {
     return (
         <AppLayout
             user={user}
             themeType={themeType}
-            setThemeType={setThemeType}
+            onThemeTypeChange={onThemeTypeChange}
             mode={mode}
-            setMode={setMode}
+            onModeChange={onModeChange}
             appBar={true}
             navPanel={{
                 side: 'left',
@@ -42,4 +41,7 @@ const Team = ({
     );
 };
 
-export default authenticatedPage(withPush(Team));
+// const AuthenticatedTeam = authenticatedPage(Team);
+
+// export default AuthenticatedTeam;
+export default Team;

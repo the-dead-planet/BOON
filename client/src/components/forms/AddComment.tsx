@@ -1,14 +1,13 @@
-import React from 'react';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@mui/styles';
 import { AppForm } from './App';
-import { TextField, Typography } from '@material-ui/core';
-import SendOutlinedIcon from '@material-ui/icons/SendOutlined';
+import { TextField, Typography, Theme } from '@mui/material';
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { IconButton } from '../mui-styled/IconButton';
 import { GridField } from './GridFields';
-import { Mode, CommentSubmit, User, Model } from '../../logic/types';
+import { Mode, CommentSubmit, User, Model, Comment, CommentData } from '../../logic/types';
 import { useServices } from '../../services';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
         submit: {
             display: 'flex',
@@ -22,7 +21,7 @@ interface Props {
     mode: Mode;
     _id: string;
     model: Model;
-    addComment: any;
+    addComment: (id: string, comment: Comment) => void;
 }
 
 export const AddComment = ({ user, mode, _id, model, addComment }: Props) => {
@@ -32,17 +31,17 @@ export const AddComment = ({ user, mode, _id, model, addComment }: Props) => {
     return user ? (
         <AppForm
             mode={mode}
-            initialValues={{}}
-            onSubmit={(data: CommentSubmit, { resetForm }: any) => {
-                const extendedData = {
-                    ...data, // copy form values
+            initialValues={{ body: '' }}
+            onSubmit={(data, { resetForm }) => {
+                const extendedData: CommentData & { id: string; objectId: string; model: Model; } = {
+                    ...(data as CommentSubmit), // copy form values
                     id: _id, // add sprint id
                     objectId: _id,
                     model: model,
                 };
 
                 // TODO: repair warning "Failed prop type: Material-UI: You are providing an onClick event listener to a child of a button element. Firefox will never trigger the event."
-                resetForm({ values: '' });
+                resetForm({ values: {} });
 
                 return commentsService.add(extendedData).then((response) => {
                     addComment(_id, response);
