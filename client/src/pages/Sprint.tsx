@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useFetchData } from '../utils/useFetchData';
+import { useFetchData } from '../hooks/useFetchData';
 import AppLayout from '../layouts/AppLayout';
 import { CommentsSection } from '../components/CommentsSection';
 import { SingleSprint } from '../components/sprint/SingleSprint';

@@ -3,7 +3,6 @@ import { makeStyles, createStyles } from '@mui/styles';
 import { Formik, Form, FormikValues, FormikHelpers } from 'formik';
 import { Grid, Paper, Typography, Hidden, Alert, Theme } from '@mui/material';
 import image from '../../img/content/vintage/watch.jpg';
-import { Mode } from '../../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -70,7 +69,6 @@ export const AppFormLayout = ({ children, title }: GridFormProps) => {
 // const EmailValidator = _;
 // TODO: add a mechanism from router to make sure user wants to close the window if the forms are partially filled but not submitted
 interface Props {
-    mode: Mode;
     initialValues: { [field: string]: unknown; };
     onSubmit?: (values:  { [field: string]: unknown; }, formikHelpers: FormikHelpers<FormikValues>) => void | Promise<unknown>
     validate?: (values:  { [field: string]: unknown; }) => void;

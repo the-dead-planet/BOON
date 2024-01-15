@@ -1,3 +1,4 @@
+import { FormikHelpers, FormikValues } from 'formik';
 import { makeStyles, createStyles } from '@mui/styles';
 // import EmailValidator from 'email-validator';
 import * as Yup from 'yup';
@@ -7,8 +8,8 @@ import { AppFormLayout, AppForm } from './App';
 import { GridField } from './GridFields';
 import { IconButton } from '../mui-styled/IconButton';
 import { CatIconOutlined, TreeIconOutlined, PartyIconOutlined } from '../../icons/Icons';
-import { Mode } from '../../logic/types';
-import { FormikHelpers, FormikValues } from 'formik';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 
 const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
@@ -38,18 +39,16 @@ const useStyles = makeStyles((_theme: Theme) =>
 );
 
 interface Props {
-    mode: Mode;
     register: boolean;
     initialValues: { [field: string]: unknown; };
     onSubmit: (values: { [field: string]: unknown; }, formikHelpers: FormikHelpers<FormikValues>) => void | Promise<unknown>;
-    error?: string;
-    location?: { path: string; search?: string };
 }
 
 // TODO: Add checkbox for 'stay logged in' and use cookies for keeping auth
 // TODO: Consider adding one page with both login and register divided by a vertical Divider instead of two separate
-const AuthForm = ({ mode, register, initialValues, onSubmit, error, location }: Props) => {
+const AuthForm = ({ register, initialValues, onSubmit }: Props) => {
     const classes = useStyles();
+    const ui = Hooks.useSubject(AppState.ui$);
 
     const validationSchema = (_values: { [field: string]: unknown; }) =>
         Yup.object().shape({
@@ -63,11 +62,9 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error, location }: 
     return (
         <AppFormLayout title={register ? 'Register' : 'Login'}>
             <AppForm
-                mode={mode}
                 initialValues={initialValues}
                 onSubmit={onSubmit}
                 validationSchema={register ? validationSchema : undefined}
-                error={error}
                 content={
                     <>
                         <Box className={classes.icons}>
@@ -106,13 +103,13 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error, location }: 
                 submitSection={
                     <Grid item xs={12} className={classes.submitSection}>
                         <Link to={`/${register ? 'login' : 'register'}${location?.search ? location.search : ''}`}>
-                            <Button variant="outlined" color={mode === 'dark' ? undefined : 'primary'} type="submit">
+                            <Button variant="outlined" color={ui.mode === 'dark' ? undefined : 'primary'} type="submit">
                                 {register ? 'Log in' : 'Register'}
                             </Button>
                         </Link>
                         <Button
-                            variant={mode === 'dark' ? 'outlined' : 'contained'}
-                            color={mode === 'dark' ? undefined : 'primary'}
+                            variant={ui.mode === 'dark' ? 'outlined' : 'contained'}
+                            color={ui.mode === 'dark' ? undefined : 'primary'}
                             title="submit"
                             type="submit"
                         >
@@ -124,7 +121,6 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error, location }: 
                 <>
                     <GridField
                         xs={12}
-                        mode={mode}
                         required
                         fullWidth
                         variant="outlined"
@@ -136,7 +132,6 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error, location }: 
                     {register ? (
                         <GridField
                             xs={12}
-                            mode={mode}
                             fullWidth
                             variant="outlined"
                             required
@@ -147,7 +142,6 @@ const AuthForm = ({ mode, register, initialValues, onSubmit, error, location }: 
                     ) : null}
 
                     <GridField
-                        mode={mode}
                         xs={12}
                         fullWidth
                         variant="outlined"

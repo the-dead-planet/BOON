@@ -1,139 +1,49 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
-import * as State from './state';
+import * as AppState from './app-state';
 import * as Pages from './pages';
 import services from './services/realImpl';
-import { StateType, Mode, ThemeType, User, Notification } from './logic/types';
 import { PATHS } from './constants/data';
-import { ServicesContext, useServices } from './services/context';
-import { WrappedUserData } from './services/services';
+import { ServicesContext } from './services/context';
 import './App.css';
 
 const AppImpl: React.FC = () => {
-    const [state, setState] = React.useState<StateType>(State.INITIAL_STATE)
-    const services = useServices();
-
-    // TODO: Consider moving this all to index.tsx, we can render a different "AppLoadingScreen" component while these requests are sent using root
-    React.useEffect(() => {
-        if (!services) {
-            return;
-        }
-        services.authService.whoami().then(({ user }: WrappedUserData) => {
-            setState((prev) => ({ ...prev, ...State.resolveWhoAmI(state)(user) }));
-            // TODO: Currently users are populated based on authors of sprints and its children tree.
-            // If current user has never posted anything, it is not present in app state, which
-            // causes issues, such as no name displayed by a new comment.
-            // Either add it here from whoami or load all users data separately, which on a long term can be not optimal
-        });
-    }, [services]);
-
-    const onThemeTypeChange = (themeType: ThemeType) => {
-        setState((prev) => ({ ...prev, themeType }));
-    };
-
-    const onModeChange = (mode: Mode) => {
-        setState((prev) => ({ ...prev, mode }));
-    };
-
-
-    // Pack props into an object to reduce boilerplate code.
-    const notificationsProps = {
-        addNotification: (notification: Notification) => setState((prev) => ({
-            ...prev,
-            notifications: state.notifications.concat([notification]),
-        })),
-        onNotificationShown: (notificationId: string) =>
-            setTimeout(() => {
-                setState((prev) => ({ ...prev, notifications: prev.notifications.filter((n) => n.id !== notificationId) }))
-            }, 5000),
-        notifications: state.notifications,
-    };
-
-    const handleLoginSuccess = (user: User) => {
-        setState((prev) => ({ ...prev, user }))
-    }
-
-    const handleClearUser = () => {
-        setState((prev) => ({ ...prev, user: null }))
-    }
-
     const router = createBrowserRouter([
         {
             path: PATHS.login,
             element: (
-                <Pages.Login
-                    user={state.user}
-                    themeType={state.themeType}
-                    onThemeTypeChange={onThemeTypeChange}
-                    mode={state.mode}
-                    onModeChange={onModeChange}
-                    onLoginSuccess={handleLoginSuccess}
-                    notificationsProps={notificationsProps}
-                    showError={() => { }}
-                />
+                <Pages.Login />
             ),
         },
         {
             path: PATHS.register,
             element: (
-                <Pages.Authentication.GuestPage user={state.user}>
-                    <Pages.Register
-                        user={state.user}
-                        themeType={state.themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={state.mode}
-                        onModeChange={onModeChange}
-                        onSuccess={handleLoginSuccess}
-                        notificationsProps={notificationsProps}
-                        showError={() => { }}
-                    />
+                <Pages.Authentication.GuestPage>
+                    <Pages.Register />
                 </Pages.Authentication.GuestPage>
             ),
         },
         {
             path: PATHS.logout,
-            element: <Pages.Logout
-                user={state.user}
-                themeType={state.themeType}
-                onThemeTypeChange={onThemeTypeChange}
-                mode={state.mode}
-                onModeChange={onModeChange}
-                onSuccess={handleClearUser}
-                notificationsProps={notificationsProps}
-                showError={(err) => console.error(err)}
-            />,
+            element: <Pages.Logout />,
         },
         {
             path: `${PATHS.posts}${PATHS.add}`,
             element: (
-                <Pages.Authentication.AuthenticatedPage user={state.user}>
-                    <Pages.AddPost
-                        user={state.user}
-                        themeType={state.themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={state.mode}
-                        onModeChange={onModeChange}
-                        notificationsProps={notificationsProps}
-                        showError={(err) => console.error(err)}
-                        sprintId=''
-                    />
+                <Pages.Authentication.AuthenticatedPage>
+                    <Pages.AddPost />
                 </Pages.Authentication.AuthenticatedPage>
             ),
         },
         {
             path: `${PATHS.posts}/:id`,
             element: (
-                <Pages.Authentication.AuthenticatedPage user={state.user}>
+                <Pages.Authentication.AuthenticatedPage>
                     <Pages.Post
-                        user={state.user}
-                        themeType={state.themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={state.mode}
-                        onModeChange={onModeChange}
-                        setStateData={([sprints, projects, users]) => State.setStateData(state, sprints, projects, users)}
-                        addSprintComment={(id, comment) => State.addCommentToSprint(state)(id, comment)}
-                        addPostComment={(id, comment) => State.addCommentToPost(state)(id, comment)}
-                        removeObject={(obj) => State.removeObject(state)(obj)}
+                        setStateData={([sprints, projects, users]) => AppState.setStateData(state, sprints, projects, users)}
+                        addSprintComment={(id, comment) => AppState.addCommentToSprint(state)(id, comment)}
+                        addPostComment={(id, comment) => AppState.addCommentToPost(state)(id, comment)}
+                        removeObject={(obj) => AppState.removeObject(state)(obj)}
                         data={state.data}
                         notificationsProps={notificationsProps}
                         backTo={{ name: '', path: '' }}
@@ -144,17 +54,17 @@ const AppImpl: React.FC = () => {
         {
             path: PATHS.posts,
             element: (
-                <Pages.Authentication.AuthenticatedPage user={state.user}>
+                <Pages.Authentication.AuthenticatedPage>
                     <Pages.Post
-                        user={state.user}
-                        themeType={state.themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={state.mode}
-                        onModeChange={onModeChange}
-                        setStateData={([sprints, projects, users]) => State.setStateData(state, sprints, projects, users)}
-                        addSprintComment={(id, comment) => State.addCommentToSprint(state)(id, comment)}
-                        addPostComment={(id, comment) => State.addCommentToPost(state)(id, comment)}
-                        removeObject={(obj) => State.removeObject(state)(obj)}
+                       
+                        
+                        
+                        
+                        
+                        setStateData={([sprints, projects, users]) => AppState.setStateData(state, sprints, projects, users)}
+                        addSprintComment={(id, comment) => AppState.addCommentToSprint(state)(id, comment)}
+                        addPostComment={(id, comment) => AppState.addCommentToPost(state)(id, comment)}
+                        removeObject={(obj) => AppState.removeObject(state)(obj)}
                         data={state.data}
                         notificationsProps={notificationsProps}
                         backTo={{ name: '', path: '' }}
@@ -165,13 +75,13 @@ const AppImpl: React.FC = () => {
         {
             path: `${PATHS.sprints}${PATHS.add}`,
             element: (
-                <Pages.Authentication.AuthenticatedPage user={state.user}>
+                <Pages.Authentication.AuthenticatedPage>
                     <Pages.AddSprint
-                        user={state.user}
-                        themeType={state.themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={state.mode}
-                        onModeChange={onModeChange}
+                       
+                        
+                        
+                        
+                        
                         notificationsProps={notificationsProps}
                         push={() => { }}
                         showError={(err: Error) => console.error(err)}
@@ -182,13 +92,13 @@ const AppImpl: React.FC = () => {
         {
             path: `${PATHS.sprints}/:id${PATHS.edit}`,
             element: (
-                <Pages.Authentication.AuthenticatedPage user={state.user}>
+                <Pages.Authentication.AuthenticatedPage>
                     <Pages.EditSprint
-                        user={state.user}
-                        themeType={state.themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={state.mode}
-                        onModeChange={onModeChange}
+                       
+                        
+                        
+                        
+                        
                         notificationsProps={notificationsProps}
                         push={() => { }}
                         showError={(err) => console.error(err)}
@@ -199,17 +109,17 @@ const AppImpl: React.FC = () => {
         {
             path: `${PATHS.sprints}/:id`,
             element: (
-                <Pages.Authentication.AuthenticatedPage user={state.user}>
+                <Pages.Authentication.AuthenticatedPage>
                     <Pages.Sprint
-                        user={state.user}
-                        themeType={state.themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={state.mode}
-                        onModeChange={onModeChange}
-                        setStateData={([sprints, projects, users]) => State.setStateData(state, sprints, projects, users)}
-                        addSprintComment={(id, comment) => State.addCommentToSprint(state)(id, comment)}
-                        addPostComment={(id, comment) => State.addCommentToPost(state)(id, comment)}
-                        removeObject={(obj) => State.removeObject(state)(obj)}
+                       
+                        
+                        
+                        
+                        
+                        setStateData={([sprints, projects, users]) => AppState.setStateData(state, sprints, projects, users)}
+                        addSprintComment={(id, comment) => AppState.addCommentToSprint(state)(id, comment)}
+                        addPostComment={(id, comment) => AppState.addCommentToPost(state)(id, comment)}
+                        removeObject={(obj) => AppState.removeObject(state)(obj)}
                         data={state.data}
                         notificationsProps={notificationsProps}
                     />
@@ -219,13 +129,13 @@ const AppImpl: React.FC = () => {
         {
             path: PATHS.sprints,
             element: (
-                <Pages.Authentication.AuthenticatedPage user={state.user}>
+                <Pages.Authentication.AuthenticatedPage>
                     <Pages.Sprints
-                        user={state.user}
-                        themeType={state.themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={state.mode}
-                        onModeChange={onModeChange}
+                       
+                        
+                        
+                        
+                        
                         notificationsProps={notificationsProps}
                     />
                 </Pages.Authentication.AuthenticatedPage>
@@ -234,13 +144,13 @@ const AppImpl: React.FC = () => {
         {
             path: `${PATHS.projects}${PATHS.add}`,
             element: (
-                <Pages.Authentication.AuthenticatedPage user={state.user}>
+                <Pages.Authentication.AuthenticatedPage>
                     <Pages.AddProject
-                        user={state.user}
-                        themeType={state.themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={state.mode}
-                        onModeChange={onModeChange}
+                       
+                        
+                        
+                        
+                        
                         notificationsProps={notificationsProps}
                         push={() => { }}
                         showError={(err: Error) => console.error(err)}
@@ -251,13 +161,13 @@ const AppImpl: React.FC = () => {
         {
             path: `${PATHS.projects}${PATHS.edit}`,
             element: (
-                <Pages.Authentication.AuthenticatedPage user={state.user}>
+                <Pages.Authentication.AuthenticatedPage>
                     <Pages.AddProject
-                        user={state.user}
-                        themeType={state.themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={state.mode}
-                        onModeChange={onModeChange}
+                       
+                        
+                        
+                        
+                        
                         notificationsProps={notificationsProps}
                         push={() => { }}
                         showError={(err: Error) => console.error(err)}
@@ -268,13 +178,13 @@ const AppImpl: React.FC = () => {
         {
             path: `${PATHS.projects}/:id`,
             element: (
-                <Pages.Authentication.AuthenticatedPage user={state.user}>
+                <Pages.Authentication.AuthenticatedPage>
                     <Pages.Project
-                        user={state.user}
-                        themeType={state.themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={state.mode}
-                        onModeChange={onModeChange}
+                       
+                        
+                        
+                        
+                        
                         setStateData={([sprints, projects, users]) => State.setStateData(state, sprints, projects, users)}
                         addSprintComment={(id, comment) => State.addCommentToSprint(state)(id, comment)}
                         addPostComment={(id, comment) => State.addCommentToPost(state)(id, comment)}
@@ -289,13 +199,13 @@ const AppImpl: React.FC = () => {
         {
             path: PATHS.projects,
             element: (
-                <Pages.Authentication.AuthenticatedPage user={state.user}>
+                <Pages.Authentication.AuthenticatedPage>
                     <Pages.Projects
-                        user={state.user}
-                        themeType={state.themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={state.mode}
-                        onModeChange={onModeChange}
+                       
+                        
+                        
+                        
+                        
                         notificationsProps={notificationsProps}
                     />
                 </Pages.Authentication.AuthenticatedPage>
@@ -304,13 +214,13 @@ const AppImpl: React.FC = () => {
         {
             path: PATHS.teams,
             element: (
-                <Pages.Authentication.AuthenticatedPage user={state.user}>
+                <Pages.Authentication.AuthenticatedPage>
                     <Pages.Team
-                        user={state.user}
-                        themeType={state.themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={state.mode}
-                        onModeChange={onModeChange}
+                       
+                        
+                        
+                        
+                        
                         notificationsProps={notificationsProps}
                     />
                 </Pages.Authentication.AuthenticatedPage>
@@ -319,13 +229,13 @@ const AppImpl: React.FC = () => {
         {
             path: PATHS.home,
             element: (
-                <Pages.Authentication.GuestPage user={state.user}>
+                <Pages.Authentication.GuestPage>
                     <Pages.Home
-                        user={state.user}
-                        themeType={state.themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={state.mode}
-                        onModeChange={onModeChange}
+                       
+                        
+                        
+                        
+                        
                         notificationsProps={notificationsProps}
                         push={() => { }}
                         showError={(err: Error) => console.error(err)}
@@ -341,9 +251,7 @@ const AppImpl: React.FC = () => {
         }
     ]);
 
-    return !state.whoamiRequestDone ? (
-        'Loading'
-    ) : <RouterProvider router={router} fallbackElement={<div>Page not found</div>} />;
+    return <RouterProvider router={router} fallbackElement={<div>Page not found</div>} />;
 }
 
 const App: React.FC = () => {

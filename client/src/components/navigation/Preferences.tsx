@@ -1,8 +1,11 @@
+import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
 import { List, ListItem, Theme, Typography } from '@mui/material';
 import { RadioButtonGroup } from '../RadioButtonGroup';
-import { ThemeType, Mode } from '../../logic/types';
 import { MODES, THEME_TYPES } from '../../constants/data';
+import * as Hooks from '../../hooks';
+import * as Types from '../../logic/types';
+import * as AppState from '../../app-state';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -22,32 +25,32 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-interface Props {
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
-}
-
-export const Preferences = ({ themeType, onThemeTypeChange, mode, onModeChange }: Props) => {
+export const Preferences: React.FC = () => {
     const classes = useStyles();
+    const ui = Hooks.useSubject(AppState.ui$);
+
+    const handleThemeChange = React.useCallback((theme: string) => {
+        AppState.ui$.next({ ...AppState.ui$.value, theme: theme as Types.ThemeType })
+    }, []);
+
+    const handleModeChange = React.useCallback((mode: string) => {
+        AppState.ui$.next({ ...AppState.ui$.value, mode: mode as Types.Mode })
+    }, []);
 
     return (
         <List className={classes.preferences}>
-            {/* Theme type selection */}
             <ListItem>
                 <Typography className={classes.itemName}>Theme</Typography>
                 <RadioButtonGroup
-                    valueList={THEME_TYPES as Array<string>}
-                    value={themeType as string}
-                    setValue={(val) => onThemeTypeChange(val as ThemeType)}
+                    valueList={THEME_TYPES as string[]}
+                    value={ui.theme as string}
+                    setValue={handleThemeChange}
                 />
             </ListItem>
 
-            {/* Light / Dark mode selection */}
             <ListItem>
                 <Typography className={classes.itemName}>Mode</Typography>
-                <RadioButtonGroup valueList={MODES as Array<string>} value={mode as string} setValue={(val) => onModeChange(val as Mode)} />
+                <RadioButtonGroup valueList={MODES as string[]} value={ui.mode as string} setValue={handleModeChange} />
             </ListItem>
         </List>
     );

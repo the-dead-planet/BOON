@@ -5,7 +5,7 @@ import { SingleProject } from '../components/project/SingleProject';
 import * as Types from '../logic/types';
 import { PATHS } from '../constants/data';
 import { getRandomQuote } from '../utils/data';
-import { useFetchData } from '../utils/useFetchData';
+import { useFetchData } from '../hooks/useFetchData';
 interface Props {
     user: Types.User | undefined | null;
     themeType: Types.ThemeType;

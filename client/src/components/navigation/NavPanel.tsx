@@ -3,7 +3,9 @@ import { Typography, Box, Theme } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
 import { NAVBAR_LEFT_WIDTH } from '../../styles/constants';
 import { LinkComponent } from '../../utils/Link';
-import { NavContent, SideColumn, User, NavButton, Variant, ThemeType } from '../../logic/types';
+import * as Types from '../../logic/types';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -16,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 maxWidth: '100%',
             },
         },
-        navContainer: ({ variant }: { variant: Variant }) => ({
+        navContainer: ({ variant }: { variant: Types.Variant }) => ({
             padding: 0,
             width: '100%',
             border: `solid 1.5px ${variant === 'secondary' ? theme.palette.primary.main : theme.palette.primary.main}`,
@@ -41,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 boxShadow: `4px 4px ${theme.palette.primary.main}`,
             },
         },
-        navTitle: ({ variant }: { variant: Variant }) => ({
+        navTitle: ({ variant }: { variant: Types.Variant }) => ({
             backgroundColor: variant === 'secondary' ? theme.palette.primary.main : theme.palette.primary.main,
             color: 'rgba(255, 255, 255, .87)',
             padding: '.2em',
@@ -57,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
                 backgroundColor: 'rgba(0, 0, 0, .1)',
             },
         },
-        selected: (_obj: { variant: Variant }) => ({
+        selected: (_obj: { variant: Types.Variant }) => ({
             textTransform: 'uppercase',
         }),
         sideColContainer: {
@@ -90,17 +92,17 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    user: User;
-    themeType: ThemeType;
-    variant?: Variant;
-    contents: NavContent;
-    sideColumn?: SideColumn;
-    createButton?: NavButton;
+    variant?: Types.Variant;
+    contents: Types.NavContent;
+    sideColumn?: Types.SideColumn;
+    createButton?: Types.NavButton;
 }
 
 // A temporary component that is going to be implemented in Layout in the long run.
-export const NavPanel = ({ user, variant, themeType, contents, createButton }: Props) => {
+export const NavPanel: React.FC<Props> = ({ variant, contents, createButton }) => {
     const classes = useStyles({ variant });
+    const user = Hooks.useSubject(AppState.user$);
+    const ui = Hooks.useSubject(AppState.ui$);
 
     return (
         <Box className={classes.sideCol}>
@@ -119,7 +121,7 @@ export const NavPanel = ({ user, variant, themeType, contents, createButton }: P
             ) : undefined}
 
             {/* Main navigation panel */}
-            <Box className={classNames(classes.navContainer, { frostic: themeType === 'frostic' })}>
+            <Box className={classNames(classes.navContainer, { frostic: ui.theme === 'frostic' })}>
                 {contents.map((content, index) => (
                     <Box key={index}>
                         <Typography variant="body2" className={classes.navTitle}>
@@ -147,18 +149,18 @@ export const NavPanel = ({ user, variant, themeType, contents, createButton }: P
 };
 
 interface SideColProps {
-    variant?: Variant;
-    themeType: ThemeType;
+    variant?: Types.Variant;
     header: string;
     body: string;
 }
 
-export const SideCol = ({ variant, themeType, header, body }: SideColProps) => {
+export const SideCol: React.FC<SideColProps> = ({ variant, header, body }) => {
     const classes = useStyles({ variant });
+    const ui = Hooks.useSubject(AppState.ui$);
 
     return (
         <Box className={classes.sideCol}>
-            <Box className={classNames(classes.sideColContainer, { frostic: themeType === 'frostic' })}>
+            <Box className={classNames(classes.sideColContainer, { frostic: ui.theme === 'frostic' })}>
                 <Typography variant="h5" className={classes.sideColTitle}>
                     {header}
                 </Typography>

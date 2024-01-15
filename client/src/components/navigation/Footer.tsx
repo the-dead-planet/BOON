@@ -1,8 +1,9 @@
+import React from 'react';
 import classNames from 'classnames';
 import { Grid, Container, Theme } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
-// import { Link } from '../../utils/Link';
-import { ThemeType } from '../../logic/types';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -32,15 +33,13 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-interface Props {
-    themeType: ThemeType;
-}
 
-const Footer = ({ themeType }: Props) => {
+const Footer: React.FC = () => {
     const classes = useStyles();
+    const ui = Hooks.useSubject(AppState.ui$);
 
     return (
-        <Container maxWidth="xl" className={classNames(classes.footer, { ['frostic']: themeType === 'frostic' })}>
+        <Container maxWidth="xl" className={classNames(classes.footer, { ['frostic']: ui.theme === 'frostic' })}>
             <Grid container justifyContent="space-around" alignItems="center">
                 Footer content
             </Grid>

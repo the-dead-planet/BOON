@@ -7,10 +7,10 @@ type ValueOf<T> = T[keyof T];
 const map = new Map();
 type Data = { [key in string]: typeof map };
 
-// Initial values of the object.
-// Wrapped in a function to make sure each call returns a fresh, empty state.
-// If it was exposed as a constant, it would still be possible to modify its underlying maps.
-export const initialState: StateDataFunc = () => ({
+/**
+ * @returns Initialized maps to store data.
+ */
+export const getInitialData: StateDataFunc = () => ({
     projects: new Map(),
     sprints: new Map(),
     posts: new Map(),
@@ -86,7 +86,7 @@ export const depopulate = (obj: MongoObject | User | (MongoObject | User)[], mod
     // `depopulateImpl` modifes a received state in-place. It's an implementation detail, though.
     // This function will have no side effects - it creates its own state and returns it to the caller.
     // The caller is responsible for merging the created state with its own, previous state.
-    const state = initialState();
+    const state = getInitialData();
     depopulateImpl({ [modelName]: obj } as unknown as MongoObject, [modelName], state);
     return state;
 };

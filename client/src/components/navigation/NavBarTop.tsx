@@ -1,3 +1,4 @@
+import React from 'react';
 import classNames from 'classnames';
 import { makeStyles, createStyles } from '@mui/styles';
 import { TOOLBAR_HEIGHT, DRAWER_WIDTH } from '../../styles/constants';
@@ -8,7 +9,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Pagination from './Pagination';
 // import HideOnScroll from '../../utils/HideOnScroll';
 import { AuthButtonsHorizontal } from './NavButtons';
-import { Mode, ThemeType, User, DrawerVariant, Page } from '../../logic/types';
+import * as Types from '../../logic/types';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -76,33 +79,24 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    user: User;
     name: string;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
-    drawerVariant: DrawerVariant;
+    drawerVariant: Types.DrawerVariant;
     open: boolean;
     toggleDrawer: (value: boolean) => () => void;
-    pagination?: Page;
+    pagination?: Types.Page;
     quote?: string;
 }
 
-const NavBarTop = ({
-    user,
+const NavBarTop: React.FC<Props> = ({
     name,
-    themeType,
-    onThemeTypeChange,
-    mode,
-    onModeChange,
     drawerVariant,
     open,
     toggleDrawer,
     pagination,
     quote,
-}: Props) => {
+}) => {
     const classes = useStyles();
+    const ui = Hooks.useSubject(AppState.ui$);
 
     return (
         // <HideOnScroll>
@@ -120,8 +114,8 @@ const NavBarTop = ({
             <Container maxWidth="xl">
                 <div
                     className={classNames({
-                        ['frostic']: themeType === 'frostic',
-                        ['rounded']: themeType === 'frostic',
+                        ['frostic']: ui.theme === 'frostic',
+                        ['rounded']: ui.theme === 'frostic',
                     })}
                 >
                     <Toolbar className={classNames(classes.toolbar)}>
@@ -170,13 +164,7 @@ const NavBarTop = ({
                             </Grid>
 
                             <div className={`${classes.fix} ${classes.right}`}>
-                                <AuthButtonsHorizontal
-                                    user={user}
-                                    themeType={themeType}
-                                    onThemeTypeChange={onThemeTypeChange}
-                                    mode={mode}
-                                    onModeChange={onModeChange}
-                                />
+                                <AuthButtonsHorizontal />
                             </div>
                         </Grid>
                     </Toolbar>

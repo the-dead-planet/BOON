@@ -4,26 +4,26 @@
 // describe('StateData', () => {
 //     describe('depopulate', () => {
 //         test('Author', () => {
-//             const state = initialState();
+//             const state = getInitialData();
 //             const author = { _id: 'authorId' };
 //             expect(depopulate(author, 'author')).toEqual({
-//                 ...initialState(),
+//                 ...getInitialData(),
 //                 users: buildMap({ authorId: { _id: 'authorId' } }),
 //             });
 //         });
 
 //         test('Like', () => {
-//             const state = initialState();
+//             const state = getInitialData();
 //             const like = { _id: 'likeId', author: { _id: 'authorId' } };
 //             expect(depopulate(like, 'likes')).toEqual({
-//                 ...initialState(),
+//                 ...getInitialData(),
 //                 users: buildMap({ authorId: { _id: 'authorId' } }),
 //                 likes: buildMap({ likeId: { _id: 'likeId', author: 'authorId' } }),
 //             });
 //         });
 
 //         test('Comment with author and 2 likes', () => {
-//             const state = initialState();
+//             const state = getInitialData();
 //             const comment = {
 //                 _id: 'commentId',
 //                 body: 'commentBody',
@@ -51,7 +51,7 @@
 //                 ],
 //             };
 //             expect(depopulate(comment, 'comments')).toEqual({
-//                 ...initialState(),
+//                 ...getInitialData(),
 //                 likes: buildMap({
 //                     likeAId: {
 //                         _id: 'likeAId',
@@ -85,17 +85,17 @@
 
 //     describe('mergeStateData', () => {
 //         test('two initial states', () => {
-//             expect(mergeStateData(initialState(), initialState())).toEqual(initialState());
+//             expect(mergeStateData(getInitialData(), getInitialData())).toEqual(getInitialData());
 //         });
 
 //         test('disjoint', () => {
 //             expect(
 //                 mergeStateData(
-//                     { ...initialState(), likes: buildMap({ likeId: { _id: 'likeId' } }) },
-//                     { ...initialState(), users: buildMap({ userId: { _id: 'userId' } }) }
+//                     { ...getInitialData(), likes: buildMap({ likeId: { _id: 'likeId' } }) },
+//                     { ...getInitialData(), users: buildMap({ userId: { _id: 'userId' } }) }
 //                 )
 //             ).toEqual({
-//                 ...initialState(),
+//                 ...getInitialData(),
 //                 likes: buildMap({ likeId: { _id: 'likeId' } }),
 //                 users: buildMap({ userId: { _id: 'userId' } }),
 //             });
@@ -104,10 +104,10 @@
 //         test('overlapping', () => {
 //             expect(
 //                 mergeStateData(
-//                     { ...initialState(), likes: buildMap({ likeId: { _id: 'likeA' } }) },
-//                     { ...initialState(), likes: buildMap({ likeId: { _id: 'likeB' } }) }
+//                     { ...getInitialData(), likes: buildMap({ likeId: { _id: 'likeA' } }) },
+//                     { ...getInitialData(), likes: buildMap({ likeId: { _id: 'likeB' } }) }
 //                 )
-//             ).toEqual({ ...initialState(), likes: buildMap({ likeId: { _id: 'likeB' } }) });
+//             ).toEqual({ ...getInitialData(), likes: buildMap({ likeId: { _id: 'likeB' } }) });
 //         });
 //     });
 // });

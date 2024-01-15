@@ -1,35 +1,25 @@
-import { depopulate, mergeStateData, initialState as initialStateData } from './logic/StateData';
-import { StateType, User, Sprint, Project, Comment, RemoveObjectData } from './logic/types';
+import * as rxjs from 'rxjs';
+import { depopulate, mergeStateData, getInitialData } from './logic/StateData';
+import NotificationHandler from './logic/NotificationHandler';
+import * as Types from './logic/types';
 
-// Module containing global state definition and functions for manipulating it.
-// Each state modifying function takes the current state as the first argument
-// and returns subset of the new state as a result.
-// Functions can be user in `App.js` by:
-// - binding with `this.state`
-// - forwarding the result to `setState`
-export const INITIAL_STATE: StateType = {
-    // Client-side reflection of the backend state. Contains a subset of data
-    // stored by the backend.
-    // Field below should follow schema defined by the backend.
-    // Data fetched with `GET` requests should end up here.
-    // Each field is indexed by the objects' `id` field.
-    data: { ...initialStateData() },
-
-    // Client specific state.
-    whoamiRequestDone: false,
-    user: null,
-    mode: 'light',
-    themeType: 'default',
-    notifications: [],
+export const defaultUi: Types.UI = {
+    theme: 'default',
+    mode: 'light'
 };
 
-export const resolveWhoAmI = (_state: StateType) => (user: User | null) => ({ user, whoamiRequestDone: true });
+export const user$ = new rxjs.BehaviorSubject<Types.User | null>(null);
+export const notificationHandler =  new NotificationHandler();
+export const ui$ = new rxjs.BehaviorSubject<Types.UI>(defaultUi);
+export const stateData$ = new rxjs.BehaviorSubject<Types.StateData>(getInitialData());
 
-export const clearUser = (_state: StateType) => () => ({ user: null });
+export const clearUser = () => {
+    user$.next(null);
+};
 
-export const addUser = (state: StateType) => (user: User | null) => {
+export const addUser = (data: Types.StateData, user: Types.User | null) => {
     const stateUsers = depopulate([user], 'users');
-    const stateData = mergeStateData(state.data, stateUsers);
+    const stateData = mergeStateData(data, stateUsers);
     // TODO: Test this, something doesn't seem right:
     // const stateData = mergeStateData(state.data, { users: stateUsers });
 
@@ -40,22 +30,22 @@ export const addUser = (state: StateType) => (user: User | null) => {
 // Adds the comment object to `state.data.comments` and updates the commented object in `state.data`.
 //
 // To pass type checking, each commentable object (i.e. sprint / post) must implement its own method for commenting.
-export const addCommentToSprint = (state: StateType) => (sprintId: string, comment: Comment) => {
+export const addCommentToSprint = (data: Types.StateData, sprintId: string, comment: Types.Comment) => {
     const [updatedCommentData, updatedSprintData] = addCommentImpl(
-        state.data.sprints,
+        data.sprints,
         sprintId,
-        state.data.comments,
+        data.comments,
         comment
     );
 
     return { comments: updatedCommentData, sprints: updatedSprintData };
 };
 
-export const addCommentToPost = (state: StateType) => (postId: string, comment: Comment) => {
+export const addCommentToPost = (data: Types.StateData, postId: string, comment: Types.Comment) => {
     const [updatedCommentData, updatedPostData] = addCommentImpl(
-        state.data.posts,
+        data.posts,
         postId,
-        state.data.comments,
+        data.comments,
         comment
     );
 
@@ -69,8 +59,8 @@ export const addCommentToPost = (state: StateType) => (postId: string, comment: 
 const addCommentImpl = <Commented extends { comments: Array<string> }>(
     commentedObjectData: Map<string, Commented>,
     commentedObjectId: string,
-    commentData: Map<string, Comment>,
-    comment: Comment
+    commentData: Map<string, Types.Comment>,
+    comment: Types.Comment
 ) => {
     // Add the new comment to the comment storage.
     const commentId = comment._id;
@@ -95,10 +85,10 @@ const addCommentImpl = <Commented extends { comments: Array<string> }>(
 // Set populated objects, such as: posts, comments, likes
 // Depopulate objects and store them as originally stored in mongo (with references to id's only)
 export const setStateData = (
-    state: StateType,
-    sprints: Array<Sprint>,
-    projects: Array<Project>,
-    users: Array<User>
+    data: Types.StateData,
+    sprints: Array<Types.Sprint>,
+    projects: Array<Types.Project>,
+    users: Array<Types.User>
 ) => {
     const stateSprints = depopulate(sprints, 'sprints');
     const stateProjects = depopulate(projects, 'projects');
@@ -106,7 +96,7 @@ export const setStateData = (
 
     // Merge current state with updates.
     // The second argument takes precedence -> pass updates as the second argument.
-    const mergedSprintsData = mergeStateData(state.data, stateSprints);
+    const mergedSprintsData = mergeStateData(data, stateSprints);
     const mergedProjectsData = mergeStateData(mergedSprintsData, stateProjects);
     const mergedData = mergeStateData(mergedProjectsData, stateUsers);
 
@@ -129,13 +119,13 @@ const map = new Map();
 //  - generate paths automatically. Depopulation logic and backend models operate on the same models.
 //    Define models only once.
 //  - find some magic TS way of enforcing more type safety.
-export const removeObject = (state: StateType) => ({
+export const removeObject = (data: Types.StateData, {
     child,
     parent,
     childId,
     parentId,
-}: RemoveObjectData) => {
-    const stateData = state.data;
+}: Types.RemoveObjectData) => {
+    const stateData = data;
 
     // Remove deleted object from the state
     const childData = stateData[child];
@@ -162,5 +152,5 @@ export const removeObject = (state: StateType) => ({
         }
     }
 
-    return { data: mergeStateData(state.data, stateData) };
+    return { data: mergeStateData(data, stateData) };
 };

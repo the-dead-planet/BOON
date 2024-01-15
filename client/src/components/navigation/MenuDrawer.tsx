@@ -5,8 +5,11 @@ import { Drawer, List, ListItem, ListItemText, Typography, Grid, Theme } from '@
 import { IconButton } from '../mui-styled/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 // import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { DrawerVariant, Mode, NavButton, User } from '../../logic/types';
+import * as Types from '../../logic/types';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 import { PATHS } from '../../constants/data';
+import React from 'react';
 const { home, sprints, projects, teams } = PATHS;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -34,18 +37,16 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    user: User;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
     open: boolean;
     toggleDrawer: (value: boolean) => () => void;
-    variant?: DrawerVariant;
-    createButton?: NavButton;
+    variant?: Types.DrawerVariant;
+    createButton?: Types.NavButton;
 }
 
 // This component can be either temporary or persistent. By default temporary. use prop 'variant' to change to "persistent"
-const MenuDrawer = ({ user, variant = 'temporary', open, toggleDrawer, createButton }: Props) => {
+const MenuDrawer: React.FC<Props> = ({ variant = 'temporary', open, toggleDrawer, createButton }) => {
     const classes = useStyles();
+    const user = Hooks.useSubject(AppState.user$);
 
     const items = [
         {

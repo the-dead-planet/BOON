@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '../utils/useQuery';
-import { useFetchData } from '../utils/useFetchData';
+import { useQuery } from '../hooks/useQuery';
+import { useFetchData } from '../hooks/useFetchData';
 import AppLayout from '../layouts/AppLayout';
 import { CommentsSection } from '../components/CommentsSection';
 import { SinglePost } from '../components/post/SinglePost';

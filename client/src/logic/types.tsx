@@ -58,15 +58,6 @@ interface Login {
 
 type User = UserObject | undefined | null;
 
-interface StateType {
-    user: User | null;
-    whoamiRequestDone: boolean;
-    mode: Mode;
-    themeType: ThemeType;
-    notifications: Notification[];
-    data: StateData;
-}
-
 type StateDataFunc = () => StateData;
 
 type StateData = {
@@ -268,7 +259,7 @@ interface Landing {
 }
 
 interface Notification {
-    id: string;
+    id: number;
     message: string;
 }
 
@@ -403,6 +394,11 @@ interface RemoveObjectData {
     parentId?: string;
 }
 
+export interface UI {
+    theme: ThemeType;
+    mode: Mode;
+}
+
 export type {
     Col,
     DataItem,
@@ -415,7 +411,6 @@ export type {
     DrawerVariant,
     Input,
     Drawer,
-    StateType,
     StateDataFunc,
     StateData,
     StateDataKeys,
