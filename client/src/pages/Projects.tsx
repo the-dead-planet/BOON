@@ -1,24 +1,23 @@
 import { useState, useEffect } from 'react';
-// import { authenticatedPage } from '../utils/authenticatedPage';
 import { useServices } from '../services';
 import AppLayout from '../layouts/AppLayout';
 import RedirectToFirst from '../components/RedirectToFirst';
-import { User, NotificationProps, ThemeType, Mode } from '../logic/types';
+import * as Types from '../logic/types';
 
-type ProjectsPageProps = {
-    user: User | null;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
-    notificationsProps: NotificationProps;
+type Props = {
+    user: Types.User | null;
+    themeType: Types.ThemeType;
+    onThemeTypeChange: (themeType: Types.ThemeType) => void;
+    mode: Types.Mode;
+    onModeChange: (mode: Types.Mode) => void;
+    notificationsProps: Types.NotificationProps;
 };
 
 /**
  * Projects list.
  * Redirect to the details page of the newest project.
  */
-const ProjectsPage = ({ notificationsProps, ...props }: ProjectsPageProps) => {
+export const Projects = ({ notificationsProps, ...props }: Props) => {
     const { projectsService } = useServices()!;
     const [sortedProjectIds, setSortedProjectIds] = useState<Array<string> | null>(null);
 
@@ -42,8 +41,3 @@ const ProjectsPage = ({ notificationsProps, ...props }: ProjectsPageProps) => {
         </AppLayout>
     );
 };
-
-// const AuthenticatedProjectsPage = authenticatedPage(ProjectsPage);
-
-// export default AuthenticatedProjectsPage;
-export default ProjectsPage;

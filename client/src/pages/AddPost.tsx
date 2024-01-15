@@ -1,26 +1,22 @@
-import { useState, useEffect } from 'react';
-// import * as luxon from 'luxon';
-import PostForm from '../components/forms/Post';
-// import { authenticatedPage } from '../utils/authenticatedPage';
-import AppLayout from '../layouts/AppLayout';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-// import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, Sprint, ThemeType, PostData } from '../logic/types';
+import PostForm from '../components/forms/Post';
+import AppLayout from '../layouts/AppLayout';
+import * as Types from '../logic/types';
 import { useServices } from '../services';
 
 interface Props {
-    user: User;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
+    user: Types.User;
+    themeType: Types.ThemeType;
+    onThemeTypeChange: (themeType: Types.ThemeType) => void;
+    mode: Types.Mode;
     sprintId: string;
-    onModeChange: (mode: Mode) => void;
-    // push: (path: string) => void;
-    notificationsProps: NotificationProps;
+    onModeChange: (mode: Types.Mode) => void;
+    notificationsProps: Types.NotificationProps;
     showError: (err: Error) => void;
 }
 
-const AddPost = ({
+export const AddPost = ({
     user,
     themeType,
     onThemeTypeChange,
@@ -30,25 +26,25 @@ const AddPost = ({
     showError,
 }: Props) => {
     const params = useParams<{ id: string }>();
-
-    const [sprint, setSprint] = useState<Sprint | null>(null);
-
+    const [sprint, setSprint] = useState<Types.Sprint | null>(null);
     const { sprintsService, postsService } = useServices()!;
 
-    const getSprint = async () => {
-        const sprint = await sprintsService.getOne({ objectId: params.id ?? '' }).catch(showError);
-        if (sprint) {
-            setSprint(sprint);
-        }
-    };
-
     useEffect(() => {
-        if (!sprint) {
-            getSprint();
+        if (sprint && sprint._id === params.id) {
+            return;
         }
-    });
+        sprintsService.getOne({ objectId: params.id ?? '' })
+            .then((sprint) => {
+                if (sprint) {
+                    setSprint(sprint);
+                } else {
+                    // TODO: err
+                }
+            })
+            .catch(showError)
+    }, [params.id]);
 
-    const sprintNumber = sprint ? sprint.number : -1;
+    const sprintNumber = useMemo(() => sprint ? sprint.number : -1, [sprint?.number]);
 
     return (
         <AppLayout
@@ -73,12 +69,9 @@ const AddPost = ({
                         sprintId: params.id,
                         model: 'Sprint',
                     };
-                    return postsService.add(extendedData as unknown as PostData).catch(showError);
+                    return postsService.add(extendedData as unknown as Types.PostData).catch(showError);
                 }}
             />
         </AppLayout>
     );
 };
-
-export default AddPost;
-// export default authenticatedPage(withShowError(AddPost));

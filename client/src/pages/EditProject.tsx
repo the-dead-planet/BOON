@@ -1,43 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import ProjectForm from '../components/forms/Project';
 import { Loading } from '../components/Loading';
-import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, ThemeType, ProjectSubmit, Project } from '../logic/types';
 import { useServices } from '../services';
+import * as Types from '../logic/types';
 
 interface Props {
-    user: User;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
+    user: Types.User;
+    themeType: Types.ThemeType;
+    onThemeTypeChange: (themeType: Types.ThemeType) => void;
+    mode: Types.Mode;
+    onModeChange: (mode: Types.Mode) => void;
     push: (path: string) => void;
-    notificationsProps: NotificationProps;
+    notificationsProps: Types.NotificationProps;
     showError: (err: Error) => void;
 }
 
-const EditProject = ({ user, themeType, onThemeTypeChange, mode, onModeChange, push, notificationsProps, showError }: Props) => {
-    const { id } = useParams<{ id: string; }>();
-
-    const [project, setProject] = useState<Project | null>(null);
-
+export const EditProject = ({ user, themeType, onThemeTypeChange, mode, onModeChange, push, notificationsProps, showError }: Props) => {
+    const params = useParams<{ id: string; }>();
+    const [project, setProject] = useState<Types.Project | null>(null);
     const { projectsService } = useServices()!;
 
-    const getProject = async () => {
-        const project = await projectsService.getOne({ objectId: id ?? '' });
-        setProject(project);
-    };
-
     useEffect(() => {
-        if (!project) {
-            getProject();
+        if (project && project._id === params.id) {
+            return;
         }
-    });
 
-    const projectTitle = project ? project.title : null;
+        projectsService.getOne({ objectId: params.id ?? '' })
+            .then((p) => {
+                if (p) {
+                    setProject(p);
+                } else {
+                    // TODO:
+                }
+            })
+            .catch(showError);
+    }, [params.id]);
+
+    const projectTitle = useMemo(() => project ? project.title : null, [project?.title]);
 
     return (
         <AppLayout
@@ -48,7 +49,7 @@ const EditProject = ({ user, themeType, onThemeTypeChange, mode, onModeChange, p
             onModeChange={onModeChange}
             {...notificationsProps}
         >
-            <h1 className="center">Edit Project {id}</h1>
+            <h1 className="center">Edit Project {params.id}</h1>
             {!project ? (
                 <Loading />
             ) : (
@@ -63,7 +64,7 @@ const EditProject = ({ user, themeType, onThemeTypeChange, mode, onModeChange, p
                     }}
                     onSubmit={(data) => {
                         projectsService
-                            .update({ ...(data as unknown as ProjectSubmit), objectId: id ?? '' })
+                            .update({ ...(data as unknown as Types.ProjectSubmit), objectId: params.id ?? '' })
                             .then(() => {
                                 push('/projects');
                             })
@@ -74,5 +75,3 @@ const EditProject = ({ user, themeType, onThemeTypeChange, mode, onModeChange, p
         </AppLayout>
     );
 };
-
-export default authenticatedPage(withShowError(EditProject));

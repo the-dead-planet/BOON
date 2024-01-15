@@ -1,17 +1,10 @@
 import { useState } from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
-// import { guestPage } from '../utils/authenticatedPage';
 import Layout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
-import { Mode, User, NotificationProps, ThemeType } from '../logic/types';
+import * as Types from '../logic/types';
 import { useServices } from '../services';
 import { Theme } from '@mui/material';
-
-/* 
-    Users can log in using either their e-mail (passport 'username') or their publicName
-    If non-email address value entered, match with publicName and replace 'email' value 
-    by matched user's username (=email) 
- */
 
 const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
@@ -23,18 +16,22 @@ const useStyles = makeStyles((_theme: Theme) =>
 
 interface Props {
     next?: () => void;
-    onSuccess: (user: User) => void;
-    user: User;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
-    notificationsProps: NotificationProps;
+    onSuccess: (user: Types.User) => void;
+    user: Types.User;
+    themeType: Types.ThemeType;
+    onThemeTypeChange: (themeType: Types.ThemeType) => void;
+    mode: Types.Mode;
+    onModeChange: (mode: Types.Mode) => void;
+    notificationsProps: Types.NotificationProps;
     showError: (err: Error) => void;
     location?: { path: string; search?: string };
 }
 
-const Register = ({
+/**
+ * Users can log in using either their e-mail (passport 'username') or their publicName.
+ * If non-email address value entered, match with publicName and replace 'email' value by matched user's username (=email) 
+ */
+export const Register = ({
     user,
     themeType,
     onThemeTypeChange,
@@ -51,7 +48,7 @@ const Register = ({
 
     const { authService } = useServices()!;
 
-    const setErrorMessage = (err:Error) => {
+    const setErrorMessage = (err: Error) => {
         setError(err.message ?? 'Unknown error');
         // setError(err.request.response);
     };
@@ -91,9 +88,3 @@ const Register = ({
         </Layout>
     );
 };
-
-// TODO: Repair guest page to work and redirect to the main page if user is logged in -> works with /home, here not
-// export default withShowError(Register);
-// TODO: Rebuild intercept page
-export default Register;
-// export default guestPage(Register);

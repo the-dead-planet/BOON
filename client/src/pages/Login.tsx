@@ -1,17 +1,12 @@
 import { useState } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import { Theme } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
-// import { guestPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import { useServices } from '../services';
-import { Mode, User, NotificationProps, ThemeType } from '../logic/types';
-import { Theme } from '@mui/material';
-
-/* 
-    Users can log in using either their e-mail (passport 'username') or their publicName
-    If non-email address value entered, match with publicName and replace 'email' value 
-    by matched user's username (=email) 
- */
+import * as Types from '../logic/types';
+import { PATHS } from '../constants/data';
 
 const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
@@ -22,34 +17,39 @@ const useStyles = makeStyles((_theme: Theme) =>
 );
 
 interface Props {
-    user: User;
-    mode: Mode;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    onModeChange: (mode: Mode) => void;
+    user: Types.User;
+    mode: Types.Mode;
+    themeType: Types.ThemeType;
+    onThemeTypeChange: (themeType: Types.ThemeType) => void;
+    onModeChange: (mode: Types.Mode) => void;
     next?: () => void;
-    onLoginSuccess: (user: User) => void;
-    notificationsProps: NotificationProps;
+    onLoginSuccess: (user: Types.User) => void;
+    notificationsProps: Types.NotificationProps;
     showError: (err: Error) => void;
     location?: { path: string; search?: string };
 }
 
-const Login = ({
+/*
+ * Users can log in using either their e-mail (passport 'username') or their publicName.
+ * If non-email address value entered, match with publicName and replace 'email' value by matched user's username (=email) 
+ */
+export const Login = ({
     user,
     mode,
     themeType,
     onThemeTypeChange,
     onModeChange,
-    next,
     onLoginSuccess,
     notificationsProps,
-    location,
+    ...props
 }: Props) => {
     const classes = useStyles();
     const [error, setError] = useState('');
     const { authService } = useServices()!;
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
 
-    const setErrorMessage = (err: Error) => {
+    const handleErrorMessage = (err: Error) => {
         setError(err.message ?? 'uknown error');
         // setError(err.request.response);
     };
@@ -66,7 +66,7 @@ const Login = ({
             <div className={classes.container}>
                 <AuthForm
                     mode={mode}
-                    location={location}
+                    location={props.location}
                     error={error}
                     register={false}
                     initialValues={{
@@ -78,19 +78,12 @@ const Login = ({
                             .login(password as string, email as string)
                             .then(({ user }) => {
                                 onLoginSuccess(user);
-                                next?.();
+                                navigate(searchParams.get('next') ?? PATHS.home, {});
                             })
-                            .catch(setErrorMessage);
+                            .catch(handleErrorMessage);
                     }}
                 />
             </div>
         </AppLayout>
     );
 };
-
-// TODO: Repair guest page to work and redirect to the main page if user is logged in -> works with /home, here not
-// export default withShowError(Login);
-export default Login;
-// const GuestLogin = guestPage(Login);
-
-// export default GuestLogin;

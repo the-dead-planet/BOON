@@ -1,20 +1,16 @@
-// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
-// import { WithShowErrorInjectedProps } from '../utils/withShowError';
-import { User, NotificationProps, ThemeType, Mode } from '../logic/types';
+import * as Types from '../logic/types';
 
-interface SprintProps {
-    user: User | undefined | null;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
-    notificationsProps: NotificationProps;
+interface Props {
+    user: Types.User | undefined | null;
+    themeType: Types.ThemeType;
+    onThemeTypeChange: (themeType: Types.ThemeType) => void;
+    mode: Types.Mode;
+    onModeChange: (mode: Types.Mode) => void;
+    notificationsProps: Types.NotificationProps;
 }
 
-// If path is /sprints, redirect to the newest sprint
-const Team: React.FC<SprintProps> = ({
-// const Team: React.FC<SprintProps & WithShowErrorInjectedProps> = ({
+export const Team: React.FC<Props> = ({
     user,
     themeType,
     onThemeTypeChange,
@@ -40,8 +36,3 @@ const Team: React.FC<SprintProps> = ({
         </AppLayout>
     );
 };
-
-// const AuthenticatedTeam = authenticatedPage(Team);
-
-// export default AuthenticatedTeam;
-export default Team;

@@ -4,23 +4,21 @@ import AppLayout from '../layouts/AppLayout';
 import { AppFormLayout } from '../components/forms/App';
 import { Typography, Fade } from '@mui/material';
 import { useServices } from '../services';
-import withShowError from '../utils/withShowError';
-import { User, NotificationProps, Mode, ThemeType } from '../logic/types';
+import * as Types from '../logic/types';
 import { PATHS } from '../constants/data';
-const { home } = PATHS;
 
 interface LogoutProps {
     onSuccess: () => void;
-    user: User | undefined | null;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
-    notificationsProps: NotificationProps;
+    user: Types.User | undefined | null;
+    themeType: Types.ThemeType;
+    onThemeTypeChange: (themeType: Types.ThemeType) => void;
+    mode: Types.Mode;
+    onModeChange: (mode: Types.Mode) => void;
+    notificationsProps: Types.NotificationProps;
     showError: (err: Error) => void;
 }
 
-const Logout: React.FC<LogoutProps> = ({
+export const Logout: React.FC<LogoutProps> = ({
     user,
     onSuccess,
     themeType,
@@ -43,10 +41,10 @@ const Logout: React.FC<LogoutProps> = ({
                     .finally(() => setLogoutRequestDone(true));
             }, 3000);
         }
-    });
+    }, []);
 
     if (logoutRequestDone) {
-        return <Navigate to={home} />;
+        return <Navigate to={PATHS.home} />;
     } else {
         return (
             <AppLayout
@@ -66,7 +64,3 @@ const Logout: React.FC<LogoutProps> = ({
         );
     }
 };
-// TODO: export the raw component from here, wrap it with HOCs in App.tsx.
-// export default (withShowError as any)(Logout);
-
-export default withShowError(Logout);

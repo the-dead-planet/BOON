@@ -2,36 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '../utils/useQuery';
 import { useFetchData } from '../utils/useFetchData';
-// import { authenticatedPage } from '../utils/authenticatedPage';
 import AppLayout from '../layouts/AppLayout';
 import { CommentsSection } from '../components/CommentsSection';
 import { SinglePost } from '../components/post/SinglePost';
-import {
-    // withShowError,
-    // WithShowErrorInjectedProps,
-} from '../utils/withShowError';
-import { User, NotificationProps, ThemeType, Mode, StateData, Comment, RemoveObjectData, WithObjectId, Sprint, Project } from '../logic/types';
+import * as Types from '../logic/types';
 import { getRandomQuote } from '../utils/data';
 
-// TODO: see a comment in `Logout` regarding HOCs.
 interface Props {
-    user: User | undefined | null;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
-    data: StateData;
-    addPostComment: (id: string, comment: Comment) => void;
-    addSprintComment: (id: string, comment: Comment) => void;
-    removeObject:  (obj: RemoveObjectData) => void;
-    notificationsProps: NotificationProps;
+    user: Types.User | undefined | null;
+    themeType: Types.ThemeType;
+    onThemeTypeChange: (themeType: Types.ThemeType) => void;
+    mode: Types.Mode;
+    onModeChange: (mode: Types.Mode) => void;
+    data: Types.StateData;
+    addPostComment: (id: string, comment: Types.Comment) => void;
+    addSprintComment: (id: string, comment: Types.Comment) => void;
+    removeObject:  (obj: Types.RemoveObjectData) => void;
+    notificationsProps:Types. NotificationProps;
     backTo: { name: string; path: string };
-    setStateData: (data: [Sprint[], Project[], User[]]) => void;
+    setStateData: (data: [Types.Sprint[], Types.Project[], Types.User[]]) => void;
 }
 
-// If path is /sprints, redirect to the newest sprint
-const Post: React.FC<Props> = ({
-// const Post: React.FC<Props & WithShowErrorInjectedProps> = ({
+export const Post: React.FC<Props> = ({
     user,
     mode,
     themeType,
@@ -74,7 +66,7 @@ const Post: React.FC<Props> = ({
     // any metadata in the state.
     const [isCommentsDrawerOpen, setIsCommentsDrawerOpen] = useState(false);
 
-    const removeComment = (comment: WithObjectId) =>
+    const removeComment = (comment: Types.WithObjectId) =>
         removeObject({ child: 'comments', childId: comment.objectId, parent: 'posts', parentId: post!._id });
 
     const styleInfo = { margin: '0, 5em' };
@@ -117,7 +109,7 @@ const Post: React.FC<Props> = ({
                         title={post.title}
                         parentId={post._id}
                         parentModel={'Post'}
-                        comments={post.comments.map((c) => comments.get(c)).filter(Boolean) as unknown as Comment[]}
+                        comments={post.comments.map((c) => comments.get(c)).filter(Boolean) as unknown as Types.Comment[]}
                         users={data.users}
                         addComment={addPostComment}
                         removeComment={removeComment}
@@ -152,9 +144,3 @@ const Post: React.FC<Props> = ({
         </AppLayout>
     );
 };
-
-export default Post;
-// export default (withShowError as any)(Sprint);
-// const AuthenticatedPost = authenticatedPage(Post);
-
-// export default AuthenticatedPost;

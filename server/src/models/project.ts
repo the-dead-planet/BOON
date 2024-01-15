@@ -1,11 +1,13 @@
 import mongoose from 'mongoose';
 import { PostSchema } from './post';
 import { UserSchema } from './user';
+import { LikeSchema } from './like';
 
 export interface ProjectSchemaRaw {
     title: string;
     body: string;
     posts: PostSchema[];
+    likes: LikeSchema[];
     author: UserSchema;
     createdBy?: string;
     created: Date;
@@ -21,6 +23,12 @@ export const projectSchema = new mongoose.Schema<ProjectSchema>({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Post',
+        },
+    ],
+    likes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Like',
         },
     ],
     author: {

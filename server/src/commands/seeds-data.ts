@@ -142,6 +142,7 @@ export const generateDemoContent = (password: string): {
             author: {} as Models.UserSchema,
             created: new Date(),
             edited: new Date(),
+            likes: [],
             posts: []
         },
         {
@@ -150,6 +151,7 @@ export const generateDemoContent = (password: string): {
             author: {} as Models.UserSchema,
             created: new Date(),
             edited: new Date(),
+            likes: [],
             posts: []
         },
         {
@@ -158,6 +160,7 @@ export const generateDemoContent = (password: string): {
             author: {} as Models.UserSchema,
             created: new Date(),
             edited: new Date(),
+            likes: [],
             posts: []
         },
     ],
