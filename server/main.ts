@@ -1,5 +1,10 @@
-function foo(x: number): number {
-    return x + 1;
-}
+import { serve } from '@hono/node-server';
+import { buildApp } from './src/app.ts';
 
-console.log(foo(4));
+const PORT = 3000;
+
+const app = buildApp();
+
+console.log(`Listening on port :${PORT}`);
+
+serve({ fetch: app.fetch, port: PORT });

@@ -7,11 +7,17 @@
     "repository": "https://github.com/the-dead-planet/BOON",
     "author": "spookydoodle & rwakulszowa",
     "license": "MIT",
-    "dependencies": {},
+    "scripts": {
+        "start": "tsx main.ts"
+    },
+    "dependencies": {
+        "@hono/node-server": "^1.4.0",
+        "hono": "^3.12.5"
+    },
     "devDependencies": {
-        "tsx": "^4.7.0",
-        "typescript": "^5.3.3",
         "@tsconfig/node20": "^20.1.2",
-        "@tsconfig/strictest": "^2.0.2"
+        "@tsconfig/strictest": "^2.0.2",
+        "tsx": "^4.7.0",
+        "typescript": "^5.3.3"
     }
 }
