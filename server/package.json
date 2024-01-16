@@ -1,0 +1,17 @@
+{
+    "name": "BOON",
+    "type": "module",
+    "version": "1.0.0",
+    "description": "BOON server",
+    "main": "main.ts",
+    "repository": "https://github.com/the-dead-planet/BOON",
+    "author": "spookydoodle & rwakulszowa",
+    "license": "MIT",
+    "dependencies": {},
+    "devDependencies": {
+        "tsx": "^4.7.0",
+        "typescript": "^5.3.3",
+        "@tsconfig/node20": "^20.1.2",
+        "@tsconfig/strictest": "^2.0.2"
+    }
+}
