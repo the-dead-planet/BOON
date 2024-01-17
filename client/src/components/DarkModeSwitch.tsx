@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 // import { makeStyles, createStyles } from '@mui/styles';
 import { Typography, Switch } from '@mui/material';
-import { Mode } from '../logic/types';
+import * as Types from '../logic/types';
 
 // const useStyles = makeStyles((theme: Theme) =>
 //     createStyles({
@@ -10,8 +10,8 @@ import { Mode } from '../logic/types';
 
 // TODO: Add update user if user logged in and switches the dark mode on/off
 interface Props {
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
+    mode: Types.Mode;
+    onModeChange: (mode: Types.Mode) => void;
 }
 
 const DarkModeSwitch = ({ mode, onModeChange }: Props) => {

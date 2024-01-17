@@ -6,7 +6,7 @@ import * as AppState from '../app-state';
 import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import { useServices } from '../services';
-import { PATHS } from '../constants/data';
+import * as Routes from '../routes';
 
 const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
@@ -40,7 +40,7 @@ export const Login: React.FC = () => {
                             .login(password as string, email as string)
                             .then(({ user }) => {
                                 AppState.user$.next(user)
-                                navigate(searchParams.get('next') ?? PATHS.home, {});
+                                navigate(searchParams.get('next') ?? Routes.Types.RouterPaths.Home, {});
                             })
                             .catch((err: Error) => {
                                 AppState.notificationHandler.addNotification(err.message ?? 'Could not log in user.');

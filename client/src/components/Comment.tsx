@@ -1,14 +1,14 @@
 import React from 'react';
 import { ListItem, ListItemText, ListItemAvatar, Avatar, Typography } from '@mui/material';
 import { Item, ItemMenu } from './ItemMenu';
-import { User, Comment as CommentType } from '../logic/types';
+import * as Types from '../logic/types';
 import * as Utils from '../utils';
 import * as Hooks from '../hooks';
 import * as AppState from '../app-state';
 
 interface Props {
-    author: User;
-    comment: CommentType;
+    author: Types.User;
+    comment: Types.Comment;
     onCommentToBeDeletedIdChange: (id: string) => void;
 }
 

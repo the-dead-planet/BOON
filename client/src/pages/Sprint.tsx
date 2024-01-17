@@ -6,8 +6,8 @@ import { CommentsSection } from '../components/CommentsSection';
 import { SingleSprint } from '../components/sprint/SingleSprint';
 import * as Types from '../logic/types';
 import { Format } from '../constants/dateFormats';
-import { PATHS } from '../constants/data';
 import { getRandomQuote } from '../utils/data';
+import * as Routes from '../routes';
 import * as Utils from '../utils';
 import * as Hooks from '../hooks';
 import * as AppState from '../app-state';
@@ -98,7 +98,7 @@ export const Sprint: React.FC = () => {
             appBar={true}
             quote={quote}
             pagination={{
-                path: PATHS.sprints,
+                path: Routes.Types.RouterPaths.Sprints,
                 currentId: id,
                 nextId: currentInd > 0 ? sortedSprints[currentInd - 1]._id : undefined,
                 previousId: currentInd < sortedSprints.length - 1 ? sortedSprints[currentInd + 1]._id : undefined,
@@ -107,7 +107,7 @@ export const Sprint: React.FC = () => {
                 list: sprints
                     ? [...sprints.values()].map((spr: Types.Sprint) => ({
                         name: spr?.title,
-                        path: PATHS.sprints,
+                        path: Routes.Types.RouterPaths.Sprints,
                         id: spr._id,
                         number: spr.number,
                     }))

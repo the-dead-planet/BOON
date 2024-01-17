@@ -5,6 +5,7 @@ import { makeStyles, createStyles } from '@mui/styles';
 import { Link } from '../../utils/Link';
 import { Button } from '../mui-styled/Button';
 import { LANDING_CONTENTS } from '../../constants/data';
+import * as Routes from '../../routes';
 import * as Hooks from '../../hooks';
 import * as AppState from '../../app-state';
 
@@ -64,7 +65,7 @@ const Content: React.FC = () => {
     return (
         <Container maxWidth="lg" id="main-content" className={classes.contentContainer}>
             <Box className={classes.enterContainer}>
-                <Link to={'/sprints'}>
+                <Link to={Routes.Types.RouterPaths.Sprints}>
                     <Typography
                         color="secondary"
                         variant="h2"

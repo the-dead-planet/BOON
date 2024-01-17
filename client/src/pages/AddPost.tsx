@@ -4,6 +4,7 @@ import PostForm from '../components/forms/Post';
 import AppLayout from '../layouts/AppLayout';
 import * as Types from '../logic/types';
 import { useServices } from '../services';
+import * as Routes from '../routes';
 import * as AppState from '../app-state';
 
 export const AddPost: React.FC = () => {
@@ -48,7 +49,7 @@ export const AddPost: React.FC = () => {
                     };
                     postsService.add(extendedData as unknown as Types.PostData)
                         .then(() => {
-                            navigate('/sprints');
+                            navigate(Routes.Types.RouterPaths.Sprints);
                         })
                         .catch((err) => {
                             AppState.notificationHandler.addNotification(err.message ?? `Error adding post to sprint ${params.id ?? ''}.`)

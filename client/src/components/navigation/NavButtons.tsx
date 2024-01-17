@@ -8,10 +8,9 @@ import { Preferences } from './Preferences';
 import DialogMenu from './DialogMenu';
 import { IconUserSecret, IconSearch } from '../Icons';
 import { ItemMenu } from '../ItemMenu';
+import * as Routes from '../../routes';
 import * as Hooks from '../../hooks';
 import * as AppState from '../../app-state';
-import { PATHS } from '../../constants/data';
-const { login, logout, register } = PATHS;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -79,7 +78,7 @@ export const AuthButtonsHorizontal: React.FC = () => {
     const user = Hooks.useSubject(AppState.user$);
 
     const signUpButton = (
-        <Link to={register}>
+        <Link to={Routes.Types.RouterPaths.Register}>
             <TypographyLinkOutlined
                 variant="body2"
                 className={`${user ? classes.disabled : undefined}`}
@@ -91,7 +90,7 @@ export const AuthButtonsHorizontal: React.FC = () => {
     );
 
     const logInButton = (
-        <Link to={login}>
+        <Link to={Routes.Types.RouterPaths.Login}>
             <TypographyLinkOutlined variant="body2" color="secondary">
                 {texts.login}
             </TypographyLinkOutlined>
@@ -140,7 +139,7 @@ export const AuthButtonsHorizontal: React.FC = () => {
                         items={[
                             { name: `Howdy, ${user.publicName}!`, onClick: () => '' },
                             { name: 'Account', onClick: () => '' },
-                            { name: texts.logout, path: logout, onClick: () => '', alarm: true },
+                            { name: texts.logout, path: Routes.Types.RouterPaths.Logout, onClick: () => '', alarm: true },
                         ]}
                         tooltip="User menu"
                         placement="bottom-end"
@@ -167,14 +166,14 @@ export const AuthButtonsVertical: React.FC = () => {
     // const classes = useStyles();
     // TODO: resolve error 'div cannot be child of p'
     const signUpButton = (
-        <ListItem button component={!user ? Link : Typography} to={!user ? register : ''}>
+        <ListItem button component={!user ? Link : Typography} to={!user ? Routes.Types.RouterPaths.Register : ''}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText primary={texts.register} />
         </ListItem>
     );
 
     const loginButton = (
-        <ListItem button component={Link} to={!user ? login : logout}>
+        <ListItem button component={Link} to={!user ? Routes.Types.RouterPaths.Login : Routes.Types.RouterPaths.Logout}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText primary={texts.login} />
         </ListItem>

@@ -6,6 +6,7 @@ import AppLayout from '../layouts/AppLayout';
 import { Loading } from '../components/Loading';
 import { SprintSubmit, Sprint } from '../logic/types';
 import { useServices } from '../services';
+import * as Routes from '../routes';
 import * as Utils from '../utils';
 import * as AppState from '../app-state';
 
@@ -53,7 +54,7 @@ export const EditSprint: React.FC = () => {
                         sprintsService
                             .update({ ...(data as unknown as SprintSubmit), objectId: params.id ?? '' })
                             .then(() => {
-                                navigate('/sprints');
+                                navigate(Routes.Types.RouterPaths.Sprints);
                             })
                             .catch((err) => {
                                 AppState.notificationHandler.addNotification(err.message ?? `Error editing sprint ${params.id ?? ''}`)

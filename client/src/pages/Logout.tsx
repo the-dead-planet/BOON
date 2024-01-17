@@ -4,8 +4,8 @@ import AppLayout from '../layouts/AppLayout';
 import { AppFormLayout } from '../components/forms/App';
 import { Typography, Fade } from '@mui/material';
 import { useServices } from '../services';
+import * as Routes from '../routes';
 import * as AppState from '../app-state';
-import { PATHS } from '../constants/data';
 
 export const Logout: React.FC = () => {
     const [logoutRequestDone, setLogoutRequestDone] = useState(false);
@@ -28,7 +28,7 @@ export const Logout: React.FC = () => {
     }, []);
 
     if (logoutRequestDone) {
-        return <Navigate to={PATHS.home} />;
+        return <Navigate to={Routes.Types.RouterPaths.Home} />;
     } else {
         return (
             <AppLayout>

@@ -6,7 +6,7 @@ import { AddComment } from './forms/AddComment';
 // import CollapsePanel from './transitions/CollapsePanel';
 import DialogMenu from './navigation/DialogMenu';
 import { useServices } from '../services';
-import { User, Comment, Model, WithObjectId } from '../logic/types';
+import * as Types from '../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -22,11 +22,11 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     title: string;
     parentId: string;
-    parentModel: Model;
-    comments: Array<Comment>;
-    users: Map<string, User>;
-    addComment: (id: string, comment: Comment) => void;
-    removeComment: (comment: WithObjectId) => void;
+    parentModel: Types.Model;
+    comments: Array<Types.Comment>;
+    users: Map<string, Types.User>;
+    addComment: (id: string, comment: Types.Comment) => void;
+    removeComment: (comment: Types.WithObjectId) => void;
     onError?: (err: Error) => void;
 }
 

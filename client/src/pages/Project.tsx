@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import AppLayout from '../layouts/AppLayout';
 import { SingleProject } from '../components/project/SingleProject';
 import * as Types from '../logic/types';
-import { PATHS } from '../constants/data';
+import * as Routes from '../routes';
 import { getRandomQuote } from '../utils/data';
 import { useFetchData } from '../hooks/useFetchData';
 import * as AppState from '../app-state';
@@ -49,7 +49,7 @@ export const Project: React.FC = () => {
             appBar={true}
             quote={quote}
             pagination={{
-                path: PATHS.projects,
+                path: Routes.Types.RouterPaths.Projects,
             }}
             navPanel={{
                 side: 'left',
