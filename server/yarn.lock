@@ -122,6 +122,11 @@
   resolved "https://registry.yarnpkg.com/@hono/node-server/-/node-server-1.4.0.tgz#e11459f2aedc9e87ce8adba57f2e0ada55fc377a"
   integrity sha512-bhDkhldW7w9VgjrX0gG1vJ2YyvTxFWd5WG9nHjSR4UauhVECQZC3qy7mVVuQ054I5NWhKttHfKzYfoPzmUzAjw==
 
+"@hono/swagger-ui@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@hono/swagger-ui/-/swagger-ui-0.2.1.tgz#21c9a63b6033033fbdc8ca0e74972cf34a8731c4"
+  integrity sha512-wBxVMRe3/v8xH4o6icmwztiIq0DG0s7+jHVMHVUAoFFCWEQNL2iskMmQtrhSDtsFmBZUeUFQUaaJ6Ir6DOmHLA==
+
 "@mongodb-js/saslprep@^1.1.0":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@mongodb-js/saslprep/-/saslprep-1.1.4.tgz#24ec1c4915a65f5c506bb88c081731450d91bb1c"

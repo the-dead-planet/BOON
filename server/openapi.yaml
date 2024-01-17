@@ -1,0 +1,70 @@
+openapi: 3.1.0
+info:
+    version: '1.0.0'
+    title: BOON API
+paths:
+    /posts:
+        get:
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/PostWithId'
+        post:
+            summary: Add a new post.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Post'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /posts/{id}:
+        get:
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Post'
+components:
+    schemas:
+        WithId:
+            type: object
+            required:
+                - _id
+            properties:
+                _id:
+                    type: string
+        Post:
+            type: object
+            required:
+                - content
+            properties:
+                content:
+                    type: string
+        PostWithId:
+            allof:
+                - $ref: '#/components/schemas/Post'
+                - $ref: '#/components/schemas/WithId'
+        User:
+            type: object
+            required:
+                - name
+            properties:
+                name:
+                    type: string

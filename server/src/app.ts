@@ -1,5 +1,7 @@
+import { promises as fs } from 'fs';
 import { Hono } from 'hono';
 import { type Context } from 'hono';
+import { swaggerUI } from '@hono/swagger-ui';
 import { logger } from 'hono/logger';
 import * as db from './db.ts';
 
@@ -28,8 +30,14 @@ export function buildApp(database: db.Database): Hono {
         return c.json(insertedId);
     });
 
+    // Misc.
+    app.get('/docs', swaggerUI({ url: '/spec' }));
+    app.get('/spec', async (c: Context) => {
+        const buffer = await fs.readFile('./openapi.yaml', 'utf-8');
+        return c.text(buffer);
+    });
     app.get('/', (c: Context) => {
-        return c.text('Henlo!');
+        return c.text('BOON API. Documentation is available under /docs');
     });
 
     // Main router.
