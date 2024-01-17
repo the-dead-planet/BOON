@@ -6,10 +6,11 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
-import { Comment, Like, User } from '../../logic/types';
+import { Comment, Like } from '../../logic/types';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 
 interface Props {
-    user: User;
     author: string;
     comments?: Array<Comment | undefined>;
     likes?: Array<Like | undefined>;
@@ -17,7 +18,8 @@ interface Props {
     toggleCommentsPanel: (toggle: boolean) => void;
 }
 
-export const ActionButtons = ({ user, author, comments, likes, showMorePath, toggleCommentsPanel }: Props) => {
+export const ActionButtons: React.FC<Props> = ({ author, comments, likes, showMorePath, toggleCommentsPanel }) => {
+    const user = Hooks.useSubject(AppState.user$);
     // TODO: Below is a placeholder, this boolean should check if user already gave this object a like.
     // Based on that display the right icon and tooltip
     const isLiked = author === user?._id;

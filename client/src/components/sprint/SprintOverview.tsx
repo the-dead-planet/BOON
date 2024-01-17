@@ -3,7 +3,7 @@ import { makeStyles, createStyles } from '@mui/styles';
 import { Grid, Theme } from '@mui/material';
 import Card from '../Card';
 import { Format } from '../../constants/dateFormats';
-import { User, Sprint, Comment, Like, ThemeType, WithObjectId } from '../../logic/types';
+import { User, Sprint, Comment, Like } from '../../logic/types';
 import vintageImg from '../../img/content/vintage/typewriter2.jpg';
 import frosticImg from '../../img/content/tech/gameboy.jpg';
 import defaultImg from '../../img/content/tech/alien.jpg';
@@ -11,6 +11,8 @@ import vintageImgMin from '../../img/content/vintage/typewriter2-min.jpg';
 import frosticImgMin from '../../img/content/tech/gameboy-min.jpg';
 import defaultImgMin from '../../img/content/tech/alien-min.jpg';
 import * as Utils from '../../utils';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -29,41 +31,33 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    user: User | null | undefined;
-    themeType: ThemeType;
     sprint: Sprint;
     comments: Array<Comment | undefined>;
     likes: Array<Like | undefined>;
     users: Map<string, User>;
     getCreated?: (a: Date) => string;
-    removeSprint: (id: string) => void;
     toggleCommentsPanel: (toggle: boolean) => void;
 }
 
 export const SprintOverview = ({
-    user,
-    themeType,
     sprint,
     comments,
     likes,
     users,
-    removeSprint,
     toggleCommentsPanel,
 }: Props) => {
     const classes = useStyles();
-
+    const ui = Hooks.useSubject(AppState.ui$);
     const author: User | null = sprint.author ? users.get(sprint.author._id) : null;
     const authorPublicName = author ? author.publicName : 'unknown';
     // const isAuthor = users.get(String(sprint?.author) || '')?.publicName === user?.publicName;
 
     // TEMP
-    const img = themeType === 'vintage' ? vintageImg : themeType === 'frostic' ? frosticImg : defaultImg;
-    const imgMin = themeType === 'vintage' ? vintageImgMin : themeType === 'frostic' ? frosticImgMin : defaultImgMin;
+    const img = ui.theme === 'vintage' ? vintageImg : ui.theme === 'frostic' ? frosticImg : defaultImg;
+    const imgMin = ui.theme === 'vintage' ? vintageImgMin : ui.theme === 'frostic' ? frosticImgMin : defaultImgMin;
 
     const content = sprint && (
         <Card
-            user={user}
-            themeType={themeType}
             object={sprint}
             model={'Sprint'}
             comments={comments}
@@ -78,7 +72,7 @@ export const SprintOverview = ({
                 { name: 'Share', path: '/' },
                 { name: 'Add post', path: `${sprint._id}/add_post` },
             ]}
-            removeObject={(obj: WithObjectId) => removeSprint(obj.objectId)}
+            removeObject={(obj) => AppState.removeObject({ child: 'sprints', childId: obj.objectId })}
             toggleCommentsPanel={toggleCommentsPanel}
             linkBack={{ name: 'Home', path: '/' }}
             frosticNoRound={true}

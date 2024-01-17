@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
 import { Box, Typography, Theme } from '@mui/material';
 import { CommentsList } from './CommentsList';
@@ -6,7 +6,7 @@ import { AddComment } from './forms/AddComment';
 // import CollapsePanel from './transitions/CollapsePanel';
 import DialogMenu from './navigation/DialogMenu';
 import { useServices } from '../services';
-import { Mode, User, Comment, Model, WithObjectId } from '../logic/types';
+import { User, Comment, Model, WithObjectId } from '../logic/types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    user: User;
     title: string;
     parentId: string;
     parentModel: Model;
@@ -29,11 +28,9 @@ interface Props {
     addComment: (id: string, comment: Comment) => void;
     removeComment: (comment: WithObjectId) => void;
     onError?: (err: Error) => void;
-    mode: Mode;
 }
 
-const CommentsImpl = ({
-    user,
+const CommentsImpl: React.FC<Props> = ({
     title,
     parentId,
     parentModel,
@@ -41,12 +38,11 @@ const CommentsImpl = ({
     users,
     addComment,
     removeComment,
-    onError,
-    mode,
-}: Props) => {
+    onError
+}) => {
     const classes = useStyles();
-    const [openDialog, setOpenDialog] = useState(false);
-    const [commentToBeDeletedId, setCommentToBeDeletedId] = useState('');
+    const [openDialog, setOpenDialog] = React.useState(false);
+    const [commentToBeDeletedId, setCommentToBeDeletedId] = React.useState('');
     const { commentsService } = useServices()!;
 
     const handleDialogClose = () => {
@@ -69,11 +65,10 @@ const CommentsImpl = ({
                 </Typography>
 
                 <Box className={classes.form}>
-                    <AddComment user={user} _id={parentId} model={parentModel} addComment={addComment} mode={mode} />
+                    <AddComment _id={parentId} model={parentModel} addComment={addComment} />
                 </Box>
 
                 <CommentsList
-                    user={user}
                     comments={comments}
                     users={users}
                     onCommentToBeDeletedIdChange={handleDialogOpen}

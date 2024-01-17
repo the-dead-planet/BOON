@@ -1,13 +1,15 @@
+import React from 'react';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { User, Sprint, MongoObject, Model, WithObjectId } from '../logic/types';
 import { ServicesT, useServices } from '../services';
+import * as Hooks from '../hooks';
+import * as AppState from '../app-state';
 // import { PATHS } from '../constants/data';
 // const { main } = PATHS;
 
 interface DeleteProps {
-    user: User | null | undefined;
     model: Model;
     object: MongoObject;
     push?: (path: string) => void;
@@ -34,8 +36,9 @@ const makeModels = (services: ServicesT) => [
 ];
 
 // TODO: delete those `any` casts. Typescript correctly detects type violations in the functions below.
-export const ObjectDeleteButton = ({ user, model, object, onError, removeObject }: DeleteProps) => {
+export const ObjectDeleteButton: React.FC<DeleteProps> = ({ model, object, onError, removeObject }: DeleteProps) => {
     const services = useServices()!;
+    const user = Hooks.useSubject(AppState.user$);
 
     return user && object && 'author' in object && object.author === user._id ? (
         <MenuItem
@@ -55,8 +58,9 @@ export const ObjectDeleteButton = ({ user, model, object, onError, removeObject 
     ) : null;
 };
 
-export const IconDelete = ({ user, model, object, onError, removeObject }: DeleteProps) => {
+export const IconDelete: React.FC<DeleteProps> = ({ model, object, onError, removeObject }) => {
     const services = useServices()!;
+    const user = Hooks.useSubject(AppState.user$);
 
     return user && object && 'author' in object && object.author === user._id ? (
         <DeleteIcon
@@ -76,14 +80,15 @@ export const IconDelete = ({ user, model, object, onError, removeObject }: Delet
 };
 
 interface EditProps {
-    user: User | null | undefined;
     model: string;
     object: MongoObject;
 }
 
-export const ObjectEditButton = ({ user, model, object }: EditProps) => {
+export const ObjectEditButton: React.FC<EditProps> = ({ model, object }) => {
     const services = useServices()!;
     const models = makeModels(services);
+    const user = Hooks.useSubject(AppState.user$);
+
     return user && object && 'author' in object && typeof object.author !== 'string' && object.author?._id === user._id ? (
         <Button
             color="inherit"
@@ -95,13 +100,14 @@ export const ObjectEditButton = ({ user, model, object }: EditProps) => {
 };
 
 interface AddProps {
-    user: User | null | undefined;
     sprint: Sprint;
 }
 
-export const AddPostButton = ({ user, sprint }: AddProps) => {
+export const AddPostButton: React.FC<AddProps> = ({ sprint }: AddProps) => {
     const services = useServices()!;
     const models = makeModels(services);
+    const user = Hooks.useSubject(AppState.user$);
+
     return user && sprint ? (
         <Button
             color="inherit"

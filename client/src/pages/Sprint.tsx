@@ -9,35 +9,12 @@ import { Format } from '../constants/dateFormats';
 import { PATHS } from '../constants/data';
 import { getRandomQuote } from '../utils/data';
 import * as Utils from '../utils';
+import * as Hooks from '../hooks';
+import * as AppState from '../app-state';
 
-interface Props {
-    user: Types.User | undefined | null;
-    themeType: Types.ThemeType;
-    onThemeTypeChange: (themeType: Types.ThemeType) => void;
-    mode: Types.Mode;
-    onModeChange: (mode: Types.Mode) => void;
-    data: Types.StateData;
-    addPostComment: (id: string, comment: Types.Comment) => void;
-    addSprintComment: (id: string, comment: Types.Comment) => void;
-    removeObject: (obj: Types.RemoveObjectData) => void;
-    notificationsProps: Types.NotificationProps;
-    setStateData: (data: [Types.Sprint[], Types.Project[], Types.User[]]) => void;
-}
-
-export const Sprint: React.FC<Props> = ({
-    user,
-    themeType,
-    onThemeTypeChange,
-    mode,
-    onModeChange,
-    data,
-    addPostComment,
-    addSprintComment,
-    removeObject,
-    notificationsProps,
-    setStateData
-}) => {
+export const Sprint: React.FC = () => {
     const { id } = useParams<{ id: string }>();
+    const data = Hooks.useSubject(AppState.stateData$);
     const { sprints, posts, comments, likes, users, projects } = data;
     const fetchedData = useFetchData();
 
@@ -45,8 +22,9 @@ export const Sprint: React.FC<Props> = ({
         if (!fetchedData) {
             return;
         }
-        setStateData(fetchedData);
-    }, [fetchedData, setStateData]);
+        const [sprints, projects, users] = fetchedData;
+        AppState.setStateData(sprints, projects, users);
+    }, [fetchedData]);
 
     const [quote, setQuote] = useState('');
     useEffect(() => {
@@ -117,11 +95,6 @@ export const Sprint: React.FC<Props> = ({
 
     return (
         <AppLayout
-            user={user}
-            themeType={themeType}
-            onThemeTypeChange={onThemeTypeChange}
-            mode={mode}
-            onModeChange={onModeChange}
             appBar={true}
             quote={quote}
             pagination={{
@@ -161,20 +134,16 @@ export const Sprint: React.FC<Props> = ({
                 focusedElement && (
                     <CommentsSection
                         // expanded={true}
-                        mode={mode}
-                        user={user}
                         title={focusedElement.title}
                         parentId={focusedElement._id}
                         parentModel={focusForComments.model as Types.Model}
                         comments={focusedElement.comments.map((c) => comments.get(c) as Types.Comment)}
                         users={data.users}
-                        addComment={
-                            focusForComments.model === 'Sprint'
-                                ? addSprintComment.bind(focusForComments.id)
-                                : addPostComment.bind(focusForComments.id)
-                        }
+                        addComment={focusForComments.model === 'Sprint'
+                                ? (id: string, comment: Types.Comment) => AppState.addCommentToSprint(id, comment)
+                                : (id: string, comment: Types.Comment) => AppState.addCommentToPost(id, comment)}
                         removeComment={(comment: Types.WithObjectId) =>
-                            removeObject({
+                            AppState.removeObject({
                                 child: 'comments',
                                 childId: comment.objectId,
                                 parent: focusForComments.model === 'Sprint' ? 'sprints' : 'posts',
@@ -185,19 +154,14 @@ export const Sprint: React.FC<Props> = ({
                 )
             }
             toggleSecondaryDrawer={toggleSprintComments}
-            {...notificationsProps}
         >
             <SingleSprint
-                user={user}
-                themeType={themeType}
                 sprint={sprint}
                 posts={posts}
                 projects={projects}
                 comments={comments}
                 likes={likes}
                 users={users}
-                addPostComment={addPostComment}
-                removeObject={removeObject}
                 toggleSprintComments={toggleSprintComments}
                 togglePostComments={togglePostComments}
             />

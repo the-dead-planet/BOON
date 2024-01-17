@@ -3,15 +3,17 @@ import { ListItem, ListItemText, ListItemAvatar, Avatar, Typography } from '@mui
 import { Item, ItemMenu } from './ItemMenu';
 import { User, Comment as CommentType } from '../logic/types';
 import * as Utils from '../utils';
+import * as Hooks from '../hooks';
+import * as AppState from '../app-state';
 
 interface Props {
-    user: User;
     author: User;
     comment: CommentType;
     onCommentToBeDeletedIdChange: (id: string) => void;
 }
 
-export const Comment = ({ user, author, comment, onCommentToBeDeletedIdChange }: Props) => {
+export const Comment = ({ author, comment, onCommentToBeDeletedIdChange }: Props) => {
+    const user = Hooks.useSubject(AppState.user$);
     const menuItems = React.useMemo(
         () => {
             const items: Item[] = [{ name: 'Report', onClick: () => null }];

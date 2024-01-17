@@ -1,35 +1,18 @@
-import { useState, useEffect, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import PostForm from '../components/forms/Post';
 import AppLayout from '../layouts/AppLayout';
 import * as Types from '../logic/types';
 import { useServices } from '../services';
+import * as AppState from '../app-state';
 
-interface Props {
-    user: Types.User;
-    themeType: Types.ThemeType;
-    onThemeTypeChange: (themeType: Types.ThemeType) => void;
-    mode: Types.Mode;
-    sprintId: string;
-    onModeChange: (mode: Types.Mode) => void;
-    notificationsProps: Types.NotificationProps;
-    showError: (err: Error) => void;
-}
-
-export const AddPost = ({
-    user,
-    themeType,
-    onThemeTypeChange,
-    mode,
-    onModeChange,
-    notificationsProps,
-    showError,
-}: Props) => {
+export const AddPost: React.FC = () => {
     const params = useParams<{ id: string }>();
-    const [sprint, setSprint] = useState<Types.Sprint | null>(null);
+    const [sprint, setSprint] = React.useState<Types.Sprint | null>(null);
     const { sprintsService, postsService } = useServices()!;
+    const navigate = useNavigate();
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (sprint && sprint._id === params.id) {
             return;
         }
@@ -38,25 +21,19 @@ export const AddPost = ({
                 if (sprint) {
                     setSprint(sprint);
                 } else {
-                    // TODO: err
+                    AppState.notificationHandler.addNotification(`Could not find the sprint with ID ${params.id ?? ''}.`);
                 }
             })
-            .catch(showError)
+            .catch((err) => {
+                AppState.notificationHandler.addNotification(err.message ?? `Unexpected error when fetching sprint ${params.id ?? ''}.`);
+            })
     }, [params.id]);
 
-    const sprintNumber = useMemo(() => sprint ? sprint.number : -1, [sprint?.number]);
+    const sprintNumber = React.useMemo(() => sprint ? sprint.number : -1, [sprint?.number]);
 
     return (
-        <AppLayout
-            user={user}
-            themeType={themeType}
-            onThemeTypeChange={onThemeTypeChange}
-            mode={mode}
-            onModeChange={onModeChange}
-            {...notificationsProps}
-        >
+        <AppLayout>
             <PostForm
-                mode={mode}
                 title={sprint ? `Add post to sprint ${sprintNumber}` : `Add post`} // TODO: Null issue
                 initialValues={{
                     project: '',
@@ -69,7 +46,13 @@ export const AddPost = ({
                         sprintId: params.id,
                         model: 'Sprint',
                     };
-                    return postsService.add(extendedData as unknown as Types.PostData).catch(showError);
+                    postsService.add(extendedData as unknown as Types.PostData)
+                        .then(() => {
+                            navigate('/sprints');
+                        })
+                        .catch((err) => {
+                            AppState.notificationHandler.addNotification(err.message ?? `Error adding post to sprint ${params.id ?? ''}.`)
+                        });
                 }}
             />
         </AppLayout>

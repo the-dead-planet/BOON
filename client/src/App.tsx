@@ -1,6 +1,5 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
-import * as AppState from './app-state';
 import * as Pages from './pages';
 import services from './services/realImpl';
 import { PATHS } from './constants/data';
@@ -39,15 +38,7 @@ const AppImpl: React.FC = () => {
             path: `${PATHS.posts}/:id`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
-                    <Pages.Post
-                        setStateData={([sprints, projects, users]) => AppState.setStateData(state, sprints, projects, users)}
-                        addSprintComment={(id, comment) => AppState.addCommentToSprint(state)(id, comment)}
-                        addPostComment={(id, comment) => AppState.addCommentToPost(state)(id, comment)}
-                        removeObject={(obj) => AppState.removeObject(state)(obj)}
-                        data={state.data}
-                        notificationsProps={notificationsProps}
-                        backTo={{ name: '', path: '' }}
-                    />
+                    <Pages.Post />
                 </Pages.Authentication.AuthenticatedPage>
             ),
         },
@@ -55,20 +46,7 @@ const AppImpl: React.FC = () => {
             path: PATHS.posts,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
-                    <Pages.Post
-                       
-                        
-                        
-                        
-                        
-                        setStateData={([sprints, projects, users]) => AppState.setStateData(state, sprints, projects, users)}
-                        addSprintComment={(id, comment) => AppState.addCommentToSprint(state)(id, comment)}
-                        addPostComment={(id, comment) => AppState.addCommentToPost(state)(id, comment)}
-                        removeObject={(obj) => AppState.removeObject(state)(obj)}
-                        data={state.data}
-                        notificationsProps={notificationsProps}
-                        backTo={{ name: '', path: '' }}
-                    />
+                    <Pages.Post />
                 </Pages.Authentication.AuthenticatedPage>
             ),
         },
@@ -76,16 +54,7 @@ const AppImpl: React.FC = () => {
             path: `${PATHS.sprints}${PATHS.add}`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
-                    <Pages.AddSprint
-                       
-                        
-                        
-                        
-                        
-                        notificationsProps={notificationsProps}
-                        push={() => { }}
-                        showError={(err: Error) => console.error(err)}
-                    />
+                    <Pages.AddSprint />
                 </Pages.Authentication.AuthenticatedPage>
             ),
         },
@@ -93,16 +62,7 @@ const AppImpl: React.FC = () => {
             path: `${PATHS.sprints}/:id${PATHS.edit}`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
-                    <Pages.EditSprint
-                       
-                        
-                        
-                        
-                        
-                        notificationsProps={notificationsProps}
-                        push={() => { }}
-                        showError={(err) => console.error(err)}
-                    />
+                    <Pages.EditSprint />
                 </Pages.Authentication.AuthenticatedPage>
             ),
         },
@@ -110,19 +70,7 @@ const AppImpl: React.FC = () => {
             path: `${PATHS.sprints}/:id`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
-                    <Pages.Sprint
-                       
-                        
-                        
-                        
-                        
-                        setStateData={([sprints, projects, users]) => AppState.setStateData(state, sprints, projects, users)}
-                        addSprintComment={(id, comment) => AppState.addCommentToSprint(state)(id, comment)}
-                        addPostComment={(id, comment) => AppState.addCommentToPost(state)(id, comment)}
-                        removeObject={(obj) => AppState.removeObject(state)(obj)}
-                        data={state.data}
-                        notificationsProps={notificationsProps}
-                    />
+                    <Pages.Sprint />
                 </Pages.Authentication.AuthenticatedPage>
             ),
         },
@@ -130,14 +78,7 @@ const AppImpl: React.FC = () => {
             path: PATHS.sprints,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
-                    <Pages.Sprints
-                       
-                        
-                        
-                        
-                        
-                        notificationsProps={notificationsProps}
-                    />
+                    <Pages.Sprints />
                 </Pages.Authentication.AuthenticatedPage>
             ),
         },
@@ -145,16 +86,7 @@ const AppImpl: React.FC = () => {
             path: `${PATHS.projects}${PATHS.add}`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
-                    <Pages.AddProject
-                       
-                        
-                        
-                        
-                        
-                        notificationsProps={notificationsProps}
-                        push={() => { }}
-                        showError={(err: Error) => console.error(err)}
-                    />
+                    <Pages.AddProject />
                 </Pages.Authentication.AuthenticatedPage>
             ),
         },
@@ -162,16 +94,7 @@ const AppImpl: React.FC = () => {
             path: `${PATHS.projects}${PATHS.edit}`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
-                    <Pages.AddProject
-                       
-                        
-                        
-                        
-                        
-                        notificationsProps={notificationsProps}
-                        push={() => { }}
-                        showError={(err: Error) => console.error(err)}
-                    />
+                    <Pages.EditProject />
                 </Pages.Authentication.AuthenticatedPage>
             ),
         },
@@ -179,20 +102,7 @@ const AppImpl: React.FC = () => {
             path: `${PATHS.projects}/:id`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
-                    <Pages.Project
-                       
-                        
-                        
-                        
-                        
-                        setStateData={([sprints, projects, users]) => State.setStateData(state, sprints, projects, users)}
-                        addSprintComment={(id, comment) => State.addCommentToSprint(state)(id, comment)}
-                        addPostComment={(id, comment) => State.addCommentToPost(state)(id, comment)}
-                        removeObject={(obj) => State.removeObject(state)(obj)}
-                        data={state.data}
-                        notificationsProps={notificationsProps}
-                        showError={(err) => console.error(err)}
-                    />
+                    <Pages.Project />
                 </Pages.Authentication.AuthenticatedPage>
             ),
         },
@@ -200,14 +110,7 @@ const AppImpl: React.FC = () => {
             path: PATHS.projects,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
-                    <Pages.Projects
-                       
-                        
-                        
-                        
-                        
-                        notificationsProps={notificationsProps}
-                    />
+                    <Pages.Projects />
                 </Pages.Authentication.AuthenticatedPage>
             ),
         },
@@ -215,14 +118,7 @@ const AppImpl: React.FC = () => {
             path: PATHS.teams,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
-                    <Pages.Team
-                       
-                        
-                        
-                        
-                        
-                        notificationsProps={notificationsProps}
-                    />
+                    <Pages.Team  />
                 </Pages.Authentication.AuthenticatedPage>
             ),
         },
@@ -230,16 +126,7 @@ const AppImpl: React.FC = () => {
             path: PATHS.home,
             element: (
                 <Pages.Authentication.GuestPage>
-                    <Pages.Home
-                       
-                        
-                        
-                        
-                        
-                        notificationsProps={notificationsProps}
-                        push={() => { }}
-                        showError={(err: Error) => console.error(err)}
-                    />
+                    <Pages.Home />
                 </Pages.Authentication.GuestPage>
             ),
         },

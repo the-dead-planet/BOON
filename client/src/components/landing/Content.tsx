@@ -1,10 +1,12 @@
+import React from 'react';
 import classNames from 'classnames';
 import { Container, Grid, Typography, Box,Theme } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
 import { Link } from '../../utils/Link';
 import { Button } from '../mui-styled/Button';
 import { LANDING_CONTENTS } from '../../constants/data';
-import { User, ThemeType, Mode } from '../../logic/types';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -54,16 +56,10 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-interface Props {
-    user: User;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
-}
-
-const Content = ({ themeType }: Props) => {
+const Content: React.FC = () => {
     const classes = useStyles();
+    const ui = Hooks.useSubject(AppState.ui$);
+
     // TODO: Change this content to something which makes more sense, now it's quite a mess
     return (
         <Container maxWidth="lg" id="main-content" className={classes.contentContainer}>
@@ -72,7 +68,7 @@ const Content = ({ themeType }: Props) => {
                     <Typography
                         color="secondary"
                         variant="h2"
-                        className={classNames(classes.enterButton, { frostic: themeType === 'frostic' })}
+                        className={classNames(classes.enterButton, { frostic: ui.theme === 'frostic' })}
                     >
                         ENTER THE DEMO
                     </Typography>
@@ -82,7 +78,7 @@ const Content = ({ themeType }: Props) => {
             <Grid container justifyContent="space-around">
                 {LANDING_CONTENTS.map((item, i) => (
                     <Grid item xs={12} sm={4} key={i} container direction="column" alignItems="center">
-                        <div className={classNames(classes.gridContentItem, { frostic: themeType === 'frostic' })}>
+                        <div className={classNames(classes.gridContentItem, { frostic: ui.theme === 'frostic' })}>
                             <Typography variant="h3" color="textPrimary" gutterBottom>
                                 {item.title}
                             </Typography>

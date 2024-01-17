@@ -4,8 +4,10 @@ import { TextField, Typography, Theme } from '@mui/material';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { IconButton } from '../mui-styled/IconButton';
 import { GridField } from './GridFields';
-import { Mode, CommentSubmit, User, Model, Comment, CommentData } from '../../logic/types';
+import { CommentSubmit, Model, Comment, CommentData } from '../../logic/types';
 import { useServices } from '../../services';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 
 const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
@@ -17,20 +19,18 @@ const useStyles = makeStyles((_theme: Theme) =>
 );
 
 interface Props {
-    user: User;
-    mode: Mode;
     _id: string;
     model: Model;
     addComment: (id: string, comment: Comment) => void;
 }
 
-export const AddComment = ({ user, mode, _id, model, addComment }: Props) => {
+export const AddComment = ({ _id, model, addComment }: Props) => {
     const classes = useStyles();
     const { commentsService } = useServices()!;
+    const user = Hooks.useSubject(AppState.user$);
 
     return user ? (
         <AppForm
-            mode={mode}
             initialValues={{ body: '' }}
             onSubmit={(data, { resetForm }) => {
                 const extendedData: CommentData & { id: string; objectId: string; model: Model; } = {

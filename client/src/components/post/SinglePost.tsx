@@ -2,8 +2,9 @@ import { Container } from '@mui/material';
 import Card from '../Card';
 import { Format } from '../../constants/dateFormats';
 // import usersService from '../../../services/usersService';
-import { User, Post, Project, Comment, Like, Sprint, ThemeType, RemoveObjectData } from '../../logic/types';
+import { User, Post, Project, Comment, Like, Sprint } from '../../logic/types';
 import * as Utils from '../../utils';
+import * as AppState from '../../app-state';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -11,8 +12,6 @@ import * as Utils from '../../utils';
 
 
 interface Props {
-    user: User | null | undefined;
-    themeType: ThemeType;
     post: Post | undefined;
     projects: Map<string, Project>;
     sprints: Map<string, Sprint>;
@@ -20,19 +19,15 @@ interface Props {
     likes: Map<string, Like>;
     users: Map<string, User>;
     toggleCommentsPanel: (toggle: boolean) => void;
-    removeObject:  (obj: RemoveObjectData) => void;
 }
 
 export const SinglePost = ({
-    user,
-    themeType,
     post,
     sprints,
     projects,
     comments,
     likes,
     users,
-    removeObject,
     toggleCommentsPanel,
 }: Props) => {
     const getSprint = (id: string) =>
@@ -44,8 +39,6 @@ export const SinglePost = ({
     return post ? (
         <Container maxWidth="md">
             <Card
-                user={user}
-                themeType={themeType}
                 object={post}
                 model={'Post'}
                 comments={post.comments.map((id) => comments.get(id))}
@@ -70,7 +63,7 @@ export const SinglePost = ({
                     },
                 ]}
                 removeObject={(obj) =>
-                    removeObject({ child: 'posts', childId: obj.objectId, parent: 'sprints', parentId: getSprint(post._id)?._id })
+                    AppState.removeObject({ child: 'posts', childId: obj.objectId, parent: 'sprints', parentId: getSprint(post._id)?._id })
                 }
                 toggleCommentsPanel={toggleCommentsPanel}
                 divider={true}

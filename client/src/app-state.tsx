@@ -17,9 +17,9 @@ export const clearUser = () => {
     user$.next(null);
 };
 
-export const addUser = (data: Types.StateData, user: Types.User | null) => {
+export const addUser = (user: Types.User | null) => {
     const stateUsers = depopulate([user], 'users');
-    const stateData = mergeStateData(data, stateUsers);
+    const stateData = mergeStateData(stateData$.value, stateUsers);
     // TODO: Test this, something doesn't seem right:
     // const stateData = mergeStateData(state.data, { users: stateUsers });
 
@@ -30,22 +30,22 @@ export const addUser = (data: Types.StateData, user: Types.User | null) => {
 // Adds the comment object to `state.data.comments` and updates the commented object in `state.data`.
 //
 // To pass type checking, each commentable object (i.e. sprint / post) must implement its own method for commenting.
-export const addCommentToSprint = (data: Types.StateData, sprintId: string, comment: Types.Comment) => {
+export const addCommentToSprint = (sprintId: string, comment: Types.Comment) => {
     const [updatedCommentData, updatedSprintData] = addCommentImpl(
-        data.sprints,
+        stateData$.value.sprints,
         sprintId,
-        data.comments,
+        stateData$.value.comments,
         comment
     );
 
     return { comments: updatedCommentData, sprints: updatedSprintData };
 };
 
-export const addCommentToPost = (data: Types.StateData, postId: string, comment: Types.Comment) => {
+export const addCommentToPost = (postId: string, comment: Types.Comment) => {
     const [updatedCommentData, updatedPostData] = addCommentImpl(
-        data.posts,
+        stateData$.value.posts,
         postId,
-        data.comments,
+        stateData$.value.comments,
         comment
     );
 
@@ -85,7 +85,6 @@ const addCommentImpl = <Commented extends { comments: Array<string> }>(
 // Set populated objects, such as: posts, comments, likes
 // Depopulate objects and store them as originally stored in mongo (with references to id's only)
 export const setStateData = (
-    data: Types.StateData,
     sprints: Array<Types.Sprint>,
     projects: Array<Types.Project>,
     users: Array<Types.User>
@@ -96,7 +95,7 @@ export const setStateData = (
 
     // Merge current state with updates.
     // The second argument takes precedence -> pass updates as the second argument.
-    const mergedSprintsData = mergeStateData(data, stateSprints);
+    const mergedSprintsData = mergeStateData(stateData$.value, stateSprints);
     const mergedProjectsData = mergeStateData(mergedSprintsData, stateProjects);
     const mergedData = mergeStateData(mergedProjectsData, stateUsers);
 
@@ -119,13 +118,13 @@ const map = new Map();
 //  - generate paths automatically. Depopulation logic and backend models operate on the same models.
 //    Define models only once.
 //  - find some magic TS way of enforcing more type safety.
-export const removeObject = (data: Types.StateData, {
+export const removeObject = ({
     child,
     parent,
     childId,
     parentId,
 }: Types.RemoveObjectData) => {
-    const stateData = data;
+    const stateData = { ...stateData$.value };
 
     // Remove deleted object from the state
     const childData = stateData[child];
@@ -152,5 +151,5 @@ export const removeObject = (data: Types.StateData, {
         }
     }
 
-    return { data: mergeStateData(data, stateData) };
+    return { data: mergeStateData(stateData$.value, stateData) };
 };

@@ -1,28 +1,18 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import { useServices } from '../services';
 import AppLayout from '../layouts/AppLayout';
 import RedirectToFirst from '../components/RedirectToFirst';
-import * as Types from '../logic/types';
 
-type Props = {
-    user: Types.User | null;
-    themeType: Types.ThemeType;
-    onThemeTypeChange: (themeType: Types.ThemeType) => void;
-    mode: Types.Mode;
-    onModeChange: (mode: Types.Mode) => void;
-    notificationsProps: Types.NotificationProps;
-};
 
 /**
  * Sprints list.
  * Redirect to the details page of the newest sprint.
  */
-export const Sprints = ({ notificationsProps, ...props }: Props) => {
+export const Sprints: React.FC = () => {
     const { sprintsService } = useServices()!;
-    const [sortedSprintIds, setSortedSprintIds] = useState<Array<string> | null>(null);
+    const [sortedSprintIds, setSortedSprintIds] = React.useState<Array<string> | null>(null);
 
-    // Fetch sprints.
-    useEffect(() => {
+    React.useEffect(() => {
         sprintsService.getAll().then((fetched) => {
             const sortedIds = fetched
                 .sort((a, b) => {
@@ -36,7 +26,7 @@ export const Sprints = ({ notificationsProps, ...props }: Props) => {
     }, [setSortedSprintIds, sprintsService]);
 
     return (
-        <AppLayout {...notificationsProps} {...props}>
+        <AppLayout>
             <RedirectToFirst items={sortedSprintIds} modelPath={'sprints'} />
         </AppLayout>
     );

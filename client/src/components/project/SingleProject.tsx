@@ -3,8 +3,9 @@ import { Typography, Slide, Theme } from '@mui/material';
 import { Posts } from '../sprint/Posts';
 import { Format } from '../../constants/dateFormats';
 // import usersService from '../../../services/usersService';
-import { User, Post, Project, Comment, Like, Sprint, ThemeType, RemoveObjectData } from '../../logic/types';
+import { User, Post, Project, Comment, Like, Sprint } from '../../logic/types';
 import * as Utils from '../../utils';
+import * as AppState from '../../app-state';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -26,8 +27,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    user: User | null | undefined;
-    themeType: ThemeType;
     project: Project;
     projects: Map<string, Project>;
     sprints: Map<string, Sprint>;
@@ -35,15 +34,10 @@ interface Props {
     comments: Map<string, Comment>;
     likes: Map<string, Like>;
     users: Map<string, User>;
-    addPostComment: (id: string, comment: Comment) => void;
     toggleCommentsPanel: (projectId: string | null) => void;
-    removeObject: (obj: RemoveObjectData) => void;
-    onError: (err: Error) => void;
 }
 
 export const SingleProject = ({
-    user,
-    themeType,
     project,
     sprints,
     posts,
@@ -51,9 +45,7 @@ export const SingleProject = ({
     comments,
     likes,
     users,
-    addPostComment,
-    removeObject,
-    toggleCommentsPanel,
+    toggleCommentsPanel
 }: Props) => {
     const classes = useStyles();
     const getSprint = (id: string) =>
@@ -67,8 +59,6 @@ export const SingleProject = ({
                 </Typography>
             </Slide>
             <Posts
-                user={user}
-                themeType={themeType}
                 posts={project.posts
                     .map((id) => posts.get(id)!)
                     .sort((a, b) =>
@@ -84,9 +74,7 @@ export const SingleProject = ({
                 getCreated={(date: Date) => Utils.DateTime.toFormat(date, Format.EXT_DATE_FORMAT)}
                 getTag={(postId: string) => `Sprint ${getSprint(postId).number}`}
                 getTagLink={(postId: string) => `/sprints/${getSprint(postId)._id}`}
-                addComment={addPostComment}
-                removePost={(obj) => removeObject({ child: 'posts', childId: obj.objectId, parent: 'sprints', parentId: project?._id })}
-                removeComment={(id: string, postId: string) => removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })}
+                removePost={(obj) => AppState.removeObject({ child: 'posts', childId: obj.objectId, parent: 'sprints', parentId: project?._id })}
                 toggleCommentsPanel={toggleCommentsPanel}
                 xs={12}
                 lg={6}

@@ -1,9 +1,12 @@
+import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
 import { TextField, Button, Theme } from '@mui/material';
 import { AppFormLayout, AppForm } from './App';
 import { GridField } from './GridFields';
-import { Mode, SprintSubmit } from '../../logic/types';
+import { SprintSubmit } from '../../logic/types';
 import { FormikHelpers, FormikValues } from 'formik';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 
 const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
@@ -15,26 +18,25 @@ const useStyles = makeStyles((_theme: Theme) =>
 );
 
 interface Props {
-    mode: Mode;
     title: string;
     initialValues: SprintSubmit;
     onSubmit: (values: { [field: string]: unknown; }, formikHelpers: FormikHelpers<FormikValues>) => void | Promise<unknown>;
 }
 
-const SprintForm = ({ mode, title, initialValues, onSubmit }: Props) => {
+const SprintForm: React.FC<Props> = ({ title, initialValues, onSubmit }) => {
     const classes = useStyles();
+    const ui = Hooks.useSubject(AppState.ui$);
 
     return (
         <AppFormLayout title={title ? title : 'Add sprint'}>
             <AppForm
-                mode={mode}
                 initialValues={initialValues as unknown as { [field: string]: unknown; }}
                 onSubmit={onSubmit}
                 // validationSchema={validationSchema}
                 submitSection={
                     <Button
-                        variant={mode === 'dark' ? 'outlined' : 'contained'}
-                        color={mode === 'dark' ? undefined : 'primary'}
+                        variant={ui.mode === 'dark' ? 'outlined' : 'contained'}
+                        color={ui.mode === 'dark' ? undefined : 'primary'}
                         type="submit"
                         className={classes.submitButton}
                     >

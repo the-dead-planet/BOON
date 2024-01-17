@@ -1,28 +1,18 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import { useServices } from '../services';
 import AppLayout from '../layouts/AppLayout';
 import RedirectToFirst from '../components/RedirectToFirst';
-import * as Types from '../logic/types';
-
-type Props = {
-    user: Types.User | null;
-    themeType: Types.ThemeType;
-    onThemeTypeChange: (themeType: Types.ThemeType) => void;
-    mode: Types.Mode;
-    onModeChange: (mode: Types.Mode) => void;
-    notificationsProps: Types.NotificationProps;
-};
 
 /**
  * Projects list.
  * Redirect to the details page of the newest project.
  */
-export const Projects = ({ notificationsProps, ...props }: Props) => {
+export const Projects: React.FC = () => {
     const { projectsService } = useServices()!;
-    const [sortedProjectIds, setSortedProjectIds] = useState<Array<string> | null>(null);
+    const [sortedProjectIds, setSortedProjectIds] = React.useState<Array<string> | null>(null);
 
     // Fetch sprints.
-    useEffect(() => {
+    React.useEffect(() => {
         projectsService.getAll().then((fetched) => {
             const sortedIds = fetched
                 .sort((a, b) => {
@@ -36,7 +26,7 @@ export const Projects = ({ notificationsProps, ...props }: Props) => {
     }, [setSortedProjectIds, projectsService]);
 
     return (
-        <AppLayout {...notificationsProps} {...props}>
+        <AppLayout>
             <RedirectToFirst items={sortedProjectIds} modelPath={'projects'} />
         </AppLayout>
     );

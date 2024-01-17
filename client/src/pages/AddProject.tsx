@@ -1,33 +1,18 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProjectForm from '../components/forms/Project';
 import AppLayout from '../layouts/AppLayout';
 import * as Types from '../logic/types';
 import { useServices } from '../services';
+import * as AppState from '../app-state';
 
-interface Props {
-    user: Types.User;
-    themeType: Types.ThemeType;
-    onThemeTypeChange: (themeType: Types.ThemeType) => void;
-    mode: Types.Mode;
-    onModeChange: (mode: Types.Mode) => void;
-    push: (path: string) => void;
-    notificationsProps: Types.NotificationProps;
-    showError: (err: Error) => void;
-}
-
-export const AddProject = ({ user, mode, themeType, onThemeTypeChange, onModeChange, push, notificationsProps, showError }: Props) => {
+export const AddProject: React.FC = () => {
     const { projectsService } = useServices()!;
+    const navigate = useNavigate();
 
     return (
-        <AppLayout
-            user={user}
-            themeType={themeType}
-            onThemeTypeChange={onThemeTypeChange}
-            mode={mode}
-            onModeChange={onModeChange}
-            {...notificationsProps}
-        >
+        <AppLayout>
             <ProjectForm
-                mode={mode}
                 title="Add new project"
                 initialValues={{
                     title: '',
@@ -37,9 +22,11 @@ export const AddProject = ({ user, mode, themeType, onThemeTypeChange, onModeCha
                     projectsService
                         .add(data as unknown as Types.ProjectSubmit)
                         .then(() => {
-                            push('/sprints');
+                            navigate('/sprints');
                         })
-                        .catch(showError);
+                        .catch((err) => {
+                            AppState.notificationHandler.addNotification(err.message ?? 'Could not submit new project');
+                        });
                 }}
             />
         </AppLayout>
