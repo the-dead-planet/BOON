@@ -1,9 +1,17 @@
 import { serve } from '@hono/node-server';
 import { buildApp } from './src/app.ts';
+import { connect } from './src/db.ts';
 
+const DB_URI = 'mongodb://localhost:27017';
+const DB_NAME = 'main';
 const PORT = 3000;
 
-const app = buildApp();
+console.log(`Connecting to MongoDB. URI=${DB_URI} DB_NAME=${DB_NAME}`);
+const { db } = await connect(DB_URI, DB_NAME);
+console.log('Connected to MongoDB');
+
+console.log('Building an app');
+const app = buildApp(db);
 
 console.log(`Listening on port :${PORT}`);
 

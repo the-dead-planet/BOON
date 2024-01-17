@@ -3,7 +3,7 @@ import { type Context } from 'hono';
 import { logger } from 'hono/logger';
 import * as db from './db.ts';
 
-export function buildApp() {
+export function buildApp(database: db.Database): Hono {
     const app = new Hono();
 
     // Middleware.
@@ -11,21 +11,21 @@ export function buildApp() {
 
     // Routers.
     const usersApp = new Hono();
-    usersApp.get('/', (c: Context) => c.json(db.listUsers()));
-    usersApp.get('/:id', (c: Context) => c.json(db.getUser(c.req.param('id'))));
+    usersApp.get('/', async (c: Context) => c.json(await db.listUsers(database)));
+    usersApp.get('/:id', async (c: Context) => c.json(await db.getUser(database, c.req.param('id'))));
     usersApp.post('/', async (c: Context) => {
-        const { id, name } = await c.req.json();
-        db.addUser(id, name);
-        return c.text('OK');
+        const { name } = await c.req.json();
+        const insertedId = await db.addUser(database, { name });
+        return c.json(insertedId);
     });
 
     const postsApp = new Hono();
-    postsApp.get('/', (c: Context) => c.json(db.listPosts()));
-    postsApp.get('/:id', (c: Context) => c.json(db.getPost(c.req.param('id'))));
+    postsApp.get('/', async (c: Context) => c.json(await db.listPosts(database)));
+    postsApp.get('/:id', async (c: Context) => c.json(await db.getPost(database, c.req.param('id'))));
     postsApp.post('/', async (c: Context) => {
-        const { id, content } = await c.req.json();
-        db.addPost(id, content);
-        return c.text('OK');
+        const { content } = await c.req.json();
+        const insertedId = await db.addPost(database, { content });
+        return c.json(insertedId);
     });
 
     app.get('/', (c: Context) => {

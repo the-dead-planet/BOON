@@ -1,34 +1,64 @@
 /**
  * Database utilities.
- * TODO: expose MongoDB utils from here.
  */
+import { Db, MongoClient, ServerApiVersion, WithId, ObjectId, Collection } from 'mongodb';
 import { Post, User } from './schema.ts';
 
-const db: {
-    users: { [key: string]: User };
-    posts: { [key: string]: Post };
-} = { users: {}, posts: {} };
+// Reexport for convenience.
+export type Database = Db;
 
-export function listUsers() {
-    return Object.values(db.users);
+/**
+ * Connect to database `dbName` under `uri`.
+ * We only want a single app to connect to a single DB, so the raw client is hidden.
+ * If it ever turns out we actually need direct access to the client instance, we
+ * can just expose it directly instead.
+ */
+export async function connect(uri: string, dbName: string): Promise<{ db: Db; close: () => Promise<void> }> {
+    const client = new MongoClient(uri, {
+        serverApi: { version: ServerApiVersion.v1, strict: true, deprecationErrors: true },
+    });
+    await client.connect();
+
+    async function close() {
+        await client.close();
+    }
+
+    const db = client.db(dbName);
+    return { db, close };
 }
 
-export function getUser(id: string) {
-    return db.users[id];
+function users(db: Db): Collection<User> {
+    return db.collection<User>('users');
 }
 
-export function addUser(id: string, name: string) {
-    db.users[id] = { id, name };
+function posts(db: Db): Collection<Post> {
+    return db.collection<Post>('posts');
 }
 
-export function listPosts() {
-    return Object.values(db.posts);
+export function listUsers(db: Db): Promise<WithId<User>[]> {
+    return users(db).find().toArray();
 }
 
-export function getPost(id: string) {
-    return db.posts[id];
+export function getUser(db: Db, id: string): Promise<WithId<User> | null> {
+    const objId = new ObjectId(id);
+    return users(db).findOne(objId);
 }
 
-export function addPost(id: string, content: string) {
-    db.posts[id] = { id, content };
+export async function addUser(db: Db, user: User): Promise<ObjectId> {
+    const { insertedId } = await users(db).insertOne(user);
+    return insertedId;
+}
+
+export function listPosts(db: Db): Promise<WithId<Post>[]> {
+    return posts(db).find().toArray();
+}
+
+export function getPost(db: Db, id: string): Promise<WithId<Post> | null> {
+    const objId = new ObjectId(id);
+    return posts(db).findOne(objId);
+}
+
+export async function addPost(db: Db, post: Post): Promise<ObjectId> {
+    const { insertedId } = await posts(db).insertOne(post);
+    return insertedId;
 }
