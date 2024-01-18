@@ -2,7 +2,7 @@ import React from 'react';
 import { useServices } from '../services';
 import AppLayout from '../layouts/AppLayout';
 import RedirectToFirst from '../components/RedirectToFirst';
-
+import * as AppState from '../app-state';
 
 /**
  * Sprints list.
@@ -13,17 +13,25 @@ export const Sprints: React.FC = () => {
     const [sortedSprintIds, setSortedSprintIds] = React.useState<Array<string> | null>(null);
 
     React.useEffect(() => {
-        sprintsService.getAll().then((fetched) => {
-            const sortedIds = fetched
-                .sort((a, b) => {
-                    const aTo = new Date(a.dateTo);
-                    const bTo = new Date(b.dateTo);
-                    return bTo.getTime() - aTo.getTime();
-                })
-                .map(({ _id }) => _id);
-            setSortedSprintIds(sortedIds);
-        });
-    }, [setSortedSprintIds, sprintsService]);
+        const abortController = new AbortController();
+
+        sprintsService
+            .getAll(abortController.signal)
+            .then((fetched) => {
+                const sortedIds = fetched
+                    .sort((a, b) => new Date(b.dateTo).valueOf() - new Date(a.dateTo).valueOf())
+                    .map(({ _id }) => _id);
+
+                setSortedSprintIds(sortedIds);
+            })
+            .catch((err: Error) => {
+                AppState.notificationHandler.addNotification(err.message ?? 'Coult not get all sprints.')
+            });
+
+        return () => {
+            abortController.abort();
+        };
+    }, [sprintsService]);
 
     return (
         <AppLayout>

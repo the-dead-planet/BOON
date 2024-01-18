@@ -15,7 +15,7 @@ export interface AuthService {
     whoami(): Promise<WrappedUserData>;
 }
 
-export type CommentsService = CrudService<Comment, Types.CommentData>;
+export type CommentsService = CrudService<Types.Comment, Types.CommentData>;
 export type LikesService = CrudService<Types.Like, Types.LikeData>;
 export type PostsService = CrudService<Types.Post, Types.PostData>;
 export type ProjectsService = CrudService<Types.Project, Types.ProjectData>;

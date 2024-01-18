@@ -1,97 +1,95 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useFetchData } from '../hooks/useFetchData';
 import AppLayout from '../layouts/AppLayout';
 import { CommentsSection } from '../components/CommentsSection';
 import { SingleSprint } from '../components/sprint/SingleSprint';
-import * as Types from '../logic/types';
 import { Format } from '../constants/dateFormats';
 import { getRandomQuote } from '../utils/data';
 import * as Routes from '../routes';
+import * as Types from '../logic/types';
 import * as Utils from '../utils';
 import * as Hooks from '../hooks';
 import * as AppState from '../app-state';
 
+const navPlaceholder = [{ id: '', name: 'Printing...', path: '/' }];
+
 export const Sprint: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
-    const data = Hooks.useSubject(AppState.stateData$);
-    const { sprints, posts, comments, likes, users, projects } = data;
-    const fetchedData = useFetchData();
+    useFetchData();
+    const params = useParams<{ id: string }>();
+    const { sprints, posts, comments, likes, users, projects } = Hooks.useSubject(AppState.stateData$);
+    const [focusForComments, setFocusForComments] = React.useState<{ model: string; id: string } | null>(null);
+    console.log(sprints);
 
-    useEffect(() => {
-        if (!fetchedData) {
-            return;
-        }
-        const [sprints, projects, users] = fetchedData;
-        AppState.setStateData(sprints, projects, users);
-    }, [fetchedData]);
+    const quote= React.useMemo(
+        () => getRandomQuote(), 
+        []
+    );
 
-    const [quote, setQuote] = useState('');
-    useEffect(() => {
-        setQuote(getRandomQuote());
-    }, [setQuote]);
+    const sprint = React.useMemo(
+        () => sprints.get(params.id ?? ''), 
+        [sprints, params.id]
+    );
 
-    /* 
-        GET CURRENT SPRINT ID DATA FROM APP STATE
-    */
-    const sprint = sprints.get(id ?? '');
+    const sortedSprints = React.useMemo(
+        () => sprints ? [...(sprints ?? []).values()].sort((a, b) => b.number - a.number) : [], 
+        [sprints]
+    );
 
-    /*
-        SORT SPRINTS FOR PAGINATION
-    */
-    const sortedSprints = sprints ? [...sprints.values()].sort((a, b) => b.number - a.number) : [];
-    let currentInd = 0;
-    sortedSprints.forEach((spr, i) => {
-        if (spr._id === id) {
-            currentInd = i;
-        }
-    });
+    const currentInd = React.useMemo(
+        () => sortedSprints.findIndex((el) => el._id === params.id), 
+        [sortedSprints, params.id]
+    );
 
-    /* 
-        NAVIGATION ITEMS
-    */
-    const sprintPosts = sprint?.posts;
-    const navPosts = sprintPosts
-        ?.map((postId) => posts.get(postId))
-        .map((post) => ({ hash: true, id: post?._id || '', name: post?.title || '', path: `#${post?._id}` || '#' }));
+    const navPosts = React.useMemo(
+        () => sprint?.posts
+            ?.map((postId) => posts.get(postId))
+            .map((post) => ({ 
+                hash: true, 
+                id: post?._id || '', 
+                name: post?.title || '', 
+                path: `#${post?._id}` || '#' 
+            })),
+        [sprint, posts]
+    );
 
-    const navProjects = [
-        ...new Set(
-            sprintPosts
-                ?.map((postId) =>
-                    [...projects.values()].reduce((acc, project) => (project.posts.includes(postId) ? project : acc))
-                )
-                .map((project) => project._id)
-        ),
-    ].map((projectId) => ({
-        id: projectId || '',
-        name: projects.get(projectId)?.title || '',
-        path: `/projects/${projectId}`,
-    }));
+    const navProjects = React.useMemo(
+        () => {
+            const uniqueProjectIds: string[] = [...new Set(sprint?.posts
+                ?.map((postId) => [...projects.values()].reduce((acc, project) => project.posts.includes(postId) ? project : acc))
+                .map((project) => project._id))];
 
-    const navPlaceholder = [{ id: '', name: 'Printing...', path: '/' }];
+            return uniqueProjectIds.map((projectId) => ({
+                id: projectId || '',
+                name: projects.get(projectId)?.title || '',
+                path: `/projects/${projectId}`,
+            }));
+        },
+        [sprint, projects]
+    );
 
-    const [focusForComments, setFocusForComments] = useState<{ model: string; id: string } | null>(null);
 
-    const toggleSprintComments = (toggle: boolean) => {
-        if (!toggle) {
-            setFocusForComments(null);
-        } else {
-            setFocusForComments({ model: 'Sprint', id: sprint!._id });
-        }
-    };
+    const toggleSprintComments = React.useCallback(
+        (toggle: boolean) => setFocusForComments(toggle ? { model: 'Sprint', id: sprint!._id } : null),
+        [sprint?._id]
+    );
 
-    const togglePostComments = (postId: string | null) => {
-        if (postId === null) {
-            setFocusForComments(null);
-        } else {
-            setFocusForComments({ model: 'Post', id: postId });
-        }
-    };
+    const togglePostComments = React.useCallback(
+        (postId: string | null) => setFocusForComments(postId !== null ? { model: 'Post', id: postId } : null),
+        []
+    );
 
-    const focusedElement: Types.Post | Types.Sprint | null | undefined =
-        focusForComments &&
-        (focusForComments.model === 'Sprint' ? sprints.get(focusForComments.id) : posts.get(focusForComments.id));
+    const focusedElement = React.useMemo(
+        (): Types.Post | Types.Sprint | null | undefined => {
+            if (!focusForComments) {
+                return;
+            }
+            return focusForComments.model === 'Sprint'
+                ? sprints.get(focusForComments.id)
+                : posts.get(focusForComments.id);
+        },
+        [focusForComments, sprints, posts]
+    );
 
     return (
         <AppLayout
@@ -99,7 +97,7 @@ export const Sprint: React.FC = () => {
             quote={quote}
             pagination={{
                 path: Routes.Types.RouterPaths.Sprints,
-                currentId: id,
+                currentId: params.id,
                 nextId: currentInd > 0 ? sortedSprints[currentInd - 1]._id : undefined,
                 previousId: currentInd < sortedSprints.length - 1 ? sortedSprints[currentInd + 1]._id : undefined,
                 primary: `Sprint ${sprint?.number || ''}`,
@@ -138,7 +136,7 @@ export const Sprint: React.FC = () => {
                         parentId={focusedElement._id}
                         parentModel={focusForComments.model as Types.Model}
                         comments={focusedElement.comments.map((c) => comments.get(c) as Types.Comment)}
-                        users={data.users}
+                        users={users}
                         addComment={focusForComments.model === 'Sprint'
                                 ? (id: string, comment: Types.Comment) => AppState.addCommentToSprint(id, comment)
                                 : (id: string, comment: Types.Comment) => AppState.addCommentToPost(id, comment)}

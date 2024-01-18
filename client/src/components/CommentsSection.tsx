@@ -8,6 +8,8 @@ import DialogMenu from './navigation/DialogMenu';
 import { useServices } from '../services';
 import * as Types from '../logic/types';
 
+let abortController = new AbortController();
+
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         form: {
@@ -86,8 +88,11 @@ const CommentsImpl: React.FC<Props> = ({
                     text: 'Yes, delete it',
                     // Remove from DB, then from app state, then close the dialog window and clear the id to be deleted
                     onClick: () => {
+                        abortController.abort();
+                        abortController = new AbortController();
+
                         commentsService
-                            .delete({ objectId: commentToBeDeletedId })
+                            .delete({ objectId: commentToBeDeletedId }, abortController.signal)
                             .then((response) => {
                                 removeComment(response);
                                 handleDialogClose();

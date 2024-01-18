@@ -34,46 +34,66 @@ const makeModels = (services: ServicesT) => [
     },
 ];
 
+let objDeleteButtonAbortController = new AbortController();
+
 // TODO: delete those `any` casts. Typescript correctly detects type violations in the functions below.
 export const ObjectDeleteButton: React.FC<DeleteProps> = ({ model, object, onError, removeObject }: DeleteProps) => {
     const services = useServices()!;
     const user = Hooks.useSubject(AppState.user$);
 
+    const handleClick = React.useCallback(
+        () => {
+            objDeleteButtonAbortController.abort();
+            objDeleteButtonAbortController = new AbortController();
+
+            makeModels(services)
+                .reduce((acc, val) => (val.name === model ? val : acc))
+                .service.delete({ objectId: object._id }, objDeleteButtonAbortController.signal)
+                .then((response) => {
+                    removeObject(response);
+                })
+                .catch(onError);
+            },
+        [services, model, object._id]
+    );
+
     return user && object && 'author' in object && object.author === user._id ? (
         <MenuItem
             color="inherit"
-            onClick={() =>
-                makeModels(services)
-                    .reduce((acc, val) => (val.name === model ? val : acc))
-                    .service.delete({ objectId: object._id })
-                    .then((response) => {
-                        removeObject(response);
-                    })
-                    .catch(onError)
-            }
+            onClick={handleClick}
         >
             Delete
         </MenuItem>
     ) : null;
 };
 
+let iconDeleteAbortController = new AbortController();
+
 export const IconDelete: React.FC<DeleteProps> = ({ model, object, onError, removeObject }) => {
     const services = useServices()!;
     const user = Hooks.useSubject(AppState.user$);
+
+    const handleClick = React.useCallback(
+        () => {
+            iconDeleteAbortController.abort();
+            iconDeleteAbortController = new AbortController();
+
+            makeModels(services)
+                .reduce((acc, val) => (val.name === model ? val : acc))
+                .service.delete({ objectId: object._id }, iconDeleteAbortController.signal)
+                .then((response) => {
+                    removeObject(response);
+                })
+                .catch(onError);
+        },
+        [services, model, object._id]
+    );
 
     return user && object && 'author' in object && object.author === user._id ? (
         <DeleteIcon
             fontSize="small"
             color="inherit"
-            onClick={() =>
-                makeModels(services)
-                    .reduce((acc, val) => (val.name === model ? val : acc))
-                    .service.delete({ objectId: object._id })
-                    .then((response) => {
-                        removeObject(response);
-                    })
-                    .catch(onError)
-            }
+            onClick={handleClick}
         />
     ) : null;
 };

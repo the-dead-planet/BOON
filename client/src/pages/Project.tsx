@@ -14,15 +14,7 @@ export const Project: React.FC = () => {
     const data = Hooks.useSubject(AppState.stateData$)
     const { sprints: sprints, posts: posts, comments: comments, likes: likes, users: users, projects: projects } = data;
 
-    const fetchedData = useFetchData();
-
-    useEffect(() => {
-        if (!fetchedData) {
-            return;
-        }
-        const [sprints, projects, users] = fetchedData;
-        AppState.setStateData(sprints, projects, users);
-    }, [fetchedData]);
+    useFetchData();
 
     const [quote, setQuote] = useState('');
     useEffect(() => {
