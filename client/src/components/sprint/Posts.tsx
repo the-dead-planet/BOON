@@ -3,12 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { makeStyles, createStyles } from '@mui/styles';
 import { Grid, CardMedia, Typography, Theme } from '@mui/material';
 import Card from '../Card';
-import vintageImg1 from '../../img/content/vintage/bus.jpg';
-import vintageImg2 from '../../img/content/vintage/car.jpg';
-import defaultImg1 from '../../img/content/tech/robot.jpg';
-import defaultImg2 from '../../img/content/tech/woman-hologram.jpg';
-import frosticImg1 from '../../img/content/tech/teens-video-games.jpg';
-import frosticImg2 from '../../img/content/tech/man-and-tech.jpg';
+import * as Images from '../../img';
 import { User, Post, Project, Comment, Like, Col, WithObjectId } from '../../logic/types';
 import * as Hooks from '../../hooks';
 import * as AppState from '../../app-state';
@@ -84,8 +79,8 @@ export const Posts = ({
     const ui = Hooks.useSubject(AppState.ui$);
 
     // Temp:
-    const img1 = ui.theme === 'vintage' ? vintageImg1 : ui.theme === 'frostic' ? frosticImg1 : defaultImg1;
-    const img2 = ui.theme === 'vintage' ? vintageImg2 : ui.theme === 'frostic' ? frosticImg2 : defaultImg2;
+    const img1 = ui.theme === 'vintage' ? `${Images.cmdUrl}/vintage/bus.jpg` : ui.theme === 'frostic' ? `${Images.cmdUrl}/tech/teens-video-games.jpg` : `${Images.cmdUrl}/tech/robot.jpg`;
+    const img2 = ui.theme === 'vintage' ? `${Images.cmdUrl}/vintage/car.jpg` : ui.theme === 'frostic' ? `${Images.cmdUrl}/tech/man-and-tech.jpg` : `${Images.cmdUrl}/tech/woman-hologram.jpg`;
 
     return (
         <Grid container justifyContent="space-around" spacing={1}>

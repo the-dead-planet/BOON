@@ -1,10 +1,10 @@
 import { List } from '@mui/material';
 import { Comment } from './Comment';
-import { User, Comment as CommentType } from '../logic/types';
+import * as Types from '../logic/types';
 
 interface Props {
-    comments: Array<CommentType>;
-    users: Map<string, User>;
+    comments: Array<Types.Comment>;
+    users: Map<string, Types.User>;
     onCommentToBeDeletedIdChange: (id: string) => void;
 }
 

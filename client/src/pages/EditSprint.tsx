@@ -6,8 +6,11 @@ import AppLayout from '../layouts/AppLayout';
 import { Loading } from '../components/Loading';
 import { SprintSubmit, Sprint } from '../logic/types';
 import { useServices } from '../services';
+import * as Routes from '../routes';
 import * as Utils from '../utils';
 import * as AppState from '../app-state';
+
+let submitAbortController = new AbortController();
 
 export const EditSprint: React.FC = () => {
     const params = useParams<{ id: string; }>();
@@ -19,10 +22,11 @@ export const EditSprint: React.FC = () => {
         if (sprint?._id === params.id) {
             return;
         }
+        const abortController = new AbortController();
 
-        sprintsService.getOne({ objectId: params.id ?? '' })
+        sprintsService.getOne({ objectId: params.id ?? '' }, abortController.signal)
             .then((s) => {
-                if (s) { 
+                if (s) {
                     setSprint(s);
                 } else {
                     AppState.notificationHandler.addNotification(`Could not get the sprint with ID ${params.id ?? ''}`)
@@ -30,8 +34,29 @@ export const EditSprint: React.FC = () => {
             })
             .catch((err) => {
                 AppState.notificationHandler.addNotification(err.message ?? `Error getting sprint ${params.id ?? ''}`)
-            })
+            });
+
+        return () => {
+            abortController.abort();
+        };
     }, [params.id]);
+
+    const handleSubmit = React.useCallback(
+        (data: { [key in string]: unknown; }) => {
+            submitAbortController.abort();
+            submitAbortController = new AbortController();
+            
+            sprintsService
+                .update({ ...(data as unknown as SprintSubmit), objectId: params.id ?? '' }, submitAbortController.signal)
+                .then(() => {
+                    navigate(Routes.Types.RouterPaths.Sprints);
+                })
+                .catch((err) => {
+                    AppState.notificationHandler.addNotification(err.message ?? `Error editing sprint ${params.id ?? ''}`)
+                });
+        },
+        [sprintsService, params.id]
+    );
 
     return (
         <AppLayout>
@@ -49,16 +74,7 @@ export const EditSprint: React.FC = () => {
                         dateTo: Utils.DateTime.toFormat(sprint.dateTo, Format.FORMIK_DATE_FORMAT),
                         body: sprint.body,
                     }}
-                    onSubmit={(data) => {
-                        sprintsService
-                            .update({ ...(data as unknown as SprintSubmit), objectId: params.id ?? '' })
-                            .then(() => {
-                                navigate('/sprints');
-                            })
-                            .catch((err) => {
-                                AppState.notificationHandler.addNotification(err.message ?? `Error editing sprint ${params.id ?? ''}`)
-                            });
-                    }}
+                    onSubmit={handleSubmit}
                 />
             )}
         </AppLayout>

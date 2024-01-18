@@ -1,8 +1,8 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
-import { Formik, Form, FormikValues, FormikHelpers } from 'formik';
 import { Grid, Paper, Typography, Hidden, Alert, Theme } from '@mui/material';
-import image from '../../img/content/vintage/watch.jpg';
+import { Formik, Form, FormikValues, FormikHelpers } from 'formik';
+import * as Images from '../../img';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -46,7 +46,7 @@ export const AppFormLayout = ({ children, title }: GridFormProps) => {
             <Grid container direction="row">
                 <Hidden smDown>
                     <Grid item xs={6}>
-                        <img className={classes.img} src={image} />
+                        <img className={classes.img} src={`${Images.cmdUrl}/vintage/watch.jpg`} />
                     </Grid>
                 </Hidden>
 

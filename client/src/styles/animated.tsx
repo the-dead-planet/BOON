@@ -12,9 +12,7 @@
 */
 import { Theme } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
-
-import header from '../img/landing/header-1.jpg';
-import header2 from '../img/landing/header-2.jpg';
+import * as Images from '../img';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -63,7 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
             transformStyle: 'preserve-3d',
             '&::before': {
                 background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .8)), 
-                        url(${header}) no-repeat bottom`,
+                        url(${Images.cmdUrl}/landing/header-1.jpg) no-repeat bottom`,
                 backgroundSize: 'cover',
                 content: "''",
                 position: 'absolute',
@@ -167,7 +165,7 @@ const useStyles = makeStyles((theme: Theme) =>
             transformStyle: 'preserve-3d',
             '&::before': {
                 background: `linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .8)), 
-                        url(${header2}) no-repeat top`,
+                        url(${Images.cmdUrl}/landing/header-1.jpg) no-repeat top`,
                 backgroundSize: 'cover',
                 content: "''",
                 position: 'absolute',

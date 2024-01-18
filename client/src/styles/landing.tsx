@@ -12,13 +12,9 @@
 */
 import { makeStyles, createStyles } from '@mui/styles';
 import { Theme } from '@mui/material';
+import * as Images from '../img';
 
 // Below components need to be imported to correctly overwrite styles with classes in useStyle
-import landing1 from '../img/landing/landing-1.png';
-import landing2 from '../img/landing/landing-2.png';
-import landing3 from '../img/landing/landing-3.png';
-import landing4 from '../img/landing/landing-4.png';
-import landing5 from '../img/landing/landing-5.png';
 
 const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
@@ -148,22 +144,22 @@ const useStyles = makeStyles((_theme: Theme) =>
                 animation: '$imageAnimation 30s linear infinite' /* linear - the same speed from beg to end*/,
             },
             '& li:nth-child(1)': {
-                backgroundImage: `url(${landing1})`,
+                backgroundImage: `url(${Images.cmdUrl}/landing/landing-1.jpg)`,
             },
             '& li:nth-child(2)': {
-                backgroundImage: `url(${landing2})`,
+                backgroundImage: `url(${Images.cmdUrl}/landing/landing-2.jpg)`,
                 animationDelay: '6s',
             },
             '& li:nth-child(3)': {
-                backgroundImage: `url(${landing3})`,
+                backgroundImage: `url(${Images.cmdUrl}/landing/landing-3.jpg)`,
                 animationDelay: '12s',
             },
             '& li:nth-child(4)': {
-                backgroundImage: `url(${landing4})`,
+                backgroundImage: `url(${Images.cmdUrl}/landing/landing-4.jpg})`,
                 animationDelay: '18s',
             },
             '& li:nth-child(5)': {
-                backgroundImage: `url(${landing5})`,
+                backgroundImage: `url(${Images.cmdUrl}/landing/landing-5.jpg)`,
                 animationDelay: '24s',
             },
         },

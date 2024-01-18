@@ -25,18 +25,8 @@ export const Post: React.FC = () => {
         setQuote(getRandomQuote());
     }, [setQuote]);
 
-    const fetchedData = useFetchData();
+    useFetchData();
 
-    useEffect(() => {
-        if (!fetchedData) {
-            return;
-        }
-        const [sprints, projects, users] = fetchedData;
-        AppState.setStateData(sprints, projects, users);
-    }, [fetchedData]);
-    /* 
-        GET CURRENT POST ID DATA FROM APP STATE
-    */
     const post = posts.get(id ?? '');
 
     // Store the minimal amount information necessary in the state.

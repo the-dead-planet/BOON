@@ -1,0 +1,17 @@
+export enum RouterPaths {
+    Root = '/',
+    Home ='/home',
+    Account = '/account',
+    Browse = '/browse',
+    Sprints = '/sprints',
+    Posts = '/posts',
+    Comments = '/comments',
+    Projects= '/projects',
+    Teams=  '/teams',
+    Login = '/login',
+    Logout= '/logout',
+    Register= '/register',
+    AddPost = '/add-post',
+    Add = '/add',
+    Edit = '/edit',
+}

@@ -82,13 +82,14 @@ const addCommentImpl = <Commented extends { comments: Array<string> }>(
     return [commentData, commentedObjectData];
 };
 
-// Set populated objects, such as: posts, comments, likes
-// Depopulate objects and store them as originally stored in mongo (with references to id's only)
+/**
+ * Set populated objects, such as: posts, comments, likes. Depopulate objects and store them as originally stored in mongo (with references to id's only).
+ */
 export const setStateData = (
     sprints: Array<Types.Sprint>,
     projects: Array<Types.Project>,
     users: Array<Types.User>
-) => {
+): void => {
     const stateSprints = depopulate(sprints, 'sprints');
     const stateProjects = depopulate(projects, 'projects');
     const stateUsers = depopulate(users, 'users');
@@ -98,8 +99,8 @@ export const setStateData = (
     const mergedSprintsData = mergeStateData(stateData$.value, stateSprints);
     const mergedProjectsData = mergeStateData(mergedSprintsData, stateProjects);
     const mergedData = mergeStateData(mergedProjectsData, stateUsers);
-
-    return { data: mergedData };
+    
+    stateData$.next(mergedData);
 };
 
 const map = new Map();

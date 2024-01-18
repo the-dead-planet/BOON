@@ -4,12 +4,7 @@ import { Grid, Theme } from '@mui/material';
 import Card from '../Card';
 import { Format } from '../../constants/dateFormats';
 import { User, Sprint, Comment, Like } from '../../logic/types';
-import vintageImg from '../../img/content/vintage/typewriter2.jpg';
-import frosticImg from '../../img/content/tech/gameboy.jpg';
-import defaultImg from '../../img/content/tech/alien.jpg';
-import vintageImgMin from '../../img/content/vintage/typewriter2-min.jpg';
-import frosticImgMin from '../../img/content/tech/gameboy-min.jpg';
-import defaultImgMin from '../../img/content/tech/alien-min.jpg';
+import * as Images from '../../img';
 import * as Utils from '../../utils';
 import * as Hooks from '../../hooks';
 import * as AppState from '../../app-state';
@@ -53,8 +48,8 @@ export const SprintOverview = ({
     // const isAuthor = users.get(String(sprint?.author) || '')?.publicName === user?.publicName;
 
     // TEMP
-    const img = ui.theme === 'vintage' ? vintageImg : ui.theme === 'frostic' ? frosticImg : defaultImg;
-    const imgMin = ui.theme === 'vintage' ? vintageImgMin : ui.theme === 'frostic' ? frosticImgMin : defaultImgMin;
+    const img = ui.theme === 'vintage' ? `${Images.cmdUrl}/vintage/typewriter2.jpg` : ui.theme === 'frostic' ? `${Images.cmdUrl}/tech/gameboy.jpg` : `${Images.cmdUrl}/tech/alien.jpg`;
+    const imgMin = ui.theme === 'vintage' ? `${Images.cmdUrl}/vintage/typewriter2-min.jpg` : ui.theme === 'frostic' ? `${Images.cmdUrl}/tech/gameboy-min.jpg` : `${Images.cmdUrl}/tech/alien-min.jpg`;
 
     const content = sprint && (
         <Card

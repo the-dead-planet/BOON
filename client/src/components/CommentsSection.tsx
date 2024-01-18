@@ -6,7 +6,9 @@ import { AddComment } from './forms/AddComment';
 // import CollapsePanel from './transitions/CollapsePanel';
 import DialogMenu from './navigation/DialogMenu';
 import { useServices } from '../services';
-import { User, Comment, Model, WithObjectId } from '../logic/types';
+import * as Types from '../logic/types';
+
+let abortController = new AbortController();
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -22,11 +24,11 @@ const useStyles = makeStyles((theme: Theme) =>
 interface Props {
     title: string;
     parentId: string;
-    parentModel: Model;
-    comments: Array<Comment>;
-    users: Map<string, User>;
-    addComment: (id: string, comment: Comment) => void;
-    removeComment: (comment: WithObjectId) => void;
+    parentModel: Types.Model;
+    comments: Array<Types.Comment>;
+    users: Map<string, Types.User>;
+    addComment: (id: string, comment: Types.Comment) => void;
+    removeComment: (comment: Types.WithObjectId) => void;
     onError?: (err: Error) => void;
 }
 
@@ -86,8 +88,11 @@ const CommentsImpl: React.FC<Props> = ({
                     text: 'Yes, delete it',
                     // Remove from DB, then from app state, then close the dialog window and clear the id to be deleted
                     onClick: () => {
+                        abortController.abort();
+                        abortController = new AbortController();
+
                         commentsService
-                            .delete({ objectId: commentToBeDeletedId })
+                            .delete({ objectId: commentToBeDeletedId }, abortController.signal)
                             .then((response) => {
                                 removeComment(response);
                                 handleDialogClose();

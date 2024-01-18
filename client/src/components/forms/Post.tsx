@@ -34,11 +34,17 @@ const PostForm: React.FC<Props> = ({ title, initialValues, onSubmit }) => {
         if (projects) {
             return;
         }
-        projectsService.getAll()
+        const abortController = new AbortController();
+
+        projectsService.getAll(abortController.signal)
             .then(setProjects)
             .catch((err) => {
                 AppState.notificationHandler.addNotification(err.message ?? 'Could not get projects');
             });
+
+        return () => {
+            abortController.abort();
+        }
     }, []);
 
     return (

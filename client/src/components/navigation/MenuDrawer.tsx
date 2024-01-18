@@ -1,3 +1,4 @@
+import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
 import { TOOLBAR_HEIGHT, DRAWER_WIDTH } from '../../styles/constants';
 import { Link } from '../../utils/Link';
@@ -5,12 +6,11 @@ import { Drawer, List, ListItem, ListItemText, Typography, Grid, Theme } from '@
 import { IconButton } from '../mui-styled/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 // import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import * as Routes from '../../routes';
 import * as Types from '../../logic/types';
 import * as Hooks from '../../hooks';
 import * as AppState from '../../app-state';
-import { PATHS } from '../../constants/data';
-import React from 'react';
-const { home, sprints, projects, teams } = PATHS;
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -51,19 +51,19 @@ const MenuDrawer: React.FC<Props> = ({ variant = 'temporary', open, toggleDrawer
     const items = [
         {
             name: 'Home',
-            path: home,
+            path: Routes.Types.RouterPaths.Home,
         },
         {
             name: 'Sprints',
-            path: sprints,
+            path: Routes.Types.RouterPaths.Sprints,
         },
         {
             name: 'Projects',
-            path: projects,
+            path: Routes.Types.RouterPaths.Projects,
         },
         {
             name: 'Teams',
-            path: teams,
+            path: Routes.Types.RouterPaths.Teams,
         },
     ];
 

@@ -1,12 +1,12 @@
 import React from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Theme } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
 import Layout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import { useServices } from '../services';
+import * as Routes from '../routes';
 import * as AppState from '../app-state';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { PATHS } from '../constants/data';
 
 const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
@@ -41,7 +41,7 @@ export const Register: React.FC = () => {
                             .register(username as string, password as string, email as string, team as string)
                             .then(({ user }) => {
                                 AppState.user$.next(user)
-                                navigate(searchParams.get('next') ?? PATHS.home, {});
+                                navigate(searchParams.get('next') ?? Routes.Types.RouterPaths.Home, {});
                             })
                             .catch((err: Error) => {
                                 AppState.notificationHandler.addNotification(err.message ?? 'Could not register user.');

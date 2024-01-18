@@ -32,11 +32,11 @@ export const sendRawPostRequest = <Resp>(url: string, data: { [key in string]: u
  * implementation.
  */
 export interface CrudService<Obj, ObjData> {
-    getAll(): Promise<Array<Obj>>;
-    getOne(data: WithObjectId): Promise<Obj | null>;
-    add(data: ObjData): Promise<Obj>;
-    update(data: ObjData & WithObjectId): Promise<void>;
-    delete(data: WithObjectId): Promise<WithObjectId>;
+    getAll(signal: AbortSignal): Promise<Array<Obj>>;
+    getOne(data: WithObjectId, signal: AbortSignal): Promise<Obj | null>;
+    add(data: ObjData, signal: AbortSignal): Promise<Obj>;
+    update(data: ObjData & WithObjectId, signal: AbortSignal): Promise<void>;
+    delete(data: WithObjectId, signal: AbortSignal): Promise<WithObjectId>;
 }
 
 /**
@@ -45,19 +45,21 @@ export interface CrudService<Obj, ObjData> {
 export const crudService = <Obj, ObjData>(apiPath: string): CrudService<Obj, ObjData> => {
     const apiPathWithId = (id: string): string => `${apiPath}/${id}`;
 
-    const getAll = (): Promise<Array<Obj>> => axios.get(apiPath).then((resp) => resp.data || []);
+    const getAll = (signal: AbortSignal): Promise<Array<Obj>> => 
+        axios.get(apiPath, { signal }).then((resp) => resp.data || []);
 
-    const getOne = (data: WithObjectId): Promise<Obj | null> =>
-        axios.get(apiPathWithId(data.objectId)).then((resp) => resp.data || null);
+    const getOne = (data: WithObjectId, signal: AbortSignal): Promise<Obj | null> =>
+        axios.get(apiPathWithId(data.objectId), { signal }).then((resp) => resp.data || null);
 
-    const add = (data: ObjData): Promise<Obj> => axios.post(apiPath, data).then((resp) => resp.data);
+    const add = (data: ObjData, signal: AbortSignal): Promise<Obj> => 
+        axios.post(apiPath, data, { signal }).then((resp) => resp.data);
 
-    const update = (data: ObjData & WithObjectId): Promise<void> =>
-        axios.put(apiPathWithId(data.objectId), data).then((resp) => resp.data);
+    const update = (data: ObjData & WithObjectId, signal: AbortSignal): Promise<void> =>
+        axios.put(apiPathWithId(data.objectId), data, { signal }).then((resp) => resp.data);
 
     // delete is a reserved keyword, hence the `_`
-    const delete_ = (data: WithObjectId): Promise<WithObjectId> =>
-        axios.delete(apiPathWithId(data.objectId)).then((resp) => resp.data);
+    const delete_ = (data: WithObjectId, signal: AbortSignal): Promise<WithObjectId> =>
+        axios.delete(apiPathWithId(data.objectId), { signal }).then((resp) => resp.data);
 
     return { getAll, getOne, add, update, delete: delete_ };
 };

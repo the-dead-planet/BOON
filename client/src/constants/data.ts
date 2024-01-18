@@ -1,4 +1,5 @@
-import { ThemeType, Mode } from '../logic/types';
+import * as Routes from '../routes';
+import * as Types from '../logic/types';
 
 const APP_NAME = 'BOON';
 
@@ -27,39 +28,21 @@ const LANDING_CONTENTS = [
         title: 'BRAG',
         text: 'about all the cool stuff you developed last sprint.',
         link: 'Sprint news',
-        path: '/sprints',
+        path: Routes.Types.RouterPaths.Sprints,
     },
     {
         title: 'HELP',
         text: 'your fans to get transparency of your developments.',
         link: 'Projects overview',
-        path: '/projects',
+        path: Routes.Types.RouterPaths.Projects,
     },
     {
         title: 'GOSS',
         text: "about the superstars behind your team's success.",
         link: 'Meet the teams',
-        path: '/teams',
+        path: Routes.Types.RouterPaths.Teams,
     },
 ];
-
-const PATHS = {
-    root: '/',
-    home: '/home',
-    account: '/account',
-    browse: '/browse',
-    sprints: '/sprints',
-    posts: '/posts',
-    projects: '/projects',
-    teams: '/teams',
-    login: '/login',
-    logout: '/logout',
-    register: '/register',
-    main: '/sprints',
-    addPost: '/add-post',
-    add: '/add',
-    edit: '/edit',
-};
 
 const QUOTES = [
     'But first coffee!',
@@ -78,12 +61,12 @@ const QUOTES = [
 ];
 
 const NAV_LINKS = [
-    { name: 'Sprints', path: PATHS.sprints },
-    { name: 'Projects', path: PATHS.projects },
-    { name: 'Teams', path: PATHS.teams },
+    { name: 'Sprints', path: Routes.Types.RouterPaths.Sprints },
+    { name: 'Projects', path: Routes.Types.RouterPaths.Projects },
+    { name: 'Teams', path: Routes.Types.RouterPaths.Teams },
 ];
 
-const THEME_TYPES: Array<ThemeType> = ['default', 'vintage', 'frostic'];
-const MODES: Array<Mode> = ['light', 'dark'];
+const THEME_TYPES: Array<Types.ThemeType> = ['default', 'vintage', 'frostic'];
+const MODES: Array<Types.Mode> = ['light', 'dark'];
 
-export { APP_NAME, DICTIONARY, LANDING_CONTENTS, PATHS, NAV_LINKS, QUOTES, THEME_TYPES, MODES };
+export { APP_NAME, DICTIONARY, LANDING_CONTENTS, NAV_LINKS, QUOTES, THEME_TYPES, MODES };

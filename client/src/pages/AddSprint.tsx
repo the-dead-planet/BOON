@@ -6,6 +6,7 @@ import AppLayout from '../layouts/AppLayout';
 import { useServices } from '../services';
 import * as Types from '../logic/types';
 import * as Utils from '../utils';
+import * as Routes from '../routes';
 import * as AppState from '../app-state';
 
 export const AddSprint: React.FC = () => {
@@ -28,7 +29,7 @@ export const AddSprint: React.FC = () => {
                     sprintsService
                         .add(data as unknown as Types.SprintSubmit)
                         .then(() => {
-                            navigate('/sprints');
+                            navigate(Routes.Types.RouterPaths.Sprints);
                         })
                         .catch((err) => {
                             AppState.notificationHandler.addNotification(err.message ?? '')

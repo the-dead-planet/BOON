@@ -1,21 +1,23 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
-import * as Pages from './pages';
-import services from './services/realImpl';
-import { PATHS } from './constants/data';
 import { ServicesContext } from './services/context';
+import services from './services/realImpl';
+import * as Routes from './routes';
+import * as Pages from './pages';
 import './App.css';
 
 const AppImpl: React.FC = () => {
     const router = createBrowserRouter([
         {
-            path: PATHS.login,
+            path: Routes.Types.RouterPaths.Login,
             element: (
-                <Pages.Login />
+                <Pages.Authentication.GuestPage>
+                    <Pages.Login />
+                </Pages.Authentication.GuestPage>
             ),
         },
         {
-            path: PATHS.register,
+            path: Routes.Types.RouterPaths.Register,
             element: (
                 <Pages.Authentication.GuestPage>
                     <Pages.Register />
@@ -23,11 +25,11 @@ const AppImpl: React.FC = () => {
             ),
         },
         {
-            path: PATHS.logout,
+            path: Routes.Types.RouterPaths.Logout,
             element: <Pages.Logout />,
         },
         {
-            path: `${PATHS.posts}${PATHS.add}`,
+            path: `${Routes.Types.RouterPaths.Posts}${Routes.Types.RouterPaths.Add}`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
                     <Pages.AddPost />
@@ -35,7 +37,7 @@ const AppImpl: React.FC = () => {
             ),
         },
         {
-            path: `${PATHS.posts}/:id`,
+            path: `${Routes.Types.RouterPaths.Posts}/:id`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
                     <Pages.Post />
@@ -43,7 +45,7 @@ const AppImpl: React.FC = () => {
             ),
         },
         {
-            path: PATHS.posts,
+            path: Routes.Types.RouterPaths.Posts,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
                     <Pages.Post />
@@ -51,7 +53,7 @@ const AppImpl: React.FC = () => {
             ),
         },
         {
-            path: `${PATHS.sprints}${PATHS.add}`,
+            path: `${Routes.Types.RouterPaths.Sprints}${Routes.Types.RouterPaths.Add}`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
                     <Pages.AddSprint />
@@ -59,7 +61,7 @@ const AppImpl: React.FC = () => {
             ),
         },
         {
-            path: `${PATHS.sprints}/:id${PATHS.edit}`,
+            path: `${Routes.Types.RouterPaths.Sprints}/:id${Routes.Types.RouterPaths.Edit}`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
                     <Pages.EditSprint />
@@ -67,7 +69,7 @@ const AppImpl: React.FC = () => {
             ),
         },
         {
-            path: `${PATHS.sprints}/:id`,
+            path: `${Routes.Types.RouterPaths.Sprints}/:id`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
                     <Pages.Sprint />
@@ -75,7 +77,7 @@ const AppImpl: React.FC = () => {
             ),
         },
         {
-            path: PATHS.sprints,
+            path: Routes.Types.RouterPaths.Sprints,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
                     <Pages.Sprints />
@@ -83,7 +85,7 @@ const AppImpl: React.FC = () => {
             ),
         },
         {
-            path: `${PATHS.projects}${PATHS.add}`,
+            path: `${Routes.Types.RouterPaths.Projects}${Routes.Types.RouterPaths.Add}`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
                     <Pages.AddProject />
@@ -91,7 +93,7 @@ const AppImpl: React.FC = () => {
             ),
         },
         {
-            path: `${PATHS.projects}${PATHS.edit}`,
+            path: `${Routes.Types.RouterPaths.Projects}${Routes.Types.RouterPaths.Edit}`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
                     <Pages.EditProject />
@@ -99,7 +101,7 @@ const AppImpl: React.FC = () => {
             ),
         },
         {
-            path: `${PATHS.projects}/:id`,
+            path: `${Routes.Types.RouterPaths.Projects}/:id`,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
                     <Pages.Project />
@@ -107,7 +109,7 @@ const AppImpl: React.FC = () => {
             ),
         },
         {
-            path: PATHS.projects,
+            path: Routes.Types.RouterPaths.Projects,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
                     <Pages.Projects />
@@ -115,7 +117,7 @@ const AppImpl: React.FC = () => {
             ),
         },
         {
-            path: PATHS.teams,
+            path: Routes.Types.RouterPaths.Teams,
             element: (
                 <Pages.Authentication.AuthenticatedPage>
                     <Pages.Team  />
@@ -123,7 +125,7 @@ const AppImpl: React.FC = () => {
             ),
         },
         {
-            path: PATHS.home,
+            path: Routes.Types.RouterPaths.Home,
             element: (
                 <Pages.Authentication.GuestPage>
                     <Pages.Home />
@@ -131,8 +133,8 @@ const AppImpl: React.FC = () => {
             ),
         },
         {
-            path: PATHS.root,
-            element: <Navigate to={PATHS.home} />,
+            path: Routes.Types.RouterPaths.Root,
+            element: <Navigate to={Routes.Types.RouterPaths.Home} />,
             // TODO:
             errorElement: <div>Error</div>
         }
