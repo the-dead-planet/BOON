@@ -100,7 +100,7 @@ export const setStateData = (
     const mergedProjectsData = mergeStateData(mergedSprintsData, stateProjects);
     const mergedData = mergeStateData(mergedProjectsData, stateUsers);
     
-    stateData$.next(mergedData as Types.StateData);
+    stateData$.next(mergedData);
 };
 
 const map = new Map();

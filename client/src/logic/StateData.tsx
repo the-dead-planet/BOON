@@ -22,7 +22,7 @@ export const getInitialData: StateDataFunc = () => ({
 
 // Merge two state data objects.
 // `right` takes precedence.
-export const mergeStateData = (left: Data, right: Data) => {
+export function mergeStateData<T extends Data = Data>(left: T, right: T): T {
     // Make sure both objects contain the same set of keys.
     const sortedKeys = (obj: Data) => Object.keys(obj).sort();
 
@@ -38,8 +38,8 @@ export const mergeStateData = (left: Data, right: Data) => {
             const mergedValue = concatMaps([left[key], right[key]]);
             return [key, mergedValue];
         })
-    );
-};
+    ) as T;
+}
 
 // Direct paths which are populated in data returned by rest call
 // state is the name of the app state property where object data is stored
