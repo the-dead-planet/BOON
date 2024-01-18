@@ -1,15 +1,14 @@
 import { List } from '@mui/material';
 import { Comment } from './Comment';
-import { User, Comment as CommentType } from '../logic/types';
+import * as Types from '../logic/types';
 
 interface Props {
-    user: User;
-    comments: Array<CommentType>;
-    users: Map<string, User>;
+    comments: Array<Types.Comment>;
+    users: Map<string, Types.User>;
     onCommentToBeDeletedIdChange: (id: string) => void;
 }
 
-export const CommentsList = ({ user, comments, users, onCommentToBeDeletedIdChange }: Props) => {
+export const CommentsList = ({ comments, users, onCommentToBeDeletedIdChange }: Props) => {
     return (
         <List>
             {/* <Divider variant="middle" /> */}
@@ -18,7 +17,6 @@ export const CommentsList = ({ user, comments, users, onCommentToBeDeletedIdChan
                 .map((comment, i) => (
                     <Comment
                         key={i}
-                        user={user}
                         comment={comment}
                         author={users.get(comment.author)}
                         onCommentToBeDeletedIdChange={onCommentToBeDeletedIdChange}

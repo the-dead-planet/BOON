@@ -1,18 +1,22 @@
 import { createRoot } from 'react-dom/client';
+import services from './services/realImpl';
+import * as serviceWorker from './serviceWorker';
+import * as State from './app-state';
 import App from "./App";
 import "./index.css";
 
 const container = document.getElementById('app');
 const root = createRoot(container!);
 
+root.render(<div>Checking who you really are...</div>);
 
-// root.render(<App />);
-// TODO: Authenticate here instead of app and once done pass user as props:
-// root.render(<App user={user} />);
-root.render(<App />);
+try {
+    const { user } = await services.authService.whoami();
+    State.user$.next(user);
+    root.render(<App />);
+} catch (err) {
+    State.notificationHandler.addNotification((err as Error)?.message ?? 'Could not check who you really are.');
+    root.render(<div>Goodbye</div>);
+}
 
-
-// // If you want your app to work offline and load faster, you can change
-// // unregister() to register() below. Note this comes with some pitfalls.
-// // Learn more about service workers: https://bit.ly/CRA-PWA
-// serviceWorker.unregister();
+serviceWorker.unregister();

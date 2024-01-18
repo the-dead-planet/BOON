@@ -3,7 +3,8 @@ import { makeStyles, createStyles } from '@mui/styles';
 import { Posts } from './Posts';
 import { SprintOverview } from './SprintOverview';
 // import usersService from '../../../services/usersService';
-import { User, Sprint, Post, Project, Comment, ThemeType, RemoveObjectData, Like } from '../../logic/types';
+import { User, Sprint, Post, Project, Comment, Like } from '../../logic/types';
+import * as AppState from '../../app-state';
 
 // Detailed view of a sprint object.
 // To be used to display all available information about a given instance, i.e.
@@ -18,34 +19,26 @@ const useStyles = makeStyles(() =>
 );
 
 interface Props {
-    user: User | null | undefined;
-    themeType: ThemeType;
     sprint: Sprint | undefined;
     projects: Map<string, Project>;
     posts: Map<string, Post>;
     comments: Map<string, Comment>;
     likes: Map<string, Like>;
     users: Map<string, User>;
-    addPostComment: (id: string, comment: Comment) => void;
     toggleSprintComments: (toggle: boolean) => void;
     togglePostComments: (postId: string | null) => void;
-    removeObject:  (obj: RemoveObjectData) => void;
 }
 
-export const SingleSprint = ({
-    user,
-    themeType,
+export const SingleSprint: React.FC<Props> = ({
     sprint,
     posts,
     comments,
     projects,
     likes,
     users,
-    addPostComment,
-    removeObject,
     togglePostComments,
     toggleSprintComments,
-}: Props) => {
+}) => {
     const classes = useStyles();
 
     const getProject = (id: string) =>
@@ -54,19 +47,14 @@ export const SingleSprint = ({
     return sprint ? (
         <div className={classes.container}>
             <SprintOverview
-                user={user}
-                themeType={themeType}
                 sprint={sprint}
                 comments={sprint.comments.map((id: string) => comments.get(id))}
                 likes={sprint.likes.map((id: string) => likes.get(id))}
                 users={users}
-                removeSprint={(id: string) => removeObject({ child: 'sprints', childId: id })}
                 toggleCommentsPanel={toggleSprintComments}
             />
             {/* <Divider className={classes.divider} /> */}
             <Posts
-                user={user}
-                themeType={themeType}
                 projects={projects}
                 posts={sprint.posts.map((id) => posts.get(id)!)}
                 comments={comments}
@@ -78,12 +66,12 @@ export const SingleSprint = ({
                     body: "I am not a fan of books. I would never want a book's autograph.",
                     author: 'Kanye West',
                 }}
-                addComment={addPostComment}
+                addComment={(id, comment) => AppState.addCommentToPost(id, comment)}
                 removePost={(obj) =>
-                    removeObject({ child: 'posts', childId: obj.objectId, parent: 'sprints', parentId: sprint._id })
+                    AppState.removeObject({ child: 'posts', childId: obj.objectId, parent: 'sprints', parentId: sprint._id })
                 }
                 removeComment={(id: string, postId: string) =>
-                    removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })
+                    AppState.removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })
                 }
                 toggleCommentsPanel={togglePostComments}
                 xs={12}

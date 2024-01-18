@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
+import { FormikHelpers, FormikValues } from 'formik';
 import { makeStyles, createStyles } from '@mui/styles';
 import { TextField, Select, Button, Theme } from '@mui/material';
 import { AppFormLayout, AppForm } from './App';
 import { GridField, GridFieldSelect } from './GridFields';
-import { Project, Mode, PostSubmit } from '../../logic/types';
+import { Project, PostSubmit } from '../../logic/types';
 import { useServices } from '../../services';
-import { FormikHelpers, FormikValues } from 'formik';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 
 const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
@@ -17,34 +19,44 @@ const useStyles = makeStyles((_theme: Theme) =>
 );
 
 interface Props {
-    mode: Mode;
     title: string;
     initialValues: PostSubmit;
     onSubmit: (values: { [field: string]: unknown; }, formikHelpers: FormikHelpers<FormikValues>) => void | Promise<unknown>;
 }
 
-const PostForm = ({ mode, title, initialValues, onSubmit }: Props) => {
+const PostForm: React.FC<Props> = ({ title, initialValues, onSubmit }) => {
     const classes = useStyles();
-    const [projects, setProjects] = useState<Array<Project>>([]);
+    const ui = Hooks.useSubject(AppState.ui$);
+    const [projects, setProjects] = React.useState<Array<Project>>([]);
     const { projectsService } = useServices()!;
 
-    useEffect(() => {
-        if (!projects) {
-            projectsService.getAll().then(setProjects);
+    React.useEffect(() => {
+        if (projects) {
+            return;
         }
-    });
+        const abortController = new AbortController();
+
+        projectsService.getAll(abortController.signal)
+            .then(setProjects)
+            .catch((err) => {
+                AppState.notificationHandler.addNotification(err.message ?? 'Could not get projects');
+            });
+
+        return () => {
+            abortController.abort();
+        }
+    }, []);
 
     return (
         <AppFormLayout title={title ? title : 'Add project'}>
             <AppForm
-                mode={mode}
                 initialValues={initialValues as unknown as { [field: string]: unknown; }}
                 onSubmit={onSubmit}
                 // validationSchema={validationSchema}
                 submitSection={
                     <Button
-                        variant={mode === 'dark' ? 'outlined' : 'contained'}
-                        color={mode === 'dark' ? undefined : 'primary'}
+                        variant={ui.mode === 'dark' ? 'outlined' : 'contained'}
+                        color={ui.mode === 'dark' ? undefined : 'primary'}
                         type="submit"
                         className={classes.submitButton}
                     >

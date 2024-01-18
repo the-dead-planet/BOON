@@ -1,46 +1,44 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProjectForm from '../components/forms/Project';
 import AppLayout from '../layouts/AppLayout';
-import * as Types from '../logic/types';
 import { useServices } from '../services';
+import * as Routes from '../routes';
+import * as Types from '../logic/types';
+import * as AppState from '../app-state';
 
-interface Props {
-    user: Types.User;
-    themeType: Types.ThemeType;
-    onThemeTypeChange: (themeType: Types.ThemeType) => void;
-    mode: Types.Mode;
-    onModeChange: (mode: Types.Mode) => void;
-    push: (path: string) => void;
-    notificationsProps: Types.NotificationProps;
-    showError: (err: Error) => void;
-}
+let submitAbortController = new AbortController();
 
-export const AddProject = ({ user, mode, themeType, onThemeTypeChange, onModeChange, push, notificationsProps, showError }: Props) => {
+export const AddProject: React.FC = () => {
     const { projectsService } = useServices()!;
+    const navigate = useNavigate();
+
+    const handleSubmit = React.useCallback(
+        (data: { [key in string]: unknown; }) => {
+            submitAbortController.abort();
+            submitAbortController = new AbortController();
+
+            projectsService
+                .add(data as unknown as Types.ProjectSubmit, submitAbortController.signal)
+                .then(() => {
+                    navigate(Routes.Types.RouterPaths.Sprints);
+                })
+                .catch((err) => {
+                    AppState.notificationHandler.addNotification(err.message ?? 'Could not submit new project');
+                });
+        },
+        [projectsService]
+    );
 
     return (
-        <AppLayout
-            user={user}
-            themeType={themeType}
-            onThemeTypeChange={onThemeTypeChange}
-            mode={mode}
-            onModeChange={onModeChange}
-            {...notificationsProps}
-        >
+        <AppLayout>
             <ProjectForm
-                mode={mode}
                 title="Add new project"
                 initialValues={{
                     title: '',
                     body: '',
                 }}
-                onSubmit={(data) => {
-                    projectsService
-                        .add(data as unknown as Types.ProjectSubmit)
-                        .then(() => {
-                            push('/sprints');
-                        })
-                        .catch(showError);
-                }}
+                onSubmit={handleSubmit}
             />
         </AppLayout>
     );

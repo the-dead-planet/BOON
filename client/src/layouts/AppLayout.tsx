@@ -9,14 +9,11 @@ import { LayoutProps } from './LayoutContent';
   with only jumbotron or only appBar or none of them but making use of the ThemeWrapper.
   Drawer allows additional properties, like variant. Not specified (default) is temporary. Other option is: persistent.
 */
-
-// Additional wrapper added to apply selected theme to all classes in the LayoutContent
-
-const AppLayout = ({ themeType, mode, ...props }: LayoutProps) => {
+const AppLayout = ({ ...props }: LayoutProps) => {
     return (
-        <ThemeWrapper themeType={themeType} mode={mode}>
+        <ThemeWrapper>
             <CssBaseline />
-            <LayoutContent themeType={themeType} mode={mode} {...props} />
+            <LayoutContent {...props} />
         </ThemeWrapper>
     );
 };

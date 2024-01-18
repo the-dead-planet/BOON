@@ -1,9 +1,8 @@
 import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
-import { Formik, Form, FormikValues, FormikHelpers } from 'formik';
 import { Grid, Paper, Typography, Hidden, Alert, Theme } from '@mui/material';
-import image from '../../img/content/vintage/watch.jpg';
-import { Mode } from '../../logic/types';
+import { Formik, Form, FormikValues, FormikHelpers } from 'formik';
+import * as Images from '../../img';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -47,7 +46,7 @@ export const AppFormLayout = ({ children, title }: GridFormProps) => {
             <Grid container direction="row">
                 <Hidden smDown>
                     <Grid item xs={6}>
-                        <img className={classes.img} src={image} />
+                        <img className={classes.img} src={`${Images.cmdUrl}/vintage/watch.jpg`} />
                     </Grid>
                 </Hidden>
 
@@ -70,7 +69,6 @@ export const AppFormLayout = ({ children, title }: GridFormProps) => {
 // const EmailValidator = _;
 // TODO: add a mechanism from router to make sure user wants to close the window if the forms are partially filled but not submitted
 interface Props {
-    mode: Mode;
     initialValues: { [field: string]: unknown; };
     onSubmit?: (values:  { [field: string]: unknown; }, formikHelpers: FormikHelpers<FormikValues>) => void | Promise<unknown>
     validate?: (values:  { [field: string]: unknown; }) => void;

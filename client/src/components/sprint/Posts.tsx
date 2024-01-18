@@ -3,13 +3,10 @@ import { useLocation } from 'react-router-dom';
 import { makeStyles, createStyles } from '@mui/styles';
 import { Grid, CardMedia, Typography, Theme } from '@mui/material';
 import Card from '../Card';
-import vintageImg1 from '../../img/content/vintage/bus.jpg';
-import vintageImg2 from '../../img/content/vintage/car.jpg';
-import defaultImg1 from '../../img/content/tech/robot.jpg';
-import defaultImg2 from '../../img/content/tech/woman-hologram.jpg';
-import frosticImg1 from '../../img/content/tech/teens-video-games.jpg';
-import frosticImg2 from '../../img/content/tech/man-and-tech.jpg';
-import { User, Post, Project, Comment, Like, Col, ThemeType, WithObjectId } from '../../logic/types';
+import * as Images from '../../img';
+import { User, Post, Project, Comment, Like, Col, WithObjectId } from '../../logic/types';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -45,15 +42,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    user: User;
-    themeType: ThemeType;
     projects: Map<string, Project>;
     posts: Array<Post>;
     comments: Map<string, Comment>;
     likes: Map<string, Like>;
     users: Map<string, User>;
-    addComment: (id: string, comment: Comment) => void;
-    removeComment:(id: string, postId: string) => void;
     removePost: (obj: WithObjectId) => void;
     getCreated?: (a: Date) => string;
     getTag?: (a: string) => string;
@@ -68,8 +61,6 @@ interface Props {
 }
 
 export const Posts = ({
-    user,
-    themeType,
     getCreated,
     getTag,
     getTagLink,
@@ -85,10 +76,11 @@ export const Posts = ({
 }: Props) => {
     const classes = useStyles();
     const path = useLocation().pathname;
+    const ui = Hooks.useSubject(AppState.ui$);
 
     // Temp:
-    const img1 = themeType === 'vintage' ? vintageImg1 : themeType === 'frostic' ? frosticImg1 : defaultImg1;
-    const img2 = themeType === 'vintage' ? vintageImg2 : themeType === 'frostic' ? frosticImg2 : defaultImg2;
+    const img1 = ui.theme === 'vintage' ? `${Images.cmdUrl}/vintage/bus.jpg` : ui.theme === 'frostic' ? `${Images.cmdUrl}/tech/teens-video-games.jpg` : `${Images.cmdUrl}/tech/robot.jpg`;
+    const img2 = ui.theme === 'vintage' ? `${Images.cmdUrl}/vintage/car.jpg` : ui.theme === 'frostic' ? `${Images.cmdUrl}/tech/man-and-tech.jpg` : `${Images.cmdUrl}/tech/woman-hologram.jpg`;
 
     return (
         <Grid container justifyContent="space-around" spacing={1}>
@@ -97,8 +89,6 @@ export const Posts = ({
                     <Grid item className={classes.container} {...props}>
                         <Card
                             key={`${post._id}-${i}`}
-                            user={user}
-                            themeType={themeType}
                             object={post}
                             model={'Post'}
                             comments={post.comments.map((id) => comments.get(id))}

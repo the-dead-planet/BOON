@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { Container, Hidden, Box, Typography, Theme } from "@mui/material";
 import { makeStyles, createStyles } from '@mui/styles';
@@ -10,22 +10,11 @@ import { NavPanel, SideCol } from '../components/navigation/NavPanel';
 import NavBarTop from '../components/navigation/NavBarTop';
 import Footer from '../components/navigation/Footer';
 import DialogMenu from '../components/navigation/DialogMenu';
-import {
-    Drawer,
-    Mode,
-    ThemeType,
-    Jumbotron as JumbotronType,
-    User,
-    Page,
-    NavPanel as NavPanelType,
-    SideColumn,
-    DialogProps,
-    NavButton,
-    Side,
-    Notification,
-} from '../logic/types';
-import { APP_NAME } from '../constants/data';
 import NotificationsRenderer from '../components/NotificationsRenderer';
+import * as Types from '../logic/types';
+import * as Hooks from '../hooks';
+import * as AppState from '../app-state';
+import { APP_NAME } from '../constants/data';
 
 /*
   This component should serve as a wrapper for all pages. 
@@ -82,7 +71,7 @@ const useStyles = makeStyles((theme: Theme) =>
         main: {
             width: '100%',
         },
-        title: ({ side }: { side: Side | undefined }) => ({
+        title: ({ side }: { side: Types.Side | undefined }) => ({
             textAlign: side || 'left',
         }),
         // Type 'Frostic' requires additional classes which are stored here and
@@ -122,46 +111,32 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface LayoutProps {
-    user: User;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
     // Appbar and jumbotron
     appBar?: boolean;
-    jumbotron?: JumbotronType;
+    jumbotron?: Types.Jumbotron;
     quote?: string;
     // Pagination
-    pagination?: Page;
+    pagination?: Types.Page;
     nextId?: string;
     previousId?: string;
     title?: string;
     // Left navigation panel
-    createButton?: NavButton;
-    navPanel?: NavPanelType;
+    createButton?:Types. NavButton;
+    navPanel?: Types.NavPanel;
     // Side newspaper column
-    sideColumn?: SideColumn;
+    sideColumn?: Types.SideColumn;
     // Secondary drawer
-    drawer?: Drawer;
+    drawer?: Types.Drawer;
     secondaryDrawer?: React.ReactNode;
     secondaryDrawerOpen?: boolean;
     secondaryDrawerContent?: React.ReactNode;
     toggleSecondaryDrawer?: (toggle: boolean) => void;
     // Dialog Alert window
-    dialog?: DialogProps;
-    // Notifications
-    notifications: Notification[];
-    onNotificationShown: (notificationId: string) => void;
+    dialog?: Types.DialogProps;
     children?: React.ReactNode;
 }
 
-const LayoutContent = ({
-    user,
-    children,
-    themeType,
-    onThemeTypeChange,
-    mode,
-    onModeChange,
+const LayoutContent: React.FC<LayoutProps> = ({
     // Appbar and jumbotron
     appBar,
     jumbotron,
@@ -184,29 +159,23 @@ const LayoutContent = ({
     toggleSecondaryDrawer,
     // Dialog Alert window
     dialog,
-    // Notifications
-    notifications,
-    onNotificationShown,
-}: LayoutProps) => {
+    children
+}) => {
     const classes = useStyles({ side: navPanel?.side });
+    const ui = Hooks.useSubject(AppState.ui$);
 
     // Drawer functions
-    const [openMenu, setOpenMenu] = useState(false);
+    const [openMenu, setOpenMenu] = React.useState(false);
 
     const toggleDrawer = (open: boolean) => () => {
         setOpenMenu(open);
     };
 
     return (
-        <div className={classNames({ [classes.frosticContainer]: themeType === 'frostic' })}>
+        <div className={classNames({ [classes.frosticContainer]: ui.theme === 'frostic' })}>
             {appBar && (
                 <NavBarTop
-                    user={user}
                     name={APP_NAME}
-                    themeType={themeType}
-                    onThemeTypeChange={onThemeTypeChange}
-                    mode={mode}
-                    onModeChange={onModeChange}
                     drawerVariant="persistent"
                     open={false}
                     toggleDrawer={toggleDrawer}
@@ -215,14 +184,11 @@ const LayoutContent = ({
                 />
             )}
 
-            {themeType === 'frostic' && <div className={classNames({ ['frosticOffset']: themeType === 'frostic' })}></div>}
+            {ui.theme === 'frostic' && <div className={classNames({ ['frosticOffset']: ui.theme === 'frostic' })}></div>}
 
             {/* Menu drawer should include basic navigation buttons on small screens */}
             <MenuDrawer
-                user={user}
                 {...drawer}
-                mode={mode}
-                onModeChange={onModeChange}
                 open={openMenu}
                 toggleDrawer={toggleDrawer}
                 createButton={createButton}
@@ -230,7 +196,7 @@ const LayoutContent = ({
 
             {/* Secondary drawer can include additional content like comments */}
             {secondaryDrawer && toggleSecondaryDrawer ? (
-                <SecondaryDrawer user={user} open={secondaryDrawerOpen} toggleDrawer={toggleSecondaryDrawer}>
+                <SecondaryDrawer open={secondaryDrawerOpen} toggleDrawer={toggleSecondaryDrawer}>
                     {secondaryDrawerContent}
                 </SecondaryDrawer>
             ) : null}
@@ -261,8 +227,6 @@ const LayoutContent = ({
                         {navPanel && (
                             <Hidden mdDown>
                                 <NavPanel
-                                    user={user}
-                                    themeType={themeType}
                                     variant={navPanel?.variant}
                                     createButton={createButton}
                                     contents={navPanel.content}
@@ -275,16 +239,16 @@ const LayoutContent = ({
                         <Box className={classes.main}>{children}</Box>
 
                         {/* Right panel serving as navigation - contents lists */}
-                        {sideColumn && <SideCol themeType={themeType} variant={navPanel?.variant} {...sideColumn} />}
+                        {sideColumn && <SideCol variant={navPanel?.variant} {...sideColumn} />}
                     </div>
                 </main>
             </Container>
 
-            <Footer themeType={themeType} />
+            <Footer />
 
             {dialog && <DialogMenu {...dialog} />}
             {/* TODO: style it nicer and allow moving to next/previous sprint */}
-            <NotificationsRenderer notifications={notifications} onShown={onNotificationShown} />
+            <NotificationsRenderer />
         </div>
     );
 };

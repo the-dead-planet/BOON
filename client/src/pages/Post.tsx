@@ -1,46 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '../utils/useQuery';
-import { useFetchData } from '../utils/useFetchData';
+import { useQuery } from '../hooks/useQuery';
+import { useFetchData } from '../hooks/useFetchData';
 import AppLayout from '../layouts/AppLayout';
 import { CommentsSection } from '../components/CommentsSection';
 import { SinglePost } from '../components/post/SinglePost';
 import * as Types from '../logic/types';
+import * as Hooks from '../hooks';
+import * as AppState from '../app-state';
 import { getRandomQuote } from '../utils/data';
 
-interface Props {
-    user: Types.User | undefined | null;
-    themeType: Types.ThemeType;
-    onThemeTypeChange: (themeType: Types.ThemeType) => void;
-    mode: Types.Mode;
-    onModeChange: (mode: Types.Mode) => void;
-    data: Types.StateData;
-    addPostComment: (id: string, comment: Types.Comment) => void;
-    addSprintComment: (id: string, comment: Types.Comment) => void;
-    removeObject:  (obj: Types.RemoveObjectData) => void;
-    notificationsProps:Types. NotificationProps;
-    backTo: { name: string; path: string };
-    setStateData: (data: [Types.Sprint[], Types.Project[], Types.User[]]) => void;
-}
-
-export const Post: React.FC<Props> = ({
-    user,
-    mode,
-    themeType,
-    onThemeTypeChange,
-    onModeChange,
-    data,
-    addPostComment,
-    removeObject,
-    notificationsProps,
-    setStateData
-}) => {
+export const Post: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const query = useQuery();
     let linkBack = query.get('from');
     const linkBackName = linkBack ? linkBack.substring(1, linkBack.substring(1).indexOf('/') + 1) : 'home';
     linkBack = linkBack || '/';
 
+    const data = Hooks.useSubject(AppState.stateData$);
     const { sprints, posts, comments, likes, users, projects } = data;
 
     const [quote, setQuote] = useState('');
@@ -48,17 +25,8 @@ export const Post: React.FC<Props> = ({
         setQuote(getRandomQuote());
     }, [setQuote]);
 
-    const fetchedData = useFetchData();
+    useFetchData();
 
-    useEffect(() => {
-        if (!fetchedData) {
-            return;
-        }
-        setStateData(fetchedData)
-    }, [fetchedData, setStateData]);
-    /* 
-        GET CURRENT POST ID DATA FROM APP STATE
-    */
     const post = posts.get(id ?? '');
 
     // Store the minimal amount information necessary in the state.
@@ -66,18 +34,17 @@ export const Post: React.FC<Props> = ({
     // any metadata in the state.
     const [isCommentsDrawerOpen, setIsCommentsDrawerOpen] = useState(false);
 
-    const removeComment = (comment: Types.WithObjectId) =>
-        removeObject({ child: 'comments', childId: comment.objectId, parent: 'posts', parentId: post!._id });
+    const addComment = (id: string, comment: Types.Comment) => {
+        AppState.addCommentToPost(id, comment);
+    }
+    const removeComment = (comment: Types.WithObjectId) => {
+        AppState.removeObject({ child: 'comments', childId: comment.objectId, parent: 'posts', parentId: post!._id });
+    }
 
     const styleInfo = { margin: '0, 5em' };
 
     return (
         <AppLayout
-            user={user}
-            themeType={themeType}
-            onThemeTypeChange={onThemeTypeChange}
-            mode={mode}
-            onModeChange={onModeChange}
             appBar={true}
             quote={quote}
             pagination={{ path: '/posts' }}
@@ -104,20 +71,17 @@ export const Post: React.FC<Props> = ({
                 isCommentsDrawerOpen && (
                     <CommentsSection
                         // expanded={true}
-                        mode={mode}
-                        user={user}
                         title={post.title}
                         parentId={post._id}
                         parentModel={'Post'}
                         comments={post.comments.map((c) => comments.get(c)).filter(Boolean) as unknown as Types.Comment[]}
                         users={data.users}
-                        addComment={addPostComment}
+                        addComment={addComment}
                         removeComment={removeComment}
                     />
                 )
             }
             toggleSecondaryDrawer={setIsCommentsDrawerOpen}
-            {...notificationsProps}
         >
             {/* Render the layout even if no sprint can be shown. The user would see a blank screen otherwise. */}
             {!id ? (
@@ -129,15 +93,12 @@ export const Post: React.FC<Props> = ({
             ) : (
                 // NOTE: when passing multiple props directly to the child, it's often useful not to unpack them and use the `...` operator
                 <SinglePost
-                    user={user}
-                    themeType={themeType}
                     post={post}
                     sprints={sprints}
                     projects={projects}
                     comments={comments}
                     likes={likes}
                     users={users}
-                    removeObject={removeObject}
                     toggleCommentsPanel={setIsCommentsDrawerOpen}
                 />
             )}

@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
-import { Link } from '../../utils/Link';
 import { Grid, List, ListItem, ListItemText, Typography, InputBase, Hidden, Theme } from '@mui/material';
+import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import { TypographyLinkOutlined } from '../mui-styled/Typography';
+import { Link } from '../../utils/Link';
 import { Preferences } from './Preferences';
 import DialogMenu from './DialogMenu';
-import GroupWorkIcon from '@mui/icons-material/GroupWork';
 import { IconUserSecret, IconSearch } from '../Icons';
 import { ItemMenu } from '../ItemMenu';
-import { ThemeType, Mode, User } from '../../logic/types';
-import { PATHS } from '../../constants/data';
-const { login, logout, register } = PATHS;
+import * as Routes from '../../routes';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -73,18 +73,12 @@ const texts = {
     logout: 'Log out',
 };
 
-interface Props {
-    user: User | null | undefined;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
-}
-
-export const AuthButtonsHorizontal = ({ user, themeType, onThemeTypeChange, mode, onModeChange }: Props) => {
+export const AuthButtonsHorizontal: React.FC = () => {
     const classes = useStyles();
+    const user = Hooks.useSubject(AppState.user$);
+
     const signUpButton = (
-        <Link to={register}>
+        <Link to={Routes.Types.RouterPaths.Register}>
             <TypographyLinkOutlined
                 variant="body2"
                 className={`${user ? classes.disabled : undefined}`}
@@ -96,7 +90,7 @@ export const AuthButtonsHorizontal = ({ user, themeType, onThemeTypeChange, mode
     );
 
     const logInButton = (
-        <Link to={login}>
+        <Link to={Routes.Types.RouterPaths.Login}>
             <TypographyLinkOutlined variant="body2" color="secondary">
                 {texts.login}
             </TypographyLinkOutlined>
@@ -145,7 +139,7 @@ export const AuthButtonsHorizontal = ({ user, themeType, onThemeTypeChange, mode
                         items={[
                             { name: `Howdy, ${user.publicName}!`, onClick: () => '' },
                             { name: 'Account', onClick: () => '' },
-                            { name: texts.logout, path: logout, onClick: () => '', alarm: true },
+                            { name: texts.logout, path: Routes.Types.RouterPaths.Logout, onClick: () => '', alarm: true },
                         ]}
                         tooltip="User menu"
                         placement="bottom-end"
@@ -157,9 +151,7 @@ export const AuthButtonsHorizontal = ({ user, themeType, onThemeTypeChange, mode
             <DialogMenu
                 open={openDialog}
                 message="Preferences"
-                content={
-                    <Preferences themeType={themeType} onThemeTypeChange={onThemeTypeChange} mode={mode} onModeChange={onModeChange} />
-                }
+                content={<Preferences />}
                 handleClose={handleDialogClose}
                 buttonOk={{ text: 'Done', onClick: handleDialogClose }}
                 fullScreen={true}
@@ -168,18 +160,20 @@ export const AuthButtonsHorizontal = ({ user, themeType, onThemeTypeChange, mode
     );
 };
 
-export const AuthButtonsVertical = ({ user }: Props) => {
+export const AuthButtonsVertical: React.FC = () => {
+    const user = Hooks.useSubject(AppState.user$);
+    
     // const classes = useStyles();
     // TODO: resolve error 'div cannot be child of p'
     const signUpButton = (
-        <ListItem button component={!user ? Link : Typography} to={!user ? register : ''}>
+        <ListItem button component={!user ? Link : Typography} to={!user ? Routes.Types.RouterPaths.Register : ''}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText primary={texts.register} />
         </ListItem>
     );
 
     const loginButton = (
-        <ListItem button component={Link} to={!user ? login : logout}>
+        <ListItem button component={Link} to={!user ? Routes.Types.RouterPaths.Login : Routes.Types.RouterPaths.Logout}>
             {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
             <ListItemText primary={texts.login} />
         </ListItem>
@@ -193,7 +187,7 @@ export const AuthButtonsVertical = ({ user }: Props) => {
     );
 };
 
-export const BrowseButton: React.FC<Props> = () => {
+export const BrowseButton: React.FC = () => {
     const classes = useStyles();
 
     return (

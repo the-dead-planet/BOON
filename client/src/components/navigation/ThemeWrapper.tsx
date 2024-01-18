@@ -1,7 +1,8 @@
 import { createTheme } from '../../styles/themes';
 import { ThemeProvider } from '@mui/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import { Mode, ThemeType } from '../../logic/types';
+import * as AppState from '../../app-state';
+import * as Hooks from '../../hooks';
 
 /*
   This component should serve as a wrapper for all pages. 
@@ -9,13 +10,12 @@ import { Mode, ThemeType } from '../../logic/types';
   Drawer allows additional properties, like variant. Not specified (default) is temporary. Other option is: persistent.
 */
 interface Props {
-    mode: Mode;
-    themeType: ThemeType;
     children?: React.ReactNode;
 }
 
-const ThemeWrapper = ({ mode, themeType, children }: Props) => {
-    const theme = createTheme(mode, themeType);
+const ThemeWrapper: React.FC<Props> = ({ children }) => {
+    const ui = Hooks.useSubject(AppState.ui$);
+    const theme = createTheme(ui.mode, ui.theme);
 
     return (
         <ThemeProvider theme={theme}>

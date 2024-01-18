@@ -7,7 +7,9 @@ import { Link } from '../../utils/Link';
 // import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { ActionButtons } from './ActionButtons';
 import { CardMenu } from './CardMenu';
-import { User, Comment, Like, MongoObject, Model, ThemeType, Tag, WithObjectId } from '../../logic/types';
+import { Comment, Like, MongoObject, Model, Tag, WithObjectId } from '../../logic/types';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -73,8 +75,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    user: User | null | undefined;
-    themeType: ThemeType;
     object: MongoObject;
     model: Model;
     comments: Array<Comment | undefined>;
@@ -102,8 +102,6 @@ interface Props {
 
 // Pass a component to mediaTop or mediaBottom depending on which location it is needed in
 export const Card = ({
-    user,
-    themeType,
     object,
     model,
     comments,
@@ -129,7 +127,7 @@ export const Card = ({
     toggleShine,
 }: Props) => {
     const classes = useStyles();
-
+    const ui = Hooks.useSubject(AppState.ui$);
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     // const handleMenuClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -153,8 +151,8 @@ export const Card = ({
             id={object._id}
             className={classNames(classes.post, {
                 [classes.hover]: hover,
-                frostic: themeType === 'frostic',
-                rounded: themeType === 'frostic' && !frosticNoRound,
+                frostic: ui.theme === 'frostic',
+                rounded: ui.theme === 'frostic' && !frosticNoRound,
                 [classes.shine]: toggleShine,
             })}
         >
@@ -198,7 +196,6 @@ export const Card = ({
                 )}
             </CardContent>
             <CardMenu
-                user={user}
                 object={object}
                 model={model}
                 anchorEl={anchorEl}
@@ -236,7 +233,6 @@ export const Card = ({
                 })}
             >
                 <ActionButtons
-                    user={user}
                     author={object && 'author' in object ? (typeof object.author === 'string' ? object.author : object.author?.publicName ?? 'Unknown') : 'Unknown'}
                     comments={comments}
                     likes={likes}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Field } from 'formik';
 import { TextField, InputLabel, MenuItem, FormControl } from '@mui/material';
 import Grid, { GridSize } from '@mui/material/Grid';
-import { Input, Mode } from '../../logic/types';
+import { Input } from '../../logic/types';
 
 interface FieldItem {
     _id: string;
@@ -15,7 +15,6 @@ interface Props {
     md?: GridSize;
     lg?: GridSize;
     xl?: GridSize;
-    mode?: Mode;
     error?: string | undefined;
     touched?: boolean;
     name: string;

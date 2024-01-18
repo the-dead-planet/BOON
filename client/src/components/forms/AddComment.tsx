@@ -4,8 +4,12 @@ import { TextField, Typography, Theme } from '@mui/material';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import { IconButton } from '../mui-styled/IconButton';
 import { GridField } from './GridFields';
-import { Mode, CommentSubmit, User, Model, Comment, CommentData } from '../../logic/types';
 import { useServices } from '../../services';
+import * as Types from '../../logic/types';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
+
+let submitAbortController = new AbortController();
 
 const useStyles = makeStyles((_theme: Theme) =>
     createStyles({
@@ -17,24 +21,24 @@ const useStyles = makeStyles((_theme: Theme) =>
 );
 
 interface Props {
-    user: User;
-    mode: Mode;
     _id: string;
-    model: Model;
-    addComment: (id: string, comment: Comment) => void;
+    model: Types.Model;
+    addComment: (id: string, comment: Types.Comment) => void;
 }
 
-export const AddComment = ({ user, mode, _id, model, addComment }: Props) => {
+export const AddComment = ({ _id, model, addComment }: Props) => {
     const classes = useStyles();
     const { commentsService } = useServices()!;
+    const user = Hooks.useSubject(AppState.user$);
 
     return user ? (
         <AppForm
-            mode={mode}
             initialValues={{ body: '' }}
             onSubmit={(data, { resetForm }) => {
-                const extendedData: CommentData & { id: string; objectId: string; model: Model; } = {
-                    ...(data as CommentSubmit), // copy form values
+                submitAbortController.abort();
+                submitAbortController = new AbortController();
+                const extendedData: Types.CommentData & { id: string; objectId: string; model: Types.Model; } = {
+                    ...(data as Types.CommentSubmit), // copy form values
                     id: _id, // add sprint id
                     objectId: _id,
                     model: model,
@@ -43,9 +47,14 @@ export const AddComment = ({ user, mode, _id, model, addComment }: Props) => {
                 // TODO: repair warning "Failed prop type: Material-UI: You are providing an onClick event listener to a child of a button element. Firefox will never trigger the event."
                 resetForm({ values: {} });
 
-                return commentsService.add(extendedData).then((response) => {
-                    addComment(_id, response);
-                });
+                return commentsService
+                    .add(extendedData, submitAbortController.signal)
+                    .then((response) => {
+                        addComment(_id, response);
+                    })
+                    .catch((err: Error) => {
+                        AppState.notificationHandler.addNotification(err.message ?? `Could not add comment to ${model} ${_id}`)
+                    });
             }}
             submitSection={
                 <IconButton type="submit" aria-label="add comment" className={classes.submit}>
@@ -53,7 +62,7 @@ export const AddComment = ({ user, mode, _id, model, addComment }: Props) => {
                 </IconButton>
             }
             submitPos="right"
-            // validationSchema={validationSchema}
+        // validationSchema={validationSchema}
         >
             <GridField
                 as={TextField}

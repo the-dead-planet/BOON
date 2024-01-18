@@ -1,3 +1,4 @@
+import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
 import { TOOLBAR_HEIGHT, DRAWER_WIDTH } from '../../styles/constants';
 import { Link } from '../../utils/Link';
@@ -5,9 +6,11 @@ import { Drawer, List, ListItem, ListItemText, Typography, Grid, Theme } from '@
 import { IconButton } from '../mui-styled/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 // import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { DrawerVariant, Mode, NavButton, User } from '../../logic/types';
-import { PATHS } from '../../constants/data';
-const { home, sprints, projects, teams } = PATHS;
+import * as Routes from '../../routes';
+import * as Types from '../../logic/types';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -34,35 +37,33 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    user: User;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
     open: boolean;
     toggleDrawer: (value: boolean) => () => void;
-    variant?: DrawerVariant;
-    createButton?: NavButton;
+    variant?: Types.DrawerVariant;
+    createButton?: Types.NavButton;
 }
 
 // This component can be either temporary or persistent. By default temporary. use prop 'variant' to change to "persistent"
-const MenuDrawer = ({ user, variant = 'temporary', open, toggleDrawer, createButton }: Props) => {
+const MenuDrawer: React.FC<Props> = ({ variant = 'temporary', open, toggleDrawer, createButton }) => {
     const classes = useStyles();
+    const user = Hooks.useSubject(AppState.user$);
 
     const items = [
         {
             name: 'Home',
-            path: home,
+            path: Routes.Types.RouterPaths.Home,
         },
         {
             name: 'Sprints',
-            path: sprints,
+            path: Routes.Types.RouterPaths.Sprints,
         },
         {
             name: 'Projects',
-            path: projects,
+            path: Routes.Types.RouterPaths.Projects,
         },
         {
             name: 'Teams',
-            path: teams,
+            path: Routes.Types.RouterPaths.Teams,
         },
     ];
 

@@ -1,60 +1,70 @@
-import { useState, useEffect, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import AppLayout from '../layouts/AppLayout';
 import ProjectForm from '../components/forms/Project';
 import { Loading } from '../components/Loading';
 import { useServices } from '../services';
 import * as Types from '../logic/types';
+import * as AppState from '../app-state';
 
-interface Props {
-    user: Types.User;
-    themeType: Types.ThemeType;
-    onThemeTypeChange: (themeType: Types.ThemeType) => void;
-    mode: Types.Mode;
-    onModeChange: (mode: Types.Mode) => void;
-    push: (path: string) => void;
-    notificationsProps: Types.NotificationProps;
-    showError: (err: Error) => void;
-}
+let submitAbortController = new AbortController();
 
-export const EditProject = ({ user, themeType, onThemeTypeChange, mode, onModeChange, push, notificationsProps, showError }: Props) => {
+export const EditProject: React.FC = () => {
     const params = useParams<{ id: string; }>();
-    const [project, setProject] = useState<Types.Project | null>(null);
+    const [project, setProject] = React.useState<Types.Project | null>(null);
     const { projectsService } = useServices()!;
+    const navigate = useNavigate();
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (project && project._id === params.id) {
             return;
         }
+        const abortController = new AbortController();
 
-        projectsService.getOne({ objectId: params.id ?? '' })
+        projectsService
+            .getOne({ objectId: params.id ?? '' }, abortController.signal)
             .then((p) => {
                 if (p) {
                     setProject(p);
                 } else {
-                    // TODO:
+                    AppState.notificationHandler.addNotification(`Project ${params.id} does not exist`);
                 }
             })
-            .catch(showError);
+            .catch((err) => {
+                AppState.notificationHandler.addNotification(err.message ?? `Error getting project ${params.id}`);
+            });
+
+        return () => {
+            abortController.abort();
+        };
     }, [params.id]);
 
-    const projectTitle = useMemo(() => project ? project.title : null, [project?.title]);
+    const projectTitle = React.useMemo(() => project ? project.title : null, [project?.title]);
+
+    const handleSubmit = React.useCallback(
+        (data: { [key in string]: unknown; }) => {
+            submitAbortController.abort();
+            submitAbortController = new AbortController();
+
+            projectsService
+                .update({ ...(data as unknown as Types.ProjectSubmit), objectId: params.id ?? '' }, submitAbortController.signal)
+                .then(() => {
+                    navigate('/projects');
+                })
+                .catch((err) => {
+                    AppState.notificationHandler.addNotification(err.message ?? `Error editing project ${params.id}`);
+                });
+        },
+        [projectsService, params.id]
+    );
 
     return (
-        <AppLayout
-            user={user}
-            themeType={themeType}
-            onThemeTypeChange={onThemeTypeChange}
-            mode={mode}
-            onModeChange={onModeChange}
-            {...notificationsProps}
-        >
+        <AppLayout>
             <h1 className="center">Edit Project {params.id}</h1>
             {!project ? (
                 <Loading />
             ) : (
                 <ProjectForm
-                    mode={mode}
                     title={`Edit project: ${projectTitle}`}
                     // TODO: Solve the possibly 'null' error.
                     // Assure that sprint is either of type Sprint or undefined and use sprint?.number (optional chaining ES2020)
@@ -62,14 +72,7 @@ export const EditProject = ({ user, themeType, onThemeTypeChange, mode, onModeCh
                         title: project.title,
                         body: project.body,
                     }}
-                    onSubmit={(data) => {
-                        projectsService
-                            .update({ ...(data as unknown as Types.ProjectSubmit), objectId: params.id ?? '' })
-                            .then(() => {
-                                push('/projects');
-                            })
-                            .catch(showError);
-                    }}
+                    onSubmit={handleSubmit}
                 />
             )}
         </AppLayout>

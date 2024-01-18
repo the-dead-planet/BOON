@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
 import { Box, Typography, Theme } from '@mui/material';
 import { CommentsList } from './CommentsList';
@@ -6,7 +6,9 @@ import { AddComment } from './forms/AddComment';
 // import CollapsePanel from './transitions/CollapsePanel';
 import DialogMenu from './navigation/DialogMenu';
 import { useServices } from '../services';
-import { Mode, User, Comment, Model, WithObjectId } from '../logic/types';
+import * as Types from '../logic/types';
+
+let abortController = new AbortController();
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -20,20 +22,17 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    user: User;
     title: string;
     parentId: string;
-    parentModel: Model;
-    comments: Array<Comment>;
-    users: Map<string, User>;
-    addComment: (id: string, comment: Comment) => void;
-    removeComment: (comment: WithObjectId) => void;
+    parentModel: Types.Model;
+    comments: Array<Types.Comment>;
+    users: Map<string, Types.User>;
+    addComment: (id: string, comment: Types.Comment) => void;
+    removeComment: (comment: Types.WithObjectId) => void;
     onError?: (err: Error) => void;
-    mode: Mode;
 }
 
-const CommentsImpl = ({
-    user,
+const CommentsImpl: React.FC<Props> = ({
     title,
     parentId,
     parentModel,
@@ -41,12 +40,11 @@ const CommentsImpl = ({
     users,
     addComment,
     removeComment,
-    onError,
-    mode,
-}: Props) => {
+    onError
+}) => {
     const classes = useStyles();
-    const [openDialog, setOpenDialog] = useState(false);
-    const [commentToBeDeletedId, setCommentToBeDeletedId] = useState('');
+    const [openDialog, setOpenDialog] = React.useState(false);
+    const [commentToBeDeletedId, setCommentToBeDeletedId] = React.useState('');
     const { commentsService } = useServices()!;
 
     const handleDialogClose = () => {
@@ -69,11 +67,10 @@ const CommentsImpl = ({
                 </Typography>
 
                 <Box className={classes.form}>
-                    <AddComment user={user} _id={parentId} model={parentModel} addComment={addComment} mode={mode} />
+                    <AddComment _id={parentId} model={parentModel} addComment={addComment} />
                 </Box>
 
                 <CommentsList
-                    user={user}
                     comments={comments}
                     users={users}
                     onCommentToBeDeletedIdChange={handleDialogOpen}
@@ -91,8 +88,11 @@ const CommentsImpl = ({
                     text: 'Yes, delete it',
                     // Remove from DB, then from app state, then close the dialog window and clear the id to be deleted
                     onClick: () => {
+                        abortController.abort();
+                        abortController = new AbortController();
+
                         commentsService
-                            .delete({ objectId: commentToBeDeletedId })
+                            .delete({ objectId: commentToBeDeletedId }, abortController.signal)
                             .then((response) => {
                                 removeComment(response);
                                 handleDialogClose();

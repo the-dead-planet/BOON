@@ -1,10 +1,9 @@
+import React from 'react';
 import { makeStyles, createStyles } from '@mui/styles';
 import { DRAWER_SECONDARY_WIDTH } from '../../styles/constants';
 import { Drawer, Grid, Theme } from '@mui/material';
 import { IconButton } from '../mui-styled/IconButton';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { User } from '../../logic/types';
-import React from 'react';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -37,7 +36,6 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-    user: User;
     open: boolean;
     toggleDrawer: (toggle: boolean) => void;
     children?: React.ReactNode;

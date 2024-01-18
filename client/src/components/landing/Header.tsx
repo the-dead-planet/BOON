@@ -1,3 +1,4 @@
+import React from 'react';
 import classNames from 'classnames';
 import { makeStyles, createStyles } from '@mui/styles';
 import { Box, Grid, Typography, Divider, Hidden, Theme } from '@mui/material';
@@ -5,7 +6,8 @@ import { AuthButtonsHorizontal, BrowseButton } from '../navigation/NavButtons';
 import { Logo } from './Logo';
 import { Dictionary } from './Dictionary';
 import { DICTIONARY } from '../../constants/data';
-import { ThemeType, User, Mode } from '../../logic/types';
+import * as Hooks from '../../hooks';
+import * as AppState from '../../app-state';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -60,43 +62,24 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-interface Props {
-    user: User;
-    themeType: ThemeType;
-    onThemeTypeChange: (themeType: ThemeType) => void;
-    mode: Mode;
-    onModeChange: (mode: Mode) => void;
-}
-const Header = ({ user, themeType, onThemeTypeChange, mode, onModeChange }: Props) => {
+const Header: React.FC = () => {
     const classes = useStyles();
-
     const { explanation, definitions } = DICTIONARY;
+    const ui = Hooks.useSubject(AppState.ui$);
 
     return (
         <Grid container justifyContent="center" className={classes.headerContainer}>
             {/* Browse button */}
             <Hidden smDown>
                 <Box className={`${classes.topButtons} ${classes.left}`}>
-                    <BrowseButton
-                        user={user}
-                        themeType={themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={mode}
-                        onModeChange={onModeChange}
-                    />
+                    <BrowseButton />
                 </Box>
             </Hidden>
 
             {/* Authorization buttons */}
             <Hidden smDown>
                 <Box className={`${classes.topButtons} ${classes.right}`}>
-                    <AuthButtonsHorizontal
-                        user={user}
-                        themeType={themeType}
-                        onThemeTypeChange={onThemeTypeChange}
-                        mode={mode}
-                        onModeChange={onModeChange}
-                    />
+                    <AuthButtonsHorizontal />
                 </Box>
             </Hidden>
 
@@ -106,7 +89,7 @@ const Header = ({ user, themeType, onThemeTypeChange, mode, onModeChange }: Prop
 
             <hr className={classes.headerDivider} />
 
-            <Grid item xs={12} sm={8} className={classNames({ frostic: themeType === 'frostic' })}>
+            <Grid item xs={12} sm={8} className={classNames({ frostic: ui.theme === 'frostic' })}>
                 {definitions.map((item, i) => (
                     <Dictionary key={i} i={i} {...item} />
                 ))}

@@ -2,10 +2,9 @@ import { makeStyles, createStyles } from '@mui/styles';
 import { JUMBOTRON_HEIGHT, TOOLBAR_HEIGHT } from '../../styles/constants';
 import { Link } from '../../utils/Link';
 import { Grid, Button, Typography, Hidden, Grow, Theme } from '@mui/material';
-import { Jumbotron as JumbotronProps } from '../../logic/types';
+import * as Routes from '../../routes';
+import * as Types from '../../logic/types';
 //import * as jumbotronLight from '../../img/landing/JumbotronLight.png';
-import { PATHS } from '../../constants/data';
-const { main } = PATHS;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const Jumbotron = ({ img = '', title = 'Hello', subtitle = 'Welcome', actions = [] }: JumbotronProps) => {
+const Jumbotron: React.FC<Types.Jumbotron> = ({ img = '', title = 'Hello', subtitle = 'Welcome', actions = [] }) => {
     const classes = useStyles();
     // TODO: use react-image
     const imgStyle = { backgroundImage: `url(${img})` };
@@ -62,7 +61,7 @@ const Jumbotron = ({ img = '', title = 'Hello', subtitle = 'Welcome', actions = 
                             {actions &&
                                 actions.map((action, i) => (
                                     <Grid item key={`item-${i}`}>
-                                        <Link to={`${action.path}?next=${main}`}>
+                                        <Link to={`${action.path}?next=${Routes.Types.RouterPaths.Sprints}`}>
                                             <Button key={`button-${i}`} variant="contained" className={classes.offset}>
                                                 {action.name}
                                             </Button>
