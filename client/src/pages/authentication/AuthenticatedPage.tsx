@@ -12,7 +12,7 @@ export const AuthenticatedPage: React.FC<Types.Props> = ({ children }) => {
     const location = useLocation();
 
     if (!user) {
-        return <Navigate to={{ pathname: Routes.Types.RouterPaths.Login, search: `?next=${location.pathname}` }} />;
+        return <Navigate to={{ pathname: Routes.Types.RouterPaths.Login, search: `?next=${location.pathname}` }} replace={true} />;
     }
 
     return children;

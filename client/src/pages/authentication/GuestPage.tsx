@@ -11,7 +11,7 @@ export const GuestPage: React.FC<Types.Props> = ({ children }) => {
     const user = Hooks.useSubject(AppState.user$);
 
     if (user) {
-        return <Navigate to={{ pathname: Routes.Types.RouterPaths.Sprints }} />;
+        return <Navigate to={{ pathname: Routes.Types.RouterPaths.Sprints }} replace={true} />;
     }
 
     return children;

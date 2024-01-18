@@ -2,10 +2,10 @@ import React from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { Theme } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
-import * as AppState from '../app-state';
 import AppLayout from '../layouts/AppLayout';
 import AuthForm from '../components/forms/Auth';
 import { useServices } from '../services';
+import * as AppState from '../app-state';
 import * as Routes from '../routes';
 
 const useStyles = makeStyles((_theme: Theme) =>

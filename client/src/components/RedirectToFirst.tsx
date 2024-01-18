@@ -16,13 +16,12 @@ type RedirectToFirstProps = {
  */
 const RedirectToFirst = ({ items, modelPath }: RedirectToFirstProps) => {
     if (items === null) {
-        // Waiting for the request to resolve.
         return <Loading />;
     } else if (items!.length == 0) {
         return <Empty />;
     } else {
         const first = items[0];
-        return <Navigate to={`/${modelPath}/${first}`} />;
+        return <Navigate to={`/${modelPath}/${first}`} replace={true} />;
     }
 };
 
