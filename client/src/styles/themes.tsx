@@ -6,8 +6,7 @@
 */
 import { Mode, ThemeType } from '../logic/types';
 import { Theme, responsiveFontSizes, createTheme as createMuiTheme } from '@mui/material';
-import bgFrosticLight from '../img/background/bg-frostic-light.jpg';
-import bgFrosticDark from '../img/background/bg-frostic-dark.jpg';
+import * as Images from '../img';
 
 // font-family: 'Libre Baskerville', serif;
 // Wrapper for the function in order to pass type parameter.
@@ -237,7 +236,7 @@ const createTheme = (mode: Mode, themeType: ThemeType, _customTheme?: Theme) => 
                     body: {
                         minHeight: '100vh',
                         minWidth: '100%',
-                        backgroundImage: `url(${mode === 'light' ? bgFrosticLight : bgFrosticDark})`,
+                        backgroundImage: `url(${mode === 'light' ? `${Images.cmdUrl}/background/bg-frostic-light.jpg` : `${Images.cmdUrl}/background/bg-frostic-dark.jpg`})`,
                         backgroundSize: 'cover',
                     },
                 },

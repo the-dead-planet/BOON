@@ -13,9 +13,6 @@
 import { Theme } from '@mui/material';
 import { makeStyles, createStyles } from '@mui/styles';
 
-// const header = require('../img/landing/header-1.jpg');
-// const header2 = require('../img/landing/header-2.jpg');
-
 // // Misc const used in styles
 // const drawerWidth = 240;
 // const drawerSecondaryWidth = 400;
