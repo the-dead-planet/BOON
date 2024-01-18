@@ -66,12 +66,8 @@ export const SingleSprint: React.FC<Props> = ({
                     body: "I am not a fan of books. I would never want a book's autograph.",
                     author: 'Kanye West',
                 }}
-                addComment={(id, comment) => AppState.addCommentToPost(id, comment)}
                 removePost={(obj) =>
                     AppState.removeObject({ child: 'posts', childId: obj.objectId, parent: 'sprints', parentId: sprint._id })
-                }
-                removeComment={(id: string, postId: string) =>
-                    AppState.removeObject({ child: 'comments', childId: id, parent: 'posts', parentId: postId })
                 }
                 toggleCommentsPanel={togglePostComments}
                 xs={12}
