@@ -100,7 +100,7 @@ interface Comment {
     author: string;
     likes: Array<Like>;
     body: string;
-    created: Date;
+    created: string;
     edited: Date;
 }
 

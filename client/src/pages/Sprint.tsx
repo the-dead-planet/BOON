@@ -19,7 +19,6 @@ export const Sprint: React.FC = () => {
     const params = useParams<{ id: string }>();
     const { sprints, posts, comments, likes, users, projects } = Hooks.useSubject(AppState.stateData$);
     const [focusForComments, setFocusForComments] = React.useState<{ model: string; id: string } | null>(null);
-    console.log(sprints);
 
     const quote= React.useMemo(
         () => getRandomQuote(), 
