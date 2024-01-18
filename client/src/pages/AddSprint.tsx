@@ -9,6 +9,8 @@ import * as Utils from '../utils';
 import * as Routes from '../routes';
 import * as AppState from '../app-state';
 
+let abortController = new AbortController();
+
 export const AddSprint: React.FC = () => {
     const { sprintsService } = useServices()!;
     const nowFormatted = React.useMemo(() => Utils.DateTime.toFormat(new Date(), Format.FORMIK_DATE_FORMAT), []);
@@ -26,12 +28,15 @@ export const AddSprint: React.FC = () => {
                     body: '',
                 }}
                 onSubmit={(data: { [key in string]: unknown }) => {
+                    abortController.abort();
+                    abortController = new AbortController();
+
                     sprintsService
-                        .add(data as unknown as Types.SprintSubmit)
+                        .add(data as unknown as Types.SprintSubmit, abortController.signal)
                         .then(() => {
                             navigate(Routes.Types.RouterPaths.Sprints);
                         })
-                        .catch((err) => {
+                        .catch((err: Error) => {
                             AppState.notificationHandler.addNotification(err.message ?? '')
                         });
                 }}

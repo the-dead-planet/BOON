@@ -10,13 +10,15 @@ const root = createRoot(container!);
 
 root.render(<div>Checking who you really are...</div>);
 
-try {
-    const { user } = await services.authService.whoami();
-    State.user$.next(user);
-    root.render(<App />);
-} catch (err) {
-    State.notificationHandler.addNotification((err as Error)?.message ?? 'Could not check who you really are.');
-    root.render(<div>Goodbye</div>);
-}
+(async () => {
+    try {
+        const { user } = await services.authService.whoami();
+        State.user$.next(user);
+        root.render(<App />);
+    } catch (err) {
+        State.notificationHandler.addNotification((err as Error)?.message ?? 'Could not check who you really are.');
+        root.render(<div>Goodbye</div>);
+    }
+})();
 
 serviceWorker.unregister();
