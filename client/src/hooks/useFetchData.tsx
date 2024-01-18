@@ -14,6 +14,7 @@ export const useFetchData = () => {
     const { sprintsService, projectsService, usersService } = useServices()!;
 
     React.useEffect(() => {
+        console.log(1, done$.value);
         if (done$.value) {
             return;
         }
@@ -24,6 +25,7 @@ export const useFetchData = () => {
         Promise.all([sprintsService.getAll(abortController.signal), projectsService.getAll(abortController.signal), usersService.getAll(abortController.signal)])
             .then((response) => {
                 const [sprints, projects, users] = response;
+                console.log(response);
                 AppState.setStateData(sprints, projects, users);
                 done$.next(true);
             })
