@@ -15,13 +15,20 @@ async function test(label: string, f: () => Promise<void>) {
         await f();
         console.log('pass');
     } catch (e) {
-        console.log(`fail: ${e}`);
+        console.trace(`fail: ${e}`);
     }
     console.log(`< ${label}`);
 }
 
 function postRequest(body: any): { method: 'POST'; body: string } {
     return { method: 'POST', body: JSON.stringify(body) };
+}
+
+/**
+ * Recursively omit `keys` from `obj`.
+ */
+function omit(obj: object, keys: string[]): object {
+    return JSON.parse(JSON.stringify(obj, (k, v) => (keys.includes(k) ? undefined : v)));
 }
 
 // Test setup.
@@ -34,66 +41,59 @@ console.log(`Test id: ${testId}`);
 const { db, close } = await connect('mongodb://localhost:27017', testId);
 const app = buildApp(db);
 
-await test('posts', async () => {
-    let resp: Response | null = null;
-
-    // Create posts and store their ids.
-    const posts = Array(2)
-        .fill(null)
-        .map((_, i) => ({ content: `Post ${i} content` }));
-    let postIds: string[] = [];
-
-    for (const post of posts) {
-        resp = await app.request('/posts', postRequest(post));
-        assert.equal(resp.status, 200);
-        const postId = await resp.json();
-        assert.notEqual(postId, undefined);
-        postIds.push(postId);
-    }
-
-    // List posts.
-    resp = await app.request('/posts');
+await test('auth', async () => {
+    const resp = await app.request('/auth/whoami');
     assert.equal(resp.status, 200);
-    assert.deepEqual(
-        await resp.json(),
-        posts.map((post, i) => ({ ...post, _id: postIds[i] }))
-    );
-
-    // Get a specific post.
-    resp = await app.request(`/posts/${postIds[0]}`);
-    assert.equal(resp.status, 200);
-    assert.deepEqual(await resp.json(), { ...posts[0], _id: postIds[0] });
+    assert.deepEqual(await resp.json(), { user: { name: 'Mr fake user' } });
 });
 
-await test('users', async () => {
+await test('post, comment, like', async () => {
     let resp: Response | null = null;
 
-    // Create users and store their ids.
-    const users = Array(2)
-        .fill(null)
-        .map((_, i) => ({ name: `User-${i}` }));
-    let userIds: string[] = [];
+    // Author is hardcoded.
+    const author = { name: 'Mr fake user' };
 
-    for (const user of users) {
-        resp = await app.request('/users', postRequest(user));
-        assert.equal(resp.status, 200);
-        const userId = await resp.json();
-        assert.notEqual(userId, undefined);
-        userIds.push(userId);
-    }
-
-    // List users.
-    resp = await app.request('/users');
+    // Create a post.
+    const postCreate = { title: 'Post title', content: 'Post content' };
+    resp = await app.request('/posts', postRequest(postCreate));
     assert.equal(resp.status, 200);
-    assert.deepEqual(
-        await resp.json(),
-        users.map((user, i) => ({ ...user, _id: userIds[i] }))
-    );
+    const postId = await resp.json();
+    assert.notEqual(postId, undefined);
 
-    // Get a specific user.
-    resp = await app.request(`/users/${userIds[0]}`);
+    // Add a comment.
+    const commentCreate = { body: 'Comment body', parent: postId };
+    resp = await app.request('/comments', postRequest(commentCreate));
     assert.equal(resp.status, 200);
-    assert.deepEqual(await resp.json(), { ...users[0], _id: userIds[0] });
+    const commentId = await resp.json();
+    assert.notEqual(commentId, undefined);
+
+    // Like the comment.
+    const likeCreate = { type: 'Heart', parent: commentId, parentType: 'comment' };
+    resp = await app.request('/likes', postRequest(likeCreate));
+    assert.equal(resp.status, 200);
+    const likeId = await resp.json();
+    assert.notEqual(likeId, undefined);
+
+    // Read the post.
+    resp = await app.request(`/posts/${postId}`);
+    assert.equal(resp.status, 200);
+    const post = await resp.json();
+    assert.notEqual(post, undefined);
+    assert.deepEqual(omit(post, ['created']), {
+        _id: postId,
+        author,
+        title: postCreate.title,
+        content: postCreate.content,
+        comments: [
+            {
+                _id: commentId,
+                author,
+                body: commentCreate.body,
+                likes: [{ _id: likeId, author, type: likeCreate.type }],
+            },
+        ],
+        likes: [],
+    });
 });
 
 await close();

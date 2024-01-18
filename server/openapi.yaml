@@ -5,6 +5,7 @@ info:
 paths:
     /auth/whoami:
         get:
+            summary: Logged in user.
             responses:
                 '200':
                     content:
@@ -16,8 +17,9 @@ paths:
                                 properties:
                                     user:
                                         $ref: '#/components/schemas/User'
-    /posts:
+    /comments:
         get:
+            summary: All comments.
             responses:
                 '200':
                     content:
@@ -25,15 +27,95 @@ paths:
                             schema:
                                 type: array
                                 items:
-                                    $ref: '#/components/schemas/PostWithId'
+                                    $ref: '#/components/schemas/Comment'
         post:
-            summary: Add a new post.
+            summary: Create a new comment.
             requestBody:
                 required: true
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/Post'
+                            $ref: '#/components/schemas/CommentCreate'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /comments/{id}:
+        get:
+            summary: Single comment.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Comment'
+    /likes:
+        get:
+            summary: All likes.
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Like'
+        post:
+            summary: Create a new like.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LikeCreate'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /likes/{id}:
+        get:
+            summary: Single like.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Like'
+    /posts:
+        get:
+            summary: All posts.
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Post'
+        post:
+            summary: Create a new post.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/PostCreate'
             responses:
                 '200':
                     content:
@@ -42,6 +124,7 @@ paths:
                                 type: string
     /posts/{id}:
         get:
+            summary: Single post.
             parameters:
                 - name: id
                   in: path
@@ -56,24 +139,126 @@ paths:
                                 $ref: '#/components/schemas/Post'
 components:
     schemas:
-        WithId:
+        Comment:
             type: object
             required:
                 - _id
+                - body
+                - author
+                - created
+                - likes
             properties:
                 _id:
                     type: string
+                body:
+                    type: string
+                author:
+                    type: User
+                created:
+                    type: string
+                    format: date-time
+                edited:
+                    type: string
+                    format: date-time
+                likes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Like'
+        CommentCreate:
+            type: object
+            required:
+                - body
+                - parent
+            properties:
+                body:
+                    type: string
+                parent:
+                    type: string
+                    description: Id of the commented object.
+        Like:
+            type: object
+            required:
+                - _id
+                - type
+                - author
+                - created
+            properties:
+                _id:
+                    type: string
+                type:
+                    $ref: '#/components/schemas/LikeType'
+                author:
+                    type: User
+                created:
+                    type: string
+                    format: date-time
+        LikeCreate:
+            type: object
+            required:
+                - type
+                - parent
+            properties:
+                type:
+                    $ref: '#/components/schemas/LikeType'
+                parent:
+                    description: Id of the liked object.
+                    type: string
+                parentType:
+                    description: Type of the liked object.
+                    type: string
+                    enum:
+                        - post
+                        - comment
+        LikeType:
+            type: string
+            enum:
+                - Corpobrainwash
+                - Excited
+                - Heart
+                - ThumbUp
         Post:
             type: object
             required:
+                - _id
+                - title
                 - content
+                - author
+                - created
+                - comments
+                - likes
             properties:
+                _id:
+                    type: string
+                title:
+                    type: string
                 content:
                     type: string
-        PostWithId:
-            allof:
-                - $ref: '#/components/schemas/Post'
-                - $ref: '#/components/schemas/WithId'
+                author:
+                    type: User
+                created:
+                    type: string
+                    format: date-time
+                edited:
+                    type: string
+                    format: date-time
+                comments:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Comment'
+                likes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Like'
+        PostCreate:
+            type: object
+            required:
+                - title
+                - content
+            properties:
+                title:
+                    type: string
+                content:
+                    type: string
         User:
             type: object
             required:
