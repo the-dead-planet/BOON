@@ -63,7 +63,7 @@ async function resolveLike(_db: Db, like: Like): Promise<LikeResolved> {
 }
 
 async function resolveComment(db: Db, comment: Comment): Promise<CommentResolved> {
-    const likeIds = comment.likes.map((x) => new ObjectId(x));
+    const likeIds = (comment.likes || []).map((x) => new ObjectId(x));
     const likes = await likesCollection(db)
         .find({ _id: { $in: likeIds } })
         .toArray();
@@ -72,12 +72,12 @@ async function resolveComment(db: Db, comment: Comment): Promise<CommentResolved
 }
 
 async function resolvePost(db: Db, post: Post): Promise<PostResolved> {
-    const likeIds = post.likes.map((x) => new ObjectId(x));
+    const likeIds = (post.likes || []).map((x) => new ObjectId(x));
     const likes = await likesCollection(db)
         .find({ _id: { $in: likeIds } })
         .toArray();
     const resolvedLikes = await Promise.all(likes.map((like) => resolveLike(db, like)));
-    const commentIds = post.comments.map((x) => new ObjectId(x));
+    const commentIds = (post.comments || []).map((x) => new ObjectId(x));
     const comments = await commentsCollection(db)
         .find({ _id: { $in: commentIds } })
         .toArray();
