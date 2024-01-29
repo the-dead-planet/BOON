@@ -1,6 +1,3 @@
-/**
- * Database utilities.
- */
 import { Db, MongoClient, ServerApiVersion, ObjectId, Collection } from 'mongodb';
 import { Comment, CommentResolved, Like, LikeResolved, Post, PostResolved, User } from './schema.js';
 
