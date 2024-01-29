@@ -216,6 +216,7 @@ components:
                 - Excited
                 - Heart
                 - ThumbUp
+                - ThumbDown
         Post:
             type: object
             required:
