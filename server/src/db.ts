@@ -2,7 +2,7 @@
  * Database utilities.
  */
 import { Db, MongoClient, ServerApiVersion, ObjectId, Collection } from 'mongodb';
-import { Comment, CommentResolved, Like, LikeResolved, Post, PostResolved, User } from './schema.ts';
+import { Comment, CommentResolved, Like, LikeResolved, Post, PostResolved, User } from './schema.js';
 
 // Fake user, until we implement proper auth.
 const fakeUser: User = { name: 'Mr fake user' };
