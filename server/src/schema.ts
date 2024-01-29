@@ -11,7 +11,7 @@ import { ObjectId } from 'mongodb';
 type Id = string;
 export type Comment = {
     _id: ObjectId;
-    body: string;
+    content: string;
     author: Id;
     created: Date;
     likes: Id[];

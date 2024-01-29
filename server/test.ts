@@ -61,7 +61,7 @@ await test('post, comment, like', async () => {
     assert.notEqual(postId, undefined);
 
     // Add a comment.
-    const commentCreate = { body: 'Comment body', parent: postId };
+    const commentCreate = { content: 'Comment body', parent: postId };
     resp = await app.request('/comments', postRequest(commentCreate));
     assert.equal(resp.status, 200);
     const commentId = await resp.json();
@@ -88,7 +88,7 @@ await test('post, comment, like', async () => {
             {
                 _id: commentId,
                 author,
-                body: commentCreate.body,
+                content: commentCreate.content,
                 likes: [{ _id: likeId, author, type: likeCreate.type }],
             },
         ],

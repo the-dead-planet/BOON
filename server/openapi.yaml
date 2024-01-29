@@ -143,14 +143,14 @@ components:
             type: object
             required:
                 - _id
-                - body
+                - content
                 - author
                 - created
                 - likes
             properties:
                 _id:
                     type: string
-                body:
+                content:
                     type: string
                 author:
                     type: User
@@ -167,10 +167,10 @@ components:
         CommentCreate:
             type: object
             required:
-                - body
+                - content
                 - parent
             properties:
-                body:
+                content:
                     type: string
                 parent:
                     type: string
