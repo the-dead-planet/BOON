@@ -55,6 +55,7 @@ function usersCollection(db: Db): Collection<User> {
 // and recursively replace links with resolved objects.
 // For example, a flat comment object may contain 2 like ids, a resolved comment will contain
 // 2 like objects.
+
 async function resolveLike(_db: Db, like: Like): Promise<LikeResolved> {
     return { ...like, author: fakeUser };
 }

@@ -1,5 +1,3 @@
-import { ObjectId } from 'mongodb';
-
 /**
  * Schemas / types of objects used throughout the app.
  * TODO: use Zod for a free parser.
@@ -8,6 +6,9 @@ import { ObjectId } from 'mongodb';
  * We should prefer more tree-like schemas and avoid DB joins if possible.
  * For example, we can store likes and comments directly under each post.
  */
+
+import { ObjectId } from 'mongodb';
+
 type Id = string;
 export type Comment = {
     _id: ObjectId;
