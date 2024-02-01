@@ -7,9 +7,13 @@
     "repository": "https://github.com/the-dead-planet/BOON",
     "author": "spookydoodle & rwakulszowa",
     "license": "MIT",
+    "engines": {
+        "node": ">=20.0.0 <21.0.0"
+    },
     "scripts": {
         "start": "tsx main.ts",
-        "test": "tsx test.ts"
+        "test": "tsx test.ts",
+        "lint": "eslint"
     },
     "dependencies": {
         "@hono/node-server": "^1.4.0",
@@ -18,9 +22,12 @@
         "mongodb": "^6.3.0"
     },
     "devDependencies": {
+        "@hono/eslint-config": "^0.0.4",
         "@tsconfig/node20": "^20.1.2",
         "@tsconfig/strictest": "^2.0.2",
         "@types/node": "^20.11.4",
+        "eslint": "^8.56.0",
+        "eslint-config-prettier": "^9.1.0",
         "tsx": "^4.7.0",
         "typescript": "^5.3.3"
     }

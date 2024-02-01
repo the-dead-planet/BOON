@@ -1,10 +1,10 @@
 import { promises as fs } from 'fs';
+import { swaggerUI } from '@hono/swagger-ui';
 import { Hono } from 'hono';
 import { type Context } from 'hono';
-import { swaggerUI } from '@hono/swagger-ui';
 import { logger } from 'hono/logger';
 import * as db from './db.js';
-import { User } from './schema.js';
+import type { User } from './schema.js';
 
 // TODO: use zod do parse request bodies.
 export function buildApp(database: db.Database): Hono {

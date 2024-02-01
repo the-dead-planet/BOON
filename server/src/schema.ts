@@ -7,7 +7,7 @@
  * For example, we can store likes and comments directly under each post.
  */
 
-import { ObjectId } from 'mongodb';
+import type { ObjectId } from 'mongodb';
 
 type Id = string;
 export type Comment = {

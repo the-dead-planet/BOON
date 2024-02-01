@@ -4,7 +4,6 @@
  * I got tired of trying to make existing, fancy frameworks work with Typescript, ES modules, etc.
  */
 
-// @ts-ignore
 import { strict as assert } from 'node:assert';
 import { buildApp } from './src/app';
 import { connect } from './src/db';
@@ -20,7 +19,7 @@ async function test(label: string, f: () => Promise<void>) {
     console.log(`< ${label}`);
 }
 
-function postRequest(body: any): { method: 'POST'; body: string } {
+function postRequest(body: unknown): { method: 'POST'; body: string } {
     return { method: 'POST', body: JSON.stringify(body) };
 }
 

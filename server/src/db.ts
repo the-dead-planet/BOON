@@ -1,5 +1,6 @@
-import { Db, MongoClient, ServerApiVersion, ObjectId, Collection } from 'mongodb';
-import { Comment, CommentResolved, Like, LikeResolved, Post, PostResolved, User } from './schema.js';
+import type { Db, Collection } from 'mongodb';
+import { MongoClient, ServerApiVersion, ObjectId } from 'mongodb';
+import type { Comment, CommentResolved, Like, LikeResolved, Post, PostResolved, User } from './schema.js';
 
 // Fake user, until we implement proper auth.
 const fakeUser: User = { name: 'Mr fake user' };
