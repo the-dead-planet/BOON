@@ -97,6 +97,20 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Like'
+        delete:
+            summary: Remove a like.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: null
     /posts:
         get:
             summary: All posts.

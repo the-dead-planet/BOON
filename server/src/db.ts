@@ -133,6 +133,16 @@ export async function addLike(db: Db, parent: string, parentType: 'post' | 'comm
     return insertedId;
 }
 
+export async function removeLike(db: Db, id: string): Promise<void> {
+    // NOTE: it's a bit hacky, because we should also remove the reference from the parent.
+    // Since we're about to move to a tree based structure anyway, let's live with this
+    // hacky solution for now.
+    const { deletedCount } = await likesCollection(db).deleteOne({ _id: new ObjectId(id) });
+    if (!deletedCount) {
+        throw new Error('Object not found');
+    }
+}
+
 export async function listPosts(db: Db): Promise<PostResolved[]> {
     const posts = await postsCollection(db).find().toArray();
     return await Promise.all(posts.map((x) => resolvePost(db, x)));

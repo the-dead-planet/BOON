@@ -42,6 +42,10 @@ export function buildApp(database: db.Database): Hono {
         const insertedId = await db.addLike(database, parent, parentType, like);
         return c.json(insertedId);
     });
+    likesApp.delete('/:id', async (c: Context) => {
+        await db.removeLike(database, c.req.param('id'));
+        return c.json(null);
+    });
 
     const postsApp = new Hono();
     postsApp.get('/', async (c: Context) => c.json(await db.listPosts(database)));
