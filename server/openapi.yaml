@@ -151,6 +151,46 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Post'
+    /teams:
+        get:
+            summary: All teams.
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Team'
+        post:
+            summary: Create a new team.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/TeamCreate'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /teams/{id}:
+        get:
+            summary: Single team.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Team'
 components:
     schemas:
         Comment:
@@ -274,6 +314,43 @@ components:
                     type: string
                 content:
                     type: string
+        Team:
+            type: object
+            required:
+                - _id
+                - title
+                - content
+                - members
+                - created
+            properties:
+                _id:
+                    type: string
+                title:
+                    type: string
+                content:
+                    type: string
+                members:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/User'
+                created:
+                    type: string
+                    format: date-time
+        TeamCreate:
+            type: object
+            required:
+                - title
+                - content
+                - members
+            properties:
+                title:
+                    type: string
+                content:
+                    type: string
+                members:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/User'
         User:
             type: object
             required:

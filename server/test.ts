@@ -95,4 +95,30 @@ await test('post, comment, like', async () => {
     });
 });
 
+await test('team create, get', async () => {
+    let resp: Response | null = null;
+
+    // User is hardcoded.
+    const user = { name: 'Mr fake user' };
+
+    // Create a team.
+    const teamCreate = { title: 'Team title', content: 'Team content', members: ['fake member'] };
+    resp = await app.request('/teams', postRequest(teamCreate));
+    assert.equal(resp.status, 200);
+    const teamId = await resp.json();
+    assert.notEqual(teamId, undefined);
+
+    // Read the team.
+    resp = await app.request(`/teams/${teamId}`);
+    assert.equal(resp.status, 200);
+    const team = await resp.json();
+    assert.notEqual(team, undefined);
+    assert.deepEqual(omit(team, ['created']), {
+        _id: teamId,
+        title: teamCreate.title,
+        content: teamCreate.content,
+        members: [user],
+    });
+});
+
 await close();

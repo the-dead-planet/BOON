@@ -57,6 +57,16 @@ export function buildApp(database: db.Database): Hono {
         return c.json(insertedId);
     });
 
+    const teamsApp = new Hono();
+    teamsApp.get('/', async (c: Context) => c.json(await db.listTeams(database)));
+    teamsApp.get('/:id', async (c: Context) => c.json(await db.getTeam(database, c.req.param('id'))));
+    teamsApp.post('/', async (c: Context) => {
+        const body = await c.req.json();
+        const team = { ...body, created: new Date() };
+        const insertedId = await db.addTeam(database, team);
+        return c.json(insertedId);
+    });
+
     // Misc.
     app.get('/docs', swaggerUI({ url: '/spec' }));
     app.get('/spec', async (c: Context) => {
@@ -72,6 +82,7 @@ export function buildApp(database: db.Database): Hono {
     app.route('/comments', commentsApp);
     app.route('/likes', likesApp);
     app.route('/posts', postsApp);
+    app.route('/teams', teamsApp);
 
     return app;
 }

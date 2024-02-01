@@ -41,4 +41,12 @@ export type PostResolved = Omit<Post, 'author' | 'comments' | 'likes'> & {
     comments: CommentResolved[];
     likes: LikeResolved[];
 };
+export type Team = {
+    _id: ObjectId;
+    title: string;
+    content: string;
+    members: Id[];
+    created: Date;
+};
+export type TeamResolved = Omit<Team, 'members'> & { members: User[] };
 export type User = { name: string };

@@ -1,6 +1,16 @@
 import type { Db, Collection } from 'mongodb';
 import { MongoClient, ServerApiVersion, ObjectId } from 'mongodb';
-import type { Comment, CommentResolved, Like, LikeResolved, Post, PostResolved, User } from './schema.js';
+import type {
+    Comment,
+    CommentResolved,
+    Like,
+    LikeResolved,
+    Post,
+    PostResolved,
+    Team,
+    TeamResolved,
+    User,
+} from './schema.js';
 
 // Fake user, until we implement proper auth.
 const fakeUser: User = { name: 'Mr fake user' };
@@ -46,6 +56,10 @@ function postsCollection(db: Db): Collection<Post> {
     return db.collection<Post>('posts');
 }
 
+function teamsCollection(db: Db): Collection<Team> {
+    return db.collection<Team>('teams');
+}
+
 function usersCollection(db: Db): Collection<User> {
     return db.collection<User>('users');
 }
@@ -82,6 +96,10 @@ async function resolvePost(db: Db, post: Post): Promise<PostResolved> {
         .toArray();
     const resolvedComments = await Promise.all(comments.map((comment) => resolveComment(db, comment)));
     return { ...post, author: fakeUser, comments: resolvedComments, likes: resolvedLikes };
+}
+
+async function resolveTeam(_db: Db, team: Team): Promise<TeamResolved> {
+    return { ...team, members: [fakeUser] };
 }
 // #region resolve
 
@@ -159,6 +177,25 @@ export async function getPost(db: Db, id: string): Promise<PostResolved | null> 
 
 export async function addPost(db: Db, post: Post): Promise<ObjectId> {
     const { insertedId } = await postsCollection(db).insertOne(post);
+    return insertedId;
+}
+
+export async function listTeams(db: Db): Promise<TeamResolved[]> {
+    const teams = await teamsCollection(db).find().toArray();
+    return await Promise.all(teams.map((x) => resolveTeam(db, x)));
+}
+
+export async function getTeam(db: Db, id: string): Promise<TeamResolved | null> {
+    const objId = new ObjectId(id);
+    const maybeTeam = await teamsCollection(db).findOne(objId);
+    if (!maybeTeam) {
+        return null;
+    }
+    return resolveTeam(db, maybeTeam);
+}
+
+export async function addTeam(db: Db, team: Team): Promise<ObjectId> {
+    const { insertedId } = await teamsCollection(db).insertOne(team);
     return insertedId;
 }
 
