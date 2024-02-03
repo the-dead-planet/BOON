@@ -1,170 +1,88 @@
-import path  from 'path';
-import express, { Request } from 'express';
-import expressSession from 'express-session';
-import bodyParser from 'body-parser';
-import passport from 'passport';
-import * as passportLocal from 'passport-local';
-const LocalStrategy = passportLocal.Strategy;
-import * as Models from './models';
-import ModelRoutesDefinition from './common/model-routes-definition';
-import ModelRegistry from './common/model-registry';
-import { RequestMethod } from './common/request';
-import Link from './common/link';
-import Routes from './common/routes';
-import { SingleModelField, ManyModelField } from './common/model-field';
-import * as RouterRoutes from './routes';
-import { handleErrors } from './middleware';
+import { promises as fs } from 'fs';
+import { swaggerUI } from '@hono/swagger-ui';
+import { Hono } from 'hono';
+import { type Context } from 'hono';
+import { logger } from 'hono/logger';
+import * as db from './db.js';
+import type { User } from './schema.js';
 
-declare global {
-    // eslint-disable-next-line @typescript-eslint/no-namespace
-    namespace Express {
-        interface User extends Models.UserSchema { }
-    }
-}
+// TODO: use zod do parse request bodies.
+export function buildApp(database: db.Database): Hono {
+    const app = new Hono();
 
-const app = express();
+    // Middleware.
+    app.use('*', logger());
 
-// Some some random thingies
-app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-// Passport config - authentication
-app.use(
-    expressSession({
-        secret: 'Blabla bla bla',
-        resave: false,
-        saveUninitialized: false,
-    })
-);
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-/*
-    Local Strategy uses value of input field with name='email' not 'username'
-    User schema still needs to have properties named 'username' and 'password'
-    'username' property is filled in with e-mail value when creating object and saving to db
-*/
-passport.use(
-    new LocalStrategy(
-        {
-            usernameField: 'email',
-            passwordField: 'password',
-        },
-        Models.userModel.authenticate()
-    )
-);
-
-passport.serializeUser(Models.userModel.serializeUser());
-passport.deserializeUser(Models.userModel.deserializeUser());
-
-// TODO: move to separate modules, extract `author` and `edited` handlers to decorators
-const modelRegistry = new ModelRegistry({
-    Comment: new ModelRoutesDefinition(
-        {
-            author: new SingleModelField('User'),
-            likes: new ManyModelField('Like'),
-        },
-        {
-            [RequestMethod.POST]: {
-                author: (req: Request) => req.user?._id,
-                commentedObject: (req: Request) => new Link(req.body.model, req.body.id, 'comments'),
-            },
-            [RequestMethod.PUT]: { 
-                edited: (_req: Request) => Date.now() 
-            },
-        }
-    ),
-
-    Like: new ModelRoutesDefinition(
-        {
-            author: new SingleModelField('User'),
-        },
-        {
-            [RequestMethod.POST]: { author: (req: Request) => req.user?._id },
-        }
-    ),
-
-    Post: new ModelRoutesDefinition(
-        {
-            author: new SingleModelField('User'),
-            comments: new ManyModelField('Comment'),
-            likes: new ManyModelField('Like'),
-        },
-        {
-            [RequestMethod.POST]: { 
-                author: (req: Request) => req.user?._id 
-            },
-            [RequestMethod.PUT]: { 
-                edited: (_req: Request) => Date.now() 
-            },
-        }
-    ),
-
-    Project: new ModelRoutesDefinition(
-        {
-            author: new SingleModelField('User'),
-            posts: new ManyModelField('Post'),
-            likes: new ManyModelField('Like'),
-        },
-        {
-            [RequestMethod.POST]: { 
-                author: (req: Request) => req.user?._id 
-            },
-            [RequestMethod.PUT]: { 
-                edited: (_req: Request) => Date.now() 
-            },
-        }
-    ),
-
-    Sprint: new ModelRoutesDefinition(
-        {
-            author: new SingleModelField('User'),
-            comments: new ManyModelField('Comment'),
-            likes: new ManyModelField('Like'),
-            posts: new ManyModelField('Post'),
-        },
-        {
-            [RequestMethod.POST]: { author: (req: Request) => req.user?._id },
-            [RequestMethod.PUT]: { edited: (_req: Request) => Date.now() },
-        }
-    ),
-
-    Team: new ModelRoutesDefinition({
-        members: new ManyModelField('User'),
-    }, {}),
-
-    User: new ModelRoutesDefinition({}, {}),
-});
-
-// TODO: We should use express.Router: const commentRouter = express.Router(); app.use(/comment, commentRouter) etc.. to simplify things 
-// https://expressjs.com/en/guide/routing.html#express-router
-const routes = new Routes(
-    [
-        RouterRoutes.getAuthRoutes,
-        RouterRoutes.getCommentRoutes,
-        RouterRoutes.getLikeRoutes,
-        RouterRoutes.getPostRoutes,
-        RouterRoutes.getProjectRoutes,
-        RouterRoutes.getSprintRoutes,
-        RouterRoutes.getTeamRoutes,
-        RouterRoutes.getUserRoutes
-    ]
-        .map((routesModule) => routesModule(modelRegistry))
-        .flat()
-);
-
-routes.connect(app);
-
-app.use(handleErrors);
-
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('./build'));
-
-    app.get('*', function (req, res) {
-        res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+    // Routers.
+    const authApp = new Hono();
+    authApp.get('/whoami', (c: Context) => {
+        // TODO: actually look up the user and implement remaining auth routes.
+        const fakeUser: User = { name: 'Mr fake user' };
+        // FIXME: wrapper in a `{ user }` object for compatibility with the old API.
+        // Seems redundant, so let's remove it when we're done migrating.
+        return c.json({ user: fakeUser });
     });
-}
 
-export default app;
+    const commentsApp = new Hono();
+    commentsApp.get('/', async (c: Context) => c.json(await db.listComments(database)));
+    commentsApp.get('/:id', async (c: Context) => c.json(await db.getComment(database, c.req.param('id'))));
+    commentsApp.post('/', async (c: Context) => {
+        const { parent, ...body } = await c.req.json();
+        const comment = { ...body, created: new Date(), likes: [] };
+        const insertedId = await db.addComment(database, parent, comment);
+        return c.json(insertedId);
+    });
+
+    const likesApp = new Hono();
+    likesApp.get('/', async (c: Context) => c.json(await db.listLikes(database)));
+    likesApp.get('/:id', async (c: Context) => c.json(await db.getLike(database, c.req.param('id'))));
+    likesApp.post('/', async (c: Context) => {
+        const { parent, parentType, ...body } = await c.req.json();
+        const like = { ...body, created: new Date() };
+        const insertedId = await db.addLike(database, parent, parentType, like);
+        return c.json(insertedId);
+    });
+    likesApp.delete('/:id', async (c: Context) => {
+        await db.removeLike(database, c.req.param('id'));
+        return c.json(null);
+    });
+
+    const postsApp = new Hono();
+    postsApp.get('/', async (c: Context) => c.json(await db.listPosts(database)));
+    postsApp.get('/:id', async (c: Context) => c.json(await db.getPost(database, c.req.param('id'))));
+    postsApp.post('/', async (c: Context) => {
+        const body = await c.req.json();
+        const post = { ...body, created: new Date(), comments: [], likes: [] };
+        const insertedId = await db.addPost(database, post);
+        return c.json(insertedId);
+    });
+
+    const teamsApp = new Hono();
+    teamsApp.get('/', async (c: Context) => c.json(await db.listTeams(database)));
+    teamsApp.get('/:id', async (c: Context) => c.json(await db.getTeam(database, c.req.param('id'))));
+    teamsApp.post('/', async (c: Context) => {
+        const body = await c.req.json();
+        const team = { ...body, created: new Date() };
+        const insertedId = await db.addTeam(database, team);
+        return c.json(insertedId);
+    });
+
+    // Misc.
+    app.get('/docs', swaggerUI({ url: '/spec' }));
+    app.get('/spec', async (c: Context) => {
+        const buffer = await fs.readFile('./openapi.yaml', 'utf-8');
+        return c.text(buffer);
+    });
+    app.get('/', (c: Context) => {
+        return c.text('BOON API. Documentation is available under /docs');
+    });
+
+    // Main router.
+    app.route('/auth', authApp);
+    app.route('/comments', commentsApp);
+    app.route('/likes', likesApp);
+    app.route('/posts', postsApp);
+    app.route('/teams', teamsApp);
+
+    return app;
+}

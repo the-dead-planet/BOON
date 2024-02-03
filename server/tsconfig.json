@@ -1,46 +1,6 @@
 {
-  "compilerOptions": {
-    "outDir": "./built",
-    "allowJs": true,
-    "target": "ES2017",
-    "lib": [
-      "DOM",
-      "ESNext",
-      "DOM.Iterable"
-    ],
-    "typeRoots": [
-      "@types",
-      "node_modules/@types"
-    ],
-    "module": "ESNext",
-    "moduleResolution": "node",
-    "rootDir": "src",
-    "downlevelIteration": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "isolatedModules": true,
-    "noUnusedLocals": false
-  },
-  "include": [
-    "./src/**/*",
-    "*.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "built",
-    "webpack.*.js",
-    "vite.*.js",
-    "*.config.js",
-    "*.test.ts*"
-  ],
-  "ts-node": {
-    "compilerOptions": {
-      "module": "CommonJS"
-    }
-  }
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "extends": ["@tsconfig/node20/tsconfig.json", "@tsconfig/strictest/tsconfig.json"],
+    "compilerOptions": { "noEmit": true },
+    "include": ["main.ts", "src/**/*.ts"]
 }

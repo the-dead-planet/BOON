@@ -1,0 +1,360 @@
+openapi: 3.1.0
+info:
+    version: '1.0.0'
+    title: BOON API
+paths:
+    /auth/whoami:
+        get:
+            summary: Logged in user.
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type:
+                                    - 'null'
+                                    - object
+                                properties:
+                                    user:
+                                        $ref: '#/components/schemas/User'
+    /comments:
+        get:
+            summary: All comments.
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Comment'
+        post:
+            summary: Create a new comment.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CommentCreate'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /comments/{id}:
+        get:
+            summary: Single comment.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Comment'
+    /likes:
+        get:
+            summary: All likes.
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Like'
+        post:
+            summary: Create a new like.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/LikeCreate'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /likes/{id}:
+        get:
+            summary: Single like.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Like'
+        delete:
+            summary: Remove a like.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: null
+    /posts:
+        get:
+            summary: All posts.
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Post'
+        post:
+            summary: Create a new post.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/PostCreate'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /posts/{id}:
+        get:
+            summary: Single post.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Post'
+    /teams:
+        get:
+            summary: All teams.
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Team'
+        post:
+            summary: Create a new team.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/TeamCreate'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /teams/{id}:
+        get:
+            summary: Single team.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Team'
+components:
+    schemas:
+        Comment:
+            type: object
+            required:
+                - _id
+                - content
+                - author
+                - created
+                - likes
+            properties:
+                _id:
+                    type: string
+                content:
+                    type: string
+                author:
+                    type: User
+                created:
+                    type: string
+                    format: date-time
+                edited:
+                    type: string
+                    format: date-time
+                likes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Like'
+        CommentCreate:
+            type: object
+            required:
+                - content
+                - parent
+            properties:
+                content:
+                    type: string
+                parent:
+                    type: string
+                    description: Id of the commented object.
+        Like:
+            type: object
+            required:
+                - _id
+                - type
+                - author
+                - created
+            properties:
+                _id:
+                    type: string
+                type:
+                    $ref: '#/components/schemas/LikeType'
+                author:
+                    type: User
+                created:
+                    type: string
+                    format: date-time
+        LikeCreate:
+            type: object
+            required:
+                - type
+                - parent
+            properties:
+                type:
+                    $ref: '#/components/schemas/LikeType'
+                parent:
+                    description: Id of the liked object.
+                    type: string
+                parentType:
+                    description: Type of the liked object.
+                    type: string
+                    enum:
+                        - post
+                        - comment
+        LikeType:
+            type: string
+            enum:
+                - Corpobrainwash
+                - Excited
+                - Heart
+                - ThumbUp
+                - ThumbDown
+        Post:
+            type: object
+            required:
+                - _id
+                - title
+                - content
+                - author
+                - created
+                - comments
+                - likes
+            properties:
+                _id:
+                    type: string
+                title:
+                    type: string
+                content:
+                    type: string
+                author:
+                    type: User
+                created:
+                    type: string
+                    format: date-time
+                edited:
+                    type: string
+                    format: date-time
+                comments:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Comment'
+                likes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Like'
+        PostCreate:
+            type: object
+            required:
+                - title
+                - content
+            properties:
+                title:
+                    type: string
+                content:
+                    type: string
+        Team:
+            type: object
+            required:
+                - _id
+                - title
+                - content
+                - members
+                - created
+            properties:
+                _id:
+                    type: string
+                title:
+                    type: string
+                content:
+                    type: string
+                members:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/User'
+                created:
+                    type: string
+                    format: date-time
+        TeamCreate:
+            type: object
+            required:
+                - title
+                - content
+                - members
+            properties:
+                title:
+                    type: string
+                content:
+                    type: string
+                members:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/User'
+        User:
+            type: object
+            required:
+                - name
+            properties:
+                name:
+                    type: string
