@@ -145,7 +145,7 @@ async function resolveTeam(_db: Db, team: Team): Promise<TeamResolved> {
 }
 
 async function resolveUser(_db: Db, user: User): Promise<UserResolved> {
-    return { ...user, preferences: JSON.parse(user.preferences) };
+    return { ...user, preferences: user.preferences ? JSON.parse(user.preferences) : undefined };
 }
 // #region resolve
 

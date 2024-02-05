@@ -100,6 +100,6 @@ export type User = {
     name: string; 
     email: string; 
     password: string;
-    preferences: string; 
+    preferences?: string; 
 };
-export type UserResolved = Omit<User, 'preferences'> & { preferences: { [key in string]: unknown; }; };
+export type UserResolved = Omit<User, 'preferences'> & { preferences?: { [key in string]: unknown; }; };
