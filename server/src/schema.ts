@@ -55,7 +55,7 @@ export type Sprint = {
     created: Date;
     edited: Date | null;
 };
-export type SprintResolved = Omit<Post, 'author' | 'posts' | 'comments' | 'likes'> & {
+export type SprintResolved = Omit<Sprint, 'author' | 'posts' | 'comments' | 'likes'> & {
     _id: ObjectId;
     number: number;
     dateFrom: Date;
@@ -65,6 +65,24 @@ export type SprintResolved = Omit<Post, 'author' | 'posts' | 'comments' | 'likes
     posts: PostResolved[];
     comments: CommentResolved[];
     likes: LikeResolved[];
+    author: User;
+    created: Date;
+    edited: Date | null;
+};
+export type Project = {
+    _id: ObjectId;
+    title: string;
+    content: string;
+    posts: Id[];
+    author: Id;
+    created: Date;
+    edited: Date | null;
+};
+export type ProjectResolved = Omit<Project, 'author' | 'posts'> & {
+    _id: ObjectId;
+    title: string;
+    content: string;
+    posts: PostResolved[];
     author: User;
     created: Date;
     edited: Date | null;

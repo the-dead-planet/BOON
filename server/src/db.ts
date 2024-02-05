@@ -7,6 +7,8 @@ import type {
     LikeResolved,
     Post,
     PostResolved,
+    Project,
+    ProjectResolved,
     Sprint,
     SprintResolved,
     Team,
@@ -60,6 +62,10 @@ function postsCollection(db: Db): Collection<Post> {
 
 function sprintsCollection(db: Db): Collection<Sprint> {
     return db.collection<Sprint>('sprints');
+}
+
+function projectsCollection(db: Db): Collection<Project> {
+    return db.collection<Project>('projects');
 }
 
 function teamsCollection(db: Db): Collection<Team> {
@@ -121,6 +127,15 @@ async function resolveSprint(db: Db, sprint: Sprint): Promise<SprintResolved> {
         .toArray();
     const resolvedComments = await Promise.all(comments.map((comment) => resolveComment(db, comment)));
     return { ...sprint, author: fakeUser, posts: resolvedPosts, comments: resolvedComments, likes: resolvedLikes };
+}
+
+async function resolveProject(db: Db, project: Project): Promise<ProjectResolved> {
+    const postIds = (project.posts || []).map((x) => new ObjectId(x));
+    const posts = await postsCollection(db)
+        .find({ _id: { $in: postIds } })
+        .toArray();
+    const resolvedPosts = await Promise.all(posts.map((post) => resolvePost(db, post)));
+    return { ...project, author: fakeUser, posts: resolvedPosts };
 }
 
 async function resolveTeam(_db: Db, team: Team): Promise<TeamResolved> {
@@ -221,6 +236,25 @@ export async function getSprint(db: Db, id: string): Promise<SprintResolved | nu
 
 export async function addSprint(db: Db, sprint: Sprint): Promise<ObjectId> {
     const { insertedId } = await sprintsCollection(db).insertOne(sprint);
+    return insertedId;
+}
+
+export async function listProjects(db: Db): Promise<ProjectResolved[]> {
+    const projects = await projectsCollection(db).find().toArray();
+    return await Promise.all(projects.map((x) => resolveProject(db, x)));
+}
+
+export async function getProject(db: Db, id: string): Promise<ProjectResolved | null> {
+    const objId = new ObjectId(id);
+    const maybeProject = await projectsCollection(db).findOne(objId);
+    if (!maybeProject) {
+        return null;
+    }
+    return resolveProject(db, maybeProject);
+}
+
+export async function addProject(db: Db, project: Project): Promise<ObjectId> {
+    const { insertedId } = await projectsCollection(db).insertOne(project);
     return insertedId;
 }
 
