@@ -47,7 +47,7 @@ export const AddPost: React.FC = () => {
                 initialValues={{
                     project: '',
                     title: '',
-                    body: '',
+                    content: '',
                 }}
                 onSubmit={(data: { [key in string]: unknown; }) => {
                     submitAbortController.abort();

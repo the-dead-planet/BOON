@@ -101,7 +101,7 @@ export const Posts = ({
                                 title: getTag ? getTag(post._id) : '',
                                 link: getTagLink ? getTagLink(post._id) : '',
                             }}
-                            body={post.body}
+                            body={post.content}
                             // TODO: if image for post, shorten the 'maxLen' and display image
                             maxLen={i % 3 === 1 ? 250 : 400}
                             mediaMiddle={

@@ -62,7 +62,7 @@ export const SprintOverview = ({
             created={`${sprint.dateFrom && Utils.DateTime.toFormat(sprint.dateFrom, Format.DATE_FORMAT)} - ${
                 sprint.dateTo && Utils.DateTime.toFormat(sprint.dateTo, Format.DATE_FORMAT)
             }`}
-            body={sprint.body}
+            body={sprint.content}
             menuItems={[
                 { name: 'Share', path: '/' },
                 { name: 'Add post', path: `${sprint._id}/add_post` },

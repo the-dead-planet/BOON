@@ -49,7 +49,7 @@ export const Comment = ({ author, comment, onCommentToBeDeletedIdChange }: Props
                             </Typography>
                         </React.Fragment>
                     }
-                    secondary={<Typography variant="body2">{comment?.body}</Typography>}
+                    secondary={<Typography variant="body2">{comment?.content}</Typography>}
                 />
 
                 <ItemMenu items={menuItems} tooltip="More options" />

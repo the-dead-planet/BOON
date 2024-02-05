@@ -33,7 +33,7 @@ export const AddComment = ({ _id, model, addComment }: Props) => {
 
     return user ? (
         <AppForm
-            initialValues={{ body: '' }}
+            initialValues={{ content: '' }}
             onSubmit={(data, { resetForm }) => {
                 submitAbortController.abort();
                 submitAbortController = new AbortController();

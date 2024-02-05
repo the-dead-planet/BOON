@@ -70,7 +70,7 @@ export const EditProject: React.FC = () => {
                     // Assure that sprint is either of type Sprint or undefined and use sprint?.number (optional chaining ES2020)
                     initialValues={{
                         title: project.title,
-                        body: project.body,
+                        content: project.content,
                     }}
                     onSubmit={handleSubmit}
                 />

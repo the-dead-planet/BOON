@@ -51,7 +51,7 @@ export const SinglePost = ({
                     { title: `Sprint ${getSprint(post._id).number}`, link: `/sprints/${getSprint(post._id)._id}` },
                     { title: getProject(post._id).title, link: `/projects/${getProject(post._id)._id}` },
                 ]}
-                body={post.body}
+                body={post.content}
                 menuItems={[
                     {
                         name: 'Go to related project',

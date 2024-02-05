@@ -72,7 +72,7 @@ export const EditSprint: React.FC = () => {
                         title: sprint.title,
                         dateFrom: Utils.DateTime.toFormat(sprint.dateFrom, Format.FORMIK_DATE_FORMAT),
                         dateTo: Utils.DateTime.toFormat(sprint.dateTo, Format.FORMIK_DATE_FORMAT),
-                        body: sprint.body,
+                        content: sprint.content,
                     }}
                     onSubmit={handleSubmit}
                 />
