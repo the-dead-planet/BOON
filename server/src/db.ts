@@ -89,54 +89,57 @@ async function resolveLike(_db: Db, like: Like): Promise<LikeResolved> {
     return { ...like, author: fakeUser };
 }
 
-async function resolveComment(db: Db, comment: Comment): Promise<CommentResolved> {
-    const likeIds = (comment.likes || []).map((x) => new ObjectId(x));
+async function resolveLikes(db: Db, likeIds: string[] | undefined): Promise<LikeResolved[]> {
+    const likeObjectIds = (likeIds ?? []).map((x) => new ObjectId(x));
     const likes = await likesCollection(db)
-        .find({ _id: { $in: likeIds } })
+        .find({ _id: { $in: likeObjectIds } })
         .toArray();
-    const resolvedLikes = await Promise.all(likes.map((like) => resolveLike(db, like)));
+
+    return await Promise.all(likes.map((like) => resolveLike(db, like)));
+}
+
+async function resolveComments(db: Db, commentIds: string[] | undefined): Promise<CommentResolved[]> {
+    const commentObjectIds = (commentIds ?? []).map((x) => new ObjectId(x));
+    const comments = await commentsCollection(db)
+        .find({ _id: { $in: commentObjectIds } })
+        .toArray();
+
+    return await Promise.all(comments.map((comment) => resolveComment(db, comment)));
+}
+
+async function resolvePosts(db: Db, postIds: string[] | undefined): Promise<PostResolved[]> {
+    const postObjectIds = (postIds || []).map((x) => new ObjectId(x));
+    const posts = await postsCollection(db)
+        .find({ _id: { $in: postObjectIds } })
+        .toArray();
+
+    return await Promise.all(posts.map((post) => resolvePost(db, post)));
+}
+
+async function resolveComment(db: Db, comment: Comment): Promise<CommentResolved> {
+    const resolvedLikes = await resolveLikes(db, comment.likes);
+
     return { ...comment, author: fakeUser, likes: resolvedLikes };
 }
 
 async function resolvePost(db: Db, post: Post): Promise<PostResolved> {
-    const likeIds = (post.likes || []).map((x) => new ObjectId(x));
-    const likes = await likesCollection(db)
-        .find({ _id: { $in: likeIds } })
-        .toArray();
-    const resolvedLikes = await Promise.all(likes.map((like) => resolveLike(db, like)));
-    const commentIds = (post.comments || []).map((x) => new ObjectId(x));
-    const comments = await commentsCollection(db)
-        .find({ _id: { $in: commentIds } })
-        .toArray();
-    const resolvedComments = await Promise.all(comments.map((comment) => resolveComment(db, comment)));
+    const resolvedLikes = await resolveLikes(db, post.likes);
+    const resolvedComments = await resolveComments(db, post.comments);
+
     return { ...post, author: fakeUser, comments: resolvedComments, likes: resolvedLikes };
 }
 
 async function resolveSprint(db: Db, sprint: Sprint): Promise<SprintResolved> {
-    const postIds = (sprint.posts || []).map((x) => new ObjectId(x));
-    const posts = await postsCollection(db)
-        .find({ _id: { $in: postIds } })
-        .toArray();
-    const resolvedPosts = await Promise.all(posts.map((post) => resolvePost(db, post)));
-    const likeIds = (sprint.likes || []).map((x) => new ObjectId(x));
-    const likes = await likesCollection(db)
-        .find({ _id: { $in: likeIds } })
-        .toArray();
-    const resolvedLikes = await Promise.all(likes.map((like) => resolveLike(db, like)));
-    const commentIds = (sprint.comments || []).map((x) => new ObjectId(x));
-    const comments = await commentsCollection(db)
-        .find({ _id: { $in: commentIds } })
-        .toArray();
-    const resolvedComments = await Promise.all(comments.map((comment) => resolveComment(db, comment)));
+    const resolvedPosts = await resolvePosts(db, sprint.posts);
+    const resolvedLikes = await resolveLikes(db, sprint.likes);
+    const resolvedComments = await resolveComments(db, sprint.comments);
+
     return { ...sprint, author: fakeUser, posts: resolvedPosts, comments: resolvedComments, likes: resolvedLikes };
 }
 
 async function resolveProject(db: Db, project: Project): Promise<ProjectResolved> {
-    const postIds = (project.posts || []).map((x) => new ObjectId(x));
-    const posts = await postsCollection(db)
-        .find({ _id: { $in: postIds } })
-        .toArray();
-    const resolvedPosts = await Promise.all(posts.map((post) => resolvePost(db, post)));
+    const resolvedPosts = await resolvePosts(db, project.posts);
+    
     return { ...project, author: fakeUser, posts: resolvedPosts };
 }
 
