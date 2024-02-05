@@ -191,6 +191,60 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Team'
+        get:
+            summary: Single post.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Post'
+    /sprints:
+        get:
+            summary: All sprints.
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Sprint'
+        post:
+            summary: Create a new sprint.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SprintCreate'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /sprints/{id}:
+        get:
+            summary: Single sprint.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Sprint'
 components:
     schemas:
         Comment:
@@ -310,6 +364,77 @@ components:
                 - title
                 - content
             properties:
+                title:
+                    type: string
+                content:
+                    type: string
+        Sprint:
+            type: object
+            required:
+                - _id
+                - number
+                - dateFrom
+                - dateTo
+                - title
+                - content
+                - posts
+                - comments
+                - likes
+                - author
+                - created
+                - edited
+            properties:
+                _id:
+                    type: string
+                number:
+                    type: number
+                dateFrom:
+                    type: string
+                    format: date-time
+                dateTo:
+                    type: string
+                    format: date-time
+                title:
+                    type: string
+                content:
+                    type: string
+                posts:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Post'
+                comments:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Comment'
+                likes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Like'
+                author:
+                    type: User
+                created:
+                    type: string
+                    format: date-time
+                edited:
+                    type: string
+                    format: date-time
+        SprintCreate:
+            type: object
+            required:
+                - number
+                - dateFrom
+                - dateTo
+                - title
+                - content
+            properties:
+                number:
+                    type: number
+                dateFrom:
+                    type: string
+                    format: date-time
+                dateTo:
+                    type: string
+                    format: date-time
                 title:
                     type: string
                 content:
