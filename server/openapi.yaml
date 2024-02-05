@@ -518,7 +518,21 @@ components:
         User:
             type: object
             required:
+                - _id
                 - name
+                - email
+                - password
+                - preferences
             properties:
+                _id:
+                    type: string
                 name:
+                    type: string
+                email:
+                    type: string
+                    format: email
+                password:
+                    type: string
+                    format: password
+                preferences:
                     type: string

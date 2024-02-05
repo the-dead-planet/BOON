@@ -95,4 +95,11 @@ export type Team = {
     created: Date;
 };
 export type TeamResolved = Omit<Team, 'members'> & { members: User[] };
-export type User = { name: string };
+export type User = { 
+    _id: string; 
+    name: string; 
+    email: string; 
+    password: string;
+    preferences: string; 
+};
+export type UserResolved = Omit<User, 'preferences'> & { preferences: { [key in string]: unknown; }; };

@@ -1,3 +1,4 @@
+import * as argon2 from "argon2";
 import type { Db, Collection } from 'mongodb';
 import { MongoClient, ServerApiVersion, ObjectId } from 'mongodb';
 import type {
@@ -14,10 +15,11 @@ import type {
     Team,
     TeamResolved,
     User,
+    UserResolved,
 } from './schema.js';
 
 // Fake user, until we implement proper auth.
-const fakeUser: User = { name: 'Mr fake user' };
+const fakeUser: User = { _id: '0', name: 'Mr fake user', email: 'fake@user.com', password: 'fakeuser123', preferences: '{"darkMode":false}' };
 
 // Reexport for convenience.
 export type Database = Db;
@@ -140,6 +142,10 @@ async function resolveProject(db: Db, project: Project): Promise<ProjectResolved
 
 async function resolveTeam(_db: Db, team: Team): Promise<TeamResolved> {
     return { ...team, members: [fakeUser] };
+}
+
+async function resolveUser(_db: Db, user: User): Promise<UserResolved> {
+    return { ...user, preferences: JSON.parse(user.preferences) };
 }
 // #region resolve
 
@@ -277,7 +283,22 @@ export async function addTeam(db: Db, team: Team): Promise<ObjectId> {
     return insertedId;
 }
 
+export async function listUsers(db: Db): Promise<UserResolved[]> {
+    const users = await usersCollection(db).find().toArray();
+    return await Promise.all(users.map((x) => resolveUser(db, x)));
+}
+
 export function getUser(db: Db, id: string): Promise<User | null> {
     const objId = new ObjectId(id);
     return usersCollection(db).findOne(objId);
+}
+
+export async function addUser(db: Db, user: User): Promise<ObjectId> {
+    const isEmailUnique = (await usersCollection(db).find({ email: user.email }).toArray()).length === 0;
+    if (!isEmailUnique) {
+        throw new Error('User with this e-mail already exists!');
+    }
+    const hashed = await argon2.hash(user.password);
+    const { insertedId } = await usersCollection(db).insertOne({ ...user, password: hashed });
+    return new ObjectId(insertedId);
 }
