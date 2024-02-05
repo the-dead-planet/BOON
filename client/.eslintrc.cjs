@@ -20,14 +20,6 @@ module.exports = {
             },
         ],
         "no-unused-vars": "off",
-        "@typescript-eslint/no-unused-vars": [
-            "error",
-            {
-                "argsIgnorePattern": "^_",
-                "varsIgnorePattern": "^_",
-                "caughtErrorsIgnorePattern": "^_"
-            }
-        ],
-        "react-hooks/exhaustive-deps": "off"
+        "@typescript-eslint/no-unused-vars": "off",
     },
 }

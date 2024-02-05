@@ -93,7 +93,7 @@ export const Posts = ({
                             model={'Post'}
                             comments={post.comments.map((id) => comments.get(id))}
                             likes={post.likes.map((id) => likes.get(id))}
-                            author={'author' in post && post.author ? users.get(post.author._id)?.publicName ?? 'Unknown user' : 'Unknown user'}
+                            author={'author' in post && post.author ? users.get(post.author._id)?.name ?? 'Unknown user' : 'Unknown user'}
                             title={post.title}
                             titleLink={`/posts/${post._id}?from=`}
                             created={getCreated ? getCreated(post.created) : undefined}

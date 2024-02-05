@@ -60,7 +60,7 @@ export const Post: React.FC = () => {
                     ? {
                           header: 'written by',
                           // TODO: Add 'about me' to user properties and display it here, if not available generate random goss
-                          body: 'author' in post ? `${users.get(post.author?._id ?? '')?.publicName}` : '',
+                          body: 'author' in post ? `${users.get(post.author?._id ?? '')?.name}` : '',
                       }
                     : undefined
             }

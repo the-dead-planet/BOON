@@ -17,8 +17,8 @@ const useStyles = makeStyles((_theme: Theme) =>
 );
 
 /**
- * Users can log in using either their e-mail (passport 'username') or their publicName.
- * If non-email address value entered, match with publicName and replace 'email' value by matched user's username (=email) 
+ * Users can log in using either their e-mail (passport 'username') or their name.
+ * If non-email address value entered, match with name and replace 'email' value by matched user's username (=email) 
  */
 export const Register: React.FC = () => {
     const classes = useStyles();

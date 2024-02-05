@@ -33,14 +33,14 @@ type AuthRole = 'admin' | 'editor' | 'reader' | 'guest';
 interface UserObject {
     _id: string;
     email: string;
-    publicName: string;
+    name: string;
     role: AuthRole;
     mode: boolean | undefined;
 }
 
 interface UserData {
     email: string;
-    publicName: string;
+    name: string;
     darkMode: boolean | undefined;
 }
 

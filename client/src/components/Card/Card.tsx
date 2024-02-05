@@ -112,7 +112,7 @@ export const Card = ({
     created,
     tags,
     tag,
-    body,
+    body = '',
     maxLen,
     mediaTop,
     mediaMiddle,
@@ -233,7 +233,7 @@ export const Card = ({
                 })}
             >
                 <ActionButtons
-                    author={object && 'author' in object ? (typeof object.author === 'string' ? object.author : object.author?.publicName ?? 'Unknown') : 'Unknown'}
+                    author={object && 'author' in object ? (typeof object.author === 'string' ? object.author : object.author?.name ?? 'Unknown') : 'Unknown'}
                     comments={comments}
                     likes={likes}
                     toggleCommentsPanel={toggleCommentsPanel}
