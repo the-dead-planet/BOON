@@ -296,9 +296,9 @@ paths:
                         application/json:
                             schema:
                                 type: string
-    /projects/{id}:
+    /users/{id}:
         get:
-            summary: Single project.
+            summary: Single user.
             parameters:
                 - name: id
                   in: path
@@ -310,7 +310,7 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/Project'
+                                $ref: '#/components/schemas/User'
 components:
     schemas:
         Comment:
