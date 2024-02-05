@@ -231,6 +231,86 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Sprint'
+    /projects:
+        get:
+            summary: All projects.
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Project'
+        post:
+            summary: Create a new project.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProjectCreate'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /projects/{id}:
+        get:
+            summary: Single project.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Project'
+    /users:
+        get:
+            summary: All users.
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/User'
+        post:
+            summary: Create a new user.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UserCreate'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /projects/{id}:
+        get:
+            summary: Single project.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Project'
 components:
     schemas:
         Comment:
@@ -509,9 +589,35 @@ components:
                 - email
                 - password
                 - preferences
+                - created
+                - edited
             properties:
                 _id:
                     type: string
+                name:
+                    type: string
+                email:
+                    type: string
+                    format: email
+                password:
+                    type: string
+                    format: password
+                preferences:
+                    type: string
+                created:
+                    type: string
+                    format: date-time
+                edited:
+                    type: string
+                    format: date-time
+        UserCreate:
+            type: object
+            required:
+                - name
+                - email
+                - password
+                - preferences
+            properties:
                 name:
                     type: string
                 email:

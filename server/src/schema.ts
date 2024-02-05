@@ -101,5 +101,7 @@ export type User = {
     email: string; 
     password: string;
     preferences?: string; 
+    created: Date;
+    edited: Date | null;
 };
 export type UserResolved = Omit<User, 'preferences'> & { preferences?: { [key in string]: unknown; }; };

@@ -19,7 +19,7 @@ import type {
 } from './schema.js';
 
 // Fake user, until we implement proper auth.
-const fakeUser: User = { _id: '0', name: 'Mr fake user', email: 'fake@user.com', password: 'fakeuser123', preferences: '{"darkMode":false}' };
+const fakeUser: User = { _id: '0', name: 'Mr fake user', email: 'fake@user.com', password: 'fakeuser123', preferences: '{"darkMode":false}', created: new Date(), edited: null };
 
 // Reexport for convenience.
 export type Database = Db;
