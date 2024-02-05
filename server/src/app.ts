@@ -57,6 +57,16 @@ export function buildApp(database: db.Database): Hono {
         return c.json(insertedId);
     });
 
+    const sprintsApp = new Hono();
+    sprintsApp.get('/', async (c: Context) => c.json(await db.listSprints(database)));
+    sprintsApp.get('/:id', async (c: Context) => c.json(await db.getSprint(database, c.req.param('id'))));
+    sprintsApp.post('/', async (c: Context) => {
+        const body = await c.req.json();
+        const sprint = { ...body, created: new Date(), comments: [], likes: [] };
+        const insertedId = await db.addSprint(database, sprint);
+        return c.json(insertedId);
+    });
+
     const teamsApp = new Hono();
     teamsApp.get('/', async (c: Context) => c.json(await db.listTeams(database)));
     teamsApp.get('/:id', async (c: Context) => c.json(await db.getTeam(database, c.req.param('id'))));
@@ -82,6 +92,7 @@ export function buildApp(database: db.Database): Hono {
     app.route('/comments', commentsApp);
     app.route('/likes', likesApp);
     app.route('/posts', postsApp);
+    app.route('/sprints', sprintsApp);
     app.route('/teams', teamsApp);
 
     return app;

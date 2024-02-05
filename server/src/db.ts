@@ -7,6 +7,8 @@ import type {
     LikeResolved,
     Post,
     PostResolved,
+    Sprint,
+    SprintResolved,
     Team,
     TeamResolved,
     User,
@@ -56,6 +58,10 @@ function postsCollection(db: Db): Collection<Post> {
     return db.collection<Post>('posts');
 }
 
+function sprintsCollection(db: Db): Collection<Sprint> {
+    return db.collection<Sprint>('sprints');
+}
+
 function teamsCollection(db: Db): Collection<Team> {
     return db.collection<Team>('teams');
 }
@@ -96,6 +102,25 @@ async function resolvePost(db: Db, post: Post): Promise<PostResolved> {
         .toArray();
     const resolvedComments = await Promise.all(comments.map((comment) => resolveComment(db, comment)));
     return { ...post, author: fakeUser, comments: resolvedComments, likes: resolvedLikes };
+}
+
+async function resolveSprint(db: Db, sprint: Sprint): Promise<SprintResolved> {
+    const postIds = (sprint.posts || []).map((x) => new ObjectId(x));
+    const posts = await postsCollection(db)
+        .find({ _id: { $in: postIds } })
+        .toArray();
+    const resolvedPosts = await Promise.all(posts.map((post) => resolvePost(db, post)));
+    const likeIds = (sprint.likes || []).map((x) => new ObjectId(x));
+    const likes = await likesCollection(db)
+        .find({ _id: { $in: likeIds } })
+        .toArray();
+    const resolvedLikes = await Promise.all(likes.map((like) => resolveLike(db, like)));
+    const commentIds = (sprint.comments || []).map((x) => new ObjectId(x));
+    const comments = await commentsCollection(db)
+        .find({ _id: { $in: commentIds } })
+        .toArray();
+    const resolvedComments = await Promise.all(comments.map((comment) => resolveComment(db, comment)));
+    return { ...sprint, author: fakeUser, posts: resolvedPosts, comments: resolvedComments, likes: resolvedLikes };
 }
 
 async function resolveTeam(_db: Db, team: Team): Promise<TeamResolved> {
@@ -177,6 +202,25 @@ export async function getPost(db: Db, id: string): Promise<PostResolved | null> 
 
 export async function addPost(db: Db, post: Post): Promise<ObjectId> {
     const { insertedId } = await postsCollection(db).insertOne(post);
+    return insertedId;
+}
+
+export async function listSprints(db: Db): Promise<SprintResolved[]> {
+    const sprints = await sprintsCollection(db).find().toArray();
+    return await Promise.all(sprints.map((x) => resolveSprint(db, x)));
+}
+
+export async function getSprint(db: Db, id: string): Promise<SprintResolved | null> {
+    const objId = new ObjectId(id);
+    const maybeSprint = await sprintsCollection(db).findOne(objId);
+    if (!maybeSprint) {
+        return null;
+    }
+    return resolveSprint(db, maybeSprint);
+}
+
+export async function addSprint(db: Db, sprint: Sprint): Promise<ObjectId> {
+    const { insertedId } = await sprintsCollection(db).insertOne(sprint);
     return insertedId;
 }
 

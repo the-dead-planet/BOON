@@ -41,6 +41,34 @@ export type PostResolved = Omit<Post, 'author' | 'comments' | 'likes'> & {
     comments: CommentResolved[];
     likes: LikeResolved[];
 };
+export type Sprint = {
+    _id: ObjectId;
+    number: number;
+    dateFrom: Date;
+    dateTo: Date;
+    title: string;
+    content: string;
+    posts: Id[];
+    comments: Id[];
+    likes: Id[];
+    author: Id;
+    created: Date;
+    edited: Date | null;
+};
+export type SprintResolved = Omit<Post, 'author' | 'posts' | 'comments' | 'likes'> & {
+    _id: ObjectId;
+    number: number;
+    dateFrom: Date;
+    dateTo: Date;
+    title: string;
+    content: string;
+    posts: PostResolved[];
+    comments: CommentResolved[];
+    likes: LikeResolved[];
+    author: User;
+    created: Date;
+    edited: Date | null;
+};
 export type Team = {
     _id: ObjectId;
     title: string;
