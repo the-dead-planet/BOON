@@ -297,6 +297,7 @@ export function getUser(db: Db, id: string): Promise<User | null> {
 }
 
 export async function addUser(db: Db, user: User): Promise<ObjectId> {
+    // TODO: Could also use this somewhere: db.collection<User>('users').createIndex({ email: 1 }, { unique: true })
     const isEmailUnique = (await usersCollection(db).find({ email: user.email }).toArray()).length === 0;
     if (!isEmailUnique) {
         throw new Error('User with this e-mail already exists!');
