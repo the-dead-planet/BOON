@@ -439,6 +439,45 @@ components:
                     type: string
                 content:
                     type: string
+        Project:
+            type: object
+            required:
+                - _id
+                - title
+                - content
+                - posts
+                - author
+                - created
+                - edited
+            properties:
+                _id:
+                    type: string
+                title:
+                    type: string
+                content:
+                    type: string
+                posts:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Post'
+                author:
+                    type: User
+                created:
+                    type: string
+                    format: date-time
+                edited:
+                    type: string
+                    format: date-time
+        ProjectCreate:
+            type: object
+            required:
+                - title
+                - content
+            properties:
+                title:
+                    type: string
+                content:
+                    type: string
         Team:
             type: object
             required:
