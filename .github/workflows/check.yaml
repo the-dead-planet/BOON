@@ -1,0 +1,39 @@
+on:
+    pull_request:
+
+jobs:
+    check-client:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: ./client
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '20'
+                  cache: yarn
+                  cache-dependency-path: client/yarn.lock
+            - run: yarn install --frozen-lockfile
+            - run: yarn lint
+    check-server:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: ./server
+        services:
+            # Run a mongo docker image during the job. Needed to run unit tests.
+            mongo:
+                image: mongo
+                ports:
+                    - 27017:27017
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '20'
+                  cache: yarn
+                  cache-dependency-path: server/yarn.lock
+            - run: yarn install --frozen-lockfile
+            - run: yarn lint
+            - run: yarn test
