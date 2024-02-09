@@ -137,7 +137,7 @@ export const AuthButtonsHorizontal: React.FC = () => {
                     <ItemMenu
                         icon={<IconUserSecret size="1x" />}
                         items={[
-                            { name: `Howdy, ${user.publicName}!`, onClick: () => '' },
+                            { name: `Howdy, ${user.name}!`, onClick: () => '' },
                             { name: 'Account', onClick: () => '' },
                             { name: texts.logout, path: Routes.Types.RouterPaths.Logout, onClick: () => '', alarm: true },
                         ]}

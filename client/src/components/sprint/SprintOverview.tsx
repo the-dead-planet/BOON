@@ -44,8 +44,8 @@ export const SprintOverview = ({
     const classes = useStyles();
     const ui = Hooks.useSubject(AppState.ui$);
     const author: User | null = sprint.author ? users.get(sprint.author._id) : null;
-    const authorPublicName = author ? author.publicName : 'unknown';
-    // const isAuthor = users.get(String(sprint?.author) || '')?.publicName === user?.publicName;
+    const authorPublicName = author ? author.name : 'unknown';
+    // const isAuthor = users.get(String(sprint?.author) || '')?.name === user?.name;
 
     // TEMP
     const img = ui.theme === 'vintage' ? `${Images.cmdUrl}/vintage/typewriter2.jpg` : ui.theme === 'frostic' ? `${Images.cmdUrl}/tech/gameboy.jpg` : `${Images.cmdUrl}/tech/alien.jpg`;
@@ -62,7 +62,7 @@ export const SprintOverview = ({
             created={`${sprint.dateFrom && Utils.DateTime.toFormat(sprint.dateFrom, Format.DATE_FORMAT)} - ${
                 sprint.dateTo && Utils.DateTime.toFormat(sprint.dateTo, Format.DATE_FORMAT)
             }`}
-            body={sprint.body}
+            body={sprint.content}
             menuItems={[
                 { name: 'Share', path: '/' },
                 { name: 'Add post', path: `${sprint._id}/add_post` },

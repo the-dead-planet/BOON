@@ -3,7 +3,7 @@ import { buildApp } from './src/app.js';
 import { connect } from './src/db.js';
 
 const DB_URI = 'mongodb://localhost:27017';
-const DB_NAME = process.env['PORT'] ?? 'boon';
+const DB_NAME = process.env['DB_NAME'] ?? 'boon';
 const PORT = process.env['PORT'] ? parseInt(process.env['PORT']) : 5000;
 
 console.log(`Connecting to MongoDB. URI=${DB_URI} DB_NAME=${DB_NAME}`);

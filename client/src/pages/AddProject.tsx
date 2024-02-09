@@ -36,7 +36,7 @@ export const AddProject: React.FC = () => {
                 title="Add new project"
                 initialValues={{
                     title: '',
-                    body: '',
+                    content: '',
                 }}
                 onSubmit={handleSubmit}
             />

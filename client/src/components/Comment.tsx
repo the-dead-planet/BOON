@@ -35,21 +35,21 @@ export const Comment = ({ author, comment, onCommentToBeDeletedIdChange }: Props
         <>
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                    <Avatar alt={author?.publicName} src="/static/images/avatar/1.jpg" />
+                    <Avatar alt={author?.name} src="/static/images/avatar/1.jpg" />
                 </ListItemAvatar>
 
                 <ListItemText
                     primary={
                         <React.Fragment>
                             <Typography component="span" variant="body2">
-                                {author?.publicName}
+                                {author?.name}
                             </Typography>
                             <Typography component="span" variant="caption">
                                 {` - ${created ?? '...'}`}
                             </Typography>
                         </React.Fragment>
                     }
-                    secondary={<Typography variant="body2">{comment?.body}</Typography>}
+                    secondary={<Typography variant="body2">{comment?.content}</Typography>}
                 />
 
                 <ItemMenu items={menuItems} tooltip="More options" />

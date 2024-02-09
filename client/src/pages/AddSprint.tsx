@@ -25,7 +25,7 @@ export const AddSprint: React.FC = () => {
                     dateFrom: nowFormatted,
                     dateTo: nowFormatted,
                     title: '',
-                    body: '',
+                    content: '',
                 }}
                 onSubmit={(data: { [key in string]: unknown }) => {
                     abortController.abort();

@@ -41,6 +41,52 @@ export type PostResolved = Omit<Post, 'author' | 'comments' | 'likes'> & {
     comments: CommentResolved[];
     likes: LikeResolved[];
 };
+export type Sprint = {
+    _id: ObjectId;
+    number: number;
+    dateFrom: Date;
+    dateTo: Date;
+    title: string;
+    content: string;
+    posts: Id[];
+    comments: Id[];
+    likes: Id[];
+    author: Id;
+    created: Date;
+    edited: Date | null;
+};
+export type SprintResolved = Omit<Sprint, 'author' | 'posts' | 'comments' | 'likes'> & {
+    _id: ObjectId;
+    number: number;
+    dateFrom: Date;
+    dateTo: Date;
+    title: string;
+    content: string;
+    posts: PostResolved[];
+    comments: CommentResolved[];
+    likes: LikeResolved[];
+    author: User;
+    created: Date;
+    edited: Date | null;
+};
+export type Project = {
+    _id: ObjectId;
+    title: string;
+    content: string;
+    posts: Id[];
+    author: Id;
+    created: Date;
+    edited: Date | null;
+};
+export type ProjectResolved = Omit<Project, 'author' | 'posts'> & {
+    _id: ObjectId;
+    title: string;
+    content: string;
+    posts: PostResolved[];
+    author: User;
+    created: Date;
+    edited: Date | null;
+};
 export type Team = {
     _id: ObjectId;
     title: string;
@@ -49,4 +95,12 @@ export type Team = {
     created: Date;
 };
 export type TeamResolved = Omit<Team, 'members'> & { members: User[] };
-export type User = { name: string };
+export type User = { 
+    _id: string; 
+    name: string; 
+    email: string;
+    preferences?: string; 
+    created: Date;
+    edited: Date | null;
+};
+export type UserResolved = Omit<User, 'preferences'> & { preferences?: { [key in string]: unknown; }; };

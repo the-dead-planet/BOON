@@ -33,14 +33,14 @@ type AuthRole = 'admin' | 'editor' | 'reader' | 'guest';
 interface UserObject {
     _id: string;
     email: string;
-    publicName: string;
+    name: string;
     role: AuthRole;
     mode: boolean | undefined;
 }
 
 interface UserData {
     email: string;
-    publicName: string;
+    name: string;
     darkMode: boolean | undefined;
 }
 
@@ -99,13 +99,13 @@ interface Comment {
     _id: string;
     author: string;
     likes: Array<Like>;
-    body: string;
+    content: string;
     created: string;
     edited: Date;
 }
 
 interface CommentData {
-    body: string;
+    content: string;
 }
 
 interface Like {
@@ -139,7 +139,7 @@ interface Sprint {
     dateFrom: Date;
     dateTo: Date;
     title: string;
-    body: string;
+    content: string;
     posts: Array<string>;
     comments: Array<string>;
     likes: Array<string>;
@@ -153,14 +153,14 @@ interface SprintData {
     dateFrom: string;
     dateTo: string;
     title: string;
-    body: string;
+    content: string;
 }
 
 interface Post {
     _id: string;
     author: User;
     title: string;
-    body: string;
+    content: string;
     comments: Array<string>;
     likes: Array<string>;
     created: Date;
@@ -169,14 +169,14 @@ interface Post {
 
 interface PostData {
     title: string;
-    body: string;
+    content: string;
 }
 
 interface Project {
     _id: string;
     author: User;
     title: string;
-    body: string;
+    content: string;
     posts: Array<string>;
     created: Date;
     edited: Date;
@@ -184,13 +184,13 @@ interface Project {
 
 interface ProjectData {
     title: string;
-    body: string;
+    content: string;
 }
 
 interface Team {
     _id: string;
     title: string;
-    body: string;
+    content: string;
     members: Array<string>;
     created: Date;
     edited: Date;
@@ -198,7 +198,7 @@ interface Team {
 
 interface TeamData {
     title: string;
-    body: string;
+    content: string;
 }
 
 type MongoObject = Post | Sprint | Project | Comment | Like | UserObject | Team;
@@ -210,23 +210,23 @@ interface SprintSubmit {
     dateFrom: string;
     dateTo: string;
     title: string;
-    body: string;
+    content: string;
 }
 
 interface PostSubmit {
     project: string;
     title: string;
-    body: string;
+    content: string;
 }
 
 interface ProjectSubmit {
     title: string;
-    body: string;
+    content: string;
 }
 
 type O = { [key in string]: string };
 interface CommentSubmit extends O {
-    body: string;
+    content: string;
 }
 
 interface Submit {

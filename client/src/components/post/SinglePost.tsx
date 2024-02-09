@@ -43,7 +43,7 @@ export const SinglePost = ({
                 model={'Post'}
                 comments={post.comments.map((id) => comments.get(id))}
                 likes={post.likes.map((id) => likes.get(id))}
-                author={'author' in post && post.author ? users.get(post.author?._id)?.publicName ?? 'Unknown user' : 'Unknown user'}
+                author={'author' in post && post.author ? users.get(post.author?._id)?.name ?? 'Unknown user' : 'Unknown user'}
                 title={post.title}
                 titleLink={`/posts/${post._id}`}
                 created={Utils.DateTime.toFormat(post.created, Format.EXT_DATE_FORMAT)}
@@ -51,7 +51,7 @@ export const SinglePost = ({
                     { title: `Sprint ${getSprint(post._id).number}`, link: `/sprints/${getSprint(post._id)._id}` },
                     { title: getProject(post._id).title, link: `/projects/${getProject(post._id)._id}` },
                 ]}
-                body={post.body}
+                body={post.content}
                 menuItems={[
                     {
                         name: 'Go to related project',

@@ -1,3 +1,4 @@
+import * as argon2 from "argon2";
 import type { Db, Collection } from 'mongodb';
 import { MongoClient, ServerApiVersion, ObjectId } from 'mongodb';
 import type {
@@ -7,13 +8,18 @@ import type {
     LikeResolved,
     Post,
     PostResolved,
+    Project,
+    ProjectResolved,
+    Sprint,
+    SprintResolved,
     Team,
     TeamResolved,
     User,
+    UserResolved,
 } from './schema.js';
 
 // Fake user, until we implement proper auth.
-const fakeUser: User = { name: 'Mr fake user' };
+const fakeUser: User = { _id: '0', name: 'Mr fake user', email: 'fake@user.com', preferences: '{"darkMode":false}', created: new Date(), edited: null };
 
 // Reexport for convenience.
 export type Database = Db;
@@ -56,12 +62,20 @@ function postsCollection(db: Db): Collection<Post> {
     return db.collection<Post>('posts');
 }
 
+function sprintsCollection(db: Db): Collection<Sprint> {
+    return db.collection<Sprint>('sprints');
+}
+
+function projectsCollection(db: Db): Collection<Project> {
+    return db.collection<Project>('projects');
+}
+
 function teamsCollection(db: Db): Collection<Team> {
     return db.collection<Team>('teams');
 }
 
-function usersCollection(db: Db): Collection<User> {
-    return db.collection<User>('users');
+function usersCollection(db: Db): Collection<User & { password: string; }> {
+    return db.collection<User & { password: string; }>('users');
 }
 // #endregion
 
@@ -75,31 +89,73 @@ async function resolveLike(_db: Db, like: Like): Promise<LikeResolved> {
     return { ...like, author: fakeUser };
 }
 
-async function resolveComment(db: Db, comment: Comment): Promise<CommentResolved> {
-    const likeIds = (comment.likes || []).map((x) => new ObjectId(x));
+async function resolveLikes(db: Db, likeIds: string[] | undefined): Promise<LikeResolved[]> {
+    const likeObjectIds = (likeIds ?? []).map((x) => new ObjectId(x));
     const likes = await likesCollection(db)
-        .find({ _id: { $in: likeIds } })
+        .find({ _id: { $in: likeObjectIds } })
         .toArray();
-    const resolvedLikes = await Promise.all(likes.map((like) => resolveLike(db, like)));
+
+    return await Promise.all(likes.map((like) => resolveLike(db, like)));
+}
+
+async function resolveComments(db: Db, commentIds: string[] | undefined): Promise<CommentResolved[]> {
+    const commentObjectIds = (commentIds ?? []).map((x) => new ObjectId(x));
+    const comments = await commentsCollection(db)
+        .find({ _id: { $in: commentObjectIds } })
+        .toArray();
+
+    return await Promise.all(comments.map((comment) => resolveComment(db, comment)));
+}
+
+async function resolvePosts(db: Db, postIds: string[] | undefined): Promise<PostResolved[]> {
+    const postObjectIds = (postIds || []).map((x) => new ObjectId(x));
+    const posts = await postsCollection(db)
+        .find({ _id: { $in: postObjectIds } })
+        .toArray();
+
+    return await Promise.all(posts.map((post) => resolvePost(db, post)));
+}
+
+async function resolveComment(db: Db, comment: Comment): Promise<CommentResolved> {
+    const resolvedLikes = await resolveLikes(db, comment.likes);
+
     return { ...comment, author: fakeUser, likes: resolvedLikes };
 }
 
 async function resolvePost(db: Db, post: Post): Promise<PostResolved> {
-    const likeIds = (post.likes || []).map((x) => new ObjectId(x));
-    const likes = await likesCollection(db)
-        .find({ _id: { $in: likeIds } })
-        .toArray();
-    const resolvedLikes = await Promise.all(likes.map((like) => resolveLike(db, like)));
-    const commentIds = (post.comments || []).map((x) => new ObjectId(x));
-    const comments = await commentsCollection(db)
-        .find({ _id: { $in: commentIds } })
-        .toArray();
-    const resolvedComments = await Promise.all(comments.map((comment) => resolveComment(db, comment)));
+    const resolvedLikes = await resolveLikes(db, post.likes);
+    const resolvedComments = await resolveComments(db, post.comments);
+
     return { ...post, author: fakeUser, comments: resolvedComments, likes: resolvedLikes };
+}
+
+async function resolveSprint(db: Db, sprint: Sprint): Promise<SprintResolved> {
+    const resolvedPosts = await resolvePosts(db, sprint.posts);
+    const resolvedLikes = await resolveLikes(db, sprint.likes);
+    const resolvedComments = await resolveComments(db, sprint.comments);
+
+    return { ...sprint, author: fakeUser, posts: resolvedPosts, comments: resolvedComments, likes: resolvedLikes };
+}
+
+async function resolveProject(db: Db, project: Project): Promise<ProjectResolved> {
+    const resolvedPosts = await resolvePosts(db, project.posts);
+    
+    return { ...project, author: fakeUser, posts: resolvedPosts };
 }
 
 async function resolveTeam(_db: Db, team: Team): Promise<TeamResolved> {
     return { ...team, members: [fakeUser] };
+}
+
+async function resolveUser(_db: Db, user: User): Promise<UserResolved> {
+    return {
+        _id: user._id,
+        created: user.created,
+        edited: user.edited,
+        email: user.email,
+        name: user.name,
+        preferences: user.preferences ? JSON.parse(user.preferences) : undefined 
+    };
 }
 // #region resolve
 
@@ -180,6 +236,44 @@ export async function addPost(db: Db, post: Post): Promise<ObjectId> {
     return insertedId;
 }
 
+export async function listSprints(db: Db): Promise<SprintResolved[]> {
+    const sprints = await sprintsCollection(db).find().toArray();
+    return await Promise.all(sprints.map((x) => resolveSprint(db, x)));
+}
+
+export async function getSprint(db: Db, id: string): Promise<SprintResolved | null> {
+    const objId = new ObjectId(id);
+    const maybeSprint = await sprintsCollection(db).findOne(objId);
+    if (!maybeSprint) {
+        return null;
+    }
+    return resolveSprint(db, maybeSprint);
+}
+
+export async function addSprint(db: Db, sprint: Sprint): Promise<ObjectId> {
+    const { insertedId } = await sprintsCollection(db).insertOne(sprint);
+    return insertedId;
+}
+
+export async function listProjects(db: Db): Promise<ProjectResolved[]> {
+    const projects = await projectsCollection(db).find().toArray();
+    return await Promise.all(projects.map((x) => resolveProject(db, x)));
+}
+
+export async function getProject(db: Db, id: string): Promise<ProjectResolved | null> {
+    const objId = new ObjectId(id);
+    const maybeProject = await projectsCollection(db).findOne(objId);
+    if (!maybeProject) {
+        return null;
+    }
+    return resolveProject(db, maybeProject);
+}
+
+export async function addProject(db: Db, project: Project): Promise<ObjectId> {
+    const { insertedId } = await projectsCollection(db).insertOne(project);
+    return insertedId;
+}
+
 export async function listTeams(db: Db): Promise<TeamResolved[]> {
     const teams = await teamsCollection(db).find().toArray();
     return await Promise.all(teams.map((x) => resolveTeam(db, x)));
@@ -199,7 +293,34 @@ export async function addTeam(db: Db, team: Team): Promise<ObjectId> {
     return insertedId;
 }
 
-export function getUser(db: Db, id: string): Promise<User | null> {
+export async function listUsers(db: Db): Promise<UserResolved[]> {
+    const users = await usersCollection(db).find().toArray();
+    return await Promise.all(users.map((x) => resolveUser(db, x)));
+}
+
+export async function getUser(db: Db, id: string): Promise<User | null> {
     const objId = new ObjectId(id);
-    return usersCollection(db).findOne(objId);
+    const user = await usersCollection(db).findOne(objId);
+    if (!user) {
+        return null;
+    }
+    return {
+        _id: user._id,
+        created: user.created,
+        edited: user.edited,
+        email: user.email,
+        name: user.name,
+        preferences: user.preferences ? JSON.parse(user.preferences) : undefined
+    }
+}
+
+export async function addUser(db: Db, user: User & { password: string; }): Promise<ObjectId> {
+    // TODO: Could also use this somewhere: db.collection<User>('users').createIndex({ email: 1 }, { unique: true })
+    const isEmailUnique = (await usersCollection(db).find({ email: user.email }).toArray()).length === 0;
+    if (!isEmailUnique) {
+        throw new Error('User with this e-mail already exists!');
+    }
+    const hashed = await argon2.hash(user.password);
+    const { insertedId } = await usersCollection(db).insertOne({ ...user, password: hashed });
+    return new ObjectId(insertedId);
 }

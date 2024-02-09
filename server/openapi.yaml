@@ -191,6 +191,126 @@ paths:
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/Team'
+    /sprints:
+        get:
+            summary: All sprints.
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Sprint'
+        post:
+            summary: Create a new sprint.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/SprintCreate'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /sprints/{id}:
+        get:
+            summary: Single sprint.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Sprint'
+    /projects:
+        get:
+            summary: All projects.
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Project'
+        post:
+            summary: Create a new project.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ProjectCreate'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /projects/{id}:
+        get:
+            summary: Single project.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Project'
+    /users:
+        get:
+            summary: All users.
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/User'
+        post:
+            summary: Create a new user.
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UserCreate'
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+    /users/{id}:
+        get:
+            summary: Single user.
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                '200':
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/User'
 components:
     schemas:
         Comment:
@@ -314,6 +434,116 @@ components:
                     type: string
                 content:
                     type: string
+        Sprint:
+            type: object
+            required:
+                - _id
+                - number
+                - dateFrom
+                - dateTo
+                - title
+                - content
+                - posts
+                - comments
+                - likes
+                - author
+                - created
+                - edited
+            properties:
+                _id:
+                    type: string
+                number:
+                    type: number
+                dateFrom:
+                    type: string
+                    format: date-time
+                dateTo:
+                    type: string
+                    format: date-time
+                title:
+                    type: string
+                content:
+                    type: string
+                posts:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Post'
+                comments:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Comment'
+                likes:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Like'
+                author:
+                    type: User
+                created:
+                    type: string
+                    format: date-time
+                edited:
+                    type: string
+                    format: date-time
+        SprintCreate:
+            type: object
+            required:
+                - number
+                - dateFrom
+                - dateTo
+                - title
+                - content
+            properties:
+                number:
+                    type: number
+                dateFrom:
+                    type: string
+                    format: date-time
+                dateTo:
+                    type: string
+                    format: date-time
+                title:
+                    type: string
+                content:
+                    type: string
+        Project:
+            type: object
+            required:
+                - _id
+                - title
+                - content
+                - posts
+                - author
+                - created
+                - edited
+            properties:
+                _id:
+                    type: string
+                title:
+                    type: string
+                content:
+                    type: string
+                posts:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Post'
+                author:
+                    type: User
+                created:
+                    type: string
+                    format: date-time
+                edited:
+                    type: string
+                    format: date-time
+        ProjectCreate:
+            type: object
+            required:
+                - title
+                - content
+            properties:
+                title:
+                    type: string
+                content:
+                    type: string
         Team:
             type: object
             required:
@@ -354,7 +584,44 @@ components:
         User:
             type: object
             required:
+                - _id
                 - name
+                - email
+                - password
+                - preferences
+                - created
+                - edited
+            properties:
+                _id:
+                    type: string
+                name:
+                    type: string
+                email:
+                    type: string
+                    format: email
+                preferences:
+                    type: string
+                created:
+                    type: string
+                    format: date-time
+                edited:
+                    type: string
+                    format: date-time
+        UserCreate:
+            type: object
+            required:
+                - name
+                - email
+                - password
+                - preferences
             properties:
                 name:
+                    type: string
+                email:
+                    type: string
+                    format: email
+                password:
+                    type: string
+                    format: password
+                preferences:
                     type: string
