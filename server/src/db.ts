@@ -19,7 +19,7 @@ import type {
 } from './schema.js';
 
 // Fake user, until we implement proper auth.
-const fakeUser: User = { _id: '0', name: 'Mr fake user', email: 'fake@user.com', password: 'fakeuser123', preferences: '{"darkMode":false}', created: new Date(), edited: null };
+const fakeUser: User = { _id: '0', name: 'Mr fake user', email: 'fake@user.com', preferences: '{"darkMode":false}', created: new Date(), edited: null };
 
 // Reexport for convenience.
 export type Database = Db;
@@ -74,8 +74,8 @@ function teamsCollection(db: Db): Collection<Team> {
     return db.collection<Team>('teams');
 }
 
-function usersCollection(db: Db): Collection<User> {
-    return db.collection<User>('users');
+function usersCollection(db: Db): Collection<User & { password: string; }> {
+    return db.collection<User & { password: string; }>('users');
 }
 // #endregion
 
@@ -148,7 +148,14 @@ async function resolveTeam(_db: Db, team: Team): Promise<TeamResolved> {
 }
 
 async function resolveUser(_db: Db, user: User): Promise<UserResolved> {
-    return { ...user, preferences: user.preferences ? JSON.parse(user.preferences) : undefined };
+    return {
+        _id: user._id,
+        created: user.created,
+        edited: user.edited,
+        email: user.email,
+        name: user.name,
+        preferences: user.preferences ? JSON.parse(user.preferences) : undefined 
+    };
 }
 // #region resolve
 
@@ -291,12 +298,23 @@ export async function listUsers(db: Db): Promise<UserResolved[]> {
     return await Promise.all(users.map((x) => resolveUser(db, x)));
 }
 
-export function getUser(db: Db, id: string): Promise<User | null> {
+export async function getUser(db: Db, id: string): Promise<User | null> {
     const objId = new ObjectId(id);
-    return usersCollection(db).findOne(objId);
+    const user = await usersCollection(db).findOne(objId);
+    if (!user) {
+        return null;
+    }
+    return {
+        _id: user._id,
+        created: user.created,
+        edited: user.edited,
+        email: user.email,
+        name: user.name,
+        preferences: user.preferences ? JSON.parse(user.preferences) : undefined
+    }
 }
 
-export async function addUser(db: Db, user: User): Promise<ObjectId> {
+export async function addUser(db: Db, user: User & { password: string; }): Promise<ObjectId> {
     // TODO: Could also use this somewhere: db.collection<User>('users').createIndex({ email: 1 }, { unique: true })
     const isEmailUnique = (await usersCollection(db).find({ email: user.email }).toArray()).length === 0;
     if (!isEmailUnique) {

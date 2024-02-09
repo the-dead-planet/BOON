@@ -98,8 +98,7 @@ export type TeamResolved = Omit<Team, 'members'> & { members: User[] };
 export type User = { 
     _id: string; 
     name: string; 
-    email: string; 
-    password: string;
+    email: string;
     preferences?: string; 
     created: Date;
     edited: Date | null;

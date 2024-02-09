@@ -17,7 +17,7 @@ export function buildApp(database: db.Database): Hono {
     const authApp = new Hono();
     authApp.get('/whoami', (c: Context) => {
         // TODO: actually look up the user and implement remaining auth routes.
-        const fakeUser: User = { _id: '0', name: 'Mr fake user', email: 'fake@user.com', password: 'fakeuser123', preferences: '{"darkMode":false}', created: new Date(), edited: null };
+        const fakeUser: User = { _id: '0', name: 'Mr fake user', email: 'fake@user.com', preferences: '{"darkMode":false}', created: new Date(), edited: null };
         // FIXME: wrapper in a `{ user }` object for compatibility with the old API.
         // Seems redundant, so let's remove it when we're done migrating.
         return c.json({ user: fakeUser });
