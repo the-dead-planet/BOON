@@ -47,6 +47,7 @@ const SprintList = ({ sprints, currentSprintId }: Props) => {
                                         <SprintListItem
                                             key={`sprint-${sprint.number}`}
                                             currentSprintId={currentSprintId}
+                                            body='Oops...' // TODO: Fix this
                                             {...sprint}
                                         />
                                     ))}
